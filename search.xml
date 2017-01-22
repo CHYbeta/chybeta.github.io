@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[数据挖掘环境搭建之anaconda安装]]></title>
+      <url>%2F2017%2F01%2F22%2Fubuntu%E4%B8%8Banaconda%E5%AE%89%E8%A3%85%E5%8F%8Aipython%E8%BF%9C%E7%A8%8B%E9%85%8D%E7%BD%AE%E8%BF%87%E7%A8%8B%2F</url>
+      <content type="text"><![CDATA[最近开始接触一些kaggle的比赛，需要搭建基本的环境。原本在本机和服务器上“搭好了”，numpy.test()等都没有问题，同样的代码却运行出了不同的结果… 后面接触到了 anaconda这个集成的python科学计算环境，一键式解决大部分问题，甚至在win下也能安装：)这样也省去了开一大堆虚拟机的麻烦。 简介网上各种简介一大堆，对我而言……scipy在win下死活没装上，不过在 anaconda 里已经很好的集成了，嗯不多说了。 下载按理我们都是去官网（https://www.continuum.io/downloads）下载，不过下载速度十分可观，不知道翻墙后能不能好点。我的方法是在浏览器下载时复制其下载链接，然后放到百度云里面离线下载，可能会出现链接失效的情况，但其实只要一直点离线下载：) 一般最后会成功的。下面这两个是我刚离线完的，目前还是最新版，各位如果需要可以保存一下。 Anaconda3-4.2.0-Windows-x86： 链接：http://pan.baidu.com/s/1hsxB3MG 密码：5k0x Anaconda3-4.2.0-Linux-x86_64.sh 链接：http://pan.baidu.com/s/1dETp0LN 密码：xm7x 这两个版本是python3，64bit的. 大家自己看着办：) 安装win平台下的安装很简单，傻瓜式操作，中间会有两个选项用来把anaconda加入系统环境变量，安装后系统环境如下： ubuntu下的安装，在虚拟机安装时挺顺利的，但在云服务器上除了一点小问题，可能跟服务器的初始环境有关吧:) 运行一下sh脚本，跟着提示来，最后一步是问是否要把anaconda加入系统环境变量，选yes一般来讲应该是能成功的。如果在最后一步时没有成功或者说输入了yes以外的值而导致无法默认运行anaconda的话，也可以按照如下做法（以云服务器上为例，这里我顺便把最基本操作写出来吧，$表示在terminal里的意思……）： $ vim /home/ubuntu/.bashrc 按键盘字母 i ， 在最后面加入一句： export PATH=/home/ubuntu/anaconda3/bin:$PATH 按键盘上 ESC ，再按 ：，输入 wq 退出vim $ source /home/ubuntu/.bashrc 如下]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[数据挖掘导论（1）——数据]]></title>
       <url>%2F2017%2F01%2F13%2F%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E5%AF%BC%E8%AE%BA%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%2F</url>
       <content type="text"><![CDATA[数据相关问题 数据类型 数据质量 数据预处理 分析数据 数据类型数据集是数据对象的集合。数据对象用一组刻画事物的属性来描述。属性属性定义属性类型数据集的类型数据质量测量和数据收集问题关于应用的问题数据预处理聚集抽样维归约特征子集选择特征创建离散化和二元化变量变换相似性和相异性的度量]]></content>
