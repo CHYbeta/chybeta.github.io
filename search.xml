@@ -10,13 +10,6 @@
 
     
     <entry>
-      <title><![CDATA[数据挖掘导论（1）——数据]]></title>
-      <url>%2F2017%2F01%2F13%2F%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E5%AF%BC%E8%AE%BA%EF%BC%881%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%2F</url>
-      <content type="text"><![CDATA[数据相关问题 数据类型 数据质量 数据预处理 分析数据 数据类型数据集是数据对象的集合。数据对象用一组刻画事物的属性来描述。属性属性定义属性类型数据集的类型数据质量测量和数据收集问题关于应用的问题数据预处理聚集抽样维归约特征子集选择特征创建离散化和二元化变量变换相似性和相异性的度量]]></content>
-    </entry>
-
-    
-    <entry>
       <title><![CDATA[pwn思维导图]]></title>
       <url>%2F2017%2F01%2F13%2Fpwn%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE%2F</url>
       <content type="text"><![CDATA[]]></content>
