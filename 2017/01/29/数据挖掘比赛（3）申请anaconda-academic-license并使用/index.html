@@ -97,7 +97,7 @@
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/accelerate.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/cuda.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/compare.jpg">
-<meta property="og:updated_time" content="2017-01-29T04:49:31.798Z">
+<meta property="og:updated_time" content="2017-02-01T05:27:14.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据挖掘比赛（3）申请anaconda-academic-license并使用">
 <meta name="twitter:description" content="Anaconda是python的一个科学计算发行版，里面集成了各种各样的科学计算包，如numpy、pandas、sklearn等。作为学生，在使用anaconda发行版的同时，我们可以申请anaconda的学术证书，通过它可以下载一些额外的包以实现计算过程的加速。">
@@ -443,49 +443,11 @@ conda install iopro
 <p>跟着提示来，下载过程可能有点慢：）</p>
 <h1 id="测试使用"><a href="#测试使用" class="headerlink" title="测试使用"></a>测试使用</h1><p>以accelerate为例，从add ons页面中可以看出acelerate的作用是：</p>
 <pre><code>Fast Python for GPUs and multi-core with NumbaPro and MKL Optimizations.
-</code></pre><p>在安装accelerate后我们可以利用GPU显卡来加速计算过程。不过查了官方文档搜了stackoverflow翻遍了google和百度都没有找到单独关于acclerate库的使用，大多数的讨论集中于在安装后对numba的使用，所以这里用numba来测试一下加快了多少。在测试前我把显卡的驱动升级了下，接下来确定一下机子的显卡是否支持。命令行打开，输入：</p>
-<pre><code>import numba.cuda.api,numba.cuda.cudadrv.libs
-numba.cuda.cudadrv.libs.test()
-numba.cuda.api.detect()
-</code></pre><p>第一行导入库，第二行用来检测库的安装正确，第三行用来确定显卡是否支持加速。</p>
+</code></pre><p>在安装accelerate后我们可以利用GPU显卡来加速计算过程。不过查了官方文档搜了stackoverflow翻遍了google和百度都没有找到单独关于acclerate库的使用，大多数的讨论集中于在安装后对numba的使用，所以这里用numba来测试一下加快了多少。在测试前我把显卡的驱动升级了下，接下来确定一下机子的显卡是否支持。命令行打开，输入：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numba.cuda.api,numba.cuda.cudadrv.libs</div><div class="line">numba.cuda.cudadrv.libs.test()</div><div class="line">numba.cuda.api.detect()</div></pre></td></tr></table></figure></p>
+<p>第一行导入库，第二行用来检测库的安装正确，第三行用来确定显卡是否支持加速。</p>
 <p><img src="http://ojp0pjljj.bkt.clouddn.com/cuda.jpg" alt=""></p>
-<p>下面是测试代码（网上找的稍微修改了下，自己还写不出来）：</p>
-<pre><code>import numpy as np
-from numba import jit
-nobs = 1000000
-def proc_numpy(x,y,z):
-
-   x = x*2 - ( y * 55 )      # these 4 lines represent use cases
-   y = x + y*2               # where the processing time is mostly
-   z = x + y + 99            # a function of, say, 50 to 200 lines
-   z = z * ( z - .88 )       # of fairly simple numerical operations
-
-   return z
-
-@jit
-def proc_numba(xx,yy,zz):
-   for j in range(nobs):     # as pointed out by Llopis, this for loop
-      x, y = xx[j], yy[j]    # is not needed here.  it is here by
-                             # accident because in the original benchmarks
-      x = x*2 - ( y * 55 )   # I was doing data creation inside the function
-      y = x + y*2            # instead of passing it in as an array
-      z = x + y + 99         # in any case, this redundant code seems to
-      z = z * ( z - .88 )    # have something to do with the code running
-                             # faster.  without the redundant code, the
-      zz[j] = z              # numba and numpy functions are exactly the same.
-   return zz
-
-x = np.random.randn(nobs)
-y = np.random.randn(nobs)
-z = np.zeros(nobs)
-res_numpy = proc_numpy(x,y,z)
-
-z = np.zeros(nobs)
-res_numba = proc_numba(x,y,z)
-
-%timeit proc_numpy(x,y,z)
-%timeit proc_numba(x,y,z)
-</code></pre><p>结果如图,第一行是用cpu计算的时间，2.06ms；第二行是gpu计算的时间 121μs；就本例而言快了17倍左右。</p>
+<p>下面是测试代码（网上找的稍微修改了下，自己还写不出来）：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">from</span> numba <span class="keyword">import</span> jit</div><div class="line">nobs = <span class="number">1000000</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">proc_numpy</span><span class="params">(x,y,z)</span>:</span></div><div class="line"></div><div class="line">   x = x*<span class="number">2</span> - ( y * <span class="number">55</span> )      <span class="comment"># these 4 lines represent use cases</span></div><div class="line">   y = x + y*<span class="number">2</span>               <span class="comment"># where the processing time is mostly</span></div><div class="line">   z = x + y + <span class="number">99</span>            <span class="comment"># a function of, say, 50 to 200 lines</span></div><div class="line">   z = z * ( z - <span class="number">.88</span> )       <span class="comment"># of fairly simple numerical operations</span></div><div class="line"></div><div class="line">   <span class="keyword">return</span> z</div><div class="line"></div><div class="line"><span class="meta">@jit</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">proc_numba</span><span class="params">(xx,yy,zz)</span>:</span></div><div class="line">   <span class="keyword">for</span> j <span class="keyword">in</span> range(nobs):     <span class="comment"># as pointed out by Llopis, this for loop</span></div><div class="line">      x, y = xx[j], yy[j]    <span class="comment"># is not needed here.  it is here by</span></div><div class="line">                             <span class="comment"># accident because in the original benchmarks</span></div><div class="line">      x = x*<span class="number">2</span> - ( y * <span class="number">55</span> )   <span class="comment"># I was doing data creation inside the function</span></div><div class="line">      y = x + y*<span class="number">2</span>            <span class="comment"># instead of passing it in as an array</span></div><div class="line">      z = x + y + <span class="number">99</span>         <span class="comment"># in any case, this redundant code seems to</span></div><div class="line">      z = z * ( z - <span class="number">.88</span> )    <span class="comment"># have something to do with the code running</span></div><div class="line">                             <span class="comment"># faster.  without the redundant code, the</span></div><div class="line">      zz[j] = z              <span class="comment"># numba and numpy functions are exactly the same.</span></div><div class="line">   <span class="keyword">return</span> zz</div><div class="line"></div><div class="line">x = np.random.randn(nobs)</div><div class="line">y = np.random.randn(nobs)</div><div class="line">z = np.zeros(nobs)</div><div class="line">res_numpy = proc_numpy(x,y,z)</div><div class="line"></div><div class="line">z = np.zeros(nobs)</div><div class="line">res_numba = proc_numba(x,y,z)</div><div class="line"></div><div class="line">%timeit proc_numpy(x,y,z)</div><div class="line">%timeit proc_numba(x,y,z)</div></pre></td></tr></table></figure></p>
+<p>结果如图,第一行是用cpu计算的时间，2.06ms；第二行是gpu计算的时间 121μs；就本例而言快了17倍左右。</p>
 <p><img src="http://ojp0pjljj.bkt.clouddn.com/compare.jpg" alt=""></p>
 
       
@@ -528,6 +490,10 @@ res_numba = proc_numba(x,y,z)
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/01/数据挖掘比赛（4）ten-Minutes-to-pandas中文版上/" rel="prev" title="数据挖掘比赛（4）ten Minutes to pandas中文版上">
+                数据挖掘比赛（4）ten Minutes to pandas中文版上 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -601,7 +567,7 @@ res_numba = proc_numba(x,y,z)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

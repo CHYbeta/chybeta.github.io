@@ -99,7 +99,7 @@
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E6%8C%87%E5%AE%9Anames.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E5%B1%9E%E6%80%A7columns.jpg">
-<meta property="og:updated_time" content="2017-01-24T14:22:25.853Z">
+<meta property="og:updated_time" content="2017-02-01T05:52:11.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据挖掘比赛（1）对无列名的txt数据集读取方法及处理">
 <meta name="twitter:description" content="接触大数据比赛，必然要接触大数据（&amp;lt;—好吧废话）所以第一道门槛是如何读取大数据文件。有时比赛提供的dataset是带有标签的csv格式文件，有时也会提供不带标签的普通txt文件，此文主要写写对读取此种txt文件的一些小方法和处理。">
@@ -423,22 +423,16 @@
       
         <p>接触大数据比赛，必然要接触大数据（&lt;—好吧废话）所以第一道门槛是如何读取大数据文件。有时比赛提供的dataset是带有标签的csv格式文件，有时也会提供不带标签的普通txt文件，此文主要写写对读取此种txt文件的一些小方法和处理。<br><a id="more"></a></p>
 <h1 id="基本的读入"><a href="#基本的读入" class="headerlink" title="基本的读入"></a>基本的读入</h1><p>其实python里已经集成了csv模块了，不过使用起来不那么方便。一般而言，使用pandas库可以把数据读入成dataframe形式方便操作。</p>
-<h2 id="读入csv文件"><a href="#读入csv文件" class="headerlink" title="读入csv文件"></a>读入csv文件</h2><p>以kaggle的titanic数据集为例<br><img src="http://ojp0pjljj.bkt.clouddn.com/titanic.jpg" alt="titanic数据集集合"><br>用pandas读入的代码如下:</p>
-<pre><code>import pandas as pd
-titanic_db = pd.read_csv(&#39;titanic_train.csv&#39;)
-</code></pre><p>这样就能把数据集读进来了，如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/titanic%E8%AF%BB%E5%85%A5%E5%90%8E.jpg" alt="利用pandas读入csv文件"><br>几道’\’是可能因为屏幕小（，，ԾㅂԾ，，）而产生的换行提示。显示出来的有5行（0~5），每行的上面都有对应的列名。</p>
-<h2 id="读入txt文件"><a href="#读入txt文件" class="headerlink" title="读入txt文件"></a>读入txt文件</h2><p>以IJCAI-17比赛数据集中的user_view.txt为例notepad++打开如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/user_view.jpg" alt=""><br>用pandas读入的代码如下:</p>
-<pre><code>import pandas as pd
-user_view = pd.read_table(&#39;user_view.txt&#39;)
-</code></pre><p>注意代码应该是　read_table .结果如下<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%85%A5user_view.jpg" alt="利用pandas读入txt文件"><br>可以看到读入后，pandas把txt文件的第一行当做了列名，很明显这是错误的:) 这个我们下面来进行修正。</p>
-<h1 id="针对无列名文件第一行的读入处理"><a href="#针对无列名文件第一行的读入处理" class="headerlink" title="针对无列名文件第一行的读入处理"></a>针对无列名文件第一行的读入处理</h1><p>上面提到的 read_csv 、read_table 等，其实他们的参数不仅仅只有一个。为了让无列名的数据读入正确，我们可以在读入的时候多指定一个参数header=None。以user_view.txt为例。</p>
-<pre><code>user_view = pd.read_table(&#39;user_view.txt&#39;，header=None)
-</code></pre><p>读入结果如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/user_view%E5%88%B6%E5%AE%9Aheader=0.jpg" alt="制定header读入user_view.txt"></p>
+<h2 id="读入csv文件"><a href="#读入csv文件" class="headerlink" title="读入csv文件"></a>读入csv文件</h2><p>以kaggle的titanic数据集为例<br><img src="http://ojp0pjljj.bkt.clouddn.com/titanic.jpg" alt="titanic数据集集合"><br>用pandas读入的代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">titanic_db = pd.read_csv(<span class="string">'titanic_train.csv'</span>)</div></pre></td></tr></table></figure></p>
+<p>这样就能把数据集读进来了，如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/titanic%E8%AF%BB%E5%85%A5%E5%90%8E.jpg" alt="利用pandas读入csv文件"><br>几道’\’是可能因为屏幕小（，，ԾㅂԾ，，）而产生的换行提示。显示出来的有5行（0~5），每行的上面都有对应的列名。</p>
+<h2 id="读入txt文件"><a href="#读入txt文件" class="headerlink" title="读入txt文件"></a>读入txt文件</h2><p>以IJCAI-17比赛数据集中的user_view.txt为例notepad++打开如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/user_view.jpg" alt=""><br>用pandas读入的代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">user_view = pd.read_table(<span class="string">'user_view.txt'</span>)</div></pre></td></tr></table></figure></p>
+<p>注意代码应该是　read_table .结果如下<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%85%A5user_view.jpg" alt="利用pandas读入txt文件"><br>可以看到读入后，pandas把txt文件的第一行当做了列名，很明显这是错误的:) 这个我们下面来进行修正。</p>
+<h1 id="针对无列名文件第一行的读入处理"><a href="#针对无列名文件第一行的读入处理" class="headerlink" title="针对无列名文件第一行的读入处理"></a>针对无列名文件第一行的读入处理</h1><p>上面提到的 read_csv 、read_table 等，其实他们的参数不仅仅只有一个。为了让无列名的数据读入正确，我们可以在读入的时候多指定一个参数header=None。以user_view.txt为例。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_view = pd.read_table(<span class="string">'user_view.txt'</span>，header=<span class="keyword">None</span>)</div></pre></td></tr></table></figure></p>
+<p>读入结果如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/user_view%E5%88%B6%E5%AE%9Aheader=0.jpg" alt="制定header读入user_view.txt"></p>
 <p>可以看到读入后，原txt文件中的第一行有了Index（即 0），不再被识别为列名。</p>
 <h1 id="对txt数据集读入处理为正常的dataframe形式"><a href="#对txt数据集读入处理为正常的dataframe形式" class="headerlink" title="对txt数据集读入处理为正常的dataframe形式"></a>对txt数据集读入处理为正常的dataframe形式</h1><p>在指定header=None读入txt文件后，pandas自动给添了个列名 0，这表明读入的每一行其实都是读入了一字符串，总共只有 1 列！对数据的操作很不方便<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%9C%AA%E5%88%B6%E5%AE%9Asep%E6%93%8D%E4%BD%9C.jpg" alt=""></p>
-<p>所以我们在遇到这种情况时，我们还要继续指定参数sep，告诉pandas以什么为分隔符。以user_view.txt为例，从上图可知每行的数据有三个部分，用逗号(，)相隔开。所以在读入时，如下：</p>
-<pre><code>user_view = pd.read_table(&#39;user_view.txt&#39;，header=None，sep=&#39;，&#39;)
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg" alt=""><br>可以发现每列（3列）的列名被设置为 0 1 2，这样我们可以很方便地对数据进行操作。</p>
+<p>所以我们在遇到这种情况时，我们还要继续指定参数sep，告诉pandas以什么为分隔符。以user_view.txt为例，从上图可知每行的数据有三个部分，用逗号(，)相隔开。所以在读入时，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_view = pd.read_table(<span class="string">'user_view.txt'</span>，header=<span class="keyword">None</span>，sep=<span class="string">'，'</span>)</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg" alt=""><br>可以发现每列（3列）的列名被设置为 0 1 2，这样我们可以很方便地对数据进行操作。</p>
 <h1 id="给无列名的数据集添加列名"><a href="#给无列名的数据集添加列名" class="headerlink" title="给无列名的数据集添加列名"></a>给无列名的数据集添加列名</h1><h2 id="法一：直接操作"><a href="#法一：直接操作" class="headerlink" title="法一：直接操作"></a>法一：直接操作</h2><p>好吧，这个方法当然是最简单的，csv用excel打开，txt用notepad++、sublime打开，然后自己填上列名，再正常读入就行了嘛!</p>
 <p>只是通常情况下，所遇到的数据集比较大，用excel或者notepad等难以打开，又或者打开后不好操作，局限性比较大。同时在直接操作添加时还要考虑原数据集的格式和编码，方便后面进一步读入。</p>
 <h2 id="法二：在利用pandas读入时指定列名"><a href="#法二：在利用pandas读入时指定列名" class="headerlink" title="法二：在利用pandas读入时指定列名"></a>法二：在利用pandas读入时指定列名</h2><p>以user_view.txt数据集为例，阿里天池上的数据说明是</p>
@@ -470,14 +464,10 @@ user_view = pd.read_table(&#39;user_view.txt&#39;)
 </tbody>
 </table>
 </div>
-<p>所以在读入时，我们可以再指定一个参数 names .对照上述说明和基于前面的操作()，代码如下：</p>
-<pre><code> import pandas as pd
- columns = [&#39;user_id&#39;,&#39;shop_id&#39;,&#39;time_stamp&#39;]
- user_view_db =  user_view_db =  pd.read_table(&#39;user_view.txt&#39;,header=None,sep=&#39;,&#39;,names=columns)
-</code></pre><p>结果如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%8C%87%E5%AE%9Anames.jpg" alt=""></p>
-<h2 id="法三：在用pandas读入后再制定列名"><a href="#法三：在用pandas读入后再制定列名" class="headerlink" title="法三：在用pandas读入后再制定列名"></a>法三：在用pandas读入后再制定列名</h2><p>在完成如前面基本的读入和处理后，此时 user_view_db 应该是 列名为[0,1,2] 的datframe了。此时我们再通过指定其属性columns来指定列名。</p>
-<pre><code>user_view_db.columns=[&#39;user_id&#39;,&#39;shop_id&#39;,&#39;time_stamp&#39;]
-</code></pre><p>如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%B1%9E%E6%80%A7columns.jpg" alt="利用columns属性"></p>
+<p>所以在读入时，我们可以再指定一个参数 names .对照上述说明和基于前面的操作()，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">columns = [<span class="string">'user_id'</span>,<span class="string">'shop_id'</span>,<span class="string">'time_stamp'</span>]</div><div class="line">user_view_db =  user_view_db =  pd.read_table(<span class="string">'user_view.txt'</span>,header=<span class="keyword">None</span>,sep=<span class="string">','</span>,names=columns)</div></pre></td></tr></table></figure></p>
+<p>结果如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%8C%87%E5%AE%9Anames.jpg" alt=""></p>
+<h2 id="法三：在用pandas读入后再制定列名"><a href="#法三：在用pandas读入后再制定列名" class="headerlink" title="法三：在用pandas读入后再制定列名"></a>法三：在用pandas读入后再制定列名</h2><p>在完成如前面基本的读入和处理后，此时 user_view_db 应该是 列名为[0,1,2] 的datframe了。此时我们再通过指定其属性columns来指定列名。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_view_db.columns=[<span class="string">'user_id'</span>,<span class="string">'shop_id'</span>,<span class="string">'time_stamp'</span>]</div></pre></td></tr></table></figure></p>
+<p>如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%B1%9E%E6%80%A7columns.jpg" alt="利用columns属性"></p>
 
       
     </div>
@@ -598,7 +588,7 @@ user_view = pd.read_table(&#39;user_view.txt&#39;)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

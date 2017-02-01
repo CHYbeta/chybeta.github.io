@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/ignoresettrue.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/ignoresetfalse.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/pandasversion.jpg">
-<meta property="og:updated_time" content="2017-01-25T15:41:36.447Z">
+<meta property="og:updated_time" content="2017-02-01T05:23:43.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据挖掘比赛（2）利用pandas读取大型数据集">
 <meta name="twitter:description" content="数据比赛中，有时提供的数据集会很大，常规方法打不开，这时候就需要在读入时做些小处理，方便后续操作。">
@@ -423,24 +423,17 @@
         <p>数据比赛中，有时提供的数据集会很大，常规方法打不开，这时候就需要在读入时做些小处理，方便后续操作。</p>
 <a id="more"></a>
 <h1 id="读入"><a href="#读入" class="headerlink" title="读入"></a>读入</h1><p>以IJCAI-17比赛数据集中的user_pay.txt 和 user_view.txt 为例，user_pay.txt有 2.13Gb 之大，而user_view.txt 只有 174Mb 。两者的读入方法见下。<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E9%9B%86.jpg" alt=""></p>
-<p>对于 user_view.txt 这种较小型的数据 ，直接读入即可。如下：</p>
-<pre><code>import pandas as pd
-user_view_db = pd.read_table(&#39;user_view.txt&#39;,header=None,sep=&#39;,&#39;)
-user_view_db.head()
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg" alt=""></p>
-<p>但对于如 2.13Gb大的 user_pay.txt 的大型数据，如果直接读入，会让硬盘和内存飙满且速度非常慢（机子好的童鞋请忽略—）。对此，采取的策略是分块读入。在用 read_table 读入时指定 chunksize 参数和 iterator参数，如下：</p>
-<pre><code>user_pay_db = pd.read_table(&#39;user_pay.txt&#39;,header=None,sep=&#39;,&#39;,iterator=True,chunksize=10000)
-</code></pre><p>(注：chunksize等于多少可以自己选定，iterator=True好像一般都这么设定：）至于why在stackoverflow上有相关问题但似乎没有满意的答案)</p>
+<p>对于 user_view.txt 这种较小型的数据 ，直接读入即可。如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">user_view_db = pd.read_table(<span class="string">'user_view.txt'</span>,header=<span class="keyword">None</span>,sep=<span class="string">','</span>)</div><div class="line">user_view_db.head()</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg" alt=""></p>
+<p>但对于如 2.13Gb大的 user_pay.txt 的大型数据，如果直接读入，会让硬盘和内存飙满且速度非常慢（机子好的童鞋请忽略—）。对此，采取的策略是分块读入。在用 read_table 读入时指定 chunksize 参数和 iterator参数，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_pay_db = pd.read_table(<span class="string">'user_pay.txt'</span>,header=<span class="keyword">None</span>,sep=<span class="string">','</span>,iterator=<span class="keyword">True</span>,chunksize=<span class="number">10000</span>)</div></pre></td></tr></table></figure></p>
+<p>(注：chunksize等于多少可以自己选定，iterator=True好像一般都这么设定：）至于why在stackoverflow上有相关问题但似乎没有满意的答案)</p>
 <p><img src="http://ojp0pjljj.bkt.clouddn.com/chunksize.jpg" alt=""></p>
-<p>可以看到多了两个参数后，user_pay_db 不再是dataframe了，而是pandas.io.parsers.TextFileReader。想要查看它可以如下：</p>
-<pre><code>for chunk in user_pay_db:
-    print(chunk)
-</code></pre><p>它会按照 chunksize 的大小打印出内容，如下:<br><img src="http://ojp0pjljj.bkt.clouddn.com/printchunk1.jpg" alt=""></p>
+<p>可以看到多了两个参数后，user_pay_db 不再是dataframe了，而是pandas.io.parsers.TextFileReader。想要查看它可以如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> chunk <span class="keyword">in</span> user_pay_db:</div><div class="line">    print(chunk)</div></pre></td></tr></table></figure></p>
+<p>它会按照 chunksize 的大小打印出内容，如下:<br><img src="http://ojp0pjljj.bkt.clouddn.com/printchunk1.jpg" alt=""></p>
 <p><img src="http://ojp0pjljj.bkt.clouddn.com/printchunk2.jpg" alt=""><br>（由于数据集过大，只截取部分内容）</p>
 <h1 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h1><p>接下来的处理有两种，一是可以直接对 user_pay_db 中的每个 chunk 进行分块处理，也可以想办法把 此时为TextFileReader的 user_pay_db 转化为易于操作的 dataframe格式。这里只演示第二种方法。</p>
-<p>我们可以借助 pandas 中的concat方法来合并数据集。如下：</p>
-<pre><code>df = pd.concat([chunk for chunk in user_pay_db],ignore_index=True)
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/ignoresettrue.jpg" alt=""></p>
+<p>我们可以借助 pandas 中的concat方法来合并数据集。如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df = pd.concat([chunk <span class="keyword">for</span> chunk <span class="keyword">in</span> user_pay_db],ignore_index=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/ignoresettrue.jpg" alt=""></p>
 <p>这里用变量df来存储。我们给concat传了两个参数，第一个是利用了for循环，注意不要忽略了中括号；第二个参数用于告诉concat连接时忽略掉每个chunk中原有的index，否则等连接完后，会出现同一个index对应了多个项的情况，如下：</p>
 <p><img src="http://ojp0pjljj.bkt.clouddn.com/ignoresetfalse.jpg" alt=""></p>
 <h1 id="小结（题外话）"><a href="#小结（题外话）" class="headerlink" title="小结（题外话）"></a>小结（题外话）</h1><p>上面的代码是基于 Anaconda 4.2.0 (64-bit)集成包的。其pandas版本为0.18.1，而最新的pandas版本为0.19，其中的一些函数的使用方法做了更新，比如concat。希望读者在上述代码运行不了不对的情况下能查查文档留留言一起讨论：）</p>
@@ -569,7 +562,7 @@ user_view_db.head()
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
