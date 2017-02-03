@@ -1,0 +1,1057 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="此文是 ten-Minutes-to-pandas 下半部分的翻译。上半部分请看：《数据挖掘比赛（4）ten Minutes to pandas中文版上》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据挖掘比赛（5）ten Minutes to pandas中文版下">
+<meta property="og:url" content="http://yoursite.com/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="此文是 ten-Minutes-to-pandas 下半部分的翻译。上半部分请看：《数据挖掘比赛（4）ten Minutes to pandas中文版上》">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dflook.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfmean.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfmean1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfd.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfsub.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/cumsum.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/lambda.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfhis1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfhis2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfhis1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfstr2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/newdf.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfcon2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfcon3.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfjoin1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfjoin2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfjoin3.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfjoin4.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/append1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/append2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/append3.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfgroup1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfgroup2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dfgroup3.jpg">
+<meta property="og:updated_time" content="2017-02-03T00:37:44.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据挖掘比赛（5）ten Minutes to pandas中文版下">
+<meta name="twitter:description" content="此文是 ten-Minutes-to-pandas 下半部分的翻译。上半部分请看：《数据挖掘比赛（4）ten Minutes to pandas中文版上》">
+<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/dflook.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/"/>
+
+
+
+
+
+  <title> 数据挖掘比赛（5）ten Minutes to pandas中文版下 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据挖掘比赛（5）ten Minutes to pandas中文版下
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-02T09:40:14+08:00">
+                2017-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/" class="leancloud_visitors" data-flag-title="数据挖掘比赛（5）ten Minutes to pandas中文版下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>此文是 ten-Minutes-to-pandas 下半部分的翻译。上半部分请看：<a href="">《数据挖掘比赛（4）ten Minutes to pandas中文版上》</a><br><a id="more"></a><br>紧接上文的数据，如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/dflook.jpg" alt="dflook"><br>以下下半部分正文开始：</p>
+<h1 id="操作（Operations）"><a href="#操作（Operations）" class="headerlink" title="操作（Operations）"></a>操作（Operations）</h1><p>更多内容请看：<a href="http://pandas.pydata.org/pandas-docs/stable/basics.html#basics-binop" target="_blank" rel="external">《Basic section on Binary Ops》</a></p>
+<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><p>通常情况下，这些操作的对象不包括缺失值</p>
+<h3 id="描述性统计信息"><a href="#描述性统计信息" class="headerlink" title="描述性统计信息"></a>描述性统计信息</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.mean()</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfmean.jpg" alt="dfmean"></p>
+<h3 id="指定轴向"><a href="#指定轴向" class="headerlink" title="指定轴向"></a>指定轴向</h3><p>在其他轴上执行相同操作<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.mean(<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfmean1.jpg" alt="dfmean1"></p>
+<h3 id="自动对应维度"><a href="#自动对应维度" class="headerlink" title="自动对应维度"></a>自动对应维度</h3><p>对具有不同维度和需要对齐的对象操作时，pandas会自动地沿着特定的维度进行广播（注：其实就是运算啦）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作</span></div><div class="line">s = pd.Series([<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,np.nan,<span class="number">6</span>,<span class="number">8</span>], index=dates).shift(<span class="number">2</span>)</div><div class="line">s</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfd.jpg" alt=""><br>（注：.shift操作会对数据进行移动，空出的位置用nan代替）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.sub(s, axis=<span class="string">'index'</span>)</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfsub.jpg" alt="dfsub"><br>（注： .sub 表示 减去 ）</p>
+<h2 id="函数应用（Apply）"><a href="#函数应用（Apply）" class="headerlink" title="函数应用（Apply）"></a>函数应用（Apply）</h2><p>把函数应用到数据上</p>
+<h3 id="使用已有函数"><a href="#使用已有函数" class="headerlink" title="使用已有函数"></a>使用已有函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.apply(np.cumsum)</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/cumsum.jpg" alt="cumsum"><br>（注：<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.cumsum.html#numpy.cumsum" target="_blank" rel="external">np.cumsum的使用方法</a>）</p>
+<h3 id="使用匿名函数"><a href="#使用匿名函数" class="headerlink" title="使用匿名函数"></a>使用匿名函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.apply(<span class="keyword">lambda</span> x: x.max() - x.min())</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/lambda.jpg" alt="lambda"><br>（注：lambda表达式，建议百度）</p>
+<h2 id="直方图（Histogramming）"><a href="#直方图（Histogramming）" class="headerlink" title="直方图（Histogramming）"></a>直方图（Histogramming）</h2><p>更多内容请查阅 <a href="http://pandas.pydata.org/pandas-docs/stable/basics.html#basics-discretization" target="_blank" rel="external">《Histogramming and Discretization》</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作</span></div><div class="line">s = pd.Series(np.random.randint(<span class="number">0</span>, <span class="number">7</span>, size=<span class="number">10</span>))</div><div class="line">s</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfhis1.jpg" alt="dfhis1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">s.value_counts()</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfhis2.jpg" alt="dfhis2"></p>
+<p>（注：Histogramming翻译过来是叫直方图。这里value_counts返回的数据中说明了 5  出现了 3 次， 2 出现了 2 次等等，虽无图形，但实际上却是是直方图的表示）</p>
+<h2 id="字符串方法（String-Methods）"><a href="#字符串方法（String-Methods）" class="headerlink" title="字符串方法（String Methods）"></a>字符串方法（String Methods）</h2><p>Series对象的 str属性 中集成了一系列用于处理字符串的方法，如下代码所示，能够很方便对对象中的每个元素进行处理。注意到，通常情况下在 str属性中的 模式匹配（pattern-matching）默认使用了 <a href="https://docs.python.org/2/library/re.html" target="_blank" rel="external">正则表达式（regular expressions）</a>。更多内容请查阅 <a href="http://pandas.pydata.org/pandas-docs/stable/text.html#text-string-methods" target="_blank" rel="external">《Vectorized String Methods》</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作</span></div><div class="line">s = pd.Series([<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, <span class="string">'Aaba'</span>, <span class="string">'Baca'</span>, np.nan, <span class="string">'CABA'</span>, <span class="string">'dog'</span>, <span class="string">'cat'</span>])</div><div class="line">s</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfhis1.jpg" alt="dfstr1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># .loewr() 转换成小写字母</span></div><div class="line">s.str.lower()</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfstr2.jpg" alt="dfstr2"></p>
+<h1 id="数据合并（Merge）"><a href="#数据合并（Merge）" class="headerlink" title="数据合并（Merge）"></a>数据合并（Merge）</h1><p>就合并类操作（join / merge-type operations）而言，pandas提供了各种工具能方便地对Series，DataFrame，和 Panel对象 进行各种逻辑演算来进行数据合并 。更多内容请查阅<a href="http://pandas.pydata.org/pandas-docs/stable/merging.html#merging" target="_blank" rel="external">《Merging section》</a><br>（注：上面这段话在原文中放在concat的开头，为逻辑和结构上的完整和流畅，我这里放到了这边）</p>
+<h2 id="Concat"><a href="#Concat" class="headerlink" title="Concat"></a>Concat</h2><p>用 <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.concat.html#pandas.concat" target="_blank" rel="external">concat()</a> 把pandas对象联系（Concatenating）起来<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作</span></div><div class="line">df = pd.DataFrame(np.random.randn(<span class="number">10</span>, <span class="number">4</span>))</div><div class="line">df</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/newdf.jpg" alt="dfcon1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作2：把刚刚生成的df分片（break it into pieces）</span></div><div class="line">pieces = [df[:<span class="number">3</span>], df[<span class="number">3</span>:<span class="number">7</span>], df[<span class="number">7</span>:]]</div><div class="line">pieces</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfcon2.jpg" alt="dfcon2"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 使用concat()连接</span></div><div class="line">pd.concat(pieces)</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfcon3.jpg" alt="dfcon3"></p>
+<h2 id="Join"><a href="#Join" class="headerlink" title="Join"></a>Join</h2><p>SQL形式的连接。更多内容请查阅<a href="http://pandas.pydata.org/pandas-docs/stable/merging.html#merging-join" target="_blank" rel="external">《Database style joining》</a></p>
+<h3 id="示例一"><a href="#示例一" class="headerlink" title="示例一"></a>示例一</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作1</span></div><div class="line">left = pd.DataFrame(&#123;<span class="string">'key'</span>: [<span class="string">'foo'</span>, <span class="string">'foo'</span>], <span class="string">'lval'</span>: [<span class="number">1</span>, <span class="number">2</span>]&#125;)</div><div class="line">left</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作2</span></div><div class="line">right = pd.DataFrame(&#123;<span class="string">'key'</span>: [<span class="string">'foo'</span>, <span class="string">'foo'</span>], <span class="string">'rval'</span>: [<span class="number">4</span>, <span class="number">5</span>]&#125;)</div><div class="line">right</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfjoin1.jpg" alt="dfjoin1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 使用  merge() 连接</span></div><div class="line">pd.merge(left, right, on=<span class="string">'key'</span>)</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfjoin2.jpg" alt="dfjoin2"></p>
+<h3 id="示例二"><a href="#示例二" class="headerlink" title="示例二"></a>示例二</h3><p>另一个例子如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作1</span></div><div class="line">left = pd.DataFrame(&#123;<span class="string">'key'</span>: [<span class="string">'foo'</span>, <span class="string">'bar'</span>], <span class="string">'lval'</span>: [<span class="number">1</span>, <span class="number">2</span>]&#125;)</div><div class="line">left</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作2</span></div><div class="line">right = pd.DataFrame(&#123;<span class="string">'key'</span>: [<span class="string">'foo'</span>, <span class="string">'bar'</span>], <span class="string">'rval'</span>: [<span class="number">4</span>, <span class="number">5</span>]&#125;)</div><div class="line">right</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfjoin3.jpg" alt="dfjoin3"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pd.merge(left, right, on=<span class="string">'key'</span>)</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfjoin4.jpg" alt="dfjoin4"></p>
+<h2 id="追加（Append）"><a href="#追加（Append）" class="headerlink" title="追加（Append）"></a>追加（Append）</h2><p>向 dataframe对象添加行。更多内容请查阅 <a href="http://pandas.pydata.org/pandas-docs/stable/merging.html#merging-concatenation" target="_blank" rel="external">《Appending》</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作1</span></div><div class="line">df = pd.DataFrame(np.random.randn(<span class="number">8</span>, <span class="number">4</span>), columns=[<span class="string">'A'</span>,<span class="string">'B'</span>,<span class="string">'C'</span>,<span class="string">'D'</span>])</div><div class="line">df</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/append1.jpg" alt="append1"><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作2</span></div><div class="line">s = df.iloc[<span class="number">3</span>]</div><div class="line">s</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/append2.jpg" alt="append2"><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 使用 append</span></div><div class="line">df.append(s, ignore_index=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/append3.jpg" alt="append3"></p>
+<h1 id="分组（Grouping）"><a href="#分组（Grouping）" class="headerlink" title="分组（Grouping）"></a>分组（Grouping）</h1><p>对分组操作，我们指的是包含以一个或多个步骤的过程：</p>
+<ul>
+<li>根据某些标准把数据切分（Splitting）成不同组别</li>
+<li>给每个组别独立地应用（Applying）函数</li>
+<li>将结果组合（Combining）成同一数据结构</li>
+</ul>
+<p>更多内容请查看 <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html#groupby" target="_blank" rel="external">《Grouping section》</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 准备工作</span></div><div class="line">df = pd.DataFrame(&#123;<span class="string">'A'</span> : [<span class="string">'foo'</span>, <span class="string">'bar'</span>, <span class="string">'foo'</span>, <span class="string">'bar'</span>,</div><div class="line">  ....:                           <span class="string">'foo'</span>, <span class="string">'bar'</span>, <span class="string">'foo'</span>, <span class="string">'foo'</span>],</div><div class="line">  ....:                    <span class="string">'B'</span> : [<span class="string">'one'</span>, <span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>,</div><div class="line">  ....:                           <span class="string">'two'</span>, <span class="string">'two'</span>, <span class="string">'one'</span>, <span class="string">'three'</span>],</div><div class="line">  ....:                    <span class="string">'C'</span> : np.random.randn(<span class="number">8</span>),</div><div class="line">  ....:                    <span class="string">'D'</span> : np.random.randn(<span class="number">8</span>)&#125;)</div><div class="line">df</div></pre></td></tr></table></figure>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfgroup1.jpg" alt=""></p>
+<h2 id="一列"><a href="#一列" class="headerlink" title="一列"></a>一列</h2><p>分组，然后对各个分组结果应用函数（sum）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.groupby(<span class="string">'A'</span>).sum()</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfgroup2.jpg" alt=""></p>
+<h2 id="多列"><a href="#多列" class="headerlink" title="多列"></a>多列</h2><p>根据多列分组，形成层次索引，从而可以对其使用函数。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">df.groupby([<span class="string">'A'</span>,<span class="string">'B'</span>]).sum()</div></pre></td></tr></table></figure></p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/dfgroup3.jpg" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/01/数据挖掘比赛（4）ten-Minutes-to-pandas中文版上/" rel="next" title="数据挖掘比赛（4）ten Minutes to pandas中文版上">
+                <i class="fa fa-chevron-left"></i> 数据挖掘比赛（4）ten Minutes to pandas中文版上
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/"
+           data-title="数据挖掘比赛（5）ten Minutes to pandas中文版下" data-url="http://yoursite.com/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#操作（Operations）"><span class="nav-number">1.</span> <span class="nav-text">操作（Operations）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#统计"><span class="nav-number">1.1.</span> <span class="nav-text">统计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#描述性统计信息"><span class="nav-number">1.1.1.</span> <span class="nav-text">描述性统计信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定轴向"><span class="nav-number">1.1.2.</span> <span class="nav-text">指定轴向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动对应维度"><span class="nav-number">1.1.3.</span> <span class="nav-text">自动对应维度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数应用（Apply）"><span class="nav-number">1.2.</span> <span class="nav-text">函数应用（Apply）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用已有函数"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用已有函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用匿名函数"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用匿名函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直方图（Histogramming）"><span class="nav-number">1.3.</span> <span class="nav-text">直方图（Histogramming）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串方法（String-Methods）"><span class="nav-number">1.4.</span> <span class="nav-text">字符串方法（String Methods）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据合并（Merge）"><span class="nav-number">2.</span> <span class="nav-text">数据合并（Merge）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Concat"><span class="nav-number">2.1.</span> <span class="nav-text">Concat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Join"><span class="nav-number">2.2.</span> <span class="nav-text">Join</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例一"><span class="nav-number">2.2.1.</span> <span class="nav-text">示例一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例二"><span class="nav-number">2.2.2.</span> <span class="nav-text">示例二</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#追加（Append）"><span class="nav-number">2.3.</span> <span class="nav-text">追加（Append）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分组（Grouping）"><span class="nav-number">3.</span> <span class="nav-text">分组（Grouping）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一列"><span class="nav-number">3.1.</span> <span class="nav-text">一列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多列"><span class="nav-number">3.2.</span> <span class="nav-text">多列</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"chybeta"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+  
+
+
+</body>
+</html>
