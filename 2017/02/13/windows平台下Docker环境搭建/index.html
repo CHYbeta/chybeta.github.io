@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="数据挖掘," />
+  <meta name="keywords" content="docker,ics," />
 
 
 
@@ -86,19 +86,22 @@
 
 
 
-<meta name="description" content="最近开始接触一些kaggle的比赛，需要搭建基本的环境。原本在本机和服务器上“搭好了”，numpy.test()等都没有问题，同样的代码却运行出了不同的结果… 后面接触到了 anaconda这个集成的python科学计算环境，一键式解决大部分问题，甚至在win下也能安装：)这样也省去了开一大堆虚拟机的麻烦。">
+<meta name="description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据挖掘比赛（0）环境搭建之anaconda安装">
-<meta property="og:url" content="http://yoursite.com/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/index.html">
+<meta property="og:title" content="windows平台下Docker环境搭建">
+<meta property="og:url" content="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="最近开始接触一些kaggle的比赛，需要搭建基本的环境。原本在本机和服务器上“搭好了”，numpy.test()等都没有问题，同样的代码却运行出了不同的结果… 后面接触到了 anaconda这个集成的python科学计算环境，一键式解决大部分问题，甚至在win下也能安装：)这样也省去了开一大堆虚拟机的麻烦。">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/python%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%85%8D%E7%BD%AE.jpg">
-<meta property="og:updated_time" content="2017-02-01T05:24:55.707Z">
+<meta property="og:description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker2.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker4.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker5.jpg">
+<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerwenti1.jpg">
+<meta property="og:updated_time" content="2017-02-13T14:09:28.274Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据挖掘比赛（0）环境搭建之anaconda安装">
-<meta name="twitter:description" content="最近开始接触一些kaggle的比赛，需要搭建基本的环境。原本在本机和服务器上“搭好了”，numpy.test()等都没有问题，同样的代码却运行出了不同的结果… 后面接触到了 anaconda这个集成的python科学计算环境，一键式解决大部分问题，甚至在win下也能安装：)这样也省去了开一大堆虚拟机的麻烦。">
-<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/python%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83.jpg">
+<meta name="twitter:title" content="windows平台下Docker环境搭建">
+<meta name="twitter:description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
+<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg">
 
 
 
@@ -126,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/"/>
 
 
 
 
 
-  <title> 数据挖掘比赛（0）环境搭建之anaconda安装 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> windows平台下Docker环境搭建 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -298,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -322,7 +325,7 @@
             
             
               
-                数据挖掘比赛（0）环境搭建之anaconda安装
+                windows平台下Docker环境搭建
               
             
           </h1>
@@ -337,8 +340,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T14:08:46+08:00">
-                2017-01-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-13T20:13:30+08:00">
+                2017-02-13
               </time>
             
 
@@ -360,8 +363,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据挖掘/" itemprop="url" rel="index">
-                    <span itemprop="name">数据挖掘</span>
+                  <a href="/categories/ICS/" itemprop="url" rel="index">
+                    <span itemprop="name">ICS</span>
                   </a>
                 </span>
 
@@ -378,8 +381,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/" itemprop="commentCount"></span>
+                <a href="/2017/02/13/windows平台下Docker环境搭建/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/13/windows平台下Docker环境搭建/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -389,7 +392,7 @@
 
           
           
-             <span id="/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/" class="leancloud_visitors" data-flag-title="数据挖掘比赛（0）环境搭建之anaconda安装">
+             <span id="/2017/02/13/windows平台下Docker环境搭建/" class="leancloud_visitors" data-flag-title="windows平台下Docker环境搭建">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,23 +419,37 @@
       
 
       
-        <p>最近开始接触一些kaggle的比赛，需要搭建基本的环境。原本在本机和服务器上“搭好了”，numpy.test()等都没有问题，同样的代码却运行出了不同的结果… 后面接触到了 anaconda这个集成的python科学计算环境，一键式解决大部分问题，甚至在win下也能安装：)这样也省去了开一大堆虚拟机的麻烦。<br><a id="more"></a></p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>网上各种简介一大堆，对我而言……scipy在win下死活没装上，不过在 anaconda 里已经很好的集成了，嗯不多说了。</p>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>按理我们都是去官网（<a href="https://www.continuum.io/downloads）下载，不过下载速度十分可观，不知道翻墙后能不能好点。我的方法是在浏览器下载时复制其下载链接，然后放到百度云里面离线下载，可能会出现链接失效的情况，但其实只要一直点离线下载：" target="_blank" rel="external">https://www.continuum.io/downloads）下载，不过下载速度十分可观，不知道翻墙后能不能好点。我的方法是在浏览器下载时复制其下载链接，然后放到百度云里面离线下载，可能会出现链接失效的情况，但其实只要一直点离线下载：</a>) 一般最后会成功的。下面这两个是我刚离线完的，目前还是最新版，各位如果需要可以保存一下。</p>
-<pre><code>Anaconda3-4.2.0-Windows-x86：
-链接：http://pan.baidu.com/s/1hsxB3MG 密码：5k0x
-
-Anaconda3-4.2.0-Linux-x86_64.sh
-链接：http://pan.baidu.com/s/1dETp0LN 密码：xm7x
-</code></pre><p>这两个版本是python3，64bit的. 大家自己看着办：)</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>win平台下的安装很简单，傻瓜式操作，中间会有两个选项用来把anaconda加入系统环境变量，安装后系统环境如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/python%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83.jpg" alt="python-WIN系统环境"></p>
-<p>ubuntu下的安装，在虚拟机安装时挺顺利的，但在云服务器上除了一点小问题，可能跟服务器的初始环境有关吧:) 运行一下sh脚本，跟着提示来，最后一步是问是否要把anaconda加入系统环境变量，选yes一般来讲应该是能成功的。如果在最后一步时没有成功或者说输入了yes以外的值而导致无法默认运行anaconda的话，也可以按照如下做法（以云服务器上为例，这里我顺便把最基本操作写出来吧，$表示在terminal里的意思……）：</p>
-<pre><code>$ vim /home/ubuntu/.bashrc
-</code></pre><p>按键盘字母 i ， 在最后面加入一句：</p>
-<pre><code>export PATH=/home/ubuntu/anaconda3/bin:$PATH
-</code></pre><p>按键盘上 ESC ，再按 ：，输入 wq 退出vim</p>
-<pre><code>$ source /home/ubuntu/.bashrc
-</code></pre><p>如下<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%85%8D%E7%BD%AE.jpg" alt="服务器上环境配置"></p>
+        <p>由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。</p>
+<a id="more"></a>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>win下我们一般直接选择 Docker Toolbox</p>
+<h2 id="法一"><a href="#法一" class="headerlink" title="法一"></a>法一</h2><p>docker的官网：<a href="https://www.docker.com/products/docker-toolbox" target="_blank" rel="external">下载地址</a><br>但官网下载会很慢，甚至下载了好久突然间失败hh</p>
+<h2 id="法二"><a href="#法二" class="headerlink" title="法二"></a>法二</h2><p>镜像站：<a href="https://get.daocloud.io/toolbox/" target="_blank" rel="external">下载地址</a><br>速度快，但版本的更新问题啥的自己注意。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载的exe打开，一路跟着提示走。</p>
+<ul>
+<li>可以自己选择安装位置,但要记住。后面要用到。这里为 D:\Docker Toolbox</li>
+<li>注意需要安装virtualbox，因为我们是在win平台下安装docker，而docker是高度依赖linux的，所以这里需要virtualbox（开源免费）来提供win平台下linux内核的接口与特性</li>
+<li>需要安装git for windows，若原本机子中已经有了，可以勾掉不选择。</li>
+<li>kitematic是docker的GUI工具，也顺便安了吧。不过一般咱都是用命令行的嘛。</li>
+<li>耐心等待安装过程结束</li>
+</ul>
+<h1 id="初次启动"><a href="#初次启动" class="headerlink" title="初次启动"></a>初次启动</h1><p>安装完成后，桌面上会多出三个图标</p>
+<ul>
+<li>Oracle VM VirtualBox</li>
+<li>Kitematic (Alpha)</li>
+<li>Docker Quickstart Terminal</li>
+</ul>
+<p>这里我们只需要先打开（双击）第三个。第一次运行时，黑屏幕上只有光标，可能需要先打一个回车。一般情况下如下：</p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg" alt=""></p>
+<p>可能等很久都没有反应，我说的是 “可能”hh<br>注意到里面的意思是要把 boot2docker 下载下来，记住下载路径：</p>
+<pre><code>C:\Users\ASUS\.docker\machine\cache
+</code></pre><p>打开dokcer的安装路径（以我的安装路径为例）D:\Docker Toolbox<br>将里面的 boot2docker.iso 拷贝到 下载路径里</p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker2.jpg" alt=""></p>
+<p>回到桌面运行 Docker Quickstart Terminal，可能需要再按一次回车</p>
+<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker4.jpg" alt=""></p>
+<p>等“安装”完成，控制台会出现：<br><img src="http://ojp0pjljj.bkt.clouddn.com/docker5.jpg" alt=""></p>
+<p>完成后最好重启一下<br>这样就行啦。</p>
+<h1 id="可能的问题"><a href="#可能的问题" class="headerlink" title="可能的问题"></a>可能的问题</h1><h2 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h2><p><img src="http://ojp0pjljj.bkt.clouddn.com/dockerwenti1.jpg" alt=""><br>将 virtualbox 和 docker 卸载掉，重启，再重新安装</p>
+<h2 id="Terminal一直自动关闭"><a href="#Terminal一直自动关闭" class="headerlink" title="Terminal一直自动关闭"></a>Terminal一直自动关闭</h2><p>重启电脑……</p>
 
       
     </div>
@@ -456,7 +473,9 @@ Anaconda3-4.2.0-Linux-x86_64.sh
       
         <div class="post-tags">
           
-            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/ics/" rel="tag"># ics</a>
           
         </div>
       
@@ -465,8 +484,8 @@ Anaconda3-4.2.0-Linux-x86_64.sh
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/13/pwn思维导图/" rel="next" title="pwn思维导图">
-                <i class="fa fa-chevron-left"></i> pwn思维导图
+              <a href="/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/" rel="next" title="数据挖掘比赛（5）ten Minutes to pandas中文版下">
+                <i class="fa fa-chevron-left"></i> 数据挖掘比赛（5）ten Minutes to pandas中文版下
               </a>
             
           </div>
@@ -474,10 +493,6 @@ Anaconda3-4.2.0-Linux-x86_64.sh
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/" rel="prev" title="数据挖掘比赛（1）对无列名的txt数据集读取方法及处理">
-                数据挖掘比赛（1）对无列名的txt数据集读取方法及处理 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -503,8 +518,8 @@ Anaconda3-4.2.0-Linux-x86_64.sh
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/"
-           data-title="数据挖掘比赛（0）环境搭建之anaconda安装" data-url="http://yoursite.com/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/">
+      <div class="ds-thread" data-thread-key="2017/02/13/windows平台下Docker环境搭建/"
+           data-title="windows平台下Docker环境搭建" data-url="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/">
       </div>
     
   </div>
@@ -604,7 +619,7 @@ Anaconda3-4.2.0-Linux-x86_64.sh
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载"><span class="nav-number">2.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">3.</span> <span class="nav-text">安装</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#下载"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#法一"><span class="nav-number">1.1.</span> <span class="nav-text">法一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法二"><span class="nav-number">1.2.</span> <span class="nav-text">法二</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初次启动"><span class="nav-number">3.</span> <span class="nav-text">初次启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可能的问题"><span class="nav-number">4.</span> <span class="nav-text">可能的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化问题"><span class="nav-number">4.1.</span> <span class="nav-text">初始化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terminal一直自动关闭"><span class="nav-number">4.2.</span> <span class="nav-text">Terminal一直自动关闭</span></a></li></ol></li></ol></div>
             
 
           </div>
