@@ -86,25 +86,16 @@
 
 
 
-<meta name="description" content="条件待分类的特征矢量集为 {x_1,x_2,x_3,……x_N}类别的数目已知：c
-基本想法取定 k 个类别，选取 k 个初始聚类中心，按最小距离原则将各模式分配到 k类 中的某一类，之后不断的计算类心和调整各模式的类别，最终使得各模式到其判属类别的距离平方之和最小。
-算法步骤
-选择k个模式特征矢量作为初始聚类中心：{$ z{_1}{^{(0)}},z{_2}{^{(0)}}, z{_3}{^{(">
+<meta name="description" content="K-means算法学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习算法：k-means">
 <meta property="og:url" content="http://yoursite.com/2017/03/08/机器学习算法：k-means/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="条件待分类的特征矢量集为 {x_1,x_2,x_3,……x_N}类别的数目已知：c
-基本想法取定 k 个类别，选取 k 个初始聚类中心，按最小距离原则将各模式分配到 k类 中的某一类，之后不断的计算类心和调整各模式的类别，最终使得各模式到其判属类别的距离平方之和最小。
-算法步骤
-选择k个模式特征矢量作为初始聚类中心：{$ z{_1}{^{(0)}},z{_2}{^{(0)}}, z{_3}{^{(">
-<meta property="og:updated_time" content="2017-03-08T12:58:45.509Z">
+<meta property="og:description" content="K-means算法学习">
+<meta property="og:updated_time" content="2017-03-08T13:04:01.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习算法：k-means">
-<meta name="twitter:description" content="条件待分类的特征矢量集为 {x_1,x_2,x_3,……x_N}类别的数目已知：c
-基本想法取定 k 个类别，选取 k 个初始聚类中心，按最小距离原则将各模式分配到 k类 中的某一类，之后不断的计算类心和调整各模式的类别，最终使得各模式到其判属类别的距离平方之和最小。
-算法步骤
-选择k个模式特征矢量作为初始聚类中心：{$ z{_1}{^{(0)}},z{_2}{^{(0)}}, z{_3}{^{(">
+<meta name="twitter:description" content="K-means算法学习">
 
 
 
@@ -422,7 +413,8 @@
       
 
       
-        <h1 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h1><p>待分类的特征矢量集为 {<script type="math/tex">x_1,x_2,x_3,……x_N</script>}<br>类别的数目已知：c</p>
+        <p>K-means算法学习<br><a id="more"></a></p>
+<h1 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h1><p>待分类的特征矢量集为 {<script type="math/tex">x_1,x_2,x_3,……x_N</script>}<br>类别的数目已知：c</p>
 <h1 id="基本想法"><a href="#基本想法" class="headerlink" title="基本想法"></a>基本想法</h1><p>取定 k 个类别，选取 k 个初始聚类中心，按最小距离原则将各模式分配到 k类 中的某一类，之后不断的计算类心和调整各模式的类别，最终使得各模式到其判属类别的距离平方之和最小。</p>
 <h1 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h1><ol>
 <li><p>选择k个模式特征矢量作为初始聚类中心：{$ z{_1}{^{(0)}},z{_2}{^{(0)}}, z{_3}{^{(0)}} ,…… ,z{_k}{^{(0)}}$}。令 q = 0。</p>
