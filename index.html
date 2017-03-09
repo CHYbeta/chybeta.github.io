@@ -512,6 +512,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程练习/" itemprop="url" rel="index">
+                    <span itemprop="name">编程练习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -559,30 +581,15 @@
 
       
         
-          
-            <h1 id="题目-1005-Complete-Permutation"><a href="#题目-1005-Complete-Permutation" class="headerlink" title="题目 1005.Complete Permutation"></a>题目 1005.Complete Permutation</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><pre><code>Generate the complete permutation of  1..N
-</code></pre><h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><pre><code>Each input file contains only one non-negative integer N (0&lt; N &lt; 9)
-</code></pre><h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><pre><code>Output N! Lines, according to lexicographic order.
-</code></pre><h2 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><pre><code>3
-</code></pre><h2 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><pre><code>1 2 3
-1 3 2
-2 1 3
-2 3 1
-3 1 2
-3 2 1
-</code></pre><h1 id="想法"><a href="#想法" class="headerlink" title="想法"></a>想法</h1><p>一开始想到用递归来写全排列，就课本上的方法，结果才发现输出时最后两个的次序不对。先试了试STL中的next_permutation函数，后面又自己写了个字典序法全排列。这里简述一下字典序法全排列</p>
-<ol>
-<li>待排列“字符串”： <script type="math/tex">P_0P_1P_2..P_{j-1}P_jP_{j+1}..P_n</script></li>
-<li>从后往前搜索，直到找到这样的一个数，它的下标为 j，且满足 <script type="math/tex">P_{j} < P_{j+1}</script>。此时有：<script type="math/tex; mode=display">P_{j} < P_{j+1} > P_{j+2} > P_{j+3} > .... > P_{n}</script>即从P<em>{j+1} 到 P</em>{n}，它们是按字典序递减的。</li>
-<li>再次从后向前搜索，直到找到这样的一个数，它的下标为 k，且满足 <script type="math/tex">P_{k} > P_{j}</script>。<script type="math/tex">P_k</script>的位置如下：<script type="math/tex; mode=display">P_0P_1P_2..P_{j-1}P_jP_{j+1}....P_{k-1}P_{k}P_{k+1}....P_n</script></li>
-<li>交换<script type="math/tex">P_{k}</script>和<script type="math/tex">P_{j}</script>的值，这时候“字符串”为：<script type="math/tex; mode=display">P_0P_1P_2..P_{j-1}P_kP_{j+1}....P_{k-1}P_{j}P_{k+1}....P_n</script>这时候得到的“字符串”会比原本的“字符串”大,但并不是所有大于“原字符串”中最小的。</li>
-<li>结合由（2）得到的大小关系,以及 <script type="math/tex">P_{k} > P_{j}</script>，可以得到交换后的“字符串”大小关系如下:<script type="math/tex; mode=display">....P_k<P_{j+1}>P_{j+2}>....>P_{k-1}>P_{j}>P_{k+1}....>P_n</script>所以在最后一步中，把 P<em>{j+1}P</em>{j+2}….P_{n} 反转过来。最后得到：<script type="math/tex; mode=display">P_0P_1P_2..P_{j-1}P_kP_{n}..P_{j}..P_{j+1}P_{j+2}P_{j+1}....P_n</script>这样得到的新“字符串”是大于“原字符串”中最小的。</li>
-</ol>
-<h1 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h1><h2 id="字典序法全排列"><a href="#字典序法全排列" class="headerlink" title="字典序法全排列"></a>字典序法全排列</h2><p>先贴代码<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">int</span> arrays[<span class="number">10</span>];</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> number;</div><div class="line">    <span class="keyword">int</span> q;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line">    <span class="keyword">for</span>(q = <span class="number">1</span>;q &lt;= number;q++)</div><div class="line">        arrays[q] = q;</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</div><div class="line">        <span class="keyword">int</span> j,k;</div><div class="line">        <span class="keyword">int</span> q;</div><div class="line">        <span class="keyword">for</span>(q = <span class="number">1</span>;q &lt; number;q++)</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"%d "</span>,arrays[q]);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,arrays[number]);</div><div class="line">        <span class="keyword">for</span>(j = number;j &gt; <span class="number">0</span>;j--)</div><div class="line">            <span class="keyword">if</span>(arrays[j] &lt; arrays[j+<span class="number">1</span>])</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">if</span>(j == <span class="number">0</span>)</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">for</span>(k = number;k &gt; j;k--)</div><div class="line">            <span class="keyword">if</span>(arrays[k] &gt; arrays[j])</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">int</span> temp;</div><div class="line">        temp = arrays[j];</div><div class="line">        arrays[j] = arrays[k];</div><div class="line">        arrays[k] = temp;</div><div class="line">        <span class="keyword">int</span> i1,i2;</div><div class="line">        <span class="keyword">for</span>(i1 = j+<span class="number">1</span>,i2 = number;i1 &lt; i2;i1++,i2--)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> temp;</div><div class="line">            temp = arrays[i1];</div><div class="line">            arrays[i1] = arrays[i2];</div><div class="line">            arrays[i2] = temp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="使用STL"><a href="#使用STL" class="headerlink" title="使用STL"></a>使用STL</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> number;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line">    <span class="keyword">int</span> a[<span class="number">11</span>];</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;number;i++)</div><div class="line">        a[i]=i+<span class="number">1</span>;</div><div class="line">    <span class="keyword">do</span>&#123;</div><div class="line">        <span class="keyword">int</span> k;</div><div class="line">        <span class="keyword">for</span>(k=<span class="number">0</span>;k&lt;number<span class="number">-1</span>;k++)</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"%d "</span>,a[k]);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,a[number<span class="number">-1</span>]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">while</span> (next_permutation(a,a+number));</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="递归全排列，不合要求"><a href="#递归全排列，不合要求" class="headerlink" title="递归全排列，不合要求"></a>递归全排列，不合要求</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">int</span> number;</div><div class="line"><span class="keyword">char</span> arrays[<span class="number">11</span>]=<span class="string">"0123456789"</span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Perm</span><span class="params">(<span class="keyword">int</span> m)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line"></div><div class="line">    <span class="keyword">int</span> i,j;</div><div class="line">    Perm(<span class="number">1</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Perm</span><span class="params">(<span class="keyword">int</span> m)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span> (m == number)&#123;</div><div class="line">       <span class="keyword">int</span> i;</div><div class="line">       <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;m;i++)</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"%c "</span>,arrays[i]);</div><div class="line">       <span class="built_in">printf</span>(<span class="string">"%c\n"</span>,arrays[m]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> i,j;</div><div class="line">        <span class="keyword">for</span>(j=m;j&lt;=number;j++)&#123;</div><div class="line">            <span class="keyword">int</span> temp;</div><div class="line">            temp = arrays[j];</div><div class="line">            arrays[j]= arrays[m];</div><div class="line">            arrays[m] = temp;</div><div class="line">            Perm(m+<span class="number">1</span>);</div><div class="line">            temp = arrays[j];</div><div class="line">            arrays[j]= arrays[m];</div><div class="line">            arrays[m] = temp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
+          <h1 id="题目-1005-Complete-Permutation"><a href="#题目-1005-Complete-Permutation" class="headerlink" title="题目 1005.Complete Permutation"></a>题目 1005.Complete Permutation</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><pre><code>Generate the complete permutation of  1..N
+</code></pre>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/09/ACMXMU-OJ-1005/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -839,6 +846,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程练习/" itemprop="url" rel="index">
+                    <span itemprop="name">编程练习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -886,7 +915,8 @@
 
       
         
-          <p>备注：厦大算法课实验一<br>
+          <h1 id="题目-1004-Sort-Ver-2"><a href="#题目-1004-Sort-Ver-2" class="headerlink" title="题目 1004.Sort Ver.2"></a>题目 1004.Sort Ver.2</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><pre><code>Give a set of numbers, output them after sort. You may use any algorithm you like to solve it.
+</code></pre>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/03/09/ACMXMU-OJ-1004/#more" rel="contents">
