@@ -10,6 +10,20 @@
 
     
     <entry>
+      <title><![CDATA[SQLI-LABS:Less-1]]></title>
+      <url>%2F2017%2F03%2F30%2FSQLI-LABS-Less-1%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[ACMPKU-OJ-3122]]></title>
+      <url>%2F2017%2F03%2F21%2FACMPKU-OJ-3122%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[win下tensorflow安装避坑指南]]></title>
       <url>%2F2017%2F03%2F15%2Fwin%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0%2F</url>
       <content type="text"><![CDATA[好多同学来问怎么安装tensorflow，想想还是写一下吧。 建议 可以选择使用 virtualenv 来进行python环境的管理,这样不会混乱。 担心包与包之间的依赖问题的话，推荐直接使用 anaconda科学计算发行包。具体安装过程可参见：数据挖掘比赛（0）环境搭建之anaconda安装 原生python安装想想还是把这部分加进来了：） 避坑一：官网下载下载页面：https://www.python.org/downloads/windows/tensorflow官网上面说:tensorflow暂时只支持64bit的python3.5。所以不想折腾的同学不要去下载latest的python3.6，也不要去下python2.7，毕竟py3是未来啊。。这里选这个版本，x86-64是指win32位上的64位python，满足我们的要求，executable installer是把安装文件下载下来后再安装。 避坑二：安装python不想后面麻烦的话，安装时记得把 添加进系统路径 选上其余的选项不用担心，你可以自己选择安装路径，这里我直接选 Install Now了。 避坑三：试试打开cmd，输入python，应该会进入python交互式环境。如果提示不是内部或外部命令啥的，说明你的系统环境变量配置有问题。可以自己再手动添加进去，这里不提。 另外说一下，这里默认的python命令对应的版本为python3.5。 安装tensorflow避坑四：安装命令python3.5自带的pip3包管理器，我可以直接使用它来下载。1pip3 install --upgrade tensorflow 它会自动下载tensorflow及其它一些最新的依赖包。记得加上 —upgrade，不然安装的比如protobuf的版本可能相对较低后续可能会报错。然后会自动进行安装。直至如下： 避坑五：安装系统依赖包初次安装，可能会在导入的时候出错，这是因为win系统的动态链接库MSVCP140.DLL缺失的原因.有些同学在这一步没有出错，我猜你们写C语言用的是VS2015啥的hh。如下图，这里只截取部分。 去微软官网下载 Visual C++ 2015 redistributable，它包含了MSVCP140.DLL。 传送门：Visual C++ 2015 redistributable 一定要注意的是，要选择 x64 版本，对应你的64位操作系统然后安装。 测试在经过前面的步骤后，此时导入tensorflow应该没问题了。!()[http://ojp0pjljj.bkt.clouddn.com/tensor7.jpg]接下来就简单的测试一下，依次输入1234import tensorflow as tfhello = tf.constant('Hello, TensorFlow!')sess = tf.Session()print(sess.run(hello)) 好吧，好像没报错，不过一大堆的消息打印出来，心理总是有点不舒服：） 这边是关于这个问题的两个讨论，两个问题的讨论时间是在今年的2月份。 stackoverflow：unknow op github Issues: unknow op 他们所提出的“解决方法”是安装指定的这个nightly build版本，这个可以确实可以解决掉unknow op的警告问题，不过会产生另外的SSE警告。 关于python3.6有些同学可能一不小心安了python3.6，加上(anaconda官网)[https://www.continuum.io/downloads/]上的版本也已经更新为python3.6了。所以这边提供一个tensorflow-py3.6的安装包。 传送门： Python Extension Packages:tensorflow 至于能不能用，仁者见仁智者见智…… tensorflow GPU计算过程这里不展开，要装 vs+cuda+tensorflow,如果想更快的话，可以添加cudnn库。同时要求显卡是英伟达的且nvidia compute capability要大于3。此处略过不提。]]></content>
