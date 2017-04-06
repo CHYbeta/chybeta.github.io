@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[ACMXMU-OJ:1061]]></title>
+      <url>%2F2017%2F04%2F06%2FACMXMU-OJ-1061%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[利用python为1000php生成目录页面]]></title>
       <url>%2F2017%2F04%2F03%2F%E5%88%A9%E7%94%A8python%E4%B8%BA1000php%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95%E9%A1%B5%E9%9D%A2%2F</url>
       <content type="text"><![CDATA[1000php是指1000个PHP代码审计案例，来自2016.7以前乌云公开漏洞。github地址： https://github.com/Xyntax/1000phpgit clone下来后，案例保存在bugs文件夹里，名称都是wooyun-xxx-xxxxx格式，没有索引，从名字上看也难以知道这是什么类型的漏洞。所以这里为它生成一个目录页面。 Something漏洞的简要信息保存在页面的title标签中，如下使用BeautifulSoup来对wooyun-xxx-xxxxx.html进行解析，获取其title。如下： Code1234567891011121314151617181920import sysimport osfrom bs4 import BeautifulSoupreload(sys)sys.setdefaultencoding('utf8')htmlName = os.listdir(htmlLoc)indexhtml = open("index.html","w")setCharset = '&lt;head&gt;&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt; &lt;/head&gt;'indexhtml.write(setCharset)for i in htmlName: if i[0] == 'w': soup = BeautifulSoup(open(i),"html.parser") url ='&lt;a href="'+i+'"&gt;'+soup.title.string+'&lt;/a&gt;' indexhtml.write(url) indexhtml.write("&lt;/br&gt;")print "done!" Result将代码保存为py文件后，放在bugs文件夹下运行，会生成index.html文件。打开。]]></content>
