@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[《The Pracetice of Programming》读书笔记（1）]]></title>
+      <url>%2F2017%2F04%2F06%2F%E3%80%8AThe-Pracetice-of-Programming%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[ACMXMU-OJ:1316]]></title>
       <url>%2F2017%2F04%2F06%2FACMXMU-OJ-1316%2F</url>
       <content type="text"><![CDATA[题目Description有一辆最大载重M公斤的卡车和N种货物，已知第i种货物有wi公斤,其总价值为vi元。每种货物都可以取任意数量装入卡车。试确定装货方案，使得装入卡车的所有物品总价值最大。 Input第一行是两个整数M，N(0&lt;M,N&lt;100000)。接下来的N行，每一行有两个整数wi，vi(0&lt;wi&lt;=100,0&lt;vi&lt;=100)，分别代表第i种货物的总重量和总价值。 Output输出卡车能装入货物的最大价值，保留6位小数。 Sample Input10 3 10 10 5 6 20 50 Sample Output25.000000 想法贪心算法。背包问题。有别于0/1背包问题。每次选取尽量多的单位价值高的物体。 提交12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;using namespace std;typedef struct unit&#123; double unitValue; int id; double weight; double value;&#125;unit;void quick_sort(unit s[], int l, int r);int main()&#123; double m,n; static unit valuesor[100010]; scanf("%lf%lf",&amp;m,&amp;n); int i; for (i = 1; i &lt;= n; i++)&#123; scanf("%lf%lf",&amp;valuesor[i].weight,&amp;valuesor[i].value); valuesor[i].unitValue = (double)valuesor[i].value / (double)valuesor[i].weight; valuesor[i].id = i; &#125; quick_sort(valuesor,1,n); double remainSpace = m; double allValue = 0; i = 1; for (i = 1; i &lt;= n ; i++)&#123; if (remainSpace &lt;= 0) break; if (valuesor[i].weight &lt;= remainSpace)&#123; remainSpace = remainSpace - valuesor[i].weight; allValue += valuesor[i].value; &#125;else&#123; allValue += remainSpace *valuesor[i].unitValue; remainSpace = 0; &#125; &#125; printf("%lf\n",allValue); return 0;&#125;void quick_sort(unit s[], int l, int r)&#123; if (l &lt; r) &#123; int i = l, j = r; unit x = s[l]; while (i &lt; j) &#123; while(i &lt; j &amp;&amp; s[j].unitValue &lt;= x.unitValue) j--; if(i &lt; j)&#123; s[i].unitValue = s[j].unitValue; s[i].id = s[j].id; s[i].value = s[j].value; s[i].weight = s[j].weight; i++; &#125; while(i &lt; j &amp;&amp; s[i].unitValue &gt;= x.unitValue) i++; if(i &lt; j)&#123; s[j].unitValue = s[i].unitValue; s[j].id = s[i].id; s[j].value = s[i].value; s[j].weight = s[i].weight; j--; &#125; &#125; s[i].id = x.id; s[i].unitValue = x.unitValue; s[i].value = x.value; s[i].weight = x.weight; quick_sort(s, l, i - 1); quick_sort(s, i + 1, r); &#125;&#125;]]></content>
