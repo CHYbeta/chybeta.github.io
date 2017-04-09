@@ -86,37 +86,19 @@
 
 
 
-<meta name="description" content="伪随机
-random先file看一下
-IDA打开
-
-可以看到程序读入 v4 ，跟 v5 进行异或操作，若结果为  0xDEADBEEF ，则可以读取到flag。其中 v5的初始值由 rand（）指定。
-rand（）rand（）产生伪随机数。伪随机数的“随机”之处是它的种子（seed）。种子确定后，按照一定算法所计算出来的随机数序列也就完全确定了。
-C语言中，可以通过 srand() 来指定种子（s">
+<meta name="description" content="伪随机">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pwnable.kr:random">
 <meta property="og:url" content="http://yoursite.com/2017/04/09/Pwnable-kr-random/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="伪随机
-random先file看一下
-IDA打开
-
-可以看到程序读入 v4 ，跟 v5 进行异或操作，若结果为  0xDEADBEEF ，则可以读取到flag。其中 v5的初始值由 rand（）指定。
-rand（）rand（）产生伪随机数。伪随机数的“随机”之处是它的种子（seed）。种子确定后，按照一定算法所计算出来的随机数序列也就完全确定了。
-C语言中，可以通过 srand() 来指定种子（s">
+<meta property="og:description" content="伪随机">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/3.jpg?raw=true">
-<meta property="og:updated_time" content="2017-04-09T04:41:42.565Z">
+<meta property="og:updated_time" content="2017-04-09T04:47:54.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pwnable.kr:random">
-<meta name="twitter:description" content="伪随机
-random先file看一下
-IDA打开
-
-可以看到程序读入 v4 ，跟 v5 进行异或操作，若结果为  0xDEADBEEF ，则可以读取到flag。其中 v5的初始值由 rand（）指定。
-rand（）rand（）产生伪随机数。伪随机数的“随机”之处是它的种子（seed）。种子确定后，按照一定算法所计算出来的随机数序列也就完全确定了。
-C语言中，可以通过 srand() 来指定种子（s">
+<meta name="twitter:description" content="伪随机">
 <meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/1.jpg?raw=true">
 
 
@@ -435,7 +417,7 @@ C语言中，可以通过 srand() 来指定种子（s">
       
 
       
-        <p>伪随机</p>
+        <p>伪随机<br><a id="more"></a></p>
 <h1 id="random"><a href="#random" class="headerlink" title="random"></a>random</h1><p>先file看一下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/1.jpg?raw=true" alt=""></p>
 <p>IDA打开</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/2.jpg?raw=true" alt=""></p>

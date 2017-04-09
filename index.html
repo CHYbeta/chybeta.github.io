@@ -415,21 +415,14 @@
 
       
         
-          
-            <p>伪随机</p>
-<h1 id="random"><a href="#random" class="headerlink" title="random"></a>random</h1><p>先file看一下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/1.jpg?raw=true" alt=""></p>
-<p>IDA打开</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/2.jpg?raw=true" alt=""></p>
-<p>可以看到程序读入 v4 ，跟 v5 进行异或操作，若结果为  0xDEADBEEF ，则可以读取到flag。其中 v5的初始值由 rand（）指定。</p>
-<h1 id="rand（）"><a href="#rand（）" class="headerlink" title="rand（）"></a>rand（）</h1><p>rand（）产生伪随机数。伪随机数的“随机”之处是它的种子（seed）。种子确定后，按照一定算法所计算出来的随机数序列也就完全确定了。</p>
-<p>C语言中，可以通过 srand() 来指定种子（seed）。如果用户在调用 rand（）之前没有调用过 srand（），则系统默认种子为 1 。测试如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> random1;</div><div class="line">	random1 = rand();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"No srand():\n"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"random1 = %u\n"</span>, random1);</div><div class="line"></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> random2;</div><div class="line">	srand(<span class="number">1</span>);</div><div class="line">	random2 = rand();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"srand(1):\n"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"random2 = %u\n"</span>, random2);</div><div class="line"></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> random3;</div><div class="line">	srand(<span class="number">2</span>);</div><div class="line">	random3 = rand();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"srand(2):\n"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"random3 = %u\n"</span>, random3);</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/3.jpg?raw=true" alt=""></p>
-<h1 id="Exp"><a href="#Exp" class="headerlink" title="Exp"></a>Exp</h1><p>由以上分析可知，v5的值其实是确定的，为 1804289383。<br>而判断条件(v5 ^ v4) == 0xDEADBEEF 等价于 v4 == 0xDEADBEEF ^ v5 。运算可得 1804289383 ^ 0xDEADBEEF = 3039230856。所以我们要给 v4 传入 3039230856 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">random@ubuntu:~$ ./random</div><div class="line">3039230856                  </div><div class="line">Good!</div><div class="line">Mommy, I thought libc random is unpredictable...</div></pre></td></tr></table></figure>
-<p>FLAG: Mommy, I thought libc random is unpredictable…</p>
-
-          
+          <p>伪随机<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/09/Pwnable-kr-random/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
