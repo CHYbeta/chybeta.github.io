@@ -99,7 +99,7 @@
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/tensor5.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/tensor6.jpg">
 <meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/tensor8.jpg">
-<meta property="og:updated_time" content="2017-03-15T07:27:08.758Z">
+<meta property="og:updated_time" content="2017-04-16T23:14:54.825Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="win下tensorflow安装避坑指南">
 <meta name="twitter:description" content="好多同学来问怎么安装tensorflow，想想还是写一下吧。">
@@ -405,7 +405,8 @@
 <li>担心包与包之间的依赖问题的话，推荐直接使用 anaconda科学计算发行包。具体安装过程可参见：<a href="https://chybeta.github.io/2017/01/22/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%880%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B9%8Banaconda%E5%AE%89%E8%A3%85/" target="_blank" rel="external">数据挖掘比赛（0）环境搭建之anaconda安装 </a></li>
 </ul>
 <h1 id="原生python安装"><a href="#原生python安装" class="headerlink" title="原生python安装"></a>原生python安装</h1><p>想想还是把这部分加进来了：）</p>
-<h2 id="避坑一：官网下载"><a href="#避坑一：官网下载" class="headerlink" title="避坑一：官网下载"></a>避坑一：官网下载</h2><p>下载页面：<a href="https://www.python.org/downloads/windows/" target="_blank" rel="external">https://www.python.org/downloads/windows/</a><br>tensorflow官网上面说:tensorflow暂时只支持64bit的python3.5。所以不想折腾的同学不要去下载latest的python3.6，也不要去下python2.7，毕竟py3是未来啊。。<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor1.jpg" alt=""><br>这里选这个版本，x86-64是指win32位上的64位python，满足我们的要求，executable installer是把安装文件下载下来后再安装。</p>
+<h2 id="避坑一：官网下载"><a href="#避坑一：官网下载" class="headerlink" title="避坑一：官网下载"></a>避坑一：官网下载</h2><p>下载页面：<a href="https://www.python.org/downloads/windows/" target="_blank" rel="external">https://www.python.org/downloads/windows/</a><br>tensorflow官网上面说:tensorflow暂时只支持64bit的python3.5。所以不想折腾的同学不要去下载latest的python3.6，也不要去下python2.7，毕竟py3是未来啊。。<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor1.jpg" alt=""></p>
+<p>executable installer是把安装文件下载下来后再安装。</p>
 <h2 id="避坑二：安装python"><a href="#避坑二：安装python" class="headerlink" title="避坑二：安装python"></a>避坑二：安装python</h2><p>不想后面麻烦的话，安装时记得把 添加进系统路径 选上<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor2.jpg" alt=""><br>其余的选项不用担心，你可以自己选择安装路径，这里我直接选 Install Now了。</p>
 <h2 id="避坑三：试试"><a href="#避坑三：试试" class="headerlink" title="避坑三：试试"></a>避坑三：试试</h2><p>打开cmd，输入python，应该会进入python交互式环境。<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor3.jpg" alt=""><br>如果提示不是内部或外部命令啥的，说明你的系统环境变量配置有问题。可以自己再手动添加进去，这里不提。</p>
 <p>另外说一下，这里默认的python命令对应的版本为python3.5。</p>
