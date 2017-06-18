@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-18T11:43:13.807Z</updated>
+  <updated>2017-06-18T11:45:34.856Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/"/>
     <id>http://yoursite.com/2017/06/18/“春秋杯”web-writeup/</id>
     <published>2017-06-18T10:48:59.000Z</published>
-    <updated>2017-06-18T11:43:13.807Z</updated>
+    <updated>2017-06-18T11:45:34.856Z</updated>
     
     <content type="html"><![CDATA[<p>朋友打比赛，向她（对，女字旁的她）要的web题地址。<br><a id="more"></a></p>
 <h1 id="WEB-01"><a href="#WEB-01" class="headerlink" title="WEB-01"></a>WEB-01</h1><p>访问，有一张图片。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170618/1.jpg?raw=true" alt=""></p>
@@ -51,6 +51,12 @@
     
     </summary>
     
+      <category term="CTF" scheme="http://yoursite.com/categories/CTF/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup，web" scheme="http://yoursite.com/tags/writeup%EF%BC%8Cweb/"/>
     
   </entry>
   
