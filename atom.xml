@@ -204,7 +204,7 @@
     <link href="http://yoursite.com/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/"/>
     <id>http://yoursite.com/2017/06/17/浅谈php反序列化漏洞/</id>
     <published>2017-06-17T04:51:02.000Z</published>
-    <updated>2017-06-17T11:34:32.272Z</updated>
+    <updated>2017-06-20T04:38:02.406Z</updated>
     
     <content type="html"><![CDATA[<p>php反序列化漏洞，又叫php对象注入漏洞。<br><a id="more"></a></p>
 <h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><p>php中有两个函数<a href="http://php.net/manual/zh/function.serialize.php" target="_blank" rel="external">serialize()</a> 和<a href="http://php.net/manual/zh/function.unserialize.php" target="_blank" rel="external">unserialize()</a>。</p>
@@ -393,7 +393,7 @@
     <link href="http://yoursite.com/2017/05/13/%E5%88%A9%E7%94%A8PHP%E7%9A%84OPcache%E6%9C%BA%E5%88%B6getshell/"/>
     <id>http://yoursite.com/2017/05/13/利用PHP的OPcache机制getshell/</id>
     <published>2017-05-13T15:04:03.000Z</published>
-    <updated>2017-05-14T04:59:10.483Z</updated>
+    <updated>2017-06-20T04:38:00.668Z</updated>
     
     <content type="html"><![CDATA[<p>OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。<br>本文是对 <a href="http://blog.gosecure.ca/2016/04/27/binary-webshell-through-opcache-in-php-7/" target="_blank" rel="external">《binary-webshell-through-opcache-in-php-7》</a>一文的测试。<br><a id="more"></a></p>
 <h1 id="关于OPcache"><a href="#关于OPcache" class="headerlink" title="关于OPcache"></a>关于OPcache</h1><p>在我们指定了一个缓存目录（后面提到）后，php会把编译好的php字节码文件放到这个缓存目录中。这里假设该缓存目录是<code>/var/www/html/opcache</code>，未访问前，<code>opcache</code>文件夹为空。接下去我去访问 <code>index.php</code>后，php会在 <code>opcache</code>文件夹中创建一个名为md5哈希值的文件夹，其下的目录结构和 <code>index.php</code>所在目录结构相同，同时生成了 <code>index.php.bin</code>。</p>
