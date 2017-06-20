@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-20T02:10:25.238Z</updated>
+  <updated>2017-06-20T03:29:49.651Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/06/19/ACM-OJ-%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0/"/>
     <id>http://yoursite.com/3017/06/19/ACM-OJ-长期更新/</id>
     <published>3017-06-19T08:40:18.000Z</published>
-    <updated>2017-06-20T02:10:25.238Z</updated>
+    <updated>2017-06-20T03:29:49.651Z</updated>
     
     <content type="html"><![CDATA[<p>最近更新日期：2017-06-20<br>干脆把自己平日做的题放在一篇文章里吧。不然太分散了。<br>POJ: 1979 2387 3069 3617<br>XOJ: 1004 1005 1022 1061 1062 1075 1078 1316<br><a id="more"></a></p>
 <h1 id="POJ"><a href="#POJ" class="headerlink" title="POJ"></a>POJ</h1><h2 id="1979"><a href="#1979" class="headerlink" title="1979"></a>1979</h2><h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p><a href="http://poj.org/problem?id=1979" target="_blank" rel="external">http://poj.org/problem?id=1979</a></p>
@@ -83,7 +83,7 @@
     <link href="http://yoursite.com/2017/06/19/GCTF-web-writeup/"/>
     <id>http://yoursite.com/2017/06/19/GCTF-web-writeup/</id>
     <published>2017-06-19T00:11:03.000Z</published>
-    <updated>2017-06-19T13:55:25.777Z</updated>
+    <updated>2017-06-20T03:29:47.992Z</updated>
     
     <content type="html"><![CDATA[<p>GCTF-web-writeup<br><a id="more"></a></p>
 <h1 id="热身题"><a href="#热身题" class="headerlink" title="热身题"></a>热身题</h1><p>题目地址：<a href="http://218.2.197.232:18001/" target="_blank" rel="external">http://218.2.197.232:18001/</a><br>访问robots.txt。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18001/robots.txt</div></pre></td></tr></table></figure></p>
@@ -157,7 +157,7 @@
     <link href="http://yoursite.com/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/"/>
     <id>http://yoursite.com/2017/06/18/“春秋杯”web-writeup/</id>
     <published>2017-06-18T10:48:59.000Z</published>
-    <updated>2017-06-19T00:11:43.501Z</updated>
+    <updated>2017-06-20T03:29:47.250Z</updated>
     
     <content type="html"><![CDATA[<p>朋友打比赛，向她（对，女字旁的她）要的web题地址。<br><a id="more"></a></p>
 <h1 id="WEB-01"><a href="#WEB-01" class="headerlink" title="WEB-01"></a>WEB-01</h1><p>访问，有一张图片。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170618/1.jpg?raw=true" alt=""></p>
@@ -879,7 +879,7 @@
     <link href="http://yoursite.com/2017/03/15/win%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0/"/>
     <id>http://yoursite.com/2017/03/15/win下tensorflow安装避坑指南-0/</id>
     <published>2017-03-15T05:02:29.000Z</published>
-    <updated>2017-04-16T23:14:54.825Z</updated>
+    <updated>2017-06-20T03:29:48.889Z</updated>
     
     <content type="html"><![CDATA[<p>好多同学来问怎么安装tensorflow，想想还是写一下吧。<br><a id="more"></a></p>
 <h1 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h1><ul>
