@@ -102,7 +102,15 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/7.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/8.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/9.jpg?raw=true">
-<meta property="og:updated_time" content="2017-06-20T03:29:47.992Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/6.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/7.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/8.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/10.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/9.jpg?raw=true">
+<meta property="og:updated_time" content="2017-06-22T08:04:57.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCTF-web-writeup">
 <meta name="twitter:description" content="GCTF-web-writeup">
@@ -461,7 +469,23 @@
 <h1 id="RCE绕过"><a href="#RCE绕过" class="headerlink" title="RCE绕过"></a>RCE绕过</h1><p>题目地址：<a href="http://218.2.197.232:18006/" target="_blank" rel="external">http://218.2.197.232:18006/</a></p>
 <h1 id="Forbidden"><a href="#Forbidden" class="headerlink" title="Forbidden"></a>Forbidden</h1><p>题目地址：<a href="http://218.2.197.232:18002/" target="_blank" rel="external">http://218.2.197.232:18002/</a></p>
 <h1 id="越权注入"><a href="#越权注入" class="headerlink" title="越权注入"></a>越权注入</h1><p>题目地址：<a href="http://218.2.197.232:18014/" target="_blank" rel="external">http://218.2.197.232:18014/</a></p>
-<p>　</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/2.jpg?raw=true" alt=""></p>
+<p>查看源代码，得到提示，同时可以知道uid默认为500 ：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/1.jpg?raw=true" alt=""></p>
+<p>抓包改包，试着添加uid参数。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/5.jpg?raw=true" alt=""></p>
+<p>发现可以成功直接修改uid参数：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/6.jpg?raw=true" alt=""></p>
+<p>接下来考虑role参数，如果直接添加role参数：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/7.jpg?raw=true" alt=""></p>
+<p>会被拦截：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/8.jpg?raw=true" alt=""></p>
+<p>考虑进行注入。经过一番测试，可以知道，如果参数中带有引号，会被拦截，被提示说“未通过mysql_escape_string检查。”</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/10.jpg?raw=true" alt=""></p>
+<p>若在uid后面加上一个括号，会出现sql报错：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/9.jpg?raw=true" alt=""></p>
+<p>猜测为update型注入，因为引号被过滤了，所以对admin进行一次hex编码，payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.....birth=11111111&amp;gender=&amp;uid=0,role=0x61646d696e</div></pre></td></tr></table></figure></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GCTF&#123;9CtyJLHMxkjLUs6qfUM5Cmrb&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -477,7 +501,7 @@
   <p><span>本文标题:</span><a href="/2017/06/19/GCTF-web-writeup/">GCTF-web-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年06月19日 - 08:06</p>
-  <p><span>最后更新:</span>2017年06月20日 - 11:06</p>
+  <p><span>最后更新:</span>2017年06月22日 - 16:06</p>
   <p><span>原始链接:</span><a href="/2017/06/19/GCTF-web-writeup/" title="GCTF-web-writeup">http://yoursite.com/2017/06/19/GCTF-web-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/06/19/GCTF-web-writeup/"  aria-label="复制成功！"></i></span>
   </p>
