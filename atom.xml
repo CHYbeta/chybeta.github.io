@@ -110,7 +110,7 @@
     <link href="http://yoursite.com/2017/06/30/%C2%96ringzer0team-js-writeup/"/>
     <id>http://yoursite.com/2017/06/30/ringzer0team-js-writeup/</id>
     <published>2017-06-30T05:19:46.000Z</published>
-    <updated>2017-06-30T08:13:17.967Z</updated>
+    <updated>2017-06-30T08:17:42.740Z</updated>
     
     <content type="html"><![CDATA[<p>未完待续..待续..<br><a id="more"></a></p>
 <h1 id="Client-side-validation-is-so-secure"><a href="#Client-side-validation-is-so-secure" class="headerlink" title="Client side validation is so secure?"></a>Client side validation is so secure?</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/1.jpg?raw=true" alt=""></p>
@@ -155,7 +155,7 @@
     <link href="http://yoursite.com/2017/06/29/XMAN-pwn-writeup/"/>
     <id>http://yoursite.com/2017/06/29/XMAN-pwn-writeup/</id>
     <published>2017-06-29T03:05:08.000Z</published>
-    <updated>2017-06-29T12:05:05.554Z</updated>
+    <updated>2017-06-30T08:17:49.968Z</updated>
     
     <content type="html"><![CDATA[<p>web狗的二进制之路<br><a id="more"></a></p>
 <h1 id="level-0-x64"><a href="#level-0-x64" class="headerlink" title="level 0 x64"></a>level 0 x64</h1><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>main函数：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170629/9.jpg?raw=true" alt=""></p>
@@ -212,6 +212,8 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
   </entry>
@@ -221,7 +223,7 @@
     <link href="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/"/>
     <id>http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/</id>
     <published>2017-06-28T06:57:33.000Z</published>
-    <updated>2017-06-28T07:33:51.241Z</updated>
+    <updated>2017-06-30T08:17:51.612Z</updated>
     
     <content type="html"><![CDATA[<p>SUCTF-2016-pwn400-writeup<br><a id="more"></a><br>IDA看，程序流程简单，有明显栈溢出漏洞。</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/1.jpg?raw=true" alt=""></p>
@@ -246,6 +248,8 @@
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
@@ -826,7 +830,7 @@
     <link href="http://yoursite.com/2017/04/09/Pwnable-kr-random/"/>
     <id>http://yoursite.com/2017/04/09/Pwnable-kr-random/</id>
     <published>2017-04-09T01:31:08.000Z</published>
-    <updated>2017-04-09T04:47:54.508Z</updated>
+    <updated>2017-06-30T08:17:41.020Z</updated>
     
     <content type="html"><![CDATA[<p>伪随机<br><a id="more"></a></p>
 <h1 id="random"><a href="#random" class="headerlink" title="random"></a>random</h1><p>先file看一下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/1.jpg?raw=true" alt=""></p>
@@ -853,6 +857,8 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
       <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
@@ -864,7 +870,7 @@
     <link href="http://yoursite.com/2017/04/08/Pwnable-kr-passcode/"/>
     <id>http://yoursite.com/2017/04/08/Pwnable-kr-passcode/</id>
     <published>2017-04-08T02:42:32.000Z</published>
-    <updated>2017-04-14T16:12:58.499Z</updated>
+    <updated>2017-06-30T08:17:46.004Z</updated>
     
     <content type="html"><![CDATA[<p>简单GOT覆写<br><a id="more"></a></p>
 <h1 id="passcode"><a href="#passcode" class="headerlink" title="passcode"></a>passcode</h1><h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>先file看一下，32位。</p>
@@ -913,6 +919,8 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
       <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
@@ -924,7 +932,7 @@
     <link href="http://yoursite.com/2017/04/07/Pwnable-kr-bof/"/>
     <id>http://yoursite.com/2017/04/07/Pwnable-kr-bof/</id>
     <published>2017-04-07T12:36:21.000Z</published>
-    <updated>2017-04-07T13:01:02.795Z</updated>
+    <updated>2017-06-30T08:17:48.405Z</updated>
     
     <content type="html"><![CDATA[<p>简单栈溢出。<br><a id="more"></a></p>
 <h1 id="bof"><a href="#bof" class="headerlink" title="bof"></a>bof</h1><p>原题有提供binary和source code。</p>
@@ -948,6 +956,8 @@
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
@@ -1026,7 +1036,7 @@
     <link href="http://yoursite.com/2017/04/03/Sqli-Labs-Less6-writeup/"/>
     <id>http://yoursite.com/2017/04/03/Sqli-Labs-Less6-writeup/</id>
     <published>2017-04-03T02:37:04.000Z</published>
-    <updated>2017-04-03T02:46:29.655Z</updated>
+    <updated>2017-06-30T08:17:53.330Z</updated>
     
     <content type="html"><![CDATA[<p>第六关是盲注<br><a id="more"></a></p>
 <h1 id="Step1"><a href="#Step1" class="headerlink" title="Step1"></a>Step1</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170403/sqlilabsless6/step1.jpg" alt=""></p>
@@ -1063,6 +1073,8 @@
     
     
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
