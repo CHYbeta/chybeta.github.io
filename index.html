@@ -507,6 +507,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -576,6 +598,25 @@
 <h1 id="PHP-Fairy"><a href="#PHP-Fairy" class="headerlink" title="PHP Fairy"></a>PHP Fairy</h1><p>有一个登陆框。题目给了源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$output = <span class="string">""</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'code'</span>])) &#123;</div><div class="line">  $content = file_get_contents(<span class="keyword">__FILE__</span>);</div><div class="line">  $content = preg_replace(<span class="string">'/FLAG\-[0-9a-zA-Z_?!.,]+/i'</span>, <span class="string">'FLAG-XXXXXXXXXXXXXXXXXXXXXXX'</span>, $content);</div><div class="line">  <span class="keyword">echo</span> <span class="string">'&lt;div class="code-highlight"&gt;'</span>;</div><div class="line">  highlight_string($content);</div><div class="line">  <span class="keyword">echo</span> <span class="string">'&lt;/div&gt;'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'pass'</span>])) &#123;</div><div class="line">  <span class="keyword">if</span>(!preg_match(<span class="string">'/^[^\W_]+$/'</span>, $_GET[<span class="string">'pass'</span>])) &#123;</div><div class="line">    $output = <span class="string">"Don't hack me please :("</span>;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line"></div><div class="line">    $pass = md5(<span class="string">"admin1674227342"</span>);</div><div class="line">    <span class="keyword">if</span> ((((((((($_GET[<span class="string">'pass'</span>] == $pass)))) &amp;&amp; (((($pass !== $_GET[<span class="string">'pass'</span>]))))) || ((((($pass == $_GET[<span class="string">'pass'</span>])))) &amp;&amp; ((($_GET[<span class="string">'pass'</span>] !== $pass)))))))) &#123; <span class="comment">// Trolling u lisp masta</span></div><div class="line">      <span class="keyword">if</span> (strlen($pass) == strlen($_GET[<span class="string">'pass'</span>])) &#123;</div><div class="line">        $output = <span class="string">"&lt;div class='alert alert-success'&gt;FLAG-XXXXXXXXXXXXXXXXXXXXXXX&lt;/div&gt;"</span>;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $output = <span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password&lt;/div&gt;"</span>;</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      $output = <span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password&lt;/div&gt;"</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 <p>考察php弱类型。经过md5加密后生成以0e开头的字符串，而以0e开头的字符串用<code>==</code>比较时会被转换成<code>0 == 0</code>即成立。而<code>!==</code> 不仅比较值，而且还会比较类型。所以我们只要传入pass的值为一个0e开头的值，并且长度为32位（$pass长度为32位），比如说：0e509367213418206700842008763514。</p>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-K7PY48gt02T1yvoO9jzP694FztgR1jIS</div></pre></td></tr></table></figure></p>
+<h1 id="Malicious-upload"><a href="#Malicious-upload" class="headerlink" title="Malicious upload"></a>Malicious upload</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/9.jpg?raw=true" alt=""></p>
+<p>上传题，一般关注文件名后缀和content-type。经过fuzz：）知道，对filename，服务器端的检测时从左向右匹配<code>.xxx</code>，若遇到的第一个<code>.xxx</code>不是png则上传失败，另一个就是需要把content-type设置为<code>image/png</code></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/10.jpg?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-ve46i9UFtDh8Xd4hnqKRkP17</div></pre></td></tr></table></figure></p>
+<h1 id="Security-through-obscurity"><a href="#Security-through-obscurity" class="headerlink" title="Security through obscurity!"></a>Security through obscurity!</h1><p>题目说：<code>You don&#39;t have admin access.</code>。一脸懵逼，抓包发现一个奇奇怪怪的cookie：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/11.jpg?raw=true" alt=""></p>
+<p>看着。。就很像base64加密；)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> base64</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>base64.b64decode(<span class="string">'Z3Vlc3QsZTczOGIwOTlhNjY0ZTAwZSwxNDk4OTA4NzM2LGZhbHNlOjIyOWQ3NDU5MmQ5MjNiOThlZjA3NjViNTU5OTkyZDI1'</span>)</div><div class="line"><span class="string">b'guest,e738b099a664e00e,1498908736,false:229d74592d923b98ef0765b559992d25'</span></div></pre></td></tr></table></figure>
+<p>后面那串感觉很像md5，解密无果。想想先尝试改改一些东西,，比如把guest改成admin，false改成true，base64加密后得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">YWRtaW4sZTczOGIwOTlhNjY0ZTAwZSwxNDk4OTA4NzM2LHRydWU6MjI5ZDc0NTkyZDkyM2I5OGVmMDc2NWI1NTk5OTJkMjU=</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/12.jpg?raw=true" alt=""><br>所以基本可以断定后面那串是md5，发包后，提示<br>之后我把原始的包，没有改过cookie的包直接fowward掉后提示说：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Expired cookie.</div></pre></td></tr></table></figure></p>
+<p>说明有时间限制，结合前面做过的题目推断<code>1498908736</code>是unix时间戳，它可以直接转换为<code>2017/7/1 19:32:16</code>。<br>接下来，从整体上看一下这个cookie，它被冒号<code>:</code>分为两段。所以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">md5(&quot;guest,e738b099a664e00e,1498908736,false&quot;)  =&gt;  229d74592d923b98ef0765b559992d25</div></pre></td></tr></table></figure></p>
+<p>不过，第二个值不清楚是如何生成的，也许只是个随机值。所以我们改一改，记得把unix时间戳改大一点不然会提示过期：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">md5(&quot;admin,e738b099a664e00e,1498999999,true&quot;) =&gt; 05fda7a65b3ac89393e7de85bc8db295</div><div class="line">base64(&quot;admin,e738b099a664e00e,1498999999,true:05fda7a65b3ac89393e7de85bc8db295&quot;)</div><div class="line">	=&gt; YWRtaW4sZTczOGIwOTlhNjY0ZTAwZSwxNDk4OTk5OTk5LHRydWU6MDVmZGE3YTY1YjNhYzg5MzkzZTdkZTg1YmM4ZGIyOTU=</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/13.jpg?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-Feg03OSzWhxO03K94108100f</div></pre></td></tr></table></figure></p>
+<h1 id="REST-in-peace"><a href="#REST-in-peace" class="headerlink" title="REST in peace"></a>REST in peace</h1><p>题目提示：Your goal is to get superadmin access<br>题目地址是：<a href="https://ringzer0team.com/challenges_page/web100_c0f8a764ea6592548917aaf18261f42c.php" target="_blank" rel="external">https://ringzer0team.com/challenges_page/web100_c0f8a764ea6592548917aaf18261f42c.php</a><br>直接访问会显示Access Denied。<br>抓包后在响应包头部发现奇怪的东东，见下：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/14.jpg?raw=true" alt=""></p>
+<p>发现是sha512加密，简单咯：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/15.jpg?raw=true" alt=""></p>
+<p>将字符串admin经过sha512加密后，在请求包中添加Strong-Auth字段。发送后得到以下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Document title										security level</div><div class="line">The secret of the universe.docx 						private</div><div class="line">Be Better In Bed By Richard MacDonald.docx 				public</div><div class="line">This file may contain a flag or not.docx 			extremely private</div></pre></td></tr></table></figure></p>
+<p>然后，，然后我还没做出来。待续。</p>
 
           
         
