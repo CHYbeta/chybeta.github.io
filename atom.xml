@@ -110,9 +110,10 @@
     <link href="http://yoursite.com/2017/06/30/%C2%96ringzer0team-web-writeup/"/>
     <id>http://yoursite.com/2017/06/30/ringzer0team-web-writeup/</id>
     <published>2017-06-30T10:10:49.000Z</published>
-    <updated>2017-07-01T14:10:40.229Z</updated>
+    <updated>2017-07-01T14:12:45.461Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Big-Brother-is-watching"><a href="#Big-Brother-is-watching" class="headerlink" title="Big Brother is watching"></a>Big Brother is watching</h1><p>题目地址： <a href="https://ringzer0team.com/challenges/212" target="_blank" rel="external">https://ringzer0team.com/challenges/212</a></p>
+    <content type="html"><![CDATA[<p>ringzer0team-web<br><a id="more"></a></p>
+<h1 id="Big-Brother-is-watching"><a href="#Big-Brother-is-watching" class="headerlink" title="Big Brother is watching"></a>Big Brother is watching</h1><p>题目地址： <a href="https://ringzer0team.com/challenges/212" target="_blank" rel="external">https://ringzer0team.com/challenges/212</a></p>
 <p>题目提示：Even Google cannot find this onegoogle是搜索引擎，能阻止它的自然是。。。robots.txt啦<br>访问<a href="https://ringzer0team.com/robots.txt" target="_blank" rel="external">https://ringzer0team.com/robots.txt</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">User-agent: *</div><div class="line">Disallow: /16bfff59f7e8343a2643bdc2ee76b2dc/</div></pre></td></tr></table></figure></p>
 <p>访问 <a href="https://ringzer0team.com/16bfff59f7e8343a2643bdc2ee76b2dc/" target="_blank" rel="external">https://ringzer0team.com/16bfff59f7e8343a2643bdc2ee76b2dc/</a></p>
 <p>得到flag；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-G5swO95w0c7R5fq0sa85nVs5dK49O04i</div></pre></td></tr></table></figure></p>
@@ -166,7 +167,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Big-Brother-is-watching&quot;&gt;&lt;a href=&quot;#Big-Brother-is-watching&quot; class=&quot;headerlink&quot; title=&quot;Big Brother is watching&quot;&gt;&lt;/a&gt;Big Brother is wa
+      &lt;p&gt;ringzer0team-web&lt;br&gt;
     
     </summary>
     
