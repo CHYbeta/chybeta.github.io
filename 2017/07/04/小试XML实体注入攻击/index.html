@@ -89,25 +89,25 @@
 
 
 
-<meta name="description" content="基础知识XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。
-XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;note&amp;gt;&amp;lt;to&amp;gt;chybeta&amp;lt;/to&amp;gt;&amp;lt;from&amp;gt;ph0en1x&amp;lt;/from&amp;gt">
+<meta name="description" content="XML实体注入攻击">
 <meta property="og:type" content="article">
 <meta property="og:title" content="小试XML实体注入攻击">
 <meta property="og:url" content="http://yoursite.com/2017/07/04/小试XML实体注入攻击/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="基础知识XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。
-XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;note&amp;gt;&amp;lt;to&amp;gt;chybeta&amp;lt;/to&amp;gt;&amp;lt;from&amp;gt;ph0en1x&amp;lt;/from&amp;gt">
+<meta property="og:description" content="XML实体注入攻击">
 <meta property="og:image" content="https://thief.one/upload_image/20170620/1.png">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/3.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/4.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/5.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/6.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-04T09:28:13.557Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/7.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/8.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/9.jpg?raw=true">
+<meta property="og:updated_time" content="2017-07-04T12:23:58.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小试XML实体注入攻击">
-<meta name="twitter:description" content="基础知识XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。
-XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;note&amp;gt;&amp;lt;to&amp;gt;chybeta&amp;lt;/to&amp;gt;&amp;lt;from&amp;gt;ph0en1x&amp;lt;/from&amp;gt">
+<meta name="twitter:description" content="XML实体注入攻击">
 <meta name="twitter:image" content="https://thief.one/upload_image/20170620/1.png">
 
 
@@ -416,7 +416,8 @@ XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&qu
       
 
       
-        <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。</p>
+        <p>XML实体注入攻击<br><a id="more"></a></p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。</p>
 <h2 id="XML基本知识"><a href="#XML基本知识" class="headerlink" title="XML基本知识"></a>XML基本知识</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">to</span>&gt;</span>chybeta<span class="tag">&lt;/<span class="name">to</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">from</span>&gt;</span>ph0en1x<span class="tag">&lt;/<span class="name">from</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>在上面代码中的第一行，定义XML的版本与编码。</p>
 <p>在XML文档中，所有的元素都必须正确的嵌套，形成树形结构。并且整个XML文档中必须要有一个根元素。如上代码，<code>&lt;note&gt;</code>是整个文档的根元素。嵌套在note标签中的<code>&lt;to&gt;</code>和<code>&lt;from&gt;</code>则是根的子元素。</p>
@@ -455,14 +456,16 @@ XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&qu
 <p>注意的是，<code>&amp;#25;</code> 不能直接写成<code>%</code>，否则无法解析。</p>
 <p>xxe.xml中定义和引用了<code>%payload2</code>,在通过<code>%dtd</code>引入xxe.xml后，得以使用符号实体%send来进行发送。其中%file为读取的文件内容。查看access.log:</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/6.jpg?raw=true" alt=""></p>
-<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h2 id="ctf"><a href="#ctf" class="headerlink" title="ctf"></a>ctf</h2><h3 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h3><p>拿jarvisoj平台上的题目来小试牛刀吧。题目：<a href="http://web.jarvisoj.com:9882/" target="_blank" rel="external">api调用</a></p>
-<p>这里写一下题目``</p>
-<h3 id="xxe相关WP"><a href="#xxe相关WP" class="headerlink" title="xxe相关WP"></a>xxe相关WP</h3><ul>
+<h1 id="ctf"><a href="#ctf" class="headerlink" title="ctf"></a>ctf</h1><h2 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h2><p>拿jarvisoj平台上的题目来小试牛刀吧。题目：<a href="http://web.jarvisoj.com:9882/" target="_blank" rel="external">api调用</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/7.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/8.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/9.jpg?raw=true" alt=""></p>
+<h2 id="xxe相关WP"><a href="#xxe相关WP" class="headerlink" title="xxe相关WP"></a>xxe相关WP</h2><ul>
 <li><a href="http://z1ng.net/post/thoughts/alictf-2014-writeup" target="_blank" rel="external">AliCTF-Quals-2014 WebA-300</a></li>
 <li><a href="https://github.com/iAklis/epub-library-challenge" target="_blank" rel="external">HCTF-2016 大图书管的牧羊人&amp;&amp;魔法禁书目录</a></li>
 <li><a href="https://gist.github.com/h3xstream/3d51b99f651548f7fa2b" target="_blank" rel="external">GoSecure-CTF-2015 web-300</a></li>
 </ul>
-<h2 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h2><h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1>
+
       
     </div>
 	<div>
@@ -477,7 +480,7 @@ XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&qu
   <p><span>本文标题:</span><a href="/2017/07/04/小试XML实体注入攻击/">小试XML实体注入攻击</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年07月04日 - 11:07</p>
-  <p><span>最后更新:</span>2017年07月04日 - 17:07</p>
+  <p><span>最后更新:</span>2017年07月04日 - 20:07</p>
   <p><span>原始链接:</span><a href="/2017/07/04/小试XML实体注入攻击/" title="小试XML实体注入攻击">http://yoursite.com/2017/07/04/小试XML实体注入攻击/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/04/小试XML实体注入攻击/"  aria-label="复制成功！"></i></span>
   </p>
@@ -724,7 +727,7 @@ XML基本知识12345&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&qu
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XML基本知识"><span class="nav-number">1.1.</span> <span class="nav-text">XML基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体"><span class="nav-number">1.2.</span> <span class="nav-text">实体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">实体类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档类型定义：DTD"><span class="nav-number">1.3.</span> <span class="nav-text">文档类型定义：DTD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内部引入"><span class="nav-number">1.3.1.</span> <span class="nav-text">内部引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外部引入"><span class="nav-number">1.3.2.</span> <span class="nav-text">外部引入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用方式"><span class="nav-number">2.</span> <span class="nav-text">利用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#xxe注入"><span class="nav-number">2.1.</span> <span class="nav-text">xxe注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取本地文件"><span class="nav-number">2.1.1.</span> <span class="nav-text">读取本地文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令执行"><span class="nav-number">2.1.2.</span> <span class="nav-text">命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内网探测-SSRF"><span class="nav-number">2.1.3.</span> <span class="nav-text">内网探测/SSRF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind-xxe"><span class="nav-number">2.2.</span> <span class="nav-text">bind xxe</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取本地文件-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">读取本地文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#payload1"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">payload1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload2"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">payload2</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例"><span class="nav-number">3.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ctf"><span class="nav-number">3.1.</span> <span class="nav-text">ctf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#小试牛刀"><span class="nav-number">3.1.1.</span> <span class="nav-text">小试牛刀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xxe相关WP"><span class="nav-number">3.1.2.</span> <span class="nav-text">xxe相关WP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漏洞"><span class="nav-number">3.2.</span> <span class="nav-text">漏洞</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">4.</span> <span class="nav-text">reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XML基本知识"><span class="nav-number">1.1.</span> <span class="nav-text">XML基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体"><span class="nav-number">1.2.</span> <span class="nav-text">实体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实体类型"><span class="nav-number">1.2.1.</span> <span class="nav-text">实体类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档类型定义：DTD"><span class="nav-number">1.3.</span> <span class="nav-text">文档类型定义：DTD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内部引入"><span class="nav-number">1.3.1.</span> <span class="nav-text">内部引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外部引入"><span class="nav-number">1.3.2.</span> <span class="nav-text">外部引入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用方式"><span class="nav-number">2.</span> <span class="nav-text">利用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#xxe注入"><span class="nav-number">2.1.</span> <span class="nav-text">xxe注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取本地文件"><span class="nav-number">2.1.1.</span> <span class="nav-text">读取本地文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令执行"><span class="nav-number">2.1.2.</span> <span class="nav-text">命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内网探测-SSRF"><span class="nav-number">2.1.3.</span> <span class="nav-text">内网探测/SSRF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bind-xxe"><span class="nav-number">2.2.</span> <span class="nav-text">bind xxe</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取本地文件-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">读取本地文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#payload1"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">payload1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload2"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">payload2</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ctf"><span class="nav-number">3.</span> <span class="nav-text">ctf</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#小试牛刀"><span class="nav-number">3.1.</span> <span class="nav-text">小试牛刀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xxe相关WP"><span class="nav-number">3.2.</span> <span class="nav-text">xxe相关WP</span></a></li></ol></li></ol></div>
             
 
           </div>
