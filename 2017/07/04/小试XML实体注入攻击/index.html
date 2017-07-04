@@ -104,7 +104,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/7.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/8.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/9.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-04T12:23:58.322Z">
+<meta property="og:updated_time" content="2017-07-04T12:35:52.872Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小试XML实体注入攻击">
 <meta name="twitter:description" content="XML实体注入攻击">
@@ -418,7 +418,7 @@
       
         <p>XML实体注入攻击<br><a id="more"></a></p>
 <h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>XML（Extensible Markup Language）被设计用来传输和存储数据。关于它的语法，本文不准备写太多，只简单介绍一下。</p>
-<h2 id="XML基本知识"><a href="#XML基本知识" class="headerlink" title="XML基本知识"></a>XML基本知识</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">to</span>&gt;</span>chybeta<span class="tag">&lt;/<span class="name">to</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">from</span>&gt;</span>ph0en1x<span class="tag">&lt;/<span class="name">from</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="XML基本知识"><a href="#XML基本知识" class="headerlink" title="XML基本知识"></a>XML基本知识</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">to</span>&gt;</span>chybeta<span class="tag">&lt;/<span class="name">to</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">from</span>&gt;</span>ph0en1x<span class="tag">&lt;/<span class="name">from</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>在上面代码中的第一行，定义XML的版本与编码。</p>
 <p>在XML文档中，所有的元素都必须正确的嵌套，形成树形结构。并且整个XML文档中必须要有一个根元素。如上代码，<code>&lt;note&gt;</code>是整个文档的根元素。嵌套在note标签中的<code>&lt;to&gt;</code>和<code>&lt;from&gt;</code>则是根的子元素。</p>
 <p>同时，所有的XML元素都必须有关闭标签，这点不像html语法那样松散。如果缺失关闭标签，则会导致XML解析失败。</p>
@@ -427,7 +427,7 @@
 <h2 id="文档类型定义：DTD"><a href="#文档类型定义：DTD" class="headerlink" title="文档类型定义：DTD"></a>文档类型定义：DTD</h2><p>wikipedia关于这的描述是:The XML DTD syntax is one of several XML schema languages。简单的说，DTD的作用是定义XML文档的合法构建模块。如前所述，实体也是构建模块之一。因此可以利用DTD来内部或外部引入实体。</p>
 <p>其基本格式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE 根元素名 [  元素描述   ]&gt;</span></div></pre></td></tr></table></figure></p>
 <h3 id="内部引入"><a href="#内部引入" class="headerlink" title="内部引入"></a>内部引入</h3><p>格式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> 实体名称 "实体的值"&gt;</span></div></pre></td></tr></table></figure></p>
-<p>将DTD和XML放在同一份文档中，利用DTD定义的实体即为内部实体。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </div><div class="line"><span class="meta">&lt;!DOCTYPE xxe [  </span></div><div class="line">    &lt;!ENTITY  chybeta  "Hello World!"&gt;    </div><div class="line">]&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">xxe</span>&gt;</span>  </div><div class="line">    &amp;chybeta;</div><div class="line"><span class="tag">&lt;/<span class="name">xxe</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>将DTD和XML放在同一份文档中，利用DTD定义的实体即为内部实体。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span>  </div><div class="line"><span class="meta">&lt;!DOCTYPE xxe [  </span></div><div class="line">    &lt;!ENTITY  chybeta  "Hello World!"&gt;    </div><div class="line">]&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">xxe</span>&gt;</span>  </div><div class="line">    &amp;chybeta;</div><div class="line"><span class="tag">&lt;/<span class="name">xxe</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>访问该XML文档，<code>&amp;chybeta;</code>会被解析为Hello World!并输出。</p>
 <h3 id="外部引入"><a href="#外部引入" class="headerlink" title="外部引入"></a>外部引入</h3><p>基本格式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">!ENTITY</span> 实体名称 <span class="attr">SYSTEM</span> "<span class="attr">URI</span>"&gt;</span></div></pre></td></tr></table></figure></p>
 <p>通过引用定义在外部的DTD中的实体，我们称之为外部实体。<br>由于xxe漏洞主要利用的是外部实体，所以这里暂不展开。具体实例见下。</p>
@@ -456,7 +456,9 @@
 <p>注意的是，<code>&amp;#25;</code> 不能直接写成<code>%</code>，否则无法解析。</p>
 <p>xxe.xml中定义和引用了<code>%payload2</code>,在通过<code>%dtd</code>引入xxe.xml后，得以使用符号实体%send来进行发送。其中%file为读取的文件内容。查看access.log:</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/6.jpg?raw=true" alt=""></p>
-<h1 id="ctf"><a href="#ctf" class="headerlink" title="ctf"></a>ctf</h1><h2 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h2><p>拿jarvisoj平台上的题目来小试牛刀吧。题目：<a href="http://web.jarvisoj.com:9882/" target="_blank" rel="external">api调用</a></p>
+<h1 id="ctf"><a href="#ctf" class="headerlink" title="ctf"></a>ctf</h1><h2 id="小试牛刀"><a href="#小试牛刀" class="headerlink" title="小试牛刀"></a>小试牛刀</h2><p>拿jarvisoj平台上的题目来小试牛刀吧。</p>
+<p>题目：<a href="http://web.jarvisoj.com:9882/" target="_blank" rel="external">api调用</a></p>
+<p>题目描述：请设法获得目标机器/home/ctf/flag.txt中的flag值</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/7.jpg?raw=true" alt=""></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/8.jpg?raw=true" alt=""></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/9.jpg?raw=true" alt=""></p>
