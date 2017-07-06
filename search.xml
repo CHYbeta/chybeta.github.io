@@ -10,6 +10,13 @@
 
     
     <entry>
+      <title><![CDATA[Gitbook之markdown写作]]></title>
+      <url>%2F2017%2F07%2F06%2FGitbook%E4%B9%8Bmarkdown%E5%86%99%E4%BD%9C%2F</url>
+      <content type="text"><![CDATA[最近用gitbook来写一本关于ctf的小书，结果在用markdown写作的时候遇到了不少的问题。 问题假如我现在要在书中加一篇文章《浅谈php反序列化漏洞》，而这篇文章我已经在Atom中写完并发布到blog上了，但如果直接把原md文件的文章内容复制到gitbook-editor中，就会发生不能识别或者乱识别的情况。 如上图，一级标题、代码等等都无法识别，需要手动把空格先删掉再打上。用这样的editor写作着实糟心… 曲线救国所以为了不浪费时间，想了一个办法，分享如下。 先新建好文章，这里以《浅谈php反序列化漏洞》为例。然后切换到FILE视图下，会有个对应的md文件。 接着将原本已经写好的markdown文件import到对应的文件目录下。这里就是在web文件夹右键，接着点击import File： 导入完成后，如果直接点开导入的md文件，看到的是未解析的内容。可以先点选其他文件，然后再点开导入的文件，直至内容被gitbook-editor成功解析，如下： 现在可以把被导入的文章的内容直接复制到我们要新增加的文章的编辑框里啦。复制完了后再把被导入的文章的md文件给删掉。 之后就是保存，同步，愉快的阅读啦。 :)该电子书的地址: Awesome CTF Book]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Tensorflow学习：常用API]]></title>
       <url>%2F2017%2F07%2F06%2FTensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API%2F</url>
       <content type="text"><![CDATA[记录学习Tensorflow的一些东西。本文同步发表于电子书The Path to Machine Learning。将会持续保持更新。 常用Math操作tf.random_normal()作用输出满足正态分布的随机值 说明12345678random_normal( shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None) shape:一维整数张量/python数组，表示输出的张量的形状。 mean：类型为dtype的零维张量/python值。平均值。 stddev：类型为dtype的零维张量/python值。标准差。 dtype：输出数据的类型。 seed：用于作为生成随机数的种子。 name：为操作起个名字（可选） tf.zeros()作用创建一个所有元素都为零的张量。 说明12345zeros( shape, dtype=tf.float32, name=None) shape: 一维整数张量/python数组 name: 为操作起个名字（可选） dtype: 输出数据的类型 tf.global_variables_initializer()作用返回一个初始化全局变量的操作（op）是variable_initializer(global_variables())的缩写。 tf.square作用计算平方 说明1234square( x, name=None) tf.reduce_mean作用计算张量某一维度上的平均值 说明1234567reduce_mean( input_tensor, axis=None, keep_dims=False, name=None, reduction_indices=None) input_tensor:输入一个张量 axis:指定某一个维度。比如test = [[[1.0,2],[3,4]],[[5,6],[6,7]]]，则可选值为0，1，2 keep_dims：输出是否保持原来的维度。 name：给操作起个名字 reduction_indices：axis的旧名字，不赞成用，可忽略。 常用Optimizer类tf.train.GradientDescentOptimizer()123learning_rate: A Tensor or a floating point value. The learning rate to use.use_locking: If True use locks for update operations.name: Optional name prefix for the operations created when applying gradients. Defaults to &quot;GradientDescent&quot;.]]></content>
