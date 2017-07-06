@@ -110,10 +110,10 @@
     <link href="http://yoursite.com/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/"/>
     <id>http://yoursite.com/2017/07/06/Tensorflow学习：常用API/</id>
     <published>2017-07-06T08:18:40.000Z</published>
-    <updated>2017-07-06T09:13:21.797Z</updated>
+    <updated>2017-07-06T09:14:19.004Z</updated>
     
-    <content type="html"><![CDATA[<p>记录学习Tensorflow的一些东西。<br><a id="more"></a></p>
-<p>本文同步发表于电子书<a href="https://chybeta.gitbooks.io/the-path-to-machine-learning/content/" target="_blank" rel="external">The Path to Machine Learning</a></p>
+    <content type="html"><![CDATA[<p>记录学习Tensorflow的一些东西。本文同步发表于电子书<a href="https://chybeta.gitbooks.io/the-path-to-machine-learning/content/" target="_blank" rel="external">The Path to Machine Learning</a>。将会持续保持更新。</p>
+<a id="more"></a>
 <h1 id="常用Math操作"><a href="#常用Math操作" class="headerlink" title="常用Math操作"></a>常用Math操作</h1><h2 id="tf-random-normal"><a href="#tf-random-normal" class="headerlink" title="tf.random_normal()"></a><a href="https://www.tensorflow.org/api_docs/python/tf/random_normal" target="_blank" rel="external">tf.random_normal()</a></h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>输出满足正态分布的随机值</p>
 <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">random_normal(</div><div class="line">    shape,</div><div class="line">    mean=0.0,</div><div class="line">    stddev=1.0,</div><div class="line">    dtype=tf.float32,</div><div class="line">    seed=None,</div><div class="line">    name=None</div><div class="line">)</div></pre></td></tr></table></figure>
 <ul>
@@ -148,7 +148,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;记录学习Tensorflow的一些东西。&lt;br&gt;
+      &lt;p&gt;记录学习Tensorflow的一些东西。本文同步发表于电子书&lt;a href=&quot;https://chybeta.gitbooks.io/the-path-to-machine-learning/content/&quot;&gt;The Path to Machine Learning&lt;/a&gt;。将会持续保持更新。&lt;/p&gt;
     
     </summary>
     
