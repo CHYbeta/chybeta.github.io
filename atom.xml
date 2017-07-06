@@ -498,7 +498,7 @@
     <link href="http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/"/>
     <id>http://yoursite.com/2017/06/28/SUCTF-2016-pwn400-writeup/</id>
     <published>2017-06-28T06:57:33.000Z</published>
-    <updated>2017-07-01T14:17:33.714Z</updated>
+    <updated>2017-07-06T09:25:43.988Z</updated>
     
     <content type="html"><![CDATA[<p>SUCTF-2016-pwn400-writeup<br><a id="more"></a><br>IDA看，程序流程简单，有明显栈溢出漏洞。</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170628/1.jpg?raw=true" alt=""></p>
@@ -519,7 +519,7 @@
     
     </summary>
     
-      <category term="CTF" scheme="http://yoursite.com/categories/CTF/"/>
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
