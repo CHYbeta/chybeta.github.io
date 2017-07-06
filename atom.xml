@@ -110,7 +110,7 @@
     <link href="http://yoursite.com/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/"/>
     <id>http://yoursite.com/2017/07/06/Tensorflow学习：常用API/</id>
     <published>2017-07-06T08:18:40.000Z</published>
-    <updated>2017-07-06T09:14:19.004Z</updated>
+    <updated>2017-07-06T09:23:53.844Z</updated>
     
     <content type="html"><![CDATA[<p>记录学习Tensorflow的一些东西。本文同步发表于电子书<a href="https://chybeta.gitbooks.io/the-path-to-machine-learning/content/" target="_blank" rel="external">The Path to Machine Learning</a>。将会持续保持更新。</p>
 <a id="more"></a>
@@ -158,6 +158,8 @@
       <category term="数据挖掘" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
     
       <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="tensorflow" scheme="http://yoursite.com/tags/tensorflow/"/>
     
   </entry>
   
@@ -428,7 +430,7 @@
     <link href="http://yoursite.com/2017/06/29/XMAN-pwn-writeup/"/>
     <id>http://yoursite.com/2017/06/29/XMAN-pwn-writeup/</id>
     <published>2017-06-29T03:05:08.000Z</published>
-    <updated>2017-07-01T14:17:29.972Z</updated>
+    <updated>2017-07-06T09:20:06.762Z</updated>
     
     <content type="html"><![CDATA[<p>web狗的二进制之路<br><a id="more"></a></p>
 <h1 id="level-0-x64"><a href="#level-0-x64" class="headerlink" title="level 0 x64"></a>level 0 x64</h1><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>main函数：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170629/9.jpg?raw=true" alt=""></p>
@@ -480,7 +482,7 @@
     
     </summary>
     
-      <category term="CTF" scheme="http://yoursite.com/categories/CTF/"/>
+      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -619,7 +621,7 @@
     <link href="http://yoursite.com/2017/06/25/xss-quiz-writeup/"/>
     <id>http://yoursite.com/2017/06/25/xss-quiz-writeup/</id>
     <published>2017-06-25T11:25:11.000Z</published>
-    <updated>2017-06-28T06:56:02.558Z</updated>
+    <updated>2017-07-06T09:24:11.917Z</updated>
     
     <content type="html"><![CDATA[<p>xss-quiz： <a href="http://xss-quiz.int21h.jp/" target="_blank" rel="external">http://xss-quiz.int21h.jp/</a><br><a id="more"></a></p>
 <h1 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
@@ -656,7 +658,7 @@
     <link href="http://yoursite.com/2017/06/19/GCTF-web-writeup/"/>
     <id>http://yoursite.com/2017/06/19/GCTF-web-writeup/</id>
     <published>2017-06-19T00:11:03.000Z</published>
-    <updated>2017-06-24T11:59:36.964Z</updated>
+    <updated>2017-07-06T09:20:31.082Z</updated>
     
     <content type="html"><![CDATA[<p>GCTF-web-writeup<br><a id="more"></a></p>
 <h1 id="热身题"><a href="#热身题" class="headerlink" title="热身题"></a>热身题</h1><p>题目地址：<a href="http://218.2.197.232:18001/" target="_blank" rel="external">http://218.2.197.232:18001/</a><br>访问robots.txt。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.2.197.232:18001/robots.txt</div></pre></td></tr></table></figure></p>
@@ -751,7 +753,7 @@
     
     </summary>
     
-      <category term="CTF" scheme="http://yoursite.com/categories/CTF/"/>
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -767,7 +769,7 @@
     <link href="http://yoursite.com/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/"/>
     <id>http://yoursite.com/2017/06/18/“春秋杯”web-writeup/</id>
     <published>2017-06-18T10:48:59.000Z</published>
-    <updated>2017-06-20T03:29:47.250Z</updated>
+    <updated>2017-07-06T09:22:41.083Z</updated>
     
     <content type="html"><![CDATA[<p>朋友打比赛，向她（对，女字旁的她）要的web题地址。<br><a id="more"></a></p>
 <h1 id="WEB-01"><a href="#WEB-01" class="headerlink" title="WEB-01"></a>WEB-01</h1><p>访问，有一张图片。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170618/1.jpg?raw=true" alt=""></p>
@@ -798,7 +800,7 @@
     
     </summary>
     
-      <category term="CTF" scheme="http://yoursite.com/categories/CTF/"/>
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -1075,7 +1077,7 @@
     <link href="http://yoursite.com/2017/04/09/%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC%E4%B9%8BMATLAB%E5%AE%9E%E7%8E%B0/"/>
     <id>http://yoursite.com/2017/04/09/三次样条插值之MATLAB实现/</id>
     <published>2017-04-09T15:15:05.000Z</published>
-    <updated>2017-04-09T15:23:32.376Z</updated>
+    <updated>2017-07-06T09:21:38.194Z</updated>
     
     <content type="html"><![CDATA[<p>三次样条插值之MATLAB实现<br><a id="more"></a></p>
 <h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">clear all</div><div class="line">x = input(<span class="string">'输入横坐标，格式:[x1 x2 …… xn]\n'</span>)</div><div class="line">y = input(<span class="string">'输入纵坐标，格式:[y1 y2 …… yn]\n'</span>)</div><div class="line">n = <span class="built_in">length</span>(x);</div><div class="line"></div><div class="line">flag = input(<span class="string">'请选择边界条件：①已知两端一阶导数值，②已知两端二阶导数值。选择 1 or 2 :'</span>);</div><div class="line"><span class="keyword">if</span> flag == <span class="number">1</span></div><div class="line">    y1_deri = input(<span class="string">'x1 的 一阶导数值：'</span>);</div><div class="line">    yn_deri = input(<span class="string">'xn 的 一阶导数值：'</span>);</div><div class="line"><span class="keyword">else</span></div><div class="line">    y1_deri = input(<span class="string">'x1 的 二阶导数值：'</span>);</div><div class="line">    yn_deri = input(<span class="string">'xn 的 二阶导数值：'</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : n<span class="number">-1</span></div><div class="line">    h(<span class="built_in">i</span>) = x(<span class="built_in">i</span>+<span class="number">1</span>) -  x(<span class="built_in">i</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line">fprintf(<span class="string">'计算 h 结果为:\n'</span>);</div><div class="line">h</div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">2</span> : n<span class="number">-1</span></div><div class="line">    u(<span class="built_in">i</span><span class="number">-1</span>) = h(<span class="built_in">i</span><span class="number">-1</span>) / (h(<span class="built_in">i</span><span class="number">-1</span>) + h(<span class="built_in">i</span>));</div><div class="line">    lamda(<span class="built_in">i</span>) = h(<span class="built_in">i</span>) / (h(<span class="built_in">i</span><span class="number">-1</span>) + h(<span class="built_in">i</span>));</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> flag == <span class="number">1</span></div><div class="line">    u(n<span class="number">-1</span>) = <span class="number">1</span>;</div><div class="line">    lamda(<span class="number">1</span>) = <span class="number">1</span>;</div><div class="line"><span class="keyword">else</span></div><div class="line">    u(n<span class="number">-1</span>) = <span class="number">0</span>;</div><div class="line">    lamda(<span class="number">1</span>) = <span class="number">0</span>;</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">fprintf(<span class="string">'计算 μ 结果为: \n'</span>);</div><div class="line">u</div><div class="line">fprintf(<span class="string">'计算 λ 结果为：\n'</span>);</div><div class="line">lamda</div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">2</span> : n<span class="number">-1</span></div><div class="line">    d(<span class="built_in">i</span>) = <span class="number">6</span> * ((y(<span class="built_in">i</span>+<span class="number">1</span>)-y(<span class="built_in">i</span>))/(x(<span class="built_in">i</span>+<span class="number">1</span>)-x(<span class="built_in">i</span>)) - (y(<span class="built_in">i</span>) - y(<span class="built_in">i</span><span class="number">-1</span>))/( x(<span class="built_in">i</span>) - x(<span class="built_in">i</span><span class="number">-1</span>)))/(h(<span class="built_in">i</span><span class="number">-1</span>)+h(<span class="built_in">i</span>));</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> flag == <span class="number">1</span></div><div class="line">    d(<span class="number">1</span>) = <span class="number">6</span> / h(<span class="number">1</span>) * (( y(<span class="number">2</span>)-y(<span class="number">1</span>) )/( x(<span class="number">2</span>) - x(<span class="number">1</span>) ) - y1_deri);</div><div class="line">    d(n) = <span class="number">6</span> / h(n<span class="number">-1</span>) * (yn_deri - ((y(n) - y(n<span class="number">-1</span>)) / ( x(n) - x(n<span class="number">-1</span>))));</div><div class="line"><span class="keyword">else</span></div><div class="line">    d(<span class="number">1</span>) = <span class="number">2</span> * y1_deri;</div><div class="line">    d(n) = <span class="number">2</span> * yn_deri;</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">fprintf(<span class="string">'计算 d 的结果：\n'</span>);</div><div class="line">d</div><div class="line"></div><div class="line">matrix1 = <span class="built_in">zeros</span>(n,n);</div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : n<span class="number">-1</span></div><div class="line">    matrix1(<span class="built_in">i</span>,<span class="built_in">i</span>) = <span class="number">2</span>;</div><div class="line">    matrix1(<span class="built_in">i</span>,<span class="built_in">i</span>+<span class="number">1</span>) = lamda(<span class="built_in">i</span>);</div><div class="line">    matrix1(<span class="built_in">i</span>+<span class="number">1</span>,<span class="built_in">i</span>) = u(<span class="built_in">i</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line">matrix1(n,n) = <span class="number">2</span>;</div><div class="line">matrix1;</div><div class="line"></div><div class="line">fprintf(<span class="string">'求得 M 结果:\n'</span>);</div><div class="line">M = matrix1\d'</div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : n<span class="number">-1</span></div><div class="line">    clear S</div><div class="line">    syms t</div><div class="line">    k = x(<span class="built_in">i</span>):<span class="number">0.001</span>:x(<span class="built_in">i</span>+<span class="number">1</span>);</div><div class="line">    fprintf(<span class="string">'区间为[ %.3f : %.3f]\n'</span>,x(<span class="built_in">i</span>),x(<span class="built_in">i</span>+<span class="number">1</span>));</div><div class="line">    S = M(<span class="built_in">i</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>)-t)^<span class="number">3</span>/ (<span class="number">6</span>*h(<span class="built_in">i</span>)) + M(<span class="built_in">i</span>+<span class="number">1</span>)*(t - x(<span class="built_in">i</span>))^<span class="number">3</span>/(<span class="number">6</span>*h(<span class="built_in">i</span>))+(y(<span class="built_in">i</span>) - M(<span class="built_in">i</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>) - t)/h(<span class="built_in">i</span>) + (y(<span class="built_in">i</span>+<span class="number">1</span>) - M(<span class="built_in">i</span>+<span class="number">1</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(t - x(<span class="built_in">i</span>))/h(<span class="built_in">i</span>)</div><div class="line">    s = M(<span class="built_in">i</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>)-k).^<span class="number">3</span>/ (<span class="number">6</span>*h(<span class="built_in">i</span>)) + M(<span class="built_in">i</span>+<span class="number">1</span>)*(k - x(<span class="built_in">i</span>)).^<span class="number">3</span>/(<span class="number">6</span>*h(<span class="built_in">i</span>))+(y(<span class="built_in">i</span>) - M(<span class="built_in">i</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>) - k)/h(<span class="built_in">i</span>) + (y(<span class="built_in">i</span>+<span class="number">1</span>) - M(<span class="built_in">i</span>+<span class="number">1</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(k - x(<span class="built_in">i</span>))/h(<span class="built_in">i</span>);</div><div class="line">    hold on;</div><div class="line">    plot(k,s);</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
@@ -1089,12 +1091,10 @@
     
     </summary>
     
-      <category term="Course" scheme="http://yoursite.com/categories/Course/"/>
+      <category term="数据挖掘" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
     
     
-      <category term="计算方法" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95/"/>
-    
-      <category term="matlab" scheme="http://yoursite.com/tags/matlab/"/>
+      <category term="数据挖掘，matlab" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%EF%BC%8Cmatlab/"/>
     
   </entry>
   
