@@ -10,6 +10,27 @@
 
     
     <entry>
+      <title><![CDATA[Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞]]></title>
+      <url>%2F2017%2F07%2F11%2FCatfish-%E9%B2%B6%E9%B1%BC-CMS-V-4-4-10-%E7%95%99%E8%A8%80%E6%9D%BF%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E%2F</url>
+      <content type="text"><![CDATA[Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/ 审计在...\application\index\controller\Index.php中，定义了评论功能。代码如下；1234567891011//添加评论$data = [ 'post_id' =&gt; Request::instance()-&gt;post('id'), 'url' =&gt; 'index/Index/article/id/'.Request::instance()-&gt;post('id'), 'uid' =&gt; Session::get($this-&gt;session_prefix.'user_id'), 'to_uid' =&gt; $beipinglunren['post_author'], 'createtime' =&gt; date("Y-m-d H:i:s"), 'content' =&gt; $this-&gt;filterJs(Request::instance()-&gt;post('pinglun')), 'status' =&gt; $plzt];Db::name('comments')-&gt;insert($data); 评论内容content在经过函数filterJs过滤后插入到数据库中。 filterJs定义在...\application\index\controller\Common.php中1234protected function filterJs($str)&#123; return preg_replace(['/&lt;script[\s\S]*?&lt;\/script&gt;/i','/&lt;style[\s\S]*?&lt;\/style&gt;/i'],'',$str);&#125; 仅做了简单的过滤，只要构造下列payload就可绕过:1&lt;scr&lt;script&gt;&lt;/script&gt;ipt&gt;alert(document.cookie)&lt;/scr&lt;script&gt;&lt;/script&gt;ipt&gt; filterJs会把&lt;script&gt;**&lt;/script&gt;替换为空，从而使插入到数据库中的数据变为：1&lt;script&gt;alert(document.cookie)&lt;/script&gt;替换为空 验证以普通账户user登陆，并对文章进行评论 因为Catfish CMS在前端进行了一次编码过滤，若是直接在评论区直接插入payload会被编码转换。所i抓包，将pinglun参数改为payload admin登陆后台，触发XSS： 查看源代码：]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[渗透测试(1)信息搜集]]></title>
+      <url>%2F2017%2F07%2F11%2F%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-1-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%2F</url>
+      <content type="text"><![CDATA[域名域名注册人等 whois利用whois，可以查询域名的相关详细信息。包括域名所有人，域名注册日期，联系方式等等。在社会工程学、以及后期的渗透中起到很大的作用。7 http://whois.chinaz.com/ DNS 子域名爆破域传送漏洞工具CDN绕过搜索引擎高级搜索技巧网络组件搜索IPC段IP同服站点特殊信息泄露 github Reference 本屌的web漏洞扫描器思路 技巧总结（域名信息收集篇） 子域名的艺术 【渗透神器系列】搜索引擎 域渗透基础简单信息收集（基础篇） 内网渗透定位技术总结 后渗透攻防的信息收集 安全攻城师系列文章－敏感信息收集 子域名枚举的艺术 论二级域名收集的各种姿势 我眼中的渗透测试信息搜集 大型目标渗透－01入侵信息搜集]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[机器学习算法:感知机(perceptron)]]></title>
+      <url>%2F2017%2F07%2F08%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron%2F</url>
+      <content type="text"><![CDATA[定义学习策略造轮子原始形式1234567891011121314151617181920212223242526import matplotlib.pyplot as pltimport numpy as npf1 = plt.figure(1)data_set = np.array([[3,3,1],[4,3,1],[1,1,-1],[2,4,1],[0,0,-1],[2,0,-1],[6,1,-1]])plt.scatter(data_set[np.where(data_set[:,2] == 1)][:,0],data_set[np.where(data_set[:,2] == 1)][:,1],marker = 'x', color = 'm')plt.scatter(data_set[np.where(data_set[:,2] == -1)][:,0],data_set[np.where(data_set[:,2] == -1)][:,1],marker = 'o', color = 'g')length = len(data_set)rate = 1w = np.array([0,0])b = 0flag = Truex = np.linspace(-1,5,10)while flag == True : flag = False for i in range(length) : if ( data_set[i][2] * (w.dot(data_set[i,0:2]) + b )) &lt;= 0 : w = w + rate * data_set[i][2] * data_set[i,0:2] b = b + rate * data_set[i][2] flag = True print(w,b)plt.plot(x,(-b - w[0] * x) / w[1],'r')plt.show()print(w,b) 输出结果：12345678910111213141516171819[3 3] 1[2 2] 0[2 2] -1[0 2] -2[-6 1] -3[-3 4] -2[1 7] -1[0 6] -2[-6 5] -3[-3 8] -2[-4 7] -3[-5 6] -4[-2 9] -3[-3 8] -4[-4 7] -5[ 0 10] -4[-1 9] -5[-2 8] -6[-3 7] -7 对偶形式]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Tensorflow学习：常用API]]></title>
       <url>%2F2017%2F07%2F06%2FTensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API%2F</url>
       <content type="text"><![CDATA[记录学习Tensorflow的一些东西。本文同步发表于电子书The Path to Machine Learning。将会持续保持更新。 常用Math操作tf.random_normal()作用输出满足正态分布的随机值 说明12345678random_normal( shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None) shape:一维整数张量/python数组，表示输出的张量的形状。 mean：类型为dtype的零维张量/python值。平均值。 stddev：类型为dtype的零维张量/python值。标准差。 dtype：输出数据的类型。 seed：用于作为生成随机数的种子。 name：为操作起个名字（可选） tf.zeros()作用创建一个所有元素都为零的张量。 说明12345zeros( shape, dtype=tf.float32, name=None) shape: 一维整数张量/python数组 name: 为操作起个名字（可选） dtype: 输出数据的类型 tf.global_variables_initializer()作用返回一个初始化全局变量的操作（op）是variable_initializer(global_variables())的缩写。 tf.square作用计算平方 说明1234square( x, name=None) tf.reduce_mean作用计算张量某一维度上的平均值 说明1234567reduce_mean( input_tensor, axis=None, keep_dims=False, name=None, reduction_indices=None) input_tensor:输入一个张量 axis:指定某一个维度。比如test = [[[1.0,2],[3,4]],[[5,6],[6,7]]]，则可选值为0，1，2 keep_dims：输出是否保持原来的维度。 name：给操作起个名字 reduction_indices：axis的旧名字，不赞成用，可忽略。 常用Optimizer类tf.train.GradientDescentOptimizer()123learning_rate: A Tensor or a floating point value. The learning rate to use.use_locking: If True use locks for update operations.name: Optional name prefix for the operations created when applying gradients. Defaults to &quot;GradientDescent&quot;.]]></content>

