@@ -17,13 +17,6 @@
 
     
     <entry>
-      <title><![CDATA[渗透测试(1)信息搜集]]></title>
-      <url>%2F2017%2F07%2F11%2F%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-1-%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86%2F</url>
-      <content type="text"><![CDATA[域名域名注册人等 whois利用whois，可以查询域名的相关详细信息。包括域名所有人，域名注册日期，联系方式等等。在社会工程学、以及后期的渗透中起到很大的作用。7 http://whois.chinaz.com/ DNS 子域名爆破域传送漏洞工具CDN绕过搜索引擎高级搜索技巧网络组件搜索IPC段IP同服站点特殊信息泄露 github Reference 本屌的web漏洞扫描器思路 技巧总结（域名信息收集篇） 子域名的艺术 【渗透神器系列】搜索引擎 域渗透基础简单信息收集（基础篇） 内网渗透定位技术总结 后渗透攻防的信息收集 安全攻城师系列文章－敏感信息收集 子域名枚举的艺术 论二级域名收集的各种姿势 我眼中的渗透测试信息搜集 大型目标渗透－01入侵信息搜集]]></content>
-    </entry>
-
-    
-    <entry>
       <title><![CDATA[机器学习算法:感知机(perceptron)]]></title>
       <url>%2F2017%2F07%2F08%2F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron%2F</url>
       <content type="text"><![CDATA[定义学习策略造轮子原始形式1234567891011121314151617181920212223242526import matplotlib.pyplot as pltimport numpy as npf1 = plt.figure(1)data_set = np.array([[3,3,1],[4,3,1],[1,1,-1],[2,4,1],[0,0,-1],[2,0,-1],[6,1,-1]])plt.scatter(data_set[np.where(data_set[:,2] == 1)][:,0],data_set[np.where(data_set[:,2] == 1)][:,1],marker = 'x', color = 'm')plt.scatter(data_set[np.where(data_set[:,2] == -1)][:,0],data_set[np.where(data_set[:,2] == -1)][:,1],marker = 'o', color = 'g')length = len(data_set)rate = 1w = np.array([0,0])b = 0flag = Truex = np.linspace(-1,5,10)while flag == True : flag = False for i in range(length) : if ( data_set[i][2] * (w.dot(data_set[i,0:2]) + b )) &lt;= 0 : w = w + rate * data_set[i][2] * data_set[i,0:2] b = b + rate * data_set[i][2] flag = True print(w,b)plt.plot(x,(-b - w[0] * x) / w[1],'r')plt.show()print(w,b) 输出结果：12345678910111213141516171819[3 3] 1[2 2] 0[2 2] -1[0 2] -2[-6 1] -3[-3 4] -2[1 7] -1[0 6] -2[-6 5] -3[-3 8] -2[-4 7] -3[-5 6] -4[-2 9] -3[-3 8] -4[-4 7] -5[ 0 10] -4[-1 9] -5[-2 8] -6[-3 7] -7 对偶形式]]></content>
