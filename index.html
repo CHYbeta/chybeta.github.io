@@ -566,23 +566,14 @@
 
       
         
-          
-            <p>Catfish(鲶鱼) CMS V 4.4.10 ：<a href="http://www.catfish-cms.com/" target="_blank" rel="external">http://www.catfish-cms.com/</a></p>
-<h1 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h1><p>在<code>...\application\index\controller\Index.php</code>中，定义了评论功能。代码如下；<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//添加评论</span></div><div class="line">$data = [</div><div class="line">	<span class="string">'post_id'</span> =&gt; Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'url'</span> =&gt; <span class="string">'index/Index/article/id/'</span>.Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'uid'</span> =&gt; Session::get(<span class="keyword">$this</span>-&gt;session_prefix.<span class="string">'user_id'</span>),</div><div class="line">	<span class="string">'to_uid'</span> =&gt; $beipinglunren[<span class="string">'post_author'</span>],</div><div class="line">	<span class="string">'createtime'</span> =&gt; date(<span class="string">"Y-m-d H:i:s"</span>),</div><div class="line">	<span class="string">'content'</span> =&gt; <span class="keyword">$this</span>-&gt;filterJs(Request::instance()-&gt;post(<span class="string">'pinglun'</span>)),</div><div class="line">	<span class="string">'status'</span> =&gt; $plzt</div><div class="line">];</div><div class="line">Db::name(<span class="string">'comments'</span>)-&gt;insert($data);</div></pre></td></tr></table></figure></p>
-<p>评论内容content在经过函数filterJs过滤后插入到数据库中。</p>
-<p>filterJs定义在<code>...\application\index\controller\Common.php</code>中<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">filterJs</span><span class="params">($str)</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">return</span> preg_replace([<span class="string">'/&lt;script[\s\S]*?&lt;\/script&gt;/i'</span>,<span class="string">'/&lt;style[\s\S]*?&lt;\/style&gt;/i'</span>],<span class="string">''</span>,$str);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>仅做了简单的过滤，只要构造下列payload就可绕过:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;scr&lt;script&gt;&lt;/script&gt;ipt&gt;alert(document.cookie)&lt;/scr&lt;script&gt;&lt;/script&gt;ipt&gt;</div></pre></td></tr></table></figure></p>
-<p>filterJs会把<code>&lt;script&gt;**&lt;/script&gt;替换为空</code>，从而使插入到数据库中的数据变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;替换为空</div></pre></td></tr></table></figure></p>
-<h1 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h1><p>以普通账户user登陆，并对文章进行评论</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/2.jpg?raw=true" alt=""></p>
-<p>因为Catfish CMS在前端进行了一次编码过滤，若是直接在评论区直接插入payload会被编码转换。所i抓包，将pinglun参数改为payload</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/3.jpg?raw=true" alt=""></p>
-<p>admin登陆后台，触发XSS：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/4.jpg?raw=true" alt=""></p>
-<p>查看源代码：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/5.jpg?raw=true" alt=""></p>
-
-          
+          <p>Catfish(鲶鱼) CMS V 4.4.10 ：<a href="http://www.catfish-cms.com/">http://www.catfish-cms.com/</a><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/11/Catfish-鲶鱼-CMS-V-4-4-10-留言板存储型XSS漏洞/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

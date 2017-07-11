@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="代码审计,XSS,漏洞分析," />
+  <meta name="keywords" content="代码审计,漏洞分析,XSS," />
 
 
 
@@ -89,23 +89,20 @@
 
 
 
-<meta name="description" content="Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/
-审计在...\application\index\controller\Index.php中，定义了评论功能。代码如下；1234567891011//添加评论$data = [	&apos;post_id&apos; =&amp;gt; Request::instance()-&amp;gt;post(&apos;id&apos;),	&apos;url&apos;">
+<meta name="description" content="Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞">
 <meta property="og:url" content="http://yoursite.com/2017/07/11/Catfish-鲶鱼-CMS-V-4-4-10-留言板存储型XSS漏洞/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/
-审计在...\application\index\controller\Index.php中，定义了评论功能。代码如下；1234567891011//添加评论$data = [	&apos;post_id&apos; =&amp;gt; Request::instance()-&amp;gt;post(&apos;id&apos;),	&apos;url&apos;">
+<meta property="og:description" content="Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/3.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/4.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/5.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-11T11:48:23.133Z">
+<meta property="og:updated_time" content="2017-07-11T11:54:16.098Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞">
-<meta name="twitter:description" content="Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/
-审计在...\application\index\controller\Index.php中，定义了评论功能。代码如下；1234567891011//添加评论$data = [	&apos;post_id&apos; =&amp;gt; Request::instance()-&amp;gt;post(&apos;id&apos;),	&apos;url&apos;">
+<meta name="twitter:description" content="Catfish(鲶鱼) CMS V 4.4.10 ：http://www.catfish-cms.com/">
 <meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170711/2.jpg?raw=true">
 
 
@@ -414,7 +411,7 @@
       
 
       
-        <p>Catfish(鲶鱼) CMS V 4.4.10 ：<a href="http://www.catfish-cms.com/" target="_blank" rel="external">http://www.catfish-cms.com/</a></p>
+        <p>Catfish(鲶鱼) CMS V 4.4.10 ：<a href="http://www.catfish-cms.com/" target="_blank" rel="external">http://www.catfish-cms.com/</a><br><a id="more"></a></p>
 <h1 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h1><p>在<code>...\application\index\controller\Index.php</code>中，定义了评论功能。代码如下；<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//添加评论</span></div><div class="line">$data = [</div><div class="line">	<span class="string">'post_id'</span> =&gt; Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'url'</span> =&gt; <span class="string">'index/Index/article/id/'</span>.Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'uid'</span> =&gt; Session::get(<span class="keyword">$this</span>-&gt;session_prefix.<span class="string">'user_id'</span>),</div><div class="line">	<span class="string">'to_uid'</span> =&gt; $beipinglunren[<span class="string">'post_author'</span>],</div><div class="line">	<span class="string">'createtime'</span> =&gt; date(<span class="string">"Y-m-d H:i:s"</span>),</div><div class="line">	<span class="string">'content'</span> =&gt; <span class="keyword">$this</span>-&gt;filterJs(Request::instance()-&gt;post(<span class="string">'pinglun'</span>)),</div><div class="line">	<span class="string">'status'</span> =&gt; $plzt</div><div class="line">];</div><div class="line">Db::name(<span class="string">'comments'</span>)-&gt;insert($data);</div></pre></td></tr></table></figure></p>
 <p>评论内容content在经过函数filterJs过滤后插入到数据库中。</p>
 <p>filterJs定义在<code>...\application\index\controller\Common.php</code>中<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">filterJs</span><span class="params">($str)</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">return</span> preg_replace([<span class="string">'/&lt;script[\s\S]*?&lt;\/script&gt;/i'</span>,<span class="string">'/&lt;style[\s\S]*?&lt;\/style&gt;/i'</span>],<span class="string">''</span>,$str);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -474,9 +471,9 @@
           
             <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
           
-            <a href="/tags/XSS/" rel="tag"># XSS</a>
-          
             <a href="/tags/漏洞分析/" rel="tag"># 漏洞分析</a>
+          
+            <a href="/tags/XSS/" rel="tag"># XSS</a>
           
         </div>
       
