@@ -110,7 +110,7 @@
     <link href="http://yoursite.com/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/07/14/php代码审计小总结/</id>
     <published>2017-07-14T14:00:50.000Z</published>
-    <updated>2017-07-14T14:24:01.268Z</updated>
+    <updated>2017-07-14T14:26:19.987Z</updated>
     
     <content type="html"><![CDATA[<p>php代码审计小总结<br><a id="more"></a></p>
 <h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><h2 id="php代码执行"><a href="#php代码执行" class="headerlink" title="php代码执行"></a>php代码执行</h2><ul>
@@ -142,7 +142,7 @@
 <li>unlink()</li>
 <li>session_destroy()</li>
 </ul>
-<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h1 id="本地文件包含"><a href="#本地文件包含" class="headerlink" title="本地文件包含"></a>本地文件包含</h1><ul>
+<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h2 id="本地文件包含"><a href="#本地文件包含" class="headerlink" title="本地文件包含"></a>本地文件包含</h2><ul>
 <li>require()</li>
 <li>include()</li>
 <li>include_once()</li>
