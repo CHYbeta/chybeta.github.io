@@ -95,7 +95,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/14/php代码审计小总结/index.html">
 <meta property="og:site_name" content="Chybeta">
 <meta property="og:description" content="php代码审计小总结">
-<meta property="og:updated_time" content="2017-07-14T14:18:07.324Z">
+<meta property="og:updated_time" content="2017-07-14T14:24:01.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="php代码审计小总结">
 <meta name="twitter:description" content="php代码审计小总结">
@@ -428,6 +428,14 @@
 <li>ob_start()</li>
 <li>escapeshellcmd() // 该函数用于过滤</li>
 </ul>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><ul>
+<li>move_uploaded_file()</li>
+<li>getimagesize() //验证文件头只要为GIF89a，就会返回真</li>
+</ul>
+<h1 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h1><ul>
+<li>unlink()</li>
+<li>session_destroy()</li>
+</ul>
 <h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h1 id="本地文件包含"><a href="#本地文件包含" class="headerlink" title="本地文件包含"></a>本地文件包含</h1><ul>
 <li>require()</li>
 <li>include()</li>
@@ -437,7 +445,7 @@
 <h2 id="远程文件包含"><a href="#远程文件包含" class="headerlink" title="远程文件包含"></a>远程文件包含</h2><ul>
 <li>allow_url_include = on</li>
 </ul>
-<h1 id="读取文件函数"><a href="#读取文件函数" class="headerlink" title="读取文件函数"></a>读取文件函数</h1><h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><ul>
+<h1 id="文件读取"><a href="#文件读取" class="headerlink" title="文件读取"></a>文件读取</h1><h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><ul>
 <li>hightlight_file($filename);</li>
 <li>show_source($filename);</li>
 <li>print_r(php_strip_whitespace($filename));</li>
@@ -467,15 +475,6 @@
 <h2 id="超全局变量"><a href="#超全局变量" class="headerlink" title="超全局变量"></a>超全局变量</h2><ul>
 <li><a href="http://php.net/manual/zh/language.variables.superglobals.php" target="_blank" rel="external">$GLOBALS</a></li>
 </ul>
-<h1 id="php序列化函数"><a href="#php序列化函数" class="headerlink" title="php序列化函数"></a>php序列化函数</h1><ul>
-<li>serialize()</li>
-<li>unserialize()</li>
-<li>ini_set(‘session.serialize_handler’, ‘php_serialize’);</li>
-</ul>
-<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><ul>
-<li>move_uploaded_file()</li>
-<li>getimagesize() //验证文件头只要为GIF89a，就会返回真</li>
-</ul>
 <h1 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h1><ul>
 <li>extract()</li>
 <li>import_request_variables()</li>
@@ -483,9 +482,10 @@
 <li>mb_parse_str()</li>
 <li>全局变量覆盖：register_globals为ON，$GLOBALS</li>
 </ul>
-<h1 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h1><ul>
-<li>unlink()</li>
-<li>session_destroy()</li>
+<h1 id="php序列化函数"><a href="#php序列化函数" class="headerlink" title="php序列化函数"></a>php序列化函数</h1><ul>
+<li>serialize()</li>
+<li>unserialize()</li>
+<li>ini_set(‘session.serialize_handler’, ‘php_serialize’);</li>
 </ul>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
 <li><a href="http://blog.neargle.com/SecNewsBak/drops/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93.html" target="_blank" rel="external">代码审计入门总结</a></li>
@@ -754,7 +754,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行"><span class="nav-number">1.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php代码执行"><span class="nav-number">1.1.</span> <span class="nav-text">php代码执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统命令执行"><span class="nav-number">1.2.</span> <span class="nav-text">系统命令执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件包含"><span class="nav-number">2.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地文件包含"><span class="nav-number">3.</span> <span class="nav-text">本地文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#远程文件包含"><span class="nav-number">3.1.</span> <span class="nav-text">远程文件包含</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件函数"><span class="nav-number">4.</span> <span class="nav-text">读取文件函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读文件"><span class="nav-number">4.1.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列目录"><span class="nav-number">4.2.</span> <span class="nav-text">列目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超全局变量"><span class="nav-number">4.3.</span> <span class="nav-text">超全局变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#php序列化函数"><span class="nav-number">5.</span> <span class="nav-text">php序列化函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传"><span class="nav-number">6.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量覆盖"><span class="nav-number">7.</span> <span class="nav-text">变量覆盖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件删除"><span class="nav-number">8.</span> <span class="nav-text">文件删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">9.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行"><span class="nav-number">1.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php代码执行"><span class="nav-number">1.1.</span> <span class="nav-text">php代码执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统命令执行"><span class="nav-number">1.2.</span> <span class="nav-text">系统命令执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传"><span class="nav-number">2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件删除"><span class="nav-number">3.</span> <span class="nav-text">文件删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件包含"><span class="nav-number">4.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地文件包含"><span class="nav-number">5.</span> <span class="nav-text">本地文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#远程文件包含"><span class="nav-number">5.1.</span> <span class="nav-text">远程文件包含</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件读取"><span class="nav-number">6.</span> <span class="nav-text">文件读取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读文件"><span class="nav-number">6.1.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列目录"><span class="nav-number">6.2.</span> <span class="nav-text">列目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超全局变量"><span class="nav-number">6.3.</span> <span class="nav-text">超全局变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量覆盖"><span class="nav-number">7.</span> <span class="nav-text">变量覆盖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#php序列化函数"><span class="nav-number">8.</span> <span class="nav-text">php序列化函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">9.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
