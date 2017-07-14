@@ -106,6 +106,108 @@
   </entry>
   
   <entry>
+    <title>php代码审计小总结</title>
+    <link href="http://yoursite.com/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2017/07/14/php代码审计小总结/</id>
+    <published>2017-07-14T14:00:50.000Z</published>
+    <updated>2017-07-14T14:01:50.602Z</updated>
+    
+    <content type="html"><![CDATA[<p>php代码审计小总结<br><a id="more"></a></p>
+<h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><h2 id="php代码执行"><a href="#php代码执行" class="headerlink" title="php代码执行"></a>php代码执行</h2><ul>
+<li>eval()</li>
+<li>assert()</li>
+<li>preg_replace + ‘/e’</li>
+<li>call_user_func()</li>
+<li>call_user_func_arra()</li>
+<li>create_function</li>
+<li>array_map()</li>
+</ul>
+<h2 id="系统命令执行"><a href="#系统命令执行" class="headerlink" title="系统命令执行"></a>系统命令执行</h2><ul>
+<li>system()</li>
+<li>passthru()</li>
+<li>exec()</li>
+<li>pcntl_exec()</li>
+<li>shell_exec()</li>
+<li>popen()</li>
+<li>proc_open()</li>
+<li>`(反单引号)</li>
+<li>ob_start()</li>
+<li>escapeshellcmd() // 该函数用于过滤</li>
+</ul>
+<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h1 id="本地文件包含"><a href="#本地文件包含" class="headerlink" title="本地文件包含"></a>本地文件包含</h1><ul>
+<li>require()</li>
+<li>include()</li>
+<li>include_once()</li>
+<li>require_once()</li>
+</ul>
+<h2 id="远程文件包含"><a href="#远程文件包含" class="headerlink" title="远程文件包含"></a>远程文件包含</h2><ul>
+<li>allow_url_include = on</li>
+</ul>
+<h1 id="读取文件函数"><a href="#读取文件函数" class="headerlink" title="读取文件函数"></a>读取文件函数</h1><h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><ul>
+<li>hightlight_file($filename);</li>
+<li>show_source($filename);</li>
+<li>print_r(php_strip_whitespace($filename));</li>
+<li>print_r(file_get_contents($filename));</li>
+<li>readfile($filename);</li>
+<li>print_r(file($filename)); // var_dump</li>
+<li>fread(fopen($filename,”r”), $size);</li>
+<li>include($filename); // 非php代码</li>
+<li>include_once($filename); // 非php代码</li>
+<li>require($filename); // 非php代码</li>
+<li>require_once($filename); // 非php代码</li>
+<li>print_r(fread(popen(“cat flag”, “r”), $size));</li>
+<li>print_r(fgets(fopen($filename, “r”))); // 读取一行</li>
+<li>fpassthru(fopen($filename, “r”)); // 从当前位置一直读取到 EOF</li>
+<li>print_r(fgetcsv(fopen($filename,”r”), $size));</li>
+<li>print_r(fgetss(fopen($filename, “r”))); // 从文件指针中读取一行并过滤掉 HTML 标记</li>
+<li>print_r(fscanf(fopen(“flag”, “r”),”%s”));</li>
+<li>print_r(parse_ini_file($filename)); // 失败时返回 false , 成功返回配置数组</li>
+</ul>
+<h2 id="列目录"><a href="#列目录" class="headerlink" title="列目录"></a>列目录</h2><ul>
+<li>print_r(glob(“*”)); // 列当前目录</li>
+<li>print_r(glob(“/*”)); // 列根目录 print_r(scandir(“.”));</li>
+<li>print_r(scandir(“/“));</li>
+<li>$d=opendir(“.”);while(false!==($f=readdir($d))){echo”$f\n”;}</li>
+<li>$d=dir(“.”);while(false!==($f=$d-&gt;read())){echo$f.”\n”;}</li>
+</ul>
+<h2 id="超全局变量"><a href="#超全局变量" class="headerlink" title="超全局变量"></a>超全局变量</h2><ul>
+<li><a href="http://php.net/manual/zh/language.variables.superglobals.php" target="_blank" rel="external">$GLOBALS</a></li>
+</ul>
+<h1 id="php序列化函数"><a href="#php序列化函数" class="headerlink" title="php序列化函数"></a>php序列化函数</h1><ul>
+<li>serialize()</li>
+<li>unserialize()</li>
+<li>ini_set(‘session.serialize_handler’, ‘php_serialize’);</li>
+</ul>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><ul>
+<li>move_uploaded_file()</li>
+<li>getimagesize() //验证文件头只要为GIF89a，就会返回真</li>
+</ul>
+<h1 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h1><ul>
+<li>unlink()</li>
+<li>session_destroy()</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93.html" target="_blank" rel="external">代码审计入门总结</a></li>
+<li><a href="http://www.jianshu.com/p/33bc37ef72cc" target="_blank" rel="external">php花式读取文件函数汇总</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;php代码审计小总结&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Sqli-Labs:Less7-writeup</title>
     <link href="http://yoursite.com/2017/07/12/Sqli-Labs-Less7-writeup/"/>
     <id>http://yoursite.com/2017/07/12/Sqli-Labs-Less7-writeup/</id>
@@ -1254,45 +1356,6 @@
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
       <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一次水水的调试</title>
-    <link href="http://yoursite.com/2017/05/16/%E4%B8%80%E6%AC%A1%E7%AE%80%E5%8D%95%E7%9A%84GDB%E8%B0%83%E8%AF%95/"/>
-    <id>http://yoursite.com/2017/05/16/一次简单的GDB调试/</id>
-    <published>2017-05-16T14:48:05.000Z</published>
-    <updated>2017-05-16T15:44:13.077Z</updated>
-    
-    <content type="html"><![CDATA[<p>Linux 作业…<br><a id="more"></a></p>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -g -O0 array.c main.c -o test</div></pre></td></tr></table></figure>
-<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb test</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170516/1.jpg?raw=true" alt=""></p>
-<p>通过list命令，可以显示出部分源代码，我们选择在源代码的第9行处下断点。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170516/2.jpg?raw=true" alt=""></p>
-<p>通过print命令，可以查看变量的值，因为数组名已知，可以如下打印出数组的内容。可以发现，在还没有初始化或者赋值前，数组内容是随机化（或者说是垃圾数据）。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170516/3.jpg?raw=true" alt=""></p>
-<p>此时程序运行到第9行附近，可以再次通过list命令显示其附近的源代码。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170516/4.jpg?raw=true" alt=""></p>
-<p>这里为了方便，我们在第11，12，15行下下断点，分别对应两个<code>array_fill_with()</code> 函数 和 <code>array_add()</code>函数。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170516/5.jpg?raw=true" alt=""></p>
-<p>接下来单步调试，命令是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ n</div></pre></td></tr></table></figure>
-<p>此时在执行完第11行的<code>array_fill_with()</code>,即已经完成了对数组<code>vector_a</code>的赋值后，我们查看下三个数组的值。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170516/7.jpg?raw=true" alt=""></p>
-<p>数组<code>vector_a</code>全被赋值为<code>10</code>在意料之中（0xa == 10 ），但注意数组<code>vector_b</code>的第一个元素也被赋值为<code>0xa</code>了。在前面可知，数组<code>vector_b</code>的第一个元素原本是<code>0xff00</code>。所以这边可能产生了一个越界。</p>
-<p>下一条语句是对数组<code>vector_b</code>进行赋值，这次我们选择进入函数<code>array_fill_with()</code>，即进行<code>step into</code>，gdb中相应的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ s</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170516/8.jpg?raw=true" alt=""></p>
-<p>由上图，通过<code>list</code>命令，可知我们已经进入到了<code>array.c</code>中的第七行，正在进行一个循环。其中变量<code>length</code>的值为<code>0x10</code>，即为16。</p>
-<p>我们知道，在C语言中，数组下标是从0开始的，这里也就解释了为什么我们再对数组<code>vector_a</code>赋值完后，数组<code>vector_b</code>的第一个元素也被改变了。</p>
-<p>接下来我们继续运行程序，命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ c</div></pre></td></tr></table></figure></p>
-<p>此时，已经完成了对数组<code>vector_b</code>的赋值，我们可以推测数组<code>vector_c</code>的第一个元素也会被从原先的 0x0 改为 0x37。事实证明，推测是正确的，见下图：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170516/9.jpg" alt=""></p>
-<h1 id="Bug"><a href="#Bug" class="headerlink" title="Bug"></a>Bug</h1><p>其实重点就一个，C语言中数组下标从0开始的。<br>把<code>array.c</code>中的<code>i &lt;= length</code> 改为 <code>i &lt; length</code>就ok啦。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Linux 作业…&lt;br&gt;
-    
-    </summary>
-    
     
   </entry>
   

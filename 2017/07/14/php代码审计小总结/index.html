@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="代码审计,php," />
 
 
 
@@ -89,12 +89,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Chybeta">
-<meta property="og:url" content="http://yoursite.com/tags/xss/index.html">
+<meta name="description" content="php代码审计小总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php代码审计小总结">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/php代码审计小总结/index.html">
 <meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="php代码审计小总结">
+<meta property="og:updated_time" content="2017-07-14T14:01:50.602Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chybeta">
+<meta name="twitter:title" content="php代码审计小总结">
+<meta name="twitter:description" content="php代码审计小总结">
 
 
 
@@ -122,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/xss/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/14/php代码审计小总结/"/>
 
 
 
 
 
-  <title> 标签: xss | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> php代码审计小总结 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -159,7 +163,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -284,46 +288,316 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        xss
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/php代码审计小总结/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                php代码审计小总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-14T22:00:50+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/07/14/php代码审计小总结/" class="leancloud_visitors" data-flag-title="php代码审计小总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>php代码审计小总结<br><a id="more"></a></p>
+<h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><h2 id="php代码执行"><a href="#php代码执行" class="headerlink" title="php代码执行"></a>php代码执行</h2><ul>
+<li>eval()</li>
+<li>assert()</li>
+<li>preg_replace + ‘/e’</li>
+<li>call_user_func()</li>
+<li>call_user_func_arra()</li>
+<li>create_function</li>
+<li>array_map()</li>
+</ul>
+<h2 id="系统命令执行"><a href="#系统命令执行" class="headerlink" title="系统命令执行"></a>系统命令执行</h2><ul>
+<li>system()</li>
+<li>passthru()</li>
+<li>exec()</li>
+<li>pcntl_exec()</li>
+<li>shell_exec()</li>
+<li>popen()</li>
+<li>proc_open()</li>
+<li>`(反单引号)</li>
+<li>ob_start()</li>
+<li>escapeshellcmd() // 该函数用于过滤</li>
+</ul>
+<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><h1 id="本地文件包含"><a href="#本地文件包含" class="headerlink" title="本地文件包含"></a>本地文件包含</h1><ul>
+<li>require()</li>
+<li>include()</li>
+<li>include_once()</li>
+<li>require_once()</li>
+</ul>
+<h2 id="远程文件包含"><a href="#远程文件包含" class="headerlink" title="远程文件包含"></a>远程文件包含</h2><ul>
+<li>allow_url_include = on</li>
+</ul>
+<h1 id="读取文件函数"><a href="#读取文件函数" class="headerlink" title="读取文件函数"></a>读取文件函数</h1><h2 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h2><ul>
+<li>hightlight_file($filename);</li>
+<li>show_source($filename);</li>
+<li>print_r(php_strip_whitespace($filename));</li>
+<li>print_r(file_get_contents($filename));</li>
+<li>readfile($filename);</li>
+<li>print_r(file($filename)); // var_dump</li>
+<li>fread(fopen($filename,”r”), $size);</li>
+<li>include($filename); // 非php代码</li>
+<li>include_once($filename); // 非php代码</li>
+<li>require($filename); // 非php代码</li>
+<li>require_once($filename); // 非php代码</li>
+<li>print_r(fread(popen(“cat flag”, “r”), $size));</li>
+<li>print_r(fgets(fopen($filename, “r”))); // 读取一行</li>
+<li>fpassthru(fopen($filename, “r”)); // 从当前位置一直读取到 EOF</li>
+<li>print_r(fgetcsv(fopen($filename,”r”), $size));</li>
+<li>print_r(fgetss(fopen($filename, “r”))); // 从文件指针中读取一行并过滤掉 HTML 标记</li>
+<li>print_r(fscanf(fopen(“flag”, “r”),”%s”));</li>
+<li>print_r(parse_ini_file($filename)); // 失败时返回 false , 成功返回配置数组</li>
+</ul>
+<h2 id="列目录"><a href="#列目录" class="headerlink" title="列目录"></a>列目录</h2><ul>
+<li>print_r(glob(“*”)); // 列当前目录</li>
+<li>print_r(glob(“/*”)); // 列根目录 print_r(scandir(“.”));</li>
+<li>print_r(scandir(“/“));</li>
+<li>$d=opendir(“.”);while(false!==($f=readdir($d))){echo”$f\n”;}</li>
+<li>$d=dir(“.”);while(false!==($f=$d-&gt;read())){echo$f.”\n”;}</li>
+</ul>
+<h2 id="超全局变量"><a href="#超全局变量" class="headerlink" title="超全局变量"></a>超全局变量</h2><ul>
+<li><a href="http://php.net/manual/zh/language.variables.superglobals.php" target="_blank" rel="external">$GLOBALS</a></li>
+</ul>
+<h1 id="php序列化函数"><a href="#php序列化函数" class="headerlink" title="php序列化函数"></a>php序列化函数</h1><ul>
+<li>serialize()</li>
+<li>unserialize()</li>
+<li>ini_set(‘session.serialize_handler’, ‘php_serialize’);</li>
+</ul>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><ul>
+<li>move_uploaded_file()</li>
+<li>getimagesize() //验证文件头只要为GIF89a，就会返回真</li>
+</ul>
+<h1 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h1><ul>
+<li>unlink()</li>
+<li>session_destroy()</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93.html" target="_blank" rel="external">代码审计入门总结</a></li>
+<li><a href="http://www.jianshu.com/p/33bc37ef72cc" target="_blank" rel="external">php花式读取文件函数汇总</a></li>
+</ul>
 
-      <h1 class="post-title">
+      
+    </div>
+	<div>
+      
         
-            <a class="post-title-link" href="/2017/06/25/xss-quiz-writeup/" itemprop="url">
-              
-                <span itemprop="name">xss-quiz-writeup</span>
-              
-            </a>
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/07/14/php代码审计小总结/">php代码审计小总结</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年07月14日 - 22:07</p>
+  <p><span>最后更新:</span>2017年07月14日 - 22:07</p>
+  <p><span>原始链接:</span><a href="/2017/07/14/php代码审计小总结/" title="php代码审计小总结">http://yoursite.com/2017/07/14/php代码审计小总结/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/14/php代码审计小总结/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-25T19:25:11+08:00"
-              content="2017-06-25" >
-          06-25
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/12/Sqli-Labs-Less7-writeup/" rel="next" title="Sqli-Labs:Less7-writeup">
+                <i class="fa fa-chevron-left"></i> Sqli-Labs:Less7-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -331,6 +605,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
 
         </div>
         
@@ -350,8 +630,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -447,6 +736,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行"><span class="nav-number">1.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php代码执行"><span class="nav-number">1.1.</span> <span class="nav-text">php代码执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统命令执行"><span class="nav-number">1.2.</span> <span class="nav-text">系统命令执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件包含"><span class="nav-number">2.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地文件包含"><span class="nav-number">3.</span> <span class="nav-text">本地文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#远程文件包含"><span class="nav-number">3.1.</span> <span class="nav-text">远程文件包含</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件函数"><span class="nav-number">4.</span> <span class="nav-text">读取文件函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读文件"><span class="nav-number">4.1.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列目录"><span class="nav-number">4.2.</span> <span class="nav-text">列目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超全局变量"><span class="nav-number">4.3.</span> <span class="nav-text">超全局变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#php序列化函数"><span class="nav-number">5.</span> <span class="nav-text">php序列化函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传"><span class="nav-number">6.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件删除"><span class="nav-number">7.</span> <span class="nav-text">文件删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">8.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -546,6 +851,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -577,6 +886,10 @@
 
   
 
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
   
 
 
@@ -726,26 +1039,6 @@
 
   
   
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
 
 
   
@@ -877,11 +1170,6 @@
 
 <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
-</body>
-</html>
-cript>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 </body>
