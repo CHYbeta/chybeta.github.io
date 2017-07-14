@@ -95,7 +95,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/14/php代码审计小总结/index.html">
 <meta property="og:site_name" content="Chybeta">
 <meta property="og:description" content="php代码审计小总结">
-<meta property="og:updated_time" content="2017-07-14T14:09:20.284Z">
+<meta property="og:updated_time" content="2017-07-14T14:18:07.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="php代码审计小总结">
 <meta name="twitter:description" content="php代码审计小总结">
@@ -462,7 +462,7 @@
 <li>print_r(glob(“/*”)); // 列根目录 print_r(scandir(“.”));</li>
 <li>print_r(scandir(“/“));</li>
 <li><code>$d=opendir(&quot;.&quot;);while(false!==($f=readdir($d))){echo&quot;$f\n&quot;;}</code></li>
-<li><code>$d=dir(&quot;.&quot;);while(false!==($f=$d-&gt;read())){echo$f.&quot;\n&quot;;}</code> </li>
+<li><code>$d=dir(&quot;.&quot;);while(false!==($f=$d-&gt;read())){echo$f.&quot;\n&quot;;}</code></li>
 </ul>
 <h2 id="超全局变量"><a href="#超全局变量" class="headerlink" title="超全局变量"></a>超全局变量</h2><ul>
 <li><a href="http://php.net/manual/zh/language.variables.superglobals.php" target="_blank" rel="external">$GLOBALS</a></li>
@@ -475,6 +475,13 @@
 <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><ul>
 <li>move_uploaded_file()</li>
 <li>getimagesize() //验证文件头只要为GIF89a，就会返回真</li>
+</ul>
+<h1 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h1><ul>
+<li>extract()</li>
+<li>import_request_variables()</li>
+<li>parse_str()</li>
+<li>mb_parse_str()</li>
+<li>全局变量覆盖：register_globals为ON，$GLOBALS</li>
 </ul>
 <h1 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h1><ul>
 <li>unlink()</li>
@@ -747,7 +754,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行"><span class="nav-number">1.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php代码执行"><span class="nav-number">1.1.</span> <span class="nav-text">php代码执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统命令执行"><span class="nav-number">1.2.</span> <span class="nav-text">系统命令执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件包含"><span class="nav-number">2.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地文件包含"><span class="nav-number">3.</span> <span class="nav-text">本地文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#远程文件包含"><span class="nav-number">3.1.</span> <span class="nav-text">远程文件包含</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件函数"><span class="nav-number">4.</span> <span class="nav-text">读取文件函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读文件"><span class="nav-number">4.1.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列目录"><span class="nav-number">4.2.</span> <span class="nav-text">列目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超全局变量"><span class="nav-number">4.3.</span> <span class="nav-text">超全局变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#php序列化函数"><span class="nav-number">5.</span> <span class="nav-text">php序列化函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传"><span class="nav-number">6.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件删除"><span class="nav-number">7.</span> <span class="nav-text">文件删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">8.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#命令执行"><span class="nav-number">1.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php代码执行"><span class="nav-number">1.1.</span> <span class="nav-text">php代码执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统命令执行"><span class="nav-number">1.2.</span> <span class="nav-text">系统命令执行</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件包含"><span class="nav-number">2.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本地文件包含"><span class="nav-number">3.</span> <span class="nav-text">本地文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#远程文件包含"><span class="nav-number">3.1.</span> <span class="nav-text">远程文件包含</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取文件函数"><span class="nav-number">4.</span> <span class="nav-text">读取文件函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读文件"><span class="nav-number">4.1.</span> <span class="nav-text">读文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列目录"><span class="nav-number">4.2.</span> <span class="nav-text">列目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超全局变量"><span class="nav-number">4.3.</span> <span class="nav-text">超全局变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#php序列化函数"><span class="nav-number">5.</span> <span class="nav-text">php序列化函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件上传"><span class="nav-number">6.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量覆盖"><span class="nav-number">7.</span> <span class="nav-text">变量覆盖</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件删除"><span class="nav-number">8.</span> <span class="nav-text">文件删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">9.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>

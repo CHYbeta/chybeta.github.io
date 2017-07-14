@@ -110,7 +110,7 @@
     <link href="http://yoursite.com/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/07/14/php代码审计小总结/</id>
     <published>2017-07-14T14:00:50.000Z</published>
-    <updated>2017-07-14T14:09:20.284Z</updated>
+    <updated>2017-07-14T14:18:07.324Z</updated>
     
     <content type="html"><![CDATA[<p>php代码审计小总结<br><a id="more"></a></p>
 <h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><h2 id="php代码执行"><a href="#php代码执行" class="headerlink" title="php代码执行"></a>php代码执行</h2><ul>
@@ -168,7 +168,7 @@
 <li>print_r(glob(“/*”)); // 列根目录 print_r(scandir(“.”));</li>
 <li>print_r(scandir(“/“));</li>
 <li><code>$d=opendir(&quot;.&quot;);while(false!==($f=readdir($d))){echo&quot;$f\n&quot;;}</code></li>
-<li><code>$d=dir(&quot;.&quot;);while(false!==($f=$d-&gt;read())){echo$f.&quot;\n&quot;;}</code> </li>
+<li><code>$d=dir(&quot;.&quot;);while(false!==($f=$d-&gt;read())){echo$f.&quot;\n&quot;;}</code></li>
 </ul>
 <h2 id="超全局变量"><a href="#超全局变量" class="headerlink" title="超全局变量"></a>超全局变量</h2><ul>
 <li><a href="http://php.net/manual/zh/language.variables.superglobals.php" target="_blank" rel="external">$GLOBALS</a></li>
@@ -181,6 +181,13 @@
 <h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><ul>
 <li>move_uploaded_file()</li>
 <li>getimagesize() //验证文件头只要为GIF89a，就会返回真</li>
+</ul>
+<h1 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h1><ul>
+<li>extract()</li>
+<li>import_request_variables()</li>
+<li>parse_str()</li>
+<li>mb_parse_str()</li>
+<li>全局变量覆盖：register_globals为ON，$GLOBALS</li>
 </ul>
 <h1 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h1><ul>
 <li>unlink()</li>
