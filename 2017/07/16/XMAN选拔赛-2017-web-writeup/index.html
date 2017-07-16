@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="CTF,writeup,web," />
 
 
 
@@ -89,22 +89,22 @@
 
 
 
-<meta name="description" content="variacover123456789101112131415161718&amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;&amp;lt;?phperror_reporting(0);if (empty($_GET[&apos;b&apos;])) &amp;#123;   show_source(__FILE__);   die();&amp;#125;else&amp;#123;   include(&apos;flag.php&apos;);$a = &quot;">
+<meta name="description" content="XMAN选拔赛-2017-web-writeup 都是基础题目">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMAN选拔赛-2017-web-writeup">
 <meta property="og:url" content="http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="variacover123456789101112131415161718&amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;&amp;lt;?phperror_reporting(0);if (empty($_GET[&apos;b&apos;])) &amp;#123;   show_source(__FILE__);   die();&amp;#125;else&amp;#123;   include(&apos;flag.php&apos;);$a = &quot;">
+<meta property="og:description" content="XMAN选拔赛-2017-web-writeup 都是基础题目">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/3.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/4.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/5.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/6.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-16T07:02:13.998Z">
+<meta property="og:updated_time" content="2017-07-16T07:04:08.257Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMAN选拔赛-2017-web-writeup">
-<meta name="twitter:description" content="variacover123456789101112131415161718&amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;&amp;lt;?phperror_reporting(0);if (empty($_GET[&apos;b&apos;])) &amp;#123;   show_source(__FILE__);   die();&amp;#125;else&amp;#123;   include(&apos;flag.php&apos;);$a = &quot;">
+<meta name="twitter:description" content="XMAN选拔赛-2017-web-writeup 都是基础题目">
 <meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/1.jpg?raw=true">
 
 
@@ -355,6 +355,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -391,7 +413,8 @@
       
 
       
-        <h1 id="variacover"><a href="#variacover" class="headerlink" title="variacover"></a>variacover</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;meta charset=<span class="string">"utf-8"</span>&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>($_GET[<span class="string">'b'</span>])) &#123;</div><div class="line">   show_source(<span class="keyword">__FILE__</span>);</div><div class="line">   <span class="keyword">die</span>();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">   <span class="keyword">include</span>(<span class="string">'flag.php'</span>);</div><div class="line">$a = <span class="string">"www.XMAN.com"</span>;</div><div class="line">$b = $_GET[<span class="string">'b'</span>];</div><div class="line">@parse_str($b);</div><div class="line"><span class="keyword">if</span> ($a[<span class="number">0</span>] != <span class="string">'QNKCDZO'</span> &amp;&amp; md5($a[<span class="number">0</span>]) == md5(<span class="string">'QNKCDZO'</span>)) &#123;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"><span class="keyword">exit</span>(<span class="string">'你的答案不对0.0'</span>);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+        <p>XMAN选拔赛-2017-web-writeup 都是基础题目<br><a id="more"></a></p>
+<h1 id="variacover"><a href="#variacover" class="headerlink" title="variacover"></a>variacover</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;meta charset=<span class="string">"utf-8"</span>&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>($_GET[<span class="string">'b'</span>])) &#123;</div><div class="line">   show_source(<span class="keyword">__FILE__</span>);</div><div class="line">   <span class="keyword">die</span>();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">   <span class="keyword">include</span>(<span class="string">'flag.php'</span>);</div><div class="line">$a = <span class="string">"www.XMAN.com"</span>;</div><div class="line">$b = $_GET[<span class="string">'b'</span>];</div><div class="line">@parse_str($b);</div><div class="line"><span class="keyword">if</span> ($a[<span class="number">0</span>] != <span class="string">'QNKCDZO'</span> &amp;&amp; md5($a[<span class="number">0</span>]) == md5(<span class="string">'QNKCDZO'</span>)) &#123;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"><span class="keyword">exit</span>(<span class="string">'你的答案不对0.0'</span>);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
 <p>parse_str变量覆盖漏洞，和php弱类型比较问题。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7771/?b=a[0]=240610708</div></pre></td></tr></table></figure>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;A_sTr_covcderd_t3st_you_oW?&#125;</div></pre></td></tr></table></figure></p>
@@ -425,6 +448,36 @@
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/07/16/XMAN选拔赛-2017-web-writeup/">XMAN选拔赛-2017-web-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年07月16日 - 11:07</p>
+  <p><span>最后更新:</span>2017年07月16日 - 15:07</p>
+  <p><span>原始链接:</span><a href="/2017/07/16/XMAN选拔赛-2017-web-writeup/" title="XMAN选拔赛-2017-web-writeup">http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
 
       
 	</div>
@@ -460,6 +513,16 @@
 
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
       
 
       
