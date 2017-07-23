@@ -110,9 +110,9 @@
     <link href="http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/"/>
     <id>http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/</id>
     <published>2017-07-23T04:46:21.000Z</published>
-    <updated>2017-07-23T07:24:23.219Z</updated>
+    <updated>2017-07-23T07:48:37.692Z</updated>
     
-    <content type="html"><![CDATA[<p>0ctf-2015-Peers-writeup<br><a id="more"></a><br>题目提供了一个流量包peers.pcapng。用wireshark的追踪tcp流查看。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/1.jpg?raw=true" alt=""></p>
+    <content type="html"><![CDATA[<p>0ctf-2015-Peers-writeup<br><a id="more"></a><br>题目提供了一个流量包peers.pcapng，文件见文末。用wireshark的追踪tcp流查看。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/1.jpg?raw=true" alt=""></p>
 <p>可以看到这是关于BitTorrent协议的包。wireshark中有针对BitTorrent protocol的协议解析器。但该解析器默认是工作在端口6881上，这也是BitTorrent protocol工作的常用端口。而在题目提供的流量包中，这些流量是通过80端口的，所以我们需要对流量包进行“修正”。</p>
 <p>我们可以利用<a href="http://tcpreplay.synfin.net/wiki/tcprewrite" target="_blank" rel="external">tcprewrite</a>这个工具来修改流量包。为把端口80修改为端口6881，使用下述命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcprewrite --portmap=80:6881 --infile=peers.pcapng --outfile=peers_output.pcap</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/2.jpg?raw=true" alt=""></p>
@@ -123,6 +123,7 @@
 <p>接下去，就是根据index的顺序重组文件，用下面的脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">temp = &#123;&#125;</div><div class="line">peer = open(<span class="string">"pieces"</span>,<span class="string">"rb"</span>)</div><div class="line">result = open(<span class="string">"result"</span>,<span class="string">"w+"</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> line <span class="keyword">in</span> peer:</div><div class="line">	index = int(line[<span class="number">0</span>:<span class="number">10</span>],<span class="number">16</span>)</div><div class="line">	data   = line[<span class="number">11</span>:<span class="number">-1</span>].replace(<span class="string">":"</span>,<span class="string">""</span>).decode(<span class="string">"hex"</span>)</div><div class="line">	temp[index] = data</div><div class="line">peer.close()</div><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> sorted(temp):</div><div class="line">	result.write(temp[index])</div><div class="line">result.close()</div></pre></td></tr></table></figure></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop<span class="comment"># python peer.py</span></div><div class="line">root@chybeta:~/Desktop<span class="comment"># file result</span></div><div class="line">result: PC bitmap, Windows 3.x format, 800 x 200 x 32</div></pre></td></tr></table></figure>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/3.jpg?raw=true" alt=""></p>
+<p>peers.pcapng:<br>链接：<a href="http://pan.baidu.com/s/1nuGXACL" target="_blank" rel="external">http://pan.baidu.com/s/1nuGXACL</a> 密码：zwl3</p>
 ]]></content>
     
     <summary type="html">
@@ -136,9 +137,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
       <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
   </entry>
   
@@ -494,9 +495,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
       <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
   </entry>
   
