@@ -98,7 +98,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/2.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/3.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-23T07:48:37.692Z">
+<meta property="og:updated_time" content="2017-07-23T09:54:05.345Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="0ctf-2015-Peers-writeup">
 <meta name="twitter:description" content="0ctf-2015-Peers-writeup">
@@ -410,18 +410,19 @@
       
 
       
-        <p>0ctf-2015-Peers-writeup<br><a id="more"></a><br>题目提供了一个流量包peers.pcapng，文件见文末。用wireshark的追踪tcp流查看。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/1.jpg?raw=true" alt=""></p>
+        <p>0ctf-2015-Peers-writeup<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>题目提供了一个流量包peers.pcapng，<br>peers.pcapng:<br>链接：<a href="http://pan.baidu.com/s/1nuGXACL" target="_blank" rel="external">http://pan.baidu.com/s/1nuGXACL</a> 密码：zwl3</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>用wireshark的追踪tcp流查看。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/1.jpg?raw=true" alt=""></p>
 <p>可以看到这是关于BitTorrent协议的包。wireshark中有针对BitTorrent protocol的协议解析器。但该解析器默认是工作在端口6881上，这也是BitTorrent protocol工作的常用端口。而在题目提供的流量包中，这些流量是通过80端口的，所以我们需要对流量包进行“修正”。</p>
-<p>我们可以利用<a href="http://tcpreplay.synfin.net/wiki/tcprewrite" target="_blank" rel="external">tcprewrite</a>这个工具来修改流量包。为把端口80修改为端口6881，使用下述命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcprewrite --portmap=80:6881 --infile=peers.pcapng --outfile=peers_output.pcap</div></pre></td></tr></table></figure></p>
+<h2 id="改端口"><a href="#改端口" class="headerlink" title="改端口"></a>改端口</h2><p>我们可以利用<a href="http://tcpreplay.synfin.net/wiki/tcprewrite" target="_blank" rel="external">tcprewrite</a>这个工具来修改流量包。为把端口80修改为端口6881，使用下述命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcprewrite --portmap=80:6881 --infile=peers.pcapng --outfile=peers_output.pcap</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/2.jpg?raw=true" alt=""></p>
-<p>接下去就是把这些BitTorrent的内容提取出来，：）可以手动提取。比如在过滤器处先填入<code>bittorrent.piece.index &gt;= 0</code>，之后将三十九个数据包按照index的顺序将<code>bittorrent.piece.data</code>的十六进制复制到hex编辑器中。</p>
+<h2 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h2><p>接下去就是把这些BitTorrent的内容提取出来，：）可以手动提取。比如在过滤器处先填入<code>bittorrent.piece.index &gt;= 0</code>，之后将三十九个数据包按照index的顺序将<code>bittorrent.piece.data</code>的十六进制复制到hex编辑器中。</p>
 <p>也可以利用工具<a href="https://www.wireshark.org/docs/man-pages/tshark.html" target="_blank" rel="external">tshark</a>。使用下面命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tshark -r peers_output.pcap -Y &apos;bittorrent.piece.data&apos; -Tfields -e bittorrent.piece.index -e bittorrent.piece.data &gt; pieces</div></pre></td></tr></table></figure></p>
 <p><code>-r</code>选项表示读入一个文件，<code>-Y</code>是用于选择过滤器，<code>-Tfilelds</code>用来设置输出格式。<code>-e</code>选项表示要列出的内容，因为我们最后要根据index来对data进行排序重组，所以有两个<code>-e</code>。最后我们将文件流保存到文件<code>pieces</code>中。</p>
 <p>文件<code>pieces</code>内容如下，第一列是index，第二个是对应的data：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">0x00000000	42:4d:36:c4:09:00:00.....</div><div class="line">0x00000020	69:ff:ae:84:78:ff:a6.....</div><div class="line">0x00000017	5b:ff:96:66:5a:ff:9a.....</div><div class="line">省略</div></pre></td></tr></table></figure></p>
-<p>接下去，就是根据index的顺序重组文件，用下面的脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">temp = &#123;&#125;</div><div class="line">peer = open(<span class="string">"pieces"</span>,<span class="string">"rb"</span>)</div><div class="line">result = open(<span class="string">"result"</span>,<span class="string">"w+"</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> line <span class="keyword">in</span> peer:</div><div class="line">	index = int(line[<span class="number">0</span>:<span class="number">10</span>],<span class="number">16</span>)</div><div class="line">	data   = line[<span class="number">11</span>:<span class="number">-1</span>].replace(<span class="string">":"</span>,<span class="string">""</span>).decode(<span class="string">"hex"</span>)</div><div class="line">	temp[index] = data</div><div class="line">peer.close()</div><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> sorted(temp):</div><div class="line">	result.write(temp[index])</div><div class="line">result.close()</div></pre></td></tr></table></figure></p>
+<h2 id="重组"><a href="#重组" class="headerlink" title="重组"></a>重组</h2><p>接下去，就是根据index的顺序重组文件，用下面的脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">temp = &#123;&#125;</div><div class="line">peer = open(<span class="string">"pieces"</span>,<span class="string">"rb"</span>)</div><div class="line">result = open(<span class="string">"result"</span>,<span class="string">"w+"</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> line <span class="keyword">in</span> peer:</div><div class="line">	index = int(line[<span class="number">0</span>:<span class="number">10</span>],<span class="number">16</span>)</div><div class="line">	data   = line[<span class="number">11</span>:<span class="number">-1</span>].replace(<span class="string">":"</span>,<span class="string">""</span>).decode(<span class="string">"hex"</span>)</div><div class="line">	temp[index] = data</div><div class="line">peer.close()</div><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> sorted(temp):</div><div class="line">	result.write(temp[index])</div><div class="line">result.close()</div></pre></td></tr></table></figure></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop<span class="comment"># python peer.py</span></div><div class="line">root@chybeta:~/Desktop<span class="comment"># file result</span></div><div class="line">result: PC bitmap, Windows 3.x format, 800 x 200 x 32</div></pre></td></tr></table></figure>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170723/3.jpg?raw=true" alt=""></p>
-<p>peers.pcapng:<br>链接：<a href="http://pan.baidu.com/s/1nuGXACL" target="_blank" rel="external">http://pan.baidu.com/s/1nuGXACL</a> 密码：zwl3</p>
 
       
     </div>
@@ -437,7 +438,7 @@
   <p><span>本文标题:</span><a href="/2017/07/23/0ctf-2015-Peers-writeup/">0ctf-2015-Peers-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年07月23日 - 12:07</p>
-  <p><span>最后更新:</span>2017年07月23日 - 15:07</p>
+  <p><span>最后更新:</span>2017年07月23日 - 17:07</p>
   <p><span>原始链接:</span><a href="/2017/07/23/0ctf-2015-Peers-writeup/" title="0ctf-2015-Peers-writeup">http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -519,8 +520,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
-                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/23/32C3CTF-2015-config-bin-writeup/" rel="prev" title="32C3CTF-2015-config.bin-writeup">
+                32C3CTF-2015-config.bin-writeup <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -570,8 +571,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -584,7 +594,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-count">62</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -667,6 +677,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#改端口"><span class="nav-number">2.1.</span> <span class="nav-text">改端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提取"><span class="nav-number">2.2.</span> <span class="nav-text">提取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重组"><span class="nav-number">2.3.</span> <span class="nav-text">重组</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

@@ -10,9 +10,16 @@
 
     
     <entry>
+      <title><![CDATA[32C3CTF-2015-config.bin-writeup]]></title>
+      <url>%2F2017%2F07%2F23%2F32C3CTF-2015-config-bin-writeup%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[0ctf-2015-Peers-writeup]]></title>
       <url>%2F2017%2F07%2F23%2F0ctf-2015-Peers-writeup%2F</url>
-      <content type="text"><![CDATA[0ctf-2015-Peers-writeup题目提供了一个流量包peers.pcapng，文件见文末。用wireshark的追踪tcp流查看。 可以看到这是关于BitTorrent协议的包。wireshark中有针对BitTorrent protocol的协议解析器。但该解析器默认是工作在端口6881上，这也是BitTorrent protocol工作的常用端口。而在题目提供的流量包中，这些流量是通过80端口的，所以我们需要对流量包进行“修正”。 我们可以利用tcprewrite这个工具来修改流量包。为把端口80修改为端口6881，使用下述命令：1tcprewrite --portmap=80:6881 --infile=peers.pcapng --outfile=peers_output.pcap 接下去就是把这些BitTorrent的内容提取出来，：）可以手动提取。比如在过滤器处先填入bittorrent.piece.index &gt;= 0，之后将三十九个数据包按照index的顺序将bittorrent.piece.data的十六进制复制到hex编辑器中。 也可以利用工具tshark。使用下面命令：1tshark -r peers_output.pcap -Y &apos;bittorrent.piece.data&apos; -Tfields -e bittorrent.piece.index -e bittorrent.piece.data &gt; pieces -r选项表示读入一个文件，-Y是用于选择过滤器，-Tfilelds用来设置输出格式。-e选项表示要列出的内容，因为我们最后要根据index来对data进行排序重组，所以有两个-e。最后我们将文件流保存到文件pieces中。 文件pieces内容如下，第一列是index，第二个是对应的data：12340x00000000 42:4d:36:c4:09:00:00.....0x00000020 69:ff:ae:84:78:ff:a6.....0x00000017 5b:ff:96:66:5a:ff:9a.....省略 接下去，就是根据index的顺序重组文件，用下面的脚本：123456789101112temp = &#123;&#125;peer = open("pieces","rb")result = open("result","w+")for line in peer: index = int(line[0:10],16) data = line[11:-1].replace(":","").decode("hex") temp[index] = datapeer.close()for index in sorted(temp): result.write(temp[index])result.close() 123root@chybeta:~/Desktop# python peer.pyroot@chybeta:~/Desktop# file resultresult: PC bitmap, Windows 3.x format, 800 x 200 x 32 peers.pcapng:链接：http://pan.baidu.com/s/1nuGXACL 密码：zwl3]]></content>
+      <content type="text"><![CDATA[0ctf-2015-Peers-writeup 题目题目提供了一个流量包peers.pcapng，peers.pcapng:链接：http://pan.baidu.com/s/1nuGXACL 密码：zwl3 分析用wireshark的追踪tcp流查看。 可以看到这是关于BitTorrent协议的包。wireshark中有针对BitTorrent protocol的协议解析器。但该解析器默认是工作在端口6881上，这也是BitTorrent protocol工作的常用端口。而在题目提供的流量包中，这些流量是通过80端口的，所以我们需要对流量包进行“修正”。 改端口我们可以利用tcprewrite这个工具来修改流量包。为把端口80修改为端口6881，使用下述命令：1tcprewrite --portmap=80:6881 --infile=peers.pcapng --outfile=peers_output.pcap 提取接下去就是把这些BitTorrent的内容提取出来，：）可以手动提取。比如在过滤器处先填入bittorrent.piece.index &gt;= 0，之后将三十九个数据包按照index的顺序将bittorrent.piece.data的十六进制复制到hex编辑器中。 也可以利用工具tshark。使用下面命令：1tshark -r peers_output.pcap -Y &apos;bittorrent.piece.data&apos; -Tfields -e bittorrent.piece.index -e bittorrent.piece.data &gt; pieces -r选项表示读入一个文件，-Y是用于选择过滤器，-Tfilelds用来设置输出格式。-e选项表示要列出的内容，因为我们最后要根据index来对data进行排序重组，所以有两个-e。最后我们将文件流保存到文件pieces中。 文件pieces内容如下，第一列是index，第二个是对应的data：12340x00000000 42:4d:36:c4:09:00:00.....0x00000020 69:ff:ae:84:78:ff:a6.....0x00000017 5b:ff:96:66:5a:ff:9a.....省略 重组接下去，就是根据index的顺序重组文件，用下面的脚本：123456789101112temp = &#123;&#125;peer = open("pieces","rb")result = open("result","w+")for line in peer: index = int(line[0:10],16) data = line[11:-1].replace(":","").decode("hex") temp[index] = datapeer.close()for index in sorted(temp): result.write(temp[index])result.close() 123root@chybeta:~/Desktop# python peer.pyroot@chybeta:~/Desktop# file resultresult: PC bitmap, Windows 3.x format, 800 x 200 x 32]]></content>
     </entry>
 
     
