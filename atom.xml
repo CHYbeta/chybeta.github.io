@@ -110,9 +110,15 @@
     <link href="http://yoursite.com/2017/07/23/32C3CTF-2015-config-bin-writeup/"/>
     <id>http://yoursite.com/2017/07/23/32C3CTF-2015-config-bin-writeup/</id>
     <published>2017-07-23T09:52:32.000Z</published>
-    <updated>2017-07-23T09:52:32.389Z</updated>
+    <updated>2017-07-23T09:55:37.252Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">We have obtained what we believe is a configuration backup of an embedded device. However, it seems to be encrypted. Maybe you can help us with decryption?</div></pre></td></tr></table></figure>
+<p>config.bin: 链接：<a href="http://pan.baidu.com/s/1jIKbMSm" target="_blank" rel="external">http://pan.baidu.com/s/1jIKbMSm</a> 密码：ze2f</p>
+]]></content>
     
     <summary type="html">
+    
+      &lt;h1 id=&quot;题目&quot;&gt;&lt;a href=&quot;#题目&quot; class=&quot;headerlink&quot; title=&quot;题目&quot;&gt;&lt;/a&gt;题目&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div c
     
     </summary>
     
