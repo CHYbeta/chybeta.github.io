@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-26T11:59:39.835Z</updated>
+  <updated>2017-07-26T12:03:19.691Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-07-26T11:59:39.835Z</updated>
+    <updated>2017-07-26T12:03:19.691Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h1><ul>
@@ -59,6 +59,10 @@
 <li><a href="https://chybeta.github.io/2017/01/29/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%883%EF%BC%89%E7%94%B3%E8%AF%B7anaconda-academic-license%E5%B9%B6%E4%BD%BF%E7%94%A8/" target="_blank" rel="external">数据挖掘比赛（3）申请anaconda-academic-license并使用</a></li>
 <li><a href="https://chybeta.github.io/2017/02/01/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%884%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8A/" target="_blank" rel="external">数据挖掘比赛（4）ten Minutes to pandas中文版上 </a></li>
 <li><a href="https://chybeta.github.io/2017/02/02/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%885%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8B/" target="_blank" rel="external">数据挖掘比赛（5）ten Minutes to pandas中文版下</a></li>
+</ul>
+<h1 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h1><ul>
+<li><a href="https://chybeta.github.io/2017/02/17/%E8%AE%B02017%E5%B9%B4%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%B9%8B%E8%A1%8C/" target="_blank" rel="external"> 记2017年阿里巴巴之行
+</a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
 <li><a href="https://chybeta.github.io/2017/07/24/%E5%AE%9E%E9%AA%8C%E5%90%A7-web-writeup/" target="_blank" rel="external">实验吧-web-writeup</a></li>
