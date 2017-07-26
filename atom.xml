@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-26T12:03:19.691Z</updated>
+  <updated>2017-07-26T12:25:41.067Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-07-26T12:03:19.691Z</updated>
+    <updated>2017-07-26T12:25:41.067Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h1><ul>
@@ -48,7 +48,7 @@
 </ul>
 <h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><ul>
 <li><a href="https://chybeta.github.io/2017/07/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%EF%BC%9A%E6%9C%80%E8%BF%91%E9%82%BB-KNN/" target="_blank" rel="external">机器学习算法：最近邻(KNN)</a></li>
-<li><a href="https://chybeta.github.io/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/" target="_blank" rel="external">机器学习算法:感知机(perceptron) </a></li>
+<li><a href="https://chybeta.github.io/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/" target="_blank" rel="external">机器学习算法：感知机(perceptron) </a></li>
 <li><a href="https://chybeta.github.io/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/" target="_blank" rel="external">Tensorflow学习：常用API</a></li>
 <li><a href="https://chybeta.github.io/2017/03/15/win%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0/" target="_blank" rel="external">win下tensorflow安装避坑指南</a></li>
 </ul>
