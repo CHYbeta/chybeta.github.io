@@ -106,11 +106,61 @@
   </entry>
   
   <entry>
+    <title>php代码执行漏洞</title>
+    <link href="http://yoursite.com/2017/07/26/php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://yoursite.com/2017/07/26/php代码执行漏洞/</id>
+    <published>2017-07-26T07:49:44.000Z</published>
+    <updated>2017-07-26T08:02:02.248Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="常见危险函数"><a href="#常见危险函数" class="headerlink" title="常见危险函数"></a>常见危险函数</h1><h2 id="php代码执行相关"><a href="#php代码执行相关" class="headerlink" title="php代码执行相关"></a>php代码执行相关</h2><h3 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h3><h3 id="assert"><a href="#assert" class="headerlink" title="assert()"></a>assert()</h3><h3 id="preg-replace-‘-e’"><a href="#preg-replace-‘-e’" class="headerlink" title="preg_replace ### ‘/e’"></a>preg_replace ### ‘/e’</h3><h3 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func()"></a>call_user_func()</h3><h3 id="call-user-func-arra"><a href="#call-user-func-arra" class="headerlink" title="call_user_func_arra()"></a>call_user_func_arra()</h3><h3 id="create-function"><a href="#create-function" class="headerlink" title="create_function"></a>create_function</h3><h3 id="array-map"><a href="#array-map" class="headerlink" title="array_map()"></a>array_map()</h3><h2 id="系统命令执行相关"><a href="#系统命令执行相关" class="headerlink" title="系统命令执行相关"></a>系统命令执行相关</h2><h3 id="system"><a href="#system" class="headerlink" title="system()"></a>system()</h3><h3 id="passthru"><a href="#passthru" class="headerlink" title="passthru()"></a>passthru()</h3><h3 id="exec"><a href="#exec" class="headerlink" title="exec()"></a>exec()</h3><h3 id="pcntl-exec"><a href="#pcntl-exec" class="headerlink" title="pcntl_exec()"></a>pcntl_exec()</h3><h3 id="shell-exec"><a href="#shell-exec" class="headerlink" title="shell_exec()"></a>shell_exec()</h3><h3 id="popen"><a href="#popen" class="headerlink" title="popen()"></a>popen()</h3><h3 id="proc-open"><a href="#proc-open" class="headerlink" title="proc_open()"></a>proc_open()</h3><h3 id="反单引号"><a href="#反单引号" class="headerlink" title="`(反单引号)"></a>`(反单引号)</h3><h3 id="ob-start"><a href="#ob-start" class="headerlink" title="ob_start()"></a>ob_start()</h3><h3 id="escapeshellcmd"><a href="#escapeshellcmd" class="headerlink" title="escapeshellcmd()"></a>escapeshellcmd()</h3><p>该函数用于过滤</p>
+<h1 id="php-mail"><a href="#php-mail" class="headerlink" title="php mail()"></a>php mail()</h1><h1 id="动态函数调用"><a href="#动态函数调用" class="headerlink" title="动态函数调用"></a>动态函数调用</h1><h1 id="反序列化问题"><a href="#反序列化问题" class="headerlink" title="反序列化问题"></a>反序列化问题</h1><h1 id="LD-PRELOAD绕过"><a href="#LD-PRELOAD绕过" class="headerlink" title="LD_PRELOAD绕过"></a>LD_PRELOAD绕过</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;常见危险函数&quot;&gt;&lt;a href=&quot;#常见危险函数&quot; class=&quot;headerlink&quot; title=&quot;常见危险函数&quot;&gt;&lt;/a&gt;常见危险函数&lt;/h1&gt;&lt;h2 id=&quot;php代码执行相关&quot;&gt;&lt;a href=&quot;#php代码执行相关&quot; class=&quot;headerlink
+    
+    </summary>
+    
+      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>机器学习算法：最近邻(KNN)</title>
+    <link href="http://yoursite.com/2017/07/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%EF%BC%9A%E6%9C%80%E8%BF%91%E9%82%BB-KNN/"/>
+    <id>http://yoursite.com/2017/07/25/机器学习算法：最近邻-KNN/</id>
+    <published>2017-07-25T13:06:52.000Z</published>
+    <updated>2017-07-25T13:07:19.323Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h1 id="tensorflow"><a href="#tensorflow" class="headerlink" title="tensorflow"></a>tensorflow</h1><h1 id="sklearn"><a href="#sklearn" class="headerlink" title="sklearn"></a>sklearn</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_breast_cancer</div><div class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</div><div class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</div><div class="line"></div><div class="line">cancer = load_breast_cancer()</div><div class="line"></div><div class="line">print(cancer.DESCR)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">convertToDataframe</span><span class="params">()</span>:</span></div><div class="line">feature = cancer[<span class="string">'feature_names'</span>]</div><div class="line">df = pd.DataFrame(cancer.data,index=range(<span class="number">569</span>),columns=feature)</div><div class="line">df[<span class="string">'target'</span>] = cancer.target</div><div class="line"><span class="keyword">return</span> df</div><div class="line"></div><div class="line">print(<span class="string">"Now convert the dataset into dataframe:\n"</span>)</div><div class="line">cancerdf = convertToDataframe()</div><div class="line">print(cancerdf.head())</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">classDistribution</span><span class="params">(cancerdf)</span>:</span></div><div class="line">malignant = len(cancerdf[cancerdf[<span class="string">'target'</span>]==<span class="number">0</span>])</div><div class="line">benign = len(cancerdf[cancerdf[<span class="string">'target'</span>]==<span class="number">1</span>])</div><div class="line">index = [<span class="string">'malignant'</span>, <span class="string">'benign'</span>]</div><div class="line">target = pd.Series([malignant,benign],index=index)</div><div class="line"><span class="keyword">return</span> target</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">splitDataset</span><span class="params">(cancerdf)</span>:</span></div><div class="line">X = cancerdf[cancerdf.columns[:<span class="number">30</span>]]</div><div class="line">y = cancerdf[cancerdf.columns[<span class="number">30</span>]]</div><div class="line">X_train,X_test, y_train, y_test = train_test_split(X,y,random_state = <span class="number">0</span>)</div><div class="line"><span class="keyword">return</span> X_train, X_test, y_train, y_test</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">trainKNN</span><span class="params">(feature_data,class_data,k)</span>:</span></div><div class="line">knn = KNeighborsClassifier(n_neighbors=k)</div><div class="line">knn.fit(feature_data,class_data)</div><div class="line"><span class="keyword">return</span> knn</div><div class="line"></div><div class="line">print(<span class="string">"\nThe class distribution is:\n"</span>)</div><div class="line">print(classDistribution(cancerdf))</div><div class="line"></div><div class="line"></div><div class="line">print(<span class="string">"\nUsing train_test_split, split X and y into training and test sets (X_train, X_test, y_train, and y_test).using random_state=0\n"</span>)</div><div class="line"></div><div class="line">X_train, X_test, y_train, y_test = splitDataset(cancerdf)</div><div class="line"></div><div class="line">print(<span class="string">"X_train: "</span> ,X_train.shape)</div><div class="line">print(<span class="string">"X_test: "</span> ,X_test.shape)</div><div class="line">print(<span class="string">"y_train: "</span> ,y_train.shape)</div><div class="line">print(<span class="string">"y_test: "</span>, y_test.shape)</div><div class="line"></div><div class="line"></div><div class="line">print(<span class="string">"Now, training the Knn model: done!\n"</span>)</div><div class="line">knn = trainKNN(X_train,y_train,<span class="number">1</span>)</div><div class="line"></div><div class="line">print(<span class="string">"Predict the class label using the mean value for each feature.\n"</span>)</div><div class="line">print(<span class="string">"The mean value for each feature.\n"</span>)</div><div class="line">means = cancerdf.mean()</div><div class="line">print(means)</div><div class="line">means = means[:<span class="number">-1</span>].values.reshape(<span class="number">1</span>, <span class="number">-1</span>)</div><div class="line">means_predict = knn.predict(means)</div><div class="line">print(<span class="string">"The predict result : "</span>,means_predict)</div><div class="line"></div><div class="line"></div><div class="line">print(<span class="string">"Predict the class labels for the test set X_test"</span>)</div><div class="line">test_predict = knn.predict(X_test)</div><div class="line">print(<span class="string">"The prediction result ：\n"</span>,test_predict)</div><div class="line">print(<span class="string">"The prediction result accuracy : "</span>,knn.score(X_test,y_test))</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原理&quot;&gt;&lt;a href=&quot;#原理&quot; class=&quot;headerlink&quot; title=&quot;原理&quot;&gt;&lt;/a&gt;原理&lt;/h1&gt;&lt;h1 id=&quot;算法&quot;&gt;&lt;a href=&quot;#算法&quot; class=&quot;headerlink&quot; title=&quot;算法&quot;&gt;&lt;/a&gt;算法&lt;/h1&gt;&lt;h1 id
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="数据挖掘" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
+    
+      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>实验吧-web-writeup</title>
     <link href="http://yoursite.com/2017/07/24/%E5%AE%9E%E9%AA%8C%E5%90%A7-web-writeup/"/>
     <id>http://yoursite.com/2017/07/24/实验吧-web-writeup/</id>
     <published>2017-07-24T13:27:27.000Z</published>
-    <updated>2017-07-24T13:30:29.736Z</updated>
+    <updated>2017-07-25T07:15:34.999Z</updated>
     
     <content type="html"><![CDATA[<p>实验吧-web-writeup（持续更新）<br><a id="more"></a></p>
 <h1 id="登陆一下好吗"><a href="#登陆一下好吗" class="headerlink" title="登陆一下好吗"></a>登陆一下好吗</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username=&apos;=&apos; &amp;password=&apos; = &apos;</div></pre></td></tr></table></figure></p>
@@ -128,6 +178,9 @@
 <p>之所以为offset为2，是因为rollup是在查询结果最后加上一行，而我们通过<code>or 1=1</code>查询出来的不知道有多少行，所以这个<code>2</code>是fuzz出来的。</p>
 <p>最后flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CTF&#123;with_rollup_interesting&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="简单的sql注入"><a href="#简单的sql注入" class="headerlink" title="简单的sql注入"></a>简单的sql注入</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ctf5.shiyanbar.com/423/web/</div></pre></td></tr></table></figure>
+<h1 id="Once-More"><a href="#Once-More" class="headerlink" title="Once More"></a>Once More</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">if (isset ($_GET[&apos;password&apos;])) &#123;</div><div class="line">	if (ereg (&quot;^[a-zA-Z0-9]+$&quot;, $_GET[&apos;password&apos;]) === FALSE)</div><div class="line">	&#123;</div><div class="line">		echo &apos;&lt;p&gt;You password must be alphanumeric&lt;/p&gt;&apos;;</div><div class="line">	&#125;</div><div class="line">	else if (strlen($_GET[&apos;password&apos;]) &lt; 8 &amp;&amp; $_GET[&apos;password&apos;] &gt; 9999999)</div><div class="line">	&#123;</div><div class="line">		if (strpos ($_GET[&apos;password&apos;], &apos;*-*&apos;) !== FALSE)</div><div class="line">		&#123;</div><div class="line">			die(&apos;Flag: &apos; . $flag);</div><div class="line">		&#125;</div><div class="line">		else</div><div class="line">		&#123;</div><div class="line">			echo(&apos;&lt;p&gt;*-* have not been found&lt;/p&gt;&apos;);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	else</div><div class="line">	&#123;</div><div class="line">		echo &apos;&lt;p&gt;Invalid password&lt;/p&gt;&apos;;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">?&gt;</div></pre></td></tr></table></figure>
+<p>第一层判断通过ereg，要求只能出现字母和数字，但ereg有缺陷，可以用%00绕过。第二层判断要求位数少但要大于9999999，可以利用科学计数法。最里层要求出现<code>*-*</code>，用%00后面再加上即可。<br>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://ctf5.shiyanbar.com/web/more.php</div><div class="line">?password=9e9%00*-*</div></pre></td></tr></table></figure></p>
+<p>flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CTF&#123;Ch3ck_anD_Ch3ck&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="Guess-Next-Session"><a href="#Guess-Next-Session" class="headerlink" title="Guess Next Session"></a>Guess Next Session</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ctf5.shiyanbar.com/web/Session.php</div></pre></td></tr></table></figure>
 <p>给了源代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;?php</div><div class="line">session_start();</div><div class="line">if (isset ($_GET[&apos;password&apos;])) &#123;</div><div class="line">    if ($_GET[&apos;password&apos;] == $_SESSION[&apos;password&apos;])</div><div class="line">        die (&apos;Flag: &apos;.$flag);</div><div class="line">    else</div><div class="line">        print &apos;&lt;p&gt;Wrong guess.&lt;/p&gt;&apos;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">mt_srand((microtime() ^ rand(1, 10000)) % rand(1, 10000) + rand(1, 10000));</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
 <p>预测是个幌子。session_start()</p>
@@ -239,9 +292,14 @@
     <link href="http://yoursite.com/2017/07/22/PHPCMS-v9-6-0-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://yoursite.com/2017/07/22/PHPCMS-v9-6-0-任意文件上传漏洞分析/</id>
     <published>2017-07-22T13:02:14.000Z</published>
-    <updated>2017-07-22T13:02:14.299Z</updated>
+    <updated>2017-07-25T06:32:50.375Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>在服务器上准备好要上传的文件，比如shell.txt。其访问地址为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/shell.txt</div></pre></td></tr></table></figure></p>
+]]></content>
     
     <summary type="html">
+    
+      &lt;h1 id=&quot;环境准备&quot;&gt;&lt;a href=&quot;#环境准备&quot; class=&quot;headerlink&quot; title=&quot;环境准备&quot;&gt;&lt;/a&gt;环境准备&lt;/h1&gt;&lt;p&gt;在服务器上准备好要上传的文件，比如shell.txt。其访问地址为：&lt;br&gt;&lt;figure class=&quot;highlight
     
     </summary>
     
@@ -518,7 +576,7 @@
     <link href="http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/"/>
     <id>http://yoursite.com/2017/07/19/CTFZone-2017-Leaked-messages-writeup/</id>
     <published>2017-07-19T08:44:14.000Z</published>
-    <updated>2017-07-19T08:46:03.151Z</updated>
+    <updated>2017-07-25T06:32:46.698Z</updated>
     
     <content type="html"><![CDATA[<p>CTFZone-2017-Leaked messages-writeup<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">One of our candidates used to send restricted data to colleagues via this service</div><div class="line">because it&apos;s free and easy to use.</div><div class="line">Try to get some secrets which can compromise them.</div><div class="line">82.202.204.104</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170718/3.jpg?raw=true" alt=""><br>先注册一个账号，登陆</p>
@@ -568,7 +626,7 @@
     <link href="http://yoursite.com/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/"/>
     <id>http://yoursite.com/2017/07/17/XMAN选拔赛-2017-misc-writeup/</id>
     <published>2017-07-17T13:37:52.000Z</published>
-    <updated>2017-07-24T07:52:54.713Z</updated>
+    <updated>2017-07-24T15:32:10.324Z</updated>
     
     <content type="html"><![CDATA[<p>XMAN选拔赛-2017-misc-writeup<br><a id="more"></a></p>
 <h1 id="Pretty-Cat"><a href="#Pretty-Cat" class="headerlink" title="Pretty_Cat"></a>Pretty_Cat</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">好可爱的喵</div><div class="line">附件下载</div></pre></td></tr></table></figure>
@@ -1093,9 +1151,9 @@
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
+    
+      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -1138,92 +1196,6 @@
     
       <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习算法:感知机(perceptron)</title>
-    <link href="http://yoursite.com/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/"/>
-    <id>http://yoursite.com/2017/07/08/机器学习算法-感知机-perceptron/</id>
-    <published>2017-07-08T13:06:51.000Z</published>
-    <updated>2017-07-11T23:07:27.456Z</updated>
-    
-    <content type="html"><![CDATA[<p>机器学习算法:感知机(perceptron)<br><a id="more"></a></p>
-<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><h1 id="学习策略"><a href="#学习策略" class="headerlink" title="学习策略"></a>学习策略</h1><h1 id="造轮子"><a href="#造轮子" class="headerlink" title="造轮子"></a>造轮子</h1><h2 id="原始形式"><a href="#原始形式" class="headerlink" title="原始形式"></a>原始形式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line"></div><div class="line">f1 = plt.figure(<span class="number">1</span>)</div><div class="line">data_set = np.array([[<span class="number">3</span>,<span class="number">3</span>,<span class="number">1</span>],[<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">-1</span>],[<span class="number">2</span>,<span class="number">4</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>],[<span class="number">2</span>,<span class="number">0</span>,<span class="number">-1</span>],[<span class="number">6</span>,<span class="number">1</span>,<span class="number">-1</span>]])</div><div class="line">plt.scatter(data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">1</span>)][:,<span class="number">0</span>],data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">1</span>)][:,<span class="number">1</span>],marker = <span class="string">'x'</span>, color = <span class="string">'m'</span>)</div><div class="line">plt.scatter(data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">-1</span>)][:,<span class="number">0</span>],data_set[np.where(data_set[:,<span class="number">2</span>] == <span class="number">-1</span>)][:,<span class="number">1</span>],marker = <span class="string">'o'</span>, color = <span class="string">'g'</span>)</div><div class="line">length = len(data_set)</div><div class="line">rate = <span class="number">1</span></div><div class="line">w = np.array([<span class="number">0</span>,<span class="number">0</span>])</div><div class="line">b = <span class="number">0</span></div><div class="line">flag = <span class="keyword">True</span></div><div class="line">x = np.linspace(<span class="number">-1</span>,<span class="number">5</span>,<span class="number">10</span>)</div><div class="line"></div><div class="line"><span class="keyword">while</span> flag == <span class="keyword">True</span> :</div><div class="line">	flag = <span class="keyword">False</span></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(length) :</div><div class="line">		<span class="keyword">if</span> ( data_set[i][<span class="number">2</span>] * (w.dot(data_set[i,<span class="number">0</span>:<span class="number">2</span>]) + b )) &lt;= <span class="number">0</span> :</div><div class="line">			w = w + rate * data_set[i][<span class="number">2</span>] * data_set[i,<span class="number">0</span>:<span class="number">2</span>]</div><div class="line">			b = b + rate * data_set[i][<span class="number">2</span>]</div><div class="line">			flag = <span class="keyword">True</span></div><div class="line">			print(w,b)</div><div class="line"></div><div class="line">plt.plot(x,(-b - w[<span class="number">0</span>] * x) / w[<span class="number">1</span>],<span class="string">'r'</span>)</div><div class="line">plt.show()</div><div class="line">print(w,b)</div></pre></td></tr></table></figure>
-<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[3 3] 1</div><div class="line">[2 2] 0</div><div class="line">[2 2] -1</div><div class="line">[0 2] -2</div><div class="line">[-6  1] -3</div><div class="line">[-3  4] -2</div><div class="line">[1 7] -1</div><div class="line">[0 6] -2</div><div class="line">[-6  5] -3</div><div class="line">[-3  8] -2</div><div class="line">[-4  7] -3</div><div class="line">[-5  6] -4</div><div class="line">[-2  9] -3</div><div class="line">[-3  8] -4</div><div class="line">[-4  7] -5</div><div class="line">[ 0 10] -4</div><div class="line">[-1  9] -5</div><div class="line">[-2  8] -6</div><div class="line">[-3  7] -7</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170708/1.jpg?raw=true" alt=""></p>
-<h2 id="对偶形式"><a href="#对偶形式" class="headerlink" title="对偶形式"></a>对偶形式</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;机器学习算法:感知机(perceptron)&lt;br&gt;
-    
-    </summary>
-    
-      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="数据挖掘" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
-    
-      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Tensorflow学习：常用API</title>
-    <link href="http://yoursite.com/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/"/>
-    <id>http://yoursite.com/2017/07/06/Tensorflow学习：常用API/</id>
-    <published>2017-07-06T08:18:40.000Z</published>
-    <updated>2017-07-06T09:23:53.844Z</updated>
-    
-    <content type="html"><![CDATA[<p>记录学习Tensorflow的一些东西。本文同步发表于电子书<a href="https://chybeta.gitbooks.io/the-path-to-machine-learning/content/" target="_blank" rel="external">The Path to Machine Learning</a>。将会持续保持更新。</p>
-<a id="more"></a>
-<h1 id="常用Math操作"><a href="#常用Math操作" class="headerlink" title="常用Math操作"></a>常用Math操作</h1><h2 id="tf-random-normal"><a href="#tf-random-normal" class="headerlink" title="tf.random_normal()"></a><a href="https://www.tensorflow.org/api_docs/python/tf/random_normal" target="_blank" rel="external">tf.random_normal()</a></h2><h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>输出满足正态分布的随机值</p>
-<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">random_normal(</div><div class="line">    shape,</div><div class="line">    mean=0.0,</div><div class="line">    stddev=1.0,</div><div class="line">    dtype=tf.float32,</div><div class="line">    seed=None,</div><div class="line">    name=None</div><div class="line">)</div></pre></td></tr></table></figure>
-<ul>
-<li>shape:一维整数张量/python数组，表示输出的张量的形状。</li>
-<li>mean：类型为dtype的零维张量/python值。平均值。</li>
-<li>stddev：类型为dtype的零维张量/python值。标准差。</li>
-<li>dtype：输出数据的类型。</li>
-<li>seed：用于作为生成随机数的种子。</li>
-<li>name：为操作起个名字（可选）</li>
-</ul>
-<h2 id="tf-zeros"><a href="#tf-zeros" class="headerlink" title="tf.zeros()"></a><a href="https://www.tensorflow.org/api_docs/python/tf/zeros" target="_blank" rel="external">tf.zeros()</a></h2><h3 id="作用-1"><a href="#作用-1" class="headerlink" title="作用"></a>作用</h3><p>创建一个所有元素都为零的张量。</p>
-<h3 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">zeros(</div><div class="line">    shape,</div><div class="line">    dtype=tf.float32,</div><div class="line">    name=None</div><div class="line">)</div></pre></td></tr></table></figure>
-<ul>
-<li>shape: 一维整数张量/python数组</li>
-<li>name: 为操作起个名字（可选）</li>
-<li>dtype: 输出数据的类型</li>
-</ul>
-<h2 id="tf-global-variables-initializer"><a href="#tf-global-variables-initializer" class="headerlink" title="tf.global_variables_initializer()"></a><a href="https://www.tensorflow.org/api_docs/python/tf/global_variables_initializer" target="_blank" rel="external">tf.global_variables_initializer()</a></h2><h3 id="作用-2"><a href="#作用-2" class="headerlink" title="作用"></a>作用</h3><p>返回一个初始化全局变量的操作（op）<br>是variable_initializer(global_variables())的缩写。</p>
-<h2 id="tf-square"><a href="#tf-square" class="headerlink" title="tf.square"></a><a href="https://www.tensorflow.org/api_docs/python/tf/square" target="_blank" rel="external">tf.square</a></h2><h3 id="作用-3"><a href="#作用-3" class="headerlink" title="作用"></a>作用</h3><p>计算平方</p>
-<h3 id="说明-2"><a href="#说明-2" class="headerlink" title="说明"></a>说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">square(</div><div class="line">    x,</div><div class="line">    name=None</div><div class="line">)</div></pre></td></tr></table></figure>
-<h2 id="tf-reduce-mean"><a href="#tf-reduce-mean" class="headerlink" title="tf.reduce_mean"></a><a href="https://www.tensorflow.org/api_docs/python/tf/reduce_mean" target="_blank" rel="external">tf.reduce_mean</a></h2><h3 id="作用-4"><a href="#作用-4" class="headerlink" title="作用"></a>作用</h3><p>计算张量某一维度上的平均值</p>
-<h3 id="说明-3"><a href="#说明-3" class="headerlink" title="说明"></a>说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">reduce_mean(</div><div class="line">    input_tensor,</div><div class="line">    axis=None,</div><div class="line">    keep_dims=False,</div><div class="line">    name=None,</div><div class="line">    reduction_indices=None</div><div class="line">)</div></pre></td></tr></table></figure>
-<ul>
-<li>input_tensor:输入一个张量</li>
-<li>axis:指定某一个维度。比如test = [[[1.0,2],[3,4]],[[5,6],[6,7]]]，则可选值为0，1，2</li>
-<li>keep_dims：输出是否保持原来的维度。</li>
-<li>name：给操作起个名字</li>
-<li>reduction_indices：axis的旧名字，不赞成用，可忽略。</li>
-</ul>
-<h1 id="常用Optimizer类"><a href="#常用Optimizer类" class="headerlink" title="常用Optimizer类"></a>常用Optimizer类</h1><h2 id="tf-train-GradientDescentOptimizer"><a href="#tf-train-GradientDescentOptimizer" class="headerlink" title="tf.train.GradientDescentOptimizer()"></a><a href="https://www.tensorflow.org/api_docs/python/tf/train/GradientDescentOptimizer" target="_blank" rel="external">tf.train.GradientDescentOptimizer()</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">learning_rate: A Tensor or a floating point value. The learning rate to use.</div><div class="line">use_locking: If True use locks for update operations.</div><div class="line">name: Optional name prefix for the operations created when applying gradients. Defaults to &quot;GradientDescent&quot;.</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;记录学习Tensorflow的一些东西。本文同步发表于电子书&lt;a href=&quot;https://chybeta.gitbooks.io/the-path-to-machine-learning/content/&quot;&gt;The Path to Machine Learning&lt;/a&gt;。将会持续保持更新。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="数据挖掘" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
-    
-      <category term="机器学习" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="tensorflow" scheme="http://yoursite.com/tags/tensorflow/"/>
     
   </entry>
   
