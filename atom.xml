@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-26T12:25:41.067Z</updated>
+  <updated>2017-07-28T07:13:37.268Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-07-26T12:25:41.067Z</updated>
+    <updated>2017-07-28T07:13:37.268Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h1><ul>
@@ -59,6 +59,10 @@
 <li><a href="https://chybeta.github.io/2017/01/29/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%883%EF%BC%89%E7%94%B3%E8%AF%B7anaconda-academic-license%E5%B9%B6%E4%BD%BF%E7%94%A8/" target="_blank" rel="external">数据挖掘比赛（3）申请anaconda-academic-license并使用</a></li>
 <li><a href="https://chybeta.github.io/2017/02/01/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%884%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8A/" target="_blank" rel="external">数据挖掘比赛（4）ten Minutes to pandas中文版上 </a></li>
 <li><a href="https://chybeta.github.io/2017/02/02/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%885%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8B/" target="_blank" rel="external">数据挖掘比赛（5）ten Minutes to pandas中文版下</a></li>
+</ul>
+<h1 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h1><ul>
+<li><a href="https://chybeta.github.io/2017/02/14/win%E4%B8%8BDocker%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9/" target="_blank" rel="external">win下Docker默认存储位置修改</a></li>
+<li><a href="https://chybeta.github.io/2017/02/13/windows%E5%B9%B3%E5%8F%B0%E4%B8%8BDocker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_blank" rel="external">windows平台下Docker环境搭建</a></li>
 </ul>
 <h1 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h1><ul>
 <li><a href="https://chybeta.github.io/2017/02/17/%E8%AE%B02017%E5%B9%B4%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%B9%8B%E8%A1%8C/" target="_blank" rel="external"> 记2017年阿里巴巴之行
@@ -387,7 +391,7 @@
     <link href="http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/"/>
     <id>http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/</id>
     <published>2017-07-23T04:46:21.000Z</published>
-    <updated>2017-07-26T10:56:22.673Z</updated>
+    <updated>2017-07-28T07:19:29.974Z</updated>
     
     <content type="html"><![CDATA[<p>0ctf-2015-Peers-writeup<br><a id="more"></a></p>
 <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>题目提供了一个流量包peers.pcapng，<br>peers.pcapng:<br>链接：<a href="http://pan.baidu.com/s/1nuGXACL" target="_blank" rel="external">http://pan.baidu.com/s/1nuGXACL</a> 密码：zwl3</p>
@@ -410,7 +414,7 @@
     
     </summary>
     
-      <category term="MISC" scheme="http://yoursite.com/categories/MISC/"/>
+      <category term="Writeup:MISC" scheme="http://yoursite.com/categories/Writeup-MISC/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -652,9 +656,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
@@ -768,7 +772,7 @@
     <link href="http://yoursite.com/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/"/>
     <id>http://yoursite.com/2017/07/17/XMAN选拔赛-2017-misc-writeup/</id>
     <published>2017-07-17T13:37:52.000Z</published>
-    <updated>2017-07-26T10:57:50.718Z</updated>
+    <updated>2017-07-28T07:19:09.344Z</updated>
     
     <content type="html"><![CDATA[<p>XMAN选拔赛-2017-misc-writeup<br><a id="more"></a></p>
 <h1 id="Pretty-Cat"><a href="#Pretty-Cat" class="headerlink" title="Pretty_Cat"></a>Pretty_Cat</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">好可爱的喵</div><div class="line">附件下载</div></pre></td></tr></table></figure>
@@ -783,7 +787,7 @@
     
     </summary>
     
-      <category term="MISC" scheme="http://yoursite.com/categories/MISC/"/>
+      <category term="Writeup:MISC" scheme="http://yoursite.com/categories/Writeup-MISC/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -1167,9 +1171,9 @@
     
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
@@ -1253,9 +1257,9 @@
     
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
