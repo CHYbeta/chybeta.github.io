@@ -803,7 +803,7 @@
     <link href="http://yoursite.com/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-pwn-writeup/"/>
     <id>http://yoursite.com/2017/07/16/XMAN选拔赛-2017-pwn-writeup/</id>
     <published>2017-07-16T11:58:11.000Z</published>
-    <updated>2017-07-17T13:44:46.558Z</updated>
+    <updated>2017-07-28T07:29:51.639Z</updated>
     
     <content type="html"><![CDATA[<p>XMAN选拔赛-2017-pwn-writeup。<br><a id="more"></a></p>
 <h1 id="Raaa"><a href="#Raaa" class="headerlink" title="Raaa"></a>Raaa</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Are you ok? Do you like mifan?</div><div class="line">nc challenges.xctf.org.cn 14005</div></pre></td></tr></table></figure>
@@ -826,7 +826,7 @@
     
     </summary>
     
-      <category term="二进制安全" scheme="http://yoursite.com/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AE%89%E5%85%A8/"/>
+      <category term="writeup:bin" scheme="http://yoursite.com/categories/writeup-bin/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -842,7 +842,7 @@
     <link href="http://yoursite.com/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/"/>
     <id>http://yoursite.com/2017/07/16/XMAN选拔赛-2017-web-writeup/</id>
     <published>2017-07-16T03:03:50.000Z</published>
-    <updated>2017-07-26T10:57:48.239Z</updated>
+    <updated>2017-07-28T07:29:06.498Z</updated>
     
     <content type="html"><![CDATA[<p>XMAN选拔赛-2017-web-writeup 都是基础题目<br><a id="more"></a></p>
 <h1 id="variacover"><a href="#variacover" class="headerlink" title="variacover"></a>variacover</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;meta charset=<span class="string">"utf-8"</span>&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>($_GET[<span class="string">'b'</span>])) &#123;</div><div class="line">   show_source(<span class="keyword">__FILE__</span>);</div><div class="line">   <span class="keyword">die</span>();</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">   <span class="keyword">include</span>(<span class="string">'flag.php'</span>);</div><div class="line">$a = <span class="string">"www.XMAN.com"</span>;</div><div class="line">$b = $_GET[<span class="string">'b'</span>];</div><div class="line">@parse_str($b);</div><div class="line"><span class="keyword">if</span> ($a[<span class="number">0</span>] != <span class="string">'QNKCDZO'</span> &amp;&amp; md5($a[<span class="number">0</span>]) == md5(<span class="string">'QNKCDZO'</span>)) &#123;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"><span class="keyword">exit</span>(<span class="string">'你的答案不对0.0'</span>);</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
@@ -896,7 +896,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
