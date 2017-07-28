@@ -1270,7 +1270,7 @@
     <link href="http://yoursite.com/2017/07/11/Catfish-%E9%B2%B6%E9%B1%BC-CMS-V-4-4-10-%E7%95%99%E8%A8%80%E6%9D%BF%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E/"/>
     <id>http://yoursite.com/2017/07/11/Catfish-鲶鱼-CMS-V-4-4-10-留言板存储型XSS漏洞/</id>
     <published>2017-07-11T11:34:56.000Z</published>
-    <updated>2017-07-11T11:54:16.098Z</updated>
+    <updated>2017-07-28T08:36:45.967Z</updated>
     
     <content type="html"><![CDATA[<p>Catfish(鲶鱼) CMS V 4.4.10 ：<a href="http://www.catfish-cms.com/" target="_blank" rel="external">http://www.catfish-cms.com/</a><br><a id="more"></a></p>
 <h1 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h1><p>在<code>...\application\index\controller\Index.php</code>中，定义了评论功能。代码如下；<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//添加评论</span></div><div class="line">$data = [</div><div class="line">	<span class="string">'post_id'</span> =&gt; Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'url'</span> =&gt; <span class="string">'index/Index/article/id/'</span>.Request::instance()-&gt;post(<span class="string">'id'</span>),</div><div class="line">	<span class="string">'uid'</span> =&gt; Session::get(<span class="keyword">$this</span>-&gt;session_prefix.<span class="string">'user_id'</span>),</div><div class="line">	<span class="string">'to_uid'</span> =&gt; $beipinglunren[<span class="string">'post_author'</span>],</div><div class="line">	<span class="string">'createtime'</span> =&gt; date(<span class="string">"Y-m-d H:i:s"</span>),</div><div class="line">	<span class="string">'content'</span> =&gt; <span class="keyword">$this</span>-&gt;filterJs(Request::instance()-&gt;post(<span class="string">'pinglun'</span>)),</div><div class="line">	<span class="string">'status'</span> =&gt; $plzt</div><div class="line">];</div><div class="line">Db::name(<span class="string">'comments'</span>)-&gt;insert($data);</div></pre></td></tr></table></figure></p>
@@ -1294,14 +1294,14 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
     
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
-    
       <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
     
   </entry>
   
