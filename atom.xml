@@ -216,7 +216,7 @@
     <link href="http://yoursite.com/2017/07/26/php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
     <id>http://yoursite.com/2017/07/26/php代码执行漏洞/</id>
     <published>2017-07-26T07:49:44.000Z</published>
-    <updated>2017-07-26T10:42:01.910Z</updated>
+    <updated>2017-07-28T08:19:28.113Z</updated>
     
     <content type="html"><![CDATA[<p>php代码执行漏洞<br><a id="more"></a></p>
 <h1 id="常见危险函数"><a href="#常见危险函数" class="headerlink" title="常见危险函数"></a>常见危险函数</h1><h2 id="php代码执行相关"><a href="#php代码执行相关" class="headerlink" title="php代码执行相关"></a>php代码执行相关</h2><h3 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed eval ( string $code )</div></pre></td></tr></table></figure>
@@ -260,7 +260,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
     
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
@@ -430,7 +430,7 @@
     <link href="http://yoursite.com/2017/07/22/PHPCMS-v9-6-0-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://yoursite.com/2017/07/22/PHPCMS-v9-6-0-任意文件上传漏洞分析/</id>
     <published>2017-07-22T13:02:14.000Z</published>
-    <updated>2017-07-26T11:40:51.646Z</updated>
+    <updated>2017-07-28T08:19:33.659Z</updated>
     
     <content type="html"><![CDATA[<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>在服务器上准备好要上传的文件，比如shell.txt。其访问地址为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/shell.txt</div></pre></td></tr></table></figure></p>
 ]]></content>
@@ -441,7 +441,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
     
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
@@ -457,7 +457,7 @@
     <link href="http://yoursite.com/2017/07/21/MySql%E6%B3%A8%E5%85%A5%E5%A4%87%E5%BF%98%E5%BD%95/"/>
     <id>http://yoursite.com/2017/07/21/MySql注入备忘录/</id>
     <published>2017-07-21T06:43:02.000Z</published>
-    <updated>2017-07-23T07:24:04.851Z</updated>
+    <updated>2017-07-28T08:19:12.454Z</updated>
     
     <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>所谓SQL注入，就是通过把SQL命令插入到Web表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。<br><a id="more"></a></p>
 <h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="查看当前数据库版本"><a href="#查看当前数据库版本" class="headerlink" title="查看当前数据库版本"></a>查看当前数据库版本</h2><ul>
@@ -651,7 +651,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -956,13 +956,13 @@
     <link href="http://yoursite.com/2017/07/16/%E8%B0%88%E4%B8%80%E8%B0%88php%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83/"/>
     <id>http://yoursite.com/2017/07/16/谈一谈php变量的内存分布/</id>
     <published>2017-07-15T17:02:45.000Z</published>
-    <updated>2017-07-26T10:48:38.822Z</updated>
+    <updated>2017-07-28T07:38:15.228Z</updated>
     
     <summary type="html">
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
     
     
   </entry>
@@ -1006,7 +1006,7 @@
     <link href="http://yoursite.com/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2017/07/14/php代码审计小总结/</id>
     <published>2017-07-14T14:00:50.000Z</published>
-    <updated>2017-07-14T14:26:19.987Z</updated>
+    <updated>2017-07-28T08:19:22.329Z</updated>
     
     <content type="html"><![CDATA[<p>php代码审计小总结<br><a id="more"></a></p>
 <h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><h2 id="php代码执行"><a href="#php代码执行" class="headerlink" title="php代码执行"></a>php代码执行</h2><ul>
@@ -1102,7 +1102,7 @@
     
     </summary>
     
-      <category term="Web安全" scheme="http://yoursite.com/categories/Web%E5%AE%89%E5%85%A8/"/>
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
     
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
@@ -1299,9 +1299,9 @@
     
       <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="XSS" scheme="http://yoursite.com/tags/XSS/"/>
+    
+      <category term="漏洞分析" scheme="http://yoursite.com/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
