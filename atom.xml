@@ -391,7 +391,7 @@
     <link href="http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/"/>
     <id>http://yoursite.com/2017/07/23/0ctf-2015-Peers-writeup/</id>
     <published>2017-07-23T04:46:21.000Z</published>
-    <updated>2017-07-28T07:19:29.974Z</updated>
+    <updated>2017-07-28T07:22:42.263Z</updated>
     
     <content type="html"><![CDATA[<p>0ctf-2015-Peers-writeup<br><a id="more"></a></p>
 <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>题目提供了一个流量包peers.pcapng，<br>peers.pcapng:<br>链接：<a href="http://pan.baidu.com/s/1nuGXACL" target="_blank" rel="external">http://pan.baidu.com/s/1nuGXACL</a> 密码：zwl3</p>
@@ -414,7 +414,7 @@
     
     </summary>
     
-      <category term="Writeup:MISC" scheme="http://yoursite.com/categories/Writeup-MISC/"/>
+      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -656,9 +656,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
@@ -667,7 +667,7 @@
     <link href="http://yoursite.com/2017/07/19/Meenpwn-2017-crypto-writeup/"/>
     <id>http://yoursite.com/2017/07/19/Meenpwn-2017-crypto-writeup/</id>
     <published>2017-07-19T12:07:01.000Z</published>
-    <updated>2017-07-26T10:57:16.879Z</updated>
+    <updated>2017-07-28T07:23:17.885Z</updated>
     
     <content type="html"><![CDATA[<p>Meenpwn-2017-crypto-writeup<br><a id="more"></a></p>
 <h1 id="Simpler-than-RSA"><a href="#Simpler-than-RSA" class="headerlink" title="Simpler than RSA?"></a>Simpler than RSA?</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&quot;RSA is just math&quot;. And now, there is a cryptosystem that simpler than RSA, but, &quot;Simple is the Best!&quot;</div><div class="line">simple.py pubkey.txt enc.txt</div></pre></td></tr></table></figure>
@@ -706,7 +706,7 @@
     
     </summary>
     
-      <category term="密码学" scheme="http://yoursite.com/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+      <category term="writeup:Crypto" scheme="http://yoursite.com/categories/writeup-Crypto/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -772,7 +772,7 @@
     <link href="http://yoursite.com/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/"/>
     <id>http://yoursite.com/2017/07/17/XMAN选拔赛-2017-misc-writeup/</id>
     <published>2017-07-17T13:37:52.000Z</published>
-    <updated>2017-07-28T07:19:09.344Z</updated>
+    <updated>2017-07-28T07:22:45.777Z</updated>
     
     <content type="html"><![CDATA[<p>XMAN选拔赛-2017-misc-writeup<br><a id="more"></a></p>
 <h1 id="Pretty-Cat"><a href="#Pretty-Cat" class="headerlink" title="Pretty_Cat"></a>Pretty_Cat</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">好可爱的喵</div><div class="line">附件下载</div></pre></td></tr></table></figure>
@@ -787,7 +787,7 @@
     
     </summary>
     
-      <category term="Writeup:MISC" scheme="http://yoursite.com/categories/Writeup-MISC/"/>
+      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
     
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
@@ -1171,9 +1171,9 @@
     
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
@@ -1257,9 +1257,9 @@
     
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
