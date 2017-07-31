@@ -393,7 +393,7 @@
     <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-web-writeup/"/>
     <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-web-writeup/</id>
     <published>2017-07-29T23:32:03.000Z</published>
-    <updated>2017-07-31T00:13:23.229Z</updated>
+    <updated>2017-07-31T00:48:03.242Z</updated>
     
     <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
 <h1 id="Nothing-here"><a href="#Nothing-here" class="headerlink" title="Nothing here"></a>Nothing here</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Nothing here !</div><div class="line">http://52.53.151.123/web/web5.php</div></pre></td></tr></table></figure>
@@ -420,7 +420,7 @@
 <p>给了个登陆框，应有存在注入。</p>
 <h1 id="Calculator"><a href="#Calculator" class="headerlink" title="Calculator"></a>Calculator</h1><p>随便进行了一些功能测试，比如点1+2，则抓包会发现有data字段时我们输入的表达式，forward掉后返回结果。驶入的表达式只允许输入数字，中小括号，感叹号，乘号，减号。猜测后端用eval执行。一开始我以为xss，将payload进行一次jsfuck加密后能绕过过滤，不过没啥用等。然后有一次的payload过长，返回的报错信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Error: spawn E2BIG</div><div class="line">    at exports._errnoException (util.js:1018:11)</div><div class="line">    at ChildProcess.spawn (internal/child_process.js:319:11)</div><div class="line">    at exports.spawn (child_process.js:378:9)</div><div class="line">    at Object.exports.execFile (child_process.js:143:15)</div><div class="line">    at exports.exec (child_process.js:103:18)</div><div class="line">    at /app/apps.js:47:11</div><div class="line">    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)</div><div class="line">    at next (/app/node_modules/express/lib/router/route.js:137:13)</div><div class="line">    at Route.dispatch (/app/node_modules/express/lib/router/route.js:112:3)</div><div class="line">    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)</div></pre></td></tr></table></figure></p>
 <p>所以后端是用node.js。推测是要渗透nodojs。参考<a href="https://wiremask.eu/writeups/reverse-shell-on-a-nodejs-application/" target="_blank" rel="external">Reverse shell on a Node.js application</a>和<a href="http://www.websecgeeks.com/2017/04/pentesting-nodejs-application-nodejs.html" target="_blank" rel="external">Pentesting Node.js Application : Nodejs Application Security </a>进行渗透，不过可惜没有成功。</p>
-]]></content>
+<h1 id="Walk-walk"><a href="#Walk-walk" class="headerlink" title="Walk walk"></a>Walk walk</h1>]]></content>
     
     <summary type="html">
     
