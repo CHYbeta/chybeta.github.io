@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-28T07:13:37.268Z</updated>
+  <updated>2017-07-31T00:19:30.288Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-07-28T07:13:37.268Z</updated>
+    <updated>2017-07-31T00:19:30.288Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h1><ul>
@@ -69,6 +69,7 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-web-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-web-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/24/%E5%AE%9E%E9%AA%8C%E5%90%A7-web-writeup/" target="_blank" rel="external">实验吧-web-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/19/CTFZone-2017-Leaked-messages-writeup/" target="_blank" rel="external">CTFZone-2017-Leaked messages-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-web-writeup </a></li>
@@ -88,6 +89,7 @@
 <li><a href="https://chybeta.github.io/2017/04/02/Sqli-Labs-Less1-4-writeup/" target="_blank" rel="external">Sqli-Labs:Less1-4-writeup</a></li>
 </ul>
 <h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="CTF-1"><a href="#CTF-1" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-pwn-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-pwn-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-pwn-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-pwn-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/06/29/XMAN-pwn-writeup/" target="_blank" rel="external">XMAN-pwn-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/06/28/SUCTF-2016-pwn400-writeup/" target="_blank" rel="external">SUCTF-2016-pwn400-writeup</a></li>
@@ -98,11 +100,16 @@
 <li><a href="https://chybeta.github.io/2017/04/07/Pwnable-kr-bof/" target="_blank" rel="external">Pwnable.kr:bof</a></li>
 </ul>
 <h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><ul>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-misc-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-misc-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/23/0ctf-2015-Peers-writeup/" target="_blank" rel="external">0ctf-2015-Peers-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-misc-writeup</a></li>
 </ul>
 <h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><ul>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-crypto-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-crypto-writeup</a></li>
 <li><a href="Meenpwn-2017-crypto-writeup">Meenpwn-2017-crypto-writeup</a></li>
+</ul>
+<h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><ul>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-Reverse-writeup</a></li>
 </ul>
 ]]></content>
     
@@ -386,7 +393,7 @@
     <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-web-writeup/"/>
     <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-web-writeup/</id>
     <published>2017-07-29T23:32:03.000Z</published>
-    <updated>2017-07-31T00:01:13.262Z</updated>
+    <updated>2017-07-31T00:13:23.229Z</updated>
     
     <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
 <h1 id="Nothing-here"><a href="#Nothing-here" class="headerlink" title="Nothing here"></a>Nothing here</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Nothing here !</div><div class="line">http://52.53.151.123/web/web5.php</div></pre></td></tr></table></figure>
@@ -395,7 +402,7 @@
 <h1 id="Encryption"><a href="#Encryption" class="headerlink" title="Encryption"></a>Encryption</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">You know your job</div><div class="line">http://52.53.151.123/web/web30.php</div></pre></td></tr></table></figure>
 <p>访问后题目说Only users of “Bugs_Bunny Browser” may access this page.。所以抓包改User-Agent。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/5.jpg?raw=true" alt=""></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag=zn8XhqnlBRBetevoFcSQAw0OMVH6Kwj23svbneF1%2B5gDfBdn9osZBfB06cTub4ARg3OTTjsBIG7x;</div></pre></td></tr></table></figure>
-<p>不过不知道接下去该干啥。。</p>
+<p>中间有个%2B，是+号。在<a href="https://hashkiller.co.uk/text-encryption.aspx" target="_blank" rel="external">https://hashkiller.co.uk/text-encryption.aspx</a> 上，用密码<code>Hashkiller</code>解密。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;hashkiller_has_a_custom_encryption_ algorithm&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="Old-php-vuln"><a href="#Old-php-vuln" class="headerlink" title="Old php vuln !"></a>Old php vuln !</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Hey ,Agent</div><div class="line">Your mission is to hack this secure portal .</div><div class="line">Good luck.</div><div class="line">http://52.53.151.123/web/web35.php</div></pre></td></tr></table></figure>
 <h1 id="SimplePHP"><a href="#SimplePHP" class="headerlink" title="SimplePHP"></a>SimplePHP</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">PHP for noobs :p ?</div><div class="line">Maybe not this time :D</div><div class="line"></div><div class="line">http://34.253.165.46/SimplePhp/index.php</div><div class="line">source : http://34.253.165.46/SimplePhp/index.txt</div></pre></td></tr></table></figure>
 <p>题目提供了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line"></div><div class="line">$_403 = <span class="string">"Access Denied"</span>;</div><div class="line">$_200 = <span class="string">"Welcome Admin"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">"REQUEST_METHOD"</span>] != <span class="string">"POST"</span>)</div><div class="line">	<span class="keyword">die</span>(<span class="string">"BugsBunnyCTF is here :p..."</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> ( !<span class="keyword">isset</span>($_POST[<span class="string">"flag"</span>]) )</div><div class="line">	<span class="keyword">die</span>($_403);</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $key =&gt; $value)</div><div class="line">	$$key = $$value;</div><div class="line"></div><div class="line"><span class="keyword">foreach</span> ($_POST <span class="keyword">as</span> $key =&gt; $value)</div><div class="line">	$$key = $value;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> ( $_POST[<span class="string">"flag"</span>] !== $flag )</div><div class="line">	<span class="keyword">die</span>($_403);</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">echo</span> <span class="string">"This is your flag : "</span>. $flag . <span class="string">"\n"</span>;</div><div class="line"><span class="keyword">die</span>($_200);</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
