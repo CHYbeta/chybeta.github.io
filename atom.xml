@@ -124,9 +124,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
   </entry>
   
@@ -225,7 +225,7 @@
     <link href="http://yoursite.com/2017/08/04/%C2%96PHPCMS-v9-6-0-wap%E6%A8%A1%E5%9D%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/</id>
     <published>2017-08-04T06:19:51.000Z</published>
-    <updated>2017-08-04T07:36:41.089Z</updated>
+    <updated>2017-08-04T07:38:08.554Z</updated>
     
     <content type="html"><![CDATA[<p>PHPCMS v9.6.0 wap模块sql注入漏洞分析<br><a id="more"></a></p>
 <h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在/phpcms/modules/content/down.php中，约莫第11行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">	$a_k = trim($_GET[<span class="string">'a_k'</span>]);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($a_k)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	$a_k = sys_auth($a_k, <span class="string">'DECODE'</span>, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'auth_key'</span>));</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">empty</span>($a_k)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">unset</span>($i,$m,$f);</div><div class="line">	parse_str($a_k);</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>($i)) $i = $id = intval($i);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($m)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($modelid)||!<span class="keyword">isset</span>($catid)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">empty</span>($f)) showmessage(L(<span class="string">'url_invalid'</span>));</div><div class="line">	$allow_visitor = <span class="number">1</span>;</div><div class="line">	$MODEL = getcache(<span class="string">'model'</span>,<span class="string">'commons'</span>);</div><div class="line">	$tablename = <span class="keyword">$this</span>-&gt;db-&gt;table_name = <span class="keyword">$this</span>-&gt;db-&gt;db_tablepre.$MODEL[$modelid][<span class="string">'tablename'</span>];</div><div class="line">	<span class="keyword">$this</span>-&gt;db-&gt;table_name = $tablename.<span class="string">'_data'</span>;</div><div class="line">	$rs = <span class="keyword">$this</span>-&gt;db-&gt;get_one(<span class="keyword">array</span>(<span class="string">'id'</span>=&gt;$id));</div></pre></td></tr></table></figure></p>
