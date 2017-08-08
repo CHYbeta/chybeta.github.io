@@ -89,16 +89,16 @@
 
 
 
-<meta name="description" content="php代码执行漏洞">
+<meta name="description" content="php代码/命令执行漏洞">
 <meta property="og:type" content="article">
-<meta property="og:title" content="php代码执行漏洞">
-<meta property="og:url" content="http://yoursite.com/2017/07/26/php代码执行漏洞/index.html">
+<meta property="og:title" content="php代码/命令执行漏洞">
+<meta property="og:url" content="http://yoursite.com/2017/08/08/php代码-命令执行漏洞/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="php代码执行漏洞">
-<meta property="og:updated_time" content="2017-08-08T08:33:29.081Z">
+<meta property="og:description" content="php代码/命令执行漏洞">
+<meta property="og:updated_time" content="2017-08-08T08:39:29.894Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="php代码执行漏洞">
-<meta name="twitter:description" content="php代码执行漏洞">
+<meta name="twitter:title" content="php代码/命令执行漏洞">
+<meta name="twitter:description" content="php代码/命令执行漏洞">
 
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/26/php代码执行漏洞/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/08/php代码-命令执行漏洞/"/>
 
 
 
 
 
-  <title> php代码执行漏洞 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> php代码/命令执行漏洞 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -298,7 +298,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/26/php代码执行漏洞/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/php代码-命令执行漏洞/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -322,7 +322,7 @@
             
             
               
-                php代码执行漏洞
+                php代码/命令执行漏洞
               
             
           </h1>
@@ -337,8 +337,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-26T15:49:44+08:00">
-                2017-07-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T16:38:51+08:00">
+                2017-08-08
               </time>
             
 
@@ -379,7 +379,7 @@
 
           
           
-             <span id="/2017/07/26/php代码执行漏洞/" class="leancloud_visitors" data-flag-title="php代码执行漏洞">
+             <span id="/2017/08/08/php代码-命令执行漏洞/" class="leancloud_visitors" data-flag-title="php代码/命令执行漏洞">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -406,7 +406,7 @@
       
 
       
-        <p>php代码执行漏洞<br><a id="more"></a></p>
+        <p>php代码/命令执行漏洞<br><a id="more"></a></p>
 <h1 id="常见危险函数"><a href="#常见危险函数" class="headerlink" title="常见危险函数"></a>常见危险函数</h1><h2 id="php代码执行相关"><a href="#php代码执行相关" class="headerlink" title="php代码执行相关"></a>php代码执行相关</h2><h3 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mixed eval ( string $code )</div></pre></td></tr></table></figure>
 <p>把字符串<code>code</code>作为php代码执行。常见的一句话木马：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">eval</span>($_GET[<span class="string">'pass'</span>])</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 <p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://xxx/codeexec.php?pass=phpinfo();</div></pre></td></tr></table></figure></p>
@@ -490,12 +490,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/07/26/php代码执行漏洞/">php代码执行漏洞</a></p>
+  <p><span>本文标题:</span><a href="/2017/08/08/php代码-命令执行漏洞/">php代码/命令执行漏洞</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
-  <p><span>发布时间:</span>2017年07月26日 - 15:07</p>
+  <p><span>发布时间:</span>2017年08月08日 - 16:08</p>
   <p><span>最后更新:</span>2017年08月08日 - 16:08</p>
-  <p><span>原始链接:</span><a href="/2017/07/26/php代码执行漏洞/" title="php代码执行漏洞">http://yoursite.com/2017/07/26/php代码执行漏洞/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/07/26/php代码执行漏洞/"  aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/2017/08/08/php代码-命令执行漏洞/" title="php代码/命令执行漏洞">http://yoursite.com/2017/08/08/php代码-命令执行漏洞/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/08/php代码-命令执行漏洞/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -565,8 +565,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/25/机器学习算法：最近邻-KNN/" rel="next" title="机器学习算法：最近邻(KNN)">
-                <i class="fa fa-chevron-left"></i> 机器学习算法：最近邻(KNN)
+              <a href="/2017/08/06/SHACTF-2017-Growing-Up-writeup/" rel="next" title="SHACTF-2017-Growing Up-writeup">
+                <i class="fa fa-chevron-left"></i> SHACTF-2017-Growing Up-writeup
               </a>
             
           </div>
@@ -575,8 +575,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/29/zctf2017-EasyReverse-writeup/" rel="prev" title="zctf2017-EasyReverse-writeup">
-                zctf2017-EasyReverse-writeup <i class="fa fa-chevron-right"></i>
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -649,7 +649,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-count">76</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
