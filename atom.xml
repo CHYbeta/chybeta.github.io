@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-09T16:58:26.777Z</updated>
+  <updated>2017-08-12T05:19:46.779Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-08-09T16:58:26.777Z</updated>
+    <updated>2017-08-12T05:19:46.779Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Book"><a href="#Book" class="headerlink" title="Book"></a>Book</h1><ul>
@@ -65,6 +65,13 @@
 <h1 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h1><ul>
 <li><a href="https://chybeta.github.io/2017/02/14/win%E4%B8%8BDocker%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9/" target="_blank" rel="external">win下Docker默认存储位置修改</a></li>
 <li><a href="https://chybeta.github.io/2017/02/13/windows%E5%B9%B3%E5%8F%B0%E4%B8%8BDocker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_blank" rel="external">windows平台下Docker环境搭建</a></li>
+</ul>
+<h1 id="编程练习"><a href="#编程练习" class="headerlink" title="编程练习"></a>编程练习</h1><ul>
+<li><a href="https://chybeta.github.io/3017/06/19/ACM-OJ-%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0/" target="_blank" rel="external">ACM-OJ[长期更新]</a></li>
+<li><a href="https://chybeta.github.io/2017/08/12/hihoCoder-162%E5%91%A8%EF%BC%9A%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_blank" rel="external">hihoCoder 162周：回文字符串 </a></li>
+<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-3-%E6%95%B0%E7%BB%84%E5%8D%95%E8%B0%83%E5%92%8C/" target="_blank" rel="external">CodeTrain(3)数组单调和</a></li>
+<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-2-%E6%A3%8B%E5%AD%90%E7%BF%BB%E8%BD%AC/" target="_blank" rel="external">CodeTrain(2)棋子翻转</a></li>
+<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-1-%E6%9C%80%E5%A4%A7%E5%B7%AE%E5%80%BC/" target="_blank" rel="external">CodeTrain(1)最大差值</a></li>
 </ul>
 <h1 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h1><ul>
 <li><a href="https://chybeta.github.io/2017/02/17/%E8%AE%B02017%E5%B9%B4%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%B9%8B%E8%A1%8C/" target="_blank" rel="external"> 记2017年阿里巴巴之行
@@ -129,9 +136,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
