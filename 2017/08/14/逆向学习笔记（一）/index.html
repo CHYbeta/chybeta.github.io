@@ -1,0 +1,1243 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,re," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="跟着《加密与解密》学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向学习笔记（一）">
+<meta property="og:url" content="http://yoursite.com/2017/08/14/逆向学习笔记（一）/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="跟着《加密与解密》学习。">
+<meta property="og:updated_time" content="2017-08-18T11:51:39.128Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="逆向学习笔记（一）">
+<meta name="twitter:description" content="跟着《加密与解密》学习。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/14/逆向学习笔记（一）/"/>
+
+
+
+
+
+  <title> 逆向学习笔记（一） | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/逆向学习笔记（一）/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                逆向学习笔记（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-14T23:04:31+08:00">
+                2017-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bin-Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Bin Security</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/14/逆向学习笔记（一）/" class="leancloud_visitors" data-flag-title="逆向学习笔记（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>跟着《加密与解密》学习。<br><a id="more"></a></p>
+<h1 id="第一章：基础知识"><a href="#第一章：基础知识" class="headerlink" title="第一章：基础知识"></a>第一章：基础知识</h1><h2 id="文本字符"><a href="#文本字符" class="headerlink" title="文本字符"></a>文本字符</h2><ol>
+<li>字节存储顺序与CPU有关。<ul>
+<li>Big-Endian: 高位字节存入低地址，低位字节存入高地址，依次排列。</li>
+<li>Little-Endian： 低位字节存入高地址，高位字节存入高地址，反序排列。</li>
+</ul>
+</li>
+<li>ASCII 与 Unicode字符集<ul>
+<li>ASCII: 127以上的部分不统一。8位。</li>
+<li>Unicode： ASCII字符编码的扩展。在win中用两个字节进行编码，亦称宽字节编码(Widechars)。使用0~65535之间的双字节无符号整数对每个字节编码。所有字符均为16位。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Windows操作系统"><a href="#Windows操作系统" class="headerlink" title="Windows操作系统"></a>Windows操作系统</h2><h3 id="WinAPI简介"><a href="#WinAPI简介" class="headerlink" title="WinAPI简介"></a>WinAPI简介</h3><ol>
+<li>略</li>
+</ol>
+<h3 id="常用Win32API函数"><a href="#常用Win32API函数" class="headerlink" title="常用Win32API函数"></a>常用Win32API函数</h3><ol>
+<li>API函数区分字符集： A表示ANSI，W表示Widechars即Unicode。</li>
+<li>常用的API函数：<ul>
+<li>hmemcpy() : win16 API函数。将内存某块数据拷贝到另一个地方。</li>
+<li>GetWindowText（）：USER32.DLL中。取得一个窗体的标题文字或一个文本控件的内容。<ul>
+<li>GetWindowTextA</li>
+<li>GetWindowTextW</li>
+</ul>
+</li>
+<li>GetDlgItem（）： 获取指定对话框的句柄。</li>
+<li>GetDlgItemText（）: 获取对话框文本。<ul>
+<li>GetDlgItemTextA</li>
+<li>GetDlgItemTextW</li>
+</ul>
+</li>
+<li>GetDlgItemInt（） ： 获取对话框整数值。</li>
+<li>MessageBox（）：USER32.DLL中，创建和显示信息框。<ul>
+<li>MessageBoxA</li>
+<li>MessageBoxW</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>句柄：Windows标识，由应用程序简历或使用的对象所使用的一个唯一的整数值。</li>
+<li>Windows消息机制<ul>
+<li>消息(Message)驱动式系统。</li>
+<li>消息队列：系统消息队列，应用程序消息队列。</li>
+<li>常用的Windows消息函数：<ul>
+<li>SendMessage（）函数</li>
+<li>WM_COMMAND消息</li>
+<li>WM_DESTORY</li>
+<li>WM_GETTEXT</li>
+<li>WM_QUIT</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="保护模式简介"><a href="#保护模式简介" class="headerlink" title="保护模式简介"></a>保护模式简介</h2><ol>
+<li>三种模式： 实模式，保护模式，虚拟86模式。当前系统主要运行在保护模式下。</li>
+<li>虚拟内存</li>
+<li>保护模式的权限级别</li>
+</ol>
+<h2 id="认识PE格式"><a href="#认识PE格式" class="headerlink" title="认识PE格式"></a>认识PE格式</h2><ol>
+<li>文件分成不同的区块：<ul>
+<li>.text : 代码段</li>
+<li>.rdata : 运行期只读数据</li>
+<li>.data : 初始化的数据块</li>
+<li>.idata : 包含其他外来DLL的函数及数据信息，即输入表。</li>
+<li>.rsrc : 包含模块的全部资源</li>
+</ul>
+</li>
+<li>PE相关名词解释：<ul>
+<li>入口点(Entry Point) ： 程序执行时的第一行代码</li>
+<li>文件偏移地址(File Offset) : PE文件在磁盘上时各数据的地址。文件偏移地址从PE文件的第一个字节开始计数，起始值为0</li>
+<li>虚拟地址（Virtual Address， VA）: 程序访问存储器所使用的逻辑地址。又称内存偏移地址(Memory Offset)。可写成“段选择子：偏移量”的形式。</li>
+<li>基地址（ImageBase）：文件执行时被映射到指定内存地址中，这个初始内存地址即为基地址。由PE文件本身设定。</li>
+</ul>
+</li>
+</ol>
+<h1 id="第二章-动态分析技术"><a href="#第二章-动态分析技术" class="headerlink" title="第二章 动态分析技术"></a>第二章 动态分析技术</h1><h2 id="OllDbg"><a href="#OllDbg" class="headerlink" title="OllDbg"></a>OllDbg</h2><ul>
+<li>界面<ul>
+<li>反汇编面板窗口</li>
+<li>信息面板窗口</li>
+<li>数据面板窗口</li>
+<li>寄存器面板窗口</li>
+<li>堆栈面板窗口</li>
+</ul>
+</li>
+<li>配置<ul>
+<li>界面设置</li>
+<li>调试设置</li>
+<li>加载符号文件</li>
+<li>加载右键菜单</li>
+</ul>
+</li>
+<li>加载程序<ul>
+<li>创建进程</li>
+<li>attach进程</li>
+</ul>
+</li>
+<li>基本操作<ul>
+<li>F7 ： 单步步进，遇到CALL 跟进</li>
+<li>F8 ： 单步步入，遇到CALL 路过，不跟进</li>
+<li>Ctrl+ F9 : 直到ret指令时中断</li>
+<li>Alt + F9 : 从系统领空回到应用程序领空</li>
+<li>F9 ： 运行程序</li>
+<li>F2 ： 设置断点</li>
+<li>保存修改后的文件：<ul>
+<li>右键 Copy to executable/Selection</li>
+</ul>
+</li>
+<li>Alt+M ： 显示内存</li>
+</ul>
+</li>
+</ul>
+<h2 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h2><h3 id="INT3断点"><a href="#INT3断点" class="headerlink" title="INT3断点"></a>INT3断点</h3><p>int3断点，机器码为CCh。当被调试进程执行INT3指令导致一个异常时，调试器捕捉异常并停下来。好处是可以下无数个，但缺点是改变了源程序指令，容易被检测到。检测方法为：取得检测函数的地址，读取第一个字节是否为cc。</p>
+<h3 id="硬件断点"><a href="#硬件断点" class="headerlink" title="硬件断点"></a>硬件断点</h3><p>与DRx调试器相关。DRx调试器一共有八个。</p>
+<ul>
+<li>DR0 ~ DR3 : 调试地址寄存器，保存需要监视的地址。</li>
+<li>DR4 ~ DR5 : 未知</li>
+<li>DR6 : 调试寄存器组状态寄存器</li>
+<li>DR7 : 调试寄存器组控制寄存器</li>
+</ul>
+<p>DR0 ~ DR3来设定地址，DR7设置状态，最多只能设置4个断电。优点速度快，可用于替代CC断点。</p>
+<h3 id="内存断点"><a href="#内存断点" class="headerlink" title="内存断点"></a>内存断点</h3><p>对所设的地址设置为不可访问/不可写属性。当访问/写入时产生异常，ollydbg捕获异常后比较是不是断点地址，若是则中断。缺点：慢。不修改源代码，在遇到代码校验时，并且硬件断点失灵的时候，可以用内存断点来代替。数量为1个。</p>
+<h3 id="内存访问一次性断点"><a href="#内存访问一次性断点" class="headerlink" title="内存访问一次性断点"></a>内存访问一次性断点</h3><p>按Alt+M显示内存后，有许多段。在相应的段上单击右键，选择Set break on access，会对整个内存块设置该类断点。这是一次性断点，当所在段被读取或被执行后中断，中断完成后断点将被删除。</p>
+<h3 id="消息断点"><a href="#消息断点" class="headerlink" title="消息断点"></a>消息断点</h3><h3 id="条件断点"><a href="#条件断点" class="headerlink" title="条件断点"></a>条件断点</h3><h3 id="条件记录断点"><a href="#条件记录断点" class="headerlink" title="条件记录断点"></a>条件记录断点</h3><h1 id="第三章-静态分析技术"><a href="#第三章-静态分析技术" class="headerlink" title="第三章 静态分析技术"></a>第三章 静态分析技术</h1><h2 id="文件类型分析"><a href="#文件类型分析" class="headerlink" title="文件类型分析"></a>文件类型分析</h2><ul>
+<li>PEID工具<ul>
+<li>用处：检测大多数编译语言、病毒和加密的壳</li>
+<li>原理：被加壳的程序处理过的程序在壳里会留下相关加壳软件的信息。</li>
+<li>参考</li>
+</ul>
+</li>
+<li>Fileinfo</li>
+</ul>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/08/14/逆向学习笔记（一）/">逆向学习笔记（一）</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年08月14日 - 23:08</p>
+  <p><span>最后更新:</span>2017年08月18日 - 19:08</p>
+  <p><span>原始链接:</span><a href="/2017/08/14/逆向学习笔记（一）/" title="逆向学习笔记（一）">http://yoursite.com/2017/08/14/逆向学习笔记（一）/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/14/逆向学习笔记（一）/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/re/" rel="tag"># re</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/14/WAF-Bypass-Mysql-注入绕过姿势/" rel="next" title="[WAF-Bypass] Mysql 注入绕过姿势">
+                <i class="fa fa-chevron-left"></i> [WAF-Bypass] Mysql 注入绕过姿势
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/15/命令执行的一些绕过技巧/" rel="prev" title="命令执行的一些绕过技巧">
+                命令执行的一些绕过技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">91</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章：基础知识"><span class="nav-number">1.</span> <span class="nav-text">第一章：基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本字符"><span class="nav-number">1.1.</span> <span class="nav-text">文本字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows操作系统"><span class="nav-number">1.2.</span> <span class="nav-text">Windows操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WinAPI简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">WinAPI简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用Win32API函数"><span class="nav-number">1.2.2.</span> <span class="nav-text">常用Win32API函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保护模式简介"><span class="nav-number">1.3.</span> <span class="nav-text">保护模式简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认识PE格式"><span class="nav-number">1.4.</span> <span class="nav-text">认识PE格式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章-动态分析技术"><span class="nav-number">2.</span> <span class="nav-text">第二章 动态分析技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OllDbg"><span class="nav-number">2.1.</span> <span class="nav-text">OllDbg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#断点"><span class="nav-number">2.2.</span> <span class="nav-text">断点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#INT3断点"><span class="nav-number">2.2.1.</span> <span class="nav-text">INT3断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件断点"><span class="nav-number">2.2.2.</span> <span class="nav-text">硬件断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存断点"><span class="nav-number">2.2.3.</span> <span class="nav-text">内存断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存访问一次性断点"><span class="nav-number">2.2.4.</span> <span class="nav-text">内存访问一次性断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息断点"><span class="nav-number">2.2.5.</span> <span class="nav-text">消息断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件断点"><span class="nav-number">2.2.6.</span> <span class="nav-text">条件断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件记录断点"><span class="nav-number">2.2.7.</span> <span class="nav-text">条件记录断点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三章-静态分析技术"><span class="nav-number">3.</span> <span class="nav-text">第三章 静态分析技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件类型分析"><span class="nav-number">3.1.</span> <span class="nav-text">文件类型分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

