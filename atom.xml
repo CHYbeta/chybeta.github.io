@@ -482,9 +482,10 @@
     <link href="http://yoursite.com/2017/08/19/Web-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Web-Security-Learning/</id>
     <published>2017-08-19T02:15:59.000Z</published>
-    <updated>2017-08-19T03:55:29.775Z</updated>
+    <updated>2017-08-19T03:58:31.671Z</updated>
     
     <content type="html"><![CDATA[<p>Web-Security-Learning 学习资料<br><a id="more"></a></p>
+<h1 id="Web-Security-Learning"><a href="#Web-Security-Learning" class="headerlink" title="Web-Security-Learning"></a>Web-Security-Learning</h1><p>项目地址：<a href="https://github.com/CHYbeta/Web-Security-Learning" target="_blank" rel="external">Web-Security-Learning</a></p>
 <h1 id="Web-Security"><a href="#Web-Security" class="headerlink" title="Web Security"></a>Web Security</h1><h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><h3 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h3><ul>
 <li><a href="http://bobao.360.cn/learning/detail/3804.html" target="_blank" rel="external">MySQL False注入及技巧总结</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3758.html" target="_blank" rel="external">MySQL 注入攻击与防御</a></li>
