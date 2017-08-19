@@ -254,7 +254,7 @@
     <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
     <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-19T03:31:14.859Z</updated>
+    <updated>2017-08-19T03:39:50.032Z</updated>
     
     <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br><a id="more"></a><br>#<br>Bin Securiy</p>
 <h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><ul>
@@ -350,7 +350,12 @@
 <li><a href="https://blog.iret.xyz/article.aspx/linux_heapoverflow_enterance" target="_blank" rel="external">Notes About Heap Overflow Under Linux</a></li>
 <li><a href="http://www.freebuf.com/vuls/98404.html" target="_blank" rel="external">如何理解堆和堆溢出漏洞的利用?</a></li>
 </ul>
-<h3 id="堆利用技术"><a href="#堆利用技术" class="headerlink" title="堆利用技术"></a>堆利用技术</h3><ul>
+<ul>
+<li><a href="http://o0xmuhe.me/2016/11/21/Have-fun-with-glibc%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" target="_blank" rel="external">Have fun with glibc内存管理</a></li>
+<li><a href="http://www.tuicool.com/articles/A7n2ueq" target="_blank" rel="external">内存映射mmap</a><h3 id="堆利用技术"><a href="#堆利用技术" class="headerlink" title="堆利用技术"></a>堆利用技术</h3></li>
+<li><a href="http://wooyun.jozxing.cc/static/drops/binary-14596.html" target="_blank" rel="external">溢出科普：heap overflow&amp;溢出保护和绕过</a></li>
+</ul>
+<ul>
 <li><a href="http://bobao.360.cn/learning/detail/3197.html" target="_blank" rel="external">现代化的堆相关漏洞利用技巧</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3113.html" target="_blank" rel="external">从一字节溢出到任意代码执行-Linux下堆漏洞利用</a></li>
 <li><a href="https://sploitfun.wordpress.com/2015/02/26/heap-overflow-using-unlink/?spm=a313e.7916648.0.0.x4nzYZ" target="_blank" rel="external">Heap overflow using unlink</a></li>
@@ -365,17 +370,26 @@
 <li><a href="http://bobao.360.cn/learning/detail/3417.html" target="_blank" rel="external">堆之House of Spirit</a></li>
 </ul>
 <h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h2><ul>
+<li><a href="https://crypto.stanford.edu/cs155old/cs155-spring08/papers/formatstring-1.2.pdf" target="_blank" rel="external">Exploiting Format String Vulnerabilities</a></li>
+</ul>
+<ul>
 <li><a href="http://cb.drops.wiki/drops/binary-6259.html" target="_blank" rel="external">二进制漏洞之——邪恶的printf</a></li>
 <li><a href="http://cb.drops.wiki/drops/papers-9426.html" target="_blank" rel="external">漏洞挖掘基础之格式化字符串</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3654.html" target="_blank" rel="external">格式化字符串漏洞利用小结（一）</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3674.html" target="_blank" rel="external">格式化字符串漏洞利用小结（二）</a></li>
 <li><a href="http://www.cnblogs.com/Ox9A82/p/5429099.html" target="_blank" rel="external">Linux下的格式化字符串漏洞利用姿势</a></li>
+</ul>
+<ul>
+<li><a href="http://0x48.pw/2017/03/13/0x2c/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">Linux系统下格式化字符串利用研究 </a></li>
+</ul>
+<ul>
 <li><a href="https://crypto.stanford.edu/cs155/papers/formatstring-1.2.pdf" target="_blank" rel="external">Exploiting Format String Vulnerabilities</a></li>
 </ul>
 <ul>
 <li><a href="http://phrack.org/issues/59/7.html" target="_blank" rel="external">Advances in format string exploitation</a></li>
+<li><a href="http://www.vnsecurity.net/research/2012/02/16/exploiting-sudo-format-string-vunerability.html" target="_blank" rel="external">Exploiting Sudo format string vunerability</a><h2 id="其余漏洞"><a href="#其余漏洞" class="headerlink" title="其余漏洞"></a>其余漏洞</h2></li>
 </ul>
-<h2 id="其余漏洞"><a href="#其余漏洞" class="headerlink" title="其余漏洞"></a>其余漏洞</h2><h3 id="FSP溢出"><a href="#FSP溢出" class="headerlink" title="FSP溢出"></a>FSP溢出</h3><ul>
+<h3 id="FSP溢出"><a href="#FSP溢出" class="headerlink" title="FSP溢出"></a>FSP溢出</h3><ul>
 <li><a href="http://wooyun.jozxing.cc/static/drops/binary-12740.html" target="_blank" rel="external">Head First FILE Stream Pointer Overflow</a></li>
 <li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">abusing the FILE structure</a></li>
 <li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">File Stream Pointer Overflows Paper.</a></li>
@@ -428,6 +442,10 @@
 </ul>
 <h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
 <li><a href="http://bobao.360.cn/learning/detail/3298.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">借助DynELF实现无libc的漏洞利用小结</a></li>
+</ul>
+<ul>
+<li><a href="http://o0xmuhe.me/2016/12/24/what-DynELF-does-basically/" target="_blank" rel="external">what DynELF does basically </a></li>
+<li><a href="http://uaf.io/exploitation/misc/2016/04/02/Finding-Functions.html" target="_blank" rel="external">Finding Function’s Load Address </a></li>
 </ul>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li><a href="https://github.com/stfpeak/CTF" target="_blank" rel="external">CTF总结</a></li>
