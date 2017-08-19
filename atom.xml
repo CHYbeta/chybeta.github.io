@@ -148,9 +148,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
   </entry>
   
@@ -482,15 +482,17 @@
     <link href="http://yoursite.com/2017/08/19/Web-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Web-Security-Learning/</id>
     <published>2017-08-19T02:15:59.000Z</published>
-    <updated>2017-08-19T03:58:31.671Z</updated>
+    <updated>2017-08-19T13:01:18.884Z</updated>
     
     <content type="html"><![CDATA[<p>Web-Security-Learning 学习资料<br><a id="more"></a></p>
 <h1 id="Web-Security-Learning"><a href="#Web-Security-Learning" class="headerlink" title="Web-Security-Learning"></a>Web-Security-Learning</h1><p>项目地址：<a href="https://github.com/CHYbeta/Web-Security-Learning" target="_blank" rel="external">Web-Security-Learning</a></p>
-<h1 id="Web-Security"><a href="#Web-Security" class="headerlink" title="Web Security"></a>Web Security</h1><h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><h3 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h3><ul>
+<p>#<br>Web Security</p>
+<h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><h3 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h3><ul>
 <li><a href="http://bobao.360.cn/learning/detail/3804.html" target="_blank" rel="external">MySQL False注入及技巧总结</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3758.html" target="_blank" rel="external">MySQL 注入攻击与防御</a></li>
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484372&amp;idx=1&amp;sn=ffcc51a88c9acf96c312421b75fc2a26&amp;chksm=ec1e33fcdb69baea53838fd545a236c0deb8a42f3b341ee0879c9e4ac9427c2147fab95b6669#rd" target="_blank" rel="external">sql注入学习总结 </a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3801.html" target="_blank" rel="external">SQL注入防御与绕过的几种姿势</a></li>
+<li><a href="http://rcoil.me/2017/05/MySQL%E5%81%8F%E9%97%A8%E6%8A%80%E5%B7%A7/" target="_blank" rel="external">MySQL偏门技巧</a></li>
 </ul>
 <h3 id="MSSQL"><a href="#MSSQL" class="headerlink" title="MSSQL"></a>MSSQL</h3><ul>
 <li><a href="http://fuping.site/2017/05/16/MSSQL-DBA-Permission-GET-WEBSHELL/" target="_blank" rel="external">MSSQL DBA权限获取WEBSHELL的过程 </a></li>
@@ -704,6 +706,7 @@
 <li><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTQ5NjUzOQ==&amp;mid=2247483665&amp;idx=1&amp;sn=4b18de09738fdc5291634db1ca2dd55a" target="_blank" rel="external">Python Sandbox Bypass</a></li>
 </ul>
 <h2 id="WAF相关"><a href="#WAF相关" class="headerlink" title="WAF相关"></a>WAF相关</h2><ul>
+<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" rel="external">牛逼牛逼的payload和bypass总结</a></li>
 <li><a href="http://www.mottoin.com/100887.html" target="_blank" rel="external">WAF绕过参考资料</a></li>
 <li><a href="http://www.freebuf.com/articles/web/136723.html" target="_blank" rel="external">浅谈WAF绕过技巧</a></li>
 <li><a href="https://xianzhi.aliyun.com/forum/read/753.html?fpage=6" target="_blank" rel="external">addslashes防注入的绕过案例</a></li>
@@ -744,6 +747,7 @@
 <li><a href="https://xianzhi.aliyun.com/forum/read/1675.html" target="_blank" rel="external">大型目标渗透－01入侵信息搜集</a></li>
 </ul>
 <h2 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h2><ul>
+<li><a href="http://rcoil.me/2017/06/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" target="_blank" rel="external">内网渗透（持续更新） </a></li>
 <li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/index.html" target="_blank" rel="external">实战 SSH 端口转发</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3545.html" target="_blank" rel="external">多重转发渗透隐藏内网</a></li>
 <li><a href="http://www.03sec.com/3141.shtml" target="_blank" rel="external">内网转发姿势</a></li>
@@ -805,7 +809,7 @@
 <li><a href="http://bobao.360.cn/ctf/detail/203.html" target="_blank" rel="external">CTF比赛中关于zip的总结</a></li>
 <li><a href="http://weibo.com/ttarticle/p/show?id=2309403980950244591011" target="_blank" rel="external">十五个Web狗的CTF出题套路</a></li>
 <li><a href="https://827977014.docs.qq.com/Bt2v7IZWnYo?type=1&amp;_wv=1&amp;_bid=2517" target="_blank" rel="external">CTF备忘录</a></li>
-<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" rel="external">牛逼牛逼的payload和bypass总结</a></li>
+<li><a href="http://rcoil.me/2017/06/CTF%E7%BA%BF%E4%B8%8B%E8%B5%9B%E6%80%BB%E7%BB%93/" target="_blank" rel="external">rcoil:CTF线下攻防赛总结</a></li>
 </ul>
 <h1 id="杂"><a href="#杂" class="headerlink" title="杂"></a>杂</h1><ul>
 <li><a href="http://www.mottoin.com/94895.html" target="_blank" rel="external">各种脚本语言不同版本一句话开启 HTTP 服务器的总结</a></li>
