@@ -254,10 +254,10 @@
     <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
     <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-19T03:39:50.032Z</updated>
+    <updated>2017-08-19T03:43:25.807Z</updated>
     
-    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br><a id="more"></a><br>#<br>Bin Securiy</p>
-<h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><ul>
+    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br><a id="more"></a></p>
+<h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><ul>
 <li><a href="https://github.com/angr/angr" target="_blank" rel="external">Angr：The next-generation binary analysis platform </a></li>
 <li><a href="http://www.freebuf.com/sectool/143056.html" target="_blank" rel="external">Angr：一个具有动态符号执行和静态分析的二进制分析工具 </a></li>
 <li><a href="http://bestwing.me/2017/03/08/angr-study/" target="_blank" rel="external">angr初探</a></li>
