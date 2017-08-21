@@ -256,9 +256,15 @@
     <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
     <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-20T23:56:13.572Z</updated>
+    <updated>2017-08-21T00:32:31.665Z</updated>
     
-    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月21日更新小记：</p>
+<ul>
+<li>增加<a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">技能表</a></li>
+<li>增加<a href="https://github.com/CHYbeta/Software-Security-Learning#iososx-securiy" target="_blank" rel="external">IOS/OSX Securiy板块</a></li>
+<li>细分整理<a href="https://github.com/CHYbeta/Software-Security-Learning#android-security" target="_blank" rel="external">Android Security板块</a></li>
+</ul>
+<a id="more"></a>
 <h1 id="Software-Security-Learning"><a href="#Software-Security-Learning" class="headerlink" title="Software-Security-Learning"></a>Software-Security-Learning</h1><p>项目地址：<a href="https://github.com/CHYbeta/Software-Security-Learning" target="_blank" rel="external">Software-Security-Learning</a></p>
 <h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><ul>
 <li><a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">软件安全工程师技能表</a></li>
@@ -522,7 +528,12 @@
     
     <summary type="html">
     
-      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;
+      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月21日更新小记：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;增加&lt;a href=&quot;https://github.com/feicong/sec_skills&quot;&gt;技能表&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;增加&lt;a href=&quot;https://github.com/CHYbeta/Software-Security-Learning#iososx-securiy&quot;&gt;IOS/OSX Securiy板块&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;细分整理&lt;a href=&quot;https://github.com/CHYbeta/Software-Security-Learning#android-security&quot;&gt;Android Security板块&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -2083,9 +2094,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
       <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
   </entry>
   
