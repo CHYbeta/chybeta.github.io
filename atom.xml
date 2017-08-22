@@ -392,15 +392,14 @@
     <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
     <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-22T14:27:32.262Z</updated>
+    <updated>2017-08-22T14:34:23.543Z</updated>
     
     <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月22日更新小记：</p>
 <ul>
 <li>IOS板块增加: <a href="https://github.com/pandazheng/IosHackStudy" target="_blank" rel="external">IosHackStudy</a></li>
 <li>堆相关知识增加： <a href="http://0x48.pw/2017/08/07/0x37/" target="_blank" rel="external">malloc.c源码阅读之__libc_free</a></li>
 </ul>
-<hr>
-<h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><ul>
 <li><a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">软件安全工程师技能表</a></li>
 </ul>
 <h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><ul>
@@ -666,7 +665,10 @@
     
       &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月22日更新小记：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;IOS板块增加: &lt;a href=&quot;https://github.com/pandazheng/IosHackStudy&quot; target=&quot;_blank&quot; 
+&lt;li&gt;IOS板块增加: &lt;a href=&quot;https://github.com/pandazheng/IosHackStudy&quot;&gt;IosHackStudy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;堆相关知识增加： &lt;a href=&quot;http://0x48.pw/2017/08/07/0x37/&quot;&gt;malloc.c源码阅读之__libc_free&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
     
     </summary>
     
