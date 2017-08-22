@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-21T00:33:50.549Z</updated>
+  <updated>2017-08-22T09:00:16.471Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-08-21T00:33:50.549Z</updated>
+    <updated>2017-08-22T09:00:16.471Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -83,6 +83,7 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/08/22/XMAX%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/#more" target="_blank" rel="external">XMAX夏令营-2017-babyweb-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-default-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-default-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%98%B3%E5%85%89%E6%80%BB%E5%9C%A8%E9%A3%8E%E9%9B%A8%E5%90%8E-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-阳光总在风雨后-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-Document-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-Document-writeup</a></li>
@@ -149,9 +150,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
