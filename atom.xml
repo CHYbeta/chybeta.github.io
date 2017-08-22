@@ -255,11 +255,11 @@
   </entry>
   
   <entry>
-    <title>XMAX夏令营-2017-比赛系统-writeup</title>
-    <link href="http://yoursite.com/2017/08/22/XMAX%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-%E6%AF%94%E8%B5%9B%E7%B3%BB%E7%BB%9F-writeup/"/>
-    <id>http://yoursite.com/2017/08/22/XMAX夏令营-2017-比赛系统-writeup/</id>
-    <published>2017-08-22T09:03:26.000Z</published>
-    <updated>2017-08-22T09:28:00.352Z</updated>
+    <title>XMAN夏令营-2017-比赛系统-writeup</title>
+    <link href="http://yoursite.com/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-%E6%AF%94%E8%B5%9B%E7%B3%BB%E7%BB%9F-writeup/"/>
+    <id>http://yoursite.com/2017/08/22/XMAN夏令营-2017-比赛系统-writeup/</id>
+    <published>2017-08-22T09:31:20.000Z</published>
+    <updated>2017-08-22T09:32:44.696Z</updated>
     
     <content type="html"><![CDATA[<p>逻辑问题、任意用户密码重置<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8013</div></pre></td></tr></table></figure>
@@ -298,11 +298,11 @@
   </entry>
   
   <entry>
-    <title>XMAX夏令营-2017-babyweb-writeup</title>
-    <link href="http://yoursite.com/2017/08/22/XMAX%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/"/>
-    <id>http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/</id>
-    <published>2017-08-22T05:37:42.000Z</published>
-    <updated>2017-08-22T09:07:10.595Z</updated>
+    <title>XMAN夏令营-2017-babyweb-writeup</title>
+    <link href="http://yoursite.com/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/"/>
+    <id>http://yoursite.com/2017/08/22/XMAN夏令营-2017-babyweb-writeup/</id>
+    <published>2017-08-22T09:31:10.000Z</published>
+    <updated>2017-08-22T09:31:33.749Z</updated>
     
     <content type="html"><![CDATA[<p>文件上传、php伪协议、文件包含<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><p>题目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199</div></pre></td></tr></table></figure></p>
