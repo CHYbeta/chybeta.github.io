@@ -392,16 +392,14 @@
     <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
     <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-21T00:32:31.665Z</updated>
+    <updated>2017-08-22T14:27:32.262Z</updated>
     
-    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月21日更新小记：</p>
+    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月22日更新小记：</p>
 <ul>
-<li>增加<a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">技能表</a></li>
-<li>增加<a href="https://github.com/CHYbeta/Software-Security-Learning#iososx-securiy" target="_blank" rel="external">IOS/OSX Securiy板块</a></li>
-<li>细分整理<a href="https://github.com/CHYbeta/Software-Security-Learning#android-security" target="_blank" rel="external">Android Security板块</a></li>
+<li>IOS板块增加: <a href="https://github.com/pandazheng/IosHackStudy" target="_blank" rel="external">IosHackStudy</a></li>
+<li>堆相关知识增加： <a href="http://0x48.pw/2017/08/07/0x37/" target="_blank" rel="external">malloc.c源码阅读之__libc_free</a></li>
 </ul>
-<a id="more"></a>
-<h1 id="Software-Security-Learning"><a href="#Software-Security-Learning" class="headerlink" title="Software-Security-Learning"></a>Software-Security-Learning</h1><p>项目地址：<a href="https://github.com/CHYbeta/Software-Security-Learning" target="_blank" rel="external">Software-Security-Learning</a></p>
+<hr>
 <h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><ul>
 <li><a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">软件安全工程师技能表</a></li>
 </ul>
@@ -507,6 +505,7 @@
 <li><a href="http://o0xmuhe.me/2016/11/21/Have-fun-with-glibc%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" target="_blank" rel="external">Have fun with glibc内存管理</a></li>
 <li><a href="http://www.tuicool.com/articles/A7n2ueq" target="_blank" rel="external">内存映射mmap</a></li>
 <li><a href="http://0x48.pw/2017/07/25/0x35/" target="_blank" rel="external">glibc malloc学习笔记之fastbin</a></li>
+<li><a href="http://0x48.pw/2017/08/07/0x37/" target="_blank" rel="external">malloc.c源码阅读之__libc_free</a></li>
 </ul>
 <h3 id="堆利用技术"><a href="#堆利用技术" class="headerlink" title="堆利用技术"></a>堆利用技术</h3><ul>
 <li><a href="http://wooyun.jozxing.cc/static/drops/binary-14596.html" target="_blank" rel="external">溢出科普：heap overflow&amp;溢出保护和绕过</a></li>
@@ -543,9 +542,9 @@
 </ul>
 <ul>
 <li><a href="http://phrack.org/issues/59/7.html" target="_blank" rel="external">Advances in format string exploitation</a></li>
-<li><a href="http://www.vnsecurity.net/research/2012/02/16/exploiting-sudo-format-string-vunerability.html" target="_blank" rel="external">Exploiting Sudo format string vunerability</a><h2 id="其余漏洞"><a href="#其余漏洞" class="headerlink" title="其余漏洞"></a>其余漏洞</h2></li>
+<li><a href="http://www.vnsecurity.net/research/2012/02/16/exploiting-sudo-format-string-vunerability.html" target="_blank" rel="external">Exploiting Sudo format string vunerability</a></li>
 </ul>
-<h3 id="FSP溢出"><a href="#FSP溢出" class="headerlink" title="FSP溢出"></a>FSP溢出</h3><ul>
+<h2 id="其余漏洞"><a href="#其余漏洞" class="headerlink" title="其余漏洞"></a>其余漏洞</h2><h3 id="FSP溢出"><a href="#FSP溢出" class="headerlink" title="FSP溢出"></a>FSP溢出</h3><ul>
 <li><a href="http://wooyun.jozxing.cc/static/drops/binary-12740.html" target="_blank" rel="external">Head First FILE Stream Pointer Overflow</a></li>
 <li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">abusing the FILE structure</a></li>
 <li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">File Stream Pointer Overflows Paper.</a></li>
@@ -646,6 +645,7 @@
 <li><a href="http://damnvulnerableiosapp.com/#trainings" target="_blank" rel="external">Damn Vulnerable iOS Application (DVIA)</a></li>
 </ul>
 <h3 id="Skill-1"><a href="#Skill-1" class="headerlink" title="Skill"></a>Skill</h3><ul>
+<li><a href="https://github.com/pandazheng/IosHackStudy" target="_blank" rel="external">IosHackStudy</a></li>
 <li><a href="https://papers.put.as/ios/ios/" target="_blank" rel="external">Papers, Slides and Thesis Archive : iOS</a></li>
 <li><a href="http://security.ios-wiki.com/" target="_blank" rel="external">ios-wiki: iOS Security</a></li>
 <li><a href="https://www.apple.com/business/docs/iOS_Security_Guide.pdf" target="_blank" rel="external">apple官方文档：iOS Security</a></li>
@@ -664,12 +664,9 @@
     
     <summary type="html">
     
-      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月21日更新小记：&lt;/p&gt;
+      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月22日更新小记：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;增加&lt;a href=&quot;https://github.com/feicong/sec_skills&quot;&gt;技能表&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;增加&lt;a href=&quot;https://github.com/CHYbeta/Software-Security-Learning#iososx-securiy&quot;&gt;IOS/OSX Securiy板块&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;细分整理&lt;a href=&quot;https://github.com/CHYbeta/Software-Security-Learning#android-security&quot;&gt;Android Security板块&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;IOS板块增加: &lt;a href=&quot;https://github.com/pandazheng/IosHackStudy&quot; target=&quot;_blank&quot; 
     
     </summary>
     
