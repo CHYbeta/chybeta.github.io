@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-22T13:53:03.110Z</updated>
+  <updated>2017-08-23T13:54:39.177Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-08-22T13:53:03.110Z</updated>
+    <updated>2017-08-23T13:54:39.177Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -109,6 +109,11 @@
 <li><a href="https://chybeta.github.io/2017/01/12/%E5%8D%97%E9%82%AECTF%E5%B9%B3%E5%8F%B0web%E5%89%8D30%E9%A2%98%E8%A7%A3/" target="_blank" rel="external">南邮CTF平台web前30题解</a></li>
 </ul>
 <h3 id="sqli-lab"><a href="#sqli-lab" class="headerlink" title="sqli-lab"></a>sqli-lab</h3><ul>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/" target="_blank" rel="external">Sqli-Labs:Less17-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less15-16-writeup/" target="_blank" rel="external">Sqli-Labs:Less15~16-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less13-14-writeup/" target="_blank" rel="external">Sqli-Labs:Less13~14-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less11-12-writeup/" target="_blank" rel="external">Sqli-Labs:Less11~12-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less8-10-writeup/" target="_blank" rel="external">Sqli-Labs:Less8~10-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less7-writeup/" target="_blank" rel="external">Sqli-Labs:Less7-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less5-6-writeup/" target="_blank" rel="external">Sqli-Labs:Less5-6-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/04/02/Sqli-Labs-Less1-4-writeup/" target="_blank" rel="external">Sqli-Labs:Less1-4-writeup</a></li>
@@ -152,9 +157,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
