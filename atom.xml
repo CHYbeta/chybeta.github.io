@@ -157,9 +157,9 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
     
   </entry>
   
@@ -620,12 +620,12 @@
     <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
     <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-22T14:34:23.543Z</updated>
+    <updated>2017-08-24T01:29:47.701Z</updated>
     
-    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月22日更新小记：</p>
+    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月24日更新小记：</p>
 <ul>
-<li>IOS板块增加: <a href="https://github.com/pandazheng/IosHackStudy" target="_blank" rel="external">IosHackStudy</a></li>
-<li>堆相关知识增加： <a href="http://0x48.pw/2017/08/07/0x37/" target="_blank" rel="external">malloc.c源码阅读之__libc_free</a></li>
+<li>修正某些错误链接</li>
+<li>新加浏览器漏洞模块：<a href="https://zhuanlan.zhihu.com/p/28719766" target="_blank" rel="external">浏览器漏洞挖掘思路</a></li>
 </ul>
 <h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><ul>
 <li><a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">软件安全工程师技能表</a></li>
@@ -687,7 +687,7 @@
 <li><a href="http://bestwing.me/2017/03/19/stack-overflow-two-ROP/" target="_blank" rel="external">Swing: 基础栈溢出复习 二 之 ROP </a></li>
 </ul>
 <h3 id="BROP"><a href="#BROP" class="headerlink" title="BROP"></a>BROP</h3><ul>
-<li><a href="https://raw.githubusercontent.com/phith0n/Mind-Map/master/渗透测试.png" target="_blank" rel="external">Blind Return Oriented Programming</a></li>
+<li><a href="http://www.scs.stanford.edu/brop/" target="_blank" rel="external">Blind Return Oriented Programming</a></li>
 </ul>
 <ul>
 <li><a href="http://o0xmuhe.me/2017/01/22/Have-fun-with-Blind-ROP/" target="_blank" rel="external">muhe: Have fun with Blind ROP</a></li>
@@ -763,18 +763,13 @@
 </ul>
 <ul>
 <li><a href="http://0x48.pw/2017/03/13/0x2c/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">Linux系统下格式化字符串利用研究 </a></li>
-</ul>
-<ul>
-<li><a href="https://crypto.stanford.edu/cs155/papers/formatstring-1.2.pdf" target="_blank" rel="external">Exploiting Format String Vulnerabilities</a></li>
-</ul>
-<ul>
 <li><a href="http://phrack.org/issues/59/7.html" target="_blank" rel="external">Advances in format string exploitation</a></li>
 <li><a href="http://www.vnsecurity.net/research/2012/02/16/exploiting-sudo-format-string-vunerability.html" target="_blank" rel="external">Exploiting Sudo format string vunerability</a></li>
 </ul>
 <h2 id="其余漏洞"><a href="#其余漏洞" class="headerlink" title="其余漏洞"></a>其余漏洞</h2><h3 id="FSP溢出"><a href="#FSP溢出" class="headerlink" title="FSP溢出"></a>FSP溢出</h3><ul>
 <li><a href="http://wooyun.jozxing.cc/static/drops/binary-12740.html" target="_blank" rel="external">Head First FILE Stream Pointer Overflow</a></li>
 <li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">abusing the FILE structure</a></li>
-<li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">File Stream Pointer Overflows Paper.</a></li>
+<li><a href="http://repo.thehackademy.net/depot_ouah/fsp-overflows.txt" target="_blank" rel="external">File Stream Pointer Overflows Paper.</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3219.html" target="_blank" rel="external">溢出利用FILE结构体</a></li>
 </ul>
 <h3 id="整数溢出"><a href="#整数溢出" class="headerlink" title="整数溢出"></a>整数溢出</h3><ul>
@@ -790,7 +785,7 @@
 <li><a href="https://hshrzd.wordpress.com/2017/05/28/starting-with-windows-kernel-exploitation-part-1-setting-up-the-lab/" target="_blank" rel="external">Starting with Windows Kernel Exploitation – part 1 – setting up the lab</a></li>
 <li><a href="https://hshrzd.wordpress.com/2017/06/05/starting-with-windows-kernel-exploitation-part-2/" target="_blank" rel="external">Starting with Windows Kernel Exploitation – part 2 – getting familiar with HackSys Extreme Vulnerable Driver</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/4002.html" target="_blank" rel="external">Windows内核利用之旅：熟悉HEVD（附视频演示）</a></li>
-<li><a href="bobao.360.cn/learning/detail/3718.html">Windows 内核攻击：栈溢出</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3718.html" target="_blank" rel="external">Windows 内核攻击：栈溢出</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3700.html" target="_blank" rel="external">Linux 内核漏洞利用教程（一）：环境配置</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3702.html" target="_blank" rel="external">Linux 内核漏洞利用教程（二）：两个Demo</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3706.html" target="_blank" rel="external">Linux 内核漏洞利用教程（三）：实践 CSAW CTF 题目</a></li>
@@ -865,6 +860,9 @@
 <li><a href="http://bobao.360.cn/learning/detail/4254.html" target="_blank" rel="external">走到哪黑到哪——Android渗透测试三板斧</a></li>
 <li><a href="http://www.4hou.com/penetration/6916.html" target="_blank" rel="external">Brida:将frida与burp结合进行移动app渗透测试</a></li>
 </ul>
+<h1 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h1><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/28719766" target="_blank" rel="external">浏览器漏洞挖掘思路</a></li>
+</ul>
 <h1 id="IOS-OSX-Securiy"><a href="#IOS-OSX-Securiy" class="headerlink" title="IOS/OSX Securiy"></a>IOS/OSX Securiy</h1><ul>
 <li><a href="https://github.com/michalmalik/osx-re-101" target="_blank" rel="external">OSX/iOS reverse engineering</a></li>
 </ul>
@@ -891,10 +889,10 @@
     
     <summary type="html">
     
-      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月22日更新小记：&lt;/p&gt;
+      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月24日更新小记：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;IOS板块增加: &lt;a href=&quot;https://github.com/pandazheng/IosHackStudy&quot;&gt;IosHackStudy&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;堆相关知识增加： &lt;a href=&quot;http://0x48.pw/2017/08/07/0x37/&quot;&gt;malloc.c源码阅读之__libc_free&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;修正某些错误链接&lt;/li&gt;
+&lt;li&gt;新加浏览器漏洞模块：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/28719766&quot;&gt;浏览器漏洞挖掘思路&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
     
@@ -908,15 +906,12 @@
     <link href="http://yoursite.com/2017/08/19/Web-Security-Learning/"/>
     <id>http://yoursite.com/2017/08/19/Web-Security-Learning/</id>
     <published>2017-08-19T02:15:59.000Z</published>
-    <updated>2017-08-21T00:23:02.820Z</updated>
+    <updated>2017-08-24T01:24:29.653Z</updated>
     
-    <content type="html"><![CDATA[<p>Web-Security-Learning 学习资料<br>8月21日更新：</p>
+    <content type="html"><![CDATA[<p>Web-Security-Learning 学习资料<br>8月24日更新：</p>
 <ul>
-<li>整合前端安全模块</li>
 <li>新收录文章：<ul>
-<li>前端安全；<a href="http://paper.seebug.org/130/?from=timeline&amp;isappinstalled=0" target="_blank" rel="external">当代 Web 的 JSON 劫持技巧</a></li>
-<li>提权： <a href="https://mp.weixin.qq.com/s/ERXOLhWo0-lJbMV143I8hA" target="_blank" rel="external">Windows提权系列中篇</a></li>
-<li>杂：<a href="http://bobao.360.cn/learning/detail/4268.html" target="_blank" rel="external">如何通过恶意插件在Atom中植入后门</a></li>
+<li>sql注入；<a href="http://www.cnblogs.com/croot/p/3450262.html" target="_blank" rel="external">高级SQL注入:混淆和绕过</a></li>
 </ul>
 </li>
 </ul>
@@ -929,6 +924,7 @@
 <li><a href="http://bobao.360.cn/learning/detail/3801.html" target="_blank" rel="external">SQL注入防御与绕过的几种姿势</a></li>
 <li><a href="http://rcoil.me/2017/05/MySQL%E5%81%8F%E9%97%A8%E6%8A%80%E5%B7%A7/" target="_blank" rel="external">MySQL偏门技巧</a></li>
 <li><a href="http://www.wupco.cn/?p=4117" target="_blank" rel="external">mysql注入可报错时爆表名、字段名、库名</a></li>
+<li><a href="http://www.cnblogs.com/croot/p/3450262.html" target="_blank" rel="external">高级SQL注入:混淆和绕过</a></li>
 </ul>
 <h3 id="MSSQL"><a href="#MSSQL" class="headerlink" title="MSSQL"></a>MSSQL</h3><ul>
 <li><a href="http://fuping.site/2017/05/16/MSSQL-DBA-Permission-GET-WEBSHELL/" target="_blank" rel="external">MSSQL DBA权限获取WEBSHELL的过程 </a></li>
@@ -1319,13 +1315,10 @@
     
     <summary type="html">
     
-      &lt;p&gt;Web-Security-Learning 学习资料&lt;br&gt;8月21日更新：&lt;/p&gt;
+      &lt;p&gt;Web-Security-Learning 学习资料&lt;br&gt;8月24日更新：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;整合前端安全模块&lt;/li&gt;
 &lt;li&gt;新收录文章：&lt;ul&gt;
-&lt;li&gt;前端安全；&lt;a href=&quot;http://paper.seebug.org/130/?from=timeline&amp;amp;isappinstalled=0&quot;&gt;当代 Web 的 JSON 劫持技巧&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;提权： &lt;a href=&quot;https://mp.weixin.qq.com/s/ERXOLhWo0-lJbMV143I8hA&quot;&gt;Windows提权系列中篇&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;杂：&lt;a href=&quot;http://bobao.360.cn/learning/detail/4268.html&quot;&gt;如何通过恶意插件在Atom中植入后门&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;sql注入；&lt;a href=&quot;http://www.cnblogs.com/croot/p/3450262.html&quot;&gt;高级SQL注入:混淆和绕过&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
