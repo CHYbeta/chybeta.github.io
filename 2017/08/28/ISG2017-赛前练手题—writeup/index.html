@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CTF,misc,writeup," />
+  <meta name="keywords" content="CTF,writeup,misc," />
 
 
 
@@ -89,19 +89,16 @@
 
 
 
-<meta name="description" content="秘密文件12在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)
-下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：123456789import base64pngdata = &quot;iVBORw0KGgoAAAANSUhEUgAAARgAAA">
+<meta name="description" content="ISG2017-赛前练手题—writeup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ISG2017-赛前练手题—writeup">
 <meta property="og:url" content="http://yoursite.com/2017/08/28/ISG2017-赛前练手题—writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="秘密文件12在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)
-下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：123456789import base64pngdata = &quot;iVBORw0KGgoAAAANSUhEUgAAARgAAA">
-<meta property="og:updated_time" content="2017-08-28T11:53:20.122Z">
+<meta property="og:description" content="ISG2017-赛前练手题—writeup">
+<meta property="og:updated_time" content="2017-08-28T23:54:53.868Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ISG2017-赛前练手题—writeup">
-<meta name="twitter:description" content="秘密文件12在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)
-下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：123456789import base64pngdata = &quot;iVBORw0KGgoAAAANSUhEUgAAARgAAA">
+<meta name="twitter:description" content="ISG2017-赛前练手题—writeup">
 
 
 
@@ -409,7 +406,8 @@
       
 
       
-        <h1 id="秘密文件"><a href="#秘密文件" class="headerlink" title="秘密文件"></a>秘密文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？</div><div class="line">奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)</div></pre></td></tr></table></figure>
+        <p>ISG2017-赛前练手题—writeup<br><a id="more"></a></p>
+<h1 id="秘密文件"><a href="#秘密文件" class="headerlink" title="秘密文件"></a>秘密文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？</div><div class="line">奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)</div></pre></td></tr></table></figure>
 <p>下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> base64</div><div class="line"></div><div class="line">pngdata = <span class="string">"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"</span></div><div class="line"></div><div class="line">f = open(<span class="string">"flag.png"</span>,<span class="string">"wb"</span>)</div><div class="line"></div><div class="line">f.write(base64.b64decode(pngdata))</div><div class="line"></div><div class="line">f.close()</div></pre></td></tr></table></figure></p>
 <p>得到一张二维码，扫后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISG&#123;5a9f1ce5c7359a1b1076b5143b946a3b&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="简单的apk"><a href="#简单的apk" class="headerlink" title="简单的apk"></a>简单的apk</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">能够通过APK认证的字符串即为本题flag</div><div class="line"></div><div class="line">下载APK(https://play.chinaisg.org/attachment/download/simple-code.apk)</div></pre></td></tr></table></figure>
@@ -429,7 +427,7 @@
   <p><span>本文标题:</span><a href="/2017/08/28/ISG2017-赛前练手题—writeup/">ISG2017-赛前练手题—writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月28日 - 19:08</p>
-  <p><span>最后更新:</span>2017年08月28日 - 19:08</p>
+  <p><span>最后更新:</span>2017年08月29日 - 07:08</p>
   <p><span>原始链接:</span><a href="/2017/08/28/ISG2017-赛前练手题—writeup/" title="ISG2017-赛前练手题—writeup">http://yoursite.com/2017/08/28/ISG2017-赛前练手题—writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/28/ISG2017-赛前练手题—writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -490,9 +488,9 @@
           
             <a href="/tags/CTF/" rel="tag"># CTF</a>
           
-            <a href="/tags/misc/" rel="tag"># misc</a>
-          
             <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/misc/" rel="tag"># misc</a>
           
         </div>
       
@@ -585,7 +583,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">111</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -169,6 +169,37 @@
   </entry>
   
   <entry>
+    <title>HITB CTF 2017-Pasty-writeup</title>
+    <link href="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/"/>
+    <id>http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/</id>
+    <published>2017-08-28T23:44:02.000Z</published>
+    <updated>2017-08-28T23:55:45.763Z</updated>
+    
+    <content type="html"><![CDATA[<p>HITB CTF 2017-Pasty-writeup</p>
+<p>JWT安全性问题<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can you find the administrator&apos;s secret message?</div><div class="line">http://47.74.147.52:20012</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>基本功能：注册，登陆，写paste，保存。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;HITB CTF 2017-Pasty-writeup&lt;/p&gt;
+&lt;p&gt;JWT安全性问题&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hackit2017-H4ck3rM1nd-writeup</title>
     <link href="http://yoursite.com/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/"/>
     <id>http://yoursite.com/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/</id>
@@ -216,9 +247,10 @@
     <link href="http://yoursite.com/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/"/>
     <id>http://yoursite.com/2017/08/28/ISG2017-赛前练手题—writeup/</id>
     <published>2017-08-28T11:43:46.000Z</published>
-    <updated>2017-08-28T11:53:20.122Z</updated>
+    <updated>2017-08-28T23:54:53.868Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="秘密文件"><a href="#秘密文件" class="headerlink" title="秘密文件"></a>秘密文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？</div><div class="line">奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>ISG2017-赛前练手题—writeup<br><a id="more"></a></p>
+<h1 id="秘密文件"><a href="#秘密文件" class="headerlink" title="秘密文件"></a>秘密文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？</div><div class="line">奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)</div></pre></td></tr></table></figure>
 <p>下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> base64</div><div class="line"></div><div class="line">pngdata = <span class="string">"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"</span></div><div class="line"></div><div class="line">f = open(<span class="string">"flag.png"</span>,<span class="string">"wb"</span>)</div><div class="line"></div><div class="line">f.write(base64.b64decode(pngdata))</div><div class="line"></div><div class="line">f.close()</div></pre></td></tr></table></figure></p>
 <p>得到一张二维码，扫后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISG&#123;5a9f1ce5c7359a1b1076b5143b946a3b&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="简单的apk"><a href="#简单的apk" class="headerlink" title="简单的apk"></a>简单的apk</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">能够通过APK认证的字符串即为本题flag</div><div class="line"></div><div class="line">下载APK(https://play.chinaisg.org/attachment/download/simple-code.apk)</div></pre></td></tr></table></figure>
@@ -227,7 +259,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;秘密文件&quot;&gt;&lt;a href=&quot;#秘密文件&quot; class=&quot;headerlink&quot; title=&quot;秘密文件&quot;&gt;&lt;/a&gt;秘密文件&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
+      &lt;p&gt;ISG2017-赛前练手题—writeup&lt;br&gt;
     
     </summary>
     
@@ -236,9 +268,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
   </entry>
   
@@ -414,9 +446,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
   </entry>
   
@@ -995,292 +1027,6 @@
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Software-Security-Learning</title>
-    <link href="http://yoursite.com/2017/08/19/Software-Security-Learning/"/>
-    <id>http://yoursite.com/2017/08/19/Software-Security-Learning/</id>
-    <published>2017-08-19T02:16:10.000Z</published>
-    <updated>2017-08-24T01:29:47.701Z</updated>
-    
-    <content type="html"><![CDATA[<p>Software-Security-Learning 学习资料<br>8月24日更新小记：</p>
-<ul>
-<li>修正某些错误链接</li>
-<li>新加浏览器漏洞模块：<a href="https://zhuanlan.zhihu.com/p/28719766" target="_blank" rel="external">浏览器漏洞挖掘思路</a></li>
-</ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h1 id="Bin-Securiy"><a href="#Bin-Securiy" class="headerlink" title="Bin Securiy"></a>Bin Securiy</h1><ul>
-<li><a href="https://github.com/feicong/sec_skills" target="_blank" rel="external">软件安全工程师技能表</a></li>
-</ul>
-<h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><ul>
-<li><a href="https://github.com/angr/angr" target="_blank" rel="external">Angr：The next-generation binary analysis platform </a></li>
-<li><a href="http://www.freebuf.com/sectool/143056.html" target="_blank" rel="external">Angr：一个具有动态符号执行和静态分析的二进制分析工具 </a></li>
-<li><a href="http://bestwing.me/2017/03/08/angr-study/" target="_blank" rel="external">angr初探</a></li>
-</ul>
-<ul>
-<li><a href="http://www.freebuf.com/sectool/143123.html" target="_blank" rel="external">Vuzzer自动漏洞挖掘工具简单分析附使用介绍</a></li>
-</ul>
-<ul>
-<li><a href="https://github.com/longld/peda" target="_blank" rel="external">PEDA - Python Exploit Development Assistance for GDB</a></li>
-<li><a href="https://github.com/Gallopsled/pwntools" target="_blank" rel="external">pwntools - CTF framework and exploit development library</a></li>
-</ul>
-<h2 id="Course"><a href="#Course" class="headerlink" title="Course"></a>Course</h2><ul>
-<li><a href="http://security.cs.rpi.edu/courses/binexp-spring2015/" target="_blank" rel="external">Modern Binary Exploitation</a></li>
-<li><a href="https://sploitfun.wordpress.com/2015/06/26/linux-x86-exploit-development-tutorial-series/" target="_blank" rel="external">Linux (x86) Exploit Development Series</a></li>
-<li><a href="http://liveoverflow.com/binary_hacking/index.html" target="_blank" rel="external">liveoverflow: Binary Hacking Course</a></li>
-<li><a href="https://www.fuzzysecurity.com/tutorials.html" target="_blank" rel="external">Lots of Tutorials</a></li>
-</ul>
-<h3 id="Hack-The-Virtual-Memory"><a href="#Hack-The-Virtual-Memory" class="headerlink" title="Hack The Virtual Memory"></a>Hack The Virtual Memory</h3><ul>
-<li><a href="https://blog.holbertonschool.com/hack-the-virtual-memory-c-strings-proc/" target="_blank" rel="external">Hack The Virtual Memory: C strings &amp; /proc</a></li>
-<li><a href="https://blog.holbertonschool.com/hack-the-virtual-memory-python-bytes/" target="_blank" rel="external">Hack The Virtual Memory: Python bytes</a></li>
-<li><a href="https://blog.holbertonschool.com/hack-the-virtual-memory-drawing-the-vm-diagram/" target="_blank" rel="external">Hack the Virtual Memory: drawing the VM diagram</a></li>
-<li><a href="https://blog.holbertonschool.com/hack-the-virtual-memory-malloc-the-heap-the-program-break/" target="_blank" rel="external">Hack the Virtual Memory: malloc, the heap &amp; the program break</a></li>
-</ul>
-<h3 id="Exploit-writing-tutorial"><a href="#Exploit-writing-tutorial" class="headerlink" title="Exploit writing tutorial"></a>Exploit writing tutorial</h3><ul>
-<li><a href="https://www.corelan.be/index.php/2009/07/19/exploit-writing-tutorial-part-1-stack-based-overflows/" target="_blank" rel="external">Stack Based Overflows</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/07/23/writing-buffer-overflow-exploits-a-quick-and-basic-tutorial-part-2/" target="_blank" rel="external">Stack Based Overflows – jumping to shellcode</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/07/25/writing-buffer-overflow-exploits-a-quick-and-basic-tutorial-part-3-seh/" target="_blank" rel="external">SEH Based Exploits</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/07/28/seh-based-exploit-writing-tutorial-continued-just-another-example-part-3b/" target="_blank" rel="external">SEH Based Exploits – just another example</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/08/12/exploit-writing-tutorials-part-4-from-exploit-to-metasploit-the-basics/" target="_blank" rel="external">From Exploit to Metasploit – The basics</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/09/05/exploit-writing-tutorial-part-5-how-debugger-modules-plugins-can-speed-up-basic-exploit-development/" target="_blank" rel="external">How debugger modules &amp; plugins can speed up basic exploit development</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/09/21/exploit-writing-tutorial-part-6-bypassing-stack-cookies-safeseh-hw-dep-and-aslr/" target="_blank" rel="external">Bypassing Stack Cookies, SafeSeh, SEHOP, HW DEP and ASLR</a></li>
-<li><a href="https://www.corelan.be/index.php/2009/11/06/exploit-writing-tutorial-part-7-unicode-from-0x00410041-to-calc/" target="_blank" rel="external">Unicode – from 0x00410041 to calc</a></li>
-<li><a href="https://www.corelan.be/index.php/2010/01/09/exploit-writing-tutorial-part-8-win32-egg-hunting/" target="_blank" rel="external">Win32 Egg Hunting</a></li>
-<li><a href="https://www.corelan.be/index.php/2010/02/25/exploit-writing-tutorial-part-9-introduction-to-win32-shellcoding/" target="_blank" rel="external">Introduction to Win32 shellcoding</a></li>
-<li><a href="https://www.corelan.be/index.php/2010/06/16/exploit-writing-tutorial-part-10-chaining-dep-with-rop-the-rubikstm-cube/" target="_blank" rel="external">Chaining DEP with ROP</a></li>
-<li><a href="https://www.corelan.be/index.php/2011/12/31/exploit-writing-tutorial-part-11-heap-spraying-demystified/" target="_blank" rel="external">Heap Spraying Demystified</a></li>
-</ul>
-<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><ul>
-<li><a href="http://www.freebuf.com/articles/system/135685.html" target="_blank" rel="external">Linux中的GOT和PLT到底是个啥？ </a></li>
-<li><a href="https://github.com/enzet/symbolic-execution" target="_blank" rel="external">关于符号执行</a></li>
-</ul>
-<h2 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h2><h3 id="一步一步ROP"><a href="#一步一步ROP" class="headerlink" title="一步一步ROP"></a>一步一步ROP</h3><ul>
-<li><a href="http://cb.drops.wiki/drops/tips-6597.html" target="_blank" rel="external">一步一步学ROP之linux_x86篇</a></li>
-<li><a href="http://cb.drops.wiki/drops/papers-7551.html" target="_blank" rel="external">一步一步学ROP之linux_x86篇</a></li>
-<li><a href="http://cb.drops.wiki/drops/binary-10638.html" target="_blank" rel="external">一步一步学ROP之gadgets和2free篇</a></li>
-<li><a href="http://cb.drops.wiki/drops/papers-11390.html" target="_blank" rel="external">一步一步学ROP之Android ARM 32位篇</a></li>
-</ul>
-<h3 id="基本ROP"><a href="#基本ROP" class="headerlink" title="基本ROP"></a>基本ROP</h3><ul>
-<li><a href="https://blog.skullsecurity.org/2013/ropasaurusrex-a-primer-on-return-oriented-programming" target="_blank" rel="external">ropasaurusrex: a primer on return-oriented programming2</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3569.html" target="_blank" rel="external">ROP技术入门教程</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/840.html?fpage=2" target="_blank" rel="external">二进制漏洞利用中的ROP技术研究与实例分析</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3694.html" target="_blank" rel="external">现代栈溢出利用技术基础：ROP</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/binary-14360.html" target="_blank" rel="external">通过ELF动态装载构造ROP链</a></li>
-<li><a href="http://bestwing.me/2017/03/19/stack-overflow-two-ROP/" target="_blank" rel="external">Swing: 基础栈溢出复习 二 之 ROP </a></li>
-</ul>
-<h3 id="BROP"><a href="#BROP" class="headerlink" title="BROP"></a>BROP</h3><ul>
-<li><a href="http://www.scs.stanford.edu/brop/" target="_blank" rel="external">Blind Return Oriented Programming</a></li>
-</ul>
-<ul>
-<li><a href="http://o0xmuhe.me/2017/01/22/Have-fun-with-Blind-ROP/" target="_blank" rel="external">muhe: Have fun with Blind ROP</a></li>
-</ul>
-<ul>
-<li><a href="http://bestwing.me/2017/03/24/stack-overflow-four-BROP/" target="_blank" rel="external">Swing: 基础栈溢出复习 四 之 BROP </a></li>
-</ul>
-<h3 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h3><ul>
-<li><a href="http://www.freebuf.com/articles/network/87447.html" target="_blank" rel="external">Sigreturn Oriented Programming (SROP) Attack攻击原理</a></li>
-<li><a href="http://bestwing.me/2017/03/20/stack-overflow-three-SROP/" target="_blank" rel="external">Swing: 基础栈溢出复习 三 之 SROP </a></li>
-</ul>
-<h3 id="Return-to-dl-resolve"><a href="#Return-to-dl-resolve" class="headerlink" title="Return-to-dl-resolve"></a>Return-to-dl-resolve</h3><ul>
-<li><a href="http://www.evil0x.com/posts/19226.html" target="_blank" rel="external">通过ELF动态装载构造ROP链 （ Return-to-dl-resolve）</a></li>
-</ul>
-<h2 id="栈漏洞"><a href="#栈漏洞" class="headerlink" title="栈漏洞"></a>栈漏洞</h2><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3717.html" target="_blank" rel="external">手把手教你栈溢出从入门到放弃（上）</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3718.html" target="_blank" rel="external">手把手教你栈溢出从入门到放弃（下）</a></li>
-<li><a href="http://0x48.pw/2016/11/03/0x26/" target="_blank" rel="external">Hcamael: PWN学习总结之基础栈溢出</a></li>
-<li><a href="http://0x48.pw/2016/11/21/0x27/" target="_blank" rel="external">Hcamael: PWN学习总结之基础栈溢出2 </a></li>
-<li><a href="http://bestwing.me/2017/03/18/stack-overflow-one/" target="_blank" rel="external">Swing: 基础栈溢出复习 之基础</a></li>
-<li><a href="http://www.freebuf.com/articles/terminal/107276.html" target="_blank" rel="external">ARM栈溢出攻击实践：从虚拟环境搭建到ROP利用 </a></li>
-<li><a href="https://blog.techorganic.com/2015/04/10/64-bit-linux-stack-smashing-tutorial-part-1/" target="_blank" rel="external">64-bit Linux stack smashing tutorial: Part 1</a></li>
-<li><a href="https://blog.techorganic.com/2015/04/21/64-bit-linux-stack-smashing-tutorial-part-2/" target="_blank" rel="external">64-bit Linux stack smashing tutorial: Part 2</a></li>
-<li><a href="https://blog.techorganic.com/2016/03/18/64-bit-linux-stack-smashing-tutorial-part-3/" target="_blank" rel="external">64-bit Linux stack smashing tutorial: Part 3</a></li>
-<li><a href="http://cybersecurity.upv.es/attacks/offset2lib/offset2lib.html" target="_blank" rel="external">Offset2lib: bypassing full ASLR on 64bit Linu</a></li>
-</ul>
-<h2 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h2><ul>
-<li><a href="https://heap-exploitation.dhavalkapil.com/introduction.html" target="_blank" rel="external">Heap Exploitation</a></li>
-<li><a href="https://github.com/shellphish/" target="_blank" rel="external">how2heap</a></li>
-</ul>
-<h3 id="堆相关知识"><a href="#堆相关知识" class="headerlink" title="堆相关知识"></a>堆相关知识</h3><ul>
-<li><a href="http://paper.seebug.org/255/" target="_blank" rel="external">PWN之堆内存管理</a></li>
-<li><a href="http://www.freebuf.com/articles/system/104144.html" target="_blank" rel="external">Linux堆内存管理深入分析（上） </a></li>
-<li><a href="http://www.freebuf.com/articles/security-management/105285.html" target="_blank" rel="external">Linux堆内存管理深入分析（下） </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3548.html" target="_blank" rel="external">Windows Exploit开发系列教程——堆喷射（一）</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3555.html" target="_blank" rel="external">Windows Exploit开发系列教程——堆喷射（二）</a></li>
-<li><a href="http://www.freebuf.com/articles/system/91527.html" target="_blank" rel="external">Libc堆管理机制及漏洞利用技术 (一） </a></li>
-<li><a href="https://blog.iret.xyz/article.aspx/linux_heapoverflow_enterance" target="_blank" rel="external">Notes About Heap Overflow Under Linux</a></li>
-<li><a href="http://www.freebuf.com/vuls/98404.html" target="_blank" rel="external">如何理解堆和堆溢出漏洞的利用?</a></li>
-</ul>
-<ul>
-<li><a href="http://o0xmuhe.me/2016/11/21/Have-fun-with-glibc%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" target="_blank" rel="external">Have fun with glibc内存管理</a></li>
-<li><a href="http://www.tuicool.com/articles/A7n2ueq" target="_blank" rel="external">内存映射mmap</a></li>
-<li><a href="http://0x48.pw/2017/07/25/0x35/" target="_blank" rel="external">glibc malloc学习笔记之fastbin</a></li>
-<li><a href="http://0x48.pw/2017/08/07/0x37/" target="_blank" rel="external">malloc.c源码阅读之__libc_free</a></li>
-</ul>
-<h3 id="堆利用技术"><a href="#堆利用技术" class="headerlink" title="堆利用技术"></a>堆利用技术</h3><ul>
-<li><a href="http://wooyun.jozxing.cc/static/drops/binary-14596.html" target="_blank" rel="external">溢出科普：heap overflow&amp;溢出保护和绕过</a></li>
-</ul>
-<ul>
-<li><a href="http://bobao.360.cn/learning/detail/3197.html" target="_blank" rel="external">现代化的堆相关漏洞利用技巧</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3113.html" target="_blank" rel="external">从一字节溢出到任意代码执行-Linux下堆漏洞利用</a></li>
-<li><a href="https://sploitfun.wordpress.com/2015/02/26/heap-overflow-using-unlink/?spm=a313e.7916648.0.0.x4nzYZ" target="_blank" rel="external">Heap overflow using unlink</a></li>
-<li><a href="https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.74.ZP8rXN&amp;articleid=360" target="_blank" rel="external">Linux堆溢出漏洞利用之unlink</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3996.html" target="_blank" rel="external">Linux堆溢出之Fastbin Attack实例详解</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3296.html" target="_blank" rel="external">unsorted bin attack分析</a></li>
-<li><a href="http://www.vuln.cn/6172" target="_blank" rel="external">Double Free浅析</a></li>
-<li><a href="http://www.blackhat.com/presentations/bh-usa-07/Ferguson/Whitepaper/bh-usa-07-ferguson-WP.pdf" target="_blank" rel="external">Understanding the heap by breaking it</a></li>
-<li><a href="https://www.purehacking.com/blog/lloyd-simon/an-introduction-to-use-after-free-vulnerabilities" target="_blank" rel="external">An Introduction to Use After Free Vulnerabilities</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3379.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">Use After Free漏洞浅析</a></li>
-<li><a href="http://d0m021ng.github.io/2017/03/04/PWN/Linux堆漏洞之Use-after-free实例/" target="_blank" rel="external">Linux堆漏洞之Use after free实例</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3417.html" target="_blank" rel="external">堆之House of Spirit</a></li>
-</ul>
-<h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h2><ul>
-<li><a href="https://crypto.stanford.edu/cs155old/cs155-spring08/papers/formatstring-1.2.pdf" target="_blank" rel="external">Exploiting Format String Vulnerabilities</a></li>
-</ul>
-<ul>
-<li><a href="http://cb.drops.wiki/drops/binary-6259.html" target="_blank" rel="external">二进制漏洞之——邪恶的printf</a></li>
-<li><a href="http://cb.drops.wiki/drops/papers-9426.html" target="_blank" rel="external">漏洞挖掘基础之格式化字符串</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3654.html" target="_blank" rel="external">格式化字符串漏洞利用小结（一）</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3674.html" target="_blank" rel="external">格式化字符串漏洞利用小结（二）</a></li>
-<li><a href="http://www.cnblogs.com/Ox9A82/p/5429099.html" target="_blank" rel="external">Linux下的格式化字符串漏洞利用姿势</a></li>
-</ul>
-<ul>
-<li><a href="http://0x48.pw/2017/03/13/0x2c/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">Linux系统下格式化字符串利用研究 </a></li>
-<li><a href="http://phrack.org/issues/59/7.html" target="_blank" rel="external">Advances in format string exploitation</a></li>
-<li><a href="http://www.vnsecurity.net/research/2012/02/16/exploiting-sudo-format-string-vunerability.html" target="_blank" rel="external">Exploiting Sudo format string vunerability</a></li>
-</ul>
-<h2 id="其余漏洞"><a href="#其余漏洞" class="headerlink" title="其余漏洞"></a>其余漏洞</h2><h3 id="FSP溢出"><a href="#FSP溢出" class="headerlink" title="FSP溢出"></a>FSP溢出</h3><ul>
-<li><a href="http://wooyun.jozxing.cc/static/drops/binary-12740.html" target="_blank" rel="external">Head First FILE Stream Pointer Overflow</a></li>
-<li><a href="https://outflux.net/blog/archives/2011/12/22/abusing-the-file-structure/" target="_blank" rel="external">abusing the FILE structure</a></li>
-<li><a href="http://repo.thehackademy.net/depot_ouah/fsp-overflows.txt" target="_blank" rel="external">File Stream Pointer Overflows Paper.</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3219.html" target="_blank" rel="external">溢出利用FILE结构体</a></li>
-</ul>
-<h3 id="整数溢出"><a href="#整数溢出" class="headerlink" title="整数溢出"></a>整数溢出</h3><ul>
-<li><a href="http://blog.csdn.net/wuxiaobingandbob/article/details/44618925" target="_blank" rel="external">整数溢出漏洞</a></li>
-</ul>
-<h2 id="保护绕过"><a href="#保护绕过" class="headerlink" title="保护绕过"></a>保护绕过</h2><h3 id="Cannary绕过"><a href="#Cannary绕过" class="headerlink" title="Cannary绕过"></a>Cannary绕过</h3><ul>
-<li><a href="http://0x48.pw/2017/03/14/0x2d/" target="_blank" rel="external">栈溢出之绕过CANARY保护 </a></li>
-<li><a href="http://veritas501.space/2017/04/28/论canary的几种玩法/" target="_blank" rel="external">论canary的几种玩法</a></li>
-<li><a href="http://yunnigu.dropsec.xyz/2017/03/20/Liunx下关于绕过cancry保护总结/" target="_blank" rel="external">Liunx下关于绕过cancry保护总结</a></li>
-</ul>
-<h2 id="内核"><a href="#内核" class="headerlink" title="内核"></a>内核</h2><ul>
-<li><a href="https://github.com/hacksysteam/HackSysExtremeVulnerableDriver" target="_blank" rel="external">HackSysExtremeVulnerableDriver</a></li>
-<li><a href="https://hshrzd.wordpress.com/2017/05/28/starting-with-windows-kernel-exploitation-part-1-setting-up-the-lab/" target="_blank" rel="external">Starting with Windows Kernel Exploitation – part 1 – setting up the lab</a></li>
-<li><a href="https://hshrzd.wordpress.com/2017/06/05/starting-with-windows-kernel-exploitation-part-2/" target="_blank" rel="external">Starting with Windows Kernel Exploitation – part 2 – getting familiar with HackSys Extreme Vulnerable Driver</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4002.html" target="_blank" rel="external">Windows内核利用之旅：熟悉HEVD（附视频演示）</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3718.html" target="_blank" rel="external">Windows 内核攻击：栈溢出</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3700.html" target="_blank" rel="external">Linux 内核漏洞利用教程（一）：环境配置</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3702.html" target="_blank" rel="external">Linux 内核漏洞利用教程（二）：两个Demo</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3706.html" target="_blank" rel="external">Linux 内核漏洞利用教程（三）：实践 CSAW CTF 题目</a></li>
-<li><a href="http://www.freebuf.com/articles/system/94198.html" target="_blank" rel="external">Linux内核ROP姿势详解(一) </a></li>
-<li><a href="http://www.freebuf.com/articles/system/135402.html" target="_blank" rel="external">Linux内核ROP姿势详解（二）</a></li>
-</ul>
-<h2 id="虚拟机逃逸"><a href="#虚拟机逃逸" class="headerlink" title="虚拟机逃逸"></a>虚拟机逃逸</h2><ul>
-<li><a href="http://bbs.pediy.com/thread-217997.htm" target="_blank" rel="external">虚拟机逃逸——QEMU的案例分析（一）</a></li>
-<li><a href="http://bbs.pediy.com/thread-217999.htm" target="_blank" rel="external">虚拟机逃逸——QEMU的案例分析（二）</a></li>
-<li><a href="http://bbs.pediy.com/thread-218045.htm" target="_blank" rel="external">虚拟机逃逸——QEMU的案例分析（三） </a></li>
-</ul>
-<h2 id="ARM"><a href="#ARM" class="headerlink" title="ARM"></a>ARM</h2><ul>
-<li><a href="http://bobao.360.cn/learning/detail/4070.html" target="_blank" rel="external">ARM 汇编基础速成1：ARM汇编以及汇编语言基础介绍</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4075.html" target="_blank" rel="external">ARM 汇编基础速成2：ARM汇编中的数据类型</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4082.html" target="_blank" rel="external">ARM 汇编基础速成3：ARM模式与THUMB模式</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4087.html" target="_blank" rel="external">ARM 汇编基础速成4：ARM汇编内存访问相关指令</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4097.html" target="_blank" rel="external">ARM 汇编基础速成5：连续存取</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4104.html" target="_blank" rel="external">ARM 汇编基础速成6：条件执行与分支</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4108.html" target="_blank" rel="external">ARM 汇编基础速成7：栈与函数</a></li>
-</ul>
-<h2 id="进程注入"><a href="#进程注入" class="headerlink" title="进程注入"></a>进程注入</h2><ul>
-<li><a href="http://bobao.360.cn/learning/detail/4131.html" target="_blank" rel="external">10种常见的进程注入技术的总结</a></li>
-<li><a href="http://www.freebuf.com/articles/system/143640.html" target="_blank" rel="external">系统安全攻防战：DLL注入技术详解 </a></li>
-</ul>
-<h2 id="漏洞挖掘"><a href="#漏洞挖掘" class="headerlink" title="漏洞挖掘"></a>漏洞挖掘</h2><ul>
-<li><a href="http://bobao.360.cn/learning/detail/4213.html" target="_blank" rel="external">看我如何对Apache进行模糊测试并挖到了一个价值1500刀的漏洞</a></li>
-</ul>
-<h2 id="CTF中的pwn"><a href="#CTF中的pwn" class="headerlink" title="CTF中的pwn"></a>CTF中的pwn</h2><ul>
-<li><a href="https://github.com/jmpews/pwn2exploit" target="_blank" rel="external">pwn &amp; exploit</a></li>
-</ul>
-<h3 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3300.html" target="_blank" rel="external">跟我入坑PWN第一章</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3339.html" target="_blank" rel="external">跟我入坑PWN第二章</a></li>
-</ul>
-<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3298.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">借助DynELF实现无libc的漏洞利用小结</a></li>
-</ul>
-<ul>
-<li><a href="http://o0xmuhe.me/2016/12/24/what-DynELF-does-basically/" target="_blank" rel="external">what DynELF does basically </a></li>
-<li><a href="http://uaf.io/exploitation/misc/2016/04/02/Finding-Functions.html" target="_blank" rel="external">Finding Function’s Load Address </a></li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><a href="https://github.com/stfpeak/CTF" target="_blank" rel="external">CTF总结</a></li>
-<li><a href="http://skysider.com/?p=223" target="_blank" rel="external">pwn tips</a></li>
-<li><a href="https://github.com/Naetw/CTF-pwn-tips" target="_blank" rel="external">CTF-pwn-tips</a></li>
-<li><a href="http://www.angelwhu.com/blog/?p=460" target="_blank" rel="external">pwn 学习总结</a></li>
-<li><a href="http://www.cnblogs.com/Ox9A82/p/5559167.html" target="_blank" rel="external">CTF中做Linux下漏洞利用的一些心得</a></li>
-<li><a href="http://drops.xmd5.com/static/drops/binary-6521.html" target="_blank" rel="external">linux常见漏洞利用技术实践</a></li>
-</ul>
-<h3 id="WP"><a href="#WP" class="headerlink" title="WP"></a>WP</h3><ul>
-<li><a href="http://0x48.pw/2017/08/01/0x36/" target="_blank" rel="external">堆溢出学习之0CTF 2017 Babyheap </a></li>
-</ul>
-<ul>
-<li><a href="http://bobao.360.cn/learning/detail/3189.html" target="_blank" rel="external">一道有趣的CTF PWN题</a></li>
-<li><a href="https://github.com/1u4nx/Exploit-Exercises-Nebula" target="_blank" rel="external">Exploit-Exercises Nebula全攻略</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/binary-16700.html" target="_blank" rel="external">三个白帽之从pwn me调试到Linux攻防学习</a></li>
-</ul>
-<h1 id="Android-Security"><a href="#Android-Security" class="headerlink" title="Android Security"></a>Android Security</h1><h2 id="Exercise"><a href="#Exercise" class="headerlink" title="Exercise"></a>Exercise</h2><ul>
-<li><a href="https://github.com/payatu/diva-android/" target="_blank" rel="external">DIVA Android</a></li>
-</ul>
-<ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI4NjEyMDk0MA==&amp;mid=2649846643&amp;idx=1&amp;sn=0286e8f1b3e6da0acbd129cb248eac2a" target="_blank" rel="external">Android安全项目入门篇</a></li>
-</ul>
-<h2 id="Skill"><a href="#Skill" class="headerlink" title="Skill"></a>Skill</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484642&amp;idx=1&amp;sn=d34ec8b6fc9b5a63b627316e13821b13&amp;chksm=ec1e34cadb69bddc80598c93a0aef429d0b1d668b4fc6e5e6b31a7a3ebfa713aafda1f1b8f7a&amp;scene=21#wechat_redirect" target="_blank" rel="external">Android App漏洞学习（一）</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484706&amp;idx=1&amp;sn=eb49d5f71f89fd4d2e3bec23c44c0ae6&amp;chksm=ec1e350adb69bc1c9f775bfaf997459e1cfa3beb065f553ed90fbd88220d7739487e9f7208bd#rd" target="_blank" rel="external">Android App漏洞学习（二） </a></li>
-<li><a href="http://wiki.ioin.in/sort/android" target="_blank" rel="external">WIKI: Android</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484387&amp;idx=1&amp;sn=7264428205276452d40c1ef7b1ed0dcc&amp;chksm=ec1e33cbdb69badd00794f81caa43e5d62e0dc9bb7b9baa9d4c3c9eb64a3a0a18613356bf584#rd" target="_blank" rel="external">Android组件安全</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/28107901" target="_blank" rel="external">通过 WebView 攻击 Android 应用</a></li>
-</ul>
-<h2 id="Tool"><a href="#Tool" class="headerlink" title="Tool"></a>Tool</h2><ul>
-<li><a href="http://bobao.360.cn/learning/detail/4254.html" target="_blank" rel="external">走到哪黑到哪——Android渗透测试三板斧</a></li>
-<li><a href="http://www.4hou.com/penetration/6916.html" target="_blank" rel="external">Brida:将frida与burp结合进行移动app渗透测试</a></li>
-</ul>
-<h1 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h1><ul>
-<li><a href="https://zhuanlan.zhihu.com/p/28719766" target="_blank" rel="external">浏览器漏洞挖掘思路</a></li>
-</ul>
-<h1 id="IOS-OSX-Securiy"><a href="#IOS-OSX-Securiy" class="headerlink" title="IOS/OSX Securiy"></a>IOS/OSX Securiy</h1><ul>
-<li><a href="https://github.com/michalmalik/osx-re-101" target="_blank" rel="external">OSX/iOS reverse engineering</a></li>
-</ul>
-<h2 id="IOS"><a href="#IOS" class="headerlink" title="IOS"></a>IOS</h2><h3 id="Exercise-1"><a href="#Exercise-1" class="headerlink" title="Exercise"></a>Exercise</h3><ul>
-<li><a href="http://damnvulnerableiosapp.com/#trainings" target="_blank" rel="external">Damn Vulnerable iOS Application (DVIA)</a></li>
-</ul>
-<h3 id="Skill-1"><a href="#Skill-1" class="headerlink" title="Skill"></a>Skill</h3><ul>
-<li><a href="https://github.com/pandazheng/IosHackStudy" target="_blank" rel="external">IosHackStudy</a></li>
-<li><a href="https://papers.put.as/ios/ios/" target="_blank" rel="external">Papers, Slides and Thesis Archive : iOS</a></li>
-<li><a href="http://security.ios-wiki.com/" target="_blank" rel="external">ios-wiki: iOS Security</a></li>
-<li><a href="https://www.apple.com/business/docs/iOS_Security_Guide.pdf" target="_blank" rel="external">apple官方文档：iOS Security</a></li>
-<li><a href="http://esoftmobile.com/2014/02/14/ios-security/" target="_blank" rel="external">iOS安全系列汇总</a></li>
-<li><a href="https://security.tencent.com/index.php/blog/msg/105" target="_blank" rel="external">浅谈iOS应用安全自动化审计</a></li>
-<li><a href="http://www.freebuf.com/articles/terminal/123098.html" target="_blank" rel="external">iOS安全审计入门</a></li>
-<li><a href="http://blog.pangu.io/xkungfoo2015/" target="_blank" rel="external">iOS内核漏洞挖掘–fuzz&amp;代码审计</a></li>
-</ul>
-<h2 id="OSX"><a href="#OSX" class="headerlink" title="OSX"></a>OSX</h2><h3 id="Exercise-2"><a href="#Exercise-2" class="headerlink" title="Exercise"></a>Exercise</h3><ul>
-<li><a href="https://reverse.put.as/crackmes/" target="_blank" rel="external">OS X : Crackmes</a></li>
-</ul>
-<h3 id="Skill-2"><a href="#Skill-2" class="headerlink" title="Skill"></a>Skill</h3><ul>
-<li><a href="https://papers.put.as/macosx/macosx/" target="_blank" rel="external">Papers, Slides and Thesis Archive : Mac OS X</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Software-Security-Learning 学习资料&lt;br&gt;8月24日更新小记：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;修正某些错误链接&lt;/li&gt;
-&lt;li&gt;新加浏览器漏洞模块：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/28719766&quot;&gt;浏览器漏洞挖掘思路&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;
-    
-    </summary>
-    
     
   </entry>
   

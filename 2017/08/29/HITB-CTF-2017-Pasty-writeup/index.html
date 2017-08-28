@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="CTF,writeup,web," />
 
 
 
@@ -89,13 +89,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="HITB CTF 2017-Pasty-writeup
+JWT安全性问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HITB CTF 2017-Pasty-writeup">
+<meta property="og:url" content="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:updated_time" content="2017-01-11T13:04:39.905Z">
+<meta property="og:description" content="HITB CTF 2017-Pasty-writeup
+JWT安全性问题">
+<meta property="og:updated_time" content="2017-08-28T23:55:45.763Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="HITB CTF 2017-Pasty-writeup">
+<meta name="twitter:description" content="HITB CTF 2017-Pasty-writeup
+JWT安全性问题">
 
 
 
@@ -123,19 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/"/>
 
 
 
 
 
-  <title>
-  
-
-  
-    tags | Chybeta
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> HITB CTF 2017-Pasty-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -166,7 +166,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -292,25 +292,242 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h2 class="post-title" itemprop="name headline">tags</h2>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/">
 
-</header>
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
 
     
-    
-      <div class="tag-cloud">
-        <div class="tag-cloud-title">
-            目前共计 47 个标签
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                HITB CTF 2017-Pasty-writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-29T07:44:02+08:00">
+                2017-08-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/08/29/HITB-CTF-2017-Pasty-writeup/" class="leancloud_visitors" data-flag-title="HITB CTF 2017-Pasty-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
         </div>
-        <div class="tag-cloud-tags">
-          <a href="/tags/ACM/" style="font-size: 13.64px; color: #bbb">ACM</a> <a href="/tags/ASLR/" style="font-size: 12px; color: #ccc">ASLR</a> <a href="/tags/CTF/" style="font-size: 30px; color: #111">CTF</a> <a href="/tags/CTFZone/" style="font-size: 12px; color: #ccc">CTFZone</a> <a href="/tags/DynELF/" style="font-size: 12px; color: #ccc">DynELF</a> <a href="/tags/OPcache/" style="font-size: 12px; color: #ccc">OPcache</a> <a href="/tags/SQL注入/" style="font-size: 23.45px; color: #555">SQL注入</a> <a href="/tags/WAF-Bypass/" style="font-size: 12px; color: #ccc">WAF-Bypass</a> <a href="/tags/XML注入/" style="font-size: 12px; color: #ccc">XML注入</a> <a href="/tags/XSS/" style="font-size: 12px; color: #ccc">XSS</a> <a href="/tags/beautifulsoup/" style="font-size: 12px; color: #ccc">beautifulsoup</a> <a href="/tags/crypto/" style="font-size: 16.91px; color: #999">crypto</a> <a href="/tags/ctf/" style="font-size: 12px; color: #ccc">ctf</a> <a href="/tags/docker/" style="font-size: 13.64px; color: #bbb">docker</a> <a href="/tags/hihoCoder/" style="font-size: 12px; color: #ccc">hihoCoder</a> <a href="/tags/javascript/" style="font-size: 12px; color: #ccc">javascript</a> <a href="/tags/misc/" style="font-size: 20.18px; color: #777">misc</a> <a href="/tags/pcap/" style="font-size: 12px; color: #ccc">pcap</a> <a href="/tags/php/" style="font-size: 20.18px; color: #777">php</a> <a href="/tags/pwn/" style="font-size: 25.09px; color: #444">pwn</a> <a href="/tags/pwnable-kr/" style="font-size: 18.55px; color: #888">pwnable.kr</a> <a href="/tags/python/" style="font-size: 12px; color: #ccc">python</a> <a href="/tags/re/" style="font-size: 15.27px; color: #aaa">re</a> <a href="/tags/rop/" style="font-size: 12px; color: #ccc">rop</a> <a href="/tags/sqlilab/" style="font-size: 18.55px; color: #888">sqlilab</a> <a href="/tags/sql注入/" style="font-size: 12px; color: #ccc">sql注入</a> <a href="/tags/tensorflow/" style="font-size: 12px; color: #ccc">tensorflow</a> <a href="/tags/web/" style="font-size: 26.73px; color: #333">web</a> <a href="/tags/webshell/" style="font-size: 12px; color: #ccc">webshell</a> <a href="/tags/writeup/" style="font-size: 28.36px; color: #222">writeup</a> <a href="/tags/xss/" style="font-size: 12px; color: #ccc">xss</a> <a href="/tags/互联网安全志愿者联盟，阿里巴巴/" style="font-size: 12px; color: #ccc">互联网安全志愿者联盟，阿里巴巴</a> <a href="/tags/代码审计/" style="font-size: 21.82px; color: #666">代码审计</a> <a href="/tags/代码执行/" style="font-size: 13.64px; color: #bbb">代码执行</a> <a href="/tags/反序列化/" style="font-size: 12px; color: #ccc">反序列化</a> <a href="/tags/天池比赛/" style="font-size: 13.64px; color: #bbb">天池比赛</a> <a href="/tags/对象注入/" style="font-size: 12px; color: #ccc">对象注入</a> <a href="/tags/数据挖掘/" style="font-size: 23.45px; color: #555">数据挖掘</a> <a href="/tags/数据挖掘，matlab/" style="font-size: 12px; color: #ccc">数据挖掘，matlab</a> <a href="/tags/文件上传/" style="font-size: 12px; color: #ccc">文件上传</a> <a href="/tags/机器学习/" style="font-size: 16.91px; color: #999">机器学习</a> <a href="/tags/栈溢出/" style="font-size: 15.27px; color: #aaa">栈溢出</a> <a href="/tags/漏洞分析/" style="font-size: 15.27px; color: #aaa">漏洞分析</a> <a href="/tags/算法/" style="font-size: 13.64px; color: #bbb">算法</a> <a href="/tags/编程练习/" style="font-size: 18.55px; color: #888">编程练习</a> <a href="/tags/编程练习，贪心/" style="font-size: 12px; color: #ccc">编程练习，贪心</a> <a href="/tags/脚本/" style="font-size: 12px; color: #ccc">脚本</a>
-        </div>
-      </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>HITB CTF 2017-Pasty-writeup</p>
+<p>JWT安全性问题<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can you find the administrator&apos;s secret message?</div><div class="line">http://47.74.147.52:20012</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>基本功能：注册，登陆，写paste，保存。</p>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/08/29/HITB-CTF-2017-Pasty-writeup/">HITB CTF 2017-Pasty-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年08月29日 - 07:08</p>
+  <p><span>最后更新:</span>2017年08月29日 - 07:08</p>
+  <p><span>原始链接:</span><a href="/2017/08/29/HITB-CTF-2017-Pasty-writeup/" title="HITB CTF 2017-Pasty-writeup">http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/" rel="next" title="Hackit2017-H4ck3rM1nd-writeup">
+                <i class="fa fa-chevron-left"></i> Hackit2017-H4ck3rM1nd-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -344,8 +561,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -455,6 +681,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
     </div>
   </aside>
@@ -553,6 +795,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
