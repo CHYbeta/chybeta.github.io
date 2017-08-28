@@ -12,7 +12,7 @@
     <entry>
       <title><![CDATA[Hackit2017-Weekands of hacker-writeup]]></title>
       <url>%2F2017%2F08%2F28%2FHackit2017-Weekands-of-hacker-writeup%2F</url>
-      <content type="text"></content>
+      <content type="text"><![CDATA[Hackit2017-Weekands of hacker-writeup脑脑脑洞题？ Task1234Description: Try to find something weird here...Attachment: (none)Webpage: (none)Hint: Format answer is h4ck1t&#123;&lt;something&gt;&#125;. You must type right flag on keyboard, where? Feel you real hacker. Hide Solution没有给出网址，那就只能在https://ctf.com.ua里咯。 在https://ctf.com.ua/js/jquery.js里有一段：12345678910111213typer:function(key)&#123; $m=[70,70,71,79,86,74,71,83,80,74,77,86,81,95];//times alt is pressed for Access Granted $c=Typer.counter-211; if (!Typer.failed &amp; $c&gt;=0)&#123; if (!(key==$m[$c]-$c))&#123; Typer.failed=true; Typer.makeDenied(); &#125; if($c+1==$m.length)&#123; Typer.makeAccess() &#125; &#125;// remove all existing popuccess();&#125;, 12345key = ""m = [70,70,71,79,86,74,71,83,80,74,77,86,81,95]for i in range(len(m)): key += chr(m[i]-i)print(key) 得到:1FEELREALHACKER 再把它转成小写，flag:1h4ck1t&#123;feelrealhacker&#125; tucao这是脑洞题？…]]></content>
     </entry>
 
     

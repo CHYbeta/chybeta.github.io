@@ -89,13 +89,16 @@
 
 
 
+<meta name="description" content="Hackit2017-Weekands of hacker-writeup脑脑脑洞题？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hackit2017-Weekands of hacker-writeup">
 <meta property="og:url" content="http://yoursite.com/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:updated_time" content="2017-08-28T11:00:32.570Z">
+<meta property="og:description" content="Hackit2017-Weekands of hacker-writeup脑脑脑洞题？">
+<meta property="og:updated_time" content="2017-08-28T11:25:24.982Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hackit2017-Weekands of hacker-writeup">
+<meta name="twitter:description" content="Hackit2017-Weekands of hacker-writeup脑脑脑洞题？">
 
 
 
@@ -403,7 +406,15 @@
       
 
       
-        
+        <p>Hackit2017-Weekands of hacker-writeup<br>脑脑脑洞题？<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Description: Try to find something weird here...</div><div class="line">Attachment: (none)</div><div class="line">Webpage: (none)</div><div class="line">Hint: Format answer is h4ck1t&#123;&lt;something&gt;&#125;. You must type right flag on keyboard, where? Feel you real hacker. Hide</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>没有给出网址，那就只能在<code>https://ctf.com.ua</code>里咯。</p>
+<p>在<code>https://ctf.com.ua/js/jquery.js</code>里有一段：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">typer:<span class="function"><span class="keyword">function</span>(<span class="params">key</span>)</span>&#123;</div><div class="line">    $m=[<span class="number">70</span>,<span class="number">70</span>,<span class="number">71</span>,<span class="number">79</span>,<span class="number">86</span>,<span class="number">74</span>,<span class="number">71</span>,<span class="number">83</span>,<span class="number">80</span>,<span class="number">74</span>,<span class="number">77</span>,<span class="number">86</span>,<span class="number">81</span>,<span class="number">95</span>];<span class="comment">//times alt is pressed for Access Granted</span></div><div class="line">    $c=Typer.counter<span class="number">-211</span>;</div><div class="line">	<span class="keyword">if</span> (!Typer.failed &amp;  $c&gt;=<span class="number">0</span>)&#123;</div><div class="line">		<span class="keyword">if</span> (!(key==$m[$c]-$c))&#123;</div><div class="line">			Typer.failed=<span class="literal">true</span>;</div><div class="line">			Typer.makeDenied();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>($c+<span class="number">1</span>==$m.length)&#123;</div><div class="line">			Typer.makeAccess()</div><div class="line">		&#125;</div><div class="line">	&#125;<span class="comment">// remove all existing popuccess();</span></div><div class="line">&#125;,</div></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">key = <span class="string">""</span></div><div class="line">m = [<span class="number">70</span>,<span class="number">70</span>,<span class="number">71</span>,<span class="number">79</span>,<span class="number">86</span>,<span class="number">74</span>,<span class="number">71</span>,<span class="number">83</span>,<span class="number">80</span>,<span class="number">74</span>,<span class="number">77</span>,<span class="number">86</span>,<span class="number">81</span>,<span class="number">95</span>]</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(m)):</div><div class="line">    key += chr(m[i]-i)</div><div class="line">print(key)</div></pre></td></tr></table></figure>
+<p>得到:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FEELREALHACKER</div></pre></td></tr></table></figure></p>
+<p>再把它转成小写，flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">h4ck1t&#123;feelrealhacker&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="tucao"><a href="#tucao" class="headerlink" title="tucao"></a>tucao</h1><p>这是脑洞题？…</p>
+
       
     </div>
 	<div>
@@ -551,8 +562,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -661,6 +681,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tucao"><span class="nav-number">3.</span> <span class="nav-text">tucao</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
