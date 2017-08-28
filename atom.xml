@@ -266,11 +266,9 @@
     <link href="http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/"/>
     <id>http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/</id>
     <published>2017-08-28T07:42:03.000Z</published>
-    <updated>2017-08-28T10:49:08.379Z</updated>
+    <updated>2017-08-28T10:51:34.038Z</updated>
     
-    <content type="html"><![CDATA[<p>Hackit2017-V1rus3pidem1c-writeup</p>
-<p>sql注入</p>
-<p>php伪协议：php://filter，zip://，phar://<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>Hackit2017-V1rus3pidem1c-writeup<br>sql注入<br>php伪协议：php://filter，zip://，phar://<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Description: Hackers created an automated site for virus attacks on the Government. You must find and catch them all!</div><div class="line"></div><div class="line">Attachment: (none)</div><div class="line"></div><div class="line">Webpage: http://tasks.ctf.com.ua:13372</div><div class="line"></div><div class="line">Hint: (none)</div></pre></td></tr></table></figure>
 <p>先看看基本的功能，你可以选择对应的国家，然后上传你的virus，但题目没有返回上传后的保存的文件路径信息。</p>
 <h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><p>点一下send，会发现url变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://tasks.ctf.com.ua:13372/index.php?country=Germany</div></pre></td></tr></table></figure></p>
@@ -298,9 +296,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;Hackit2017-V1rus3pidem1c-writeup&lt;/p&gt;
-&lt;p&gt;sql注入&lt;/p&gt;
-&lt;p&gt;php伪协议：php://filter，zip://，phar://&lt;br&gt;
+      &lt;p&gt;Hackit2017-V1rus3pidem1c-writeup&lt;br&gt;sql注入&lt;br&gt;php伪协议：php://filter，zip://，phar://&lt;br&gt;
     
     </summary>
     
@@ -320,10 +316,9 @@
     <link href="http://yoursite.com/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/"/>
     <id>http://yoursite.com/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/</id>
     <published>2017-08-27T23:51:05.000Z</published>
-    <updated>2017-08-28T07:34:01.640Z</updated>
+    <updated>2017-08-28T10:52:19.176Z</updated>
     
-    <content type="html"><![CDATA[<p>Hackit2017-B3tterS0ci4lN3twork-writeup</p>
-<p>命令注入<br>wget-cve利用<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>Hackit2017-B3tterS0ci4lN3twork-writeup<br>命令注入<br>wget-cve利用<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Description: You know what to do!</div><div class="line">Attachment: (none)</div><div class="line">Webpage: http://tasks.ctf.com.ua:13374</div><div class="line">Hint: Try to find some known cves) Hide</div></pre></td></tr></table></figure>
 <p>有一个注册Register功能，和登陆Auth功能。</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/1.png?raw=true" alt=""></p>
@@ -361,8 +356,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;Hackit2017-B3tterS0ci4lN3twork-writeup&lt;/p&gt;
-&lt;p&gt;命令注入&lt;br&gt;wget-cve利用&lt;br&gt;
+      &lt;p&gt;Hackit2017-B3tterS0ci4lN3twork-writeup&lt;br&gt;命令注入&lt;br&gt;wget-cve利用&lt;br&gt;
     
     </summary>
     
@@ -382,15 +376,16 @@
     <link href="http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/"/>
     <id>http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/</id>
     <published>2017-08-27T02:04:53.000Z</published>
-    <updated>2017-08-27T02:19:56.347Z</updated>
+    <updated>2017-08-28T10:51:49.882Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Standard-Steg"><a href="#Standard-Steg" class="headerlink" title="Standard Steg"></a>Standard Steg</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">I hacked my friend&apos;s facebook, by seeing his chrome password. I am smart, right?</div><div class="line">Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can you check?</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>HackCon2017-Steg-writeup<br><a id="more"></a></p>
+<h1 id="Standard-Steg"><a href="#Standard-Steg" class="headerlink" title="Standard Steg"></a>Standard Steg</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">I hacked my friend&apos;s facebook, by seeing his chrome password. I am smart, right?</div><div class="line">Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can you check?</div></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">asciiToBin</span><span class="params">(ascii)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">''</span>.join(str(bin(ord(byte)))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> byte <span class="keyword">in</span> ascii)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hide</span><span class="params">(img, data, outName)</span>:</span></div><div class="line">	header, trailer = <span class="number">2</span>*<span class="string">"11001100"</span>,<span class="number">2</span>*<span class="string">"0101010100000000"</span></div><div class="line">	dataBin = header+asciiToBin(data)+trailer</div><div class="line">	pixels, mode = list(img.getdata()), img.mode</div><div class="line">	newPixels = []</div><div class="line"></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(dataBin)):</div><div class="line">		newPixel = list(pixels[i])</div><div class="line">		newPixel[i%len(mode)] = setLSB(newPixel[i%len(mode)], dataBin[i])</div><div class="line">		newPixels.append(tuple(newPixel))</div><div class="line"></div><div class="line">	newData = newPixels + pixels[len(newPixels):]</div><div class="line"></div><div class="line">	img.putdata(newData)</div><div class="line">	img.save(outName, <span class="string">"PNG"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setLSB</span><span class="params">(target, value)</span>:</span></div><div class="line">	binary = str(bin(target))[<span class="number">2</span>:]</div><div class="line">	<span class="keyword">if</span> binary[<span class="number">-1</span>] != value:</div><div class="line">		binary = binary[:<span class="number">-1</span>] + value</div><div class="line">	<span class="keyword">return</span> int(binary, <span class="number">2</span>)</div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Standard-Steg&quot;&gt;&lt;a href=&quot;#Standard-Steg&quot; class=&quot;headerlink&quot; title=&quot;Standard Steg&quot;&gt;&lt;/a&gt;Standard Steg&lt;/h1&gt;&lt;figure class=&quot;highlight plai
+      &lt;p&gt;HackCon2017-Steg-writeup&lt;br&gt;
     
     </summary>
     
@@ -410,9 +405,10 @@
     <link href="http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/"/>
     <id>http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/</id>
     <published>2017-08-27T00:35:47.000Z</published>
-    <updated>2017-08-27T02:19:58.083Z</updated>
+    <updated>2017-08-28T10:52:17.356Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Noobcoder"><a href="#Noobcoder" class="headerlink" title="Noobcoder"></a>Noobcoder</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.</div><div class="line">So he made this login portal, I am sure he must have left something out. Why don&apos;t you give it a try?</div><div class="line">Server: http://defcon.org.in:6062</div><div class="line"></div><div class="line">Note: dirbuster is NOT required for this question</div></pre></td></tr></table></figure>
+    <content type="html"><![CDATA[<p>HackCon2017-Web-writeup<br><a id="more"></a></p>
+<h1 id="Noobcoder"><a href="#Noobcoder" class="headerlink" title="Noobcoder"></a>Noobcoder</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.</div><div class="line">So he made this login portal, I am sure he must have left something out. Why don&apos;t you give it a try?</div><div class="line">Server: http://defcon.org.in:6062</div><div class="line"></div><div class="line">Note: dirbuster is NOT required for this question</div></pre></td></tr></table></figure>
 <p>存在文件<code>checker.php~</code>，下载下来后打开：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span> ($_POST[<span class="string">"username"</span>] == $_POST[<span class="string">"password"</span>] &amp;&amp; $_POST[<span class="string">"password"</span>] !== $_POST[<span class="string">"username"</span>])</div><div class="line">	<span class="keyword">echo</span> <span class="string">"congratulations the flag is d4rk&#123;TODO&#125;c0de"</span>;</div><div class="line"><span class="keyword">else</span></div><div class="line">	<span class="keyword">echo</span> <span class="string">"nice try, but try again"</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 <p>存在弱类型比较问题，payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username=0e1&amp;password=0e2</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/1.png?raw=true" alt=""></p>
@@ -432,7 +428,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;Noobcoder&quot;&gt;&lt;a href=&quot;#Noobcoder&quot; class=&quot;headerlink&quot; title=&quot;Noobcoder&quot;&gt;&lt;/a&gt;Noobcoder&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;t
+      &lt;p&gt;HackCon2017-Web-writeup&lt;br&gt;
     
     </summary>
     

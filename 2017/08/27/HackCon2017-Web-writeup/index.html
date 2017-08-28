@@ -89,18 +89,18 @@
 
 
 
-<meta name="description" content="Noobcoder12345A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.So he made this login portal, I am sure he m">
+<meta name="description" content="HackCon2017-Web-writeup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HackCon2017-Web-writeup">
 <meta property="og:url" content="http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Noobcoder12345A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.So he made this login portal, I am sure he m">
+<meta property="og:description" content="HackCon2017-Web-writeup">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/1.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/2.png?raw=true">
-<meta property="og:updated_time" content="2017-08-27T02:19:58.083Z">
+<meta property="og:updated_time" content="2017-08-28T10:52:17.356Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HackCon2017-Web-writeup">
-<meta name="twitter:description" content="Noobcoder12345A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.So he made this login portal, I am sure he m">
+<meta name="twitter:description" content="HackCon2017-Web-writeup">
 <meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/1.png?raw=true">
 
 
@@ -409,7 +409,8 @@
       
 
       
-        <h1 id="Noobcoder"><a href="#Noobcoder" class="headerlink" title="Noobcoder"></a>Noobcoder</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.</div><div class="line">So he made this login portal, I am sure he must have left something out. Why don&apos;t you give it a try?</div><div class="line">Server: http://defcon.org.in:6062</div><div class="line"></div><div class="line">Note: dirbuster is NOT required for this question</div></pre></td></tr></table></figure>
+        <p>HackCon2017-Web-writeup<br><a id="more"></a></p>
+<h1 id="Noobcoder"><a href="#Noobcoder" class="headerlink" title="Noobcoder"></a>Noobcoder</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">A junior recently started doing PHP, and makes some random shit. He uses gedit as his go-to editor with a black theme thinking it was sublime.</div><div class="line">So he made this login portal, I am sure he must have left something out. Why don&apos;t you give it a try?</div><div class="line">Server: http://defcon.org.in:6062</div><div class="line"></div><div class="line">Note: dirbuster is NOT required for this question</div></pre></td></tr></table></figure>
 <p>存在文件<code>checker.php~</code>，下载下来后打开：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span> ($_POST[<span class="string">"username"</span>] == $_POST[<span class="string">"password"</span>] &amp;&amp; $_POST[<span class="string">"password"</span>] !== $_POST[<span class="string">"username"</span>])</div><div class="line">	<span class="keyword">echo</span> <span class="string">"congratulations the flag is d4rk&#123;TODO&#125;c0de"</span>;</div><div class="line"><span class="keyword">else</span></div><div class="line">	<span class="keyword">echo</span> <span class="string">"nice try, but try again"</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
 <p>存在弱类型比较问题，payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username=0e1&amp;password=0e2</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/1.png?raw=true" alt=""></p>
@@ -440,7 +441,7 @@
   <p><span>本文标题:</span><a href="/2017/08/27/HackCon2017-Web-writeup/">HackCon2017-Web-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月27日 - 08:08</p>
-  <p><span>最后更新:</span>2017年08月27日 - 10:08</p>
+  <p><span>最后更新:</span>2017年08月28日 - 18:08</p>
   <p><span>原始链接:</span><a href="/2017/08/27/HackCon2017-Web-writeup/" title="HackCon2017-Web-writeup">http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/"  aria-label="复制成功！"></i></span>
   </p>

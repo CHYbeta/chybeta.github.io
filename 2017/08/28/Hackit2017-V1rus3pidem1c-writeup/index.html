@@ -89,27 +89,21 @@
 
 
 
-<meta name="description" content="Hackit2017-V1rus3pidem1c-writeup
-sql注入
-php伪协议：php://filter，zip://，phar://">
+<meta name="description" content="Hackit2017-V1rus3pidem1c-writeupsql注入php伪协议：php://filter，zip://，phar://">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hackit2017-V1rus3pidem1c-writeup">
 <meta property="og:url" content="http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Hackit2017-V1rus3pidem1c-writeup
-sql注入
-php伪协议：php://filter，zip://，phar://">
+<meta property="og:description" content="Hackit2017-V1rus3pidem1c-writeupsql注入php伪协议：php://filter，zip://，phar://">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/11.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/12.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/13.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/14.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/15.png?raw=true">
-<meta property="og:updated_time" content="2017-08-28T10:49:08.379Z">
+<meta property="og:updated_time" content="2017-08-28T10:51:34.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hackit2017-V1rus3pidem1c-writeup">
-<meta name="twitter:description" content="Hackit2017-V1rus3pidem1c-writeup
-sql注入
-php伪协议：php://filter，zip://，phar://">
+<meta name="twitter:description" content="Hackit2017-V1rus3pidem1c-writeupsql注入php伪协议：php://filter，zip://，phar://">
 <meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170828/11.png?raw=true">
 
 
@@ -418,9 +412,7 @@ php伪协议：php://filter，zip://，phar://">
       
 
       
-        <p>Hackit2017-V1rus3pidem1c-writeup</p>
-<p>sql注入</p>
-<p>php伪协议：php://filter，zip://，phar://<br><a id="more"></a></p>
+        <p>Hackit2017-V1rus3pidem1c-writeup<br>sql注入<br>php伪协议：php://filter，zip://，phar://<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Description: Hackers created an automated site for virus attacks on the Government. You must find and catch them all!</div><div class="line"></div><div class="line">Attachment: (none)</div><div class="line"></div><div class="line">Webpage: http://tasks.ctf.com.ua:13372</div><div class="line"></div><div class="line">Hint: (none)</div></pre></td></tr></table></figure>
 <p>先看看基本的功能，你可以选择对应的国家，然后上传你的virus，但题目没有返回上传后的保存的文件路径信息。</p>
 <h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><p>点一下send，会发现url变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://tasks.ctf.com.ua:13372/index.php?country=Germany</div></pre></td></tr></table></figure></p>

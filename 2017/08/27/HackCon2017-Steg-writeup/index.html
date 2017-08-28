@@ -89,16 +89,16 @@
 
 
 
-<meta name="description" content="Standard Steg12I hacked my friend&amp;apos;s facebook, by seeing his chrome password. I am smart, right?Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can yo">
+<meta name="description" content="HackCon2017-Steg-writeup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HackCon2017-Steg-writeup">
 <meta property="og:url" content="http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Standard Steg12I hacked my friend&amp;apos;s facebook, by seeing his chrome password. I am smart, right?Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can yo">
-<meta property="og:updated_time" content="2017-08-27T02:19:56.347Z">
+<meta property="og:description" content="HackCon2017-Steg-writeup">
+<meta property="og:updated_time" content="2017-08-28T10:51:49.882Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HackCon2017-Steg-writeup">
-<meta name="twitter:description" content="Standard Steg12I hacked my friend&amp;apos;s facebook, by seeing his chrome password. I am smart, right?Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can yo">
+<meta name="twitter:description" content="HackCon2017-Steg-writeup">
 
 
 
@@ -406,7 +406,8 @@
       
 
       
-        <h1 id="Standard-Steg"><a href="#Standard-Steg" class="headerlink" title="Standard Steg"></a>Standard Steg</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">I hacked my friend&apos;s facebook, by seeing his chrome password. I am smart, right?</div><div class="line">Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can you check?</div></pre></td></tr></table></figure>
+        <p>HackCon2017-Steg-writeup<br><a id="more"></a></p>
+<h1 id="Standard-Steg"><a href="#Standard-Steg" class="headerlink" title="Standard Steg"></a>Standard Steg</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">I hacked my friend&apos;s facebook, by seeing his chrome password. I am smart, right?</div><div class="line">Anyways, he sent this image to one of his friends, idk what it is, looks like a useless logo, can you check?</div></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">asciiToBin</span><span class="params">(ascii)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">''</span>.join(str(bin(ord(byte)))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> byte <span class="keyword">in</span> ascii)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hide</span><span class="params">(img, data, outName)</span>:</span></div><div class="line">	header, trailer = <span class="number">2</span>*<span class="string">"11001100"</span>,<span class="number">2</span>*<span class="string">"0101010100000000"</span></div><div class="line">	dataBin = header+asciiToBin(data)+trailer</div><div class="line">	pixels, mode = list(img.getdata()), img.mode</div><div class="line">	newPixels = []</div><div class="line"></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(dataBin)):</div><div class="line">		newPixel = list(pixels[i])</div><div class="line">		newPixel[i%len(mode)] = setLSB(newPixel[i%len(mode)], dataBin[i])</div><div class="line">		newPixels.append(tuple(newPixel))</div><div class="line"></div><div class="line">	newData = newPixels + pixels[len(newPixels):]</div><div class="line"></div><div class="line">	img.putdata(newData)</div><div class="line">	img.save(outName, <span class="string">"PNG"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setLSB</span><span class="params">(target, value)</span>:</span></div><div class="line">	binary = str(bin(target))[<span class="number">2</span>:]</div><div class="line">	<span class="keyword">if</span> binary[<span class="number">-1</span>] != value:</div><div class="line">		binary = binary[:<span class="number">-1</span>] + value</div><div class="line">	<span class="keyword">return</span> int(binary, <span class="number">2</span>)</div></pre></td></tr></table></figure>
 
       
@@ -423,7 +424,7 @@
   <p><span>本文标题:</span><a href="/2017/08/27/HackCon2017-Steg-writeup/">HackCon2017-Steg-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月27日 - 10:08</p>
-  <p><span>最后更新:</span>2017年08月27日 - 10:08</p>
+  <p><span>最后更新:</span>2017年08月28日 - 18:08</p>
   <p><span>原始链接:</span><a href="/2017/08/27/HackCon2017-Steg-writeup/" title="HackCon2017-Steg-writeup">http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/"  aria-label="复制成功！"></i></span>
   </p>
