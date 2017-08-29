@@ -97,11 +97,22 @@ JWT安全性问题">
 <meta property="og:site_name" content="Chybeta">
 <meta property="og:description" content="HITB CTF 2017-Pasty-writeup
 JWT安全性问题">
-<meta property="og:updated_time" content="2017-08-28T23:55:45.763Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/2.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/3.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/4.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/7.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/5.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/9.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/10.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/8.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/11.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/12.png?raw=true">
+<meta property="og:updated_time" content="2017-08-29T01:23:04.302Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HITB CTF 2017-Pasty-writeup">
 <meta name="twitter:description" content="HITB CTF 2017-Pasty-writeup
 JWT安全性问题">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/2.png?raw=true">
 
 
 
@@ -412,7 +423,40 @@ JWT安全性问题">
         <p>HITB CTF 2017-Pasty-writeup</p>
 <p>JWT安全性问题<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can you find the administrator&apos;s secret message?</div><div class="line">http://47.74.147.52:20012</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>基本功能：注册，登陆，写paste，保存。</p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>先看看基本功能。<br>注册：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/2.png?raw=true" alt=""></p>
+<p>登陆：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/3.png?raw=true" alt=""></p>
+<p>写paste，保存:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/4.png?raw=true" alt=""></p>
+<p>可以对保存的paste进行下载:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/7.png?raw=true" alt=""></p>
+<p>可以看到注册后返回了一大串的字符串，之后写paste保存时即以这个字符串作为身份认证。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eyJraWQiOiJrZXlzLzNjM2MyZWExYzNmMTEzZjY0OWRjOTM4OWRkNzFiODUxIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiJjaHliZXRhIn0.nlSBeeMh5XvdSjs0j_Rs71n0EGBYfrzKfkDq2vnR4jrgYiHCzlZ4R2uwsn0mf3Cpqis6bSAxqB-FR1Af5KYFZe6X_gWf57du4JmPfueHumijptaEJ6Ym23AcIS0HoFSV45PoTv6McEf6vvd0SG7SdECoFv97MCl3mMraedyTCy5p1WJ0ssnOs886Noyn5ak01Eeoi3WA3lVMGflIAft_uIx0pRlUZrkB3WWNYMsecWS9ih1fpMvb-cUYP5s6T_QjW68mQ40QArKa7iRDm3IhNipRa_RmziwPdo1Nh2l0kGGALpBhd1kqh8KdEbp2Kz_sPza6O-iJBX88ImeMEgXI5A</div></pre></td></tr></table></figure></p>
+<p>刚接触时不知道是啥，就拿去用base64解了一下，虽然解出来后后面出现了一大堆的乱码，不过前面解出来入下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&quot;kid&quot;:&quot;keys/3c3c2ea1c3f113f649dc9389dd71b851&quot;,&quot;typ&quot;:&quot;JWT&quot;,&quot;alg&quot;:&quot;RS256&quot;&#125;</div></pre></td></tr></table></figure></p>
+<p>然后就开始查找关于JWT的资料了。在 <a href="https://jwt.io/" target="_blank" rel="external">https://jwt.io/</a> 上可以对字符串进行debugger。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/5.png?raw=true" alt=""></p>
+<p>JWT由三部分组成。第一部分是头部，原始信息是json格式，包含使用的算法(alg)，类型(typ)，可选的kids字段，将头部原始信息进行base64编码后得到了第一部分字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eyJraWQiOiJrZXlzLzNjM2MyZWExYzNmMTEzZjY0OWRjOTM4OWRkNzFiODUxIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYifQ</div></pre></td></tr></table></figure></p>
+<p>第二部分是payload，原始信息是json格式，包含一些重要信息，比如本题中是<code>&quot;sub&quot;: &quot;chybeta&quot;</code>，这对应着账号的用户，将这部分原始信息进行base64编码后得到第二部分字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eyJzdWIiOiJjaHliZXRhIn0</div></pre></td></tr></table></figure></p>
+<p>第三部分，将第一部分和第二部分字段用点号<code>.</code>连接后根据第一部分里的alg算法进行签名。在本题中采用的是RS256算法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nlSBeeMh5XvdSjs0j_Rs71n0EGBYfrzKfkDq2vnR4jrgYiHCzlZ4R2uwsn0mf3Cpqis6bSAxqB-FR1Af5KYFZe6X_gWf57du4JmPfueHumijptaEJ6Ym23AcIS0HoFSV45PoTv6McEf6vvd0SG7SdECoFv97MCl3mMraedyTCy5p1WJ0ssnOs886Noyn5ak01Eeoi3WA3lVMGflIAft_uIx0pRlUZrkB3WWNYMsecWS9ih1fpMvb-cUYP5s6T_QjW68mQ40QArKa7iRDm3IhNipRa_RmziwPdo1Nh2l0kGGALpBhd1kqh8KdEbp2Kz_sPza6O-iJBX88ImeMEgXI5A</div></pre></td></tr></table></figure></p>
+<p>在服务器返回给我们的头部信息中，有一个是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;kid&quot;:&quot;keys/3c3c2ea1c3f113f649dc9389dd71b851&quot;</div></pre></td></tr></table></figure></p>
+<p>关于kid字段(key ID)，它指定了用哪一个key来加密。可以看看这里：<a href="https://stackoverflow.com/questions/43867440/whats-the-meaning-of-the-kid-claim-in-a-jwt-token" target="_blank" rel="external">What’s the meaning of the “kid” claim in a JWT token?</a></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://47.74.147.52:20012/keys/</div></pre></td></tr></table></figure></p>
+<p>可以发现里面有许多pem公钥，我们字段相符合即为3c3c2ea1c3f113f649dc9389dd71b851.pem。</p>
+<p>结合头部的alg信息，我们知道它采用的是SH256即sha256签名，这种方式下，发送方（即我们）要用私钥对签名进行加密，接收方（即服务器端）用公钥进行解密，而从头部kid字段知道，公钥的地址实际上是我们可以指定的。所以攻击流程如下:</p>
+<ol>
+<li>我们先生成公钥私钥对。</li>
+<li>用公钥私钥在 jwt.io 上进行签名伪造jwt，其中kid字段指明我们公钥的地址。</li>
+<li>服务器端收到jwt后，用kid字段地址中的公钥进行解密，由于公钥和私钥是我们伪造的，所以解密是能成功的。</li>
+<li>拿flag。</li>
+</ol>
+<p>利用openssl生成公钥私钥对。<br>公钥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">-----BEGIN PUBLIC KEY-----</div><div class="line">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCdgyNwNiMLtNqIp9y/Iz5q7jsE</div><div class="line">rbxerAjPzF+vkAhbMEZb0+3LzK22kE6ArHBtDeME0gxCM1dBZgXVZ0Mg+yyKnUIv</div><div class="line">Co9mGCJ7rFsw9BAOIAGGu3pnwr5CDt05qTsarlDxZ1BBsSnH51OtYZvyclGSuPpb</div><div class="line">xW+zblOEFj0443zTRwIDAQAB</div><div class="line">-----END PUBLIC KEY-----</div></pre></td></tr></table></figure></p>
+<p>私钥:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">-----BEGIN RSA PRIVATE KEY-----</div><div class="line">MIICXAIBAAKBgQCdgyNwNiMLtNqIp9y/Iz5q7jsErbxerAjPzF+vkAhbMEZb0+3L</div><div class="line">zK22kE6ArHBtDeME0gxCM1dBZgXVZ0Mg+yyKnUIvCo9mGCJ7rFsw9BAOIAGGu3pn</div><div class="line">wr5CDt05qTsarlDxZ1BBsSnH51OtYZvyclGSuPpbxW+zblOEFj0443zTRwIDAQAB</div><div class="line">AoGAVfIodCIWHV0hoU929BSXCmHTckoabs4QQNKTo4hEBv3gZlrNdlbIssUrEKsG</div><div class="line">7XqWVRsH9VduVREGPduKlYR4WI8yPrjUygUuH7GyrC2w44VtCZQ+3zLObknC7RuA</div><div class="line">+DBWgpMTBNF2f3Tpsj6kkSZXN97X1jS9azUkK1uxeJcG8YECQQDI6s3CjTPwQlr3</div><div class="line">h9kxEFPZDIbqjJjWjzY9CFP+A1nOOsrOjNSj9Mf+Qv/n6oLglLopzSu2hM7Iozwg</div><div class="line">7EBjWiYrAkEAyLH/ROQNFmgrBC+QV7HUsOdgQDPiCftEADZSm+IMzpItoTMMHhQB</div><div class="line">UVjJl8TLd8qajItN+mOBb6Eoddq7u5X1VQJAevvff1tXk5XKgQJS3EmWSaH1Y9U0</div><div class="line">KQH4vVs/rpj2e9pZEh36e3H2iZkRdDCEdFwVqEjCnTKmMQJaZ/y1XRttiQJBAJca</div><div class="line">pSZ6SXxIW7LgGN5d7tRusGJGbfaz7sP2IoZpUNkq6B4JcCMpTsCvh8C0E7mSmoAc</div><div class="line">1k4iIy8n+G2bjWM0Ca0CQHHZ/PXOoCKCGi8mB98pdB36VjbTX81giIboYJXhbVeu</div><div class="line">vXvP1EUuGsjDfk+bX1oFxgauqOA7i7oY+sN5JNdO5Fk=</div><div class="line">-----END RSA PRIVATE KEY-----</div></pre></td></tr></table></figure></p>
+<p>用之前注册的账号写一个paste，内容为公钥<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/9.png?raw=true" alt=""></p>
+<p>利用下载功能获取到公钥的保存地址，这里为 /api/paste/fcb82912-1c84-4ce6-9713-755d5f142066?raw。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/10.png?raw=true" alt=""></p>
+<p>我们想要让服务器端用我们的公钥来加密，所以在伪造jwt的头部的kid字段应为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;kid&quot;:&quot;/api/paste/fcb82912-1c84-4ce6-9713-755d5f142066?raw&quot;</div></pre></td></tr></table></figure></p>
+<p>但是由前面观察keys文件夹知道，服务器端会把传进来的url后面加上<code>.pem</code>。即<code>&quot;kid&quot;:&quot;keys/3c3c2ea1c3f113f649dc9389dd71b851&quot;</code>会变成去访问<code>keys/3c3c2ea1c3f113f649dc9389dd71b851.pem</code></p>
+<p>可以在<code>?raw</code>后面加上一个<code>&amp;</code>，这样加上去后的<code>.pem</code>不会变成后缀而是被当成一个参数。访问 <a href="http://47.74.147.52:20012/api/paste/fcb82912-1c84-4ce6-9713-755d5f142066?raw&amp;.pem" target="_blank" rel="external">http://47.74.147.52:20012/api/paste/fcb82912-1c84-4ce6-9713-755d5f142066?raw&amp;.pem</a> 即访问 <a href="http://47.74.147.52:20012/api/paste/fcb82912-1c84-4ce6-9713-755d5f142066?raw" target="_blank" rel="external">http://47.74.147.52:20012/api/paste/fcb82912-1c84-4ce6-9713-755d5f142066?raw</a> ，即我们paste/公钥的保存地址。</p>
+<p>接下来用 <a href="https://jwt.io/" target="_blank" rel="external">https://jwt.io/</a> 来生成伪造的jwt。由于要伪造admin，所以sub字段要修改为admin。在公钥和私钥部分填上我们生成的公钥和私钥，在头部kid字段填上公钥的地址。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/8.png?raw=true" alt=""></p>
+<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eyJraWQiOiJhcGkvcGFzdGUvZmNiODI5MTItMWM4NC00Y2U2LTk3MTMtNzU1ZDVmMTQyMDY2P3JhdyYiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiJ9.IW5dnvpZAnsmIb4CrAPdwcTApLMzuB4LaDZxzm6nLwRKp4H6SCZUuPi71daWstfUDEGxMmBucTnHmaBCb4VZfxMrKDx0G27J-yJGW-SpGE9j61Punpv0vTaVw0H5SVkU6IZud_OvVWIe6vf_ffmup0Mou7GpCvOn6fUg6XYk8O0</div></pre></td></tr></table></figure></p>
+<p>之后在每次操作中，要记得把Authorization字段替换成对应的伪造jwt。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/11.png?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/12.png?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HITB&#123;b128a14885c4974c4a7016eb1d79aae6&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -428,7 +472,7 @@ JWT安全性问题">
   <p><span>本文标题:</span><a href="/2017/08/29/HITB-CTF-2017-Pasty-writeup/">HITB CTF 2017-Pasty-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月29日 - 07:08</p>
-  <p><span>最后更新:</span>2017年08月29日 - 07:08</p>
+  <p><span>最后更新:</span>2017年08月29日 - 09:08</p>
   <p><span>原始链接:</span><a href="/2017/08/29/HITB-CTF-2017-Pasty-writeup/" title="HITB CTF 2017-Pasty-writeup">http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/"  aria-label="复制成功！"></i></span>
   </p>
