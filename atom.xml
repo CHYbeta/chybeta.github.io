@@ -174,13 +174,60 @@
   </entry>
   
   <entry>
+    <title>Hackit2017-Cypherpunk’s nightmare-writeup</title>
+    <link href="http://yoursite.com/2017/08/30/Hackit2017-Cypherpunk%E2%80%99s-nightmare-writeup/"/>
+    <id>http://yoursite.com/2017/08/30/Hackit2017-Cypherpunk’s-nightmare-writeup/</id>
+    <published>2017-08-30T11:32:22.000Z</published>
+    <updated>2017-08-30T12:42:02.448Z</updated>
+    
+    <content type="html"><![CDATA[<p>Hackit2017-Cypherpunk’s nightmare-writeup<br>LUKS aeskeyfind<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Description: Our officers just have made cold boot attack on the suspect&apos;s computer. Your role is to recover the content of this encrypted hard drive.</div><div class="line">Attachment: (none)</div><div class="line">Webpage: https://mega.nz/#!VdRAkaKT!xP7s74jwnlGmR2spg9RNaKFf5GmCGAv-pxW8aPZNkOw</div><div class="line">Hint: (none)</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>题目提供了一个压缩包，解压缩后得到三个文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">encrypted.dd</div><div class="line">memdump.elf.gz  </div><div class="line">__MACOSX</div></pre></td></tr></table></figure></p>
+<p>先看看第一个文件：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/4.png?raw=true" alt=""></p>
+<p>可以看到这是一个LUKS加密文件，要解密需要提供密码。结合题目的另外一个文件memdump.elf.gz，我们可以利用工具<code>aeskeyfind</code>来提取藏在内存中的aeskey。</p>
+<p>可以通过下面的命令安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install aeskeyfind</div></pre></td></tr></table></figure></p>
+<p>将memdump.elf.gz压缩包解压后得到data文件，运行aeskeyfind：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">aeskeyfind -v data</div></pre></td></tr></table></figure></p>
+<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">FOUND POSSIBLE 128-BIT KEY AT BYTE bf16da0</div><div class="line"></div><div class="line">KEY: 9e90126c33c85d9a6913e649301b5dcf</div><div class="line"></div><div class="line">EXTENDED KEY:</div><div class="line">9e90126c33c85d9a6913e649301b5dcf</div><div class="line">30dc98680314c5f26a0723bb5a1c7e74</div><div class="line">ae2f0ad6ad3bcf24c73cec9f9d2092eb</div><div class="line">1d60e388b05b2cac7767c033ea4752d8</div><div class="line">b560820f053baea3725c6e90981b3c48</div><div class="line">0a8bd0490fb07eea7dec107ae5f72c32</div><div class="line">42faf3904d4a8d7a30a69d00d551b132</div><div class="line">d332d0939e785de9aedec0e97b8f71db</div><div class="line">209169b2bee9345b1037f4b26bb88569</div><div class="line">570690cde9efa496f9d850249260d54d</div><div class="line">b105738258ead714a13287303352527d</div><div class="line"></div><div class="line">CONSTRAINTS ON ROWS:</div><div class="line">00000004000000000000000000000000</div><div class="line">000000be000000000000000000000000</div><div class="line">0000005e000000000000000000000000</div><div class="line">00000087000000000000000000000000</div><div class="line">00000046000000000000000000000000</div><div class="line">000000d9000000000000000000000000</div><div class="line">00000003000000000000000000000000</div><div class="line">00000021000000000000000000000000</div><div class="line">0000007f000000000000000000000000</div><div class="line">0000004f000000000000000000000000</div><div class="line"></div><div class="line">FOUND POSSIBLE 128-BIT KEY AT BYTE bf16fa0</div><div class="line"></div><div class="line">KEY: 683c5a4bf8f1cedf5b649c482e48e639</div><div class="line"></div><div class="line">EXTENDED KEY:</div><div class="line">683c5a4bf8f1cedf5b649c482e48e639</div><div class="line">3bb2487ac34386a598271aedb66ffcd4</div><div class="line">9102003452418691ca669c7c7c0960a8</div><div class="line">94d2c224c69344b50cf5d8c970fcb861</div><div class="line">2cbe2d75ea2d69c0e6d8b10996240968</div><div class="line">0abf68e5e0920125064ab02c906eb944</div><div class="line">b5e97385557b72a05331c28cc35f7bc8</div><div class="line">3ac89bab6fb3e90b3c822b87ffdd504f</div><div class="line">7b9b1fbd1428f6b628aadd31d7778d7e</div><div class="line">95c6ecb381ee1a05a944c7347e334a4a</div><div class="line">60103a40e1fe204548bae7713689ad3b</div><div class="line"></div><div class="line">CONSTRAINTS ON ROWS:</div><div class="line">00000031000000000000000000000000</div><div class="line">0000004e000000000000000000000000</div><div class="line">00000010000000000000000000000000</div><div class="line">00000051000000000000000000000000</div><div class="line">00000090000000000000000000000000</div><div class="line">00000060000000000000000000000000</div><div class="line">0000002e000000000000000000000000</div><div class="line">00000016000000000000000000000000</div><div class="line">0000000e000000000000000000000000</div><div class="line">000000f3000000000000000000000000</div><div class="line"></div><div class="line">Keyfind progress: 100%</div></pre></td></tr></table></figure></p>
+<p>重点是得到了两个KEY:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">KEY: 9e90126c33c85d9a6913e649301b5dcf</div><div class="line">KEY: 683c5a4bf8f1cedf5b649c482e48e639</div></pre></td></tr></table></figure></p>
+<p>先拿一个key试试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &quot;9e90126c33c85d9a6913e649301b5dcf&quot; | xxd -r -p &gt; Safe.key</div></pre></td></tr></table></figure></p>
+<p>尝试解密：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cryptsetup luksOpen --master-key-file Safe.key encrypted.dd safe-home</div></pre></td></tr></table></figure></p>
+<p>但是提示出错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">无法从密钥文件 Safe.key 读取 32 字节。</div></pre></td></tr></table></figure></p>
+<p>我们看看Safe.key是怎样的；<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/5.png?raw=true" alt=""></p>
+<p>发现只有十六个字节。</p>
+<p>结合有两个key，我们把两个合起来试试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/nightmare# echo &quot;9e90126c33c85d9a6913e649301b5dcf683c5a4bf8f1cedf5b649c482e48e639&quot; | xxd -r -p &gt; Safe.key</div><div class="line">root@chybeta:~/Desktop/nightmare# cryptsetup luksOpen --master-key-file Safe.key encrypted.dd safe-home</div><div class="line">卷密钥与卷不匹配。</div><div class="line">root@chybeta:~/Desktop/nightmare# echo &quot;683c5a4bf8f1cedf5b649c482e48e6399e90126c33c85d9a6913e649301b5dcf&quot; | xxd -r -p &gt; Safe.key</div><div class="line">root@chybeta:~/Desktop/nightmare# cryptsetup luksOpen --master-key-file Safe.key encrypted.dd safe-home</div></pre></td></tr></table></figure></p>
+<p>然后在kali系统中可以发现已经可以直接打开卷宗。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/6.png?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">h4ck1t&#123;Not_paranoid_enough&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以通过挂载来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/nightmare# ls -l /dev/mapper/</div><div class="line">总用量 0</div><div class="line">crw------- 1 root root 10, 236 8月  25 05:25 control</div><div class="line">lrwxrwxrwx 1 root root       7 8月  25 05:26 safe-home -&gt; ../dm-0</div><div class="line">root@chybeta:~/Desktop/nightmare# mkdir /mnt/safe-home</div><div class="line">root@chybeta:~/Desktop/nightmare# mount /dev/mapper/safe-home /mnt/safe-home/</div><div class="line">root@chybeta:~/Desktop/nightmare# cd /mnt/safe-home/</div><div class="line">root@chybeta:/mnt/safe-home# ls</div><div class="line">flag.txt  Melkor_ELF_fuzzer</div><div class="line">root@chybeta:/mnt/safe-home# cat flag.txt</div><div class="line">h4ck1t&#123;Not_paranoid_enough&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Hackit2017-Cypherpunk’s nightmare-writeup&lt;br&gt;LUKS aeskeyfind&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="Forensic" scheme="http://yoursite.com/tags/Forensic/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hackit2017-USB ducker-writeup</title>
     <link href="http://yoursite.com/2017/08/30/Hackit2017-USB-ducker-writeup/"/>
     <id>http://yoursite.com/2017/08/30/Hackit2017-USB-ducker-writeup/</id>
     <published>2017-08-30T11:22:00.000Z</published>
-    <updated>2017-08-30T11:25:12.582Z</updated>
+    <updated>2017-08-30T12:41:40.615Z</updated>
     
-    <content type="html"><![CDATA[<p>usb keyboard pcap<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>Hackit2017-USB ducker-writeup<br>usb keyboard pcap<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Description: This file was captured from one of the computers at the Internet cafe. We think that the hacker was using this computer at that time. Try to get his secret documents. ( flag format is flag&#123;...&#125; )</div><div class="line">Attachment: (none)</div><div class="line">Webpage: https://mega.nz/#!NVJ1kZCR!mDxd7V0rHtMStePa-tUEHPW-SyAxQ6f1zRDCTxX8y3M</div><div class="line">Hint: (none)</div></pre></td></tr></table></figure>
 <h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>题目提供了pcap文件。</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/2.png?raw=true" alt=""></p>
@@ -204,7 +251,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;usb keyboard pcap&lt;br&gt;
+      &lt;p&gt;Hackit2017-USB ducker-writeup&lt;br&gt;usb keyboard pcap&lt;br&gt;
     
     </summary>
     
@@ -1013,49 +1060,6 @@
     <summary type="html">
     
       &lt;p&gt;xss&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>XMAN夏令营-2017-比赛系统-writeup</title>
-    <link href="http://yoursite.com/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-%E6%AF%94%E8%B5%9B%E7%B3%BB%E7%BB%9F-writeup/"/>
-    <id>http://yoursite.com/2017/08/22/XMAN夏令营-2017-比赛系统-writeup/</id>
-    <published>2017-08-22T09:31:20.000Z</published>
-    <updated>2017-08-22T09:32:44.696Z</updated>
-    
-    <content type="html"><![CDATA[<p>逻辑问题、任意用户密码重置<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8013</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>有登陆和注册的功能，其中登陆处还有忘记密码。结合url：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8013/logic2_regist.php</div><div class="line">http://202.112.51.217:8013/logic2_login.php</div></pre></td></tr></table></figure></p>
-<p>猜测应该是逻辑问题。</p>
-<p>我们注册一个账号</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/4.png?raw=true" alt=""></p>
-<p>对我这个账号而言，其密保问题和答案均为chybeta</p>
-<p>接下来看看登陆功能，用刚刚注册的账号登陆，得到提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">普通用户登录成功,没什么用</div></pre></td></tr></table></figure></p>
-<p>那估计要登陆超级用户咯，比如admin。接下来用到忘记密码功能。</p>
-<p>我们先输入用户名<code>chybeta</code>，</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/5.png?raw=true" alt=""><br>输入密保答案<code>chybeta</code></p>
-<p>抓包！</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/6.png?raw=true" alt=""></p>
-<p>可以看到有个username字段。我们猜测后端忘记密码的流程是这样的，先从数据库中抽取与用户名相对应的密保问题与答案，之后只要判断我们输入的答案是否和密保答案是否一致即可修改密码，而没有再一次的检查用户名。所以可能存在任意用户密码重置漏洞。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/7.png?raw=true" alt=""></p>
-<p>修改username为admin，然后forward掉。然后就可以重置admin的密码了。</p>
-<p>重置后登陆得到；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FLAG&#123;You_Kookokoko_logic_OK&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;逻辑问题、任意用户密码重置&lt;br&gt;
     
     </summary>
     
