@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-28T10:56:49.656Z</updated>
+  <updated>2017-08-30T11:30:44.976Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-08-28T10:56:49.656Z</updated>
+    <updated>2017-08-30T11:30:44.976Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -83,6 +83,9 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/" target="_blank" rel="external">HITB CTF 2017-Pasty-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/" target="_blank" rel="external">Hackit2017-H4ck3rM1nd-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/" target="_blank" rel="external">Hackit2017-Weekands of hacker-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/" target="_blank" rel="external">Hackit2017-V1rus3pidem1c-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/" target="_blank" rel="external">Hackit2017-B3tterS0ci4lN3twork-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/27/HackCon2017-Web-writeup/" target="_blank" rel="external">HackCon2017-Web-writeup</a></li>
@@ -137,6 +140,8 @@
 <li><a href="https://chybeta.github.io/2017/04/07/Pwnable-kr-bof/" target="_blank" rel="external">Pwnable.kr:bof</a></li>
 </ul>
 <h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><ul>
+<li><a href="https://chybeta.github.io/2017/08/30/Hackit2017-USB-ducker-writeup/" target="_blank" rel="external">Hackit2017-USB ducker-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/" target="_blank" rel="external">ISG2017-赛前练手题—writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/08/27/HackCon2017-Steg-writeup/" target="_blank" rel="external">HackCon2017-Steg-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Growing-Up-writeup/" target="_blank" rel="external">SHACTF-2017-Growing Up-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-WannaFly-writeup/" target="_blank" rel="external">SHACTF-2017-WannaFly-writeup</a></li>
