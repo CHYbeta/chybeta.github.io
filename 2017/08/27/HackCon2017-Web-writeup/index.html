@@ -97,7 +97,8 @@
 <meta property="og:description" content="HackCon2017-Web-writeup">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/1.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170827/2.png?raw=true">
-<meta property="og:updated_time" content="2017-08-28T10:52:17.356Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/13.png?raw=true">
+<meta property="og:updated_time" content="2017-08-29T01:41:05.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HackCon2017-Web-writeup">
 <meta name="twitter:description" content="HackCon2017-Web-writeup">
@@ -423,8 +424,9 @@
 <p>用brainfuck编译器解释后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">λ .\brainfuck.exe</div><div class="line">username: abERsdhw password: HHealskdwwpr</div></pre></td></tr></table></figure></p>
 <p>得到用户名和密码，登陆，得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">d4rk&#123;c00k13s_4r3_fun&#125;c0de</div></pre></td></tr></table></figure></p>
 <h1 id="Dictator"><a href="#Dictator" class="headerlink" title="Dictator"></a>Dictator</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">A dictator is creating a lot of fuss nowadays by claiming to have nuclear weapons. I somehow got access to his personal website that he uses to send instructions, but I cannot get in. Can you try?</div><div class="line"></div><div class="line">Link: Website(http://defcon.org.in:6063/)</div><div class="line"></div><div class="line">Hint: you need to be living in that country to get access.</div><div class="line">Hint2: north korea</div></pre></td></tr></table></figure>
-<p>直接访问会说：Access denied</p>
-<p>根据hint，对国家有要求。一般在ctf中这通过修改Accept-Language来绕过。</p>
+<p>直接访问会提示Access denied，修改Accept-Language也没用。</p>
+<p>修改X-Forwarded-For为north korea的ip。修改User-Agent为north korea的浏览器NaenaraBrowser。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170829/13.png?raw=true" alt=""></p>
 <h1 id="Stolen-Calculator-PWN"><a href="#Stolen-Calculator-PWN" class="headerlink" title="Stolen Calculator - PWN"></a>Stolen Calculator - PWN</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">I stole this calculator from someone and made some changes because I am the plagiarism god. Bow before me now.</div><div class="line">btw wanna try it: http://defcon.org.in:9080/</div><div class="line">Hint: This is a pwn challenge</div></pre></td></tr></table></figure>
 
       
@@ -441,7 +443,7 @@
   <p><span>本文标题:</span><a href="/2017/08/27/HackCon2017-Web-writeup/">HackCon2017-Web-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月27日 - 08:08</p>
-  <p><span>最后更新:</span>2017年08月28日 - 18:08</p>
+  <p><span>最后更新:</span>2017年08月29日 - 09:08</p>
   <p><span>原始链接:</span><a href="/2017/08/27/HackCon2017-Web-writeup/" title="HackCon2017-Web-writeup">http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -597,7 +599,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">112</span>
+                <span class="site-state-item-count">113</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -615,7 +617,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-count">49</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
