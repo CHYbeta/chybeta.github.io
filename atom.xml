@@ -4,9 +4,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://chybeta.github.io/"/>
   <updated>2017-08-31T11:41:01.963Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://chybeta.github.io/</id>
   
   <author>
     <name>chybeta</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>一些文章</title>
-    <link href="http://yoursite.com/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
-    <id>http://yoursite.com/3017/07/26/一些文章/</id>
+    <link href="http://chybeta.github.io/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
+    <id>http://chybeta.github.io/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
     <updated>2017-08-31T11:41:01.963Z</updated>
     
@@ -166,19 +166,55 @@
     
     </summary>
     
-      <category term="随笔" scheme="http://yoursite.com/categories/%E9%9A%8F%E7%AC%94/"/>
+      <category term="随笔" scheme="http://chybeta.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
     
-      <category term="pwn" scheme="http://yoursite.com/tags/pwn/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo-rss链接问题修复方法</title>
+    <link href="http://chybeta.github.io/2017/09/04/hexo-rss%E9%93%BE%E6%8E%A5%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%B3%95/"/>
+    <id>http://chybeta.github.io/2017/09/04/hexo-rss链接问题修复方法/</id>
+    <published>2017-09-04T02:04:44.000Z</published>
+    <updated>2017-09-04T02:15:52.934Z</updated>
+    
+    <content type="html"><![CDATA[<p>hexo-rss链接问题修复方法<br><a id="more"></a></p>
+<p>用 hexo-generator-feed 来生成hexo站点的rss，即 <a href="https://chybeta.github.io/atom.xml" target="_blank" rel="external">https://chybeta.github.io/atom.xml</a> ，类似这样的：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170904/3.png?raw=true" alt=""></p>
+<p>然后昨天有师傅说链接是错误的，全部是 yoursite.com</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170904/2.png?raw=true" alt=""></p>
+<p>网上搜了一波没找到合适的答案，<a href="http://www.jianshu.com/p/a2fe56d11c4f" target="_blank" rel="external">http://www.jianshu.com/p/a2fe56d11c4f</a> 里提到的是全部手动修改，不现实。后面自己解决了一下。</p>
+<p>打开博客目录的 _config.yml。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170904/1.png?raw=true" alt=""></p>
+<p>将第15行左右的url改成你的站点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url: http://chybeta.github.io</div></pre></td></tr></table></figure></p>
+<p>然后重新编译生成博客。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g &amp;&amp; hexo d</div></pre></td></tr></table></figure></p>
+<p>就ok啦。</p>
+<p>博客水水更健康~</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;hexo-rss链接问题修复方法&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="http://chybeta.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="hexo" scheme="http://chybeta.github.io/tags/hexo/"/>
+    
+      <category term="rss" scheme="http://chybeta.github.io/tags/rss/"/>
     
   </entry>
   
   <entry>
     <title>TWCTF 2017-Rev Rev Rev-writeup</title>
-    <link href="http://yoursite.com/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/"/>
-    <id>http://yoursite.com/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/</id>
+    <link href="http://chybeta.github.io/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/</id>
     <published>2017-09-02T04:58:21.000Z</published>
     <updated>2017-09-03T14:03:31.335Z</updated>
     
@@ -199,21 +235,21 @@
     
     </summary>
     
-      <category term="writeup:Reverse" scheme="http://yoursite.com/categories/writeup-Reverse/"/>
+      <category term="writeup:Reverse" scheme="http://chybeta.github.io/categories/writeup-Reverse/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="re" scheme="http://yoursite.com/tags/re/"/>
+      <category term="re" scheme="http://chybeta.github.io/tags/re/"/>
     
   </entry>
   
   <entry>
     <title>TWCTF 2017-Freshen Uploader-writeup</title>
-    <link href="http://yoursite.com/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/"/>
-    <id>http://yoursite.com/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/</id>
+    <link href="http://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/</id>
     <published>2017-09-02T02:33:13.000Z</published>
     <updated>2017-09-03T14:03:40.866Z</updated>
     
@@ -245,21 +281,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>ISG2017-wmwcms-writeup</title>
-    <link href="http://yoursite.com/2017/08/31/ISG2017-wmwcms-writeup/"/>
-    <id>http://yoursite.com/2017/08/31/ISG2017-wmwcms-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/</id>
     <published>2017-08-31T08:29:51.000Z</published>
     <updated>2017-08-31T10:06:49.113Z</updated>
     
@@ -286,21 +322,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>Hackit2017-Cypherpunk’s nightmare-writeup</title>
-    <link href="http://yoursite.com/2017/08/30/Hackit2017-Cypherpunk%E2%80%99s-nightmare-writeup/"/>
-    <id>http://yoursite.com/2017/08/30/Hackit2017-Cypherpunk’s-nightmare-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/30/Hackit2017-Cypherpunk%E2%80%99s-nightmare-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/30/Hackit2017-Cypherpunk’s-nightmare-writeup/</id>
     <published>2017-08-30T11:32:22.000Z</published>
     <updated>2017-08-30T12:42:02.448Z</updated>
     
@@ -331,23 +367,23 @@
     
     </summary>
     
-      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
+      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="Forensic" scheme="http://yoursite.com/tags/Forensic/"/>
+      <category term="Forensic" scheme="http://chybeta.github.io/tags/Forensic/"/>
     
   </entry>
   
   <entry>
     <title>Hackit2017-USB ducker-writeup</title>
-    <link href="http://yoursite.com/2017/08/30/Hackit2017-USB-ducker-writeup/"/>
-    <id>http://yoursite.com/2017/08/30/Hackit2017-USB-ducker-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/30/Hackit2017-USB-ducker-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/30/Hackit2017-USB-ducker-writeup/</id>
     <published>2017-08-30T11:22:00.000Z</published>
     <updated>2017-08-30T12:41:40.615Z</updated>
     
@@ -379,23 +415,23 @@
     
     </summary>
     
-      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
+      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="Forensic" scheme="http://yoursite.com/tags/Forensic/"/>
+      <category term="Forensic" scheme="http://chybeta.github.io/tags/Forensic/"/>
     
   </entry>
   
   <entry>
     <title>HITB CTF 2017-Pasty-writeup</title>
-    <link href="http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/"/>
-    <id>http://yoursite.com/2017/08/29/HITB-CTF-2017-Pasty-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/</id>
     <published>2017-08-28T23:44:02.000Z</published>
     <updated>2017-08-29T01:23:04.302Z</updated>
     
@@ -445,21 +481,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>Hackit2017-H4ck3rM1nd-writeup</title>
-    <link href="http://yoursite.com/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/"/>
-    <id>http://yoursite.com/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/</id>
     <published>2017-08-28T11:54:28.000Z</published>
     <updated>2017-08-28T12:40:13.280Z</updated>
     
@@ -488,21 +524,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>ISG2017-赛前练手题—writeup</title>
-    <link href="http://yoursite.com/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/"/>
-    <id>http://yoursite.com/2017/08/28/ISG2017-赛前练手题—writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/"/>
+    <id>http://chybeta.github.io/2017/08/28/ISG2017-赛前练手题—writeup/</id>
     <published>2017-08-28T11:43:46.000Z</published>
     <updated>2017-08-28T23:54:53.868Z</updated>
     
@@ -520,21 +556,21 @@
     
     </summary>
     
-      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
+      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
   </entry>
   
   <entry>
     <title>Hackit2017-Weekands of hacker-writeup</title>
-    <link href="http://yoursite.com/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/"/>
-    <id>http://yoursite.com/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/</id>
     <published>2017-08-28T11:00:09.000Z</published>
     <updated>2017-08-28T11:25:24.982Z</updated>
     
@@ -554,21 +590,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>Hackit2017-V1rus3pidem1c-writeup</title>
-    <link href="http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/"/>
-    <id>http://yoursite.com/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/</id>
     <published>2017-08-28T07:42:03.000Z</published>
     <updated>2017-08-28T11:10:06.334Z</updated>
     
@@ -609,21 +645,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>Hackit2017-B3tterS0ci4lN3twork-writeup</title>
-    <link href="http://yoursite.com/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/"/>
-    <id>http://yoursite.com/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/</id>
     <published>2017-08-27T23:51:05.000Z</published>
     <updated>2017-08-28T10:52:19.176Z</updated>
     
@@ -669,21 +705,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>HackCon2017-Steg-writeup</title>
-    <link href="http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/"/>
-    <id>http://yoursite.com/2017/08/27/HackCon2017-Steg-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/27/HackCon2017-Steg-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/27/HackCon2017-Steg-writeup/</id>
     <published>2017-08-27T02:04:53.000Z</published>
     <updated>2017-08-29T08:44:06.476Z</updated>
     
@@ -698,23 +734,23 @@
     
     </summary>
     
-      <category term="writeup:MISC" scheme="http://yoursite.com/categories/writeup-MISC/"/>
+      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="steg" scheme="http://yoursite.com/tags/steg/"/>
+      <category term="steg" scheme="http://chybeta.github.io/tags/steg/"/>
     
   </entry>
   
   <entry>
     <title>HackCon2017-Web-writeup</title>
-    <link href="http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/"/>
-    <id>http://yoursite.com/2017/08/27/HackCon2017-Web-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/27/HackCon2017-Web-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/27/HackCon2017-Web-writeup/</id>
     <published>2017-08-27T00:35:47.000Z</published>
     <updated>2017-08-29T01:41:05.740Z</updated>
     
@@ -744,21 +780,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>XNUCA2017-第一期：Web-writeup</title>
-    <link href="http://yoursite.com/2017/08/26/XNUCA2017-%E7%AC%AC%E4%B8%80%E6%9C%9F%EF%BC%9AWeb-writeup/"/>
-    <id>http://yoursite.com/2017/08/26/XNUCA2017-第一期：Web-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/26/XNUCA2017-%E7%AC%AC%E4%B8%80%E6%9C%9F%EF%BC%9AWeb-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/26/XNUCA2017-第一期：Web-writeup/</id>
     <published>2017-08-26T00:32:34.000Z</published>
     <updated>2017-08-28T10:49:51.974Z</updated>
     
@@ -842,21 +878,21 @@
     
     </summary>
     
-      <category term="writeup:Web" scheme="http://yoursite.com/categories/writeup-Web/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
   <entry>
     <title>流量包提取文件方法</title>
-    <link href="http://yoursite.com/2017/08/25/%E6%B5%81%E9%87%8F%E5%8C%85%E6%8F%90%E5%8F%96%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/"/>
-    <id>http://yoursite.com/2017/08/25/流量包提取文件方法/</id>
+    <link href="http://chybeta.github.io/2017/08/25/%E6%B5%81%E9%87%8F%E5%8C%85%E6%8F%90%E5%8F%96%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/"/>
+    <id>http://chybeta.github.io/2017/08/25/流量包提取文件方法/</id>
     <published>2017-08-25T09:18:24.000Z</published>
     <updated>2017-08-25T10:30:59.016Z</updated>
     
@@ -889,21 +925,21 @@
     
     </summary>
     
-      <category term="技术杂谈" scheme="http://yoursite.com/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+      <category term="技术杂谈" scheme="http://chybeta.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="misc" scheme="http://yoursite.com/tags/misc/"/>
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
-      <category term="pcap" scheme="http://yoursite.com/tags/pcap/"/>
+      <category term="pcap" scheme="http://chybeta.github.io/tags/pcap/"/>
     
-      <category term="ctf" scheme="http://yoursite.com/tags/ctf/"/>
+      <category term="ctf" scheme="http://chybeta.github.io/tags/ctf/"/>
     
   </entry>
   
   <entry>
     <title>HITB CTF 2017-Dating in Singapore-writeup</title>
-    <link href="http://yoursite.com/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/"/>
-    <id>http://yoursite.com/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/</id>
     <published>2017-08-24T08:58:25.000Z</published>
     <updated>2017-08-25T10:30:52.002Z</updated>
     
@@ -924,21 +960,21 @@
     
     </summary>
     
-      <category term="writeup:Crypto" scheme="http://yoursite.com/categories/writeup-Crypto/"/>
+      <category term="writeup:Crypto" scheme="http://chybeta.github.io/categories/writeup-Crypto/"/>
     
     
-      <category term="CTF" scheme="http://yoursite.com/tags/CTF/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://yoursite.com/tags/writeup/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="crypto" scheme="http://yoursite.com/tags/crypto/"/>
+      <category term="crypto" scheme="http://chybeta.github.io/tags/crypto/"/>
     
   </entry>
   
   <entry>
     <title>Sqli-Labs:Less17-writeup</title>
-    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less17-writeup/"/>
-    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less17-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/</id>
     <published>2017-08-23T10:16:52.000Z</published>
     <updated>2017-08-23T13:46:04.707Z</updated>
     
@@ -990,8 +1026,8 @@
   
   <entry>
     <title>Sqli-Labs:Less15~16-writeup</title>
-    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less15-16-writeup/"/>
-    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less15-16-writeup/</id>
+    <link href="http://chybeta.github.io/2017/08/23/Sqli-Labs-Less15-16-writeup/"/>
+    <id>http://chybeta.github.io/2017/08/23/Sqli-Labs-Less15-16-writeup/</id>
     <published>2017-08-23T09:42:39.000Z</published>
     <updated>2017-08-23T10:16:14.267Z</updated>
     
@@ -1012,41 +1048,6 @@
     
       &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
 &lt;p&gt;Less-15 POST- Blind-Boolian/time Based -Single quotes&lt;br&gt;Less-16 POST- Blind-Boolian/time Based -Double quotes&lt;br&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Sqli-Labs:Less13~14-writeup</title>
-    <link href="http://yoursite.com/2017/08/23/Sqli-Labs-Less13-14-writeup/"/>
-    <id>http://yoursite.com/2017/08/23/Sqli-Labs-Less13-14-writeup/</id>
-    <published>2017-08-23T09:23:54.000Z</published>
-    <updated>2017-08-23T10:05:51.899Z</updated>
-    
-    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
-<p>Less-13 POST- Double Injection -Single quotes -String-with twist<br>Less-14 POST- Double Injection -Single quotes -String-with twist<br><a id="more"></a></p>
-<h1 id="Less-13"><a href="#Less-13" class="headerlink" title="Less 13"></a>Less 13</h1><p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>报错语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&apos;) LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
-<p>说明有括号保护，需闭合。</p>
-<p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&apos;)#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>页面返回提示说已经登陆成功。</p>
-<p>后台查询语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=(&apos;admin&apos;)#`&apos;) and password=(&apos;chybeta&apos;) LIMIT 0,1</div></pre></td></tr></table></figure></p>
-<h1 id="Less-14"><a href="#Less-14" class="headerlink" title="Less 14"></a>Less 14</h1><p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>报错语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;chybeta&quot; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
-<p>当post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&quot;&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>报错语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;&quot;chybeta&quot;&quot; LIMIT 0,1&apos; at line 1</div></pre></td></tr></table></figure></p>
-<p>从以上几条语句知道，需要闭合双引号。</p>
-<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&quot;#&amp;passwd=chybeta&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>页面返回提示说已经登陆成功。</p>
-<p>后台查询语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT username, password FROM users WHERE username=&quot;admin&quot;#&quot; and password=&quot;chybeta&quot; LIMIT 0,1</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
-&lt;p&gt;Less-13 POST- Double Injection -Single quotes -String-with twist&lt;br&gt;Less-14 POST- Double Injection -Single quotes -String-with twist&lt;br&gt;
     
     </summary>
     

