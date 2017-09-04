@@ -32,131 +32,131 @@
 <li><a href="https://chybeta.gitbooks.io/vuln-time/content/" target="_blank" rel="external">Vuln-Time</a></li>
 </ul>
 <h1 id="Web-Security"><a href="#Web-Security" class="headerlink" title="Web Security"></a>Web Security</h1><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><ul>
-<li><a href="https://chybeta.github.io/2017/08/15/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7/" target="_blank" rel="external">命令执行的一些绕过技巧</a></li>
-<li><a href="https://chybeta.github.io/2017/07/26/php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">php代码执行漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/07/21/MySql%E6%B3%A8%E5%85%A5%E5%A4%87%E5%BF%98%E5%BD%95/" target="_blank" rel="external">MySql注入备忘录</a></li>
-<li><a href="https://chybeta.github.io/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/" target="_blank" rel="external">php代码审计小总结 </a></li>
-<li><a href="https://chybeta.github.io/2017/07/04/%E5%B0%8F%E8%AF%95XML%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/" target="_blank" rel="external">小试XML实体注入攻击 </a></li>
-<li><a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">浅谈php反序列化漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/05/13/%E5%88%A9%E7%94%A8PHP%E7%9A%84OPcache%E6%9C%BA%E5%88%B6getshell/" target="_blank" rel="external">利用PHP的OPcache机制getshell</a></li>
+<li><a href="https://chybeta.github.io/2017/08/15/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7/">命令执行的一些绕过技巧</a></li>
+<li><a href="https://chybeta.github.io/2017/07/26/php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">php代码执行漏洞</a></li>
+<li><a href="https://chybeta.github.io/2017/07/21/MySql%E6%B3%A8%E5%85%A5%E5%A4%87%E5%BF%98%E5%BD%95/">MySql注入备忘录</a></li>
+<li><a href="https://chybeta.github.io/2017/07/14/php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B0%8F%E6%80%BB%E7%BB%93/">php代码审计小总结 </a></li>
+<li><a href="https://chybeta.github.io/2017/07/04/%E5%B0%8F%E8%AF%95XML%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/">小试XML实体注入攻击 </a></li>
+<li><a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">浅谈php反序列化漏洞</a></li>
+<li><a href="https://chybeta.github.io/2017/05/13/%E5%88%A9%E7%94%A8PHP%E7%9A%84OPcache%E6%9C%BA%E5%88%B6getshell/">利用PHP的OPcache机制getshell</a></li>
 </ul>
 <h2 id="Vuln-Analysis"><a href="#Vuln-Analysis" class="headerlink" title="Vuln Analysis"></a>Vuln Analysis</h2><ul>
-<li><a href="https://chybeta.github.io/2017/08/04/%C2%96PHPCMS-v9-6-0-wap%E6%A8%A1%E5%9D%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_blank" rel="external">PHPCMS v9.6.0 wap模块sql注入漏洞分析</a></li>
-<li><a href="https://chybeta.github.io/2017/07/22/PHPCMS-v9-6-0-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" target="_blank" rel="external">PHPCMS v9.6.0 任意文件上传漏洞分析 </a></li>
-<li><a href="https://chybeta.github.io/2017/07/11/Catfish-%E9%B2%B6%E9%B1%BC-CMS-V-4-4-10-%E7%95%99%E8%A8%80%E6%9D%BF%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞</a></li>
-<li><a href="https://chybeta.github.io/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection%E5%88%86%E6%9E%90/" target="_blank" rel="external">[CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析 </a></li>
-<li><a href="https://chybeta.github.io/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection%E5%88%86%E6%9E%90/" target="_blank" rel="external">[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析 </a></li>
-<li><a href="https://chybeta.github.io/2017/03/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8BSQL%E6%B3%A8%E5%85%A5%EF%BC%9ABlueCMSv1-6-sp1/" target="_blank" rel="external">代码审计之SQL注入：BlueCMSv1.6 sp1 </a></li>
+<li><a href="https://chybeta.github.io/2017/08/04/%C2%96PHPCMS-v9-6-0-wap%E6%A8%A1%E5%9D%97sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">PHPCMS v9.6.0 wap模块sql注入漏洞分析</a></li>
+<li><a href="https://chybeta.github.io/2017/07/22/PHPCMS-v9-6-0-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/">PHPCMS v9.6.0 任意文件上传漏洞分析 </a></li>
+<li><a href="https://chybeta.github.io/2017/07/11/Catfish-%E9%B2%B6%E9%B1%BC-CMS-V-4-4-10-%E7%95%99%E8%A8%80%E6%9D%BF%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E/">Catfish(鲶鱼) CMS V 4.4.10 留言板存储型XSS漏洞</a></li>
+<li><a href="https://chybeta.github.io/2017/05/19/CVE-2017-8917-Joomla-3-7-0-SQL-Injection%E5%88%86%E6%9E%90/">[CVE-2017-8917]Joomla! 3.7.0 SQL Injection分析 </a></li>
+<li><a href="https://chybeta.github.io/2017/05/12/CVE-2017-7991-Exponent-CMS-2-4-1-SQL-Injection%E5%88%86%E6%9E%90/">[CVE-2017-7991]Exponent CMS 2.4.1 SQL Injection分析 </a></li>
+<li><a href="https://chybeta.github.io/2017/03/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E4%B9%8BSQL%E6%B3%A8%E5%85%A5%EF%BC%9ABlueCMSv1-6-sp1/">代码审计之SQL注入：BlueCMSv1.6 sp1 </a></li>
 </ul>
 <h1 id="Bin-Security"><a href="#Bin-Security" class="headerlink" title="Bin Security"></a>Bin Security</h1><ul>
-<li><a href="https://chybeta.github.io/2017/08/14/%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" target="_blank" rel="external">逆向学习笔记（一）</a></li>
-<li><a href="https://chybeta.github.io/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/#more" target="_blank" rel="external">ROP学习：利用通用gadget </a></li>
-<li><a href="https://chybeta.github.io/2017/06/26/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A64%E4%BD%8D%E6%A0%88%E6%BA%A2%E5%87%BA/" target="_blank" rel="external">ROP学习：64位栈溢出</a></li>
+<li><a href="https://chybeta.github.io/2017/08/14/%E9%80%86%E5%90%91%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">逆向学习笔记（一）</a></li>
+<li><a href="https://chybeta.github.io/2017/08/09/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%88%A9%E7%94%A8%E9%80%9A%E7%94%A8gadget/#more">ROP学习：利用通用gadget </a></li>
+<li><a href="https://chybeta.github.io/2017/06/26/ROP%E5%AD%A6%E4%B9%A0%EF%BC%9A64%E4%BD%8D%E6%A0%88%E6%BA%A2%E5%87%BA/">ROP学习：64位栈溢出</a></li>
 </ul>
 <h1 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h1><ul>
-<li><a href="https://chybeta.github.io/2017/07/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%EF%BC%9A%E6%9C%80%E8%BF%91%E9%82%BB-KNN/" target="_blank" rel="external">机器学习算法：最近邻(KNN)</a></li>
-<li><a href="https://chybeta.github.io/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/" target="_blank" rel="external">机器学习算法：感知机(perceptron) </a></li>
-<li><a href="https://chybeta.github.io/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/" target="_blank" rel="external">Tensorflow学习：常用API</a></li>
-<li><a href="https://chybeta.github.io/2017/03/15/win%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0/" target="_blank" rel="external">win下tensorflow安装避坑指南</a></li>
+<li><a href="https://chybeta.github.io/2017/07/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%EF%BC%9A%E6%9C%80%E8%BF%91%E9%82%BB-KNN/">机器学习算法：最近邻(KNN)</a></li>
+<li><a href="https://chybeta.github.io/2017/07/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-%E6%84%9F%E7%9F%A5%E6%9C%BA-perceptron/">机器学习算法：感知机(perceptron) </a></li>
+<li><a href="https://chybeta.github.io/2017/07/06/Tensorflow%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%B8%B8%E7%94%A8API/">Tensorflow学习：常用API</a></li>
+<li><a href="https://chybeta.github.io/2017/03/15/win%E4%B8%8Btensorflow%E5%AE%89%E8%A3%85%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97-0/">win下tensorflow安装避坑指南</a></li>
 </ul>
 <h1 id="数据挖掘"><a href="#数据挖掘" class="headerlink" title="数据挖掘"></a>数据挖掘</h1><ul>
-<li><a href="https://chybeta.github.io/2017/01/22/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%880%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B9%8Banaconda%E5%AE%89%E8%A3%85/" target="_blank" rel="external">数据挖掘比赛（0）环境搭建之anaconda安装</a></li>
-<li><a href="https://chybeta.github.io/2017/01/24/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%881%EF%BC%89%E5%AF%B9%E6%97%A0%E5%88%97%E5%90%8D%E7%9A%84txt%E6%95%B0%E6%8D%AE%E9%9B%86%E8%AF%BB%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%8A%E5%A4%84%E7%90%86/" target="_blank" rel="external">数据挖掘比赛（1）对无列名的txt数据集读取方法及处理</a></li>
-<li><a href="https://chybeta.github.io/2017/01/25/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%882%EF%BC%89%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%8F%96%E5%A4%A7%E5%9E%8B%E6%95%B0%E6%8D%AE%E9%9B%86/" target="_blank" rel="external">数据挖掘比赛（2）利用pandas读取大型数据集</a></li>
-<li><a href="https://chybeta.github.io/2017/01/29/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%883%EF%BC%89%E7%94%B3%E8%AF%B7anaconda-academic-license%E5%B9%B6%E4%BD%BF%E7%94%A8/" target="_blank" rel="external">数据挖掘比赛（3）申请anaconda-academic-license并使用</a></li>
-<li><a href="https://chybeta.github.io/2017/02/01/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%884%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8A/" target="_blank" rel="external">数据挖掘比赛（4）ten Minutes to pandas中文版上 </a></li>
-<li><a href="https://chybeta.github.io/2017/02/02/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%885%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8B/" target="_blank" rel="external">数据挖掘比赛（5）ten Minutes to pandas中文版下</a></li>
+<li><a href="https://chybeta.github.io/2017/01/22/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%880%EF%BC%89%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B9%8Banaconda%E5%AE%89%E8%A3%85/">数据挖掘比赛（0）环境搭建之anaconda安装</a></li>
+<li><a href="https://chybeta.github.io/2017/01/24/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%881%EF%BC%89%E5%AF%B9%E6%97%A0%E5%88%97%E5%90%8D%E7%9A%84txt%E6%95%B0%E6%8D%AE%E9%9B%86%E8%AF%BB%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%8A%E5%A4%84%E7%90%86/">数据挖掘比赛（1）对无列名的txt数据集读取方法及处理</a></li>
+<li><a href="https://chybeta.github.io/2017/01/25/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%882%EF%BC%89%E5%88%A9%E7%94%A8pandas%E8%AF%BB%E5%8F%96%E5%A4%A7%E5%9E%8B%E6%95%B0%E6%8D%AE%E9%9B%86/">数据挖掘比赛（2）利用pandas读取大型数据集</a></li>
+<li><a href="https://chybeta.github.io/2017/01/29/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%883%EF%BC%89%E7%94%B3%E8%AF%B7anaconda-academic-license%E5%B9%B6%E4%BD%BF%E7%94%A8/">数据挖掘比赛（3）申请anaconda-academic-license并使用</a></li>
+<li><a href="https://chybeta.github.io/2017/02/01/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%884%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8A/">数据挖掘比赛（4）ten Minutes to pandas中文版上 </a></li>
+<li><a href="https://chybeta.github.io/2017/02/02/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%885%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8B/">数据挖掘比赛（5）ten Minutes to pandas中文版下</a></li>
 </ul>
 <h1 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h1><ul>
-<li><a href="https://chybeta.github.io/2017/02/14/win%E4%B8%8BDocker%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9/" target="_blank" rel="external">win下Docker默认存储位置修改</a></li>
-<li><a href="https://chybeta.github.io/2017/02/13/windows%E5%B9%B3%E5%8F%B0%E4%B8%8BDocker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_blank" rel="external">windows平台下Docker环境搭建</a></li>
+<li><a href="https://chybeta.github.io/2017/02/14/win%E4%B8%8BDocker%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9/">win下Docker默认存储位置修改</a></li>
+<li><a href="https://chybeta.github.io/2017/02/13/windows%E5%B9%B3%E5%8F%B0%E4%B8%8BDocker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">windows平台下Docker环境搭建</a></li>
 </ul>
 <h1 id="编程练习"><a href="#编程练习" class="headerlink" title="编程练习"></a>编程练习</h1><ul>
-<li><a href="https://chybeta.github.io/3017/06/19/ACM-OJ-%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0/" target="_blank" rel="external">ACM-OJ[长期更新]</a></li>
-<li><a href="https://chybeta.github.io/2017/08/12/hihoCoder-162%E5%91%A8%EF%BC%9A%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_blank" rel="external">hihoCoder 162周：回文字符串 </a></li>
-<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-3-%E6%95%B0%E7%BB%84%E5%8D%95%E8%B0%83%E5%92%8C/" target="_blank" rel="external">CodeTrain(3)数组单调和</a></li>
-<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-2-%E6%A3%8B%E5%AD%90%E7%BF%BB%E8%BD%AC/" target="_blank" rel="external">CodeTrain(2)棋子翻转</a></li>
-<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-1-%E6%9C%80%E5%A4%A7%E5%B7%AE%E5%80%BC/" target="_blank" rel="external">CodeTrain(1)最大差值</a></li>
+<li><a href="https://chybeta.github.io/3017/06/19/ACM-OJ-%E9%95%BF%E6%9C%9F%E6%9B%B4%E6%96%B0/">ACM-OJ[长期更新]</a></li>
+<li><a href="https://chybeta.github.io/2017/08/12/hihoCoder-162%E5%91%A8%EF%BC%9A%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2/">hihoCoder 162周：回文字符串 </a></li>
+<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-3-%E6%95%B0%E7%BB%84%E5%8D%95%E8%B0%83%E5%92%8C/">CodeTrain(3)数组单调和</a></li>
+<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-2-%E6%A3%8B%E5%AD%90%E7%BF%BB%E8%BD%AC/">CodeTrain(2)棋子翻转</a></li>
+<li><a href="https://chybeta.github.io/2017/03/02/CodeTrain-1-%E6%9C%80%E5%A4%A7%E5%B7%AE%E5%80%BC/">CodeTrain(1)最大差值</a></li>
 </ul>
 <h1 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h1><ul>
-<li><a href="https://chybeta.github.io/2017/02/17/%E8%AE%B02017%E5%B9%B4%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%B9%8B%E8%A1%8C/" target="_blank" rel="external"> 记2017年阿里巴巴之行
+<li><a href="https://chybeta.github.io/2017/02/17/%E8%AE%B02017%E5%B9%B4%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%B9%8B%E8%A1%8C/"> 记2017年阿里巴巴之行
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/" target="_blank" rel="external">ISG2017-wmwcms-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/" target="_blank" rel="external">HITB CTF 2017-Pasty-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/" target="_blank" rel="external">Hackit2017-H4ck3rM1nd-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/" target="_blank" rel="external">Hackit2017-Weekands of hacker-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/" target="_blank" rel="external">Hackit2017-V1rus3pidem1c-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/" target="_blank" rel="external">Hackit2017-B3tterS0ci4lN3twork-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/27/HackCon2017-Web-writeup/" target="_blank" rel="external">HackCon2017-Web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/26/XNUCA2017-%E7%AC%AC%E4%B8%80%E6%9C%9F%EF%BC%9AWeb-writeup/" target="_blank" rel="external">XNUCA2017-第一期：Web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-XSS-writeup/" target="_blank" rel="external">XMAN夏令营-2017-XSS-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-%E6%AF%94%E8%B5%9B%E7%B3%BB%E7%BB%9F-writeup/" target="_blank" rel="external">XMAN夏令营-2017-比赛系统-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/" target="_blank" rel="external">XMAN夏令营-2017-babyweb-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-default-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-default-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%98%B3%E5%85%89%E6%80%BB%E5%9C%A8%E9%A3%8E%E9%9B%A8%E5%90%8E-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-阳光总在风雨后-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-Document-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-Document-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/17/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E6%9C%80%E5%AE%89%E5%85%A8%E7%9A%84%E7%AC%94%E8%AE%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-最安全的笔记管理系统-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-vote-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-vote-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-php%E6%98%AF%E6%9C%80%E5%A5%BD%E7%9A%84%E8%AF%AD%E8%A8%80-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-php是最好的语言-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%83%A8%E5%88%86%E7%AE%80%E5%8D%95%E9%A2%98%E6%B1%87%E6%80%BB-writeup/" target="_blank" rel="external">XNUCA 2017-Web专题赛前指导-部分简单题汇总-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Web-writeup/" target="_blank" rel="external">SHACTF-2017-Web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-web-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/24/%E5%AE%9E%E9%AA%8C%E5%90%A7-web-writeup/" target="_blank" rel="external">实验吧-web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/19/CTFZone-2017-Leaked-messages-writeup/" target="_blank" rel="external">CTFZone-2017-Leaked messages-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/07/16/Meenpwn-2017-web-writeup/" target="_blank" rel="external">Meenpwn-2017-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/07/15/%E4%B8%80%E9%81%93%E5%A5%BD%E7%8E%A9%E7%9A%84webshell%E9%A2%98/" target="_blank" rel="external">一道好玩的webshell题 </a></li>
-<li><a href="https://chybeta.github.io/2017/07/05/jarvisoj-web-writeup/" target="_blank" rel="external">jarvisoj-web-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/06/30/%C2%96ringzer0team-js-writeup/" target="_blank" rel="external">ringzer0team-js-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/30/%C2%96ringzer0team-web-writeup/" target="_blank" rel="external">ringzer0team-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/25/xss-quiz-writeup/" target="_blank" rel="external">xss-quiz-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/19/GCTF-web-writeup/" target="_blank" rel="external">GCTF-web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/" target="_blank" rel="external">“春秋杯”web-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/01/12/%E5%8D%97%E9%82%AECTF%E5%B9%B3%E5%8F%B0web%E5%89%8D30%E9%A2%98%E8%A7%A3/" target="_blank" rel="external">南邮CTF平台web前30题解</a></li>
+<li><a href="https://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/">ISG2017-wmwcms-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/">HITB CTF 2017-Pasty-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/">Hackit2017-H4ck3rM1nd-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-Weekands-of-hacker-writeup/">Hackit2017-Weekands of hacker-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-V1rus3pidem1c-writeup/">Hackit2017-V1rus3pidem1c-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-B3tterS0ci4lN3twork-writeup/">Hackit2017-B3tterS0ci4lN3twork-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/27/HackCon2017-Web-writeup/">HackCon2017-Web-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/26/XNUCA2017-%E7%AC%AC%E4%B8%80%E6%9C%9F%EF%BC%9AWeb-writeup/">XNUCA2017-第一期：Web-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-XSS-writeup/">XMAN夏令营-2017-XSS-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-%E6%AF%94%E8%B5%9B%E7%B3%BB%E7%BB%9F-writeup/">XMAN夏令营-2017-比赛系统-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/">XMAN夏令营-2017-babyweb-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-default-writeup/">XNUCA 2017-Web专题赛前指导-default-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%98%B3%E5%85%89%E6%80%BB%E5%9C%A8%E9%A3%8E%E9%9B%A8%E5%90%8E-writeup/">XNUCA 2017-Web专题赛前指导-阳光总在风雨后-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-Document-writeup/">XNUCA 2017-Web专题赛前指导-Document-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/17/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E6%9C%80%E5%AE%89%E5%85%A8%E7%9A%84%E7%AC%94%E8%AE%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F-writeup/">XNUCA 2017-Web专题赛前指导-最安全的笔记管理系统-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-vote-writeup/">XNUCA 2017-Web专题赛前指导-vote-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/18/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-php%E6%98%AF%E6%9C%80%E5%A5%BD%E7%9A%84%E8%AF%AD%E8%A8%80-writeup/">XNUCA 2017-Web专题赛前指导-php是最好的语言-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/16/XNUCA-2017-Web%E4%B8%93%E9%A2%98%E8%B5%9B%E5%89%8D%E6%8C%87%E5%AF%BC-%E9%83%A8%E5%88%86%E7%AE%80%E5%8D%95%E9%A2%98%E6%B1%87%E6%80%BB-writeup/">XNUCA 2017-Web专题赛前指导-部分简单题汇总-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Web-writeup/">SHACTF-2017-Web-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-web-writeup/">BugsBunnyCTF2017-web-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/24/%E5%AE%9E%E9%AA%8C%E5%90%A7-web-writeup/">实验吧-web-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/19/CTFZone-2017-Leaked-messages-writeup/">CTFZone-2017-Leaked messages-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-web-writeup/">XMAN选拔赛-2017-web-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/07/16/Meenpwn-2017-web-writeup/">Meenpwn-2017-web-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/07/15/%E4%B8%80%E9%81%93%E5%A5%BD%E7%8E%A9%E7%9A%84webshell%E9%A2%98/">一道好玩的webshell题 </a></li>
+<li><a href="https://chybeta.github.io/2017/07/05/jarvisoj-web-writeup/">jarvisoj-web-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/06/30/%C2%96ringzer0team-js-writeup/">ringzer0team-js-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/06/30/%C2%96ringzer0team-web-writeup/">ringzer0team-web-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/06/25/xss-quiz-writeup/">xss-quiz-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/06/19/GCTF-web-writeup/">GCTF-web-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/">“春秋杯”web-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/01/12/%E5%8D%97%E9%82%AECTF%E5%B9%B3%E5%8F%B0web%E5%89%8D30%E9%A2%98%E8%A7%A3/">南邮CTF平台web前30题解</a></li>
 </ul>
 <h3 id="sqli-lab"><a href="#sqli-lab" class="headerlink" title="sqli-lab"></a>sqli-lab</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/" target="_blank" rel="external">Sqli-Labs:Less17-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less15-16-writeup/" target="_blank" rel="external">Sqli-Labs:Less15~16-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less13-14-writeup/" target="_blank" rel="external">Sqli-Labs:Less13~14-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less11-12-writeup/" target="_blank" rel="external">Sqli-Labs:Less11~12-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less8-10-writeup/" target="_blank" rel="external">Sqli-Labs:Less8~10-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less7-writeup/" target="_blank" rel="external">Sqli-Labs:Less7-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less5-6-writeup/" target="_blank" rel="external">Sqli-Labs:Less5-6-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/04/02/Sqli-Labs-Less1-4-writeup/" target="_blank" rel="external">Sqli-Labs:Less1-4-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/">Sqli-Labs:Less17-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less15-16-writeup/">Sqli-Labs:Less15~16-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less13-14-writeup/">Sqli-Labs:Less13~14-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less11-12-writeup/">Sqli-Labs:Less11~12-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/23/Sqli-Labs-Less8-10-writeup/">Sqli-Labs:Less8~10-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less7-writeup/">Sqli-Labs:Less7-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/12/Sqli-Labs-Less5-6-writeup/">Sqli-Labs:Less5-6-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/04/02/Sqli-Labs-Less1-4-writeup/">Sqli-Labs:Less1-4-writeup</a></li>
 </ul>
 <h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="CTF-1"><a href="#CTF-1" class="headerlink" title="CTF"></a>CTF</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/12/Codegate-2017-Qual-babypwn-writeup/" target="_blank" rel="external">Codegate 2017 Qual-babypwn-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-pwn-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-pwn-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-pwn-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-pwn-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/06/29/XMAN-pwn-writeup/" target="_blank" rel="external">XMAN-pwn-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/06/28/SUCTF-2016-pwn400-writeup/" target="_blank" rel="external">SUCTF-2016-pwn400-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/12/Codegate-2017-Qual-babypwn-writeup/">Codegate 2017 Qual-babypwn-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-pwn-writeup/">BugsBunnyCTF2017-pwn-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/16/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-pwn-writeup/">XMAN选拔赛-2017-pwn-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/06/29/XMAN-pwn-writeup/">XMAN-pwn-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/06/28/SUCTF-2016-pwn400-writeup/">SUCTF-2016-pwn400-writeup</a></li>
 </ul>
 <h3 id="pwnable-kr"><a href="#pwnable-kr" class="headerlink" title="pwnable.kr"></a>pwnable.kr</h3><ul>
-<li><a href="https://chybeta.github.io/2017/08/01/Pwnable-kr-shellshock/" target="_blank" rel="external">Pwnable.kr:shellshock</a></li>
-<li><a href="https://chybeta.github.io/2017/08/01/Pwnable-kr-mistake/" target="_blank" rel="external">Pwnable.kr:mistake</a></li>
-<li><a href="https://chybeta.github.io/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/" target="_blank" rel="external">Pwnable.kr:random </a></li>
-<li><a href="https://chybeta.github.io/2017/04/08/Pwnable-kr-passcode/" target="_blank" rel="external">Pwnable.kr:passcode</a></li>
-<li><a href="https://chybeta.github.io/2017/04/07/Pwnable-kr-bof/" target="_blank" rel="external">Pwnable.kr:bof</a></li>
+<li><a href="https://chybeta.github.io/2017/08/01/Pwnable-kr-shellshock/">Pwnable.kr:shellshock</a></li>
+<li><a href="https://chybeta.github.io/2017/08/01/Pwnable-kr-mistake/">Pwnable.kr:mistake</a></li>
+<li><a href="https://chybeta.github.io/2017/06/18/%E2%80%9C%E6%98%A5%E7%A7%8B%E6%9D%AF%E2%80%9Dweb-writeup/">Pwnable.kr:random </a></li>
+<li><a href="https://chybeta.github.io/2017/04/08/Pwnable-kr-passcode/">Pwnable.kr:passcode</a></li>
+<li><a href="https://chybeta.github.io/2017/04/07/Pwnable-kr-bof/">Pwnable.kr:bof</a></li>
 </ul>
 <h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><ul>
-<li><a href="https://chybeta.github.io/2017/08/30/Hackit2017-Cypherpunk%E2%80%99s-nightmare-writeup/" target="_blank" rel="external">Hackit2017-Cypherpunk’s nightmare-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/30/Hackit2017-USB-ducker-writeup/" target="_blank" rel="external">Hackit2017-USB ducker-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/" target="_blank" rel="external">ISG2017-赛前练手题—writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/27/HackCon2017-Steg-writeup/" target="_blank" rel="external">HackCon2017-Steg-writeup </a></li>
-<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Growing-Up-writeup/" target="_blank" rel="external">SHACTF-2017-Growing Up-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-WannaFly-writeup/" target="_blank" rel="external">SHACTF-2017-WannaFly-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-misc-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-misc-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/23/0ctf-2015-Peers-writeup/" target="_blank" rel="external">0ctf-2015-Peers-writeup</a></li>
-<li><a href="https://chybeta.github.io/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/" target="_blank" rel="external">XMAN选拔赛-2017-misc-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/30/Hackit2017-Cypherpunk%E2%80%99s-nightmare-writeup/">Hackit2017-Cypherpunk’s nightmare-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/30/Hackit2017-USB-ducker-writeup/">Hackit2017-USB ducker-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/">ISG2017-赛前练手题—writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/27/HackCon2017-Steg-writeup/">HackCon2017-Steg-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Growing-Up-writeup/">SHACTF-2017-Growing Up-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-WannaFly-writeup/">SHACTF-2017-WannaFly-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-misc-writeup/">BugsBunnyCTF2017-misc-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/23/0ctf-2015-Peers-writeup/">0ctf-2015-Peers-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/17/XMAN%E9%80%89%E6%8B%94%E8%B5%9B-2017-misc-writeup/">XMAN选拔赛-2017-misc-writeup</a></li>
 </ul>
 <h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><ul>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-crypto-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-crypto-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-crypto-writeup/">BugsBunnyCTF2017-crypto-writeup</a></li>
 <li><a href="Meenpwn-2017-crypto-writeup">Meenpwn-2017-crypto-writeup</a></li>
 </ul>
 <h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><ul>
-<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/" target="_blank" rel="external">BugsBunnyCTF2017-Reverse-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/">BugsBunnyCTF2017-Reverse-writeup</a></li>
 </ul>
 ]]></content>
     
@@ -180,10 +180,10 @@
     <link href="http://chybeta.github.io/2017/09/04/hexo-rss%E9%93%BE%E6%8E%A5%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%B3%95/"/>
     <id>http://chybeta.github.io/2017/09/04/hexo-rss链接问题修复方法/</id>
     <published>2017-09-04T02:04:44.000Z</published>
-    <updated>2017-09-04T02:15:52.934Z</updated>
+    <updated>2017-09-04T02:41:43.833Z</updated>
     
     <content type="html"><![CDATA[<p>hexo-rss链接问题修复方法<br><a id="more"></a></p>
-<p>用 hexo-generator-feed 来生成hexo站点的rss，即 <a href="https://chybeta.github.io/atom.xml" target="_blank" rel="external">https://chybeta.github.io/atom.xml</a> ，类似这样的：</p>
+<p>用 hexo-generator-feed 来生成hexo站点的rss，即 <a href="https://chybeta.github.io/atom.xml">https://chybeta.github.io/atom.xml</a> ，类似这样的：</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170904/3.png?raw=true" alt=""></p>
 <p>然后昨天有师傅说链接是错误的，全部是 yoursite.com</p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170904/2.png?raw=true" alt=""></p>
@@ -193,6 +193,7 @@
 <p>将第15行左右的url改成你的站点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">url: http://chybeta.github.io</div></pre></td></tr></table></figure></p>
 <p>然后重新编译生成博客。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g &amp;&amp; hexo d</div></pre></td></tr></table></figure></p>
 <p>就ok啦。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170904/4.png?raw=true" alt=""></p>
 <p>博客水水更健康~</p>
 ]]></content>
     
