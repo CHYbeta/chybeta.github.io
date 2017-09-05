@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chybeta.github.io/"/>
-  <updated>2017-08-31T11:41:01.963Z</updated>
+  <updated>2017-09-05T13:19:55.487Z</updated>
   <id>http://chybeta.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://chybeta.github.io/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://chybeta.github.io/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-08-31T11:41:01.963Z</updated>
+    <updated>2017-09-05T13:19:55.487Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -68,6 +68,7 @@
 <li><a href="https://chybeta.github.io/2017/02/02/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E6%AF%94%E8%B5%9B%EF%BC%885%EF%BC%89ten-Minutes-to-pandas%E4%B8%AD%E6%96%87%E7%89%88%E4%B8%8B/">数据挖掘比赛（5）ten Minutes to pandas中文版下</a></li>
 </ul>
 <h1 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h1><ul>
+<li><a href="https://chybeta.github.io/2017/09/04/hexo-rss%E9%93%BE%E6%8E%A5%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%B3%95/">hexo-rss链接问题修复方法</a></li>
 <li><a href="https://chybeta.github.io/2017/02/14/win%E4%B8%8BDocker%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE%E4%BF%AE%E6%94%B9/">win下Docker默认存储位置修改</a></li>
 <li><a href="https://chybeta.github.io/2017/02/13/windows%E5%B9%B3%E5%8F%B0%E4%B8%8BDocker%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">windows平台下Docker环境搭建</a></li>
 </ul>
@@ -83,6 +84,8 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/">TWCTF 2017-Super Secure Storage-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/">TWCTF 2017-Freshen Uploader-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/">ISG2017-wmwcms-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/29/HITB-CTF-2017-Pasty-writeup/">HITB CTF 2017-Pasty-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/08/28/Hackit2017-H4ck3rM1nd-writeup/">Hackit2017-H4ck3rM1nd-writeup </a></li>
@@ -156,6 +159,7 @@
 <li><a href="Meenpwn-2017-crypto-writeup">Meenpwn-2017-crypto-writeup</a></li>
 </ul>
 <h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><ul>
+<li><a href="https://chybeta.github.io/2017/09/02/TWCTF-2017-Rev-Rev-Rev-writeup/">TWCTF 2017-Rev Rev Rev-writeup </a></li>
 <li><a href="https://chybeta.github.io/2017/07/30/BugsBunnyCTF2017-Reverse-writeup/">BugsBunnyCTF2017-Reverse-writeup</a></li>
 </ul>
 ]]></content>
