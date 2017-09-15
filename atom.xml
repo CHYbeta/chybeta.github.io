@@ -253,39 +253,6 @@
   </entry>
   
   <entry>
-    <title>ASISCTF2017-GSA Main Server-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/</id>
-    <published>2017-09-13T11:36:51.000Z</published>
-    <updated>2017-09-13T12:30:59.669Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Description:</div><div class="line"></div><div class="line">global security agency main server, it interacts with several GSA&apos;s servers. Try to find some holes, and you will be rewarded a flag.</div><div class="line"></div><div class="line">Host: gsa.mainServer.domain</div><div class="line">Scope: 178.62.34.76:*</div><div class="line"></div><div class="line">Hint: Forget the XSS</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/1.png?raw=true" alt=""></p>
-<p>打开 178.62.34.76:80 后界面如上。</p>
-<p>看一下功能，在 <a href="http://178.62.34.76/showInformation/2" target="_blank" rel="external">http://178.62.34.76/showInformation/2</a> 底下有一个<code>Get Attachment</code>，点击后会发送一个请求，请求头部中带有X-Signature字段，应该是用来作为请求文件 /getAttachment/file.txt 的认证，防止任意下载：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/4.png?raw=true" alt=""></p>
-<p>查看index.php的源代码，最底下有一句注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--# vim: syntax=apache ts=4 sw=4 sts=4 sr noet--&gt;</div></pre></td></tr></table></figure></p>
-<p>vim编辑器默认情况下，在修改文件后系统会自动生成如<code>index.php~</code>的备份文件。若是不正常情况退出，会产生如<code>.index.php.swp</code>，<code>.index.php.swo</code>或<code>.index.php.swn</code>的临时文件。尝试访问：<a href="http://178.62.34.76/index.php~" target="_blank" rel="external">http://178.62.34.76/index.php~</a> ，并查看源代码，有一些php代码出现：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/2.png?raw=true" alt=""><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/3.png?raw=true" alt=""></p>
-<p>经过测试，访问：<a href="http://178.62.34.76/functions.php~" target="_blank" rel="external">http://178.62.34.76/functions.php~</a> 得到：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">// database configuration</span></div><div class="line"><span class="keyword">include</span> <span class="string">'configuration.php'</span>;</div><div class="line"></div><div class="line"><span class="comment">// waf to protect the web attacks</span></div><div class="line"><span class="keyword">include</span> <span class="string">'waf.php'</span>;</div><div class="line"></div><div class="line"><span class="comment">// connection to the database</span></div><div class="line">$mysqli = <span class="keyword">new</span> mysqli(__DB_HOST, __DB_USER, __DB_PASS, __DB_NAME);</div><div class="line"></div><div class="line"><span class="comment">// signature function</span></div><div class="line"><span class="comment">// store __KEY in safe place</span></div><div class="line"><span class="comment">// __KEY is stored in configuration.php</span></div><div class="line"><span class="comment">// do not change the __KEY if you don't know how the system workes, the installation process produces secure 10-chacacter key</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSignature</span><span class="params">($fileName)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> md5(md5(__KEY) . $fileName);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// function to get header data by HTTP packet</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getHeaderData</span><span class="params">($headers, $name)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> (array_key_exists($name, $headers))?$headers[$name]:<span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// parsing the database resultst</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">resultToArray</span><span class="params">($result)</span></span>&#123;</div><div class="line">    $rows = <span class="keyword">array</span>();</div><div class="line">    <span class="keyword">while</span>($row = $result-&gt;fetch_assoc())&#123;</div><div class="line">        $rows[] = $row;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $rows;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// end</span></div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Task&quot;&gt;&lt;a href=&quot;#Task&quot; class=&quot;headerlink&quot; title=&quot;Task&quot;&gt;&lt;/a&gt;Task&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
     <title>ICMSv7.0.1 admincp.class.php sql注入分析</title>
     <link href="http://chybeta.github.io/2017/09/12/ICMSv7-0-1-admincp-class-php-sql%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/09/12/ICMSv7-0-1-admincp-class-php-sql注入分析/</id>
@@ -1075,6 +1042,38 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ISG2017-赛前练手题—writeup</title>
+    <link href="http://chybeta.github.io/2017/08/28/ISG2017-%E8%B5%9B%E5%89%8D%E7%BB%83%E6%89%8B%E9%A2%98%E2%80%94writeup/"/>
+    <id>http://chybeta.github.io/2017/08/28/ISG2017-赛前练手题—writeup/</id>
+    <published>2017-08-28T11:43:46.000Z</published>
+    <updated>2017-08-28T23:54:53.868Z</updated>
+    
+    <content type="html"><![CDATA[<p>ISG2017-赛前练手题—writeup<br><a id="more"></a></p>
+<h1 id="秘密文件"><a href="#秘密文件" class="headerlink" title="秘密文件"></a>秘密文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">在某个员工的电脑上发现了一份奇怪的文件，你能找到什么东西吗？</div><div class="line">奇怪的文件(https://play.chinaisg.org/attachment/download/secret.backup)</div></pre></td></tr></table></figure>
+<p>下载下来后打开，看起来是流量包。尾部发现一些base64串。解一下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> base64</div><div class="line"></div><div class="line">pngdata = <span class="string">"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"</span></div><div class="line"></div><div class="line">f = open(<span class="string">"flag.png"</span>,<span class="string">"wb"</span>)</div><div class="line"></div><div class="line">f.write(base64.b64decode(pngdata))</div><div class="line"></div><div class="line">f.close()</div></pre></td></tr></table></figure></p>
+<p>得到一张二维码，扫后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISG&#123;5a9f1ce5c7359a1b1076b5143b946a3b&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="简单的apk"><a href="#简单的apk" class="headerlink" title="简单的apk"></a>简单的apk</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">能够通过APK认证的字符串即为本题flag</div><div class="line"></div><div class="line">下载APK(https://play.chinaisg.org/attachment/download/simple-code.apk)</div></pre></td></tr></table></figure>
+<p>其实这是mobile，干脆写在这里不另开了。用jeb打开，然后发现是kotlin，先果断放弃哈哈哈。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ISG2017-赛前练手题—writeup&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
   </entry>
   
