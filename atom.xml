@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chybeta.github.io/"/>
-  <updated>2017-09-15T15:25:39.859Z</updated>
+  <updated>2017-09-16T14:25:48.571Z</updated>
   <id>http://chybeta.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://chybeta.github.io/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://chybeta.github.io/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-09-15T15:25:39.859Z</updated>
+    <updated>2017-09-16T14:25:48.571Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -86,6 +86,7 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/09/16/%E9%97%AE%E9%BC%8E%E6%9D%AF-CTF-writeup/">问鼎杯 CTF writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/">SEC-T CTF2017-Naughty ads-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/">SEC-T CTF2017-Sprinkler system-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/09/11/ASISCTF2017-GSA-File-Server-writeup/">ASISCTF2017-GSA File Server-writeup</a></li>
