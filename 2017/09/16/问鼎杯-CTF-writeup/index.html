@@ -1,0 +1,1157 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,misc,writeup," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="问鼎杯 CTF writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="问鼎杯 CTF writeup">
+<meta property="og:url" content="http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="问鼎杯 CTF writeup">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/8.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/9.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/10.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/5.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/6.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/1.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/2.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/4.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/7.png?raw=true">
+<meta property="og:updated_time" content="2017-09-16T14:01:50.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="问鼎杯 CTF writeup">
+<meta name="twitter:description" content="问鼎杯 CTF writeup">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/8.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/"/>
+
+
+
+
+
+  <title> 问鼎杯 CTF writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                问鼎杯 CTF writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-16T12:41:43+08:00">
+                2017-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-MISC/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:MISC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/09/16/问鼎杯-CTF-writeup/" class="leancloud_visitors" data-flag-title="问鼎杯 CTF writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>问鼎杯 CTF writeup<br><a id="more"></a></p>
+<h1 id="1-1"><a href="#1-1" class="headerlink" title="1.1"></a>1.1</h1><p><a href="http://sec2.hdu.edu.cn/84cdc76cabf41bd7c961f6ab12f117d8/?year=2016.999999999999999" target="_blank" rel="external">http://sec2.hdu.edu.cn/84cdc76cabf41bd7c961f6ab12f117d8/?year=2016.999999999999999</a></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WDFLAG=&#123;9c318582f7d864a9b4f9fcaab71657ce&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="1-2"><a href="#1-2" class="headerlink" title="1.2"></a>1.2</h1><p>返回的页面头里有一个账号信息，用户名为：Voldemort，密码为：123456。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/8.png?raw=true" alt=""></p>
+<p>登陆后有个management。点击后跳转到：<a href="http://sec2.hdu.edu.cn/c8bbe67803085b9e51b69b6d6cff821c/admin.php" target="_blank" rel="external">http://sec2.hdu.edu.cn/c8bbe67803085b9e51b69b6d6cff821c/admin.php</a><br>查看源代码，有个js：<a href="http://sec2.hdu.edu.cn/c8bbe67803085b9e51b69b6d6cff821c/js/wdctffunction.js" target="_blank" rel="external">http://sec2.hdu.edu.cn/c8bbe67803085b9e51b69b6d6cff821c/js/wdctffunction.js</a></p>
+<p>f12打开，控制台下getSecret():<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/9.png?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wdctf&#123;rev3aled_j3_funct10ns&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="2-1"><a href="#2-1" class="headerlink" title="2.1"></a>2.1</h1><p>后台地址： <a href="http://sec5.hdu.edu.cn/fuckme/login.php" target="_blank" rel="external">http://sec5.hdu.edu.cn/fuckme/login.php</a></p>
+<p>社工后，用户名：847085251@qq.com ，密码：NB51A5</p>
+<p>登陆后在未审核邮箱处找到：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/10.png?raw=true" alt=""></p>
+<p>访问：<a href="http://sec5.hdu.edu.cn/b7010bcfcdb62922d4e4a5ec8d79fb33.php" target="_blank" rel="external">http://sec5.hdu.edu.cn/b7010bcfcdb62922d4e4a5ec8d79fb33.php</a><br>跳转到：<a href="http://sec1.hdu.edu.cn/web/ww9ebmxnf1tlkn1d" target="_blank" rel="external">http://sec1.hdu.edu.cn/web/ww9ebmxnf1tlkn1d</a></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WDFLAG=&#123;b3057d3283090fc160d999d272f20e44&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="3-1"><a href="#3-1" class="headerlink" title="3.1"></a>3.1</h1><p>题目提供了一个 <code>++__++</code>文件，在kali下自动显示为一个压缩包，提取后得到一个<code>++__++</code>文件，发现是pcap。用wireshark打开。通过自带的导出功能，得到三个文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/5.png?raw=true" alt=""></p>
+<p>但flag.rar被加密了无法直接解开。追踪一下tcp流，发现一个奇怪的字符串，直接用base64解是乱码。在它下面有一个py脚本。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/6.png?raw=true" alt=""></p>
+<p>经过一番调试，最后解密脚本修正如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> Crypto <span class="keyword">import</span> Random</div><div class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">import</span> base64</div><div class="line">IV = <span class="string">'QWERTYUIOPASDFGH'</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span><span class="params">(encrypted)</span>:</span></div><div class="line">  aes = AES.new(IV, AES.MODE_CBC, IV)</div><div class="line">  <span class="keyword">return</span> aes.decrypt(encrypted)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span><span class="params">(message)</span>:</span></div><div class="line">  length = <span class="number">16</span></div><div class="line">  count = len(message)</div><div class="line">  padding = length - (count % length)</div><div class="line">  message = message + <span class="string">'\0'</span> * padding</div><div class="line">  aes = AES.new(IV, AES.MODE_CBC, IV)</div><div class="line">  <span class="keyword">return</span> aes.encrypt(message)</div><div class="line"></div><div class="line">print(decrypt(base64.b64decode(<span class="string">"19aaFYsQQKr+hVX6hl2smAUQ5a767TsULEUebWSajEo="</span>)))</div></pre></td></tr></table></figure></p>
+<p>运行后得到：passwd={No_One_Can_Decrypt_Me}。用于flag.rar的解密，得到最后的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WDCTF&#123;Seclab_CTF_2017&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h1><p>给了一张gif图片。<a href="https://ezgif.com/" target="_blank" rel="external">https://ezgif.com/</a> 分解出四帧，然后ps将其拼接。得到：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/1.png?raw=true" alt=""></p>
+<p>扫描后得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">03f30d0ab8c1aa596300000000000000000200000040000000732e0000006400006401006c00005a00006402005a01006403005a02006404008400005a03006405008400005a040064010053280600000069ffffffff4e7403000000637466733d0000003138362c39382c3138302c3135342c3133392c3139322c3131342c31342c3130322c3136382c34332c3133362c35322c3231382c38352c3130302c3433630200000004000000070000004300000073610000007400006a01007c0100830100016401007d02007838007c0000445d30007d03007c02007402007403007c03008301007400006a04006402006403008302004183010064040017377d0200711a00577c02006a05006404008301007d02007c02005328050000004e7400000000690000000069ff00000074010000002c2806000000740600000072616e646f6d740400000073656564740300000073747274030000006f7264740700000072616e64696e7474050000007374726970280400000074040000007374723174030000006b65797404000000737472327401000000632800000000280000000073100000002f686f6d652f6374662f6262622e7079740500000066756e633107000000730c00000000010d0106010d012e010f016302000000040000000700000043000000735d0000007400006a01007c0100830100016401007d02007843007c00006a0200640200830100445d32007d03007403007c03008301007d03007c02007404007c03007400006a050064030064040083020041830100377d0200712300577c02005328050000004e52010000005202000000690000000069ff000000280600000052030000005204000000740500000073706c69747403000000696e74740300000063687252070000002804000000520b000000520a00000052090000007401000000692800000000280000000073100000002f686f6d652f6374662f6262622e7079740500000066756e63320f000000730c00000000010d01060116010c01240128050000005203000000520a000000740400000073747272520d000000521200000028000000002800000000280000000073100000002f686f6d652f6374662f6262622e707974080000003c6d6f64756c653e0100000073080000000c02060106030908</div></pre></td></tr></table></figure></p>
+<p>用hex编辑器保存为pyc文件，反汇编后得到py：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># encoding: utf-8</span></div><div class="line"><span class="comment"># 访问 http://tool.lu/pyc/ 查看更多信息</span></div><div class="line"><span class="keyword">import</span> random</div><div class="line">key = <span class="string">'ctf'</span></div><div class="line">strr = <span class="string">'186,98,180,154,139,192,114,14,102,168,43,136,52,218,85,100,43'</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(str1, key)</span>:</span></div><div class="line">    random.seed(key)</div><div class="line">    str2 = <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> str1:</div><div class="line">        str2 += str(ord(c) ^ random.randint(<span class="number">0</span>, <span class="number">255</span>)) + <span class="string">','</span></div><div class="line"></div><div class="line">    str2 = str2.strip(<span class="string">','</span>)</div><div class="line">    <span class="keyword">return</span> str2</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">(str2, key)</span>:</span></div><div class="line">    random.seed(key)</div><div class="line">    str1 = <span class="string">''</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> str2.split(<span class="string">','</span>):</div><div class="line">        i = int(i)</div><div class="line">        str1 += chr(i ^ random.randint(<span class="number">0</span>, <span class="number">255</span>))</div><div class="line"></div><div class="line">    <span class="keyword">return</span> str1</div></pre></td></tr></table></figure></p>
+<p>最后一行添上：print(func2(strr,key))<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/2.png?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">U_r_Greatt!</div></pre></td></tr></table></figure></p>
+<h1 id="4-1"><a href="#4-1" class="headerlink" title="4.1"></a>4.1</h1><p>给了一张图片，用binwalk -e分解后得到day2’s secret.zip和tips.txt。</p>
+<p>tips.txt的内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Although two days doing the same things, but day2 has a secret than day1</div></pre></td></tr></table></figure></p>
+<p>考虑<a href="https://github.com/chishaxie/BlindWaterMark" target="_blank" rel="external">盲水印</a>。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/3.jpg?raw=true" alt=""></p>
+<p>提交：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">My_c4t_Ho</div></pre></td></tr></table></figure></p>
+<h1 id="4-2"><a href="#4-2" class="headerlink" title="4-2"></a>4-2</h1><p>古典密码，然后放到 quipqiup.com 解一下</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/4.png?raw=true" alt=""></p>
+<p>得到flag。</p>
+<h1 id="5-1"><a href="#5-1" class="headerlink" title="5-1"></a>5-1</h1><p>用xortool测试一下；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop# xortool cipher -c 20</div><div class="line">The most probable key lengths:</div><div class="line">   2:   12.2%</div><div class="line">   5:   11.9%</div><div class="line">   9:   9.8%</div><div class="line">  13:   22.2%</div><div class="line">  20:   6.8%</div><div class="line">  22:   6.2%</div><div class="line">  26:   12.8%</div><div class="line">  30:   4.6%</div><div class="line">  39:   7.8%</div><div class="line">  52:   5.7%</div><div class="line">Key-length can be 3*n</div><div class="line">1 possible key(s) of length 13:</div><div class="line">Good\tuckToYou</div><div class="line">Found 1 plaintexts with 95.0%+ printable characters</div><div class="line">See files filename-key.csv, filename-char_used-perc_printable.csv</div></pre></td></tr></table></figure></p>
+<p>猜测key为 GoodLuckToYou，写出脚本如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> random</div><div class="line"><span class="comment"># from secret import FLAG</span></div><div class="line"></div><div class="line">key  = <span class="string">"GoodLuckToYou"</span></div><div class="line">text = open(<span class="string">"cipher"</span>,<span class="string">"rb"</span>).read()</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">xor_str</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(x) &gt; len(y):</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([chr(ord(z) ^ ord(p)) <span class="keyword">for</span> (z, p) <span class="keyword">in</span> zip(x[:len(y)], y)])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([chr(ord(z) ^ ord(p)) <span class="keyword">for</span> (z, p) <span class="keyword">in</span> zip(x, y[:len(x)])])</div><div class="line"></div><div class="line"><span class="comment"># flag, key = FLAG.encode('hex'), KEY.encode('hex')</span></div><div class="line"></div><div class="line">enc = xor_str(key * (len(text) // len(key) + <span class="number">1</span>), text)</div><div class="line"></div><div class="line">ef = open(<span class="string">'flag.txt'</span>, <span class="string">'w'</span>)</div><div class="line">ef.write(enc)</div><div class="line">ef.close()</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/7.png?raw=true" alt=""></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wdflag&#123;You Are Very Smart&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2017/09/16/问鼎杯-CTF-writeup/">问鼎杯 CTF writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2017年09月16日 - 12:09</p>
+  <p><span>最后更新:</span>2017年09月16日 - 22:09</p>
+  <p><span>原始链接:</span><a href="/2017/09/16/问鼎杯-CTF-writeup/" title="问鼎杯 CTF writeup">http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/misc/" rel="tag"># misc</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/" rel="next" title="SEC-T CTF2017-Naughty ads-writeup">
+                <i class="fa fa-chevron-left"></i> SEC-T CTF2017-Naughty ads-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">129</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1"><span class="nav-number">1.</span> <span class="nav-text">1.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-2"><span class="nav-number">2.</span> <span class="nav-text">1.2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-1"><span class="nav-number">3.</span> <span class="nav-text">2.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-1"><span class="nav-number">4.</span> <span class="nav-text">3.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-2"><span class="nav-number">5.</span> <span class="nav-text">3.2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-1"><span class="nav-number">6.</span> <span class="nav-text">4.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-2"><span class="nav-number">7.</span> <span class="nav-text">4-2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-1"><span class="nav-number">8.</span> <span class="nav-text">5-1</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
