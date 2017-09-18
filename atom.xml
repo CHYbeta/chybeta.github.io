@@ -195,9 +195,9 @@
     <link href="http://chybeta.github.io/2017/09/16/%E9%97%AE%E9%BC%8E%E6%9D%AF-CTF-writeup/"/>
     <id>http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/</id>
     <published>2017-09-16T04:41:43.000Z</published>
-    <updated>2017-09-18T04:59:12.586Z</updated>
+    <updated>2017-09-18T05:18:44.623Z</updated>
     
-    <content type="html"><![CDATA[<p>问鼎杯 CTF writeup<br><a id="more"></a><br>队伍： Ph0en1x</p>
+    <content type="html"><![CDATA[<p>问鼎杯 CTF writeup<br><a id="more"></a><br>队伍：Ph0en1x</p>
 <h1 id="1-1"><a href="#1-1" class="headerlink" title="1.1"></a>1.1</h1><p><a href="http://sec2.hdu.edu.cn/84cdc76cabf41bd7c961f6ab12f117d8/?year=2016.999999999999999" target="_blank" rel="external">http://sec2.hdu.edu.cn/84cdc76cabf41bd7c961f6ab12f117d8/?year=2016.999999999999999</a></p>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WDFLAG=&#123;9c318582f7d864a9b4f9fcaab71657ce&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="1-2"><a href="#1-2" class="headerlink" title="1.2"></a>1.2</h1><p>返回的页面头里有一个账号信息，用户名为：Voldemort，密码为：123456。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/8.png?raw=true" alt=""></p>
