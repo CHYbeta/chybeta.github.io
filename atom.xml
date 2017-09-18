@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chybeta.github.io/"/>
-  <updated>2017-09-16T14:25:48.571Z</updated>
+  <updated>2017-09-16T14:38:34.297Z</updated>
   <id>http://chybeta.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://chybeta.github.io/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://chybeta.github.io/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-09-16T14:25:48.571Z</updated>
+    <updated>2017-09-16T14:38:34.297Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -195,9 +195,9 @@
     <link href="http://chybeta.github.io/2017/09/16/%E9%97%AE%E9%BC%8E%E6%9D%AF-CTF-writeup/"/>
     <id>http://chybeta.github.io/2017/09/16/问鼎杯-CTF-writeup/</id>
     <published>2017-09-16T04:41:43.000Z</published>
-    <updated>2017-09-16T14:01:50.902Z</updated>
+    <updated>2017-09-18T04:59:12.586Z</updated>
     
-    <content type="html"><![CDATA[<p>问鼎杯 CTF writeup<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>问鼎杯 CTF writeup<br><a id="more"></a><br>队伍： Ph0en1x</p>
 <h1 id="1-1"><a href="#1-1" class="headerlink" title="1.1"></a>1.1</h1><p><a href="http://sec2.hdu.edu.cn/84cdc76cabf41bd7c961f6ab12f117d8/?year=2016.999999999999999" target="_blank" rel="external">http://sec2.hdu.edu.cn/84cdc76cabf41bd7c961f6ab12f117d8/?year=2016.999999999999999</a></p>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WDFLAG=&#123;9c318582f7d864a9b4f9fcaab71657ce&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="1-2"><a href="#1-2" class="headerlink" title="1.2"></a>1.2</h1><p>返回的页面头里有一个账号信息，用户名为：Voldemort，密码为：123456。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170916/8.png?raw=true" alt=""></p>
@@ -254,7 +254,7 @@
     <link href="http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/"/>
     <id>http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/</id>
     <published>2017-09-14T02:12:24.000Z</published>
-    <updated>2017-09-15T15:15:34.412Z</updated>
+    <updated>2017-09-17T10:44:01.133Z</updated>
     
     <content type="html"><![CDATA[<p>SEC-T CTF2017-Naughty ads-writeup<br>sql注入<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Can you put agent Gill in the naughty ad section? His phone number is &quot;555-31338&quot;</div><div class="line">Solves: 40</div><div class="line">Service: http://naughtyads.alieni.se/</div><div class="line">Author: avlidienbrunn</div></pre></td></tr></table></figure>
@@ -278,6 +278,14 @@
     
     </summary>
     
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
@@ -286,7 +294,7 @@
     <link href="http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/"/>
     <id>http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/</id>
     <published>2017-09-14T01:19:09.000Z</published>
-    <updated>2017-09-15T15:16:10.640Z</updated>
+    <updated>2017-09-17T10:44:00.456Z</updated>
     
     <content type="html"><![CDATA[<p>SEC-T CTF2017-Sprinkler system-writeup<br>test-cgi利用<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Solves: 102</div><div class="line"></div><div class="line">Service: http://sprinklers.alieni.se/</div><div class="line"></div><div class="line">Author: avlidienbrunn</div></pre></td></tr></table></figure>
