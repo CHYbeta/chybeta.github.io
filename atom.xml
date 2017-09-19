@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chybeta.github.io/"/>
-  <updated>2017-09-16T14:38:34.297Z</updated>
+  <updated>2017-09-19T15:50:36.832Z</updated>
   <id>http://chybeta.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://chybeta.github.io/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://chybeta.github.io/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2017-09-16T14:38:34.297Z</updated>
+    <updated>2017-09-19T15:50:36.832Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -86,6 +86,9 @@
 </a></li>
 </ul>
 <h1 id="Writeup"><a href="#Writeup" class="headerlink" title="Writeup"></a>Writeup</h1><h2 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h2><h3 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h3><ul>
+<li><a href="https://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/">CSAW CTF 2017-LittleQuery-writeup</a></li>
+<li><a href="https://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Shia-Labeouf-off-writeup/">CSAW CTF 2017-Shia Labeouf-off-writeup </a></li>
+<li><a href="https://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/">CSAW CTF 2017-Orange v1-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/09/16/%E9%97%AE%E9%BC%8E%E6%9D%AF-CTF-writeup/">问鼎杯 CTF writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/">SEC-T CTF2017-Naughty ads-writeup</a></li>
 <li><a href="https://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/">SEC-T CTF2017-Sprinkler system-writeup</a></li>
@@ -288,7 +291,7 @@
     <link href="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/"/>
     <id>http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/</id>
     <published>2017-09-18T05:46:28.000Z</published>
-    <updated>2017-09-19T13:59:50.145Z</updated>
+    <updated>2017-09-19T15:33:57.000Z</updated>
     
     <content type="html"><![CDATA[<p>CSAW CTF 2017-Orange v1-writeup<br>文件读取漏洞<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">I wrote a little proxy program in NodeJS for my poems folder.</div><div class="line">Everyone wants to read flag.txt but I like it too much to share.</div><div class="line">http://web.chal.csaw.io:7311/?path=orange.txt</div></pre></td></tr></table></figure>
