@@ -10,16 +10,9 @@
 
     
     <entry>
-      <title><![CDATA[浅尝哈希长度扩展攻击]]></title>
-      <url>%2F2017%2F09%2F26%2F%E6%B5%85%E5%B0%9D%E5%93%88%E5%B8%8C%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB%2F</url>
-      <content type="text"><![CDATA[哈希长度扩展攻击场景防范参考 hash哈希长度扩展攻击解析 深入理解hash长度扩展攻击（sha1为例） 科普哈希长度扩展攻击(Hash Length Extension Attacks) 哈希长度扩展攻击的简介以及HashPump安装使用方法 哈希长度扩展攻击 Hash Length Extension Attack Understanding MD5 Length Extension Attack 维基百科：长度扩展攻击]]></content>
-    </entry>
-
-    
-    <entry>
-      <title><![CDATA[PHPSHEv1.5 moneylog.php SQL注入 分析]]></title>
-      <url>%2F2017%2F09%2F21%2FPHPSHEv1-5-moneylog-php-SQL%E6%B3%A8%E5%85%A5-%E5%88%86%E6%9E%90%2F</url>
-      <content type="text"></content>
+      <title><![CDATA[BackdoorCTF 2017-Extends Me-writeup]]></title>
+      <url>%2F2017%2F09%2F28%2FBackdoorCTF-2017-Extends-Me-writeup%2F</url>
+      <content type="text"><![CDATA[Task12Extends Mehttps://extend-me-please.herokuapp.com/login Solution题目提供了源码，如下：server.py:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051from flask import *from hash import SLHA1app = Flask(__name__)key = file('SECRET').read().strip()@app.route('/')def root(): return redirect(url_for('login'))@app.route('/login',methods = ['GET', 'POST'])def login(): if request.method == 'POST': if not request.form.get('username'): return render_template('login.html') else: username = str(request.form.get('username')) if request.cookies.get('data') and request.cookies.get('user'): data = str(request.cookies.get('data')).decode('base64').strip() user = str(request.cookies.get('user')).decode('base64').strip() temp = '|'.join([key,username,user]) if data != SLHA1(temp).digest(): temp = SLHA1(temp).digest().encode('base64').strip().replace('\n','') resp = make_response(render_template('welcome_new.html',name = username)) resp.set_cookie('user','user'.encode('base64').strip()) resp.set_cookie('data',temp) return resp else: if 'admin' in user: # too lazy to check properly :p return "Here you go : CTF&#123;XXXXXXXXXXXXXXXXXXXXXXXXX&#125;" else: return render_template('welcome_back.html',name = username) else: resp = make_response(render_template('welcome_new.html',name = username)) temp = '|'.join([key,username,'user']) resp.set_cookie('data',SLHA1(temp).digest().encode('base64').strip().replace('\n','')) resp.set_cookie('user','user'.encode('base64').strip()) return resp else: return render_template('login.html')@app.route('/logout')def logout(): resp = make_response(render_template('login.html')) resp.set_cookie('data','',expires=0) resp.set_cookie('user','',expires=0) return (resp)if __name__=="__main__": app.run() 还有hash.py，鉴于太长，这里就不贴出来了，可以见这：Code-Audit-Challenges-python:1]]></content>
     </entry>
 
     

