@@ -196,26 +196,63 @@
   </entry>
   
   <entry>
-    <title>Sqlite injection 小笔记</title>
-    <link href="http://chybeta.github.io/2017/10/05/Sqlite-injection-%E5%B0%8F%E7%AC%94%E8%AE%B0/"/>
-    <id>http://chybeta.github.io/2017/10/05/Sqlite-injection-小笔记/</id>
-    <published>2017-10-05T12:16:35.000Z</published>
-    <updated>2017-10-05T12:20:38.240Z</updated>
+    <title>CSAW CTF 2017-MISC-writeup</title>
+    <link href="http://chybeta.github.io/2017/10/07/CSAW-CTF-2017-MISC-writeup/"/>
+    <id>http://chybeta.github.io/2017/10/07/CSAW-CTF-2017-MISC-writeup/</id>
+    <published>2017-10-07T00:50:23.000Z</published>
+    <updated>2017-10-07T02:20:05.046Z</updated>
+    
+    <content type="html"><![CDATA[<p>待续。<br><a id="more"></a></p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="Serial"><a href="#Serial" class="headerlink" title="Serial"></a>Serial</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc misc.chal.csaw.io 4239</div></pre></td></tr></table></figure>
+<p>考察数据奇偶校验。nc连上后，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root@chybeta:~/Desktop/test# nc misc.chal.csaw.io 4239</div><div class="line">8-1-1 even parity. Respond with &apos;1&apos; if you got the byte, &apos;0&apos; to retransmit.</div><div class="line">00110010001</div><div class="line">0 # ps: 这是我发送的</div><div class="line">00100011001</div></pre></td></tr></table></figure></p>
+<p>初次连上后，会给出一个字符串 00110010001，根据偶校验，选择发送是0还是1，然后服务器端会再返回下一个字符串。</p>
+<p>从给出的提示信息，以及结合串口通信标准来看，每次我们收到的字符串总共是11位，其中第一位都是0，表示数据的开始，剩下的数据满足<code>8-1-1</code>，是指有8位数据位，1位校检位，以及1位的停止位。</p>
+<p>比如说：00110010001</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">起始位</th>
+<th style="text-align:center">数据位</th>
+<th style="text-align:center">奇偶校验位</th>
+<th style="text-align:center">停止位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">01100100</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>这里数据位中1的个数是3，为奇数，奇偶校验位本应该为1，但接受的数据的奇偶校验位为0，说明发生了错误。根据题目的信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Respond with &apos;1&apos; if you got the byte, &apos;0&apos; to retransmit.</div></pre></td></tr></table></figure></p>
+<p>我们要返回一个 0。</p>
+<p>最后的脚本如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">r = remote(<span class="string">"misc.chal.csaw.io"</span>,<span class="number">4239</span>)</div><div class="line">r.recvuntil(<span class="string">"Respond with '1' if you got the byte, '0' to retransmit.\n"</span>)</div><div class="line"></div><div class="line">flag = <span class="string">""</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">	<span class="keyword">try</span>:</div><div class="line">		s = r.recv()</div><div class="line">		data = s[<span class="number">1</span>:<span class="number">9</span>]</div><div class="line">		even = s[<span class="number">9</span>]</div><div class="line">		end = s[<span class="number">10</span>]</div><div class="line">		num = <span class="number">0</span></div><div class="line">		<span class="keyword">for</span> i <span class="keyword">in</span>  data:</div><div class="line">			<span class="keyword">if</span> i == <span class="string">'1'</span>:</div><div class="line">				num = num + <span class="number">1</span></div><div class="line">		<span class="keyword">if</span> (num % <span class="number">2</span> == <span class="number">0</span>  <span class="keyword">and</span> even == <span class="string">"0"</span>) <span class="keyword">or</span> (num % <span class="number">2</span> != <span class="number">0</span> <span class="keyword">and</span> even == <span class="string">"1"</span>) :</div><div class="line">			r.sendline(<span class="string">"1"</span>)</div><div class="line">			flag += chr(int(data,<span class="number">2</span>))</div><div class="line">			<span class="comment"># print(chr(int(data,2)))</span></div><div class="line">			log.info(flag)</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			r.sendline(<span class="string">"0"</span>)</div><div class="line">	<span class="keyword">except</span>:</div><div class="line">		<span class="keyword">break</span></div><div class="line"></div><div class="line">log.success(<span class="string">"The flag : "</span> + flag)</div></pre></td></tr></table></figure></p>
+<p>最后得到的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;@n_int3rface_betw33n_data_term1nal_3quipment_and_d@t@_circuit-term1nating_3quipment&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="CVV"><a href="#CVV" class="headerlink" title="CVV"></a>CVV</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Hey fam, you got CVV? I need some CVV!</div><div class="line">nc misc.chal.csaw.io 8308</div></pre></td></tr></table></figure>
+<h2 id="Twitch-Plays-Pwnable"><a href="#Twitch-Plays-Pwnable" class="headerlink" title="Twitch Plays Pwnable"></a>Twitch Plays Pwnable</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">How long does it take several thousand hackers to exploit a buffer overflow?</div><div class="line">https://twitch.tv/csawtv</div><div class="line">UPDATE 8:03 Eastern: Apparently the answer is ~10 hours to not exploit the overflow.</div></pre></td></tr></table></figure>
+<h1 id="Forensics"><a href="#Forensics" class="headerlink" title="Forensics"></a>Forensics</h1><h2 id="Missed-Registration"><a href="#Missed-Registration" class="headerlink" title="Missed Registration"></a>Missed Registration</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">It&apos;s registration day! These forms just seem longer and longer...</div><div class="line">UPDATE 10:44 Eastern: New pcap that should be a bit easier to work with.</div><div class="line">UPDATE 2:58 Eastern: We&apos;re regenerating due to flag leaks, submissions disabled until then. Please be patient.</div><div class="line">Update 3:31 Eastern: Updated pcap with new flag after leak. Please re-run your solutions on the file!</div></pre></td></tr></table></figure>
+<p>追踪TCP流看一下。</p>
+<h2 id="Forensics-1"><a href="#Forensics-1" class="headerlink" title="Forensics"></a>Forensics</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Best Router</div><div class="line">http://forensics.chal.csaw.io:3287</div><div class="line">NOTE: This will expand to ~16GB!</div><div class="line">19:00 Eastern: updated. Old flags have been removed.</div></pre></td></tr></table></figure>
+]]></content>
     
     <summary type="html">
     
+      &lt;p&gt;待续。&lt;br&gt;
+    
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+      <category term="writeup:MISC" scheme="http://chybeta.github.io/categories/writeup-MISC/"/>
     
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
-      <category term="SQL注入" scheme="http://chybeta.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="Sqlite" scheme="http://chybeta.github.io/tags/Sqlite/"/>
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
   </entry>
   
@@ -268,54 +305,6 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python-Sandbox-Bypass-Cookbook</title>
-    <link href="http://chybeta.github.io/2017/10/05/Python-Sandbox-Bypass-Cookbook/"/>
-    <id>http://chybeta.github.io/2017/10/05/Python-Sandbox-Bypass-Cookbook/</id>
-    <published>2017-10-05T05:39:26.000Z</published>
-    <updated>2017-10-05T05:51:58.517Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="http://bobao.360.cn/learning/detail/3542.html" target="_blank" rel="external">从一个CTF题目学习Python沙箱逃逸</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzIzOTQ5NjUzOQ==&amp;mid=2247483665&amp;idx=1&amp;sn=4b18de09738fdc5291634db1ca2dd55a" target="_blank" rel="external">Python Sandbox Bypass </a></li>
-<li><a href="http://docs.ioin.in/writeup/www.0aa.me/_index_php_archives_123_/index.html" target="_blank" rel="external">Python Waf黑名单过滤下的一些Bypass思路</a></li>
-<li><a href="https://mp.weixin.qq.com/s/PLI-yjqmA3gwk5w3KHzOyA" target="_blank" rel="external">Python沙箱逃逸的n种姿势 </a></li>
-<li><a href="http://www.cnblogs.com/iamstudy/articles/python_eval_and_bypass_sandbox_study.html" target="_blank" rel="external">python_eval_and_bypass_sandbox_study</a></li>
-<li><a href="https://hackernoon.com/python-sandbox-escape-via-a-memory-corruption-bug-19dde4d5fea5" target="_blank" rel="external">Escaping a Python sandbox with a memory corruption bug</a></li>
-<li><a href="http://www.cnblogs.com/rim99/p/6980120.html" target="_blank" rel="external">从Python的exec()聊起</a></li>
-<li><a href="http://gynvael.coldwind.pl/n/python_sandbox_escape" target="_blank" rel="external">Python “sandbox” escape</a></li>
-<li><a href="https://news.ycombinator.com/item?id=8280053" target="_blank" rel="external">Bypassing a Python sandbox by abusing code objects</a></li>
-<li><a href="http://wapiflapi.github.io/2013/04/22/plaidctf-pyjail-story-of-pythons-escape/" target="_blank" rel="external">A python’s escape from PlaidCTF jail</a></li>
-<li><a href="http://blog.delroth.net/2013/03/escaping-a-python-sandbox-ndh-2013-quals-writeup/" target="_blank" rel="external">Escaping a Python sandbox (NdH 2013 quals writeup)</a></li>
-<li><a href="https://joychou.org/web/python-sandbox-bypass.html" target="_blank" rel="external">joychou:Python Sandbox Bypass</a></li>
-<li><a href="http://www.g5amy.xyz/my_blog/python/python-sandbox/" target="_blank" rel="external">python sandbox</a></li>
-<li><a href="http://resources.infosecinstitute.com/case-study-evading-automated-sandbox-python-poc/#gref" target="_blank" rel="external">Case Study: Evading Automated Sandbox – Python PoC</a></li>
-<li><a href="http://tukan.farm/2016/01/13/32C3-CTF-sandbox-writeup/" target="_blank" rel="external">32C3 CTF sandbox writeup</a></li>
-<li><a href="http://bruce30262.logdown.com/posts/234935-csaw-ctf-2014-exploitation-200-pybabbies" target="_blank" rel="external">CSAW CTF 2014 — Exploitation 200 pybabbies </a></li>
-<li><a href="https://zolmeister.com/2013/05/escaping-python-sandbox.html" target="_blank" rel="external">Escaping the Python Sandbox</a></li>
-<li><a href="http://blog.0kami.cn/2016/09/16/python-sandbox-escape/" target="_blank" rel="external">0kami:python sandbox escape </a></li>
-<li><a href="http://blog.isis.poly.edu/ctf/exploitation%20techniques/2012/10/26/escaping-python-sandboxes/" target="_blank" rel="external">Escaping Python Sandboxes</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Refference&quot;&gt;&lt;a href=&quot;#Refference&quot; class=&quot;headerlink&quot; title=&quot;Refference&quot;&gt;&lt;/a&gt;Refference&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://bobao.360.cn/lea
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="python" scheme="http://chybeta.github.io/tags/python/"/>
-    
-      <category term="sandbox" scheme="http://chybeta.github.io/tags/sandbox/"/>
-    
-      <category term="bypass" scheme="http://chybeta.github.io/tags/bypass/"/>
     
   </entry>
   
@@ -1167,6 +1156,92 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WeChall-PHP-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/08/WeChall-PHP-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/08/WeChall-PHP-writeup/</id>
+    <published>2017-09-07T16:28:43.000Z</published>
+    <updated>2017-09-08T16:17:27.736Z</updated>
+    
+    <content type="html"><![CDATA[<p>WeChall PHP关。<br><a id="more"></a></p>
+<h1 id="No-Escape"><a href="#No-Escape" class="headerlink" title="No Escape"></a>No Escape</h1><p>题目源码：<a href="https://www.wechall.net/challenge/no_escape/index.php?highlight=christmas" target="_blank" rel="external">https://www.wechall.net/challenge/no_escape/index.php?highlight=christmas</a></p>
+<p>流程大概如下：</p>
+<ol>
+<li>点击vote按钮后，调用noesc_voteup()</li>
+<li>noesc_voteup()中，执行update操作后，调用noesc_stop100()</li>
+<li>noesc_stop100()，先检查票数是否为111，若是则通过。接着检查票数是否大于等于100，若是则清零。</li>
+</ol>
+<p>也就是说，通过vote的方法是达不到票数为111的。看一下noesc_voteup()的第60行左右：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$who = mysql_real_escape_string($who);</div><div class="line">$query = <span class="string">"UPDATE noescvotes SET `$who`=`$who`+1 WHERE id=1"</span>;</div></pre></td></tr></table></figure></p>
+<p>mysql_real_escape_string()会对如下字符进行转义，即在前面加上反斜杠：</p>
+<ul>
+<li>\x00</li>
+<li>\n</li>
+<li>\r</li>
+<li>\</li>
+<li>‘</li>
+<li>“</li>
+<li>\x1a<br>该函数在php5.5.0后废弃，php7.0.0开始移除。</li>
+</ul>
+<p>在本题中，update的操作是用反引号来包含，所以如果我们传入参数为 <code>bill`=111 -- +</code><br>显示的sql语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE noescvotes SET `bill`=111 -- `=`bill`=111 -- `+1 WHERE id=1</div></pre></td></tr></table></figure></p>
+<p>将bill票数设置为111，并且通过<code>--</code>使得后面注释掉。从而成功注入。</p>
+<p>访问：<a href="https://www.wechall.net/challenge/no_escape/index.php" target="_blank" rel="external">https://www.wechall.net/challenge/no_escape/index.php</a><br>?vote_for=bill`=111 — +</p>
+<p>通关。</p>
+<h1 id="Training-PHP-LFI"><a href="#Training-PHP-LFI" class="headerlink" title="Training: PHP LFI"></a>Training: PHP LFI</h1><p>漏洞代码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$code = <span class="string">'$filename = \'pages/\'.(isset($_GET["file"])?$_GET["file"]:"welcome").\'.html\';'</span>;</div><div class="line">$code_emulate_pnb = <span class="string">'$filename = Common::substrUntil($filename, "\\0");'</span>; <span class="comment"># Emulate Poison Null Byte for PHP&gt;=5.3.4</span></div><div class="line">$code2 = <span class="string">'include $filename;'</span></div><div class="line"></div><div class="line">...</div><div class="line"><span class="keyword">eval</span>($code.$code_emulate_pnb); <span class="comment"># eval the first line</span></div><div class="line">...</div><div class="line"><span class="keyword">if</span> (lfiIsSafeDir($filename) === <span class="keyword">true</span>) &#123; <span class="keyword">eval</span>($code2); &#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>可以看到它自己模拟了一个<code>\0</code>的字符串截止符。为了能包含solution.php，可以利用00截断来bypass掉源代码中会附加的<code>.html</code>。</p>
+<p>最后的payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/training/php/lfi/up/index.php?file=../../solution.php%00</div></pre></td></tr></table></figure></p>
+<h1 id="PHP-0817"><a href="#PHP-0817" class="headerlink" title="PHP 0817"></a>PHP 0817</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'which'</span>]))</div><div class="line">&#123;</div><div class="line">        $which = $_GET[<span class="string">'which'</span>];</div><div class="line">        <span class="keyword">switch</span> ($which)        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">0</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">                <span class="keyword">require_once</span> $which.<span class="string">'.php'</span>;                <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">echo</span> GWF_HTML::error(<span class="string">'PHP-0817'</span>, <span class="string">'Hacker NoNoNo!'</span>, <span class="keyword">false</span>);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>目标是包含solution.php。这里考察php弱类型比较。我们传入的which为字符串，在进行swich比较时字符串会被转化成0，然后再与数字0,1,2进行比较。所以payload为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/php0817/index.php?which=solution</div></pre></td></tr></table></figure></p>
+<h1 id="Training-Register-Globals"><a href="#Training-Register-Globals" class="headerlink" title="Training: Register Globals"></a>Training: Register Globals</h1><p>这里可以看到源代码： <a href="https://www.wechall.net/challenge/training/php/globals/index.php?highlight=christmas" target="_blank" rel="external">https://www.wechall.net/challenge/training/php/globals/index.php?highlight=christmas</a></p>
+<p>其中这段代码存在变量覆盖漏洞：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">foreach ($_GET as $k =&gt; $v) &#123;</div><div class="line">$$k = $v;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>要使<code>strtolower($login[0]) === &#39;admin&#39;</code>，可以通过GET传入<code>login[0]=admin</code>。通过上面的代码将会执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$login[0]=admin;</div></pre></td></tr></table></figure></p>
+<p>从而满足条件。</p>
+<p>username和password可以随便填写。</p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/training/php/globals/globals.php?login[0]=admin</div></pre></td></tr></table></figure></p>
+<h1 id="Are-you-serial"><a href="#Are-you-serial" class="headerlink" title="Are you serial"></a>Are you serial</h1><p>这题考察php反序列化。</p>
+<p>在 <a href="https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=code.php" target="_blank" rel="external">https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=code.php</a> 中第四十行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if (false !== ($user = unserialize(Common::getCookie(&apos;serial_user&apos;, &apos;&apos;))))</div></pre></td></tr></table></figure></p>
+<p>从cookie中取出对应的字段，并进行反序列化。</p>
+<p>而在 <a href="https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=SERIAL_Solution.php" target="_blank" rel="external">https://www.wechall.net/challenge/are_you_serial/index.php?ShowSource=SERIAL_Solution.php</a> 中有一个SERIAL_Solution的类，里面的_wakeup 方法可以直接通过此关。</p>
+<p>所以做法就是生成一个序列串，通过cookie传入，然后反序列化后生成SERIAL_Solution类，并自动调用_wakeup方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SERIAL_Solution</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span></div><div class="line">        &#123;                <span class="keyword">if</span> (<span class="keyword">false</span> === ($chall = WC_Challenge::getByTitle(GWF_PAGE_TITLE)))</div><div class="line">                &#123;</div><div class="line">                        $chall = WC_Challenge::dummyChallenge(GWF_PAGE_TITLE, <span class="number">2</span>, <span class="string">'challenge/are_you_serial/index.php'</span>);</div><div class="line">                &#125;</div><div class="line">                $chall-&gt;onChallengeSolved(GWF_Session::getUserID());        </div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">$tmp = <span class="keyword">new</span> SERIAL_Solution();</div><div class="line"><span class="keyword">echo</span> serialize($tmp);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>得到： O:15:”SERIAL_Solution”:0:{} 。修改cookie：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170908/1.png?raw=true" alt=""></p>
+<h1 id="PHP-0819"><a href="#PHP-0819" class="headerlink" title="PHP 0819"></a>PHP 0819</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="comment">// closure, because of namespace!</span></div><div class="line">$challenge = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">        $f = Common::getGetString(<span class="string">'eval'</span>);        $f = str_replace(<span class="keyword">array</span>(<span class="string">'`'</span>, <span class="string">'$'</span>, <span class="string">'*'</span>, <span class="string">'#'</span>, <span class="string">':'</span>, <span class="string">'\\'</span>, <span class="string">'"'</span>, <span class="string">"'"</span>, <span class="string">'('</span>, <span class="string">')'</span>, <span class="string">'.'</span>, <span class="string">'&gt;'</span>), <span class="string">''</span>, $f);</div><div class="line"></div><div class="line">        <span class="keyword">if</span>((strlen($f) &gt; <span class="number">13</span>) || (<span class="keyword">false</span> !== stripos($f, <span class="string">'return'</span>)))</div><div class="line">        &#123;</div><div class="line">                <span class="keyword">die</span>(<span class="string">'sorry, not allowed!'</span>);        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">try</span></div><div class="line">        &#123;</div><div class="line">                <span class="keyword">eval</span>(<span class="string">"\$spaceone = $f"</span>);        &#125;</div><div class="line">        <span class="keyword">catch</span> (<span class="keyword">Exception</span> $e)</div><div class="line">        &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> ($spaceone === <span class="string">'1337'</span>);</div><div class="line">&#125;;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<p>分析一下流程，通过get的eval参数传入并赋值到变量<code>$f</code>，然后经过str_replace()的过滤，要求长度小于13，并且不包含字符串return，接着执行eval。</p>
+<p>目标是让结果返回True。最后一行<code>$spaceone === &#39;1337&#39;</code>，不存在弱类型比较，要求类型和值都得相等。看一下str_replace()，过滤了单引号，双引号，所以如果直接get传参<code>index.php?eval=&#39;1337&#39;</code>进去，在经过过滤后，到最后会变为<code>$spaceone=1337</code>，是一个数值类型而非字符串。</p>
+<p>查一下php手册；<a href="http://php.net/manual/zh/language.types.string.php" target="_blank" rel="external">http://php.net/manual/zh/language.types.string.php</a> 。除了用单引号，双引号表示字符串外，还有以下两种：</p>
+<ul>
+<li>heredoc 语法结构</li>
+<li>nowdoc 语法结构</li>
+</ul>
+<p>用一个简单的例子，对heredoc语法结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$f = &lt;&lt;&lt;q</div><div class="line">1337</div><div class="line">q;</div></pre></td></tr></table></figure></p>
+<p><code>&lt;&lt;&lt;</code>后面要提供一个标识符，这里为<code>q</code>，然后换行。接下来是字符串本身，这里为<code>1337</code>。结束时所引用的标识符必须在该行的第一列，即标识符<code>q</code>要在开头。标识符的命名只能包含字母、数字和下划线，并且必须以字母和下划线作为开头。在结束标识符这行除了可能有一个分号（;）外，绝对不能包含其它字符，更重要的是结束标识符的前面必须是个被本地操作系统认可的换行，比如在 UNIX 和 Mac OS X 系统中是 \n，而结束定界符（可能其后有个分号）之后也必须紧跟一个换行。</p>
+<p>所以在本题中，我们构造payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://www.wechall.net/challenge/space/php0819/index.php?eval=&lt;&lt;&lt;q%0a1337%0aq;%0a</div></pre></td></tr></table></figure></p>
+<p>注意 %0a 即换行。</p>
+<p>而nowdoc语法结构中，由于<code>&lt;&lt;&lt;</code>后的标识符要用单引号括起来，所以这里无法利用，不展开。</p>
+<h1 id="Host-ME"><a href="#Host-ME" class="headerlink" title="Host ME"></a>Host ME</h1><p>……未果。</p>
+<h1 id="PHP-0818"><a href="#PHP-0818" class="headerlink" title="PHP 0818"></a>PHP 0818</h1><p>题目要求我们传入的每一位不允许是1到9的数字。而。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>hex(<span class="number">3735929054</span>)</div><div class="line"><span class="string">'0xdeadc0de'</span></div></pre></td></tr></table></figure></p>
+<p>恰好3735929054的十六进制为0xdeadc0de，仅出现字母与数字0，因此可以绕过检测。</p>
+<p>最后与3735929054进行<code>==</code>比较，这里存在php弱类型比较问题，即”0xdeadc0de” == “3735929054”。</p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">answer=0xdeadc0de</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;WeChall PHP关。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
