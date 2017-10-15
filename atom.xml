@@ -199,27 +199,6 @@
   </entry>
   
   <entry>
-    <title>Can-CWIC CTF 2017-DATE-writeup</title>
-    <link href="http://chybeta.github.io/2017/10/10/Can-CWIC-CTF-2017-DATE-writeup/"/>
-    <id>http://chybeta.github.io/2017/10/10/Can-CWIC-CTF-2017-DATE-writeup/</id>
-    <published>2017-10-09T23:18:42.000Z</published>
-    <updated>2017-10-10T05:05:59.944Z</updated>
-    
-    <content type="html"><![CDATA[<a id="more"></a>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://159.203.38.169:5675/</div></pre></td></tr></table></figure>
-<h1 id="Date-1-Solution"><a href="#Date-1-Solution" class="headerlink" title="Date 1 Solution"></a>Date 1 Solution</h1><h1 id="Date-2-Solution"><a href="#Date-2-Solution" class="headerlink" title="Date 2 Solution"></a>Date 2 Solution</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h1 id=&quot;Task&quot;&gt;&lt;a href=&quot;#Task&quot; class=&quot;headerlink&quot; title=&quot;Task&quot;&gt;&lt;/a&gt;Task&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>php文件包含漏洞</title>
     <link href="http://chybeta.github.io/2017/10/08/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
     <id>http://chybeta.github.io/2017/10/08/php文件包含漏洞/</id>
@@ -1380,6 +1359,38 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TWCTF 2017-swap-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/09/TWCTF-2017-swap-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/09/TWCTF-2017-swap-writeup/</id>
+    <published>2017-09-09T06:51:02.000Z</published>
+    <updated>2017-09-11T08:26:23.370Z</updated>
+    
+    <content type="html"><![CDATA[<p>TWCTF 2017-swap-writeup<br>PLT GOT<br><a id="more"></a></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/pwn/ctf/twctf$ ./swap</div><div class="line">==============================================</div><div class="line">1. Set addrsses</div><div class="line">2. Swap both addrress of value</div><div class="line">0. Exit</div><div class="line">Your choice:</div></pre></td></tr></table></figure>
+<p>程序有三个功能。选1是设置两个地址，选2是交换两个地址上的值，选0是退出。用IDA反汇编后。</p>
+<p>main函数    ：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> __cdecl __<span class="function">noreturn <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v3; <span class="comment">// eax@2</span></div><div class="line">  <span class="keyword">void</span> *v4; <span class="comment">// rax@6</span></div><div class="line">  <span class="keyword">void</span> *v5; <span class="comment">// rax@6</span></div><div class="line">  <span class="keyword">void</span> *src; <span class="comment">// [sp+20h] [bp-20h]@0</span></div><div class="line">  <span class="keyword">void</span> *v7; <span class="comment">// [sp+28h] [bp-18h]@0</span></div><div class="line">  <span class="keyword">char</span> dest; <span class="comment">// [sp+30h] [bp-10h]@7</span></div><div class="line">  __int64 v9; <span class="comment">// [sp+38h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v9 = *MK_FP(__FS__, <span class="number">40L</span>L);</div><div class="line">  initialize(*(_QWORD *)&amp;argc, argv, envp);</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      print_menu(*(_QWORD *)&amp;argc);</div><div class="line">      v3 = read_int(*(_QWORD *)&amp;argc);</div><div class="line">      <span class="keyword">if</span> ( v3 != <span class="number">1</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Please input 1st addr"</span>);</div><div class="line">      LODWORD(v4) = read_ll(<span class="string">"Please input 1st addr"</span>);</div><div class="line">      src = v4;</div><div class="line">      *(_QWORD *)&amp;argc = <span class="string">"Please input 2nd addr"</span>;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Please input 2nd addr"</span>);</div><div class="line">      LODWORD(v5) = read_ll(<span class="string">"Please input 2nd addr"</span>);</div><div class="line">      v7 = v5;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( v3 == <span class="number">2</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="built_in">memcpy</span>(&amp;dest, src, <span class="number">8u</span>LL);</div><div class="line">      <span class="built_in">memcpy</span>(src, v7, <span class="number">8u</span>LL);</div><div class="line">      *(_QWORD *)&amp;argc = v7;</div><div class="line">      <span class="built_in">memcpy</span>(v7, &amp;dest, <span class="number">8u</span>LL);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( !v3 )</div><div class="line">    &#123;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Bye."</span>);</div><div class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中有个read_ll()，反汇编后代码为：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">__<span class="function">int64 <span class="title">read_ll</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">  __int64 result; <span class="comment">// rax@1</span></div><div class="line">  __int64 v1; <span class="comment">// rcx@1</span></div><div class="line">  <span class="keyword">char</span> buf; <span class="comment">// [sp+10h] [bp-110h]@1</span></div><div class="line">  __int64 v3; <span class="comment">// [sp+118h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v3 = *MK_FP(__FS__, <span class="number">40L</span>L);</div><div class="line">  read(<span class="number">0</span>, &amp;buf, <span class="number">0x20</span>uLL);</div><div class="line">  result = atoll(&amp;buf);</div><div class="line">  v1 = *MK_FP(__FS__, <span class="number">40L</span>L) ^ v3;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>晚上写完后再贴上来hh</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TWCTF 2017-swap-writeup&lt;br&gt;PLT GOT&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:bin" scheme="http://chybeta.github.io/categories/writeup-bin/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
     
   </entry>
   
