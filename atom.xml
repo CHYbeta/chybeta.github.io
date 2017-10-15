@@ -203,9 +203,16 @@
     <link href="http://chybeta.github.io/2017/10/10/Can-CWIC-CTF-2017-DATE-writeup/"/>
     <id>http://chybeta.github.io/2017/10/10/Can-CWIC-CTF-2017-DATE-writeup/</id>
     <published>2017-10-09T23:18:42.000Z</published>
-    <updated>2017-10-09T23:18:42.894Z</updated>
+    <updated>2017-10-10T05:05:59.944Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://159.203.38.169:5675/</div></pre></td></tr></table></figure>
+<h1 id="Date-1-Solution"><a href="#Date-1-Solution" class="headerlink" title="Date 1 Solution"></a>Date 1 Solution</h1><h1 id="Date-2-Solution"><a href="#Date-2-Solution" class="headerlink" title="Date 2 Solution"></a>Date 2 Solution</h1>]]></content>
     
     <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h1 id=&quot;Task&quot;&gt;&lt;a href=&quot;#Task&quot; class=&quot;headerlink&quot; title=&quot;Task&quot;&gt;&lt;/a&gt;Task&lt;/h1&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
     
     </summary>
     
