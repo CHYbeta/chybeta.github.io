@@ -1,0 +1,1162 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,kernel,lkd,qemu,busybox," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="linux kernel + busybox + qemuLinux kernel development (1): 环境准备">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux kernel development (1): 环境准备">
+<meta property="og:url" content="http://chybeta.github.io/2017/10/19/Linux-kernel-development-1-环境准备/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="linux kernel + busybox + qemuLinux kernel development (1): 环境准备">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/5.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/2.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/3.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/4.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/7.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/6.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/8.png?raw=true">
+<meta property="og:updated_time" content="2017-10-21T00:57:38.353Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux kernel development (1): 环境准备">
+<meta name="twitter:description" content="linux kernel + busybox + qemuLinux kernel development (1): 环境准备">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/5.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2017/10/19/Linux-kernel-development-1-环境准备/"/>
+
+
+
+
+
+  <title> Linux kernel development (1): 环境准备 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/10/19/Linux-kernel-development-1-环境准备/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux kernel development (1): 环境准备
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-19T23:28:00+08:00">
+                2017-10-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术杂谈/" itemprop="url" rel="index">
+                    <span itemprop="name">技术杂谈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/10/19/Linux-kernel-development-1-环境准备/" class="leancloud_visitors" data-flag-title="Linux kernel development (1): 环境准备">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>linux kernel + busybox + qemu<br>Linux kernel development (1): 环境准备<br><a id="more"></a></p>
+<h1 id="寻坑之旅"><a href="#寻坑之旅" class="headerlink" title="寻坑之旅"></a>寻坑之旅</h1><h2 id="linux-kernel"><a href="#linux-kernel" class="headerlink" title="linux kernel"></a>linux kernel</h2><h3 id="打包上路"><a href="#打包上路" class="headerlink" title="打包上路"></a>打包上路</h3><p>获取linux kernel源代码。因为书中根据的源代码是2.6，所以就只选择了这个版本。<br>可以从 这里获取 <a href="https://www.kernel.org/pub/linux/kernel/v2.6/" target="_blank" rel="external">https://www.kernel.org/pub/linux/kernel/v2.6/</a>  比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ wget https://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.39.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>解压，会详细的列出解压的文件，解压后的文件会保存在linux-2.6.39文件夹中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ tar xvjf linux-2.6.32.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>或者使用git，（这个会下载很大的文件）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux-2.6.git</div></pre></td></tr></table></figure></p>
+<p>然后根据需要的版本checkout出来。</p>
+<p>进入解压出来的文件夹。接下去配置（config）内核。根据网上的方法，对于ubuntu系统，可以直接把/boot/ 里的<code>.config</code>文件拷贝到linux-2.6.32中。这里用用make menuconfig 来进行图形化配置内核并生成 .confgi文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make menuconfig</div></pre></td></tr></table></figure></p>
+<p>不想进行个性化配置的话，可以使用默认生成的.config，我这里直接使用默认配置了:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make defconfig</div></pre></td></tr></table></figure></p>
+<p>其他一些类似命令，这里仅列出：</p>
+<ol>
+<li>make oldconfig 使用已经存在的 ./.config的内容，将里面的原本值作为新config的设定值。新config中涉及的新特性则列出来让用户选择。</li>
+<li>make gconfig 用Gtx图形界面来配置。需要X window支持。</li>
+<li>make xconfig 用Qt图形界面来配置。需要X window支持。</li>
+<li>make config</li>
+</ol>
+<p>配置完（我直接保持默认配置没进行改动）后，选择 <code>Save an Alternate Configuration File</code>，将配置保存到 .config 文件中。</p>
+<p>接下里开始make<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make all</div><div class="line">chybeta@ubuntu:~/linux-2.6.39$ make module</div></pre></td></tr></table></figure></p>
+<p>在make all中可能会遇到各种坑，遇到的话看这把。ps，好像make module可以不用。</p>
+<p>最后编译完成：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/5.png?raw=true" alt=""></p>
+<p>生成的镜像存放在 arch/x86/boot/bzImage。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/linux-2.6.39$ file arch/x86/boot/bzImage</div><div class="line">arch/x86/boot/bzImage: Linux kernel x86 boot executable bzImage, version 2.6.39 (chybeta@ubuntu) #1 SMP Sat Oct 21 00:50:51 CST 2017, RO-rootFS, root_dev 0x801, swap_dev 0x3, Normal VGA</div></pre></td></tr></table></figure></p>
+<h3 id="正式填坑"><a href="#正式填坑" class="headerlink" title="正式填坑"></a>正式填坑</h3><p>这次是第一次，但绝不会是最后一次编译内核。所以这部份会长期保持更新。希望对各位有用。</p>
+<p>有可能在make all的时候出现下面这些错误：</p>
+<h4 id="坑一"><a href="#坑一" class="headerlink" title="坑一"></a>坑一</h4><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/2.png?raw=true" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fatal error: linux/compiler-gcc5.h: No such file or directory</div></pre></td></tr></table></figure></p>
+<p>原因是 不支持gcc-5编译。可以到<a href="https://github.com/torvalds/linux/blob/v4.0/include/linux/compiler-gcc5.h" target="_blank" rel="external">这里</a>去下一份对应的compiler-gcc5.h。放到 include/linux/compiler-gcc5.h</p>
+<h4 id="坑二"><a href="#坑二" class="headerlink" title="坑二"></a>坑二</h4><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/3.png?raw=true" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Can&apos;t use &apos;defined(@array)&apos; (Maybe you should just omit the defined()?) at kernel/timeconst.pl line 373.</div><div class="line">/home/chybeta/linux-2.6.39/kernel/Makefile:141: recipe for target &apos;kernel/timeconst.h&apos; failed</div></pre></td></tr></table></figure></p>
+<p>编辑 kernel/timeconst.pl ，第372行左右：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@val = @&#123;$canned_values&#123;$hz&#125;&#125;;</div><div class="line">if (!defined(@val)) &#123;</div><div class="line">	@val = compute_values($hz);</div><div class="line">&#125;</div><div class="line">output($hz, @val);</div></pre></td></tr></table></figure></p>
+<p>修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@val = @&#123;$canned_values&#123;$hz&#125;&#125;;</div><div class="line">if (!@val) &#123;</div><div class="line">	@val = compute_values($hz);</div><div class="line">&#125;</div><div class="line">output($hz, @val);</div></pre></td></tr></table></figure></p>
+<h4 id="坑三"><a href="#坑三" class="headerlink" title="坑三"></a>坑三</h4><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/4.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">drivers/gpu/drm/i915/i915_drv.o:i915_drv.c:(.text+0x406): first defined here</div><div class="line">scripts/Makefile.build:405: recipe for target &apos;drivers/gpu/drm/i915/i915.o&apos; failed</div><div class="line">make[4]: *** [drivers/gpu/drm/i915/i915.o] Error 1</div><div class="line">scripts/Makefile.build:419: recipe for target &apos;drivers/gpu/drm/i915&apos; failed</div><div class="line">make[3]: *** [drivers/gpu/drm/i915] Error 2</div><div class="line">scripts/Makefile.build:419: recipe for target &apos;drivers/gpu/drm&apos; failed</div><div class="line">make[2]: *** [drivers/gpu/drm] Error 2</div><div class="line">scripts/Makefile.build:419: recipe for target &apos;drivers/gpu&apos; failed</div><div class="line">make[1]: *** [drivers/gpu] Error 2</div><div class="line">Makefile:919: recipe for target &apos;drivers&apos; failed</div></pre></td></tr></table></figure>
+<p>google/stackoverflow上没找到解决方案。</p>
+<p>我直接修改了由<code>make defconfig</code>生成的<code>.config</code>文件，其中第1781左右，是关于图形化（Graphics support）的部分，修改参数为如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">#</div><div class="line"># Graphics support</div><div class="line">#</div><div class="line"># CONFIG_AGP is not set</div><div class="line">CONFIG_VGA_ARB=y</div><div class="line">CONFIG_VGA_ARB_MAX_GPUS=1</div><div class="line"># CONFIG_VGA_SWITCHEROO is not set</div><div class="line"># CONFIG_DRM is not set</div><div class="line"># CONFIG_STUB_POULSBO is not set</div><div class="line"># CONFIG_VGASTATE is not set</div><div class="line"># CONFIG_VIDEO_OUTPUT_CONTROL is not set</div><div class="line"># CONFIG_FB is not set</div><div class="line">CONFIG_BACKLIGHT_LCD_SUPPORT=y</div><div class="line"># CONFIG_LCD_CLASS_DEVICE is not set</div><div class="line">CONFIG_BACKLIGHT_CLASS_DEVICE=y</div><div class="line">CONFIG_BACKLIGHT_GENERIC=y</div><div class="line"># CONFIG_BACKLIGHT_PROGEAR is not set</div><div class="line"># CONFIG_BACKLIGHT_APPLE is not set</div><div class="line"># CONFIG_BACKLIGHT_SAHARA is not set</div><div class="line"># CONFIG_BACKLIGHT_ADP8860 is not set</div></pre></td></tr></table></figure></p>
+<h2 id="busybox"><a href="#busybox" class="headerlink" title="busybox"></a>busybox</h2><p>busybox里面集成了多种常用linux命令。接下去需要用busybox来生成linux的根文件系统。</p>
+<p>在 <a href="https://busybox.net/" target="_blank" rel="external">https://busybox.net/</a> 处下载源码，我下的版本是 BusyBox 1.27.2。</p>
+<p>解压缩：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ tar -xvjf busybox-1.27.2.tar.bz2</div></pre></td></tr></table></figure></p>
+<p>进入busybox文件夹，需要使用静态链接的方式来编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ make menuconfig</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/7.png?raw=true" alt=""><br>先进入 Busybox Setting，之后选择Build Options中的 Build Busybox as a static library。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ make install</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/6.png?raw=true" alt=""></p>
+<p>安装成功。</p>
+<p>install后，默认会在busybox的目录下生成一个 <code>_install</code>目录。接下来用这个目录来生成虚拟机挂载时需要的根文件目录。</p>
+<p>这一步，创建一个目录用于保存rootfs.img<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ mkdir ../kernelrootfs</div></pre></td></tr></table></figure></p>
+<p>生成:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/busybox-1.27.2$ cd _install/</div><div class="line">chybeta@ubuntu:~/busybox-1.27.2/_install$ find . | cpio -o --format=newc &gt; ../../kernelrootfs/rootfs.img</div><div class="line">5213 blocks</div></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~/kernelrootfs$ file rootfs.img</div><div class="line">rootfs.img: ASCII cpio archive (SVR4 with no CRC)</div></pre></td></tr></table></figure></p>
+<h2 id="Qemu"><a href="#Qemu" class="headerlink" title="Qemu"></a>Qemu</h2><p>qemu是一个开源的虚拟机，它内部实现了一个gdb server，能方便和gdb对内核进行联合调试。安装qemu虚拟机：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ sudo apt-get install qemu qemu-system</div></pre></td></tr></table></figure></p>
+<p>用qemu开启虚拟机：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:~$ qemu-system-x86_64 -kernel linux-2.6.39/arch/x86/boot/bzImage -initrd kernelrootfs/rootfs.img -append &quot;root=/dev/ram rdinit=/bin/sh&quot;</div></pre></td></tr></table></figure></p>
+<p>参数<code>-kernel</code>，用于指定内核的所在地，在前面部分已经保存在为 linux-2.6.39/arch/x86/boot/bzImage 。参数<code>-initrd</code>用于指定linux系统挂载用的根文件目录，由前面章节，已经保存在为 kernelrootfs/rootfs.img 。这两个参数，根据你前面的配置而定。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171020/8.png?raw=true" alt=""></p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>还有一些其他的操作还没写出来，比如添加系统调用（syscall）之类的。以后用到再慢慢补充吧。</p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://nostillsearching.wordpress.com/2012/09/22/compiling-linux-kernel-and-running-it-using-qemu/" target="_blank" rel="external">Compiling Linux kernel and running it using QEMU</a></li>
+<li><a href="http://bobao.360.cn/learning/detail/3700.html" target="_blank" rel="external">Linux 内核漏洞利用教程（一）：环境配置</a></li>
+<li><a href="https://stackoverflow.com/questions/17242403/linux-running-self-compiled-kernel-in-qemu-vfs-unable-to-mount-root-fs-on-unk" target="_blank" rel="external">linux: running self compiled kernel in qemu: VFS: Unable to mount root fs on unknown wn-block(0,0)</a></li>
+<li><a href="http://blog.csdn.net/LEON1741/article/details/54848842" target="_blank" rel="external">如何使用busybox编译和生成最简linux根文件系统（rootfs） </a></li>
+</ul>
+
+      
+    </div>
+	<div>
+      
+        
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/kernel/" rel="tag"># kernel</a>
+          
+            <a href="/tags/lkd/" rel="tag"># lkd</a>
+          
+            <a href="/tags/qemu/" rel="tag"># qemu</a>
+          
+            <a href="/tags/busybox/" rel="tag"># busybox</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/15/DiscuzX-v3-4-任意文件删除漏洞/" rel="next" title="DiscuzX v3.4 任意文件删除漏洞">
+                <i class="fa fa-chevron-left"></i> DiscuzX v3.4 任意文件删除漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">140</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#寻坑之旅"><span class="nav-number">1.</span> <span class="nav-text">寻坑之旅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux-kernel"><span class="nav-number">1.1.</span> <span class="nav-text">linux kernel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打包上路"><span class="nav-number">1.1.1.</span> <span class="nav-text">打包上路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正式填坑"><span class="nav-number">1.1.2.</span> <span class="nav-text">正式填坑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#坑一"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">坑一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#坑二"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">坑二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#坑三"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">坑三</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#busybox"><span class="nav-number">1.2.</span> <span class="nav-text">busybox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Qemu"><span class="nav-number">1.3.</span> <span class="nav-text">Qemu</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">2.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Refference"><span class="nav-number">3.</span> <span class="nav-text">Refference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
