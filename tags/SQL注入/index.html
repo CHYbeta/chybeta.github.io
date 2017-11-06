@@ -402,7 +402,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">146</span>
+                <span class="site-state-item-count">144</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -936,17 +936,7 @@
 <!-- hexo-inject:end -->
 </body>
 </html>
-dow;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(function(e){
+click(function(e){
       $('.popup').hide();
       $(".popoverlay").remove();
       $('body').css('overflow', '');

@@ -269,73 +269,6 @@
   </entry>
   
   <entry>
-    <title>WordPress中的SQL注入与格式化字符串问题</title>
-    <link href="http://chybeta.github.io/2017/11/01/WordPress%E4%B8%AD%E7%9A%84SQL%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%97%AE%E9%A2%98/"/>
-    <id>http://chybeta.github.io/2017/11/01/WordPress中的SQL注入与格式化字符串问题/</id>
-    <published>2017-11-01T15:11:48.000Z</published>
-    <updated>2017-11-01T15:37:28.437Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="php中的格式化字符串"><a href="#php中的格式化字符串" class="headerlink" title="php中的格式化字符串"></a>php中的格式化字符串</h2><h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><h2 id="NextGEN-Gallery-for-WordPress"><a href="#NextGEN-Gallery-for-WordPress" class="headerlink" title="NextGEN Gallery for WordPress"></a>NextGEN Gallery for WordPress</h2><p><a href="https://blog.sucuri.net/2017/02/sql-injection-vulnerability-nextgen-gallery-wordpress.html" target="_blank" rel="external">https://blog.sucuri.net/2017/02/sql-injection-vulnerability-nextgen-gallery-wordpress.html</a></p>
-<h2 id="Wordpress-SQLi"><a href="#Wordpress-SQLi" class="headerlink" title="Wordpress SQLi"></a>Wordpress SQLi</h2><p>8.23<br><a href="https://medium.com/websec/wordpress-sqli-bbb2afcc8e94" target="_blank" rel="external">Wordpress SQLi</a></p>
-<p><a href="https://paper.seebug.org/386/" target="_blank" rel="external">从WordPress SQLi谈PHP格式化字符串问题</a></p>
-<h2 id="WordPress-4-8-3"><a href="#WordPress-4-8-3" class="headerlink" title="WordPress 4.8.3"></a>WordPress 4.8.3</h2><p>9.</p>
-<ul>
-<li><a href="https://blog.ircmaxell.com/2017/10/disclosure-wordpress-wpdb-sql-injection-technical.html" target="_blank" rel="external">Disclosure: WordPress WPDB SQL Injection - Technical</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;基础&quot;&gt;&lt;a href=&quot;#基础&quot; class=&quot;headerlink&quot; title=&quot;基础&quot;&gt;&lt;/a&gt;基础&lt;/h1&gt;&lt;h2 id=&quot;php中的格式化字符串&quot;&gt;&lt;a href=&quot;#php中的格式化字符串&quot; class=&quot;headerlink&quot; title=&quot;php
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-      <category term="SQL注入" scheme="http://chybeta.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SWPU CTF 2017-Web-writeup</title>
-    <link href="http://chybeta.github.io/2017/11/01/SWPU-CTF-2017-Web-writeup/"/>
-    <id>http://chybeta.github.io/2017/11/01/SWPU-CTF-2017-Web-writeup/</id>
-    <published>2017-11-01T13:23:12.000Z</published>
-    <updated>2017-11-05T12:32:45.027Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="http://www.th1s.cn/index.php/2017/11/05/147.html" target="_blank" rel="external">http://www.th1s.cn/index.php/2017/11/05/147.html</a></p>
-<h1 id="Web1-你能进入后台吗？"><a href="#Web1-你能进入后台吗？" class="headerlink" title="Web1 你能进入后台吗？"></a>Web1 你能进入后台吗？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">地址： http://39.106.13.162/login.php </div><div class="line">登录进来就给你flag啦(#.#)</div><div class="line"></div><div class="line">hint: php-screw   index.php.bak</div></pre></td></tr></table></figure>
-<h1 id="web2-web-catch-me-if-you-can"><a href="#web2-web-catch-me-if-you-can" class="headerlink" title="web2 web catch me if you can"></a>web2 web catch me if you can</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址：http://47.93.205.124/ </div><div class="line">黑客入侵了我的网站并挂了黑页，最重要的是还偷走了我留给各位师傅的flag…请各位师傅帮助我抓住这个黑客并找到我的flag</div></pre></td></tr></table></figure>
-<h1 id="web3-我们来做个小游戏吧"><a href="#web3-我们来做个小游戏吧" class="headerlink" title="web3 我们来做个小游戏吧"></a>web3 我们来做个小游戏吧</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址：http://47.104.18.71/www.zip </div><div class="line">欧洲人据说可以为所欲为？</div></pre></td></tr></table></figure>
-<h1 id="web4-师傅们一起来找flag"><a href="#web4-师傅们一起来找flag" class="headerlink" title="web4 师傅们一起来找flag"></a>web4 师傅们一起来找flag</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址:http://39.106.16.58/index.php </div><div class="line">flag不小心丢失了，师傅们来帮忙找找呀！(不用扫描)</div></pre></td></tr></table></figure>
-<h1 id="web5-python-sandbox"><a href="#web5-python-sandbox" class="headerlink" title="web5 python sandbox"></a>web5 python sandbox</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址：http://47.95.252.234</div><div class="line">Web code editor is convenient to Exercise programming!</div></pre></td></tr></table></figure>
-<h1 id="web-6-You-Think-I-Think"><a href="#web-6-You-Think-I-Think" class="headerlink" title="web 6 You Think I Think"></a>web 6 You Think I Think</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">地址：http://39.106.11.158/web1/  I Think You Can Think It！</div></pre></td></tr></table></figure>
-<h1 id="web7-flag-flag"><a href="#web7-flag-flag" class="headerlink" title="web7 flag!flag"></a>web7 flag!flag</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://39.106.13.2/web2/file.php?file=index</div><div class="line"></div><div class="line">小明把flag藏在数据库里面，请各位大师傅帮忙找出来吧</div></pre></td></tr></table></figure>
-<h1 id="web8-偷懒的出题人"><a href="#web8-偷懒的出题人" class="headerlink" title="web8 偷懒的出题人"></a>web8 偷懒的出题人</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://39.106.11.158/web1/</div><div class="line"></div><div class="line">I Think You Can Think It！</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;http://www.th1s.cn/index.php/2017/11/05/147.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.th1s.cn/index.php/2017/11/05/147.htm
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Node.js中的反序列化漏洞：CVE-2017-5941</title>
     <link href="http://chybeta.github.io/2017/11/01/Node-js%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-5941/"/>
     <id>http://chybeta.github.io/2017/11/01/Node-js中的反序列化漏洞：CVE-2017-5941/</id>
@@ -660,9 +593,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
-    
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
     
   </entry>
   
@@ -953,9 +886,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
       <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
   </entry>
   
@@ -1515,9 +1448,83 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
+    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
+  </entry>
+  
+  <entry>
+    <title>SEC-T CTF2017-Naughty ads-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/</id>
+    <published>2017-09-14T02:12:24.000Z</published>
+    <updated>2017-09-17T10:44:01.133Z</updated>
+    
+    <content type="html"><![CDATA[<p>SEC-T CTF2017-Naughty ads-writeup<br>sql注入<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Can you put agent Gill in the naughty ad section? His phone number is &quot;555-31338&quot;</div><div class="line">Solves: 40</div><div class="line">Service: http://naughtyads.alieni.se/</div><div class="line">Author: avlidienbrunn</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>扫描器扫到robots.txt ，访问：<a href="http://naughtyads.alieni.se/robots.txt" target="_blank" rel="external">http://naughtyads.alieni.se/robots.txt</a></p>
+<p>有一个admin，但访问需要输入账号和密码。</p>
+<p>尝试访问： <a href="http://naughtyads.alieni.se/index.phps" target="_blank" rel="external">http://naughtyads.alieni.se/index.phps</a> 。得到源代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">require_once</span> <span class="string">'lib.php'</span>;</div><div class="line">header(<span class="string">'X-XSS-Protection: 0'</span>);</div><div class="line">$cols = <span class="keyword">array</span>(</div><div class="line">    <span class="string">"e8c4-437b-9476"</span>,</div><div class="line">    <span class="string">"849e-416e-acf7"</span>,</div><div class="line">    <span class="string">"7f9d-470f-8698"</span>,</div><div class="line">    <span class="string">"c8bb-4695-93f7"</span>,</div><div class="line">    <span class="string">"5fbc-4729-8821"</span>,</div><div class="line">    <span class="string">"3ad3-46c3-b975"</span>,</div><div class="line">    <span class="string">"f44f-4cc9-a5e0"</span>,</div><div class="line">    <span class="string">"0c3f-42c8-a0ae"</span></div><div class="line">    );</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_REQUEST[<span class="string">'id'</span>]))&#123;</div><div class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/'(?:\w*)\W*?[a-z].*(R|ELECT|OIN|NTO|HERE|NION)/i"</span>, $_REQUEST[<span class="string">'id'</span>]))&#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">"Attack detected!!!"</span>);</div><div class="line">    &#125;</div><div class="line">    $ad = get_ad($_GET[<span class="string">'id'</span>]);</div><div class="line">    <span class="meta">?&gt;</span></div><div class="line">    &lt;HTML&gt;</div><div class="line">    &lt;HEAD&gt;</div><div class="line">        &lt;TITLE&gt;NAUGHTY ADS ©<span class="number">1994</span>&lt;/TITLE&gt;</div><div class="line">    &lt;/HEAD&gt;</div><div class="line">    &lt;BODY BGCOLOR=<span class="string">"WHITE"</span>&gt;</div><div class="line">        &lt;CENTER&gt;</div><div class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $ad[<span class="string">'description'</span>] <span class="meta">?&gt;</span>&lt;br /&gt;</div><div class="line">        &lt;a href=<span class="string">"/"</span>&gt;Home&lt;/a&gt;</div><div class="line">        &lt;/CENTER&gt;</div><div class="line">    &lt;/BODY&gt;</div><div class="line">    &lt;/HTML&gt;</div><div class="line">    <span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">die</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>对于 $_REQUEST[‘id’] ，进行了“严格”的正则匹配，不能正常的注出数据。接下来通过 $_GET[‘id’] 将其带入数据库中查询并返回结果给页面。</p>
+<p>这里考察了一个知识。<a href="http://php.net/manual/zh/reserved.variables.request.php" target="_blank" rel="external">$_REQUEST</a>变量默认情况下包含了 $_GET，$_POST 和 $_COOKIE 的数组。在 php.ini 配置文件中，有一个参数variables_order<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/5.png?raw=true" alt=""></p>
+<p>其中几个字母（EGPCS）对应如下： Environment, Get, Post, Cookie, Server。这些字母的出现顺序，表明了数据的加载顺序。从三种默认配置来看，相对顺序均是<code>GP</code>，也就是说只要有POST参数进来，那么它就会覆盖同名的GET参数。如下图；<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/6.png?raw=true" alt=""></p>
+<p>所以就本题而言，如果在GET参数id处注入数据（比如 union select），而同时我们又通过POST方法传入一个id参数，那么服务器检测的是无害的POST数据，而在进行查询时带入的是有害的GET数据。</p>
+<p>将如下数据包保存为test.txt，用sqlmap跑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST /?id=* HTTP/1.1</div><div class="line">Host: naughtyads.alieni.se</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">DNT: 1</div><div class="line">Connection: close</div><div class="line">Upgrade-Insecure-Requests: 1</div><div class="line">Content-Type: application/x-www-form-urlencoded</div><div class="line">Content-Length: 18</div><div class="line"></div><div class="line">id= 0c3f-42c8-a0ae</div></pre></td></tr></table></figure></p>
+<p>命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python sqlmap.py -r test.txt -D naughty --dump</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/7.png?raw=true" alt=""></p>
+<p>得到账号密码，登陆 <a href="http://naughtyads.alieni.se/admin/" target="_blank" rel="external">http://naughtyads.alieni.se/admin/</a> 在Phone number处填上555-31338，提交后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SECT&#123;~tr4nsv3stiT3s_w3lc0me_t00~&#125;</div></pre></td></tr></table></figure></p>
+<p>其实那个正则，是有问题的。。。很容易绕过的啦。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;SEC-T CTF2017-Naughty ads-writeup&lt;br&gt;sql注入&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SEC-T CTF2017-Sprinkler system-writeup</title>
+    <link href="http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/"/>
+    <id>http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/</id>
+    <published>2017-09-14T01:19:09.000Z</published>
+    <updated>2017-09-17T10:44:00.456Z</updated>
+    
+    <content type="html"><![CDATA[<p>SEC-T CTF2017-Sprinkler system-writeup<br>test-cgi利用<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Solves: 102</div><div class="line"></div><div class="line">Service: http://sprinklers.alieni.se/</div><div class="line"></div><div class="line">Author: avlidienbrunn</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>发现有robots.txr。访问：<a href="http://sprinklers.alieni.se/robots.txt" target="_blank" rel="external">http://sprinklers.alieni.se/robots.txt</a></p>
+<p>接着访问 <a href="http://sprinklers.alieni.se/cgi-bin/test-cgi" target="_blank" rel="external">http://sprinklers.alieni.se/cgi-bin/test-cgi</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/3.png?raw=true" alt=""></p>
+<p>是 test-cgi ， 可以遍历目录。访问 <a href="http://sprinklers.alieni.se/cgi-bin/test-cgi?*" target="_blank" rel="external">http://sprinklers.alieni.se/cgi-bin/test-cgi?*</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/2.png?raw=true" alt=""></p>
+<p>最后访问：<a href="http://sprinklers.alieni.se/cgi-bin/enable_sprinkler_system" target="_blank" rel="external">http://sprinklers.alieni.se/cgi-bin/enable_sprinkler_system</a></p>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SECT&#123;-p00l_On_t3h_r00f_must_h@v3_A_l3ak!-&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;SEC-T CTF2017-Sprinkler system-writeup&lt;br&gt;test-cgi利用&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
