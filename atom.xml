@@ -203,7 +203,7 @@
     <link href="http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/"/>
     <id>http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/</id>
     <published>2017-11-04T15:32:08.000Z</published>
-    <updated>2017-11-06T04:51:24.649Z</updated>
+    <updated>2017-11-06T05:34:10.971Z</updated>
     
     <content type="html"><![CDATA[<p>HITCON CTF 2017-BabyFirst Revenge-writeup<br><a id="more"></a></p>
 <h1 id="BabyFirst-Revenge"><a href="#BabyFirst-Revenge" class="headerlink" title="BabyFirst Revenge"></a>BabyFirst Revenge</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Do you remember BabyFirst from HITCON CTF 2015?</div><div class="line">This is the harder version!</div><div class="line">http://52.199.204.34/</div></pre></td></tr></table></figure>
@@ -248,7 +248,6 @@
 <p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;(SELECT * FROM fl4gdb.this_is_the_fl4g&quot; &gt;　kk9</div></pre></td></tr></table></figure></p>
 <p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk9，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk9，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">secret</div><div class="line">hitcon&#123;idea_from_phith0n,thank_you:)&#125;</div></pre></td></tr></table></figure></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/8.png?raw=true" alt=""></p>
-<p>还愣着干啥，膜P师傅啊!</p>
 ]]></content>
     
     <summary type="html">
