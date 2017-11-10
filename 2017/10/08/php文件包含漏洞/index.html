@@ -119,7 +119,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/22.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/23.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/24.png?raw=true">
-<meta property="og:updated_time" content="2017-10-09T16:03:13.725Z">
+<meta property="og:updated_time" content="2017-11-10T12:37:08.037Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="php文件包含漏洞">
 <meta name="twitter:description" content="php文件包含漏洞学习合上吧，没有新姿势。">
@@ -517,7 +517,13 @@
 <h2 id="包含session"><a href="#包含session" class="headerlink" title="包含session"></a>包含session</h2><p>利用条件：session文件路径已知，且其中内容部分可控。</p>
 <p>姿势：</p>
 <p>php的session文件的保存路径可以在phpinfo的session.save_path看到。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/14.png?raw=true" alt=""></p>
-<p>在默认情况下一般是保存在<code>/tmp</code>目录中。</p>
+<p>常见的php-session存放位置：</p>
+<ol>
+<li>/var/lib/php/sess_PHPSESSID</li>
+<li>/var/lib/php/sess_PHPSESSID</li>
+<li>/tmp/sess_PHPSESSID</li>
+<li>/tmp/sessions/sess_PHPSESSID</li>
+</ol>
 <p>session的文件名格式为sess_[phpsessid]。而phpsessid在发送的请求的cookie字段中可以看到。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/16.png?raw=true" alt=""></p>
 <p>要包含并利用的话，需要能控制部分sesssion文件的内容。暂时没有通用的办法。有些时候，可以先包含进session文件，观察里面的内容，然后根据里面的字段来发现可控的变量，从而利用变量来写入payload，并之后再次包含从而执行php代码。</p>
 <p>比如这篇文章：<a href="http://kb.hitcon.org/post/165429468072/%E9%80%8F%E9%81%8E-lfi-%E5%BC%95%E5%85%A5-php-session-%E6%AA%94%E6%A1%88%E8%A7%B8%E7%99%BC-rce" target="_blank" rel="external">透過 LFI 引入 PHP session 檔案觸發 RCE</a></p>
@@ -662,7 +668,7 @@
   <p><span>本文标题:</span><a href="/2017/10/08/php文件包含漏洞/">php文件包含漏洞</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年10月08日 - 23:10</p>
-  <p><span>最后更新:</span>2017年10月10日 - 00:10</p>
+  <p><span>最后更新:</span>2017年11月10日 - 20:11</p>
   <p><span>原始链接:</span><a href="/2017/10/08/php文件包含漏洞/" title="php文件包含漏洞">http://chybeta.github.io/2017/10/08/php文件包含漏洞/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/10/08/php文件包含漏洞/"  aria-label="复制成功！"></i></span>
   </p>
@@ -836,7 +842,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

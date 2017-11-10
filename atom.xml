@@ -603,7 +603,7 @@
     <link href="http://chybeta.github.io/2017/10/08/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
     <id>http://chybeta.github.io/2017/10/08/php文件包含漏洞/</id>
     <published>2017-10-08T15:49:30.000Z</published>
-    <updated>2017-10-09T16:03:13.725Z</updated>
+    <updated>2017-11-10T12:37:08.037Z</updated>
     
     <content type="html"><![CDATA[<p>php文件包含漏洞学习<br>合上吧，没有新姿势。<br><a id="more"></a></p>
 <h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>php中引发文件包含漏洞的通常是以下四个函数：</p>
@@ -681,7 +681,13 @@
 <h2 id="包含session"><a href="#包含session" class="headerlink" title="包含session"></a>包含session</h2><p>利用条件：session文件路径已知，且其中内容部分可控。</p>
 <p>姿势：</p>
 <p>php的session文件的保存路径可以在phpinfo的session.save_path看到。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/14.png?raw=true" alt=""></p>
-<p>在默认情况下一般是保存在<code>/tmp</code>目录中。</p>
+<p>常见的php-session存放位置：</p>
+<ol>
+<li>/var/lib/php/sess_PHPSESSID</li>
+<li>/var/lib/php/sess_PHPSESSID</li>
+<li>/tmp/sess_PHPSESSID</li>
+<li>/tmp/sessions/sess_PHPSESSID</li>
+</ol>
 <p>session的文件名格式为sess_[phpsessid]。而phpsessid在发送的请求的cookie字段中可以看到。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/16.png?raw=true" alt=""></p>
 <p>要包含并利用的话，需要能控制部分sesssion文件的内容。暂时没有通用的办法。有些时候，可以先包含进session文件，观察里面的内容，然后根据里面的字段来发现可控的变量，从而利用变量来写入payload，并之后再次包含从而执行php代码。</p>
 <p>比如这篇文章：<a href="http://kb.hitcon.org/post/165429468072/%E9%80%8F%E9%81%8E-lfi-%E5%BC%95%E5%85%A5-php-session-%E6%AA%94%E6%A1%88%E8%A7%B8%E7%99%BC-rce" target="_blank" rel="external">透過 LFI 引入 PHP session 檔案觸發 RCE</a></p>
