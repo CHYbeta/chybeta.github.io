@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="php,代码审计,文件上传," />
+  <meta name="keywords" content="CTF,writeup,web," />
 
 
 
@@ -89,16 +89,23 @@
 
 
 
-<meta name="description" content="其实这个洞早就出来了。只不过几天前看到cnvd上有人提交了。漏洞利用过程挺好玩的，分析一波。">
+<meta name="description" content="趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。
+LCTF-2017-萌萌哒报名系统-writeup">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BEECMS v4.0_R_20160525 文件上传漏洞分析">
-<meta property="og:url" content="http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/index.html">
+<meta property="og:title" content="LCTF-2017-萌萌哒报名系统-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="其实这个洞早就出来了。只不过几天前看到cnvd上有人提交了。漏洞利用过程挺好玩的，分析一波。">
-<meta property="og:updated_time" content="2017-11-14T07:35:21.012Z">
+<meta property="og:description" content="趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。
+LCTF-2017-萌萌哒报名系统-writeup">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/13.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/3.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/2.png?raw=true">
+<meta property="og:updated_time" content="2017-11-19T23:24:21.107Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BEECMS v4.0_R_20160525 文件上传漏洞分析">
-<meta name="twitter:description" content="其实这个洞早就出来了。只不过几天前看到cnvd上有人提交了。漏洞利用过程挺好玩的，分析一波。">
+<meta name="twitter:title" content="LCTF-2017-萌萌哒报名系统-writeup">
+<meta name="twitter:description" content="趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。
+LCTF-2017-萌萌哒报名系统-writeup">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/13.png?raw=true">
 
 
 
@@ -126,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/"/>
+  <link rel="canonical" href="http://chybeta.github.io/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/"/>
 
 
 
 
 
-  <title> BEECMS v4.0_R_20160525 文件上传漏洞分析 | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> LCTF-2017-萌萌哒报名系统-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -308,7 +315,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="chybeta">
@@ -332,7 +339,7 @@
             
             
               
-                BEECMS v4.0_R_20160525 文件上传漏洞分析
+                LCTF-2017-萌萌哒报名系统-writeup
               
             
           </h1>
@@ -347,8 +354,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-14T13:12:50+08:00">
-                2017-11-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-19T20:52:48+08:00">
+                2017-11-19
               </time>
             
 
@@ -370,8 +377,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web-Security/" itemprop="url" rel="index">
-                    <span itemprop="name">Web Security</span>
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
                   </a>
                 </span>
 
@@ -389,7 +396,7 @@
 
           
           
-             <span id="/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/" class="leancloud_visitors" data-flag-title="BEECMS v4.0_R_20160525 文件上传漏洞分析">
+             <span id="/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/" class="leancloud_visitors" data-flag-title="LCTF-2017-萌萌哒报名系统-writeup">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,9 +423,28 @@
       
 
       
-        <p>其实这个洞早就出来了。<br>只不过几天前看到<a href="http://www.cnvd.org.cn/flaw/show/CNVD-2017-31579" target="_blank" rel="external">cnvd</a>上有人提交了。<br>漏洞利用过程挺好玩的，分析一波。</p>
-<a id="more"></a>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><h2 id="变量覆盖进后台"><a href="#变量覆盖进后台" class="headerlink" title="变量覆盖进后台"></a>变量覆盖进后台</h2><h2 id="后台任意文件上传"><a href="#后台任意文件上传" class="headerlink" title="后台任意文件上传"></a>后台任意文件上传</h2>
+        <p>趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。</p>
+<p>LCTF-2017-萌萌哒报名系统-writeup<br><a id="more"></a></p>
+<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">天依花了一整天的时间用IDE开发了一个报名系统，现在她睡着了，难道你们不想做点什么嘛XD?</div><div class="line">http://123.206.120.239/</div></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="源码泄露"><a href="#源码泄露" class="headerlink" title="源码泄露"></a>源码泄露</h2><p>根据题目信息，用了IDE,比如phpstrom，以前做百度杯时碰到过。尝试访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://123.206.120.239/.idea/workspace.xml</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/13.png?raw=true" alt=""></p>
+<p>发现源码包：xdcms2333.zip。下载下来进行审计。</p>
+<h2 id="基本流程梳理"><a href="#基本流程梳理" class="headerlink" title="基本流程梳理"></a>基本流程梳理</h2><h3 id="regisrer-php"><a href="#regisrer-php" class="headerlink" title="regisrer.php"></a>regisrer.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	<span class="keyword">include</span>(<span class="string">'config.php'</span>);</div><div class="line">	<span class="keyword">try</span>&#123;</div><div class="line">		$pdo = <span class="keyword">new</span> PDO(<span class="string">'mysql:host=localhost;dbname=xdcms'</span>, $user, $pass);</div><div class="line">	&#125;<span class="keyword">catch</span> (<span class="keyword">Exception</span> $e)&#123;</div><div class="line">		<span class="keyword">die</span>(<span class="string">'mysql connected error'</span>);</div><div class="line">	&#125;</div><div class="line">	$admin = <span class="string">"xdsec"</span>.<span class="string">"###"</span>.str_shuffle(<span class="string">'you_are_the_member_of_xdsec_here_is_your_flag'</span>);</div><div class="line">    $username = (<span class="keyword">isset</span>($_POST[<span class="string">'username'</span>]) === <span class="keyword">true</span> &amp;&amp; $_POST[<span class="string">'username'</span>] !== <span class="string">''</span>) ? (string)$_POST[<span class="string">'username'</span>] : <span class="keyword">die</span>(<span class="string">'Missing username'</span>);</div><div class="line">    $password = (<span class="keyword">isset</span>($_POST[<span class="string">'password'</span>]) === <span class="keyword">true</span> &amp;&amp; $_POST[<span class="string">'password'</span>] !== <span class="string">''</span>) ? (string)$_POST[<span class="string">'password'</span>] : <span class="keyword">die</span>(<span class="string">'Missing password'</span>);</div><div class="line">    $code = (<span class="keyword">isset</span>($_POST[<span class="string">'code'</span>]) === <span class="keyword">true</span>) ? (string)$_POST[<span class="string">'code'</span>] : <span class="string">''</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (strlen($username) &gt; <span class="number">16</span> || strlen($username) &gt; <span class="number">16</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'Invalid input'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $sth = $pdo-&gt;prepare(<span class="string">'SELECT username FROM users WHERE username = :username'</span>);</div><div class="line">    $sth-&gt;execute([<span class="string">':username'</span> =&gt; $username]);</div><div class="line">    <span class="keyword">if</span> ($sth-&gt;fetch() !== <span class="keyword">false</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'username has been registered'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $sth = $pdo-&gt;prepare(<span class="string">'INSERT INTO users (username, password) VALUES (:username, :password)'</span>);</div><div class="line">    $sth-&gt;execute([<span class="string">':username'</span> =&gt; $username, <span class="string">':password'</span> =&gt; $password]);</div><div class="line"></div><div class="line">    preg_match(<span class="string">'/^(xdsec)((?:###|\w)+)$/i'</span>, $code, $matches);</div><div class="line">    <span class="keyword">if</span> (count($matches) === <span class="number">3</span> &amp;&amp; $admin === $matches[<span class="number">0</span>]) &#123;</div><div class="line">        $sth = $pdo-&gt;prepare(<span class="string">'INSERT INTO identities (username, identity) VALUES (:username, :identity)'</span>);</div><div class="line">        $sth-&gt;execute([<span class="string">':username'</span> =&gt; $username, <span class="string">':identity'</span> =&gt; $matches[<span class="number">1</span>]]);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $sth = $pdo-&gt;prepare(<span class="string">'INSERT INTO identities (username, identity) VALUES (:username, "GUEST")'</span>);</div><div class="line">        $sth-&gt;execute([<span class="string">':username'</span> =&gt; $username]);</div><div class="line">    &#125;</div><div class="line">	<span class="keyword">echo</span> <span class="string">'&lt;script&gt;alert("register success");location.href="./index.html"&lt;/script&gt;'</span>;</div></pre></td></tr></table></figure>
+<h3 id="login-php"><a href="#login-php" class="headerlink" title="login.php"></a>login.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	session_start();</div><div class="line">	<span class="keyword">include</span>(<span class="string">'config.php'</span>);</div><div class="line">	<span class="keyword">try</span>&#123;</div><div class="line">		$pdo = <span class="keyword">new</span> PDO(<span class="string">'mysql:host=localhost;dbname=xdcms'</span>, $user, $pass);</div><div class="line">	&#125;<span class="keyword">catch</span> (<span class="keyword">Exception</span> $e)&#123;</div><div class="line">		<span class="keyword">die</span>(<span class="string">'mysql connected error'</span>);</div><div class="line">	&#125;</div><div class="line">	$username = (<span class="keyword">isset</span>($_POST[<span class="string">'username'</span>]) === <span class="keyword">true</span> &amp;&amp; $_POST[<span class="string">'username'</span>] !== <span class="string">''</span>) ? (string)$_POST[<span class="string">'username'</span>] : <span class="keyword">die</span>(<span class="string">'Missing username'</span>);</div><div class="line">    $password = (<span class="keyword">isset</span>($_POST[<span class="string">'password'</span>]) === <span class="keyword">true</span> &amp;&amp; $_POST[<span class="string">'password'</span>] !== <span class="string">''</span>) ? (string)$_POST[<span class="string">'password'</span>] : <span class="keyword">die</span>(<span class="string">'Missing password'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (strlen($username) &gt; <span class="number">32</span> || strlen($password) &gt; <span class="number">32</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'Invalid input'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $sth = $pdo-&gt;prepare(<span class="string">'SELECT password FROM users WHERE username = :username'</span>);</div><div class="line">    $sth-&gt;execute([<span class="string">':username'</span> =&gt; $username]);</div><div class="line">    <span class="keyword">if</span> ($sth-&gt;fetch()[<span class="number">0</span>] !== $password) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'wrong password'</span>);</div><div class="line">    &#125;</div><div class="line">    $_SESSION[<span class="string">'username'</span>] = $username;</div><div class="line">	<span class="keyword">unset</span>($_SESSION[<span class="string">'is_logined'</span>]);</div><div class="line">	<span class="keyword">unset</span>($_SESSION[<span class="string">'is_guest'</span>]);</div><div class="line">	<span class="comment">#echo $username;</span></div><div class="line">	header(<span class="string">"Location: member.php"</span>);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="member-php"><a href="#member-php" class="headerlink" title="member.php"></a>member.php</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	error_reporting(<span class="number">0</span>);</div><div class="line">	session_start();</div><div class="line">	<span class="keyword">include</span>(<span class="string">'config.php'</span>);</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_SESSION[<span class="string">'username'</span>]) === <span class="keyword">false</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'please login first'</span>);</div><div class="line">    &#125;</div><div class="line">	<span class="keyword">try</span>&#123;</div><div class="line">		$pdo = <span class="keyword">new</span> PDO(<span class="string">'mysql:host=localhost;dbname=xdcms'</span>, $user, $pass);</div><div class="line">	&#125;<span class="keyword">catch</span> (<span class="keyword">Exception</span> $e)&#123;</div><div class="line">		<span class="keyword">die</span>(<span class="string">'mysql connected error'</span>);</div><div class="line">	&#125;</div><div class="line">    $sth = $pdo-&gt;prepare(<span class="string">'SELECT identity FROM identities WHERE username = :username'</span>);</div><div class="line">    $sth-&gt;execute([<span class="string">':username'</span> =&gt; $_SESSION[<span class="string">'username'</span>]]);</div><div class="line">    <span class="keyword">if</span> ($sth-&gt;fetch()[<span class="number">0</span>] === <span class="string">'GUEST'</span>) &#123;</div><div class="line">        $_SESSION[<span class="string">'is_guest'</span>] = <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $_SESSION[<span class="string">'is_logined'</span>] = <span class="keyword">true</span>;</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>($_SESSION[<span class="string">'is_logined'</span>]) === <span class="keyword">false</span> || <span class="keyword">isset</span>($_SESSION[<span class="string">'is_guest'</span>]) === <span class="keyword">true</span>) &#123;</div><div class="line"></div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'file'</span>])===<span class="keyword">false</span>)</div><div class="line">			<span class="keyword">echo</span> <span class="string">"None"</span>;</div><div class="line">		<span class="keyword">elseif</span>(is_file($_GET[<span class="string">'file'</span>]))</div><div class="line">			<span class="keyword">echo</span> <span class="string">"you cannot give me a file"</span>;</div><div class="line">		<span class="keyword">else</span></div><div class="line">			readfile($_GET[<span class="string">'file'</span>]);</div><div class="line">	&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="php的preg-match"><a href="#php的preg-match" class="headerlink" title="php的preg_match"></a>php的preg_match</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/3.png?raw=true" alt=""><br>在code部分填入超长的字符串，并且符合preg_match匹配的模式。则在register.php在preg_match时导致超时php脚本停止，字符串<code>guest</code>没有被插入成功。之后在login.php中登陆用户跳转至member.php后，下述代码将会跳过:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if ($sth-&gt;fetch()[0] === &apos;GUEST&apos;) &#123;</div><div class="line">	$_SESSION[&apos;is_guest&apos;] = true;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>并在接下来的判断中，进入else分支：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">if(isset($_GET[&apos;file&apos;])===false)</div><div class="line">	echo &quot;None&quot;;</div><div class="line">elseif(is_file($_GET[&apos;file&apos;]))</div><div class="line">	echo &quot;you cannot give me a file&quot;;</div><div class="line">else</div><div class="line">	readfile($_GET[&apos;file&apos;]);</div></pre></td></tr></table></figure></p>
+<p>上次微信崩溃，好像也是正则匹配搞得鬼嘛。二者原理不同，不过应该还是有某种神似的。</p>
+<h2 id="php的is-file和readfile"><a href="#php的is-file和readfile" class="headerlink" title="php的is_file和readfile"></a>php的is_file和readfile</h2><p>在进入成功后，需要提供file参数来读取文件。需要绕过is_file，考虑配合php伪协议。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/member.php?file=php://filter/read=convert.base64-encode/resource=config.php</div></pre></td></tr></table></figure></p>
+<p>isfile判断为假，而readfile利用伪协议读取到config.php文件</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/2.png?raw=true" alt=""></p>
+<p>得到config.php源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$user = <span class="string">"xdsec"</span>;</div><div class="line">$pass = <span class="string">"xdsec"</span>;</div><div class="line">$flag = <span class="string">"LCTF&#123;pr3_maTch_1s_A_amaz1ng_Function&#125;"</span></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">LCTF&#123;pr3_maTch_1s_A_amaz1ng_Function&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
+<li>PHP的preg_match</li>
+<li>isfile、readfile</li>
+</ul>
+
       
     </div>
 	<div>
@@ -430,12 +456,12 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/">BEECMS v4.0_R_20160525 文件上传漏洞分析</a></p>
+  <p><span>本文标题:</span><a href="/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/">LCTF-2017-萌萌哒报名系统-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
-  <p><span>发布时间:</span>2017年11月14日 - 13:11</p>
-  <p><span>最后更新:</span>2017年11月14日 - 15:11</p>
-  <p><span>原始链接:</span><a href="/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/" title="BEECMS v4.0_R_20160525 文件上传漏洞分析">http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/"  aria-label="复制成功！"></i></span>
+  <p><span>发布时间:</span>2017年11月19日 - 20:11</p>
+  <p><span>最后更新:</span>2017年11月20日 - 07:11</p>
+  <p><span>原始链接:</span><a href="/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/" title="LCTF-2017-萌萌哒报名系统-writeup">http://chybeta.github.io/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -492,11 +518,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/php/" rel="tag"># php</a>
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
           
-            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
           
-            <a href="/tags/文件上传/" rel="tag"># 文件上传</a>
+            <a href="/tags/web/" rel="tag"># web</a>
           
         </div>
       
@@ -505,8 +531,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/09/一道CTF题：PHP文件包含/" rel="next" title="一道CTF题：PHP文件包含">
-                <i class="fa fa-chevron-left"></i> 一道CTF题：PHP文件包含
+              <a href="/2017/11/18/LCTF-2017-Simple-blog-writeup/" rel="next" title="LCTF 2017-Simple blog-writeup">
+                <i class="fa fa-chevron-left"></i> LCTF 2017-Simple blog-writeup
               </a>
             
           </div>
@@ -515,8 +541,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
-                一些文章 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/" rel="prev" title="LCTF-2017-他们有什么秘密呢-writeup">
+                LCTF-2017-他们有什么秘密呢-writeup <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -589,7 +615,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">146</span>
+                <span class="site-state-item-count">148</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -699,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞复现"><span class="nav-number">1.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞分析"><span class="nav-number">2.</span> <span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量覆盖进后台"><span class="nav-number">2.1.</span> <span class="nav-text">变量覆盖进后台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后台任意文件上传"><span class="nav-number">2.2.</span> <span class="nav-text">后台任意文件上传</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Task"><span class="nav-number">1.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">2.</span> <span class="nav-text">Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码泄露"><span class="nav-number">2.1.</span> <span class="nav-text">源码泄露</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本流程梳理"><span class="nav-number">2.2.</span> <span class="nav-text">基本流程梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#regisrer-php"><span class="nav-number">2.2.1.</span> <span class="nav-text">regisrer.php</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#login-php"><span class="nav-number">2.2.2.</span> <span class="nav-text">login.php</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#member-php"><span class="nav-number">2.2.3.</span> <span class="nav-text">member.php</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php的preg-match"><span class="nav-number">2.3.</span> <span class="nav-text">php的preg_match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php的is-file和readfile"><span class="nav-number">2.4.</span> <span class="nav-text">php的is_file和readfile</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
             
 
           </div>
