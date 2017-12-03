@@ -92,11 +92,21 @@
 <meta name="description" content="Software-Security-Learning 学习资料11月2日更新小记：
 
 新收录文章：
-堆漏洞
-Dance In Heap（一）：浅析堆的申请释放及相应保护机制 
-Dance In Heap（二）：一些堆利用的方法（上） 
-Dance In Heap（三）：一些堆利用的方法（中） 
-Dance In Heap（四）：一些堆利用的方法（下）">
+栈漏洞
+return2libc学习笔记
+
+
+堆相关知识
+理解 glibc malloc
+Malloc碎碎念
+glibc内存分配与回收过程图解
+
+
+堆利用技术
+堆溢出的unlink利用方法
+Linux堆溢出利用:unlink
+浅析Linux堆溢出之fastbin
+Glibc Adventures：Th">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Software-Security-Learning">
 <meta property="og:url" content="http://chybeta.github.io/2017/08/19/Software-Security-Learning/index.html">
@@ -104,22 +114,42 @@ Dance In Heap（四）：一些堆利用的方法（下）">
 <meta property="og:description" content="Software-Security-Learning 学习资料11月2日更新小记：
 
 新收录文章：
-堆漏洞
-Dance In Heap（一）：浅析堆的申请释放及相应保护机制 
-Dance In Heap（二）：一些堆利用的方法（上） 
-Dance In Heap（三）：一些堆利用的方法（中） 
-Dance In Heap（四）：一些堆利用的方法（下）">
-<meta property="og:updated_time" content="2017-11-02T07:47:08.758Z">
+栈漏洞
+return2libc学习笔记
+
+
+堆相关知识
+理解 glibc malloc
+Malloc碎碎念
+glibc内存分配与回收过程图解
+
+
+堆利用技术
+堆溢出的unlink利用方法
+Linux堆溢出利用:unlink
+浅析Linux堆溢出之fastbin
+Glibc Adventures：Th">
+<meta property="og:updated_time" content="2017-12-03T14:58:23.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Software-Security-Learning">
 <meta name="twitter:description" content="Software-Security-Learning 学习资料11月2日更新小记：
 
 新收录文章：
-堆漏洞
-Dance In Heap（一）：浅析堆的申请释放及相应保护机制 
-Dance In Heap（二）：一些堆利用的方法（上） 
-Dance In Heap（三）：一些堆利用的方法（中） 
-Dance In Heap（四）：一些堆利用的方法（下）">
+栈漏洞
+return2libc学习笔记
+
+
+堆相关知识
+理解 glibc malloc
+Malloc碎碎念
+glibc内存分配与回收过程图解
+
+
+堆利用技术
+堆溢出的unlink利用方法
+Linux堆溢出利用:unlink
+浅析Linux堆溢出之fastbin
+Glibc Adventures：Th">
 
 
 
@@ -440,11 +470,21 @@ Dance In Heap（四）：一些堆利用的方法（下）">
         <p>Software-Security-Learning 学习资料<br>11月2日更新小记：</p>
 <ul>
 <li>新收录文章：<ul>
-<li>堆漏洞<ul>
-<li><a href="http://www.freebuf.com/articles/system/151372.html" target="_blank" rel="external">Dance In Heap（一）：浅析堆的申请释放及相应保护机制 </a></li>
-<li><a href="http://www.freebuf.com/articles/system/151407.html" target="_blank" rel="external">Dance In Heap（二）：一些堆利用的方法（上） </a></li>
-<li><a href="http://www.freebuf.com/articles/system/151428.html" target="_blank" rel="external">Dance In Heap（三）：一些堆利用的方法（中） </a></li>
-<li><a href="http://www.freebuf.com/articles/system/151435.html" target="_blank" rel="external">Dance In Heap（四）：一些堆利用的方法（下） </a><a id="more"></a>
+<li>栈漏洞<ul>
+<li><a href="https://www.tuicool.com/articles/VVBz6va" target="_blank" rel="external">return2libc学习笔记</a></li>
+</ul>
+</li>
+<li>堆相关知识<ul>
+<li><a href="http://blog.csdn.net/maokelong95/article/details/51989081#allocated-chunk" target="_blank" rel="external">理解 glibc malloc</a></li>
+<li><a href="http://www.cnblogs.com/wangaohui/p/5190889.html" target="_blank" rel="external">Malloc碎碎念</a></li>
+<li><a href="http://blog.csdn.net/maokelong95/article/details/52006379" target="_blank" rel="external">glibc内存分配与回收过程图解</a></li>
+</ul>
+</li>
+<li>堆利用技术<ul>
+<li><a href="https://www.tuicool.com/articles/E3Ezu2u" target="_blank" rel="external">堆溢出的unlink利用方法</a></li>
+<li><a href="https://www.tuicool.com/articles/nyEvU3Q" target="_blank" rel="external">Linux堆溢出利用:unlink</a></li>
+<li><a href="http://www.freebuf.com/news/88660.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">浅析Linux堆溢出之fastbin</a></li>
+<li><a href="https://info.contextis.com/acton/attachment/24535/f-02c8/1/-/-/-/-/Glibc%20Adventures%3A%20The%20forgotten%20chunks.pdf" target="_blank" rel="external">Glibc Adventures：The Forgotten Chunks</a><a id="more"></a>
 </li>
 </ul>
 </li>
@@ -535,6 +575,7 @@ Dance In Heap（四）：一些堆利用的方法（下）">
 <li><a href="https://blog.techorganic.com/2015/04/21/64-bit-linux-stack-smashing-tutorial-part-2/" target="_blank" rel="external">64-bit Linux stack smashing tutorial: Part 2</a></li>
 <li><a href="https://blog.techorganic.com/2016/03/18/64-bit-linux-stack-smashing-tutorial-part-3/" target="_blank" rel="external">64-bit Linux stack smashing tutorial: Part 3</a></li>
 <li><a href="http://cybersecurity.upv.es/attacks/offset2lib/offset2lib.html" target="_blank" rel="external">Offset2lib: bypassing full ASLR on 64bit Linu</a></li>
+<li><a href="https://www.tuicool.com/articles/VVBz6va" target="_blank" rel="external">return2libc学习笔记</a></li>
 </ul>
 <h2 id="堆漏洞"><a href="#堆漏洞" class="headerlink" title="堆漏洞"></a>堆漏洞</h2><ul>
 <li><a href="https://heap-exploitation.dhavalkapil.com/introduction.html" target="_blank" rel="external">Heap Exploitation</a></li>
@@ -553,6 +594,9 @@ Dance In Heap（四）：一些堆利用的方法（下）">
 <li><a href="http://www.tuicool.com/articles/A7n2ueq" target="_blank" rel="external">内存映射mmap</a></li>
 <li><a href="http://0x48.pw/2017/07/25/0x35/" target="_blank" rel="external">glibc malloc学习笔记之fastbin</a></li>
 <li><a href="http://0x48.pw/2017/08/07/0x37/" target="_blank" rel="external">malloc.c源码阅读之__libc_free</a></li>
+<li><a href="http://www.cnblogs.com/wangaohui/p/5190889.html" target="_blank" rel="external">Malloc碎碎念</a></li>
+<li><a href="http://blog.csdn.net/maokelong95/article/details/52006379" target="_blank" rel="external">glibc内存分配与回收过程图解</a></li>
+<li><a href="http://blog.csdn.net/maokelong95/article/details/51989081#allocated-chunk" target="_blank" rel="external">理解 glibc malloc</a></li>
 </ul>
 <h3 id="堆利用技术"><a href="#堆利用技术" class="headerlink" title="堆利用技术"></a>堆利用技术</h3><ul>
 <li><a href="http://bobao.360.cn/learning/detail/4386.html" target="_blank" rel="external">how2heap总结-上</a></li>
@@ -561,7 +605,9 @@ Dance In Heap（四）：一些堆利用的方法（下）">
 <li><a href="http://bobao.360.cn/learning/detail/3197.html" target="_blank" rel="external">现代化的堆相关漏洞利用技巧</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3113.html" target="_blank" rel="external">从一字节溢出到任意代码执行-Linux下堆漏洞利用</a></li>
 <li><a href="https://sploitfun.wordpress.com/2015/02/26/heap-overflow-using-unlink/?spm=a313e.7916648.0.0.x4nzYZ" target="_blank" rel="external">Heap overflow using unlink</a></li>
+<li><a href="https://www.tuicool.com/articles/E3Ezu2u" target="_blank" rel="external">堆溢出的unlink利用方法</a></li>
 <li><a href="https://jaq.alibaba.com/community/art/show?spm=a313e.7916646.24000001.74.ZP8rXN&amp;articleid=360" target="_blank" rel="external">Linux堆溢出漏洞利用之unlink</a></li>
+<li><a href="http://www.freebuf.com/news/88660.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">浅析Linux堆溢出之fastbin</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3996.html" target="_blank" rel="external">Linux堆溢出之Fastbin Attack实例详解</a></li>
 <li><a href="http://bobao.360.cn/learning/detail/3296.html" target="_blank" rel="external">unsorted bin attack分析</a></li>
 <li><a href="http://www.vuln.cn/6172" target="_blank" rel="external">Double Free浅析</a></li>
@@ -574,6 +620,7 @@ Dance In Heap（四）：一些堆利用的方法（下）">
 <li><a href="http://www.freebuf.com/articles/system/151407.html" target="_blank" rel="external">Dance In Heap（二）：一些堆利用的方法（上） </a></li>
 <li><a href="http://www.freebuf.com/articles/system/151428.html" target="_blank" rel="external">Dance In Heap（三）：一些堆利用的方法（中） </a></li>
 <li><a href="http://www.freebuf.com/articles/system/151435.html" target="_blank" rel="external">Dance In Heap（四）：一些堆利用的方法（下） </a></li>
+<li><a href="https://info.contextis.com/acton/attachment/24535/f-02c8/1/-/-/-/-/Glibc%20Adventures%3A%20The%20forgotten%20chunks.pdf" target="_blank" rel="external">Glibc Adventures：The Forgotten Chunks</a></li>
 </ul>
 <h2 id="格式化字符串漏洞"><a href="#格式化字符串漏洞" class="headerlink" title="格式化字符串漏洞"></a>格式化字符串漏洞</h2><ul>
 <li><a href="https://crypto.stanford.edu/cs155old/cs155-spring08/papers/formatstring-1.2.pdf" target="_blank" rel="external">Exploiting Format String Vulnerabilities</a></li>
@@ -746,7 +793,7 @@ Dance In Heap（四）：一些堆利用的方法（下）">
   <p><span>本文标题:</span><a href="/2017/08/19/Software-Security-Learning/">Software-Security-Learning</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2017年08月19日 - 10:08</p>
-  <p><span>最后更新:</span>2017年11月02日 - 15:11</p>
+  <p><span>最后更新:</span>2017年12月03日 - 22:12</p>
   <p><span>原始链接:</span><a href="/2017/08/19/Software-Security-Learning/" title="Software-Security-Learning">http://chybeta.github.io/2017/08/19/Software-Security-Learning/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2017/08/19/Software-Security-Learning/"  aria-label="复制成功！"></i></span>
   </p>
@@ -916,7 +963,7 @@ Dance In Heap（四）：一些堆利用的方法（下）">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
