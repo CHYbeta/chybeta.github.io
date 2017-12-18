@@ -211,7 +211,7 @@
     <link href="http://chybeta.github.io/2017/12/17/AppCMS-2-0-101-%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/12/17/AppCMS-2-0-101-后门分析/</id>
     <published>2017-12-17T12:36:13.000Z</published>
-    <updated>2017-12-18T06:41:52.261Z</updated>
+    <updated>2017-12-18T07:44:00.364Z</updated>
     
     <content type="html"><![CDATA[<p><a href="https://xianzhi.aliyun.com/forum/topic/1806/" target="_blank" rel="external">首发于先知安全技术社区：AppCMS 2.0.101 后门分析</a><br><a id="more"></a></p>
 <h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>下载地址：<a href="http://www.appcms.cc/html/gengxin.html" target="_blank" rel="external">http://www.appcms.cc/html/gengxin.html</a></p>
@@ -230,6 +230,8 @@
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/6.png?raw=true" alt=""></p>
 <p>getshell。</p>
 <h1 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h1><p>删除 templates/m/ 文件夹下的content_list.php。</p>
+<h1 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h1><p><a href="http://github.com/chybeta/cmspoc" target="_blank" rel="external">cmsPoc</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171217/tty.gif?raw=true" alt=""></p>
 ]]></content>
     
     <summary type="html">
@@ -300,9 +302,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -1011,7 +1013,7 @@
 <p>上面的这个思路，即对应着前面漏洞复现中的法一和法二。</p>
 <h1 id="相关老洞"><a href="#相关老洞" class="headerlink" title="相关老洞"></a>相关老洞</h1><p>乌云编号： wooyun-2014-065513</p>
 <p>当时的漏洞代码出在source/include/spacecp/spacecp_profile.php中，第69行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># 这是当时的漏洞代码</div><div class="line">if($_GET[&apos;deletefile&apos;] &amp;&amp; is_array($_GET[&apos;deletefile&apos;])) &#123;</div><div class="line">	foreach($_GET[&apos;deletefile&apos;] as $key =&gt; $value) &#123;</div><div class="line">		if(isset($_G[&apos;cache&apos;][&apos;profilesetting&apos;][$key])) &#123;</div><div class="line">			echo (getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$space[$key]);</div><div class="line">			@unlink(getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$space[$key]);</div><div class="line">			@unlink(getglobal(&apos;setting/attachdir&apos;).&apos;./profile/&apos;.$verifyinfo[&apos;field&apos;][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = &apos;&apos;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>官方当时的补丁做法是：增加了一次判断<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">if($_GET['deletefile'] &amp;&amp; is_array($_GET['deletefile'])) &#123;</div><div class="line">	foreach($_GET['deletefile'] as $key =&gt; $value) &#123;</div><div class="line">		if(isset($_G['cache']['profilesetting'][$key]) &amp;&amp; $_G['cache']['profilesetting'][$key]['formtype'] == 'file') &#123;</div><div class="line">			echo "0";</div><div class="line">			@unlink(getglobal('setting/attachdir').'./profile/'.$space[$key]);</div><div class="line">			@unlink(getglobal('settin</div><div class="line">				g/attachdir').'./profile/'.$verifyinfo['field'][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = '';</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>官方当时的补丁做法是：增加了一次判断<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>($_GET[<span class="string">'deletefile'</span>] &amp;&amp; is_array($_GET[<span class="string">'deletefile'</span>])) &#123;</div><div class="line">	<span class="keyword">foreach</span>($_GET[<span class="string">'deletefile'</span>] <span class="keyword">as</span> $key =&gt; $value) &#123;</div><div class="line">		<span class="keyword">if</span>(<span class="keyword">isset</span>($_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key]) &amp;&amp; $_G[<span class="string">'cache'</span>][<span class="string">'profilesetting'</span>][$key][<span class="string">'formtype'</span>] == <span class="string">'file'</span>) &#123;</div><div class="line">			<span class="keyword">echo</span> <span class="string">"0"</span>;</div><div class="line">			@unlink(getglobal(<span class="string">'setting/attachdir'</span>).<span class="string">'./profile/'</span>.$space[$key]);</div><div class="line">			@unlink(getglobal(<span class="string">'settin</span></div><div class="line">				g/attachdir').<span class="string">'./profile/'</span>.$verifyinfo[<span class="string">'field'</span>][$key]);</div><div class="line">			$verifyarr[$key] = $setarr[$key] = <span class="string">''</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>在删除之间多进行了一次验证：<code>$_G[&#39;cache&#39;][&#39;profilesetting&#39;][$key][&#39;formtype&#39;] == &#39;file&#39;</code>，也就是说，若要成功删除， 需要formtype为file类型。</p>
 <h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>这次的漏洞修复简单粗暴，将unlink语句直接删除。。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171016/12.png?raw=true" alt=""></p>
 <h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
@@ -1031,9 +1033,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
-    
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
     
   </entry>
   
