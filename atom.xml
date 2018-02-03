@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://chybeta.github.io/"/>
-  <updated>2018-02-03T11:49:59.194Z</updated>
+  <updated>2018-02-03T11:50:00.000Z</updated>
   <id>http://chybeta.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://chybeta.github.io/3017/07/26/%E4%B8%80%E4%BA%9B%E6%96%87%E7%AB%A0/"/>
     <id>http://chybeta.github.io/3017/07/26/一些文章/</id>
     <published>3017-07-26T11:27:04.000Z</published>
-    <updated>2018-02-03T11:49:59.194Z</updated>
+    <updated>2018-02-03T11:50:00.000Z</updated>
     
     <content type="html"><![CDATA[<p>一些自己写的文章。<br><a id="more"></a></p>
 <h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><ul>
@@ -220,7 +220,7 @@
     <link href="http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/"/>
     <id>http://chybeta.github.io/2018/01/31/AceBear-Security-Contest-Tet-shopping-writeup/</id>
     <published>2018-01-31T02:33:11.000Z</published>
-    <updated>2018-02-03T11:43:31.696Z</updated>
+    <updated>2018-02-03T11:43:32.000Z</updated>
     
     <content type="html"><![CDATA[<p>本文首发于：<a href="https://xianzhi.aliyun.com/forum/topic/2013" target="_blank" rel="external">阿里先知安全社区：AceBear Security Contest-Tet shopping-writeup</a><br><a id="more"></a></p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这几天研究了一下AceBear Security Contest的Tet shopping题目，整体思路以及涉及的知识点如下：</p>
@@ -292,7 +292,7 @@
     <link href="http://chybeta.github.io/2018/01/29/AceBear-Security-Contest-%E9%83%A8%E5%88%86Web-writeup/"/>
     <id>http://chybeta.github.io/2018/01/29/AceBear-Security-Contest-部分Web-writeup/</id>
     <published>2018-01-29T01:16:06.000Z</published>
-    <updated>2018-01-29T06:19:48.572Z</updated>
+    <updated>2018-01-29T06:19:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>AceBear Security Contest-部分Web-writeup<br><a id="more"></a></p>
 <h1 id="Urlparameter"><a href="#Urlparameter" class="headerlink" title="Urlparameter"></a>Urlparameter</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Description: this chall sucks, you should watch VIE vs UZB match. :) VIET NAM VO DICH!</div><div class="line">Author: kad96</div><div class="line">Website: Link http://35.196.45.11:8080/</div></pre></td></tr></table></figure>
@@ -353,7 +353,7 @@
     <link href="http://chybeta.github.io/2018/01/24/CVE-2018-1000006-Electron-v1-8-2-beta-4-%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
     <id>http://chybeta.github.io/2018/01/24/CVE-2018-1000006-Electron-v1-8-2-beta-4-远程命令执行漏洞/</id>
     <published>2018-01-24T12:29:34.000Z</published>
-    <updated>2018-02-03T11:42:14.731Z</updated>
+    <updated>2018-02-03T11:42:16.000Z</updated>
     
     <content type="html"><![CDATA[<p>本文首发于<a href="https://xianzhi.aliyun.com/forum/topic/1990" target="_blank" rel="external">阿里先知安全社区：Electron &lt; v1.8.2-beta.4 远程命令执行漏洞—【CVE-2018-1000006】</a></p>
 <a id="more"></a>
@@ -418,7 +418,7 @@
     <link href="http://chybeta.github.io/2018/01/23/Insomni-hack-teaser-2018-Smart-Y-writeup/"/>
     <id>http://chybeta.github.io/2018/01/23/Insomni-hack-teaser-2018-Smart-Y-writeup/</id>
     <published>2018-01-23T12:23:33.000Z</published>
-    <updated>2018-01-23T12:33:20.958Z</updated>
+    <updated>2018-01-23T12:33:22.000Z</updated>
     
     <content type="html"><![CDATA[<p>Insomni’hack teaser 2018-Smart-Y-writeup</p>
 <p>CVE-2017-1000480-Smarty-3-1-32-php代码执行-漏洞<br><a id="more"></a></p>
@@ -456,7 +456,7 @@
     <link href="http://chybeta.github.io/2018/01/23/CVE-2017-1000480-Smarty-3-1-32-php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2018/01/23/CVE-2017-1000480-Smarty-3-1-32-php代码执行-漏洞分析/</id>
     <published>2018-01-23T04:49:24.000Z</published>
-    <updated>2018-02-03T11:41:09.047Z</updated>
+    <updated>2018-02-03T11:41:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>本文首发于<a href="https://xianzhi.aliyun.com/forum/topic/1983" target="_blank" rel="external">阿里先知安全社区：Smarty &lt;= 3.1.32 PHP代码执行漏洞分析—【CVE-2017-1000480】</a></p>
 <p>在 Insomni-hack-teaser-2018 比赛中有一题Smart-Y，该题用到了CVE-2017-1000480。故此分析一波。文中测试代码基于<a href="http://smart-y.teaser.insomnihack.ch/console.php?hl" target="_blank" rel="external">Smart-Y源码</a>魔改。<br><a id="more"></a></p>
@@ -514,7 +514,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2018/01/21/Insomni-hack-teaser-2018-VulnShop-writeup/"/>
     <id>http://chybeta.github.io/2018/01/21/Insomni-hack-teaser-2018-VulnShop-writeup/</id>
     <published>2018-01-21T08:27:15.000Z</published>
-    <updated>2018-01-21T08:28:08.923Z</updated>
+    <updated>2018-01-21T08:28:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>Insomni’hack teaser 2018-VulnShop-writeup<br>session文件<br><a id="more"></a></p>
 <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">We&apos;re preparing a website for selling some important vulnerabilities in the future. You can browse some static pages on it, waiting for the official release.</div><div class="line"></div><div class="line">http://vulnshop.teaser.insomnihack.ch</div><div class="line"></div><div class="line">Important : you don&apos;t need to use automated scanners or bruteforce for this challenge, and using some will result for your ip to be banned. Go on IRC to ask for being unbanned.</div></pre></td></tr></table></figure>
@@ -583,7 +583,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2018/01/18/%E8%B5%9B%E5%8D%9A%E5%9C%B0%E7%90%83%E6%9D%AF%E5%B7%A5%E4%B8%9A%E4%BA%92%E8%81%94%E7%BD%91%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B-Web-writeup/"/>
     <id>http://chybeta.github.io/2018/01/18/赛博地球杯工业互联网安全大赛-Web-writeup/</id>
     <published>2018-01-18T03:17:24.000Z</published>
-    <updated>2018-01-21T07:49:48.896Z</updated>
+    <updated>2018-01-21T07:49:50.000Z</updated>
     
     <content type="html"><![CDATA[<p>为什么比赛要办在考试周。。<br>一些题是比赛完后做的，暂时只写了部分题的wp。<br><a id="more"></a></p>
 <h1 id="大量设备报表不见了（签道题）"><a href="#大量设备报表不见了（签道题）" class="headerlink" title="大量设备报表不见了（签道题）"></a>大量设备报表不见了（签道题）</h1><h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">云平台报表中心收集了设备管理基础服务的数据，但是数据被删除了，只有一处留下了入侵者的痕迹。</div><div class="line">http://120.27.14.73:20006/</div></pre></td></tr></table></figure>
@@ -692,7 +692,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/12/26/axublog-v1-0-6-%E4%B8%A4%E5%A4%84sql%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/12/26/axublog-v1-0-6-两处sql注入分析/</id>
     <published>2017-12-26T08:23:22.000Z</published>
-    <updated>2017-12-26T09:30:54.398Z</updated>
+    <updated>2017-12-26T09:30:56.000Z</updated>
     
     <content type="html"><![CDATA[<p>继续水一水，把以前随手看的发上来。</p>
 <a id="more"></a>
@@ -734,7 +734,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/12/17/AppCMS-2-0-101-%E5%90%8E%E9%97%A8%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/12/17/AppCMS-2-0-101-后门分析/</id>
     <published>2017-12-17T12:36:13.000Z</published>
-    <updated>2018-01-25T06:19:28.476Z</updated>
+    <updated>2018-01-25T06:19:30.000Z</updated>
     
     <content type="html"><![CDATA[<p>AppCMS 2.0.101 后门分析<br><a id="more"></a></p>
 <h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><p>下载地址：<a href="http://www.appcms.cc/html/gengxin.html" target="_blank" rel="external">http://www.appcms.cc/html/gengxin.html</a></p>
@@ -779,7 +779,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/12/11/CVE-2016-7565-Exponent-CMS-2-3-9-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5-getshell%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/12/11/CVE-2016-7565-Exponent-CMS-2-3-9-配置文件写入-getshell分析/</id>
     <published>2017-12-11T04:54:44.000Z</published>
-    <updated>2017-12-11T23:21:25.681Z</updated>
+    <updated>2017-12-11T23:21:26.000Z</updated>
     
     <content type="html"><![CDATA[<p>最近一直在给<a href="https://github.com/CHYbeta/cmsPoc/wiki/Scripts" target="_blank" rel="external">cmsPoc</a>写各种cms的exp/poc。遇到了这个配置文件写入从而getshell的洞，想到了P神-代码审计圈里分享过的一道审计题，借此分析一波。<br><a id="more"></a></p>
 <h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171211/tty.gif?raw=true" alt=""></p>
@@ -825,9 +825,9 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -836,7 +836,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/19/LCTF-2017-%E4%BB%96%E4%BB%AC%E6%9C%89%E4%BB%80%E4%B9%88%E7%A7%98%E5%AF%86%E5%91%A2-writeup/"/>
     <id>http://chybeta.github.io/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/</id>
     <published>2017-11-19T12:54:01.000Z</published>
-    <updated>2017-11-22T14:51:29.091Z</updated>
+    <updated>2017-11-22T14:51:30.000Z</updated>
     
     <content type="html"><![CDATA[<p>补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点</p>
 <p>LCTF-2017-他们有什么秘密呢-writeup<br><a id="more"></a></p>
@@ -933,7 +933,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/19/LCTF-2017-%E8%90%8C%E8%90%8C%E5%93%92%E6%8A%A5%E5%90%8D%E7%B3%BB%E7%BB%9F-writeup/"/>
     <id>http://chybeta.github.io/2017/11/19/LCTF-2017-萌萌哒报名系统-writeup/</id>
     <published>2017-11-19T12:52:48.000Z</published>
-    <updated>2017-11-19T23:24:21.107Z</updated>
+    <updated>2017-11-19T23:24:22.000Z</updated>
     
     <content type="html"><![CDATA[<p>趁着期中考，复习累了做几道ctf玩玩，只做出来3道web。感谢师傅们出的题！先放上简单的wp版本，一些细节后续再更新吧。</p>
 <p>LCTF-2017-萌萌哒报名系统-writeup<br><a id="more"></a></p>
@@ -981,7 +981,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/18/LCTF-2017-Simple-blog-writeup/"/>
     <id>http://chybeta.github.io/2017/11/18/LCTF-2017-Simple-blog-writeup/</id>
     <published>2017-11-18T14:42:04.000Z</published>
-    <updated>2017-11-22T14:52:03.241Z</updated>
+    <updated>2017-11-22T14:52:04.000Z</updated>
     
     <content type="html"><![CDATA[<p>更新：</p>
 <ol>
@@ -1058,7 +1058,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/</id>
     <published>2017-11-14T05:12:50.000Z</published>
-    <updated>2017-11-20T06:04:55.951Z</updated>
+    <updated>2017-11-20T06:04:56.000Z</updated>
     
     <content type="html"><![CDATA[<p>其实这个洞早就出来了。<br>只不过几天前看到<a href="http://www.cnvd.org.cn/flaw/show/CNVD-2017-31579" target="_blank" rel="external">cnvd</a>上有人提交了。<br>漏洞利用过程挺好玩的，分析一波。</p>
 <a id="more"></a>
@@ -1088,7 +1088,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/09/%E4%B8%80%E9%81%93CTF%E9%A2%98%EF%BC%9APHP%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
     <id>http://chybeta.github.io/2017/11/09/一道CTF题：PHP文件包含/</id>
     <published>2017-11-09T12:10:14.000Z</published>
-    <updated>2017-11-10T18:50:16.187Z</updated>
+    <updated>2017-11-10T18:50:18.000Z</updated>
     
     <content type="html"><![CDATA[<p>今天在群里看到了几道题，这是其中之一。<br>PHP文件包含 Session</p>
 <a id="more"></a>
@@ -1167,7 +1167,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/"/>
     <id>http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/</id>
     <published>2017-11-04T15:32:08.000Z</published>
-    <updated>2017-11-06T07:28:42.593Z</updated>
+    <updated>2017-11-06T07:28:44.000Z</updated>
     
     <content type="html"><![CDATA[<p>HITCON CTF 2017-BabyFirst Revenge-writeup<br><a id="more"></a></p>
 <h1 id="BabyFirst-Revenge"><a href="#BabyFirst-Revenge" class="headerlink" title="BabyFirst Revenge"></a>BabyFirst Revenge</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Do you remember BabyFirst from HITCON CTF 2015?</div><div class="line">This is the harder version!</div><div class="line">http://52.199.204.34/</div></pre></td></tr></table></figure>
@@ -1236,7 +1236,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/11/01/Node-js%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-5941/"/>
     <id>http://chybeta.github.io/2017/11/01/Node-js中的反序列化漏洞：CVE-2017-5941/</id>
     <published>2017-11-01T10:14:53.000Z</published>
-    <updated>2017-11-01T13:08:53.157Z</updated>
+    <updated>2017-11-01T13:08:54.000Z</updated>
     
     <content type="html"><![CDATA[<p>合上吧，水文一篇。<br>Node.js中的反序列化漏洞？<br>（Node.js：这锅我不背）<br><a id="more"></a></p>
 <h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>安装好node和npm后，安装一下主角node-serialize<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install node-serialize@0.0.4 --save</div></pre></td></tr></table></figure></p>
@@ -1289,7 +1289,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/10/28/2017%E5%B9%B4%E7%99%BE%E8%B6%8A%E6%9D%AFAWD-web-writeup/"/>
     <id>http://chybeta.github.io/2017/10/28/2017年百越杯AWD-web-writeup/</id>
     <published>2017-10-28T01:03:50.000Z</published>
-    <updated>2017-10-31T23:15:33.821Z</updated>
+    <updated>2017-10-31T23:15:34.000Z</updated>
     
     <content type="html"><![CDATA[<p>再不更新博客就长草啦。<br>PHP反序列化漏洞。<br><a id="more"></a></p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上周五参加福建省百越杯比赛，第二名。这篇小记一下线下赛的web题目，就当时找的漏洞做个简要的说明。由于一些配置不太清楚，所以现在复现起来可能不太准确，望见谅。原环境是linux下的，这里暂时win复现。</p>
@@ -1337,7 +1337,7 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     <link href="http://chybeta.github.io/2017/10/22/Hack-lu-CTF-2017-Flatscience-writeup/"/>
     <id>http://chybeta.github.io/2017/10/22/Hack-lu-CTF-2017-Flatscience-writeup/</id>
     <published>2017-10-22T00:24:11.000Z</published>
-    <updated>2017-10-22T15:50:05.169Z</updated>
+    <updated>2017-10-22T15:50:06.000Z</updated>
     
     <content type="html"><![CDATA[<p>SQLite injection<br>burte force</p>
 <a id="more"></a>
