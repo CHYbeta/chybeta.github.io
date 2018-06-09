@@ -434,6 +434,30 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">asciiToBin</span><span class="params">(ascii)</span>:</span></div><div class="line">	<span class="keyword">return</span> <span class="string">''</span>.join(str(bin(ord(byte)))[<span class="number">2</span>:].zfill(<span class="number">8</span>) <span class="keyword">for</span> byte <span class="keyword">in</span> ascii)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">hide</span><span class="params">(img, data, outName)</span>:</span></div><div class="line">	header, trailer = <span class="number">2</span>*<span class="string">"11001100"</span>,<span class="number">2</span>*<span class="string">"0101010100000000"</span></div><div class="line">	dataBin = header+asciiToBin(data)+trailer</div><div class="line">	pixels, mode = list(img.getdata()), img.mode</div><div class="line">	newPixels = []</div><div class="line"></div><div class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(dataBin)):</div><div class="line">		newPixel = list(pixels[i])</div><div class="line">		newPixel[i%len(mode)] = setLSB(newPixel[i%len(mode)], dataBin[i])</div><div class="line">		newPixels.append(tuple(newPixel))</div><div class="line"></div><div class="line">	newData = newPixels + pixels[len(newPixels):]</div><div class="line"></div><div class="line">	img.putdata(newData)</div><div class="line">	img.save(outName, <span class="string">"PNG"</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setLSB</span><span class="params">(target, value)</span>:</span></div><div class="line">	binary = str(bin(target))[<span class="number">2</span>:]</div><div class="line">	<span class="keyword">if</span> binary[<span class="number">-1</span>] != value:</div><div class="line">		binary = binary[:<span class="number">-1</span>] + value</div><div class="line">	<span class="keyword">return</span> int(binary, <span class="number">2</span>)</div></pre></td></tr></table></figure>
 
       
+  </div>
+      <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
     </div>
 	<div>
       
@@ -478,30 +502,7 @@
       
     </div>
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
-    <div id="QR" style="display: block;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
 
-
-      
-    </div>
 
 
     <footer class="post-footer">

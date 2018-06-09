@@ -453,21 +453,8 @@
 <h2 id="递归全排列，不合要求"><a href="#递归全排列，不合要求" class="headerlink" title="递归全排列，不合要求"></a>递归全排列，不合要求</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">int</span> number;</div><div class="line"><span class="keyword">char</span> arrays[<span class="number">11</span>]=<span class="string">"0123456789"</span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Perm</span><span class="params">(<span class="keyword">int</span> m)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line"></div><div class="line">    <span class="keyword">int</span> i,j;</div><div class="line">    Perm(<span class="number">1</span>);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Perm</span><span class="params">(<span class="keyword">int</span> m)</span></span>&#123;</div><div class="line">    <span class="keyword">if</span> (m == number)&#123;</div><div class="line">       <span class="keyword">int</span> i;</div><div class="line">       <span class="keyword">for</span>(i = <span class="number">1</span>;i &lt; m;i++)</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"%c "</span>,arrays[i]);</div><div class="line">       <span class="built_in">printf</span>(<span class="string">"%c\n"</span>,arrays[m]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> i,j;</div><div class="line">        <span class="keyword">for</span>(j = m;j &lt;= number;j++)&#123;</div><div class="line">            <span class="keyword">int</span> temp;</div><div class="line">            temp = arrays[j];</div><div class="line">            arrays[j] = arrays[m];</div><div class="line">            arrays[m] = temp;</div><div class="line">            Perm(m+<span class="number">1</span>);</div><div class="line">            temp = arrays[j];</div><div class="line">            arrays[j] = arrays[m];</div><div class="line">            arrays[m] = temp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
-    </div>
-	<div>
-      
-        
-
-      
-	</div>
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
+  </div>
+      <div>
       
         
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
@@ -491,6 +478,20 @@
 
       
     </div>
+	<div>
+      
+        
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
 
 
     <footer class="post-footer">

@@ -448,6 +448,30 @@
 <p>server.js:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"><span class="keyword">var</span> url = <span class="built_in">require</span>(<span class="string">'url'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">var</span> path = url.parse(req.url, <span class="literal">true</span>).query;</div><div class="line">        path = path[<span class="string">'path'</span>];</div><div class="line">        <span class="keyword">if</span> (path.indexOf(<span class="string">".."</span>) == <span class="number">-1</span> &amp;&amp; path.indexOf(<span class="string">"ＮＮ"</span>) == <span class="number">-1</span>) &#123;</div><div class="line">            <span class="keyword">var</span> base = <span class="string">"http://localhost:8080/poems/"</span>;</div><div class="line">            <span class="keyword">var</span> callback = <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> str = <span class="string">''</span>;</div><div class="line">                response.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</div><div class="line">                    str += chunk;</div><div class="line">                &#125;);</div><div class="line">                response.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                  res.end(str);</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">            http.get(base + path, callback).end();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            res.writeHead(<span class="number">403</span>);</div><div class="line">            res.end(<span class="string">"WHOA THATS BANNED!!!!"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (e) &#123;</div><div class="line">        res.writeHead(<span class="number">404</span>);</div><div class="line">        res.end(<span class="string">'Oops'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">server.listen(<span class="number">9999</span>);</div></pre></td></tr></table></figure></p>
 
       
+  </div>
+      <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
     </div>
 	<div>
       
@@ -492,30 +516,7 @@
       
     </div>
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
-    <div id="QR" style="display: block;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
 
-
-      
-    </div>
 
 
     <footer class="post-footer">

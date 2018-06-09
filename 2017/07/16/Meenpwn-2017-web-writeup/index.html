@@ -451,6 +451,30 @@
 <h1 id="Br0kenMySQL-v3"><a href="#Br0kenMySQL-v3" class="headerlink" title="Br0kenMySQL v3"></a>Br0kenMySQL v3</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">Br0kenMySQL</div><div class="line">&lt;title&gt;Br0kenMySQL&lt;/title&gt;&lt;h1&gt;&lt;pre&gt;</div><div class="line">&lt;p style=&apos;color:Red&apos;&gt;Br0kenMySQL&lt;/p&gt;</div><div class="line">&lt;?php</div><div class="line"></div><div class="line">if($_GET[&apos;debug&apos;]==&apos;🕵&apos;) die(highlight_file(__FILE__));</div><div class="line"></div><div class="line">require &apos;../config.php&apos;;</div><div class="line"></div><div class="line">$link = mysqli_connect(&apos;localhost&apos;, MYSQL_USER, MYSQL_PASSWORD);</div><div class="line"></div><div class="line">if (!$link) &#123;</div><div class="line">    die(&apos;Could not connect: &apos; . mysql_error());</div><div class="line">&#125;</div><div class="line"></div><div class="line">if (!mysqli_select_db($link,MYSQL_USER)) &#123;</div><div class="line">    die(&apos;Could not select database: &apos; . mysql_error());</div><div class="line">&#125;</div><div class="line">    $id = $_GET[&apos;id&apos;];</div><div class="line">    if(preg_match(&apos;#sleep|benchmark|floor|rand|count|select|from|\(|\)|time|date|sec|day#is&apos;,$id))</div><div class="line">        die(&apos;Don\&apos;t hurt me :-(&apos;);</div><div class="line">    $query = mysqli_query($link,&quot;SELECT username FROM users WHERE id = &quot;. $id);</div><div class="line">    $row = mysqli_fetch_array($query);</div><div class="line">    $username = $row[&apos;username&apos;];</div><div class="line"></div><div class="line">    if($username === &apos;guest&apos;)&#123;</div><div class="line">        sleep(5); // wait</div><div class="line">        $ip = @$_SERVER[&apos;HTTP_X_FORWARDED_FOR&apos;]!=&quot;&quot; ? $_SERVER[&apos;HTTP_X_FORWARDED_FOR&apos;] : $_SERVER[&apos;REMOTE_ADDR&apos;];</div><div class="line">        if(preg_match(&apos;#sleep|benchmark|floor|rand|count|select|from|\(|\)|time|date|sec|day#is&apos;,$ip))</div><div class="line">            die(&apos;Don\&apos;t hurt me :-(&apos;);</div><div class="line">        var_dump($ip);</div><div class="line">        if(!empty($ip))</div><div class="line">            mysqli_query($link,&quot;INSERT INTO logs VALUES(&apos;&#123;$ip&#125;&apos;)&quot;);</div><div class="line"></div><div class="line">        $query = mysqli_query($link,&quot;SELECT username FROM users WHERE id = &quot;. $id);</div><div class="line">        $row = mysqli_fetch_array($query);</div><div class="line">        $username = $row[&apos;username&apos;];</div><div class="line">        if($username === &apos;admin&apos;)&#123;</div><div class="line">            echo &quot;What, again ???????!@#$!@#$!@#$\n&quot;;</div><div class="line">            echo &quot;Last one, promise!\n&quot;;</div><div class="line">            die(FLAG_3);</div><div class="line">        &#125;</div><div class="line">        echo &quot;Nothing here&quot;;</div><div class="line">    &#125; else &#123;</div><div class="line">        echo &quot;Hello &quot;.$username;</div><div class="line">    &#125;</div><div class="line">?&gt;</div><div class="line">&lt;/h1&gt;</div><div class="line">&lt;/pre&gt;</div></pre></td></tr></table></figure>
 
       
+  </div>
+      <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
     </div>
 	<div>
       
@@ -495,30 +519,7 @@
       
     </div>
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
-    <div id="QR" style="display: block;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
 
-
-      
-    </div>
 
 
     <footer class="post-footer">

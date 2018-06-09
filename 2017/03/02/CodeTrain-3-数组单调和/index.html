@@ -437,21 +437,8 @@
 <h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> MonoSum &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">calcMonoSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; A, <span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> i,j;</div><div class="line">        <span class="keyword">for</span> (j = <span class="number">1</span>;j &lt; n;j++)&#123;</div><div class="line">            <span class="keyword">for</span> (i = <span class="number">0</span>;i &lt; j;i++)&#123;</div><div class="line">                sum += A[i]&lt;=A[j]?A[i]:<span class="number">0</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sum;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 
       
-    </div>
-	<div>
-      
-        
-
-      
-	</div>
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
+  </div>
+      <div>
       
         
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
@@ -475,6 +462,20 @@
 
       
     </div>
+	<div>
+      
+        
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
 
 
     <footer class="post-footer">

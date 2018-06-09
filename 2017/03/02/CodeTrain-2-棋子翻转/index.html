@@ -437,21 +437,8 @@
 <h1 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">class</span> Flip &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; flipChess(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; A, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; f) &#123;</div><div class="line">        <span class="keyword">int</span> numOfRotate = <span class="number">3</span>;</div><div class="line">        <span class="keyword">int</span> temp;</div><div class="line">        <span class="keyword">int</span> i,j;</div><div class="line">        <span class="keyword">for</span> (temp = <span class="number">0</span>;temp &lt; numOfRotate;temp++)&#123;</div><div class="line">            <span class="keyword">int</span> x = f[temp][<span class="number">0</span>] - <span class="number">1</span>;</div><div class="line">            <span class="keyword">int</span> y = f[temp][<span class="number">1</span>] - <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> ((y - <span class="number">1</span>) &gt;= <span class="number">0</span>)</div><div class="line">                A[x][y - <span class="number">1</span>]++;</div><div class="line">            <span class="keyword">if</span> ((y + <span class="number">1</span>) &lt;= <span class="number">3</span>)</div><div class="line">                A[x][y + <span class="number">1</span>]++;</div><div class="line">            <span class="keyword">if</span> ((x - <span class="number">1</span>) &gt;= <span class="number">0</span>)</div><div class="line">                A[x - <span class="number">1</span>][y]++;</div><div class="line">            <span class="keyword">if</span> ((x + <span class="number">1</span>) &lt;= <span class="number">3</span>)</div><div class="line">                A[x+<span class="number">1</span>][y]++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>;i &lt; <span class="number">4</span>;i++)</div><div class="line">            <span class="keyword">for</span> (j = <span class="number">0</span>;j &lt; <span class="number">4</span>;j++)</div><div class="line">                A[i][j] = A[i][j]%<span class="number">2</span>;</div><div class="line">       	<span class="keyword">return</span> A;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 
       
-    </div>
-	<div>
-      
-        
-
-      
-	</div>
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
+  </div>
+      <div>
       
         
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
@@ -475,6 +462,20 @@
 
       
     </div>
+	<div>
+      
+        
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
 
 
     <footer class="post-footer">
