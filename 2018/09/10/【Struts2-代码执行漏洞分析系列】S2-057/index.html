@@ -1,0 +1,1256 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="代码执行,命令执行,struts2,s2," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="【Struts2-代码执行漏洞分析系列】S2-057">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Struts2-代码执行漏洞分析系列】S2-057">
+<meta property="og:url" content="http://chybeta.github.io/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="【Struts2-代码执行漏洞分析系列】S2-057">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-6186f580-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61995536-a69d-1.gif">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61bfb9f6-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61dc87d4-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61f31a76-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-6205e480-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-6216bbac-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-6233aa28-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-62464c5a-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-6265f7b2-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-627a9546-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-62a0f9e8-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142553-62bd3748-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142553-62d8fff0-a69d-1.png">
+<meta property="og:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142553-62f34194-a69d-1.png">
+<meta property="og:updated_time" content="2018-09-10T00:04:08.039Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Struts2-代码执行漏洞分析系列】S2-057">
+<meta name="twitter:description" content="【Struts2-代码执行漏洞分析系列】S2-057">
+<meta name="twitter:image" content="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-6186f580-a69d-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/"/>
+
+
+
+
+
+  <title> 【Struts2-代码执行漏洞分析系列】S2-057 | Chybeta </title>
+  <meta name="baidu_union_verify" content="4dcd229ee2a964611d56cf139346dc50"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-121975637-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【Struts2-代码执行漏洞分析系列】S2-057
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-10T08:01:31+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web-Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Web Security</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/" class="leancloud_visitors" data-flag-title="【Struts2-代码执行漏洞分析系列】S2-057">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+    <div>
+      
+        <!-- Google AdSense start -->
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://xz.aliyun.com/t/2618" target="_blank" rel="external">【Struts2-代码执行漏洞分析系列】S2-057</a></p>
+<a id="more"></a>
+<h1 id="漏洞公告"><a href="#漏洞公告" class="headerlink" title="漏洞公告"></a>漏洞公告</h1><p><a href="https://cwiki.apache.org/confluence/display/WW/S2-057" target="_blank" rel="external">https://cwiki.apache.org/confluence/display/WW/S2-057</a></p>
+<p>问题：<br>It is possible to perform a RCE attack when namespace value isn’t set for a result defined in underlying xml configurations and in same time, its upper action(s) configurations have no or wildcard namespace. Same possibility when using url tag which doesn’t have value and action set and in same time, its upper action(s) configurations have no or wildcard namespace.</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-6186f580-a69d-1.png" alt="1.png"></p>
+<p>漏洞发现者的博客： <a href="https://lgtm.com/blog/apache_struts_CVE-2018-11776" target="_blank" rel="external">https://lgtm.com/blog/apache_struts_CVE-2018-11776</a></p>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>下载 <a href="https://archive.apache.org/dist/struts/2.5.16/struts-2.5.16-all.zip" target="_blank" rel="external">https://archive.apache.org/dist/struts/2.5.16/struts-2.5.16-all.zip</a></p>
+<p>IDEA中打开，修改apps/showcase/src/main/resources/struts-actionchaining.xml 为：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE struts PUBLIC</span></div><div class="line">	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"</div><div class="line">	"http://struts.apache.org/dtds/struts-2.5.dtd"&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">struts</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"actionchaining"</span> <span class="attr">extends</span>=<span class="string">"struts-default"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"actionChain1"</span> <span class="attr">class</span>=<span class="string">"org.apache.struts2.showcase.actionchaining.ActionChain1"</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"redirectAction"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span> = <span class="string">"actionName"</span>&gt;</span>register2<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">result</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">action</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">package</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">struts</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>同时查看 org/apache/struts2/default.properties:201 ，其值为true<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">### Whether to always select the namespace to be everything before the last slash or not</div><div class="line">struts.mapper.alwaysSelectFullNamespace=true</div></pre></td></tr></table></figure></p>
+<p>访问: <a href="http://localhost:8081/${(111+111)}/actionChain1.action" target="_blank" rel="external">http://localhost:8081/${(111+111)}/actionChain1.action</a></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61995536-a69d-1.gif" alt="2.gif"></p>
+<p>url变为： <a href="http://localhost:8081/222/register2.action" target="_blank" rel="external">http://localhost:8081/222/register2.action</a></p>
+<p>111+111=222 即产生了OGNL注入。</p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>这次的漏洞可以有多种攻击向量，根据<a href="https://lgtm.com/blog/apache_struts_CVE-2018-11776" target="_blank" rel="external">漏洞作者blog</a>有:</p>
+<ol>
+<li><a href="https://struts.apache.org/core-developers/redirect-action-result.html" target="_blank" rel="external">Redirect action</a></li>
+<li><a href="https://struts.apache.org/core-developers/action-chaining.html" target="_blank" rel="external">Action chaining</a></li>
+<li><a href="https://struts.apache.org/core-developers/postback-result.html" target="_blank" rel="external">Postback result</a></li>
+</ol>
+<p>以上提及的三种都属于Struts2的跳转方式。在 struts-default.xml:190(截取部分)<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">result-types</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result-type</span> <span class="attr">name</span>=<span class="string">"chain"</span> <span class="attr">class</span>=<span class="string">"com.opensymphony.xwork2.ActionChainResult"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result-type</span> <span class="attr">name</span>=<span class="string">"redirectAction"</span> <span class="attr">class</span>=<span class="string">"org.apache.struts2.result.ServletActionRedirectResult"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result-type</span> <span class="attr">name</span>=<span class="string">"postback"</span> <span class="attr">class</span>=<span class="string">"org.apache.struts2.result.PostbackResult"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">result-types</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>为清楚起见，这里解释一下strut2中对<code>默认result对象</code>的处理过程。这些<code>默认result type</code>都要经过 com/opensymphony/xwork2/DefaultActionInvocation.java:367 处理<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">executeResult</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    result = createResult();</div><div class="line"></div><div class="line">    String timerKey = <span class="string">"executeResult: "</span> + getResultCode();</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        UtilTimerStack.push(timerKey);</div><div class="line">        <span class="keyword">if</span> (result != <span class="keyword">null</span>) &#123;</div><div class="line">            result.execute(<span class="keyword">this</span>);</div><div class="line">        &#125; </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先通过<code>result = createResult()</code>获取到相应的result对象。如果result不为null则执行<code>result.execute(this);</code>。这个<code>execute</code>方法则由具体result对象实现。</p>
+<p>有一些具体的result对象比如下面提到的Redirect action和Postback result，会产生一个跳转地址location，并传入org/apache/struts2/result/StrutsResultSupport.java:194:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * Implementation of the &lt;tt&gt;execute&lt;/tt&gt; method from the &lt;tt&gt;Result&lt;/tt&gt; interface. This will call</div><div class="line">    * the abstract method &#123;<span class="doctag">@link</span> #doExecute(String, ActionInvocation)&#125; after optionally evaluating the</div><div class="line">    * location as an OGNL evaluation.</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> invocation the execution state of the action.</div><div class="line">    * <span class="doctag">@throws</span> Exception if an error occurs while executing the result.</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ActionInvocation invocation)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    lastFinalLocation = conditionalParse(location, invocation);</div><div class="line">    doExecute(lastFinalLocation, invocation);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>而<code>conditionalParse</code>定义如下，将会执行OGNL表达式。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * Parses the parameter for OGNL expressions against the valuestack</div><div class="line">    *</div><div class="line">    * <span class="doctag">@param</span> param The parameter value</div><div class="line">    * <span class="doctag">@param</span> invocation The action invocation instance</div><div class="line">    * <span class="doctag">@return</span> the resulting string</div><div class="line">*/</div><div class="line"><span class="function"><span class="keyword">protected</span> String <span class="title">conditionalParse</span><span class="params">(String param, ActionInvocation invocation)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (parse &amp;&amp; param != <span class="keyword">null</span> &amp;&amp; invocation != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> TextParseUtil.translateVariables(</div><div class="line">            param, </div><div class="line">            invocation.getStack(),</div><div class="line">            <span class="keyword">new</span> EncodingParsedValueEvaluator());</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> param;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>所以可以看到重点是StrutsResultSupport中<code>conditionalParse(location, invocation)</code>的location变量。</p>
+<p>接下来部分就关注三种result-type的具体实现和具体攻击点。</p>
+<h2 id="攻击点一：Redirect-action"><a href="#攻击点一：Redirect-action" class="headerlink" title="攻击点一：Redirect action"></a>攻击点一：<a href="https://struts.apache.org/core-developers/redirect-action-result.html" target="_blank" rel="external">Redirect action</a></h2><p>apps/showcase/src/main/resources/struts-actionchaining.xml 中注意<code>&lt;result&gt;</code>标签中<code>&lt;type&gt;</code>为<code>redirectAction</code>：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"redirectAction"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span> = <span class="string">"actionName"</span>&gt;</span>register2<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">result</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>redirectAction</code>对应的处理类为<code>org.apache.struts2.result.ServletActionRedirectResult</code></p>
+<p>在 com/opensymphony/xwork2/DefaultActionInvocation.java:368</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61bfb9f6-a69d-1.png" alt="5.png"></p>
+<p>跟入<code>redirectAction</code>的<code>execute</code>方法即 org/apache/struts2/result/ServletActionRedirectResult.java:160<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ActionInvocation invocation)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    actionName = conditionalParse(actionName, invocation);</div><div class="line">    <span class="keyword">if</span> (namespace == <span class="keyword">null</span>) &#123;</div><div class="line">        namespace = invocation.getProxy().getNamespace();</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61dc87d4-a69d-1.png" alt="6.png"></p>
+<p>由于在配置xml时没有指定naPmespace，所以这里的namespace为null，将会执行<code>invocation.getProxy().getNamespace();</code></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-61f31a76-a69d-1.png" alt="7.png"></p>
+<p>所以执行后对于result对象的namespace即为<code>/${(111+111)}</code>。</p>
+<p>同一函数中继续执行 172行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ActionInvocation invocation)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    String tmpLocation = actionMapper.getUriFromActionMapping(<span class="keyword">new</span> ActionMapping(actionName, namespace, method, <span class="keyword">null</span>));</div><div class="line"></div><div class="line">    setLocation(tmpLocation);</div><div class="line"></div><div class="line">    <span class="keyword">super</span>.execute(invocation);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>ActionMapping</code>生成如下，<code>this.namespace</code>值赋为<code>/${(111+111)}</code>：</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142551-6205e480-a69d-1.png" alt="9.png"></p>
+<p>跟入<code>getUriFromActionMapping</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getUriFromActionMapping</span><span class="params">(ActionMapping mapping)</span> </span>&#123;</div><div class="line">    StringBuilder uri = <span class="keyword">new</span> StringBuilder();</div><div class="line"></div><div class="line">    handleNamespace(mapping, uri);</div><div class="line">    handleName(mapping, uri);</div><div class="line">    handleDynamicMethod(mapping, uri);</div><div class="line">    handleExtension(mapping, uri);</div><div class="line">    handleParams(mapping, uri);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> uri.toString();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>handleNamespace</code>处理结果如下：</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-6216bbac-a69d-1.png" alt="10.png"></p>
+<p>当函数返回，<code>tmpLocation</code>值为<code>/${(111+111)}/register2.action</code>，然后通过<code>setLocation(tmpLocation)</code>使得location变量值为<code>/${(111+111)}/register2.action</code>，从而最终造成OGNL注入。</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-6233aa28-a69d-1.png" alt="8.png"></p>
+<h2 id="攻击点二：-Action-chaining"><a href="#攻击点二：-Action-chaining" class="headerlink" title="攻击点二： Action chaining"></a>攻击点二： <a href="https://struts.apache.org/core-developers/action-chaining.html" target="_blank" rel="external">Action chaining</a></h2><p>apps/showcase/src/main/resources/struts-actionchaining.xml 中注意<code>&lt;result&gt;</code>标签中<code>&lt;type&gt;</code>为<code>chain</code>：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"chain"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span> = <span class="string">"actionName"</span>&gt;</span>register2<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">result</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-62464c5a-a69d-1.png" alt="17.png"></p>
+<p>同样会先经过<code>result = createResult()</code>，然后调用<code>result.execute(this);</code>。这会进入到 com/opensymphony/xwork2/ActionChainResult.java:203<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ActionInvocation invocation)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    <span class="comment">// if the finalNamespace wasn't explicitly defined, assume the current one</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.namespace == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.namespace = invocation.getProxy().getNamespace();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    ValueStack stack = ActionContext.getContext().getValueStack();</div><div class="line">    String finalNamespace = TextParseUtil.translateVariables(namespace, stack);</div><div class="line">    String finalActionName = TextParseUtil.translateVariables(actionName, stack);</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>由于没有设定<code>namespace</code>，所以通过<code>invocation.getProxy().getNamespace()</code>使得<code>this.namespace</code>值为<code>/${(111+111)}</code>。然后调用了<code>String finalNamespace = TextParseUtil.translateVariables(namespace, stack);</code>对namespace进行OGNL解析。如下</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-6265f7b2-a69d-1.png" alt="11.png"></p>
+<h2 id="攻击点三：Postback-result"><a href="#攻击点三：Postback-result" class="headerlink" title="攻击点三：Postback result"></a>攻击点三：<a href="https://struts.apache.org/core-developers/postback-result.html" target="_blank" rel="external">Postback result</a></h2><p>apps/showcase/src/main/resources/struts-actionchaining.xml 中注意<code>&lt;result&gt;</code>标签中<code>&lt;type&gt;</code>为<code>postback</code>：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"postback"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span> = <span class="string">"actionName"</span>&gt;</span>register2<span class="tag">&lt;/<span class="name">param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">result</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-627a9546-a69d-1.png" alt="16.png"><br>经过<code>result = createResult()</code>，跟入定位到<code>postback</code>这个result对象的处理方法，在 org/apache/struts2/result/PostbackResult.java:113<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(ActionInvocation invocation)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    String postbackUri = makePostbackUri(invocation);</div><div class="line">    setLocation(postbackUri);</div><div class="line">    <span class="keyword">super</span>.execute(invocation);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>跟入<code>makePostbackUri1</code>，在org/apache/struts2/result/PostbackResult.java:129<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> String <span class="title">makePostbackUri</span><span class="params">(ActionInvocation invocation)</span> </span>&#123;</div><div class="line">    ActionContext ctx = invocation.getInvocationContext();</div><div class="line">    HttpServletRequest request = (HttpServletRequest) ctx.get(ServletActionContext.HTTP_REQUEST);</div><div class="line">    String postbackUri;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (actionName != <span class="keyword">null</span>) &#123;</div><div class="line">        actionName = conditionalParse(actionName, invocation);</div><div class="line">        <span class="keyword">if</span> (namespace == <span class="keyword">null</span>) &#123;</div><div class="line">            namespace = invocation.getProxy().getNamespace();</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            namespace = conditionalParse(namespace, invocation);</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">        postbackUri = request.getContextPath() + actionMapper.getUriFromActionMapping(<span class="keyword">new</span> ActionMapping(actionName, namespace, method, <span class="keyword">null</span>));</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="keyword">return</span> postbackUri;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142552-62a0f9e8-a69d-1.png" alt="12.png"></p>
+<p>获取到<code>namespace</code>值为<code>/${(111+111)}</code>。跟入<code>actionMapper.getUriFromActionMapping(new ActionMapping(actionName, namespace, method, null))</code>，其具体执行过程如攻击点一[Redirect action]提到的那样，设置namespace等参数，然后从<code>getUriFromActionMapping</code>中返回uri。最后组装的postbackUri为<code>/${(111+111)}/register2.action</code></p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142553-62bd3748-a69d-1.png" alt="13.png"></p>
+<p>回到前面的<code>execute</code>中通过<code>setLocation(postbackUri)</code>设置了location变量：</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142553-62d8fff0-a69d-1.png" alt="14.png"></p>
+<p>此后location变量传入，造成OGNL表达式注入</p>
+<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180823142553-62f34194-a69d-1.png" alt="15.png"></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://struts.apache.org/core-developers/namespace-configuration.html" target="_blank" rel="external">https://struts.apache.org/core-developers/namespace-configuration.html</a></li>
+</ul>
+
+      
+  </div>
+    <div>
+      
+        <!-- Google AdSense start -->
+        <!-- test3 -->
+<ins class="adsbygoogle2"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="2179835194"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle2 = window.adsbygoogle2 || []).push({});
+</script>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/">【Struts2-代码执行漏洞分析系列】S2-057</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2018年09月10日 - 08:09</p>
+  <p><span>最后更新:</span>2018年09月10日 - 08:09</p>
+  <p><span>原始链接:</span><a href="/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/" title="【Struts2-代码执行漏洞分析系列】S2-057">http://chybeta.github.io/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/09/10/【Struts2-代码执行漏洞分析系列】S2-057/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码执行/" rel="tag"># 代码执行</a>
+          
+            <a href="/tags/命令执行/" rel="tag"># 命令执行</a>
+          
+            <a href="/tags/struts2/" rel="tag"># struts2</a>
+          
+            <a href="/tags/s2/" rel="tag"># s2</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/20/Something-or-Nothing/" rel="next" title="Something or Nothing">
+                <i class="fa fa-chevron-left"></i> Something or Nothing
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/10/GitLab远程代码执行漏洞分析-【CVE-2018-14364】/" rel="prev" title="GitLab远程代码执行漏洞分析 -【CVE-2018-14364】">
+                GitLab远程代码执行漏洞分析 -【CVE-2018-14364】 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">183</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞公告"><span class="nav-number">1.</span> <span class="nav-text">漏洞公告</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境搭建"><span class="nav-number">2.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞分析"><span class="nav-number">3.</span> <span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击点一：Redirect-action"><span class="nav-number">3.1.</span> <span class="nav-text">攻击点一：Redirect action</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击点二：-Action-chaining"><span class="nav-number">3.2.</span> <span class="nav-text">攻击点二： Action chaining</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击点三：Postback-result"><span class="nav-number">3.3.</span> <span class="nav-text">攻击点三：Postback result</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
