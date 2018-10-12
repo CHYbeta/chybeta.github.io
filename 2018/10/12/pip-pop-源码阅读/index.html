@@ -1,0 +1,1324 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,源码阅读,pip-pop," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="pip-pop源码阅读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pip-pop 源码阅读">
+<meta property="og:url" content="http://chybeta.github.io/2018/10/12/pip-pop-源码阅读/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="pip-pop源码阅读">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/3.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181011/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/3.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/4.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/5.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/6.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/7.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/8.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/9.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/10.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/11.jpg">
+<meta property="og:updated_time" content="2018-10-12T11:35:48.295Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pip-pop 源码阅读">
+<meta name="twitter:description" content="pip-pop源码阅读">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2018/10/12/pip-pop-源码阅读/"/>
+
+
+
+
+
+  <title> pip-pop 源码阅读 | Chybeta </title>
+  <meta name="baidu_union_verify" content="4dcd229ee2a964611d56cf139346dc50"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-121975637-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2018/10/12/pip-pop-源码阅读/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pip-pop 源码阅读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-12T19:26:27+08:00">
+                2018-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程之美/" itemprop="url" rel="index">
+                    <span itemprop="name">编程之美</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/10/12/pip-pop-源码阅读/" class="leancloud_visitors" data-flag-title="pip-pop 源码阅读">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+    <div>
+      
+        <!-- Google AdSense start -->
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>pip-pop源码阅读</p>
+<a id="more"></a>
+<h1 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h1><p><a href="https://github.com/heroku-python/pip-pop" target="_blank" rel="external">https://github.com/heroku-python/pip-pop</a></p>
+<p>按照commit记录来阅读。</p>
+<h1 id="lawyer-up"><a href="#lawyer-up" class="headerlink" title="lawyer up"></a>lawyer up</h1><p>commit记录： a84bc7439770063e457760a18119c10e5d802d3e</p>
+<p>添加了<code>LICENSE</code>文件，采用MIT License</p>
+<h1 id="dummy-dir"><a href="#dummy-dir" class="headerlink" title="dummy dir"></a>dummy dir</h1><p>commit记录： 636935f9394165c1d55c0e0d878cea60428a434e</p>
+<p>创建了 <code>pip_pop</code>文件夹，在其中创建空文件<code>__init__.py</code>。 此时项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">└── pip_pop</div><div class="line">    └── __init__.py</div><div class="line"></div><div class="line">1 directory, 2 files</div></pre></td></tr></table></figure></p>
+<h1 id="READ-IT"><a href="#READ-IT" class="headerlink" title="READ IT"></a>READ IT</h1><p>commit记录： ebdda7f8897403e9b77a2fa7023b2f4f8df1ecaa</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">└── pip_pop</div><div class="line">    └── __init__.py</div><div class="line"></div><div class="line">1 directory, 3 files</div></pre></td></tr></table></figure></p>
+<p>增加了<code>README.rst</code>文件。用于说明该项目的用处，计划中实现的功能，未来可能实现的功能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">pip-pop: tools for managing requirements files</div><div class="line">==============================================</div><div class="line"></div><div class="line">Planned Commands</div><div class="line">----------------</div><div class="line"></div><div class="line">Possible Future Commands</div><div class="line">------------------------</div></pre></td></tr></table></figure></p>
+<h1 id="docopt"><a href="#docopt" class="headerlink" title="docopt"></a>docopt</h1><p>commit记录： f0e51cc56f55c4615e29b7a12264b20dbe12db66</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">├── pip_pop</div><div class="line">│   └── __init__.py</div><div class="line">└── requirements.txt</div><div class="line"></div><div class="line">1 directory, 4 files</div></pre></td></tr></table></figure></p>
+<p>增加了<code>requirements.txt</code>文件。</p>
+<h1 id="note-about-blacklisting-plans"><a href="#note-about-blacklisting-plans" class="headerlink" title="note about blacklisting plans"></a>note about blacklisting plans</h1><p>commit记录： bf54913eaa70f9f505c414a7be328ff15040f37f</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">├── pip_pop</div><div class="line">│   └── __init__.py</div><div class="line">└── requirements.txt</div><div class="line"></div><div class="line">1 directory, 4 files</div></pre></td></tr></table></figure></p>
+<p>修改<code>READEME.rst</code>文件。</p>
+<h1 id="Update-READEME-rst"><a href="#Update-READEME-rst" class="headerlink" title="Update READEME.rst"></a>Update READEME.rst</h1><p>commit记录： 2b444bc846071148dedf6773555e8b33f895765c</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">├── pip_pop</div><div class="line">│   └── __init__.py</div><div class="line">└── requirements.txt</div><div class="line"></div><div class="line">1 directory, 4 files</div></pre></td></tr></table></figure></p>
+<p>修改<code>README.rst</code>文件</p>
+<h1 id="exes"><a href="#exes" class="headerlink" title="exes"></a>exes</h1><p>commit记录： fd65e4d148939f1c7405370e1f342f1fa1b3ea14</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">├── bin</div><div class="line">│   ├── pip-diff</div><div class="line">│   └── pip-flatten</div><div class="line">├── pip_pop</div><div class="line">│   └── __init__.py</div><div class="line">├── requirements.txt</div><div class="line">└── setup.py</div><div class="line"></div><div class="line">2 directories, 7 files</div></pre></td></tr></table></figure></p>
+<p>新增<code>bin/pip-diff</code>，<code>bin/pip-flatten</code>和<code>setup.py</code>。</p>
+<p><code>bin/pip-diff</code>和<code>bin/pip-flatten</code>均是空文件。</p>
+<p><code>setup.py</code>用于python库打包。代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line">pip-pop manages your requirements files.</div><div class="line">"""</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</div><div class="line"></div><div class="line"></div><div class="line">setup(</div><div class="line">    name=<span class="string">'pip-pop'</span>,</div><div class="line">    version=<span class="string">'0.0.0'</span>,</div><div class="line">    url=<span class="string">'https://github.com/kennethreitz/pip-pop'</span>,</div><div class="line">    license=<span class="string">'MIT'</span>,</div><div class="line">    author=<span class="string">'Kenneth Reitz'</span>,</div><div class="line">    author_email=<span class="string">'me@kennethreitz.org'</span>,</div><div class="line">    description=__doc__.strip(<span class="string">'\n'</span>),</div><div class="line">    <span class="comment">#packages=[],</span></div><div class="line">    scripts=[<span class="string">'bin/pip-diff'</span>, <span class="string">'bin/pip-flatten'</span>],</div><div class="line">    <span class="comment">#include_package_data=True,</span></div><div class="line">    zip_safe=<span class="keyword">False</span>,</div><div class="line">    platforms=<span class="string">'any'</span>,</div><div class="line">    install_requires=[<span class="string">'docopt'</span>],</div><div class="line">    classifiers=[</div><div class="line">        <span class="comment"># As from https://pypi.python.org/pypi?%3Aaction=list_classifiers</span></div><div class="line">        <span class="comment">#'Development Status :: 1 - Planning',</span></div><div class="line">        <span class="comment">#'Development Status :: 2 - Pre-Alpha',</span></div><div class="line">        <span class="comment">#'Development Status :: 3 - Alpha',</span></div><div class="line">        <span class="string">'Development Status :: 4 - Beta'</span>,</div><div class="line">        <span class="comment">#'Development Status :: 5 - Production/Stable',</span></div><div class="line">        <span class="comment">#'Development Status :: 6 - Mature',</span></div><div class="line">        <span class="comment">#'Development Status :: 7 - Inactive',</span></div><div class="line">        <span class="string">'Programming Language :: Python'</span>,</div><div class="line">        <span class="string">'Programming Language :: Python :: 2'</span>,</div><div class="line">        <span class="comment">#'Programming Language :: Python :: 2.3',</span></div><div class="line">        <span class="comment">#'Programming Language :: Python :: 2.4',</span></div><div class="line">        <span class="comment">#'Programming Language :: Python :: 2.5',</span></div><div class="line">        <span class="string">'Programming Language :: Python :: 2.6'</span>,</div><div class="line">        <span class="string">'Programming Language :: Python :: 2.7'</span>,</div><div class="line">        <span class="comment">#'Programming Language :: Python :: 3',</span></div><div class="line">        <span class="comment">#'Programming Language :: Python :: 3.0',</span></div><div class="line">        <span class="comment">#'Programming Language :: Python :: 3.1',</span></div><div class="line">        <span class="comment">#'Programming Language :: Python :: 3.2',</span></div><div class="line">        <span class="comment">#'Programming Language :: Python :: 3.3',</span></div><div class="line">        <span class="string">'Intended Audience :: Developers'</span>,</div><div class="line">        <span class="string">'Intended Audience :: System Administrators'</span>,</div><div class="line">        <span class="string">'License :: OSI Approved :: BSD License'</span>,</div><div class="line">        <span class="string">'Operating System :: OS Independent'</span>,</div><div class="line">        <span class="string">'Topic :: System :: Systems Administration'</span>,</div><div class="line">    ]</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>从<code>setuptools</code>导入<code>setup</code>函数，其中参数的含义如下：<br>|参数|含义|值|<br>|-|-|-|<br>|name|包名字|pip-pop|<br>|version|包版本|0.0.0|<br>|url|程序官网地址|<a href="https://github.com/kennethreitz/pip-pop|" target="_blank" rel="external">https://github.com/kennethreitz/pip-pop|</a><br>|license|授权信息|MIT|<br>|author|程序作者|Kenneth Reitz|<br>|author<em>email|作者邮箱|me@kennethreitz.org|<br>|description|程序简单描述|_<em>doc</em></em>.strip(‘\n’)|<br>|scripts|指定可执行脚本，安装时脚本会被添加到系统PATH中|[‘bin/pip-diff’, ‘bin/pip-flatten’]|<br>|zip_safe|不压缩包，以目录形式安装|False|<br>|platforms|程序适合的平台|’any’|<br>|install_requires|安装时需要安装的依赖包|[‘docopt’]|<br>|classifiers|分类信息|详细见下|</p>
+<h1 id="diffing-works"><a href="#diffing-works" class="headerlink" title="diffing works!"></a>diffing works!</h1><p>commit记录： d58196205cea3a4650d68443dd90132bbd4b2b4e</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">├── bin</div><div class="line">│   ├── pip-diff</div><div class="line">│   └── pip-flatten</div><div class="line">├── pip_pop</div><div class="line">│   └── __init__.py</div><div class="line">├── requirements.txt</div><div class="line">└── setup.py</div><div class="line"></div><div class="line">2 directories, 7 files</div></pre></td></tr></table></figure></p>
+<p>更改了<code>bin/pip-diff</code>文件。代码整体的格式如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="string">"""Usage:</span></div><div class="line">  pip-diff (--fresh | --stale) &lt;reqfile1&gt; &lt;reqfile2&gt;</div><div class="line">  pip-diff (-h | --help)</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h --help     Show this screen.</div><div class="line">  --fresh       List newly added packages.</div><div class="line">  --stale       List removed packages.</div><div class="line">"""</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> docopt <span class="keyword">import</span> docopt</div><div class="line"><span class="keyword">from</span> pkg_resources <span class="keyword">import</span> parse_requirements</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># <span class="doctag">TODO:</span> ignore lines</span></div><div class="line">IGNORABLE_LINES = <span class="string">'#'</span>, <span class="string">'-r'</span></div><div class="line">VERSION_OPERATORS = [<span class="string">'=='</span>, <span class="string">'&gt;='</span>, <span class="string">'&lt;='</span>, <span class="string">'&gt;'</span>, <span class="string">'&lt;'</span>, <span class="string">','</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">split</span><span class="params">(s)</span>:</span>...</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span>...</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">diff</span><span class="params">(r1, r2, include_fresh=False, include_stale=False)</span>:</span>...</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span>...</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+<p>第一行<code>#!/usr/bin/env python</code>，用于为脚本语言指定解释器，这样可以直接<code>./*.py</code>的方式执行，不要使用<code>#!/usr/bin/python</code>，因为python可能不是安装在默认的环境。</p>
+<p>第二行<code># -*- coding: utf-8 -*-</code>用于指定编码为 <code>utf-8</code>，这样可以在py文件中写中文，方便写注释和消息。</p>
+<p>最下面的<code>if __name__ == &#39;__main__&#39;:</code>的意思是，当该py文件被直接运行时，<code>if __name__ == &#39;__main__&#39;:</code>之下的<code>main()</code>将被调用执行，当该py文件被以模块的形式导入时，<code>if __name__ == &#39;__main__&#39;:</code>不被运行。</p>
+<p><code>main()</code>函数源代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    args = docopt(__doc__, version=<span class="string">'pip-diff'</span>)</div><div class="line"></div><div class="line">    kwargs = &#123;</div><div class="line">        <span class="string">'r1'</span>: args[<span class="string">'&lt;reqfile1&gt;'</span>],</div><div class="line">        <span class="string">'r2'</span>: args[<span class="string">'&lt;reqfile2&gt;'</span>],</div><div class="line">        <span class="string">'include_fresh'</span>: args[<span class="string">'--fresh'</span>],</div><div class="line">        <span class="string">'include_stale'</span>: args[<span class="string">'--stale'</span>]</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    diff(**kwargs)</div></pre></td></tr></table></figure></p>
+<p>通过<code>args = docopt(__doc__, version=&#39;pip-diff&#39;)</code> 来获取对应的命令行参数，参数要求见程序开头的那一段注释:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Usage:</div><div class="line">  pip-diff (--fresh | --stale) &lt;reqfile1&gt; &lt;reqfile2&gt;</div><div class="line">  pip-diff (-h | --help)</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h --help     Show this screen.</div><div class="line">  --fresh       List newly added packages.</div><div class="line">  --stale       List removed packages.</div></pre></td></tr></table></figure></p>
+<p><code>args</code>解析完命令行参数后，会返回一个<code>Dict</code>类型。然后通过<code>kwargs</code>解析出对应的变量。。<code>--fresh</code>和<code>--stale</code>的作用是<code>Generates a diff between two given requirements files. Lists either stale or fresh packages.</code>。以命令行参数<code>--fresh D:\temp\req1 D:\temp\req2</code>为例</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/1.jpg" alt=""></p>
+<p>然后程序进入<code>diff(**kwargs)</code>， diff函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">diff</span><span class="params">(r1, r2, include_fresh=False, include_stale=False)</span>:</span></div><div class="line">    <span class="comment"># assert that r1 and r2 are files.</span></div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        r1 = Requirements(r1)</div><div class="line">        r2 = Requirements(r2)</div><div class="line">    <span class="keyword">except</span> ValueError:</div><div class="line">        <span class="keyword">print</span> <span class="string">'There was a problem loading the given requirements files.'</span></div><div class="line">        exit(os.EX_NOINPUT)</div><div class="line"></div><div class="line">    results = r1.diff(r2)</div><div class="line">    <span class="keyword">print</span> results</div></pre></td></tr></table></figure></p>
+<p><code>Requirements</code>对象定义如下，其中的<code>diff</code>函数先暂时省略：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">"""docstring for Requirements"""</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, reqfile=None)</span>:</span></div><div class="line">        super(Requirements, self).__init__()</div><div class="line">        self.path = reqfile</div><div class="line">        self.requirements = []</div><div class="line"></div><div class="line">        <span class="keyword">if</span> reqfile:</div><div class="line">            self.load(reqfile)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;Requirements \'&#123;&#125;\'&gt;'</span>.format(self.path)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, reqfile)</span>:</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(reqfile):</div><div class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'The given requirements file does not exist.'</span>)</div><div class="line"></div><div class="line">        <span class="keyword">with</span> open(reqfile) <span class="keyword">as</span> f:</div><div class="line">            data = []</div><div class="line"></div><div class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f:</div><div class="line">                line = line.strip()</div><div class="line"></div><div class="line">                <span class="comment"># Skip lines that start with any comment/control charecters.</span></div><div class="line">                <span class="keyword">if</span> <span class="keyword">not</span> any([line.startswith(p) <span class="keyword">for</span> p <span class="keyword">in</span> IGNORABLE_LINES]):</div><div class="line">                    data.append(line)</div><div class="line"></div><div class="line">            <span class="keyword">for</span> requirement <span class="keyword">in</span> parse_requirements(data):</div><div class="line">                self.requirements.append(requirement)</div><div class="line"></div><div class="line"></div><div class="line">        <span class="comment"># assert that the given file exists</span></div><div class="line">        <span class="comment"># parse the file</span></div><div class="line">        <span class="comment"># insert those entries into self.declarations</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">diff</span><span class="params">(self, requirements, ignore_versions=False)</span>:</span></div><div class="line">        。。。</div></pre></td></tr></table></figure></p>
+<p>以<code>Requirements(r1)</code>为例，传入的参数为<code>D:\\temp\\req1</code>，在<code>__init__</code>中进入<code>self.load(reqfile)</code>，首先判断了文件的存在。然后对于文件中的每一行（<code>for line in f:</code>），去除它末尾的换行符（<code>line = line.strip()</code>），然后判断其是否以注释或控制字符开头（<code>[line.startswith(p) for p in IGNORABLE_LINES]</code>），若不是则将其加入到<code>data</code>中。之后调用<code>parse_requirements(data)</code>进行解析：<br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/2.jpg" alt=""></p>
+<p>在pass之后，返回给<code>r1</code><br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20180726/3.jpg" alt=""></p>
+<p>在<code>r2</code>对象实例化后，进行<code>results = r1.diff(r2)</code>，在<code>class Requirements(object)</code>中定义了diff方法代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span></div><div class="line">    ...</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">diff</span><span class="params">(self, requirements, ignore_versions=False)</span>:</span></div><div class="line">        r1 = self</div><div class="line">        r2 = requirements</div><div class="line">        results = &#123;<span class="string">'fresh'</span>: [], <span class="string">'stale'</span>: []&#125;</div><div class="line"></div><div class="line">        <span class="comment"># Generate fresh packages.</span></div><div class="line">        other_reqs = (</div><div class="line">            [r.project_name <span class="keyword">for</span> r <span class="keyword">in</span> r1.requirements]</div><div class="line">            <span class="keyword">if</span> ignore_versions <span class="keyword">else</span> r1.requirements</div><div class="line">        )</div><div class="line"></div><div class="line">        <span class="keyword">for</span> req <span class="keyword">in</span> r2.requirements:</div><div class="line">            r = req.project_name <span class="keyword">if</span> ignore_versions <span class="keyword">else</span> req</div><div class="line"></div><div class="line">            <span class="keyword">if</span> r <span class="keyword">not</span> <span class="keyword">in</span> other_reqs:</div><div class="line">                results[<span class="string">'fresh'</span>].append(req)</div><div class="line"></div><div class="line">        <span class="comment"># Generate stale packages.</span></div><div class="line">        other_reqs = (</div><div class="line">            [r.project_name <span class="keyword">for</span> r <span class="keyword">in</span> r2.requirements]</div><div class="line">            <span class="keyword">if</span> ignore_versions <span class="keyword">else</span> r2.requirements</div><div class="line">        )</div><div class="line"></div><div class="line">        <span class="keyword">for</span> req <span class="keyword">in</span> r1.requirements:</div><div class="line">            r = req.project_name <span class="keyword">if</span> ignore_versions <span class="keyword">else</span> req</div><div class="line"></div><div class="line">            <span class="keyword">if</span> r <span class="keyword">not</span> <span class="keyword">in</span> other_reqs:</div><div class="line">                results[<span class="string">'stale'</span>].append(req)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> results</div></pre></td></tr></table></figure></p>
+<h1 id="output-for-pip-diff-works"><a href="#output-for-pip-diff-works" class="headerlink" title="output for pip-diff works!"></a>output for pip-diff works!</h1><p>commit记录： d6ae563831228dd6d7e712d69763663032410391</p>
+<p>项目结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── LICENSE</div><div class="line">├── README.rst</div><div class="line">├── bin</div><div class="line">│   ├── pip-diff</div><div class="line">│   └── pip-flatten</div><div class="line">├── pip_pop</div><div class="line">│   └── __init__.py</div><div class="line">├── requirements.txt</div><div class="line">└── setup.py</div><div class="line"></div><div class="line">2 directories, 7 files</div></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181011/1.jpg" alt=""></p>
+<p>根据参数的不同<code>fresh</code>或者<code>stale</code>，输出对应的结果。</p>
+<p>req1内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">req1</div><div class="line">test1</div></pre></td></tr></table></figure></p>
+<p>req2内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">req2</div><div class="line">test2</div></pre></td></tr></table></figure></p>
+<p>则运行结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">C:\Python27\python.exe D:/Learn/opensource/pip-pop/bin/pip-diff --stale D:\temp\req1 D:\temp\req2</div><div class="line">req1</div><div class="line">test1</div><div class="line"></div><div class="line">C:\Python27\python.exe D:/Learn/opensource/pip-pop/bin/pip-diff --fresh D:\temp\req1 D:\temp\req2</div><div class="line">req2</div><div class="line">test2</div></pre></td></tr></table></figure></p>
+<h1 id="cleanup"><a href="#cleanup" class="headerlink" title="cleanup"></a>cleanup</h1><p>commit记录： 2c2ffe318e5c539fc3bdef4feda97c56c162062a</p>
+<p>项目结构及代码部分未做改变。</p>
+<p>删除了原 <code>pip-diff</code> 中的一些注释</p>
+<h1 id="tuples"><a href="#tuples" class="headerlink" title="tuples"></a>tuples</h1><p>commit记录： 58f9ae5f9668a7613f7c0f9f1c43a105b2604891</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/1.jpg" alt=""></p>
+<p>将<code>VERSION_OPERATORS</code>从<code>list</code>改为<code>tuple</code> 。 其余无变化。</p>
+<h1 id="remove-bunk-files"><a href="#remove-bunk-files" class="headerlink" title="remove bunk files"></a>remove bunk files</h1><p>commit记录： d1ff1029ca3d4bd765abe2d4e92b1c2700586702</p>
+<p>项目结构变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">│  LICENSE</div><div class="line">│  README.rst</div><div class="line">│  requirements.txt</div><div class="line">│  setup.py</div><div class="line">└─bin</div><div class="line">        pip-diff</div><div class="line">        pip-flatten</div></pre></td></tr></table></figure></p>
+<p>删除了<code>pip-pop/__init__.py</code>空文件</p>
+<h1 id="rely-on-pip"><a href="#rely-on-pip" class="headerlink" title="rely on pip"></a>rely on pip</h1><p>commit记录： d638b182d9302fa541efa48fbf99fa05f42a4565</p>
+<p>项目结构未变</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/2.jpg" alt=""></p>
+<p>利用pip.req来解析req文件</p>
+<h1 id="getting-simpler-and-simpler"><a href="#getting-simpler-and-simpler" class="headerlink" title="getting simpler and simpler!"></a>getting simpler and simpler!</h1><p>commit记录：69d9e22c10734d463bde67c04cc469f0b0bce072</p>
+<p>项目结构未变</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/3.jpg" alt=""></p>
+<p>因为直接利用pip.req来解析req文件，删除无用变量</p>
+<h1 id="only-check-lines-that-have-explicit-requirements"><a href="#only-check-lines-that-have-explicit-requirements" class="headerlink" title="only check lines that have explicit requirements"></a>only check lines that have explicit requirements</h1><p>commit记录： 0837d1133ee25c645d763f670f6683a20bf30240<br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/4.jpg" alt=""></p>
+<p>只有当<code>requirement.req</code>为真时，才添加到<code>self.requirements</code>中。</p>
+<p>附上最新版的pip中的 <code>parse_requirements</code>的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># C:/Python27/Lib/site-packages/pip/req/req_file.py:64</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_requirements</span><span class="params">(filename, finder=None, comes_from=None, options=None,</span></span></div><div class="line">                       session=None, constraint=False, wheel_cache=None):</div><div class="line">    <span class="string">"""Parse a requirements file and yield InstallRequirement instances.</span></div><div class="line"></div><div class="line">    :param filename:    Path or url of requirements file.</div><div class="line">    :param finder:      Instance of pip.index.PackageFinder.</div><div class="line">    :param comes_from:  Origin description of requirements.</div><div class="line">    :param options:     cli options.</div><div class="line">    :param session:     Instance of pip.download.PipSession.</div><div class="line">    :param constraint:  If true, parsing a constraint file rather than</div><div class="line">        requirements file.</div><div class="line">    :param wheel_cache: Instance of pip.wheel.WheelCache</div><div class="line">    """</div><div class="line">    <span class="keyword">if</span> session <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">raise</span> TypeError(</div><div class="line">            <span class="string">"parse_requirements() missing 1 required keyword argument: "</span></div><div class="line">            <span class="string">"'session'"</span></div><div class="line">        )</div><div class="line"></div><div class="line">    _, content = get_file_content(</div><div class="line">        filename, comes_from=comes_from, session=session</div><div class="line">    )</div><div class="line"></div><div class="line">    lines_enum = preprocess(content, options)</div><div class="line"></div><div class="line">    <span class="keyword">for</span> line_number, line <span class="keyword">in</span> lines_enum:</div><div class="line">        req_iter = process_line(line, filename, line_number, finder,</div><div class="line">                                comes_from, options, session, wheel_cache,</div><div class="line">                                constraint=constraint)</div><div class="line">        <span class="keyword">for</span> req <span class="keyword">in</span> req_iter:</div><div class="line">            <span class="keyword">yield</span> req</div></pre></td></tr></table></figure></p>
+<p>最后会返回一个迭代器</p>
+<h1 id="initial-version-of-pip-grep"><a href="#initial-version-of-pip-grep" class="headerlink" title="initial version of pip-grep"></a>initial version of pip-grep</h1><p>commit记录： 3862c2f9a2f72bb962e7ed15416109ee0ec3e5ae</p>
+<p>项目结构变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">│  LICENSE</div><div class="line">│  README.rst</div><div class="line">│  requirements.txt</div><div class="line">│  setup.py</div><div class="line">└─bin</div><div class="line">        pip-diff</div><div class="line">        pip-grep</div></pre></td></tr></table></figure></p>
+<p><code>setup.py</code>中：<br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/5.jpg" alt=""></p>
+<p><code>pip-flatten</code>变为<code>pip-grep</code>，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="string">"""Usage:</span></div><div class="line">  pip-grep &lt;reqfile&gt; &lt;package&gt;...</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h --help     Show this screen.</div><div class="line">"""</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> docopt <span class="keyword">import</span> docopt</div><div class="line"><span class="keyword">from</span> pip.req <span class="keyword">import</span> parse_requirements</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, reqfile=None)</span>:</span></div><div class="line">        super(Requirements, self).__init__()</div><div class="line">        self.path = reqfile</div><div class="line">        self.requirements = []</div><div class="line"></div><div class="line">        <span class="keyword">if</span> reqfile:</div><div class="line">            self.load(reqfile)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">'&lt;Requirements \'&#123;&#125;\'&gt;'</span>.format(self.path)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, reqfile)</span>:</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(reqfile):</div><div class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'The given requirements file does not exist.'</span>)</div><div class="line"></div><div class="line">        <span class="keyword">for</span> requirement <span class="keyword">in</span> parse_requirements(reqfile):</div><div class="line">            self.requirements.append(requirement)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">grep</span><span class="params">(reqfile, packages)</span>:</span></div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="comment"># 读取reqfile文件并解析</span></div><div class="line">        r = Requirements(reqfile)</div><div class="line">    <span class="keyword">except</span> ValueError:</div><div class="line">        <span class="keyword">print</span> <span class="string">'There was a problem loading the given requirement file.'</span></div><div class="line">        exit(os.EX_NOINPUT)</div><div class="line">    <span class="comment"># 对于reuqirement中的每一个</span></div><div class="line">    <span class="keyword">for</span> requirement <span class="keyword">in</span> r.requirements:</div><div class="line">        <span class="keyword">if</span> requirement.req.project_name <span class="keyword">in</span> packages:</div><div class="line">            <span class="comment"># 如果找到了在 packages中</span></div><div class="line">            <span class="keyword">print</span> <span class="string">'Package &#123;&#125; found!'</span>.format(requirement.req.project_name)</div><div class="line">            exit(<span class="number">0</span>)</div><div class="line"></div><div class="line">        <span class="keyword">print</span> <span class="string">'Not found.'</span>.format(requirement.req.project_name)</div><div class="line">        exit(<span class="number">1</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># 获取参数</span></div><div class="line">    args = docopt(__doc__, version=<span class="string">'pip-grep'</span>)</div><div class="line"></div><div class="line">    kwargs = &#123;<span class="string">'reqfile'</span>: args[<span class="string">'&lt;reqfile&gt;'</span>], <span class="string">'packages'</span>: args[<span class="string">'&lt;package&gt;'</span>]&#125;</div><div class="line"></div><div class="line">    <span class="comment"># 传入 reqfile package</span></div><div class="line">    grep(**kwargs)</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure></p>
+<h1 id="updated-readme"><a href="#updated-readme" class="headerlink" title="updated readme"></a>updated readme</h1><p>commit记录：2116d8a7698bf8fece0ad5c32db9ec9f69c97e69</p>
+<p>更新readme文档，添加pip-grep的使用说明</p>
+<h1 id="fix-for-pip-grep"><a href="#fix-for-pip-grep" class="headerlink" title="fix for pip-grep"></a>fix for pip-grep</h1><p>commit记录：2116d8a7698bf8fece0ad5c32db9ec9f69c97e69</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/6.jpg" alt=""></p>
+<h1 id="silent-mode-for-pip-grep"><a href="#silent-mode-for-pip-grep" class="headerlink" title="silent mode for pip-grep"></a>silent mode for pip-grep</h1><p>commit记录： 78e3c31b3584bfb263c061317ccc798cfaddf061</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/7.jpg" alt=""></p>
+<p>增加silent参数选项。作用位置</p>
+<h1 id="silence-“not-found”"><a href="#silence-“not-found”" class="headerlink" title="silence “not found”"></a>silence “not found”</h1><p>commit记录： 94c553879358aff40da2c3d2f536acb184703166</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/8.jpg" alt=""></p>
+<p>添加<code>silent</code>模式对<code>not found</code>情况的支持</p>
+<h1 id="python-3-compatibility"><a href="#python-3-compatibility" class="headerlink" title="python 3 compatibility"></a>python 3 compatibility</h1><p>commit纪录：70af45d95fd38e0a93abdbdb400283dcc495a00f</p>
+<p>修改了<code>pip-grep</code>和<code>pip-diff</code>，将其中的<code>print &#39;xx&#39;</code> 改为<code>print(&#39;xx&#39;)</code></p>
+<h1 id="Add-a-dummy-finder-so-parse-requirement-does-not-fail-on-—arguments"><a href="#Add-a-dummy-finder-so-parse-requirement-does-not-fail-on-—arguments" class="headerlink" title="Add a dummy finder so parse_requirement does not fail on —arguments"></a>Add a dummy finder so parse_requirement does not fail on —arguments</h1><p>commit记录：2aa545fb3b80d78670d923be4333e85f0abb7309</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pip.index <span class="keyword">import</span> PackageFinder</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span></div><div class="line"></div><div class="line">    。。。</div><div class="line"></div><div class="line">    finder = PackageFinder([], [])</div><div class="line">    <span class="keyword">for</span> requirement <span class="keyword">in</span> parse_requirements(reqfile, finder=finder):</div><div class="line">        self.requirements.append(requirement)</div><div class="line"></div><div class="line">    。。。</div></pre></td></tr></table></figure>
+<p>新增加一个<code>finder=finder</code>参数，避免<code>parse_requirements</code>失败。</p>
+<h1 id="v0-1-0"><a href="#v0-1-0" class="headerlink" title="v0.1.0"></a>v0.1.0</h1><p>commit记录：2dc013300c4b0fb605fa9dd2a3fba5ecc81ac20c</p>
+<p>修改<code>setup.py</code>，修改版本号为<code>version=&#39;0.1.0&#39;</code></p>
+<h1 id="Add-option-to-print-the-requirement-if-found"><a href="#Add-option-to-print-the-requirement-if-found" class="headerlink" title="Add option to print the requirement, if found"></a>Add option to print the requirement, if found</h1><p>commit记录： a3f9a4ba40c02d6bc26318e589ae2db11304203f</p>
+<p>修改<code>pip-grep</code>文件。</p>
+<p>首先是Usage部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&quot;&quot;&quot;Usage:</div><div class="line">  pip-grep [-sp] &lt;reqfile&gt; &lt;package&gt;...</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h --help         Show this screen.</div><div class="line">  -s --silent       Suppress output.</div><div class="line">  -p --print-req    If found, print the requirement.</div><div class="line">&quot;&quot;&quot;</div></pre></td></tr></table></figure></p>
+<p><code>-p</code>，在grep找到的情况下，打印出requirement</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/9.jpg" alt=""></p>
+<h1 id="support-for-lastest-pip"><a href="#support-for-lastest-pip" class="headerlink" title="support for lastest pip"></a>support for lastest pip</h1><p>commit记录： 27f35700c7d8affb1fc3b399bd77fe38fb82bba1</p>
+<p>修改<code>pip-diff</code>。</p>
+<p>由于<code>parse_requirements</code>中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_requirements</span><span class="params">(filename, finder=None, comes_from=None, options=None,</span></span></div><div class="line">                       session=None, constraint=False, wheel_cache=None):</div><div class="line"></div><div class="line">    <span class="keyword">if</span> session <span class="keyword">is</span> <span class="keyword">None</span>:</div><div class="line">        <span class="keyword">raise</span> TypeError(</div><div class="line">            <span class="string">"parse_requirements() missing 1 required keyword argument: "</span></div><div class="line">            <span class="string">"'session'"</span></div><div class="line">        )</div></pre></td></tr></table></figure></p>
+<p>所以添加<code>session</code>参数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pip._vendor.requests <span class="keyword">import</span> session</div><div class="line"></div><div class="line">requests = session()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span></div><div class="line">    。。。</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">(self, reqfile)</span>:</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(reqfile):</div><div class="line">            <span class="keyword">raise</span> ValueError(<span class="string">'The given requirements file does not exist.'</span>)</div><div class="line"></div><div class="line">        finder = PackageFinder([], [], session=requests)</div><div class="line">        <span class="keyword">for</span> requirement <span class="keyword">in</span> parse_requirements(reqfile, finder=finder):</div><div class="line">            <span class="keyword">if</span> requirement.req:</div><div class="line">                self.requirements.append(requirement.req)</div></pre></td></tr></table></figure></p>
+<h1 id="Update-pip-grep"><a href="#Update-pip-grep" class="headerlink" title="Update pip-grep"></a>Update pip-grep</h1><p>commit记录：90eba89335af5aa1285d179aa9ea6aa9725bd712</p>
+<p>修改内容同上，增加<code>session</code>参数。</p>
+<h1 id="Merge-pull-request-3-from-thenovices-print-line-Add-option-to-print-the-requirement-if-found"><a href="#Merge-pull-request-3-from-thenovices-print-line-Add-option-to-print-the-requirement-if-found" class="headerlink" title="Merge pull request #3 from thenovices/print-line Add option to print the requirement, if found."></a>Merge pull request #3 from thenovices/print-line Add option to print the requirement, if found.</h1><p>commit记录：d572c00cc65a47f8d6e3d9446f8c21fb7aac685f</p>
+<p>无</p>
+<h1 id="update-from-python-buildpack"><a href="#update-from-python-buildpack" class="headerlink" title="update from python buildpack"></a>update from python buildpack</h1><p>commit记录：097c4a94848897e693bf269150a49129d4019390</p>
+<p>修改<code>pip-diff</code>和<code>pip-grep</code>的一些细节，增删参数。</p>
+<h1 id="exclude-in-pip-diff"><a href="#exclude-in-pip-diff" class="headerlink" title="exclude in pip-diff"></a>exclude in pip-diff</h1><p>commit记录：047dd63d5dd0a754d3e515bef7aa33d1246a548b</p>
+<p>修改<code>pip-diff</code>文件，增加<code>excludes</code>参数选项，用于指定排除，不进行比较的packages包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="string">"""Usage:</span></div><div class="line">  pip-diff (--fresh | --stale) &lt;reqfile1&gt; &lt;reqfile2&gt; [--exclude &lt;package&gt;...]</div><div class="line">  pip-diff (-h | --help)</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h --help     Show this screen.</div><div class="line">  --fresh       List newly added packages.</div><div class="line">  --stale       List removed packages.</div><div class="line">"""</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> docopt <span class="keyword">import</span> docopt</div><div class="line"><span class="keyword">from</span> pip.req <span class="keyword">import</span> parse_requirements</div><div class="line"><span class="keyword">from</span> pip.index <span class="keyword">import</span> PackageFinder</div><div class="line"><span class="keyword">from</span> pip._vendor.requests <span class="keyword">import</span> session</div><div class="line"></div><div class="line">requests = session()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Requirements</span><span class="params">(object)</span>:</span></div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">diff</span><span class="params">(self, requirements, ignore_versions=False, excludes=None)</span>:</span></div><div class="line">   </div><div class="line">        。。。</div><div class="line">        <span class="keyword">for</span> req <span class="keyword">in</span> r2.requirements:</div><div class="line">            r = req.project_name <span class="keyword">if</span> ignore_versions <span class="keyword">else</span> req</div><div class="line"></div><div class="line">            <span class="keyword">if</span> r <span class="keyword">not</span> <span class="keyword">in</span> other_reqs <span class="keyword">and</span> r <span class="keyword">not</span> <span class="keyword">in</span> excludes:</div><div class="line">                results[<span class="string">'fresh'</span>].append(req)</div><div class="line"></div><div class="line">        。。。</div><div class="line"></div><div class="line">        <span class="keyword">for</span> req <span class="keyword">in</span> r1.requirements:</div><div class="line">            r = req.project_name <span class="keyword">if</span> ignore_versions <span class="keyword">else</span> req</div><div class="line"></div><div class="line">            <span class="keyword">if</span> r <span class="keyword">not</span> <span class="keyword">in</span> other_reqs <span class="keyword">and</span> r <span class="keyword">not</span> <span class="keyword">in</span> excludes:</div><div class="line">                results[<span class="string">'stale'</span>].append(req)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> results</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">diff</span><span class="params">(r1, r2, include_fresh=False, include_stale=False, excludes=None)</span>:</span></div><div class="line"></div><div class="line">    。。。</div><div class="line">    excludes = excludes <span class="keyword">if</span> len(excludes) <span class="keyword">else</span> []</div><div class="line"></div><div class="line">    。。。</div><div class="line"></div><div class="line">    results = r1.diff(r2, ignore_versions=<span class="keyword">True</span>, excludes=excludes)</div><div class="line">    。。。</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    kwargs = &#123;</div><div class="line">        。。。</div><div class="line">        <span class="string">'excludes'</span>: args[<span class="string">'&lt;package&gt;'</span>]</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure>
+<h1 id="README-rst-Fix-spelling-error"><a href="#README-rst-Fix-spelling-error" class="headerlink" title="README.rst Fix spelling error"></a>README.rst Fix spelling error</h1><p>commit记录：81587647408ff5adc13cc30a50ff84e36116505d</p>
+<p>无他，修改README中的拼写错误</p>
+<h1 id="update"><a href="#update" class="headerlink" title="update"></a>update</h1><p>commit记录：4f5ebcd253ec299baf0f4cb10c99d06bc52cc91f</p>
+<p>修改两个文件<code>pip-diff</code>和<code>pip-grep</code></p>
+<p><code>pip-diff</code>中将<code>project_name</code>改为<code>name</code>。原因是pip版本升级，经过<code>parse_requirements</code>后会是<code>name</code>属性。但在8.1.2版本之前并不存在，因此需要在load时进行检测，增加代码如下：</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/10.jpg" alt=""></p>
+<h1 id="v0-0-1"><a href="#v0-0-1" class="headerlink" title="v0.0.1"></a>v0.0.1</h1><p>commit记录：4dc238c79ca19974eeb434ec4be4285d7747bb38</p>
+<p>修改setup.py中的版本号</p>
+<h1 id="update-setup-py"><a href="#update-setup-py" class="headerlink" title="update setup.py"></a>update setup.py</h1><p>commit记录：07562561ce6aa9c733a18135cf510fadd794433a</p>
+<p>修改setup.py中的一些参数<code>Programming Language</code>、<code>Development Status</code> 等</p>
+<h1 id="Require-pip-gt-1-5-0"><a href="#Require-pip-gt-1-5-0" class="headerlink" title="Require pip&gt;=1.5.0"></a>Require pip&gt;=1.5.0</h1><p>commit记录：99d9f36ad765535946af1fa9fc181d33668ee146</p>
+<p>修改setup.py中的<code>install_requires</code>，要求pip版本大于1.5.0</p>
+<h1 id="Remove-unused-wsgiref-from-requirements-txt"><a href="#Remove-unused-wsgiref-from-requirements-txt" class="headerlink" title="Remove unused wsgiref from requirements.txt"></a>Remove unused wsgiref from requirements.txt</h1><p>commit记录：47ad229596ade5024d9c4c4190e73972176bc58b</p>
+<p>删除<code>requirements.txt</code>中的无用条目</p>
+<h1 id="Add-a-tox-config-and-some-very-primitive-pip-grep-and-pip-diff-tests"><a href="#Add-a-tox-config-and-some-very-primitive-pip-grep-and-pip-diff-tests" class="headerlink" title="Add a tox config and some very primitive pip-grep and pip-diff tests"></a>Add a tox config and some very primitive pip-grep and pip-diff tests</h1><p>commit记录：433e02ec7e294e171557514c55412cc3e06c1e53</p>
+<p>项目结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">│  .gitignore</div><div class="line">│  LICENSE</div><div class="line">│  README.rst</div><div class="line">│  requirements.txt</div><div class="line">│  setup.py</div><div class="line">│  tox.ini</div><div class="line">│</div><div class="line">├─bin</div><div class="line">│      pip-diff</div><div class="line">│      pip-grep</div><div class="line">│</div><div class="line">└─tests</div><div class="line">        test-requirements.txt</div><div class="line">        test-requirements2.txt</div></pre></td></tr></table></figure></p>
+<p>修改<code>READEME.rst</code>、<code>setup.py</code>、<code>requirments.txt</code>，主要是增加了<code>tox</code>的依赖，相关环境的安装。</p>
+<p>新增文件<code>tests</code>文件夹及其文件、<code>.gitignore</code>、<code>tox.ini</code>。</p>
+<h1 id="Add-Travis-config"><a href="#Add-Travis-config" class="headerlink" title="Add Travis config"></a>Add Travis config</h1><p>commit记录：a40d8850701f08c99d66cab2eedf283a0b326731</p>
+<p>新增<code>.travis.yml</code> 。修改<code>README.rst</code>文件</p>
+<h1 id="Update-PyPI-classifiers-to-reflect-tested-Python-version"><a href="#Update-PyPI-classifiers-to-reflect-tested-Python-version" class="headerlink" title="Update PyPI classifiers to reflect tested Python version"></a>Update PyPI classifiers to reflect tested Python version</h1><p>commit记录：e865cb31f4b43edd5f07aa8d40680d0b1eb08f28</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/20181012/11.jpg" alt=""></p>
+<p>阅读完毕。</p>
+
+      
+  </div>
+    <div>
+      
+        <!-- Google AdSense start -->
+        <!-- test3 -->
+<ins class="adsbygoogle2"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="2179835194"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle2 = window.adsbygoogle2 || []).push({});
+</script>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/10/12/pip-pop-源码阅读/">pip-pop 源码阅读</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2018年10月12日 - 19:10</p>
+  <p><span>最后更新:</span>2018年10月12日 - 19:10</p>
+  <p><span>原始链接:</span><a href="/2018/10/12/pip-pop-源码阅读/" title="pip-pop 源码阅读">http://chybeta.github.io/2018/10/12/pip-pop-源码阅读/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/10/12/pip-pop-源码阅读/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/源码阅读/" rel="tag"># 源码阅读</a>
+          
+            <a href="/tags/pip-pop/" rel="tag"># pip-pop</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/24/Destoon-20180827版本-前台getshell/" rel="next" title="Destoon 20180827版本 前台getshell">
+                <i class="fa fa-chevron-left"></i> Destoon 20180827版本 前台getshell
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">184</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">104</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目地址"><span class="nav-number">1.</span> <span class="nav-text">项目地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lawyer-up"><span class="nav-number">2.</span> <span class="nav-text">lawyer up</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dummy-dir"><span class="nav-number">3.</span> <span class="nav-text">dummy dir</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#READ-IT"><span class="nav-number">4.</span> <span class="nav-text">READ IT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docopt"><span class="nav-number">5.</span> <span class="nav-text">docopt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#note-about-blacklisting-plans"><span class="nav-number">6.</span> <span class="nav-text">note about blacklisting plans</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Update-READEME-rst"><span class="nav-number">7.</span> <span class="nav-text">Update READEME.rst</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exes"><span class="nav-number">8.</span> <span class="nav-text">exes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#diffing-works"><span class="nav-number">9.</span> <span class="nav-text">diffing works!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#output-for-pip-diff-works"><span class="nav-number">10.</span> <span class="nav-text">output for pip-diff works!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cleanup"><span class="nav-number">11.</span> <span class="nav-text">cleanup</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#tuples"><span class="nav-number">12.</span> <span class="nav-text">tuples</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#remove-bunk-files"><span class="nav-number">13.</span> <span class="nav-text">remove bunk files</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rely-on-pip"><span class="nav-number">14.</span> <span class="nav-text">rely on pip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#getting-simpler-and-simpler"><span class="nav-number">15.</span> <span class="nav-text">getting simpler and simpler!</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#only-check-lines-that-have-explicit-requirements"><span class="nav-number">16.</span> <span class="nav-text">only check lines that have explicit requirements</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#initial-version-of-pip-grep"><span class="nav-number">17.</span> <span class="nav-text">initial version of pip-grep</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#updated-readme"><span class="nav-number">18.</span> <span class="nav-text">updated readme</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#fix-for-pip-grep"><span class="nav-number">19.</span> <span class="nav-text">fix for pip-grep</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#silent-mode-for-pip-grep"><span class="nav-number">20.</span> <span class="nav-text">silent mode for pip-grep</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#silence-“not-found”"><span class="nav-number">21.</span> <span class="nav-text">silence “not found”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python-3-compatibility"><span class="nav-number">22.</span> <span class="nav-text">python 3 compatibility</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Add-a-dummy-finder-so-parse-requirement-does-not-fail-on-—arguments"><span class="nav-number">23.</span> <span class="nav-text">Add a dummy finder so parse_requirement does not fail on —arguments</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#v0-1-0"><span class="nav-number">24.</span> <span class="nav-text">v0.1.0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Add-option-to-print-the-requirement-if-found"><span class="nav-number">25.</span> <span class="nav-text">Add option to print the requirement, if found</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#support-for-lastest-pip"><span class="nav-number">26.</span> <span class="nav-text">support for lastest pip</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Update-pip-grep"><span class="nav-number">27.</span> <span class="nav-text">Update pip-grep</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Merge-pull-request-3-from-thenovices-print-line-Add-option-to-print-the-requirement-if-found"><span class="nav-number">28.</span> <span class="nav-text">Merge pull request #3 from thenovices/print-line Add option to print the requirement, if found.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#update-from-python-buildpack"><span class="nav-number">29.</span> <span class="nav-text">update from python buildpack</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exclude-in-pip-diff"><span class="nav-number">30.</span> <span class="nav-text">exclude in pip-diff</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#README-rst-Fix-spelling-error"><span class="nav-number">31.</span> <span class="nav-text">README.rst Fix spelling error</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#update"><span class="nav-number">32.</span> <span class="nav-text">update</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#v0-0-1"><span class="nav-number">33.</span> <span class="nav-text">v0.0.1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#update-setup-py"><span class="nav-number">34.</span> <span class="nav-text">update setup.py</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Require-pip-gt-1-5-0"><span class="nav-number">35.</span> <span class="nav-text">Require pip>=1.5.0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Remove-unused-wsgiref-from-requirements-txt"><span class="nav-number">36.</span> <span class="nav-text">Remove unused wsgiref from requirements.txt</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Add-a-tox-config-and-some-very-primitive-pip-grep-and-pip-diff-tests"><span class="nav-number">37.</span> <span class="nav-text">Add a tox config and some very primitive pip-grep and pip-diff tests</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Add-Travis-config"><span class="nav-number">38.</span> <span class="nav-text">Add Travis config</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Update-PyPI-classifiers-to-reflect-tested-Python-version"><span class="nav-number">39.</span> <span class="nav-text">Update PyPI classifiers to reflect tested Python version</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
