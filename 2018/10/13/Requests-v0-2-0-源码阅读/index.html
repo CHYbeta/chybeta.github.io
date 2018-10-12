@@ -1,0 +1,1274 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python,requests,源码阅读," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Requests v0.2.0 源码阅读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Requests v0.2.0 源码阅读">
+<meta property="og:url" content="http://chybeta.github.io/2018/10/13/Requests-v0-2-0-源码阅读/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="Requests v0.2.0 源码阅读">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/3.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/4.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/5.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/6.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/7.jpg">
+<meta property="og:updated_time" content="2018-10-12T16:23:09.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Requests v0.2.0 源码阅读">
+<meta name="twitter:description" content="Requests v0.2.0 源码阅读">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2018/10/13/Requests-v0-2-0-源码阅读/"/>
+
+
+
+
+
+  <title> Requests v0.2.0 源码阅读 | Chybeta </title>
+  <meta name="baidu_union_verify" content="4dcd229ee2a964611d56cf139346dc50"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-121975637-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2018/10/13/Requests-v0-2-0-源码阅读/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Requests v0.2.0 源码阅读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-13T00:18:30+08:00">
+                2018-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程之美/" itemprop="url" rel="index">
+                    <span itemprop="name">编程之美</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2018/10/13/Requests-v0-2-0-源码阅读/" class="leancloud_visitors" data-flag-title="Requests v0.2.0 源码阅读">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+    <div>
+      
+        <!-- Google AdSense start -->
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Requests v0.2.0 源码阅读</p>
+<a id="more"></a>
+<h1 id="v0-2-0"><a href="#v0-2-0" class="headerlink" title="v0.2.0"></a>v0.2.0</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/requests/requests</div></pre></td></tr></table></figure>
+<p>从 <a href="https://github.com/requests/requests/releases?after=v0.3.0" target="_blank" rel="external">https://github.com/requests/requests/releases?after=v0.3.0</a> 知道 v0.2.0 发布时的 commit为 <a href="https://github.com/requests/requests/commit/d2427ecae751a533ddd9026849dd19cfaa3394f4" target="_blank" rel="external">https://github.com/requests/requests/commit/d2427ecae751a533ddd9026849dd19cfaa3394f4</a> 。检出。</p>
+<h1 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h1><p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/1.jpg" alt=""></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">name</th>
+<th style="text-align:center">usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">docs</td>
+<td style="text-align:center">保存文档</td>
+</tr>
+<tr>
+<td style="text-align:center">requests</td>
+<td style="text-align:center">保存源代码</td>
+</tr>
+<tr>
+<td style="text-align:center">.gitignore</td>
+<td style="text-align:center">略</td>
+</tr>
+<tr>
+<td style="text-align:center">HISTORY.rst</td>
+<td style="text-align:center">历史</td>
+</tr>
+<tr>
+<td style="text-align:center">LICENSE</td>
+<td style="text-align:center">协议</td>
+</tr>
+<tr>
+<td style="text-align:center">README.rst</td>
+<td style="text-align:center">readme</td>
+</tr>
+<tr>
+<td style="text-align:center">setup.py</td>
+<td style="text-align:center">安装</td>
+</tr>
+<tr>
+<td style="text-align:center">test_requests.py</td>
+<td style="text-align:center">测试</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="test-requests-py"><a href="#test-requests-py" class="headerlink" title="test_requests.py"></a>test_requests.py</h1><p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/2.jpg" alt=""></p>
+<p>定义如上方法，用于进行功能测试。</p>
+<h1 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h1><p>主要关注 <code>core.py</code></p>
+<p>UML图：<br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/3.jpg" alt=""></p>
+<p>Structure：<br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/4.jpg" alt=""></p>
+<p>主要实现四种类：请求基类<code>_Request</code>、请求类<code>Request</code>、响应类<code>Response</code>、认证<code>AuthObject</code>，七种方法：get、post、put、delete和认证相关的方法，四种异常类。</p>
+<h2 id="Request-类"><a href="#Request-类" class="headerlink" title="_Request 类"></a>_Request 类</h2><p>对<a href="https://docs.python.org/2/library/urllib2.html#urllib2.Request" target="_blank" rel="external"><code>urllib2.Request</code>对象</a> 的封装，允许对请求方法进行s手动设置。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">_Request</span><span class="params">(urllib2.Request)</span>:</span></div><div class="line">    <span class="string">"""Hidden wrapper around the urllib2.Request object. Allows for manual</span></div><div class="line">    setting of HTTP methods.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, url,</span></span></div><div class="line">                    data=None, headers=&#123;&#125;, origin_req_host=None,</div><div class="line">                    unverifiable=False, method=None):</div><div class="line">        urllib2.Request.__init__( self, url, data, headers, origin_req_host,</div><div class="line">                                  unverifiable)</div><div class="line">		<span class="comment"># 设置请求方法</span></div><div class="line">        self.method = method </div><div class="line">	</div><div class="line">	<span class="comment"># 获取请求方法</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_method</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">if</span> self.method:</div><div class="line">            <span class="keyword">return</span> self.method</div><div class="line"></div><div class="line">        <span class="keyword">return</span> urllib2.Request.get_method(self)</div></pre></td></tr></table></figure></p>
+<h2 id="Request-类-1"><a href="#Request-类-1" class="headerlink" title="Request 类"></a>Request 类</h2><p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/5.jpg" alt=""></p>
+<p>附上一些私有变量和私有方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Request</span><span class="params">(object)</span>:</span></div><div class="line">	<span class="string">"""The :class:`Request` object. It carries out all functionality of</span></div><div class="line">	Requests. Recommended interface is with the Requests functions.</div><div class="line">	</div><div class="line">	"""</div><div class="line">    </div><div class="line">	_METHODS = (<span class="string">'GET'</span>, <span class="string">'HEAD'</span>, <span class="string">'PUT'</span>, <span class="string">'POST'</span>, <span class="string">'DELETE'</span>)</div><div class="line">	</div><div class="line">	<span class="comment"># 初始化信息</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">		self.url = <span class="keyword">None</span></div><div class="line">		self.headers = dict()</div><div class="line">		self.method = <span class="keyword">None</span></div><div class="line">		self.params = &#123;&#125;</div><div class="line">		self.data = &#123;&#125;</div><div class="line">		self.response = Response()</div><div class="line">		self.auth = <span class="keyword">None</span></div><div class="line">		self.sent = <span class="keyword">False</span></div><div class="line">	</div><div class="line">	<span class="comment"># repr 略过不提</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">		<span class="keyword">try</span>:</div><div class="line">			repr = <span class="string">'&lt;Request [%s]&gt;'</span> % (self.method)</div><div class="line">		<span class="keyword">except</span>:</div><div class="line">			repr = <span class="string">'&lt;Request object&gt;'</span></div><div class="line">		<span class="keyword">return</span> repr</div><div class="line">	</div><div class="line">	<span class="comment"># 设置method时，会调用 __setattr__ 方法</span></div><div class="line">	<span class="comment"># 检查设置的值 是否在规定的方法 _METHODS 列表中</span></div><div class="line">	<span class="comment"># 若不在，则抛出 InvalidMethod 错误</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__setattr__</span><span class="params">(self, name, value)</span>:</span></div><div class="line">		<span class="keyword">if</span> (name == <span class="string">'method'</span>) <span class="keyword">and</span> (value):</div><div class="line">			<span class="keyword">if</span> <span class="keyword">not</span> value <span class="keyword">in</span> self._METHODS:</div><div class="line">				<span class="keyword">raise</span> InvalidMethod()</div><div class="line">		</div><div class="line">		object.__setattr__(self, name, value)</div><div class="line">	</div><div class="line">	<span class="comment"># 用于检查 url 是否设置</span></div><div class="line">	<span class="comment"># 若无设置，抛出 URLRequired 错误</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">_checks</span><span class="params">(self)</span>:</span></div><div class="line">		<span class="string">"""Deterministic checks for consistiency."""</span></div><div class="line"></div><div class="line">		<span class="keyword">if</span> <span class="keyword">not</span> self.url:</div><div class="line">			<span class="keyword">raise</span> URLRequired</div><div class="line"></div><div class="line">	<span class="comment">#  opener对象</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">_get_opener</span><span class="params">(self)</span>:</span></div><div class="line">		<span class="string">""" Creates appropriate opener object for urllib2.</span></div><div class="line">		"""</div><div class="line">		</div><div class="line">		<span class="comment"># 如果需要 认证</span></div><div class="line">		<span class="keyword">if</span> self.auth:</div><div class="line"></div><div class="line">			<span class="comment"># create a password manager</span></div><div class="line">			authr = urllib2.HTTPPasswordMgrWithDefaultRealm()</div><div class="line"></div><div class="line">			authr.add_password(<span class="keyword">None</span>, self.url, self.auth.username, self.auth.password)</div><div class="line">			handler = urllib2.HTTPBasicAuthHandler(authr)</div><div class="line">			opener = urllib2.build_opener(handler)</div><div class="line"></div><div class="line">			<span class="comment"># use the opener to fetch a URL</span></div><div class="line">			<span class="keyword">return</span> opener.open</div><div class="line">		<span class="keyword">else</span>:</div><div class="line">			<span class="comment"># 若无需认证</span></div><div class="line">			<span class="keyword">return</span> urllib2.urlopen</div><div class="line">	</div><div class="line">	。。。</div></pre></td></tr></table></figure></p>
+<p>Request类主要用于发送请求，因此重点关注其中的<code>send</code>方法，注释中解释了几点：</p>
+<ol>
+<li>发送请求，成功返回<code>True</code>，失败返回<code>False</code></li>
+<li>如果传输过程中出错，则<code>self.response.status_code</code>会包含错误代码</li>
+<li>一旦请求成功发送，则Request类的<code>sent</code>属性会变为<code>True</code></li>
+<li><code>anyway</code>参数若被设为True，则请求一定会被发送，不管是否曾发送过，</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, anyway=False)</span>:</span></div><div class="line">	<span class="string">"""Sends the request. Returns True of successfull, false if not.</span></div><div class="line">	    If there was an HTTPError during transmission,</div><div class="line">	    self.response.status_code will contain the HTTPError code.</div><div class="line"></div><div class="line">	    Once a request is successfully sent, `sent` will equal True.</div><div class="line">	</div><div class="line">	    :param anyway: If True, request will be sent, even if it has</div><div class="line">	    already been sent.</div><div class="line">	"""</div><div class="line">	self._checks()</div><div class="line"></div><div class="line">	success = <span class="keyword">False</span></div><div class="line">	</div><div class="line">	<span class="keyword">if</span> self.method <span class="keyword">in</span> (<span class="string">'GET'</span>, <span class="string">'HEAD'</span>, <span class="string">'DELETE'</span>):</div><div class="line">           <span class="comment"># 第一部分 ('GET', 'HEAD', 'DELETE')</span></div><div class="line"></div><div class="line">	<span class="keyword">elif</span> self.method == <span class="string">'PUT'</span>:</div><div class="line">           <span class="comment"># 第二部分 PUT</span></div><div class="line"></div><div class="line">	<span class="keyword">elif</span> self.method == <span class="string">'POST'</span>:</div><div class="line">           <span class="comment"># 第三部分 POST</span></div><div class="line">	</div><div class="line">	self.sent = <span class="keyword">True</span> <span class="keyword">if</span> success <span class="keyword">else</span> <span class="keyword">False</span></div><div class="line">	</div><div class="line">	<span class="keyword">return</span> success</div></pre></td></tr></table></figure>
+<p>在send中，会先进行<code>self._checks()</code>检查：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_checks</span><span class="params">(self)</span>:</span></div><div class="line">	<span class="string">"""Deterministic checks for consistiency."""</span></div><div class="line"></div><div class="line">	<span class="keyword">if</span> <span class="keyword">not</span> self.url:</div><div class="line">		<span class="keyword">raise</span> URLRequired</div></pre></td></tr></table></figure></p>
+<p>这里只检测了URL是否设置，若没有则抛出<code>URLRequired</code>错误。然后根据<code>method</code>的不同分情况send请求，如果发送成功则success为True，sent变量也为True，然后返回success变量。</p>
+<h3 id="‘GET’-‘HEAD’-‘DELETE’"><a href="#‘GET’-‘HEAD’-‘DELETE’" class="headerlink" title="‘GET’, ‘HEAD’, ‘DELETE’"></a>‘GET’, ‘HEAD’, ‘DELETE’</h3><p>添加注释，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, anyway=False)</span>:</span></div><div class="line">	。。。</div><div class="line"></div><div class="line">	<span class="keyword">if</span> self.method <span class="keyword">in</span> (<span class="string">'GET'</span>, <span class="string">'HEAD'</span>, <span class="string">'DELETE'</span>):</div><div class="line">		<span class="comment"># 若不曾发送过 或者 不管任何情况</span></div><div class="line">		<span class="keyword">if</span> (<span class="keyword">not</span> self.sent) <span class="keyword">or</span> anyway:   </div><div class="line"></div><div class="line">			<span class="comment"># 如果 params是dict类型的话，进行urlencode</span></div><div class="line">			<span class="comment"># url encode GET params if it's a dict</span></div><div class="line">			<span class="keyword">if</span> isinstance(self.params, dict):</div><div class="line">				params = urllib.urlencode(self.params)</div><div class="line">			<span class="keyword">else</span>:</div><div class="line"></div><div class="line">				params = self.params</div><div class="line"></div><div class="line">			<span class="comment"># 获取 _Request 对象</span></div><div class="line">			<span class="comment"># :param ("%s?%s" % (self.url, params)): 组装url</span></div><div class="line">			<span class="comment"># :param method : 请求方法</span></div><div class="line">			req = _Request((<span class="string">"%s?%s"</span> % (self.url, params)), method=self.method)</div><div class="line"></div><div class="line">			<span class="comment"># 若有设置 headers </span></div><div class="line">			<span class="keyword">if</span> self.headers:</div><div class="line">				req.headers = self.headers</div><div class="line"></div><div class="line">			<span class="comment"># 获取 opener 对象 ，</span></div><div class="line">			opener = self._get_opener()</div><div class="line"></div><div class="line">			<span class="keyword">try</span>:</div><div class="line">				<span class="comment"># 发出请求</span></div><div class="line">				resp = opener(req) </div><div class="line">				<span class="comment"># 状态码</span></div><div class="line">				self.response.status_code = resp.code</div><div class="line">				<span class="comment"># 头部信息</span></div><div class="line">				self.response.headers = resp.info().dict</div><div class="line">				</div><div class="line">				<span class="comment"># 由于在这个判断分支中处理 'GET' 'HEAD', 'DELETE'三种请求</span></div><div class="line">				<span class="comment"># 'HEAD', 'DELETE' 并不是为了获取内容, 他们根据 status_code 即可判断是否请求成功</span></div><div class="line">				<span class="comment"># 若请求方法是 GET , 则设置返回的响应</span></div><div class="line">				<span class="keyword">if</span> self.method.lower() == <span class="string">'get'</span>:</div><div class="line">					<span class="comment">#  设置响应的 content 值</span></div><div class="line">					self.response.content = resp.read()</div><div class="line">					</div><div class="line">				<span class="comment"># 请求成功,设置 success为 True</span></div><div class="line">				success = <span class="keyword">True</span></div><div class="line">			<span class="keyword">except</span> urllib2.HTTPError, why:</div><div class="line">				<span class="comment"># 请求出错, 设置错误码</span></div><div class="line">				self.response.status_code = why.code</div></pre></td></tr></table></figure>
+<h3 id="‘PUT’"><a href="#‘PUT’" class="headerlink" title="‘PUT’"></a>‘PUT’</h3><p>添加注释，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, anyway=False)</span>:</span></div><div class="line">	。。。</div><div class="line">	<span class="comment"># 请求方法为 PUT</span></div><div class="line">	<span class="keyword">elif</span> self.method == <span class="string">'PUT'</span>:</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">not</span> self.sent) <span class="keyword">or</span> anyway:</div><div class="line">			<span class="comment"># url 和 请求方法为PUT</span></div><div class="line">			req = _Request(self.url, method=<span class="string">'PUT'</span>)</div><div class="line"></div><div class="line">			<span class="keyword">if</span> self.headers:</div><div class="line">				req.headers = self.headers</div><div class="line"></div><div class="line">			<span class="comment"># 设置PUT请求体</span></div><div class="line">			req.data = self.data</div><div class="line"></div><div class="line">			<span class="keyword">try</span>:</div><div class="line">				opener = self._get_opener()</div><div class="line">				<span class="comment"># 发处请求</span></div><div class="line">				resp =  opener(req)</div><div class="line">				<span class="comment"># 设置响应</span></div><div class="line">				self.response.status_code = resp.code</div><div class="line">				self.response.headers = resp.info().dict</div><div class="line">				self.response.content = resp.read()</div><div class="line"></div><div class="line">				success = <span class="keyword">True</span></div><div class="line"></div><div class="line">			<span class="keyword">except</span> urllib2.HTTPError, why:</div><div class="line">				self.response.status_code = why.code</div></pre></td></tr></table></figure></p>
+<h3 id="‘POST’"><a href="#‘POST’" class="headerlink" title="‘POST’"></a>‘POST’</h3><p>添加注释，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">send</span><span class="params">(self, anyway=False)</span>:</span></div><div class="line">	。。。</div><div class="line">	<span class="comment"># 请求方法为 POST</span></div><div class="line">	<span class="keyword">elif</span> self.method == <span class="string">'POST'</span>:</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">not</span> self.sent) <span class="keyword">or</span> anyway</div><div class="line">			</div><div class="line">			<span class="comment"># url 和 请求方法为POST</span></div><div class="line">			req = _Request(self.url, method=<span class="string">'POST'</span>)</div><div class="line"></div><div class="line">			<span class="comment"># 设置 headers</span></div><div class="line">			<span class="keyword">if</span> self.headers:</div><div class="line">				req.headers = self.headers</div><div class="line"></div><div class="line">			<span class="comment"># 如果是dict的话，进行urlencode</span></div><div class="line">			<span class="comment"># url encode form data if it's a dict</span></div><div class="line">			<span class="keyword">if</span> isinstance(self.data, dict):</div><div class="line">				req.data = urllib.urlencode(self.data)</div><div class="line">			<span class="keyword">else</span>:</div><div class="line">				req.data = self.data</div><div class="line"></div><div class="line">			<span class="keyword">try</span>:</div><div class="line">				<span class="comment"># 获取opener</span></div><div class="line">				opener = self._get_opener()</div><div class="line"></div><div class="line">				<span class="comment"># 发出请求</span></div><div class="line">				resp =  opener(req)</div><div class="line">				</div><div class="line">				<span class="comment"># 设置响应</span></div><div class="line">				self.response.status_code = resp.code</div><div class="line">				self.response.headers = resp.info().dict</div><div class="line">				self.response.content = resp.read()</div><div class="line"></div><div class="line">				success = <span class="keyword">True</span></div><div class="line"></div><div class="line">			<span class="keyword">except</span> urllib2.HTTPError, why:</div><div class="line">				self.response.status_code = why.code</div></pre></td></tr></table></figure></p>
+<h2 id="Response-类"><a href="#Response-类" class="headerlink" title="Response 类"></a>Response 类</h2><p>在 <code>Request</code>类中我们见到在Request初始化<code>__init__</code>时设置了<code>self.response = Response()</code>。然后根据请求方法的不同，设置状态码<code>self.response.status_code</code>、响应头部<code>self.response.headers</code>、响应内容<code>self.response.content</code> 。接下来就看看<code>response</code>类是如何实现的。</p>
+<p><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/6.jpg" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Response</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">"""The :class:`Request` object. All :class:`Request` objects contain a</span></div><div class="line">    :class:`Request.response &lt;response&gt;` attribute, which is an instance of</div><div class="line">    this class.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self.content = <span class="keyword">None</span></div><div class="line">        self.status_code = <span class="keyword">None</span></div><div class="line">        self.headers = dict()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            repr = <span class="string">'&lt;Response [%s]&gt;'</span> % (self.status_code)</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            repr = <span class="string">'&lt;Response object&gt;'</span></div><div class="line">        <span class="keyword">return</span> repr</div></pre></td></tr></table></figure>
+<h2 id="AuthObject-类"><a href="#AuthObject-类" class="headerlink" title="AuthObject 类"></a>AuthObject 类</h2><p>该类暂时仅在 <code>test_requests.py</code> 中出现，用于设置认证的用户名和密码。代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthObject</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">"""The :class:`AuthObject` is a simple HTTP Authentication token. When</span></div><div class="line">    given to a Requests function, it enables Basic HTTP Authentication for that</div><div class="line">    Request. You can also enable Authorization for domain realms with AutoAuth.</div><div class="line">    See AutoAuth for more details.s</div><div class="line"></div><div class="line">    :param username: Username to authenticate with.</div><div class="line">    :param password: Password for given username.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, username, password)</span>:</span></div><div class="line">        self.username = username</div><div class="line">        self.password = password</div></pre></td></tr></table></figure></p>
+<h2 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h2><p>get、post、put、delete和认证相关的方法 ，在代码结构上大同小异。</p>
+<h3 id="get"><a href="#get" class="headerlink" title="get"></a>get</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(url, params=&#123;&#125;, headers=&#123;&#125;, auth=None)</span>:</span></div><div class="line">    <span class="string">"""Sends a GET request. Returns :class:`Response` object.</span></div><div class="line"></div><div class="line">    :param url: URL for the new :class:`Request` object.</div><div class="line">    :param params: (optional) Dictionary of GET Parameters to send with the :class:`Request`.</div><div class="line">    :param headers: (optional) Dictionary of HTTP Headers to sent with the :class:`Request`.</div><div class="line">    :param auth: (optional) AuthObject to enable Basic HTTP Auth.</div><div class="line">    """</div><div class="line">	<span class="comment"># 获取 Request对象</span></div><div class="line">    r = Request()</div><div class="line"></div><div class="line">	<span class="comment"># 设置基本的请求参数</span></div><div class="line">    r.method = <span class="string">'GET'</span></div><div class="line">    r.url = url</div><div class="line">    r.params = params</div><div class="line">    r.headers = headers</div><div class="line">	<span class="comment"># 设置认证信息</span></div><div class="line">    r.auth = _detect_auth(url, auth)</div><div class="line"></div><div class="line">	<span class="comment"># 发起请求</span></div><div class="line">    r.send()</div><div class="line"></div><div class="line">	<span class="comment"># 返回响应</span></div><div class="line">    <span class="keyword">return</span> r.response</div></pre></td></tr></table></figure>
+<h3 id="head"><a href="#head" class="headerlink" title="head"></a>head</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">head</span><span class="params">(url, params=&#123;&#125;, headers=&#123;&#125;, auth=None)</span>:</span></div><div class="line">    <span class="string">"""Sends a HEAD request. Returns :class:`Response` object.</span></div><div class="line"></div><div class="line">    :param url: URL for the new :class:`Request` object.</div><div class="line">    :param params: (optional) Dictionary of GET Parameters to send with the :class:`Request`.</div><div class="line">    :param headers: (optional) Dictionary of HTTP Headers to sent with the :class:`Request`.</div><div class="line">    :param auth: (optional) AuthObject to enable Basic HTTP Auth.</div><div class="line">    """</div><div class="line">	<span class="comment"># 获取 Request对象</span></div><div class="line">    r = Request()</div><div class="line"></div><div class="line">	<span class="comment"># 设置基本信息</span></div><div class="line">    r.method = <span class="string">'HEAD'</span></div><div class="line">    r.url = url</div><div class="line">    <span class="comment"># return response object</span></div><div class="line">    r.params = params</div><div class="line">    r.headers = headers</div><div class="line">    r.auth = _detect_auth(url, auth)</div><div class="line"></div><div class="line">	<span class="comment"># 发处请求</span></div><div class="line">    r.send()</div><div class="line"></div><div class="line">	<span class="comment"># 返回响应</span></div><div class="line">    <span class="keyword">return</span> r.response</div></pre></td></tr></table></figure>
+<h3 id="post"><a href="#post" class="headerlink" title="post"></a>post</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(url, data=&#123;&#125;, headers=&#123;&#125;, auth=None)</span>:</span></div><div class="line">    <span class="string">"""Sends a POST request. Returns :class:`Response` object.</span></div><div class="line"></div><div class="line">    :param url: URL for the new :class:`Request` object.</div><div class="line">    :param data: (optional) Dictionary of POST Data to send with the :class:`Request`.</div><div class="line">    :param headers: (optional) Dictionary of HTTP Headers to sent with the :class:`Request`.</div><div class="line">    :param auth: (optional) AuthObject to enable Basic HTTP Auth.</div><div class="line">    """</div><div class="line">	<span class="comment"># 获取Request对象</span></div><div class="line">    r = Request()</div><div class="line"></div><div class="line">	<span class="comment"># 设置基本信息</span></div><div class="line">    r.url = url</div><div class="line">    r.method = <span class="string">'POST'</span></div><div class="line">    r.data = data</div><div class="line"></div><div class="line">    r.headers = headers</div><div class="line">    r.auth = _detect_auth(url, auth)</div><div class="line"></div><div class="line">	<span class="comment"># 发起请求</span></div><div class="line">    r.send()</div><div class="line"></div><div class="line">	<span class="comment"># 返回响应</span></div><div class="line">    <span class="keyword">return</span> r.response</div></pre></td></tr></table></figure>
+<h3 id="put"><a href="#put" class="headerlink" title="put"></a>put</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(url, data=<span class="string">''</span>, headers=&#123;&#125;, auth=None)</span>:</span></div><div class="line">    <span class="string">"""Sends a PUT request. Returns :class:`Response` object.</span></div><div class="line"></div><div class="line">    :param url: URL for the new :class:`Request` object.</div><div class="line">    :param data: (optional) Bytes of PUT Data to send with the :class:`Request`.</div><div class="line">    :param headers: (optional) Dictionary of HTTP Headers to sent with the :class:`Request`.</div><div class="line">    :param auth: (optional) AuthObject to enable Basic HTTP Auth.</div><div class="line">    """</div><div class="line">	<span class="comment"># 获取Request对象</span></div><div class="line">    r = Request()</div><div class="line"></div><div class="line">	<span class="comment"># 设置基本信息</span></div><div class="line">    r.url = url</div><div class="line">    r.method = <span class="string">'PUT'</span></div><div class="line">    r.data = data</div><div class="line"></div><div class="line">    r.headers = headers</div><div class="line">    r.auth = _detect_auth(url, auth)</div><div class="line"></div><div class="line">	<span class="comment"># 发起请求</span></div><div class="line">    r.send()</div><div class="line"></div><div class="line">	<span class="comment"># 返回响应</span></div><div class="line">    <span class="keyword">return</span> r.response</div></pre></td></tr></table></figure>
+<h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(url, params=&#123;&#125;, headers=&#123;&#125;, auth=None)</span>:</span></div><div class="line">    <span class="string">"""Sends a DELETE request. Returns :class:`Response` object.</span></div><div class="line"></div><div class="line">    :param url: URL for the new :class:`Request` object.</div><div class="line">    :param params: (optional) Dictionary of GET Parameters to send with the :class:`Request`.</div><div class="line">    :param headers: (optional) Dictionary of HTTP Headers to sent with the :class:`Request`.</div><div class="line">    :param auth: (optional) AuthObject to enable Basic HTTP Auth.</div><div class="line">    """</div><div class="line"></div><div class="line">	<span class="comment"># 获取Request对象</span></div><div class="line">    r = Request()</div><div class="line"></div><div class="line">	<span class="comment"># 设置基本信息</span></div><div class="line">    r.url = url</div><div class="line">    r.method = <span class="string">'DELETE'</span></div><div class="line">    <span class="comment"># return response object</span></div><div class="line"></div><div class="line">    r.headers = headers</div><div class="line">    r.auth = _detect_auth(url, auth)</div><div class="line"></div><div class="line">	<span class="comment"># 发起请求</span></div><div class="line">    r.send()</div><div class="line"></div><div class="line">	<span class="comment"># 返回响应</span></div><div class="line">    <span class="keyword">return</span> r.response</div></pre></td></tr></table></figure>
+<h2 id="认证相关"><a href="#认证相关" class="headerlink" title="认证相关"></a>认证相关</h2><p>从上面的请求方法实现中，可以发现有的请求带了如<code>r.auth = _detect_auth(url, auth)</code><br><img src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/pic/v020/7.jpg" alt=""></p>
+<p>对于种种请求方法，我们不想在每次请求中都明确指出这次请求需不需要认证，但有些请求确实需要认证，因此在各种请求方法中都有一个可选参数<code>auth=None</code>，然后通过调用<code>r.auth = _detect_auth(url, auth)</code>来进一步设置。<code>_detect_auth</code>代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_detect_auth</span><span class="params">(url, auth)</span>:</span></div><div class="line">    <span class="string">"""Returns registered AuthObject for given url if available, defaulting to</span></div><div class="line">    given AuthObject."""</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _get_autoauth(url) <span class="keyword">if</span> <span class="keyword">not</span> auth <span class="keyword">else</span> auth</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_get_autoauth</span><span class="params">(url)</span>:</span></div><div class="line">    <span class="string">"""Returns registered AuthObject for given url if available.</span></div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (autoauth_url, auth) <span class="keyword">in</span> AUTOAUTHS:</div><div class="line">        <span class="keyword">if</span> autoauth_url <span class="keyword">in</span> url:</div><div class="line">            <span class="keyword">return</span> auth</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">None</span></div></pre></td></tr></table></figure>
+<p>对于明确指出需要认证的请求，自然<code>auth</code>参数也会指定。如果<code>auth</code>参数没有指定，则会调用<code>_get_autoauth</code>来查看是否有对应的规则。这个规则列表则由全局变量<code>AUTOAUTHS</code>来维护，如果请求的url包含<code>autoauth_url</code>，则返回<code>autoauth_url</code>对应的auth。如果不包含，则直接返回<code>None</code>。</p>
+<p>为了维护这个全局变量<code>AUTOAUTHS</code>，它实现了一个<code>add_autoauth</code>方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_autoauth</span><span class="params">(url, authobject)</span>:</span></div><div class="line">    <span class="string">"""Registers given AuthObject to given URL domain. for auto-activation.</span></div><div class="line">    Once a URL is registered with an AuthObject, the configured HTTP</div><div class="line">    Authentication will be used for all requests with URLS containing the given</div><div class="line">    URL string.</div><div class="line"></div><div class="line">    Example: ::</div><div class="line">        &gt;&gt;&gt; c_auth = requests.AuthObject('kennethreitz', 'xxxxxxx')</div><div class="line">        &gt;&gt;&gt; requests.add_autoauth('https://convore.com/api/', c_auth)</div><div class="line">        &gt;&gt;&gt; r = requests.get('https://convore.com/api/account/verify.json')</div><div class="line">        # Automatically HTTP Authenticated! Wh00t!</div><div class="line"></div><div class="line">    :param url: Base URL for given AuthObject to auto-activate for.</div><div class="line">    :param authobject: AuthObject to auto-activate.</div><div class="line">    """</div><div class="line">    <span class="keyword">global</span> AUTOAUTHS</div><div class="line"></div><div class="line">    AUTOAUTHS.append((url, authobject))</div></pre></td></tr></table></figure>
+<h2 id="异常相关"><a href="#异常相关" class="headerlink" title="异常相关"></a>异常相关</h2><p>不做过多解释。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RequestException</span><span class="params">(Exception)</span>:</span></div><div class="line">    <span class="string">"""There was an ambiguous exception that occured while handling your request."""</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthenticationError</span><span class="params">(RequestException)</span>:</span></div><div class="line">    <span class="string">"""The authentication credentials provided were invalid."""</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">URLRequired</span><span class="params">(RequestException)</span>:</span></div><div class="line">    <span class="string">"""A valid URL is required to make a request."""</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">InvalidMethod</span><span class="params">(RequestException)</span>:</span></div><div class="line">    <span class="string">"""An inappropriate method was attempted."""</span></div></pre></td></tr></table></figure></p>
+
+      
+  </div>
+    <div>
+      
+        <!-- Google AdSense start -->
+        <!-- test3 -->
+<ins class="adsbygoogle2"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="2179835194"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle2 = window.adsbygoogle2 || []).push({});
+</script>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2018/10/13/Requests-v0-2-0-源码阅读/">Requests v0.2.0 源码阅读</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2018年10月13日 - 00:10</p>
+  <p><span>最后更新:</span>2018年10月13日 - 00:10</p>
+  <p><span>原始链接:</span><a href="/2018/10/13/Requests-v0-2-0-源码阅读/" title="Requests v0.2.0 源码阅读">http://chybeta.github.io/2018/10/13/Requests-v0-2-0-源码阅读/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/10/13/Requests-v0-2-0-源码阅读/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/requests/" rel="tag"># requests</a>
+          
+            <a href="/tags/源码阅读/" rel="tag"># 源码阅读</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/12/pip-pop-源码阅读/" rel="next" title="pip-pop 源码阅读">
+                <i class="fa fa-chevron-left"></i> pip-pop 源码阅读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
+                一些文章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">185</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">105</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://lxpark.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/findneo/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.madsome.cn" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#v0-2-0"><span class="nav-number">1.</span> <span class="nav-text">v0.2.0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目结构"><span class="nav-number">2.</span> <span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#test-requests-py"><span class="nav-number">3.</span> <span class="nav-text">test_requests.py</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#requests"><span class="nav-number">4.</span> <span class="nav-text">requests</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-类"><span class="nav-number">4.1.</span> <span class="nav-text">_Request 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request-类-1"><span class="nav-number">4.2.</span> <span class="nav-text">Request 类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#‘GET’-‘HEAD’-‘DELETE’"><span class="nav-number">4.2.1.</span> <span class="nav-text">‘GET’, ‘HEAD’, ‘DELETE’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#‘PUT’"><span class="nav-number">4.2.2.</span> <span class="nav-text">‘PUT’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#‘POST’"><span class="nav-number">4.2.3.</span> <span class="nav-text">‘POST’</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Response-类"><span class="nav-number">4.3.</span> <span class="nav-text">Response 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AuthObject-类"><span class="nav-number">4.4.</span> <span class="nav-text">AuthObject 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求方法"><span class="nav-number">4.5.</span> <span class="nav-text">请求方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get"><span class="nav-number">4.5.1.</span> <span class="nav-text">get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#head"><span class="nav-number">4.5.2.</span> <span class="nav-text">head</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post"><span class="nav-number">4.5.3.</span> <span class="nav-text">post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#put"><span class="nav-number">4.5.4.</span> <span class="nav-text">put</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delete"><span class="nav-number">4.5.5.</span> <span class="nav-text">delete</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#认证相关"><span class="nav-number">4.6.</span> <span class="nav-text">认证相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常相关"><span class="nav-number">4.7.</span> <span class="nav-text">异常相关</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
