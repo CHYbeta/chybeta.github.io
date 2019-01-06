@@ -361,10 +361,12 @@
     <link href="http://chybeta.github.io/2019/01/04/WAScan%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
     <id>http://chybeta.github.io/2019/01/04/WAScan源码阅读/</id>
     <published>2019-01-04T00:54:01.000Z</published>
-    <updated>2019-01-06T08:49:26.270Z</updated>
+    <updated>2019-01-06T08:53:46.749Z</updated>
     
-    <content type="html"><![CDATA[<p>WAScan源码阅读<br><a id="more"></a></p>
-<h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><ul>
+    <content type="html"><![CDATA[<p>WAScan源码阅读</p>
+<a id="more"></a>
+<p>项目地址：<a href="https://github.com/m4ll0k/WAScan.git" target="_blank" rel="external">https://github.com/m4ll0k/WAScan.git</a><br><img src="https://raw.githubusercontent.com/m4ll0k/WAScan/master/screen/screen.png" alt=""></p>
+<h1 id="README"><a href="#README" class="headerlink" title="README"></a>README</h1><ul>
 <li>python2.7</li>
 </ul>
 <h1 id="整体功能"><a href="#整体功能" class="headerlink" title="整体功能"></a>整体功能</h1><h2 id="指纹识别"><a href="#指纹识别" class="headerlink" title="指纹识别"></a>指纹识别</h2><ul>
@@ -617,7 +619,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;WAScan源码阅读&lt;br&gt;
+      &lt;p&gt;WAScan源码阅读&lt;/p&gt;
     
     </summary>
     
@@ -1669,9 +1671,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="weblogic" scheme="http://chybeta.github.io/tags/weblogic/"/>
     
