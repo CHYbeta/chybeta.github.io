@@ -241,11 +241,11 @@
   </entry>
   
   <entry>
-    <title>【CVE-2019-3396】:SSTI in Confluence Server via Widget Connector</title>
+    <title>【CVE-2019-3396】:SSTI and RCE in Confluence Server via Widget Connector</title>
     <link href="http://chybeta.github.io/2019/04/06/Analysis-for-%E3%80%90CVE-2019-3396%E3%80%91-SSTI-and-RCE-in-Confluence-Server-via-Widget-Connector/"/>
     <id>http://chybeta.github.io/2019/04/06/Analysis-for-【CVE-2019-3396】-SSTI-and-RCE-in-Confluence-Server-via-Widget-Connector/</id>
     <published>2019-04-06T05:57:12.000Z</published>
-    <updated>2019-04-06T12:37:51.738Z</updated>
+    <updated>2019-04-06T12:40:10.449Z</updated>
     
     <content type="html"><![CDATA[<p>【CVE-2019-3396】:SSTI and RCE in Confluence Server via Widget Connector</p>
 <a id="more"></a>
@@ -272,15 +272,15 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="confluence" scheme="http://chybeta.github.io/tags/confluence/"/>
     
       <category term="路径穿越" scheme="http://chybeta.github.io/tags/%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A/"/>
     
       <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="confluence" scheme="http://chybeta.github.io/tags/confluence/"/>
     
       <category term="rce" scheme="http://chybeta.github.io/tags/rce/"/>
     
@@ -327,15 +327,15 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="rails" scheme="http://chybeta.github.io/tags/rails/"/>
     
       <category term="路径穿越" scheme="http://chybeta.github.io/tags/%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A/"/>
     
       <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
+    
+      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
+    
+      <category term="rails" scheme="http://chybeta.github.io/tags/rails/"/>
     
   </entry>
   
@@ -399,9 +399,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="Nexus" scheme="http://chybeta.github.io/tags/Nexus/"/>
     
@@ -1387,9 +1387,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
     
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
     
@@ -1536,15 +1536,15 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
-    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="rails" scheme="http://chybeta.github.io/tags/rails/"/>
     
       <category term="路径穿越" scheme="http://chybeta.github.io/tags/%E8%B7%AF%E5%BE%84%E7%A9%BF%E8%B6%8A/"/>
     
       <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
+    
+      <category term="ruby" scheme="http://chybeta.github.io/tags/ruby/"/>
+    
+      <category term="rails" scheme="http://chybeta.github.io/tags/rails/"/>
     
   </entry>
   
@@ -1746,9 +1746,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
     
@@ -1810,11 +1810,11 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
+      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="任意文件读取" scheme="http://chybeta.github.io/tags/%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="Jenkins" scheme="http://chybeta.github.io/tags/Jenkins/"/>
     
@@ -1865,9 +1865,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
     
@@ -2088,9 +2088,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
+    
+      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
       <category term="spring" scheme="http://chybeta.github.io/tags/spring/"/>
     
