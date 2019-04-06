@@ -245,10 +245,9 @@
     <link href="http://chybeta.github.io/2019/04/06/Analysis-for-%E3%80%90CVE-2019-3396%E3%80%91-SSTI-and-RCE-in-Confluence-Server-via-Widget-Connector/"/>
     <id>http://chybeta.github.io/2019/04/06/Analysis-for-【CVE-2019-3396】-SSTI-and-RCE-in-Confluence-Server-via-Widget-Connector/</id>
     <published>2019-04-06T05:57:12.000Z</published>
-    <updated>2019-04-06T12:40:10.449Z</updated>
+    <updated>2019-04-06T23:17:19.720Z</updated>
     
-    <content type="html"><![CDATA[<p>【CVE-2019-3396】:SSTI and RCE in Confluence Server via Widget Connector</p>
-<a id="more"></a>
+    <content type="html"><![CDATA[<p><a href="https://twitter.com/chybeta" target="_blank" rel="external">Twitter: chybeta</a><br><a id="more"></a></p>
 <h1 id="Security-Advisory"><a href="#Security-Advisory" class="headerlink" title="Security Advisory"></a>Security Advisory</h1><p><a href="https://confluence.atlassian.com/doc/confluence-security-advisory-2019-03-20-966660264.html" target="_blank" rel="external">https://confluence.atlassian.com/doc/confluence-security-advisory-2019-03-20-966660264.html</a></p>
 <p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20190406/1.jpg?raw=true" alt=""></p>
 <h1 id="Analysis"><a href="#Analysis" class="headerlink" title="Analysis"></a>Analysis</h1><p>According to the <a href="https://confluence.atlassian.com/doc/widget-connector-macro-171180449.html" target="_blank" rel="external">document</a> , there are three  parameters that you can set to control the content or format of the macro output, including URL、Width and Height.</p>
@@ -265,7 +264,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;【CVE-2019-3396】:SSTI and RCE in Confluence Server via Widget Connector&lt;/p&gt;
+      &lt;p&gt;&lt;a href=&quot;https://twitter.com/chybeta&quot;&gt;Twitter: chybeta&lt;/a&gt;&lt;br&gt;
     
     </summary>
     
@@ -403,9 +402,9 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="Nexus" scheme="http://chybeta.github.io/tags/Nexus/"/>
-    
       <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
+    
+      <category term="Nexus" scheme="http://chybeta.github.io/tags/Nexus/"/>
     
   </entry>
   
@@ -1750,11 +1749,11 @@
     
       <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
-      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
-    
       <category term="opentsdb" scheme="http://chybeta.github.io/tags/opentsdb/"/>
     
       <category term="远程命令执行" scheme="http://chybeta.github.io/tags/%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="RCE" scheme="http://chybeta.github.io/tags/RCE/"/>
     
   </entry>
   
