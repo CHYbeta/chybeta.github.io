@@ -10,6 +10,13 @@
 
     
     <entry>
+      <title><![CDATA[《蓝队视角下的防御体系突破》.xmind]]></title>
+      <url>%2F2021%2F08%2F30%2F%E3%80%8A%E8%93%9D%E9%98%9F%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84%E9%98%B2%E5%BE%A1%E4%BD%93%E7%B3%BB%E7%AA%81%E7%A0%B4%E3%80%8B-xmind%2F</url>
+      <content type="text"><![CDATA[拜读一下奇安信的《蓝队视角下的防御体系突破》，简单做个笔记。 XMind: 蓝队视角下的防御体系突破.xmind PDF: 蓝队视角下的防御体系突破.PDF 侵删。]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[【CVE-2019-16759】:pre-auth RCE in vBulletin 5.x]]></title>
       <url>%2F2019%2F09%2F28%2F%E3%80%90CVE-2019-16759%E3%80%91-pre-auth-RCE-in-vBulletin-5-x%2F</url>
       <content type="text"><![CDATA[pre-auth RCE in vBulletin 5.x . https://twitter.com/chybeta/status/1176702424045772800 中文： https://xz.aliyun.com/t/6419 0x01 Summaryhttps://seclists.org/fulldisclosure/2019/Sep/31 0x02 AnalysisThe first parameter routestring tell what template should vBulletin look for. In the callRender()，$routeInfo[2] will be set as widget_php and $params will contains the render config $widgetCongi[code] In \core\install\vbulletin-style.xml，we can fidn a template named widget_php So when $widgetConfig[&#39;code&#39;] is not null and the setting disable_php_rendering isn’t disabled, vBulletin will use the following syntax to render template：12&#123;vb:action evaledPHP, bbcode, evalCode, &#123;vb:raw widgetConfig.code&#125;&#125;&#123;vb:raw $evaledPHP&#125; In includes\vb5\frontend\controller\bbcode.php , you can find how evalCode defined： Finally cause PHP-Template injection and pre-auth RCE in vBulletin 5.x。 0x03 Reproduce]]></content>
